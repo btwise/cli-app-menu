@@ -2992,13 +2992,13 @@ f_menu_app_games_rpg () {
       f_initvars_menu_app
       until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
       do    # Start of RPG Games until loop.
-            #MGH adventure      - Adventure game, explore Colossal Cave. 
-            #MGH battlestar     - RPG.
-            #MGH hack           - RPG.
-            #MGH nethack        - RPG.
-            #MGH phantasia      - RPG.
-            #MGH slashem        - RPG in the Dungeons of Doom.
-            #MGH wump           - RPG.
+            #MGH adventure      - Explore Colossal Cave. 
+            #MGH battlestar     - Tropical adventure game.
+            #MGH hack           - Explore the Dungeons of Doom.
+            #MGH nethack        - Retrieve the Amulet of Yendor in the  20th dungeon level.
+            #MGH phantasia      - Fight monsters and other players.
+            #MGH slashem        - Enter the Dungeons of Doom.
+            #MGH wump           - Hunt the Wumpus, watch out for bats, pits.
             #
             MENU_TITLE="RPG Game Menu"
             DELIMITER="#MGH" #MGH This 3rd field prevents awk from printing this line into menu options. 
@@ -3026,7 +3026,7 @@ f_menu_app_games_rpg () {
                  f_application_run
                  ;;
                  4 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][hH] | [Nn][Ee][Tt][hH][Aa] | [Nn][Ee][Tt][hH][Aa][Cc] | [Nn][Ee][Tt][hH][Aa][Cc][Kk])
-                 APP_NAME="nethack"
+                 APP_NAME="nethack-console"
                  f_application_run
                  ;;
                  5 | [Pp] | [Pp][Hh] | [Pp][Hh][Aa] | [Pp][Hh][Aa][Nn] | [Pp][Hh][Aa][Nn][Tt] | [Pp][Hh][Aa][Nn][Tt][Aa] | [Pp][Hh][Aa][Nn][Tt][Aa][Ss] | [Pp][Hh][Aa][Nn][Tt][Aa][Ss][Ii] | [Pp][Hh][Aa][Nn][Tt][Aa][Ss][Ii][Aa])
