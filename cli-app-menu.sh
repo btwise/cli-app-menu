@@ -14,8 +14,10 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="03/09/2013 23:19"
+REVDATE="03/12/2013 15:20"
 ##
+## 2013-03-12   *f_menu_app_sys_monitors add f_how_to_quit_application.
+##              *f_menu_app_sys_monitors, add application saidar.
 ## 2013-03-09   *f_application_error add case statement to install bsdgames
 ##                if any of the games included in bsdgames are not installed.
 ##              *Automatically calculate revision number using grep -c(ount).
@@ -2056,6 +2058,7 @@ f_menu_app_sys_monitors () {
             case $CHOICE_APP in # Start of System Monitors case statement.
                  1 | [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Pp])
                  APP_NAME="atop"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  2 | [Gg] | [Gg][Ll] | [Gg][Ll][Aa] | [Gg][Ll][Aa][Nn] | [Gg][Ll][Aa][Nn][Cc] | [Gg][Ll][Aa][Nn][Cc][Ee] | [Gg][Ll][Aa][Nn][Cc][Ee][Ss])
@@ -2064,10 +2067,12 @@ f_menu_app_sys_monitors () {
                  ;;
                  3 | [Hh] | [Hh][Tt] | [Hh][Tt][Oo] | [Hh][Tt][Oo][Pp])
                  APP_NAME="htop"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  4 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
                  APP_NAME="top"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  5 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
@@ -2081,6 +2086,7 @@ f_menu_app_sys_monitors () {
                  ;;
                  7 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
                  APP_NAME="ncdu"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  8 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
@@ -2093,8 +2099,14 @@ f_menu_app_sys_monitors () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 10 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
+                 10 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
+                 APP_NAME="saidar"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 11 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
             esac                # End of System Monitors case statement.
