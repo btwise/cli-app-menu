@@ -14,9 +14,10 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="03/12/2013 15:20"
+REVDATE="03/12/2013 16:36"
 ##
 ## 2013-03-12   *f_menu_app_sys_monitors add f_how_to_quit_application.
+##              *f_menu_app_text_editors add f_how_to_quit_application.
 ##              *f_menu_app_sys_monitors, add application saidar.
 ## 2013-03-09   *f_application_error add case statement to install bsdgames
 ##                if any of the games included in bsdgames are not installed.
@@ -1920,6 +1921,7 @@ f_menu_app_text_editors () {
                  ;;
                  2 | [Dd] | [Dd][Aa] | [Dd][Aa][Vv])
                  APP_NAME="dav"
+                 f_how_to_quit_application "<F5>"
                  f_application_run
                  ;;
                  3 | [Ee] | [Ee][Dd])
@@ -1944,10 +1946,12 @@ f_menu_app_text_editors () {
                  ;;
                  8 | [Vv] | [Vv][Ii])
                  APP_NAME="vi"
+                 f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
                  9 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm])
                  APP_NAME="vim"
+                 f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
                  10 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Oo] | [Dd][Oo][Cc][Oo][Nn] | [Dd][Oo][Cc][Oo][Nn][Cc] | [Dd][Oo][Cc][Oo][Nn][Cc][Ee])
