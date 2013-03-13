@@ -14,13 +14,28 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="03/12/2013 21:31"
+REVDATE="03/13/2013 00:05"
+#
+#LIC ©2013 Copyright 2013 Bob Chin
+#LIC This program is free software: you can redistribute it and/or modify
+#LIC it under the terms of the GNU General Public License as published by
+#LIC the Free Software Foundation, either version 3 of the License, or
+#LIC (at your option) any later version.
+#LIC 
+#LIC This program is distributed in the hope that it will be useful,
+#LIC but WITHOUT ANY WARRANTY; without even the implied warranty of
+#LIC MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#LIC GNU General Public License for more details.
+#LIC 
+#LIC You should have received a copy of the GNU General Public License
+#LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-03-12   *f_menu_app_sys_monitors add f_how_to_quit_application.
+## 2013-03-12   *Add copyright and license text. Add Main Menu option "License".
+##              *f_menu_app_sys_monitors add f_how_to_quit_application.
 ##              *f_menu_app_text_editors add f_how_to_quit_application.
 ##              *f_menu_app_sys_monitors add application saidar.
 ##              *f_application_error create installation routine for glances.
-##              *f_show_menu supress line-feed at options prompt.
+##              *f_show_menu supress line-feed at options prompt, fix $MAX.
 ##              *f_menu_app_audio_application add avconv.
 ##
 ## 2013-03-09   *f_application_error add case statement to install bsdgames
@@ -392,17 +407,26 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
       # so numbering will always starts at zero. Interestingly the "++" increment command is only valid from within awk.
       #
       MAX=$(grep $DELIMITER -c $THIS_FILE) # Count number of lines containing special comment marker string to get maximum item number.
-      MAX=$((MAX=$MAX-1)) # Subtract 1 total since 1 line of code above contains the special comment marker.
-      grep $DELIMITER $THIS_FILE | awk -F $DELIMITER '{if ($2&&!$3){print 1+NUM++" -"$2;}}'
+      awk -F $DELIMITER '{if ($2&&!$3){print 1+NUM++" -"$2;}}' $THIS_FILE
       case $DELIMITER in
            # Application Menu?
-           "#M"*) # Only display help message in application menus. Do not display in application category menus or main menu.
-              echo
-              echo "For help, type: '<app_name> --help' or 'man <app-name>'"
-           ;;
            "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
+              MAX=$((MAX=$MAX-3)) # Subtract 3 total since 3 lines of code not part of menu display, contain the special comment marker.
               echo
               echo "'0', Q/quit, or E/exit to quit this script, $THIS_FILE."
+           ;; 
+           "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
+              MAX=$((MAX=$MAX-2)) # Subtract 2 total since 2 lines of code not part of menu display, contain the special comment marker.
+           ;;
+           "#MWB") #MWB This 3rd field prevents awk from printing this line into menu options.
+              MAX=$((MAX=$MAX-3)) # Subtract 3 total since 3 lines of code not part of menu display, contain the special comment marker.
+              echo
+              echo "For help, type: '<app_name> --help' or 'man <app-name>'"
+           ;; 
+           "#M"* | "#B"*) # Only display help message in application menus. Do not display in application category menus or main menu.
+              MAX=$((MAX=$MAX-1)) # Subtract 1 total since 1 line of code to set $DELIMITER contains the special comment marker.
+              echo
+              echo "For help, type: '<app_name> --help' or 'man <app-name>'"
            ;;
       esac
       echo
@@ -2606,10 +2630,12 @@ f_menu_app_image_graphics_applications () {
                  1 | [Aa] | [Aa][Vv] | [Aa][Vv][Ii] | [Aa][Vv][Ii][Ee] | [Aa][Vv][Ii][Ee][Ww])
                  APP_NAME="aview"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  2 | [Hh] | [Hh][Aa] | [Hh][Aa][Ss] | [Hh][Aa][Ss][Cc] | [Hh][Aa][Ss][Cc][Ii] | [Hh][Aa][Ss][Cc][Ii][Ii] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa][Mm])
                  APP_NAME="hasciicam"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Aa] | [Cc][Aa][Cc][Aa][-] | [Cc][Aa][Cc][Aa][-][Uu] | [Cc][Aa][Cc][Aa][-][Uu][Tt] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll][Ss])
                  APP_NAME="caca-utils"
@@ -2746,7 +2772,7 @@ f_menu_cat_games () {
 } # End of function f_menu_cat_games
 #
 # +----------------------------------------+
-#|    Function f_menu_app_games_arcade     |
+# |    Function f_menu_app_games_arcade    |
 # +----------------------------------------+
 f_menu_app_games_arcade () {
       f_initvars_menu_app
@@ -2807,7 +2833,7 @@ f_menu_app_games_arcade () {
 #
 #
 # +----------------------------------------+
-#|      Function f_menu_app_games_board    |
+# |     Function f_menu_app_games_board    |
 # +----------------------------------------+
 f_menu_app_games_board () {
       f_initvars_menu_app
@@ -2847,7 +2873,7 @@ f_menu_app_games_board () {
 } # End of f_menu_app_games_board
 #
 # +----------------------------------------+
-#|      Function f_menu_app_games_card     |
+# |     Function f_menu_app_games_card     |
 # +----------------------------------------+
 f_menu_app_games_card () {
       f_initvars_menu_app
@@ -2887,7 +2913,7 @@ f_menu_app_games_card () {
 } # End of f_menu_app_games_card
 #
 # +----------------------------------------+	
-#|      Function f_menu_app_games_mud     |
+# |      Function f_menu_app_games_mud     |
 # +----------------------------------------+
 f_menu_app_games_mud () {
       f_initvars_menu_app
@@ -3185,7 +3211,7 @@ f_menu_app_games_strategy () {
 } # End of f_menu_app_games_strategy
 #
 # +----------------------------------------+
-# |   Function f_menu_app_games_word   |
+# |     Function f_menu_app_games_word     |
 # +----------------------------------------+
 f_menu_app_games_word () {
       f_initvars_menu_app
@@ -3250,6 +3276,7 @@ do    # Start of CLI Menu util loop.
       #AAA White          - '(Screen black on white) Will not work in X-windows'.
       #AAA About CLI Menu - What version am I using.
       #AAA Edit History   - All the craziness behind the scenes.
+      #AAA License        - Licensing, GPL.
       #
       MENU_TITLE="Main Menu"
       DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu options. 
@@ -3297,17 +3324,17 @@ do    # Start of CLI Menu util loop.
            # display Documentation (all lines beginning with #: but substitute "" for "#:" so "#:" is not printed).
            CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
            ;;
-           4 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
+           5 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
            TCOLOR="black"
            f_term_color # Set terminal color.
            CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
            ;;
-           5 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
+           6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
            TCOLOR="white"
            f_term_color # Set terminal color.
            CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
            ;;  
-           6 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
+           7 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
            clear
            echo "CLI Menu version: $REVISION"
            echo "       Edited on: $REVDATE"
@@ -3315,7 +3342,7 @@ do    # Start of CLI Menu util loop.
            f_press_enter_key_to_continue
            CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
            ;;
-           7 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           8 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear
            echo "To quit reading Edit History, type '"q"'."
            f_press_enter_key_to_continue
@@ -3324,6 +3351,15 @@ do    # Start of CLI Menu util loop.
            # display Edit History (all lines beginning with ## but substitute "" for "##" so "##" is not printed).
            CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
            ;; # End of Application Category case clause.
+           9 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
+           clear
+           echo "To quit reading License, type '"q"'."
+           f_press_enter_key_to_continue
+           sed -n 's/^#LIC//'p $THIS_FILE |more
+           f_press_enter_key_to_continue
+           # display License (all lines beginning with #LIC but substitute "" for "#LIC" so "#LIC" is not printed).
+           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           ;;
       esac # End of CLI Menu case statement.
 done # End of CLI Menu until loop.
 # all dun dun noodles.
