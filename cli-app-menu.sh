@@ -14,13 +14,14 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="03/12/2013 20:43"
+REVDATE="03/12/2013 21:31"
 ##
 ## 2013-03-12   *f_menu_app_sys_monitors add f_how_to_quit_application.
 ##              *f_menu_app_text_editors add f_how_to_quit_application.
 ##              *f_menu_app_sys_monitors add application saidar.
 ##              *f_application_error create installation routine for glances.
 ##              *f_show_menu supress line-feed at options prompt.
+##              *f_menu_app_audio_application add avconv.
 ##
 ## 2013-03-09   *f_application_error add case statement to install bsdgames
 ##                if any of the games included in bsdgames are not installed.
@@ -38,12 +39,12 @@ REVDATE="03/12/2013 20:43"
 ##              *f_application_error now extracts package name from $APP_NAME
 ##               when it includes additional parameters separated by spaces.
 ##
-## 2013-03-07   *f_application_error added trap for error code 1 for sudo.
+## 2013-03-07   *f_application_error add trap for error code 1 for sudo.
 ##              *Add function f_application_run to re-run newly installed apps.
 ##              *Rework all application menus to use f_application_run.
 ##
-## 2013-03-06   *Added System tools, cfdisk, parted.
-##              *Added Text tools, colordiff, diff, vimdiff, wdiff.
+## 2013-03-06   *f_menu_app_sys_monitors add System tools, cfdisk, parted.
+##              *f_menu_app_text_editors add Text tools, colordiff, diff, vimdiff, wdiff.
 ##
 ## 2013-03-04 - *Clean up displays so text fits on an 80-column wide screen.
 ##              *f_application_error add error message if installation fails.
@@ -59,14 +60,14 @@ REVDATE="03/12/2013 20:43"
 ##              *Delete statements "read x" in application functions.
 ##              *f_application_error fix bad syntax [ $ERROR <> 0 ].
 ##              *f_application_help fix bad syntax [ $ERROR <> 0 ].
-##              *f_application_help enhanced and clarified error messages.
+##              *f_application_help enhance and clarify error messages.
 ##
 ## 2013-02-26 - *Added cbm, a system resource monitor, and smbc, file manager
 ##               for Samba server shared folders.
-##              *Added text editors, ed, emacs, pico, vi.
-##              *Added spreadsheets, oleo, slsc.
-##              *Added calendars, cal, remind.
-##              *Added To-Do list, devtodo.
+##              *f_menu_app_text_editors add text editors, ed, emacs, pico, vi.
+##              *f_menu_app_spreadsheets_editors add spreadsheets, oleo, slsc.
+##              *f_menu_app_calendar-todo add calendars, cal, remind.
+##              *f_menu_app_calendar-todo add To-Do list, devtodo.
 ##
 ## 2013-02-20 - *Created sub-menu, "System Category" under Applications Menu.
 ##              *Cleaned up menus, sorted items by function.
@@ -74,12 +75,12 @@ REVDATE="03/12/2013 20:43"
 ##
 ## 2013-02-19 - f_application_error, improve error message processing.
 ##
-## 2013-02-18 - Add more applications, cleaned up more code.
+## 2013-02-18 - Add more applications, clean up more code.
 ##
 ## 2013-02-17 - Add case string pattern matching for all Internet applications.
 ##
 ## 2013-02-14 - *Clean up listing for readability.
-##              *Created sub-menu, "Internet Category" under Applications Menu. 
+##              *Create sub-menu, "Internet Category" under Applications Menu. 
 ##              *Add Internet application menus for web browsers, bittorrent, 
 ##               downloaders, email, FAX, file transfer, instant messaging,
 ##               Internet relay chat, news readers, network chat, podcatchers,
@@ -2470,52 +2471,57 @@ f_menu_app_audio_applications () {
                  APP_NAME="abcde"
                  f_application_run
                  ;;
-                 2 | [Cc] | [Cc][Mm] | [Cc][Mm][Uu] | [Cc][Mm][Uu][Ss])
+                 2 | [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
+                 APP_NAME="avconv"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 3 | [Cc] | [Cc][Mm] | [Cc][Mm][Uu] | [Cc][Mm][Uu][Ss])
                  APP_NAME="cmus"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 3 | [Jj] | [Jj][Uu] | [Jj][Uu][Kk] | [Jj][Uu][Kk][Ee])
+                 4 | [Jj] | [Jj][Uu] | [Jj][Uu][Kk] | [Jj][Uu][Kk][Ee])
                  APP_NAME="juke"
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
-                 4 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
+                 5 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
                  APP_NAME="moc"
                  f_application_run
                  ;;
-                 5 | [Nn] | [Nn][Cc] | [Nn][Cc][Mm] | [Nn][Cc][Mm][Pp] | [Nn][Cc][Mm][Pp][Cc])
+                 6 | [Nn] | [Nn][Cc] | [Nn][Cc][Mm] | [Nn][Cc][Mm][Pp] | [Nn][Cc][Mm][Pp][Cc])
                  f_how_to_quit_application "q"
                  APP_NAME="ncmpc"
                  f_application_run
                  ;;
-                 6 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
+                 7 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
-                 7 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
+                 8 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
                  APP_NAME="mplayer"
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
-                 8 | [Dd] | [Dd][Rr] | [Dd][Rr][Aa] | [Dd][Rr][Aa][Dd] | [Dd][Rr][Aa][Dd][Ii] | [Dd][Rr][Aa][Dd][Ii][Oo])
+                 9 | [Dd] | [Dd][Rr] | [Dd][Rr][Aa] | [Dd][Rr][Aa][Dd] | [Dd][Rr][Aa][Dd][Ii] | [Dd][Rr][Aa][Dd][Ii][Oo])
                  APP_NAME="dradio"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 9 | [Rr] | [Rr][Aa] | [Rr][Aa][Dd] | [Rr][Aa][Dd][Ii] | [Rr][Aa][Dd][Ii][Oo])
+                 10 | [Rr] | [Rr][Aa] | [Rr][Aa][Dd] | [Rr][Aa][Dd][Ii] | [Rr][Aa][Dd][Ii][Oo])
                  APP_NAME="radio"
                  f_application_run
                  ;;
-                 10 | [Ee] | [Ee][Bb] | [Ee][Bb][Oo] | [Ee][Bb][Oo][Oo] | [Ee][Bb][Oo][Oo][Kk] | [Ee][Bb][Oo][Oo][Kk][–] | [Ee][Bb][Oo][Oo][Kk][–][Ss] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee][Rr])
+                 11 | [Ee] | [Ee][Bb] | [Ee][Bb][Oo] | [Ee][Bb][Oo][Oo] | [Ee][Bb][Oo][Oo][Kk] | [Ee][Bb][Oo][Oo][Kk][–] | [Ee][Bb][Oo][Oo][Kk][–][Ss] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee][Rr])
                  APP_NAME="ebook-speaker"
                  f_application_run
                  ;;
-                 11 | [Ff] | [Ff][Ee] | [Ff][Ee][Ss] | [Ff][Ee][Ss][Tt] | [Ff][Ee][Ss][Tt][Ii] | [Ff][Ee][Ss][Tt][Ii][Vv] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll])
+                 12 | [Ff] | [Ff][Ee] | [Ff][Ee][Ss] | [Ff][Ee][Ss][Tt] | [Ff][Ee][Ss][Tt][Ii] | [Ff][Ee][Ss][Tt][Ii][Vv] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll])
                  APP_NAME="festival"
                  f_application_run
                  ;;
-                 12 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Aa] | [Ss][Cc][Rr][Ee][Aa][Dd] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr])
+                 13 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Aa] | [Ss][Cc][Rr][Ee][Aa][Dd] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr])
                  APP_NAME="screader"
                  f_application_run
                  ;;
