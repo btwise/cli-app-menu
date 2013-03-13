@@ -14,7 +14,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="03/13/2013 00:05"
+REVDATE="March-13-2013 17:45"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,9 @@ REVDATE="03/13/2013 00:05"
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-03-13   *f_menu_app_image_graphics_applications linuxlogo display menu.
+##              *Main menu option License add option to display file COPYING.
 ##
 ## 2013-03-12   *Add copyright and license text. Add Main Menu option "License".
 ##              *f_menu_app_sys_monitors add f_how_to_quit_application.
@@ -2646,8 +2649,19 @@ f_menu_app_image_graphics_applications () {
                  f_application_run
                  ;;
                  5 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Uu] | [Ll][Ii][Nn][Uu][Xx] | [Ll][Ii][Nn][Uu][Xx][Ll] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo])
-                 APP_NAME="linuxlogo"
+                 ANS=-1 # Initialize $ANS for until loop.
+                 until [ $ANS -ge 1 -a $ANS -le 26 ]
+                 do
+                       clear
+                       APP_NAME="linuxlogo -L list"
+                       f_application_run
+                       echo -n "Enter number (1-26): "
+                       read ANS
+                 done
+                 #
+                 APP_NAME="linuxlogo -L "$ANS
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
             esac                # End of Image-Graphics Applications case statement.
             f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
@@ -3353,11 +3367,26 @@ do    # Start of CLI Menu util loop.
            ;; # End of Application Category case clause.
            9 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear
-           echo "To quit reading License, type '"q"'."
-           f_press_enter_key_to_continue
-           sed -n 's/^#LIC//'p $THIS_FILE |more
-           f_press_enter_key_to_continue
            # display License (all lines beginning with #LIC but substitute "" for "#LIC" so "#LIC" is not printed).
+           sed -n 's/^#LIC//'p $THIS_FILE |more
+           echo
+           echo -n "Do you want to read the full license text contained in file 'COPYING'? (N/y) "
+           read ANS
+           case $ANS in
+                [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                echo
+                echo "To quit reading License, type '"q"'."
+                f_press_enter_key_to_continue
+                if [ -r COPYING ] ; then
+                   cat COPYING | more
+                else
+                   echo
+                   echo "The file COPYING is either missing or does not have proper read permissions."
+               fi
+               ;;
+               [Nn] | [Nn][Oo])
+               ;;
+           esac
            CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
            ;;
       esac # End of CLI Menu case statement.
