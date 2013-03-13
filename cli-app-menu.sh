@@ -14,11 +14,14 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="03/12/2013 16:36"
+REVDATE="03/12/2013 20:43"
 ##
 ## 2013-03-12   *f_menu_app_sys_monitors add f_how_to_quit_application.
 ##              *f_menu_app_text_editors add f_how_to_quit_application.
-##              *f_menu_app_sys_monitors, add application saidar.
+##              *f_menu_app_sys_monitors add application saidar.
+##              *f_application_error create installation routine for glances.
+##              *f_show_menu supress line-feed at options prompt.
+##
 ## 2013-03-09   *f_application_error add case statement to install bsdgames
 ##                if any of the games included in bsdgames are not installed.
 ##              *Automatically calculate revision number using grep -c(ount).
@@ -402,7 +405,7 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
            ;;
       esac
       echo
-      echo "Enter 0 to $MAX or letters:"
+      echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
 } # End of function f_show_menu
 #
 # +----------------------------------------+
@@ -620,16 +623,28 @@ f_application_error () {
            read ANS
            case $ANS in
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                   #
-                case $APP_NAME in # Set variable APP_NAME_INSTALL
+                #
+                APP_NAME_INSTALL=$APP_NAME
+                #
+                case $APP_NAME_INSTALL in # Set variable APP_NAME_INSTALL.
+                *' '*) 
+                # If string APP_NAME/APP_NAME_INSTALL includes spaces for run-time parameters, then just extract package name. 
+                # i.e. "dstat 1 10", then just grab "dstat" as package name.
+                #
+                APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
+                ;;
+                esac
+                #
+                case $APP_NAME_INSTALL in # Set variable APP_NAME_INSTALL.
 adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
                 APP_NAME_INSTALL="bsdgames"
                 ;;
-                *' '*) # If APP_NAME includes spaces for run-time parameters, i.e. "dstat 1 10", then just grab "dstat" as package name.
-                APP_NAME_INSTALL=$(echo $APP_NAME | awk '{print $1;}')
+                glances) # Add repository for glances application.
+                sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
+                sudo apt-get update
                 ;;
-                *)
-                APP_NAME_INSTALL=$APP_NAME
+                moc)
+                APP_NAME_INSTALL="libqt4-dev"
                 ;;
                 esac
                 #
@@ -645,7 +660,7 @@ adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar |
                    fi
                 fi 
                 if [ -d /var/lib/rpm ] ; then # if /var/lib/rpm directory exists, then use rpm install for RPM-based packages.
-                   sudo rpm -ivh $APP_NAME # Assume if not Debian, then Red Hat distro packages.
+                   sudo rpm -ivh $APP_NAME_INSTALL # Assume if not Debian, then Red Hat distro packages.
                    ERROR=$? # Save error flag condition.
                    if [ $ERROR -ne 0 ] ; then
                       # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
@@ -2067,11 +2082,12 @@ f_menu_app_sys_monitors () {
                  ;;
                  2 | [Gg] | [Gg][Ll] | [Gg][Ll][Aa] | [Gg][Ll][Aa][Nn] | [Gg][Ll][Aa][Nn][Cc] | [Gg][Ll][Aa][Nn][Cc][Ee] | [Gg][Ll][Aa][Nn][Cc][Ee][Ss])
                  APP_NAME="glances"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  3 | [Hh] | [Hh][Tt] | [Hh][Tt][Oo] | [Hh][Tt][Oo][Pp])
                  APP_NAME="htop"
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "q or <F10>"
                  f_application_run
                  ;;
                  4 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
@@ -2201,7 +2217,6 @@ f_menu_app_sys_other () {
             #MSO dosemu    - DOS emulator.
             #MSO dtrx      - Extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
             #MSO scrot     - Screen capture.
-            #MSO usbmount  - Mount external usb drives.
             #
             MENU_TITLE="Other System Applications Menu"
             DELIMITER="#MSO" #MSO This 3rd field prevents awk from printing this line into menu options. 
@@ -2225,10 +2240,6 @@ f_menu_app_sys_other () {
                  ;;
                  3 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Oo] | [Ss][Cc][Rr][Oo][Tt])
                  APP_NAME="scrot"
-                 f_application_run
-                 ;;
-                 4 | [Uu] | [Uu][Ss] | [Uu][Ss][Bb] | [Uu][Ss][Bb][Mm] | [Uu][Ss][Bb][Mm][Oo] | [Uu][Ss][Bb][Mm][Oo][Uu] | [Uu][Ss][Bb][Mm][Oo][Uu][Nn] | [Uu][Ss][Bb][Mm][Oo][Uu][Nn][Tt])
-                 APP_NAME="usbmount"
                  f_application_run
                  ;;
             esac                # End of Other System Applications case statement.
@@ -2430,6 +2441,7 @@ f_menu_app_audio_applications () {
       until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
       do    # Start of Audio Applications until loop.
             #MAU abcde         - Audio CD ripper.
+            #MAU avconv        - Audio/Video converter.
             #MAU cmus          - Music player.
             #MAU juke          - Music Jukebox.
             #MAU moc           - Music player.
@@ -2460,17 +2472,20 @@ f_menu_app_audio_applications () {
                  ;;
                  2 | [Cc] | [Cc][Mm] | [Cc][Mm][Uu] | [Cc][Mm][Uu][Ss])
                  APP_NAME="cmus"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  3 | [Jj] | [Jj][Uu] | [Jj][Uu][Kk] | [Jj][Uu][Kk][Ee])
                  APP_NAME="juke"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  4 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
                  APP_NAME="moc"
                  f_application_run
                  ;;
                  5 | [Nn] | [Nn][Cc] | [Nn][Cc][Mm] | [Nn][Cc][Mm][Pp] | [Nn][Cc][Mm][Pp][Cc])
+                 f_how_to_quit_application "q"
                  APP_NAME="ncmpc"
                  f_application_run
                  ;;
@@ -2481,9 +2496,11 @@ f_menu_app_audio_applications () {
                  7 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
                  APP_NAME="mplayer"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  8 | [Dd] | [Dd][Rr] | [Dd][Rr][Aa] | [Dd][Rr][Aa][Dd] | [Dd][Rr][Aa][Dd][Ii] | [Dd][Rr][Aa][Dd][Ii][Oo])
                  APP_NAME="dradio"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  9 | [Rr] | [Rr][Aa] | [Rr][Aa][Dd] | [Rr][Aa][Dd][Ii] | [Rr][Aa][Dd][Ii][Oo])
