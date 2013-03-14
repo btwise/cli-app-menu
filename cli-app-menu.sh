@@ -30,9 +30,11 @@ REVDATE="March-14-2013 02:09"
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-03-14   *Main menu option License if no file COPYING, w3m www.gnu.org.
+## 2013-03-14   *Main menu option License if no file COPYING, 
+##               then use web browser, w3m to view license at www.gnu.org.
 ##
 ## 2013-03-13   *f_menu_app_image_graphics_applications linuxlogo display menu.
+##              *Main menu option License add option to display file COPYING.
 ##
 ## 2013-03-12   *Add copyright and license text. Add Main Menu option "License".
 ##              *f_menu_app_sys_monitors add f_how_to_quit_application.
@@ -3382,7 +3384,8 @@ do    # Start of CLI Menu util loop.
                    cat COPYING | more
                 else
                    echo
-                   echo "The file COPYING is either missing or does not have proper read permissions."
+                   echo "The file COPYING is either missing or cannot be read."
+                   echo 
                    echo -n "Read the full license text at http://www.gnu.org/licenses/ ? (N/y) "
                    read ANS
                    case $ANS in
@@ -3406,4 +3409,3 @@ do    # Start of CLI Menu util loop.
       esac # End of CLI Menu case statement.
 done # End of CLI Menu until loop.
 # all dun dun noodles.
-
