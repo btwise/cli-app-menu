@@ -1728,16 +1728,18 @@ f_menu_app_network_config () {
       f_initvars_menu_app
       until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
       do    # Start of Network Configuration Applications until loop.
-            #MNF ifconfig    - NIC configuration.
-            #MNF ip route    - Shows routing.
-            #MNF route       - Shows routing table.
-            #MNF mtr         - Traceroute tool, has features of ping and traceroute.
-            #MNF wicd-curses - Wireless scan and connect to wired/wireless networks.
-            #MNF iwconfig    - Wireless NIC configuration.
-            #MNF smbc        - Samba file manager for folder shares with Microsoft Windows
-            #MNF smbclient   - Samba client (share folders with Microsoft Windows).
-            #MNF smbstatus   - Samba files lock status.
-            #MNF testparm    - Samba configuration display.
+            #MNF ifconfig     - NIC configuration.
+            #MNF ip route     - Shows routing.
+            #MNF route        - Shows routing table.
+            #MNF ping         - Check LAN/WAN connectivity. ping <ip-address>.
+            #MNF mtr          - Traceroute tool, has features of ping and traceroute.
+            #MNF traceroute6  - Traceroute tool, trace network path to destination. 
+            #MNF wicd-curses  - Wireless scan and connect to wired/wireless networks.
+            #MNF iwconfig     - Wireless NIC configuration.
+            #MNF smbc         - Samba file manager for folder shares with Microsoft Windows.
+            #MNF smbclient    - Samba client (share folders with Microsoft Windows).
+            #MNF smbstatus    - Samba files lock status.
+            #MNF testparm     - Samba configuration display.
             #
             MENU_TITLE="Network Configuration Applications Menu"
             DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
@@ -1763,31 +1765,39 @@ f_menu_app_network_config () {
                  APP_NAME="route"
                  f_application_run
                  ;;
-                 4 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
+                 4 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
+                 APP_NAME="ping localhost"
+                 f_application_run
+                 ;;
+                 5 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
                  APP_NAME="mtr"
                  f_application_run
                  ;;
-                 5 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
+                 6 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee][6])
+                 APP_NAME="traceroute6 localhost"
+                 f_application_run
+                 ;;
+                 7 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
                  APP_NAME="wicd-curses"
                  f_application_run
                  ;;
-                 6 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
+                 8 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="iwconfig"
                  f_application_run
                  ;;
-                 7 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 9 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="smbc"
                  f_application_run
                  ;;
-                 8 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
+                 10 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
-                 9 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
+                 11 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
-                 10 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
+                 12 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
