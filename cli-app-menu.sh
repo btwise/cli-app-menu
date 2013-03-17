@@ -677,6 +677,8 @@ adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar |
                 moc)
                 APP_NAME_INSTALL="libqt4-dev"
                 ;;
+                aria2c)
+                APP_NAME_INSTALL="aria2"
                 esac
                 #
                 if [ -d /etc/apt ] ; then # if /etc/apt directory exists, then use apt-get install for Debian-based packages.
@@ -934,7 +936,7 @@ f_menu_cat_internet () {
       do    # Start of Internet Category until loop.
             #BIN Web Browsers      - Internet web  browsers.
             #BIN Bittorrent        - File transfer.
-            #BIN Downloaders       - Download files. 
+            #BIN Downloaders       - Download files and calculate file checksums. 
             #BIN Email             - Email clients.
             #BIN FAX               - FAX clients.
             #BIN File Transfer     - FTP clients.
@@ -1127,9 +1129,13 @@ f_menu_app_downloaders () {
       f_initvars_menu_app
       until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
       do    # Start of Downloaders Applications until loop.
-            #MDL aria2 - Downloader.
+            #MDL aria2    - Downloader.
+            #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+            #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+            #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+            #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
             #
-            MENU_TITLE="Dowloader Applications Menu"
+            MENU_TITLE="Dowloader-Checksum Applications Menu"
             DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -1142,12 +1148,39 @@ f_menu_app_downloaders () {
             #
             case $CHOICE_APP in # Start of Dowloader Applications case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
-                 aria2
-                 ERROR=$? # Save error flag condition when running this application.
-                 APP_NAME="aria2"
+                 APP_NAME="aria2c"
+                 f_application_run
+                 ;;
+                 2 | [Mm][ | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Ss] | [Mm][Dd][5][Ss][Uu] | [Mm][Dd][5][Ss][Uu][Mm])
+                 APP_NAME="md5sum --help"
+                 clear
+                 echo "Display md5 checksum. Usage: md5sum [OPTION] [FILE]"
+                 echo "md5sum --help"
+                 f_application_run
+                 CHOICE_APP=-1
+                 ;;
+                 3 | [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp] | [Mm][Dd][5][Pp][Aa] | [Mm][Dd][5][Pp][Aa][Ss] | [Mm][Dd][5][Pp][Aa][Ss][Ss])
+                 APP_NAME="md5pass"
+                 echo "Create a password hash. Usage: md5pass [PASSWORD][SALT]"
+                 f_application_run
+                 CHOICE_APP=-1
+                 ;;
+                 4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss] | [Ss][Hh][Aa][1][Ss][Uu] | [Ss][Hh][Aa][1][Ss][Uu][Mm])
+                 APP_NAME="sha1sum --help"
+                 clear
+                 echo "Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]"
+                 echo "sha1sum --help"
+                 f_application_run
+                 #f_press_enter_key_to_continue
+                 CHOICE_APP=-1
+                 ;;
+                 5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
+                 APP_NAME="sha1pass"
+                 echo "Create a password hash. Usage: sha1pass [PASSWORD][SALT]"
+                 f_application_run
+                 CHOICE_APP=-1
                  ;;
             esac                # End of Downloader Applications case statement.
-            f_application_error $ERROR $APP_NAME # If application is not installed display help instructions.
             f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
       done  # End of Downloaders Applications until loop.
 } # End of function f_menu_app_downloaders
@@ -2102,24 +2135,24 @@ f_menu_app_sys_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
       do    # Start of System Monitors until loop.
-            #MSM atop      - System process and resource manager.
-            #MSM glances   - System process and resource manager.
-            #MSM htop      - System process and resource manager.
-            #MSM top       - System process and resource manager.
-            #MSM dstat     - View system resources.
-            #MSM iotop     - Disk i/o process monitor.
-            #MSM ncdu      - Disk usage monitor, ncurses-based.
-            #MSM uuid      - Use ls -l to show disk uuid number.
-            #MSM cfdisk    - Disk partition tool.
-            #MSM parted    - Disk partition tool.
-            #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
-            #MSM yacpi     - ACPI monitor, ncurses-based.
-            #MSM dmidecode | more quit - Display Main board information.
-            #MSM lsb_release -a - Display Linux distro and LSB (Linux Standard Base).
-            #MSM uname -a  - Display linux kernel information.
-            #MSM lsmod | more quit - Display linux kernel module information.
-            #MSM printenv | more quit - Display environmental variables.
-            #MSM lsusb - Display USB devices.
+            #MSM atop        - System process and resource manager.
+            #MSM glances     - System process and resource manager.
+            #MSM htop        - System process and resource manager.
+            #MSM top         - System process and resource manager.
+            #MSM dstat       - View system resources.
+            #MSM iotop       - Disk i/o process monitor.
+            #MSM ncdu        - Disk usage monitor, ncurses-based.
+            #MSM uuid        - Use ls -l to show disk uuid number.
+            #MSM cfdisk      - Disk partition tool.
+            #MSM parted      - Disk partition tool.
+            #MSM saidar      - Monitor system processes, network I/O, disks I/O, free space.
+            #MSM yacpi       - ACPI monitor, ncurses-based.
+            #MSM dmidecode   - Display Main board information.
+            #MSM lsb_release - Display Linux distro and LSB (Linux Standard Base).
+            #MSM uname       - Display linux kernel information.
+            #MSM lsmod       - Display linux kernel module information.
+            #MSM printenv    - Display environmental variables.
+            #MSM lsusb       - Display USB devices.
             #
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
@@ -2194,31 +2227,32 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  ;;
                  13 | [Dd] | [Dd][Mm | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
-                 APP_NAME="dmidecode | more"
-                 f_how_to_quit_application "q"
+                 APP_NAME="dmidecode"
                  f_application_run
                  ;;
                  14 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
                  APP_NAME="lsb_release -a"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  15[| [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
                  APP_NAME="uname -a"
                  f_application_run
                  ;;
                  16 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
-                 APP_NAME="lsmod | more"
-                 f_how_to_quit_application "q"
+                 APP_NAME="lsmod "
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  17 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
-                 APP_NAME="printenv | more"
-                 f_how_to_quit_application "q"
+                 APP_NAME="printenv"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  18 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
             esac                # End of System Monitors case statement.
             f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
