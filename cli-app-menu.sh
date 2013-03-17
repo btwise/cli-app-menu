@@ -1728,6 +1728,8 @@ f_menu_app_network_config () {
       f_initvars_menu_app
       until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
       do    # Start of Network Configuration Applications until loop.
+            #MNF iptables     - firewall configuration rules for a chain.
+            #MNF ufw          - firewall configuration and status.
             #MNF ifconfig     - NIC configuration.
             #MNF ip route     - Shows routing.
             #MNF route        - Shows routing table.
@@ -1753,7 +1755,15 @@ f_menu_app_network_config () {
             APP_NAME="" # Clear application name.
             #
             case $CHOICE_APP in # Start of Network Configuration Applications case statement.
-                 1 | [Ii] | [Ii][Ff] | [Ii][Ff][Cc] | [Ii][Ff][Cc][Oo] | [Ii][Ff][Cc][Oo][Nn] | [Ii][Ff][Cc][Oo][Nn][Ff] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg])
+                 1 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa] | [Ii][Pp][Tt][Aa][Bb] | [Ii][Pp][Tt][Aa][Bb][Ll] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
+                 APP_NAME="iptables --list"
+                 f_application_run
+                 ;;
+                 2 | [Uu] | [Uu][Ff] | [Uu][Ff][Ww])
+                 APP_NAME="ufw status verbose"
+                 f_application_run
+                 ;;
+                 3 | [Ii] | [Ii][Ff] | [Ii][Ff][Cc] | [Ii][Ff][Cc][Oo] | [Ii][Ff][Cc][Oo][Nn] | [Ii][Ff][Cc][Oo][Nn][Ff] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="ifconfig"
                  f_application_run
                  ;;
@@ -1761,43 +1771,43 @@ f_menu_app_network_config () {
                  APP_NAME="ip route"
                  f_application_run
                  ;;
-                 3 | [Rr] | [Rr][Oo] | [Rr][Oo][Uu] | [Rr][Oo][Uu][Tt] | [Rr][Oo][Uu][Tt][Ee])
+                 5 | [Rr] | [Rr][Oo] | [Rr][Oo][Uu] | [Rr][Oo][Uu][Tt] | [Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="route"
                  f_application_run
                  ;;
-                 4 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
+                 6 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
                  APP_NAME="ping localhost"
                  f_application_run
                  ;;
-                 5 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
+                 7 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
                  APP_NAME="mtr"
                  f_application_run
                  ;;
-                 6 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee][6])
+                 8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee][6])
                  APP_NAME="traceroute6 localhost"
                  f_application_run
                  ;;
-                 7 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
+                 9 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
                  APP_NAME="wicd-curses"
                  f_application_run
                  ;;
-                 8 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
+                 9 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="iwconfig"
                  f_application_run
                  ;;
-                 9 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 10 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="smbc"
                  f_application_run
                  ;;
-                 10 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
+                 11 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
-                 11 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
+                 12 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
-                 12 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
+                 13 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
@@ -2099,10 +2109,17 @@ f_menu_app_sys_monitors () {
             #MSM dstat     - View system resources.
             #MSM iotop     - Disk i/o process monitor.
             #MSM ncdu      - Disk usage monitor, ncurses-based.
+            #MSM uuid      - Use ls -l to show disk uuid number.
             #MSM cfdisk    - Disk partition tool.
             #MSM parted    - Disk partition tool.
             #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
             #MSM yacpi     - ACPI monitor, ncurses-based.
+            #MSM dmidecode | more quit - Display Main board information.
+            #MSM lsb_release -a - Display Linux distro and LSB (Linux Standard Base).
+            #MSM uname -a  - Display linux kernel information.
+            #MSM lsmod | more quit - Display linux kernel module information.
+            #MSM printenv | more quit - Display environmental variables.
+            #MSM lsusb - Display USB devices.
             #
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
@@ -2150,24 +2167,57 @@ f_menu_app_sys_monitors () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 8 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
+                 8 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
+                 clear
+                 echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
+                 APP_NAME="ls -l /dev/disk/by-uuid"
+                 f_application_run             
+                 ;;
+                 9 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
                  APP_NAME="cfdisk"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 9 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
+                 10 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
                  APP_NAME="parted"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 10 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
+                 11 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 11 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
+                 12 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 13 | [Dd] | [Dd][Mm | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 APP_NAME="dmidecode | more"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 14 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
+                 APP_NAME="lsb_release -a"
+                 f_application_run
+                 ;;
+                 15[| [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
+                 APP_NAME="uname -a"
+                 f_application_run
+                 ;;
+                 16 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
+                 APP_NAME="lsmod | more"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 17 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 APP_NAME="printenv | more"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 18 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
+                 APP_NAME="lsusb"
                  f_application_run
                  ;;
             esac                # End of System Monitors case statement.
