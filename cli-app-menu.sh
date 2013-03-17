@@ -14,7 +14,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-14-2013 02:09"
+REVDATE="March-17-2013 02:37"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -1171,7 +1171,6 @@ f_menu_app_downloaders () {
                  echo "Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]"
                  echo "sha1sum --help"
                  f_application_run
-                 #f_press_enter_key_to_continue
                  CHOICE_APP=-1
                  ;;
                  5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
@@ -2235,9 +2234,10 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
-                 15[| [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
+                 15 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
                  APP_NAME="uname -a"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  16 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
                  APP_NAME="lsmod "
