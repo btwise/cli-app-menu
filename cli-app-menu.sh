@@ -1,5 +1,5 @@
-#!/bin/bash
-# File naming convention for archiving: $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
+#!/bin/bash File naming convention for archiving:
+# $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
 #
 # The double # at the beginning of lines below are used to delineate the Edit History.
 #
@@ -14,7 +14,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-14-2013 02:09"
+REVDATE="March-17-2013 21:30"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -30,151 +30,168 @@ REVDATE="March-14-2013 02:09"
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-03-14   *Main menu option License if no file COPYING, 
-##               then use web browser, w3m to view license at www.gnu.org.
+## 2013-03-17 *f_how_to_quit_application add option to clear.
+##            *f_menu_app_network_config add option to ping -c 10.
+##            *f_menu_app_sys_monitors add lsof, hdparm.
+##            *f_application_error use echo -n for Y/N questions.
+##            *Edit History update and clean up. 
 ##
-## 2013-03-13   *f_menu_app_image_graphics_applications linuxlogo display menu.
-##              *Main menu option License add option to display file COPYING.
+## 2013-03-16 *f_menu_app_downloaders add md5sum, sha1sum, md5pass, sha1pass.
+##            *f_menu_app_downloaders fix aria2 install.
+##            *f_menu_app_sys_monitors add uuid, dmidecode, lsb, uname, lsmod,
+##             printenv, lsusb.
+##            *f_menu_app_sys_monitors fix display for dmidecode, lsb, lsmod, 
+##             printenv, lsusb.
+##            *f_menu_app_network_config add iptables, ufw.
+##              
+## 2013-03-15 f_menu_app_network_config add traceroute6, ping.
 ##
-## 2013-03-12   *Add copyright and license text. Add Main Menu option "License".
-##              *f_menu_app_sys_monitors add f_how_to_quit_application.
-##              *f_menu_app_text_editors add f_how_to_quit_application.
-##              *f_menu_app_sys_monitors add application saidar.
-##              *f_application_error create installation routine for glances.
-##              *f_show_menu supress line-feed at options prompt, fix $MAX.
-##              *f_menu_app_audio_application add avconv.
 ##
-## 2013-03-09   *f_application_error add case statement to install bsdgames
-##                if any of the games included in bsdgames are not installed.
-##              *Automatically calculate revision number using grep -c(ount).
-##              *Add sub-menus for Games.
-##              *f_quit_app_menu, f_quit_subcat_menu delete "Quit", "Exit"
-##               options leave only zero and "Return" because "Quit" is too
-##               close to "Quiz" game, and "Exit" was undocumented.
-##              *f_show_menu display new Quit message when in Main Menu.
-##              *Change delimiter for Main Menu and application category menus
-##               so it is obvious to differentiate from application menus.
-##              *f_show_menu display help mesage only for application menus.
-##              *Documented all variables used and list of delimiters.
-##              *Remove hard-coding of script file-name use $THIS_FILE instead.
-##              *f_application_error now extracts package name from $APP_NAME
-##               when it includes additional parameters separated by spaces.
+## 2013-03-14 Main menu option License if no file COPYING, 
+##            then use web browser, w3m to view license at www.gnu.org.
 ##
-## 2013-03-07   *f_application_error add trap for error code 1 for sudo.
-##              *Add function f_application_run to re-run newly installed apps.
-##              *Rework all application menus to use f_application_run.
+## 2013-03-13 *f_menu_app_image_graphics_applications linuxlogo display menu.
+##            *Main menu option License add option to display file COPYING.
 ##
-## 2013-03-06   *f_menu_app_sys_monitors add System tools, cfdisk, parted.
-##              *f_menu_app_text_editors add Text tools, colordiff, diff, vimdiff, wdiff.
+## 2013-03-12 *Add copyright and license text. Add Main Menu option "License".
+##            *f_menu_app_sys_monitors add f_how_to_quit_application.
+##            *f_menu_app_text_editors add f_how_to_quit_application.
+##            *f_menu_app_sys_monitors add saidar.
+##            *f_application_error create installation routine for glances.
+##            *f_show_menu supress line-feed at options prompt, fix $MAX.
+##            *f_menu_app_audio_application add avconv.
 ##
-## 2013-03-04 - *Clean up displays so text fits on an 80-column wide screen.
-##              *f_application_error add error message if installation fails.
-##              *f_show_menu start menu option numbering at 1 not zero.
-##              *f_show_menu add option 0, to quit.
-##              *Delete option 0, to quit in all f_sub-menus.
+## 2013-03-09 *f_application_error add case statement to install bsdgames
+##             if any of the games included in bsdgames are not installed.
+##            *Automatically calculate revision number using grep -c(ount).
+##            *Add sub-menus for Games.
+##            *f_quit_app_menu, f_quit_subcat_menu delete "Quit", "Exit"
+##             options leave only zero and "Return" because "Quit" is too
+##             close to "Quiz" game, and "Exit" was undocumented.
+##            *f_show_menu display new Quit message when in Main Menu.
+##            *Change delimiter for Main Menu and application category menus
+##             so it is obvious to differentiate from application menus.
+##            *f_show_menu display help mesage only for application menus.
+##            *Documented all variables used and list of delimiters.
+##            *Remove hard-coding of script file-name use $THIS_FILE instead.
+##            *f_application_error now extracts package name from $APP_NAME
+##             when it includes additional parameters separated by spaces.
 ##
-## 2013-03-03 - *Created sub-menu, "Network Category" under Applications menu.
-##              *Added Network applications smbclient, smbstatus, testparm.
-##              *Add function f_press_enter_key_to_continue.
-##              *Add function f_menu_app_press_enter.
-##              *Add function f_menu_app_press_enter in application functions.
-##              *Delete statements "read x" in application functions.
-##              *f_application_error fix bad syntax [ $ERROR <> 0 ].
-##              *f_application_help fix bad syntax [ $ERROR <> 0 ].
-##              *f_application_help enhance and clarify error messages.
+## 2013-03-07 *f_application_error add trap for error code 1 for sudo.
+##            *Add function f_application_run to re-run newly installed apps.
+##            *Rework all application menus to use f_application_run.
 ##
-## 2013-02-26 - *Added cbm, a system resource monitor, and smbc, file manager
-##               for Samba server shared folders.
-##              *f_menu_app_text_editors add text editors, ed, emacs, pico, vi.
-##              *f_menu_app_spreadsheets_editors add spreadsheets, oleo, slsc.
-##              *f_menu_app_calendar-todo add calendars, cal, remind.
-##              *f_menu_app_calendar-todo add To-Do list, devtodo.
+## 2013-03-06 *f_menu_app_sys_monitors add System tools, cfdisk, parted.
+##            *f_menu_app_text_editors add Text tools, colordiff, diff, vimdiff, wdiff.
 ##
-## 2013-02-20 - *Created sub-menu, "System Category" under Applications Menu.
-##              *Cleaned up menus, sorted items by function.
-##              *Add function f_menu_cat_sample_template.
+## 2013-03-04 *Clean up displays so text fits on an 80-column wide screen.
+##            *f_application_error add error message if installation fails.
+##            *f_show_menu start menu option numbering at 1 not zero.
+##            *f_show_menu add option 0, to quit.
+##            *Delete option 0, to quit in all f_sub-menus.
 ##
-## 2013-02-19 - f_application_error, improve error message processing.
+## 2013-03-03 *Created sub-menu, "Network Category" under Applications menu.
+##            *Added Network applications smbclient, smbstatus, testparm.
+##            *Add function f_press_enter_key_to_continue.
+##            *Add function f_menu_app_press_enter.
+##            *Add function f_menu_app_press_enter in application functions.
+##            *Delete statements "read x" in application functions.
+##            *f_application_error fix bad syntax [ $ERROR <> 0 ].
+##            *f_application_help fix bad syntax [ $ERROR <> 0 ].
+##            *f_application_help enhance and clarify error messages.
 ##
-## 2013-02-18 - Add more applications, clean up more code.
+## 2013-02-26 *Added cbm, a system resource monitor, and smbc, file manager
+##             for Samba server shared folders.
+##            *f_menu_app_text_editors add text editors, ed, emacs, pico, vi.
+##            *f_menu_app_spreadsheets_editors add spreadsheets, oleo, slsc.
+##            *f_menu_app_calendar-todo add calendars, cal, remind.
+##            *f_menu_app_calendar-todo add To-Do list, devtodo.
 ##
-## 2013-02-17 - Add case string pattern matching for all Internet applications.
+## 2013-02-20 *Created sub-menu, "System Category" under Applications Menu.
+##            *Cleaned up menus, sorted items by function.
+##            *Add function f_menu_cat_sample_template.
 ##
-## 2013-02-14 - *Clean up listing for readability.
-##              *Create sub-menu, "Internet Category" under Applications Menu. 
-##              *Add Internet application menus for web browsers, bittorrent, 
-##               downloaders, email, FAX, file transfer, instant messaging,
-##               Internet relay chat, news readers, network chat, podcatchers,
-##               remote connection and RSS feeders.
-##              *Make all application menus into functions rather than using
-##               nested until loops.
-##              *Add functions f_menu_app_sample_template, f_initvars_menu_app,
-##               f_menu_app_internet.
-##              *Bug fix f_application_error by adding f_initvars_menu_app to
-##               prevent return to previous menu rather than return to the same
-##               menu where the error occurred.
+## 2013-02-19 f_application_error, improve error message processing.
 ##
-## 2013-02-12 - Create functions for each application menu to allow greater
-##              flexibility to re-arrange menu structure and allow the
-##              possibility of sub-menus.
+## 2013-02-18 Add more applications, clean up more code.
 ##
-## 2013-01-29 - Create function f_termcolor to set terminal properties.
+## 2013-02-17 Add case string pattern matching for all Internet applications.
 ##
-## 2013-01-28 - Bug fix with option "exit" not working with CLI Menu and
-##              Application Category Menu.
+## 2013-02-14 *Clean up listing for readability.
+##            *Create sub-menu, "Internet Category" under Applications Menu. 
+##            *Add Internet application menus for web browsers, bittorrent, 
+##             downloaders, email, FAX, file transfer, instant messaging,
+##             Internet relay chat, news readers, network chat, podcatchers,
+##             remote connection and RSS feeders.
+##            *Make all application menus into functions rather than using
+##             nested until loops.
+##            *Add functions f_menu_app_sample_template, f_initvars_menu_app,
+##             f_menu_app_internet.
+##            *Bug fix f_application_error by adding f_initvars_menu_app to
+##             prevent return to previous menu rather than return to the same
+##             menu where the error occurred.
 ##
-## 2013-01-26 - *Use grep to calculate the number of the last menu option.
-##              *Create functions show_menu, quit_app_menu, application_help to
-##               eliminate repeated code.
-##              *Create function f_application_error with an option to install
-##               a missing application.
-##              *f_application_help, add error trapping to trap lack of help 
-##               manual or help messages.
-##              *Add option to quit any menu by entering "exit".
+## 2013-02-12 Create functions for each application menu to allow greater
+##            flexibility to re-arrange menu structure and allow the
+##            possibility of sub-menus.
 ##
-## 2013-01-24 - *Use sed/awk (not echo) to display menu and calculate $MAX.
-##              *This took several days to figure out but now I grok awk.
-##              *Add a HOW-TO Add new item under General Help.
+## 2013-01-29 Create function f_termcolor to set terminal properties.
 ##
-## 2013-01-16 - *Edit History, improve sed to display without leading "##" by
-##               using substitution of null for "##".
-##              *Application menus, finish adding help options.
-##              *System menu, delete application cmatrix.
-##              *System menu, add application top.
-##              *System menu, add application htop.
-##              *System menu, add application glances.
-##              *Network menu, add application iftop. 
-##              *Games menu, add applications cribbage, boggle.
-##              *Games menu, delete package name debian-jr-games.
+## 2013-01-28 Bug fix with option "exit" not working with CLI Menu and
+##            Application Category Menu.
 ##
-## 2013-01-15 - *Edit History, use sed to display text.
-##              *All menus, change prompt from "Choose 0 to $MAX or name" 
-##               to "Enter 0 to$MAX or letters".
-##              *Application menus, add help options to all applications
-##               accessible from the applications menus.
+## 2013-01-26 *Use grep to calculate the number of the last menu option.
+##            *Create functions show_menu, quit_app_menu, application_help to
+##             eliminate repeated code.
+##            *Create function f_application_error with an option to install
+##             a missing application.
+##            *f_application_help, add error trapping to trap lack of help 
+##             manual or help messages.
+##            *Add option to quit any menu by entering "exit".
 ##
-## 2013=01-14 - CLI Menu, add Black/White screen options.
+## 2013-01-24 *Use sed/awk (not echo) to display menu and calculate $MAX.
+##            *This took several days to figure out but now I grok awk.
+##            *Add a HOW-TO Add new item under General Help.
 ##
-## 2013-01-08 - Case pattern matching for strings is enabled for all menus.
+## 2013-01-16 *Edit History, improve sed to display without leading "##" by
+##             using substitution of null for "##".
+##            *Application menus, finish adding help options.
+##            *System menu, delete application cmatrix.
+##            *System menu, add application top.
+##            *System menu, add application htop.
+##            *System menu, add application glances.
+##            *Network menu, add application iftop. 
+##            *Games menu, add applications cribbage, boggle.
+##            *Games menu, delete package name debian-jr-games.
 ##
-## 2013-01-07 - Figured out how to use pattern matching to match input string
-##              in case statements.
+## 2013-01-15 *Edit History, use sed to display text.
+##            *All menus, change prompt from "Choose 0 to $MAX or name" 
+##             to "Enter 0 to$MAX or letters".
+##            *Application menus, add help options to all applications
+##             accessible from the applications menus.
 ##
-## 2013-01-02 - *Put MAX variable inside current until loop to prevent inner
-##               loops from changing value on exit.
-##              *Do not clear screen before displaying each application menu so
-##               that you can see any error messages.
-##              *Add CLI Menu option 'About CLI Menu' and get menu options
-##               'Help' and 'Free disk space' working.
+## 2013=01-14 CLI Menu, add Black/White screen options.
 ##
-## 2013-01-01 - *Change to using until loops because the while loops abnormally
-##               exit if read input is not an integer.
-##              *Use while loops rather than until loops since continuing to
-##               loop and exiting loop is simpler, since you do not need to set
-##               conditional variables to an invalid state to force looping.
+## 2013-01-08 Case pattern matching for strings is enabled for all menus.
 ##
-## 2012-12-31 - *Create menu driven CLI application launcher.
-##              *Case statements drove me crazy, learning pattern matching.
+## 2013-01-07 Figured out how to use pattern matching to match input string
+##            in case statements.
+##
+## 2013-01-02 *Put MAX variable inside current until loop to prevent inner
+##             loops from changing value on exit.
+##            *Do not clear screen before displaying each application menu so
+##             that you can see any error messages.
+##            *Add CLI Menu option 'About CLI Menu' and get menu options
+##             'Help' and 'Free disk space' working.
+##
+## 2013-01-01 *Change to using until loops because the while loops abnormally
+##             exit if read input is not an integer.
+##            *Use while loops rather than until loops since continuing to
+##             loop and exiting loop is simpler, since you do not need to set
+##             conditional variables to an invalid state to force looping.
+##
+## 2012-12-31 *Create menu driven CLI application launcher.
+##            *Case statements drove me crazy, learning pattern matching.
 ##
 # The "#:" at the beginning of lines below are used to delineate the Help Instructions.
 #:
@@ -282,7 +299,8 @@ REVDATE="March-14-2013 02:09"
 #: ERROR       - Number; Save error code number from $? function.
 #: MAX         - Number; Maximum option choice number in menu.
 #: MENU_TITLE  - String; Title of menu.
-#: NUM         - Number; Scratch variable used in awk statement in f_show_menu.
+#: XNUM        - Number; Scratch variable used in awk statement in f_show_menu.
+#  XSTR        - String; Scratch variable.
 #: REVDATE     - String; Revision date of shell script.
 #: REVISION    - String; Revision number of shell script.
 #: TCOLOR      - String; Background color of display terminal; Black or White.
@@ -386,6 +404,8 @@ f_initvars_menu_app () {
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
+# Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
+#
 f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
       clear # clear or blank screen
       f_term_color # Set terminal color.
@@ -413,7 +433,7 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
       # so numbering will always starts at zero. Interestingly the "++" increment command is only valid from within awk.
       #
       MAX=$(grep $DELIMITER -c $THIS_FILE) # Count number of lines containing special comment marker string to get maximum item number.
-      awk -F $DELIMITER '{if ($2&&!$3){print 1+NUM++" -"$2;}}' $THIS_FILE
+      awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
       case $DELIMITER in
            # Application Menu?
            "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
@@ -443,6 +463,8 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
 # |        Function f_quit_app_menu        |
 # +----------------------------------------+
 #
+# Inputs: CHOICE_APP.
+#
 f_quit_app_menu () {
       case $CHOICE_APP in
            # Quit?
@@ -463,6 +485,8 @@ f_quit_app_menu () {
 # |       Function f_quit_subcat_menu      |
 # +----------------------------------------+
 #
+# Inputs: CHOICE_SCAT.
+#
 f_quit_subcat_menu () {
       case $CHOICE_SCAT in
            # Quit?
@@ -479,8 +503,13 @@ f_quit_subcat_menu () {
 # |   Function f_how_to_quit_application   |
 # +----------------------------------------+
 #
-f_how_to_quit_application () {
-      clear
+# Inputs: $1, $2, APP_NAME.
+#
+f_how_to_quit_application () { # $1 typed key to quit. $2 string "no-clear" if screen should not be cleared.
+      if [ -z $2 ] ; then
+      # if [ $2 != "no-clear" ] ; then
+         clear
+      fi
       echo
       echo "To quit $APP_NAME, type $1."
       f_press_enter_key_to_continue
@@ -489,6 +518,8 @@ f_how_to_quit_application () {
 # +----------------------------------------+
 # |          Function f_term_color         |
 # +----------------------------------------+
+#
+# Inputs: TCOLOR.
 #
 f_term_color () { # Set terminal display properties.
       case $TCOLOR in
@@ -507,6 +538,8 @@ f_term_color () { # Set terminal display properties.
 # | Function f_press_enter_key_to_continue |
 # +----------------------------------------+
 #
+# Inputs: None.
+#
 f_press_enter_key_to_continue () { # Display message and wait for user input.
       echo
       echo "Press '"Enter"' key to continue."
@@ -516,6 +549,8 @@ f_press_enter_key_to_continue () { # Display message and wait for user input.
 # +----------------------------------------+
 # |   Function f_menu_app_press_enter_key  |
 # +----------------------------------------+
+#
+# Inputs: CHOICE_APP.
 #
 f_menu_app_press_enter_key () { # Display message and wait for user input.
       # $CHOICE_APP = 0 means quit menu 
@@ -529,6 +564,8 @@ f_menu_app_press_enter_key () { # Display message and wait for user input.
 # +----------------------------------------+
 # |       Function f_application_help      |
 # +----------------------------------------+
+#
+# Inputs: CHOICE_APP, ERROR.
 #
 f_application_help () { # function where $CHOICE_APP="<Application name> --help" or "man <Application name>"
       f_term_color # Set terminal color.
@@ -573,13 +610,11 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
 # |       Function f_application_run       |
 # +----------------------------------------+
 #
+# Inputs: DELIMITER, APP_NAME, WEB_SITE.
+#
 f_application_run () {
 if [ $DELIMITER="#MWB" ] ; then # If application is a web browser. #MWB This 3rd field prevents awk from printing this line into menu options. 
    APP_RUN="$APP_NAME $WEB_SITE"
-   # echo "APP_RUN: $APP_RUN"       # Diagnostic echo
-   # echo "APP_NAME: $APP_NAME"     # Diagnostic echo
-   # echo "WEB_SITE: $WEB_SITE"     # Diagnostic echo
-   # f_press_enter_key_to_continue  # Pause display to read echo diagnostics.
    $APP_RUN
 else
    $APP_NAME # Run application.
@@ -594,7 +629,7 @@ ERROR=$? # Save error flag condition.
               f_application_error # Check for errors. If so, display appropriate error message.
            fi
            ;;
-           1)
+           1 | 13)
            f_application_error # Display appropriate error message.
            ;;
       esac
@@ -603,6 +638,8 @@ ERROR=$? # Save error flag condition.
 # +----------------------------------------+
 # |       Function f_application_error     |
 # +----------------------------------------+
+#
+# Inputs: ERROR, APP_NAME. 
 #
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
@@ -613,10 +650,9 @@ f_application_error () {
       fi
       #
       case $ERROR in
-           1)
+           1 | 13)
            echo
-           echo "Run $APP_NAME again this time using sudo (temporary root permissions) (y/N)?"
-           echo
+           echo -n "Run $APP_NAME again this time using sudo (temporary root permissions) (y/N)?"
            read ANS
            case $ANS in
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -649,8 +685,7 @@ f_application_error () {
            echo "To install under Slackware-based Linux use command:"
            echo "                           sudo installpkg <application package name>"
            echo 
-           echo "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)?"
-           echo
+           echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)?"
            read ANS
            case $ANS in
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -717,6 +752,8 @@ adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar |
 # |  Function f_menu_cat_sample_template   |
 # +----------------------------------------+
 #
+# Inputs: CHOICE_SCAT, MAX
+#
 f_menu_cat_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -ge 0 -a $CHOICE_SCAT -le $MAX ]
@@ -748,6 +785,8 @@ f_menu_cat_sample_template () {
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
 # +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
 #
 f_menu_app_sample_template () {
       f_initvars_menu_app
@@ -785,6 +824,8 @@ f_menu_app_sample_template () {
 # **************************************
 # ***   Application Categories Menu  ***
 # **************************************
+#
+# Inputs: CHOICE_CAT, MAX.
 #
 f_menu_cat_applications () {
       f_initvars_menu_app
@@ -929,6 +970,8 @@ f_menu_cat_applications () {
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
 # +----------------------------------------+
+#
+# Inputs: CHOICE_SCAT, MAX.
 #
 f_menu_cat_internet () {
       f_initvars_menu_app
@@ -1766,7 +1809,7 @@ f_menu_app_network_config () {
             #MNF ifconfig     - NIC configuration.
             #MNF ip route     - Shows routing.
             #MNF route        - Shows routing table.
-            #MNF ping         - Check LAN/WAN connectivity. ping <ip-address>.
+            #MNF ping         - Check LAN-WAN connectivity. ping ip-address.
             #MNF mtr          - Traceroute tool, has features of ping and traceroute.
             #MNF traceroute6  - Traceroute tool, trace network path to destination. 
             #MNF wicd-curses  - Wireless scan and connect to wired/wireless networks.
@@ -1809,7 +1852,11 @@ f_menu_app_network_config () {
                  f_application_run
                  ;;
                  6 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
-                 APP_NAME="ping localhost"
+                 APP_NAME="ping localhost -c 5"
+                 echo "Pinging this PC (localhost) for five times as an example."
+                 echo "Usage: ping localhost -c 5"
+                 echo "Many web sites block pings resulting in a message: '100% package loss'."
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  7 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
@@ -1839,6 +1886,7 @@ f_menu_app_network_config () {
                  12 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
                  13 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
@@ -2148,11 +2196,13 @@ f_menu_app_sys_monitors () {
             #MSM saidar      - Monitor system processes, network I/O, disks I/O, free space.
             #MSM yacpi       - ACPI monitor, ncurses-based.
             #MSM dmidecode   - Display Main board information.
+            #MSM hdparm      - Display hard disk drive information.
             #MSM lsb_release - Display Linux distro and LSB (Linux Standard Base).
             #MSM uname       - Display linux kernel information.
             #MSM lsmod       - Display linux kernel module information.
             #MSM printenv    - Display environmental variables.
             #MSM lsusb       - Display USB devices.
+            #MSM lsof        - Display information about open files.
             #
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
@@ -2230,30 +2280,43 @@ f_menu_app_sys_monitors () {
                  APP_NAME="dmidecode"
                  f_application_run
                  ;;
-                 14 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
+                 14 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
+                 APP_NAME="hdparm -I /dev/sda"
+                 echo "Find information about the first hard disk drive: /dev/sda"
+                 echo "Usage: 'hdparm -I /dev/sda'"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 f_press_enter_key_to_continue
+                 ;;
+                 15 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
                  APP_NAME="lsb_release -a"
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
-                 15[| [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
+                 16 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
                  APP_NAME="uname -a"
                  f_application_run
+                 f_press_enter_key_to_continue
                  ;;
-                 16 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
+                 17 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
                  APP_NAME="lsmod "
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
-                 17 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 18 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
                  APP_NAME="printenv"
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
-                 18 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
+                 19 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
+                 20 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
+                 APP_NAME="lsof"
+                 f_application_run
+                 f_press_enter_key_to_continue
             esac                # End of System Monitors case statement.
             f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
       done # End of System Monitors until loop.
@@ -3370,12 +3433,14 @@ f_menu_app_games_word () {
 # **************************************
 f_initvars_menu_app
 TCOLOR="black"
-ERROR=0 # Initialize to 0 to indicate success at running last command.
-APP_NAME="" # Initialize to null. Contains application name.
+ERROR=0     # Initialize to 0 to indicate success at running last command.
+APP_NAME="" # Initialize to null. String variable contains application name.
 #
 # **************************************
 # ***           Main Menu            ***
 # **************************************
+#
+# Inputs: CHOICE_MAIN, MAX, THIS_FILE, REVISION, REVDATE.
 #
 until [ $CHOICE_MAIN -ge 0 -a $CHOICE_MAIN -le $MAX ]
 do    # Start of CLI Menu util loop.
