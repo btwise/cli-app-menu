@@ -1214,7 +1214,6 @@ f_menu_app_downloaders () {
                  echo "Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]"
                  echo "sha1sum --help"
                  f_application_run
-                 #f_press_enter_key_to_continue
                  CHOICE_APP=-1
                  ;;
                  5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
@@ -2255,6 +2254,7 @@ f_menu_app_sys_monitors () {
                  echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
                  APP_NAME="ls -l /dev/disk/by-uuid"
                  f_application_run             
+                 f_press_enter_key_to_continue
                  ;;
                  9 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
                  APP_NAME="cfdisk"
@@ -2276,7 +2276,7 @@ f_menu_app_sys_monitors () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 13 | [Dd] | [Dd][Mm | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 13 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
                  APP_NAME="dmidecode"
                  f_application_run
                  ;;
@@ -2284,7 +2284,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="hdparm -I /dev/sda"
                  echo "Find information about the first hard disk drive: /dev/sda"
                  echo "Usage: 'hdparm -I /dev/sda'"
-                 f_how_to_quit_application "q" "no-clear"
+                 f_press_enter_key_to_continue
                  f_application_run
                  f_press_enter_key_to_continue
                  ;;
