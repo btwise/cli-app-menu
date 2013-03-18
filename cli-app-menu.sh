@@ -13,8 +13,8 @@ THIS_FILE="cli-app-menu.sh"
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-17-2013 21:30"
+REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
+REVDATE="March-17-2013 22:06"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -29,170 +29,7 @@ REVDATE="March-17-2013 21:30"
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
-##
-## 2013-03-17 *f_how_to_quit_application add option to clear.
-##            *f_menu_app_network_config add option to ping -c 10.
-##            *f_menu_app_sys_monitors add lsof, hdparm.
-##            *f_application_error use echo -n for Y/N questions.
-##            *Edit History update and clean up. 
-##
-## 2013-03-16 *f_menu_app_downloaders add md5sum, sha1sum, md5pass, sha1pass.
-##            *f_menu_app_downloaders fix aria2 install.
-##            *f_menu_app_sys_monitors add uuid, dmidecode, lsb, uname, lsmod,
-##             printenv, lsusb.
-##            *f_menu_app_sys_monitors fix display for dmidecode, lsb, lsmod, 
-##             printenv, lsusb.
-##            *f_menu_app_network_config add iptables, ufw.
-##              
-## 2013-03-15 f_menu_app_network_config add traceroute6, ping.
-##
-##
-## 2013-03-14 Main menu option License if no file COPYING, 
-##            then use web browser, w3m to view license at www.gnu.org.
-##
-## 2013-03-13 *f_menu_app_image_graphics_applications linuxlogo display menu.
-##            *Main menu option License add option to display file COPYING.
-##
-## 2013-03-12 *Add copyright and license text. Add Main Menu option "License".
-##            *f_menu_app_sys_monitors add f_how_to_quit_application.
-##            *f_menu_app_text_editors add f_how_to_quit_application.
-##            *f_menu_app_sys_monitors add saidar.
-##            *f_application_error create installation routine for glances.
-##            *f_show_menu supress line-feed at options prompt, fix $MAX.
-##            *f_menu_app_audio_application add avconv.
-##
-## 2013-03-09 *f_application_error add case statement to install bsdgames
-##             if any of the games included in bsdgames are not installed.
-##            *Automatically calculate revision number using grep -c(ount).
-##            *Add sub-menus for Games.
-##            *f_quit_app_menu, f_quit_subcat_menu delete "Quit", "Exit"
-##             options leave only zero and "Return" because "Quit" is too
-##             close to "Quiz" game, and "Exit" was undocumented.
-##            *f_show_menu display new Quit message when in Main Menu.
-##            *Change delimiter for Main Menu and application category menus
-##             so it is obvious to differentiate from application menus.
-##            *f_show_menu display help mesage only for application menus.
-##            *Documented all variables used and list of delimiters.
-##            *Remove hard-coding of script file-name use $THIS_FILE instead.
-##            *f_application_error now extracts package name from $APP_NAME
-##             when it includes additional parameters separated by spaces.
-##
-## 2013-03-07 *f_application_error add trap for error code 1 for sudo.
-##            *Add function f_application_run to re-run newly installed apps.
-##            *Rework all application menus to use f_application_run.
-##
-## 2013-03-06 *f_menu_app_sys_monitors add System tools, cfdisk, parted.
-##            *f_menu_app_text_editors add Text tools, colordiff, diff, vimdiff, wdiff.
-##
-## 2013-03-04 *Clean up displays so text fits on an 80-column wide screen.
-##            *f_application_error add error message if installation fails.
-##            *f_show_menu start menu option numbering at 1 not zero.
-##            *f_show_menu add option 0, to quit.
-##            *Delete option 0, to quit in all f_sub-menus.
-##
-## 2013-03-03 *Created sub-menu, "Network Category" under Applications menu.
-##            *Added Network applications smbclient, smbstatus, testparm.
-##            *Add function f_press_enter_key_to_continue.
-##            *Add function f_menu_app_press_enter.
-##            *Add function f_menu_app_press_enter in application functions.
-##            *Delete statements "read x" in application functions.
-##            *f_application_error fix bad syntax [ $ERROR <> 0 ].
-##            *f_application_help fix bad syntax [ $ERROR <> 0 ].
-##            *f_application_help enhance and clarify error messages.
-##
-## 2013-02-26 *Added cbm, a system resource monitor, and smbc, file manager
-##             for Samba server shared folders.
-##            *f_menu_app_text_editors add text editors, ed, emacs, pico, vi.
-##            *f_menu_app_spreadsheets_editors add spreadsheets, oleo, slsc.
-##            *f_menu_app_calendar-todo add calendars, cal, remind.
-##            *f_menu_app_calendar-todo add To-Do list, devtodo.
-##
-## 2013-02-20 *Created sub-menu, "System Category" under Applications Menu.
-##            *Cleaned up menus, sorted items by function.
-##            *Add function f_menu_cat_sample_template.
-##
-## 2013-02-19 f_application_error, improve error message processing.
-##
-## 2013-02-18 Add more applications, clean up more code.
-##
-## 2013-02-17 Add case string pattern matching for all Internet applications.
-##
-## 2013-02-14 *Clean up listing for readability.
-##            *Create sub-menu, "Internet Category" under Applications Menu. 
-##            *Add Internet application menus for web browsers, bittorrent, 
-##             downloaders, email, FAX, file transfer, instant messaging,
-##             Internet relay chat, news readers, network chat, podcatchers,
-##             remote connection and RSS feeders.
-##            *Make all application menus into functions rather than using
-##             nested until loops.
-##            *Add functions f_menu_app_sample_template, f_initvars_menu_app,
-##             f_menu_app_internet.
-##            *Bug fix f_application_error by adding f_initvars_menu_app to
-##             prevent return to previous menu rather than return to the same
-##             menu where the error occurred.
-##
-## 2013-02-12 Create functions for each application menu to allow greater
-##            flexibility to re-arrange menu structure and allow the
-##            possibility of sub-menus.
-##
-## 2013-01-29 Create function f_termcolor to set terminal properties.
-##
-## 2013-01-28 Bug fix with option "exit" not working with CLI Menu and
-##            Application Category Menu.
-##
-## 2013-01-26 *Use grep to calculate the number of the last menu option.
-##            *Create functions show_menu, quit_app_menu, application_help to
-##             eliminate repeated code.
-##            *Create function f_application_error with an option to install
-##             a missing application.
-##            *f_application_help, add error trapping to trap lack of help 
-##             manual or help messages.
-##            *Add option to quit any menu by entering "exit".
-##
-## 2013-01-24 *Use sed/awk (not echo) to display menu and calculate $MAX.
-##            *This took several days to figure out but now I grok awk.
-##            *Add a HOW-TO Add new item under General Help.
-##
-## 2013-01-16 *Edit History, improve sed to display without leading "##" by
-##             using substitution of null for "##".
-##            *Application menus, finish adding help options.
-##            *System menu, delete application cmatrix.
-##            *System menu, add application top.
-##            *System menu, add application htop.
-##            *System menu, add application glances.
-##            *Network menu, add application iftop. 
-##            *Games menu, add applications cribbage, boggle.
-##            *Games menu, delete package name debian-jr-games.
-##
-## 2013-01-15 *Edit History, use sed to display text.
-##            *All menus, change prompt from "Choose 0 to $MAX or name" 
-##             to "Enter 0 to$MAX or letters".
-##            *Application menus, add help options to all applications
-##             accessible from the applications menus.
-##
-## 2013=01-14 CLI Menu, add Black/White screen options.
-##
-## 2013-01-08 Case pattern matching for strings is enabled for all menus.
-##
-## 2013-01-07 Figured out how to use pattern matching to match input string
-##            in case statements.
-##
-## 2013-01-02 *Put MAX variable inside current until loop to prevent inner
-##             loops from changing value on exit.
-##            *Do not clear screen before displaying each application menu so
-##             that you can see any error messages.
-##            *Add CLI Menu option 'About CLI Menu' and get menu options
-##             'Help' and 'Free disk space' working.
-##
-## 2013-01-01 *Change to using until loops because the while loops abnormally
-##             exit if read input is not an integer.
-##            *Use while loops rather than until loops since continuing to
-##             loop and exiting loop is simpler, since you do not need to set
-##             conditional variables to an invalid state to force looping.
-##
-## 2012-12-31 *Create menu driven CLI application launcher.
-##            *Case statements drove me crazy, learning pattern matching.
-##
+#
 # The "#:" at the beginning of lines below are used to delineate the Help Instructions.
 #:
 #: +----------------------------------------+
@@ -3522,7 +3359,7 @@ do    # Start of CLI Menu util loop.
            clear
            echo "To quit reading Edit History, type '"q"'."
            f_press_enter_key_to_continue
-           sed -n 's/^##//'p $THIS_FILE |more
+           sed -n 's/^##//'p EDIT_HISTORY |more
            f_press_enter_key_to_continue
            # display Edit History (all lines beginning with ## but substitute "" for "##" so "##" is not printed).
            CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
