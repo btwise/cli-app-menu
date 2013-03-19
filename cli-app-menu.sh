@@ -1,4 +1,6 @@
-#!/bin/bash File naming convention for archiving:
+#!/bin/bash 
+# 
+# File naming convention for archiving:
 # $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
 #
 # The double # at the beginning of lines below are used to delineate the Edit History.
@@ -14,7 +16,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-17-2013 22:06"
+REVDATE="March-18-2013 21:31"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify

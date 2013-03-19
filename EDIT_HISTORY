@@ -1,4 +1,6 @@
-#!/bin/bash File naming convention for archiving:
+#!/bin/bash
+#
+# File naming convention for archiving:
 # $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
 #
 # The double # at the beginning of lines below are used to delineate the Edit History.
@@ -29,6 +31,9 @@ REVDATE="March-17-2013 21:30"
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-03-18 Fix typo on first line #!bin/bash which had an appended comment.
+##            Thanks to D.J.J. Ringer.
 ##
 ## 2013-03-17 *f_how_to_quit_application add option to clear.
 ##            *f_menu_app_network_config add option to ping -c 10.
