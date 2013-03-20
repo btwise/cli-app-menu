@@ -16,7 +16,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-19-2013 22:14"
+REVDATE="March-19-2013 23:58"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ REVDATE="March-19-2013 22:14"
 ##
 ## 2013-03-19 *Main menu test if file EDIT_HISTORY exists and is readable.
 ##            *f_menu_app_audio add sox.
+##            *f_menu_app_text_editors add txt2html, txt2pdbdoc, txt2regex, txt2tags.
 ##
 ## 2013-03-18 Fix typo on first line #!bin/bash which had an appended comment.
 ##            Thanks to D.J.J. Ringer.

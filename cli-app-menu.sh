@@ -16,7 +16,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-19-2013 22:14"
+REVDATE="March-19-2013 23:58"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -1647,7 +1647,7 @@ f_menu_app_network_config () {
             #MNF ifconfig     - NIC configuration.
             #MNF ip route     - Shows routing.
             #MNF route        - Shows routing table.
-            #MNF ping         - Check LAN-WAN connectivity. ping ip-address.
+            #MNF ping         - Check LAN/WAN connectivity. Usage: ping <ip-address>.
             #MNF mtr          - Traceroute tool, has features of ping and traceroute.
             #MNF traceroute6  - Traceroute tool, trace network path to destination. 
             #MNF wicd-curses  - Wireless scan and connect to wired/wireless networks.
@@ -1870,22 +1870,26 @@ f_menu_app_text_editors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
       do    # Start of Text Editor Applications until loop.
-            #MTE beav      - Binary editor and viewer.
-            #MTE dav       - Text editor.
-            #MTE ed        - Classic CLI text editor.
-            #MTE emacs     - Full screen text editor with plugins.
-            #MTE joe       - Text editor. Ctrl-K H for help.
-            #MTE nano      - Simple full-screen text editor.
-            #MTE pico      - Simple full-screen text editor.
-            #MTE vi        - Classic full-screen text editor.
-            #MTE vim       - vi "Improved" text editor.
-            #MTE doconce   - Text markup language to transform text formats.
-            #MTE imediff2  - Interactive 2-way file merge.
-            #MTE txt2man   - Converts ASCII format to man format.
-            #MTE colordiff - Differences between two text files shown in color.
-            #MTE diff      - Differences between two text files shown using <> signs.
-            #MTE vimdiff   - Differences between two text files shown in color highlights.
-            #MTE wdiff     - Differences between two text files shown using +/- signs.
+            #MTE beav       - Binary editor and viewer.
+            #MTE dav        - Text editor.
+            #MTE ed         - Classic CLI text editor.
+            #MTE emacs      - Full screen text editor with plugins.
+            #MTE joe        - Text editor. Ctrl-K H for help.
+            #MTE nano       - Simple full-screen text editor.
+            #MTE pico       - Simple full-screen text editor.
+            #MTE vi         - Classic full-screen text editor.
+            #MTE vim        - vi "Improved" text editor.
+            #MTE doconce    - Text markup language to transform text formats.
+            #MTE imediff2   - Interactive 2-way file merge.
+            #MTE txt2html   - Converts plain ASCII text to html format.
+            #MTE txt2man    - Converts plain ASCII text to man format.
+            #MTE txt2pdbdoc - Converts plain ASCII text to pdb doc format for Palm Pilots.
+            #MTE txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+            #MTE txt2tags   - Converts plain ASCII text to a variety of formats.
+            #MTE colordiff  - Differences between two text files shown in color.
+            #MTE diff       - Differences between two text files shown using <> signs.
+            #MTE vimdiff    - Differences between two text files shown in color highlights.
+            #MTE wdiff      - Differences between two text files shown using +/- signs.
 
             #
             MENU_TITLE="Text Editor Applications Menu"
@@ -1947,23 +1951,39 @@ f_menu_app_text_editors () {
                  APP_NAME="imediff"
                  f_application_run
                  ;;
-                 12 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][M][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
+                 12 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 APP_NAME="txt2html"
+                 f_application_run
+                 ;;
+                 13 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
                  APP_NAME="txt2man"
                  f_application_run
                  ;;
-                 13 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
+                 14 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
+                 APP_NAME="txt2pdbdoc"
+                 f_application_run
+                 ;;
+                 15 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
+                 APP_NAME="txt2regex"
+                 f_application_run
+                 ;;
+                 16 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
+                 APP_NAME="txt2tags"
+                 f_application_run
+                 ;;
+                 17 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
-                 14 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
+                 18 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
                  APP_NAME="diff"
                  f_application_run
                  ;;
-                 15 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
+                 19 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
-                 16 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
+                 20 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
                  APP_NAME="wdiff"
                  ;;
             esac                # End of Text Editor Applications case statement.
@@ -3292,8 +3312,8 @@ do    # Start of CLI Menu util loop.
       #AAA Help           - How to get help on an application.
       #AAA Disk status    - Free disk space and mount-points.
       #AAA Documentation  - Script documentation, programmer notes, licensing.
-      #AAA Black          - '(Screen white on black)'.
-      #AAA White          - '(Screen black on white) Will not work in X-windows'.
+      #AAA Black          - Set display white on black.
+      #AAA White          - Set display black on white; will not work in X-windows.
       #AAA About CLI Menu - What version am I using.
       #AAA Edit History   - All the craziness behind the scenes.
       #AAA License        - Licensing, GPL.
