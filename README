@@ -1,3 +1,17 @@
+#!/bin/bash
+#
+# File naming convention for archiving:
+# $THIS_FILE_<YYYY-MM-DD_HHMM>
+#
+# Usage: sh README
+#
+clear
+echo "To quit reading README, type '"q"'."
+echo -n "Press '"Enter"' key to continue."
+read ANS
+echo
+sed -n 's/^#://'p README |more
+#
 # The "#:" at the beginning of lines below are used to delineate the Help Instructions.
 #:
 #: +----------------------------------------+

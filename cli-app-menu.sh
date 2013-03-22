@@ -16,9 +16,9 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 01:23"
+REVDATE="March-22-2013 11:03"
 #
-#LIC ©2013 Copyright 2013 Bob Chin
+#LIC ©2013 Copyright 4013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
 #LIC the Free Software Foundation, either version 3 of the License, or
@@ -205,14 +205,16 @@ REVDATE="March-22-2013 01:23"
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
 # MSC - System Screen Applications Menu
+#:MSI - System Information Applications Menu
+#:MSM - System Monitor Applications Menu
 #:MSP - Spreadsheet Applications Menu
 #:MSS - Screen-saver Applications Menu
 #:MLO - System Log Applications Menu
 #:MSO - System Other Applications Menu
 #:MTE - Text Editor Applications Menu
+#:MTT - Text Tool Applications Menu
 #:MWB - Web Browser Applications Menu
 #:MXX - Sample Template Applications Menu
-#:MSM - System Monitor Applications Menu
 #
 #
 #@ +----------------------------------------+
@@ -360,7 +362,7 @@ f_quit_subcat_menu () {
 f_how_to_quit_application () { # $1 typed key to quit. $2 string "no-clear" if screen should not be cleared.
       if [ -z $2 ] ; then
       # if [ $2 != "no-clear" ] ; then
-         clear
+         clear # Blank the screen.
       fi
       echo
       echo "To quit $APP_NAME, type $1."
@@ -393,7 +395,7 @@ f_term_color () { # Set terminal display properties.
 #
 f_press_enter_key_to_continue () { # Display message and wait for user input.
       echo
-      echo "Press '"Enter"' key to continue."
+      echo -n "Press '"Enter"' key to continue."
       read ANS
 } # End of function f_press_enter_key_to_continue
 #
@@ -739,7 +741,8 @@ f_menu_cat_applications () {
             #AAB Internet        - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
             #AAB Network         - Wireless connection, network monitoring, tools.
             #AAB File Managers   - Copy, move, rename, delete files/folders on localhost.
-            #AAB Text Editors    - Create/Edit and compare text files.
+            #AAB Text Editors    - Create/Edit text files.
+            #AAB Text Tools      - Text file format converters and compare text files
             #AAB System          - Monitor system processes, resources, utilities, etc.
             #AAB Calendar-ToDo   - Personal organization.
             #AAB Calculator      - Simple "pocket" calculators.
@@ -788,43 +791,47 @@ f_menu_cat_applications () {
                  f_menu_app_text_editors     # Text Editor Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 5 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
+                 5 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Tt] | [Tt][Ee][Xx][Tt]' '[Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll][Ss])
+                 f_menu_app_text_tools
+                 CHOICE_CAT=-2
+                 ;;
+                 6 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
                  f_menu_cat_system_applications     # System Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 6 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
+                 7 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
                  f_menu_app_calendar_todo     # Calendar-ToDo Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 7 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
+                 8 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
                  f_menu_app_calculators     # Calculator Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 8 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
+                 9 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
                  f_menu_app_spreadsheets     # Spreadsheet Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 9 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
+                 10 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
                  f_menu_app_note_applications     # Note Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 10 | [Aa] | [Aa][Uu] | [Aa][Uu][Dd] | [Aa][Uu][Dd][Ii] | [Aa][Uu][Dd][Ii][Oo])
+                 11 | [Aa] | [Aa][Uu] | [Aa][Uu][Dd] | [Aa][Uu][Dd][Ii] | [Aa][Uu][Dd][Ii][Oo])
                  f_menu_app_audio_applications     # Audio Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 11 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee][Rr])
+                 12 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee][Rr])
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
                  CHOICE_CAT=-2
                  ;;
-                 12 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss][-] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc][Ss])
+                 13 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss][-] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc][Ss])
                  f_menu_app_image_graphics_applications     # Image-Graphics Applications Menu.
                  CHOICE_CAT=-1
                  ;;
-                 13 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
+                 14 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
                  f_menu_app_education_applications     # Education Applications Menu.
                  CHOICE_CAT=-1
                  ;;
-                 14 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
+                 15 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
                  f_menu_cat_games
                  CHOICE_CAT=-1
                  ;;
@@ -1091,32 +1098,53 @@ f_menu_app_downloaders () {
                  f_application_run
                  ;;
                  2 | [Mm][ | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Ss] | [Mm][Dd][5][Ss][Uu] | [Mm][Dd][5][Ss][Uu][Mm])
-                 APP_NAME="md5sum --help"
-                 clear
-                 echo "Display md5 checksum. Usage: md5sum [OPTION] [FILE]"
-                 echo "md5sum --help"
+                 APP_NAME="man md5sum"
+                 clear # Blank the screen.
+                 echo "Display md5 checksum."
+                 echo
+                 echo "Usage: md5sum [OPTION] [FILE]"
+                 echo
+                 echo "For more help type: md5sum --hep"
+                 echo "Now show help. Usage: man md5sum"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  3 | [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp] | [Mm][Dd][5][Pp][Aa] | [Mm][Dd][5][Pp][Aa][Ss] | [Mm][Dd][5][Pp][Aa][Ss][Ss])
                  APP_NAME="md5pass"
-                 clear
+                 clear # Blank the screen.
                  echo "Create a password hash. Usage: md5pass [PASSWORD][SALT]"
+                 echo
+                 echo "Usage: md5pass [PASSWORD] [SALT]"
+                 echo
+                 echo "For more help type: man md5pass"
+                 echo
+                 echo "md5pass without any SALT value causes a random salt value to be generated."
+                 echo "Now run md5pass. Usage: 'md5pass'."
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss] | [Ss][Hh][Aa][1][Ss][Uu] | [Ss][Hh][Aa][1][Ss][Uu][Mm])
-                 APP_NAME="sha1sum --help"
-                 clear
-                 echo "Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]"
-                 echo "sha1sum --help"
+                 APP_NAME="man sha1sum"
+                 clear # Blank the screen.
+                 echo "Display sha1 checksum."
+                 echo
+                 echo "Usage: sha1sum [OPTION] [FILE]"
+                 echo
+                 echo "For more help type: sha1sum --help"
+                 echo "Now show help. Usage: man sha1sum"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
                  APP_NAME="sha1pass"
-                 clear
+                 clear # Blank the screen.
                  echo "Create a password hash. Usage: sha1pass [PASSWORD][SALT]"
+                 echo
+                 echo "Usage: sha1pass [PASSWORD] [SALT]"
+                 echo "For more help type: man sha1pass"
+                 echo
+                 echo "sha1pass without any SALT value causes a random salt value to be generated."
+                 echo "Now run sha1pass. Usage: 'sha1pass'."
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -1754,17 +1782,19 @@ f_menu_app_network_config () {
             case $CHOICE_APP in # Start of Network Configuration Applications case statement.
                  1 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa] | [Ii][Pp][Tt][Aa][Bb] | [Ii][Pp][Tt][Aa][Bb][Ll] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
                  APP_NAME="iptables --list"
-                 clear
+                 clear # Blank the screen.
                  echo "List iptables of this PC (localhost) as an example."
-                 echo "Usage: iptables --list"
+                 echo
+                 echo "Now run iptables. Usage: iptables --list"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  2 | [Uu] | [Uu][Ff] | [Uu][Ff][Ww])
                  APP_NAME="ufw status verbose"
-                 clear
+                 clear # Blank the screen.
                  echo "Display ufw firewall status of this PC (localhost) as an example."
-                 echo "Usage: ufw status verbose"
+                 echo
+                 echo "Now run ufw. Usage: ufw status verbose"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -1782,9 +1812,10 @@ f_menu_app_network_config () {
                  ;;
                  6 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
                  APP_NAME="ping localhost -c 5"
-                 clear
+                 clear # Blank the screen.
                  echo "Pinging this PC (localhost) for five times as an example."
-                 echo "Usage: ping localhost -c 5"
+                 echo
+                 echo "Now run ping. Usage: ping localhost -c 5"
                  echo "Many web sites block pings resulting in a message: '100% package loss'."
                  f_application_run
                  ;;
@@ -1794,9 +1825,10 @@ f_menu_app_network_config () {
                  ;;
                  8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee][6])
                  APP_NAME="traceroute6 localhost"
-                 clear
+                 clear # Blank the screen.
                  echo "traceroute6 of this PC (localhost) as an example."
-                 echo "Usage: traceroute6 localhost"
+                 echo
+                 echo "Now run traceroute6. Usage: traceroute6 localhost"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -1809,10 +1841,13 @@ f_menu_app_network_config () {
                  f_application_run
                  ;;
                  11 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
-                 APP_NAME="smbc --help"
-                 clear
+                 APP_NAME="man smbc"
+                 clear # Blank the screen.
                  echo "Display help for smbc (Samba Commander)."
-                 echo "Usage on networks with Microsoft Windows PCs."
+                 echo
+                 echo "Use on networks with Microsoft Windows PCs."
+                 echo
+                 echo "Now show help. Usage: man smbc"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -1988,18 +2023,6 @@ f_menu_app_text_editors () {
             #MTE pico       - Simple full-screen text editor.
             #MTE vi         - Classic full-screen text editor.
             #MTE vim        - vi "Improved" text editor.
-            #MTE doconce    - Text markup language to transform text formats.
-            #MTE imediff2   - Interactive 2-way file merge.
-            #MTE txt2html   - Converts plain ASCII text to html format.
-            #MTE txt2man    - Converts plain ASCII text to man format.
-            #MTE txt2pdbdoc - Converts plain ASCII text to pdb doc format for Palm Pilots.
-            #MTE txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
-            #MTE txt2tags   - Converts plain ASCII text to a variety of formats.
-            #MTE colordiff  - Differences between two text files shown in color.
-            #MTE diff       - Differences between two text files shown using <> signs.
-            #MTE vimdiff    - Differences between two text files shown in color highlights.
-            #MTE wdiff      - Differences between two text files shown using +/- signs.
-
             #
             MENU_TITLE="Text Editor Applications Menu"
             DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
@@ -2052,47 +2075,134 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
-                 10 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Oo] | [Dd][Oo][Cc][Oo][Nn] | [Dd][Oo][Cc][Oo][Nn][Cc] | [Dd][Oo][Cc][Oo][Nn][Cc][Ee])
+            esac                # End of Text Editor Applications case statement.
+            #
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+      done # End of Text Editor Applications until loop.
+} # End of f_menu_app_text_editors
+#
+# +----------------------------------------+
+# |     Function f_menu_app_text_tools     |
+# +----------------------------------------+
+#
+f_menu_app_text_tools () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Tool Applications until loop.
+            #MTT doconce    - Text markup language to transform text formats.
+            #MTT imediff2   - Interactive 2-way file merge.
+            #MTT txt2html   - Converts plain ASCII text to html format.
+            #MTT txt2man    - Converts plain ASCII text to man format.
+            #MTT txt2pdbdoc - Converts plain ASCII text to pdb doc format for Palm Pilots.
+            #MTT txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+            #MTT txt2tags   - Converts plain ASCII text to a variety of formats.
+            #MTT colordiff  - Differences between two text files shown in color.
+            #MTT diff       - Differences between two text files shown using <> signs.
+            #MTT vimdiff    - Differences between two text files shown in color highlights.
+            #MTT wdiff      - Differences between two text files shown using +/- signs.
+            #
+            MENU_TITLE="Text Tool Applications Menu"
+            DELIMITER="#MTT" #MTT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Editor Applications case statement.
+                 1 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Oo] | [Dd][Oo][Cc][Oo][Nn] | [Dd][Oo][Cc][Oo][Nn][Cc] | [Dd][Oo][Cc][Oo][Nn][Cc][Ee])
                  APP_NAME="doconce"
                  f_application_run
                  ;;
-                 11 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
+                 2 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
                  APP_NAME="imediff"
                  f_application_run
                  ;;
-                 12 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
-                 APP_NAME="txt2html"
+                 3 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 APP_NAME="man txt2html"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to html." 
+                 echo
+                 echo "Usage: txt2html [ --append_file filename ] [ --append_head filename ]"
+                 echo "       [ --body_deco string ] [ --bold_delimiter string ] [ --bullets string ]"
+                 echo "       [ --bullets_ordered string ] [ --caps_tag tag ]"
+                 echo
+                 echo "For more help type: txt2html --help"
+                 echo "Now show help. Usage: man txt2html"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 13 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
-                 APP_NAME="txt2man"
+                 4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
+                 APP_NAME="man txt2man"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to man pages." 
+                 echo
+                 echo "Usage: txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
+                 echo "       [-I txt] [-B txt] [-d date] [ifile]"
+                 echo
+                 echo "For more help type: txt2man --help"
+                 echo "Now show help. Usage: man txt2man"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 14 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
-                 APP_NAME="txt2pdbdoc"
+                 5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
+                 APP_NAME="man txt2pdbdoc"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
+                 echo "for PalmPilots and DocReaders."
+                 echo
+                 echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
+                 echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
+                 echo "       txt2pdbdoc -V"
+                 echo
+                 echo "For more help type: txt2pdbdoc --help"
+                 echo "Now show help. Usage: man txt2pdbdoc"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 15 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
-                 APP_NAME="txt2regex"
+                 6 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
+                 APP_NAME="man txt2regex"
+                 clear # Blank the screen.
+                 echo "Convert human sentences to regex." 
+                 echo
+                 echo "Usage: txt2regex --all|--prog <p1,p2,...,pN>"
+                 echo
+                 echo "For more help type: txt2regex --help"
+                 echo "Now show help. Usage: man txt2regex"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 16 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
-                 APP_NAME="txt2tags"
+                 7 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
+                 APP_NAME="man txt2tags"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
+                 echo "Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page, MoinMoin, PageMaker,"
+                 echo "Plain Text, PmWiki, SGML, Wikipedia and XHTML."
+                 echo 
+                 echo "Usage: txt2tags [options] [FILE...]"
+                 echo
+                 echo "For more help type: txt2tags --help"
+                 echo "Now show help. Usage: man txt2tags"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 17 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
+                 8 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
-                 18 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
+                 9 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
                  APP_NAME="diff"
                  f_application_run
                  ;;
-                 19 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
+                 10 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
-                 20 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
+                 11 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
                  APP_NAME="wdiff"
                  f_application_run
                  ;;
@@ -2100,8 +2210,8 @@ f_menu_app_text_editors () {
             #
             f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
-      done # End of Text Editor Applications until loop.
-} # End of f_menu_app_text_editors
+      done # End of Text Tool Applications until loop.
+} # End of f_menu_app_text_tools
 #
 # +----------------------------------------+
 # | Function f_menu_cat_system_applications|
@@ -2111,10 +2221,11 @@ f_menu_cat_system_applications () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of System Category until loop.
-            #BSY Logs     - System Log file viewers.
-            #BSY Monitors - System processes, resources, and disk I/O monitors.
-            #BSY Other    - Screen capture, file compression, DOS Emulators.
-            #BSY Screens  - Multiple screen sessions.
+            #BSY Logs        - System Log file viewers.
+            #BSY Monitors    - System processes, resources, and disk I/O monitors.
+            #BSY Information - System information on disks, mainboard, etc.
+            #BSY Other       - Screen capture, file compression, DOS Emulators.
+            #BSY Screens     - Multiple screen sessions.
             #
             MENU_TITLE="System Category Menu"
             DELIMITER="#BSY" #BSY This 3rd field prevents awk from printing this line into menu options. 
@@ -2134,10 +2245,13 @@ f_menu_cat_system_applications () {
                  2 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
                  f_menu_app_sys_monitors
                  ;;
-                 3 | [Oo] | [Oo][Tt] | [Oo][Tt][Hh] | [Oo][Tt][Hh][Ee] | [Oo][Tt][Hh][Ee][Rr]) 
+                 3 | [Ii] | [Ii][Nn] | [Ii][Nn][Ff] | [Ii][Nn][Ff][Oo] | [Ii][Nn][Ff][Oo][Rr] | [Ii][Nn][Ff][Oo][Rr][Mm] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo][Nn)
+                 f_menu_app_sys_information
+                 ;;
+                 4 | [Oo] | [Oo][Tt] | [Oo][Tt][Hh] | [Oo][Tt][Hh][Ee] | [Oo][Tt][Hh][Ee][Rr]) 
                  f_menu_app_sys_other
                  ;;
-                 4 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
+                 5 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
                  f_menu_app_sys_screens
                  ;;
             esac                # End of System Category case statement.
@@ -2160,20 +2274,8 @@ f_menu_app_sys_monitors () {
             #MSM top         - System process and resource manager.
             #MSM dstat       - View system resources.
             #MSM iotop       - Disk i/o process monitor.
-            #MSM ncdu        - Disk usage monitor, ncurses-based.
-            #MSM uuid        - Use ls -l to show disk uuid number.
-            #MSM cfdisk      - Disk partition tool.
-            #MSM parted      - Disk partition tool.
             #MSM saidar      - Monitor system processes, network I/O, disks I/O, free space.
             #MSM yacpi       - ACPI monitor, ncurses-based.
-            #MSM dmidecode   - Display Main board information.
-            #MSM hdparm      - Display hard disk drive information.
-            #MSM lsb_release - Display Linux distro and LSB (Linux Standard Base).
-            #MSM uname       - Display linux kernel information.
-            #MSM lsmod       - Display linux kernel module information.
-            #MSM printenv    - Display environmental variables.
-            #MSM lsusb       - Display USB devices.
-            #MSM lsof        - Display information about open files.
             #
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
@@ -2213,9 +2315,9 @@ f_menu_app_sys_monitors () {
                  ;;
                  5 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
-                 clear
+                 clear # Blank the screen.
                  echo "dstat this PC (localhost) for ten times as an example."
-                 echo "Usage: dstat 1 10"
+                 echo "Now run dstat. Usage: dstat 1 10"
                  f_press_enter_key_to_continue
                  f_application_run
                  CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
@@ -2226,83 +2328,124 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
-                 7 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
-                 APP_NAME="ncdu"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                 ;;
-                 8 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
-                 clear
-                 echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
-                 APP_NAME="ls -l /dev/disk/by-uuid"
-                 f_application_run             
-                 ;;
-                 9 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
-                 APP_NAME="cfdisk"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                 ;;
-                 10 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
-                 APP_NAME="parted"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                 ;;
-                 11 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
+                 7 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
                  CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
-                 12 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
+                 8 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
                  CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
-                 13 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
-                 APP_NAME="dmidecode"
-                 f_application_run
-                 ;;
-                 14 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
-                 APP_NAME="hdparm -I /dev/sda"
-                 clear
-                 echo "Find information about the first hard disk drive: /dev/sda"
-                 echo "Usage: 'hdparm -I /dev/sda'"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 15 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
-                 APP_NAME="lsb_release -a"
-                 f_application_run
-                 ;;
-                 16 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
-                 APP_NAME="uname -a"
-                 f_application_run
-                 ;;
-                 17 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
-                 APP_NAME="lsmod "
-                 f_application_run
-                 ;;
-                 18 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
-                 APP_NAME="printenv"
-                 f_application_run
-                 ;;
-                 19 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
-                 APP_NAME="lsusb"
-                 f_application_run
-                 ;;
-                 20 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
-                 APP_NAME="lsof"
-                 f_application_run
             esac                # End of System Monitors case statement.
             #
             f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of System Monitors until loop.
 } # End of f_menu_app_sys_monitors
+#
+#
+# +----------------------------------------+
+# |   Function f_menu_app_sys_information  |
+# +----------------------------------------+
+#
+f_menu_app_sys_information () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of System Information until loop.
+            #MSI ncdu        - Disk usage monitor, ncurses-based.
+            #MSI uuid        - Use ls -l to show disk uuid number.
+            #MSI cfdisk      - Disk partition tool.
+            #MSI parted      - Disk partition tool.
+            #MSI dmidecode   - Display Main board information.
+            #MSI hdparm      - Display hard disk drive information.
+            #MSI lsb_release - Display Linux distro and LSB (Linux Standard Base).
+            #MSI uname       - Display linux kernel information.
+            #MSI lsmod       - Display linux kernel module information.
+            #MSI printenv    - Display environmental variables.
+            #MSI lsusb       - Display USB devices.
+            #MSI lsof        - Display information about open files.
+            #
+            MENU_TITLE="System Information Menu"
+            DELIMITER="#MSI" #MSI This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of System Information case statement.
+                 1 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
+                 APP_NAME="ncdu"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 ;;
+                 2 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
+                 clear # Blank the screen.
+                 echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
+                 APP_NAME="ls -l /dev/disk/by-uuid"
+                 f_application_run             
+                 ;;
+                 3 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
+                 APP_NAME="cfdisk"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 ;;
+                 4 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
+                 APP_NAME="parted"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 ;;
+                 5 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 APP_NAME="dmidecode"
+                 f_application_run
+                 ;;
+                 6 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
+                 APP_NAME="hdparm -I /dev/sda"
+                 clear # Blank the screen.
+                 echo "Find information about the first hard disk drive: /dev/sda"
+                 echo "Now run hdparm. Usage: 'hdparm -I /dev/sda'"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 7 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
+                 APP_NAME="lsb_release -a"
+                 f_application_run
+                 ;;
+                 8 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
+                 APP_NAME="uname -a"
+                 f_application_run
+                 ;;
+                 9 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
+                 APP_NAME="lsmod "
+                 f_application_run
+                 ;;
+                 10 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 APP_NAME="printenv"
+                 f_application_run
+                 ;;
+                 11 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
+                 APP_NAME="lsusb"
+                 f_application_run
+                 ;;
+                 12 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
+                 APP_NAME="lsof"
+                 f_application_run
+            esac                # End of System Information case statement.
+            #
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+      done # End of System Information until loop.
+} # End of f_menu_app_sys_information
 #
 # +----------------------------------------+
 # |      Function f_menu_app_sys_logs      |
@@ -2814,7 +2957,7 @@ f_menu_app_image_graphics_applications () {
                  ANS=-1 # Initialize $ANS for until loop.
                  until [ $ANS -ge 1 -a $ANS -le 26 ]
                  do
-                       clear
+                       clear # Blank the screen.
                        APP_NAME="linuxlogo -L list"
                        f_application_run
                        echo -n "Enter number (1-26): "
@@ -3385,7 +3528,7 @@ f_menu_app_games_strategy () {
                  ;;
                  4 | [Ww] | [Ww][Aa] | [Ww][Aa][Rr] | [Ww][Aa][Rr][Gg] | [Ww][Aa][Rr][Gg][Aa] | [Ww][Aa][Rr][Gg][Aa][Mm] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee][Ss])
                  APP_NAME="wargames"
-                 clear
+                 clear # Blank the screen.
                  echo
                  echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
                  echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
@@ -3505,7 +3648,7 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
            2 | [Hh] | [Hh][Ee] | [Hh][Ee][Ll] | [Hh][Ee][Ll][Pp])
-           clear
+           clear # Blank the screen.
            # echo "To quit help, type '"q"'."
            # f_press_enter_key_to_continue
            sed -n 's/^#@//'p $THIS_FILE |more
@@ -3513,12 +3656,12 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Display "Press enter key to continue."
            ;;
            3 | [Dd] | [Dd][Ii] | [Dd][Ii][Ss] | [Dd][Ii][Ss][Kk] | [Dd][Ii][Ss][Kk]' ' | [Dd][Ii][Ss][Kk]' '[Ss] | [Dd][Ii][Ss][Kk]' '[Ss][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu][Ss])
-           clear
+           clear # Blank the screen.
            df -hT
            CHOICE_MAIN=-1 # Display "Press enter key to continue."
            ;;
            4 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
-           clear
+           clear # Blank the screen.
            echo "To quit documentation, type '"q"'."
            f_press_enter_key_to_continue
            sed -n 's/^#://'p $THIS_FILE |more 
@@ -3536,14 +3679,14 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;  
            7 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
-           clear
+           clear # Blank the screen.
            echo "CLI Menu version: $REVISION"
            echo "       Edited on: $REVDATE"
            echo "Bash script name: $THIS_FILE"
            CHOICE_MAIN=-1 # Display "Press enter key to continue."
            ;;
            8 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
-           clear
+           clear # Blank the screen.
            echo "To quit reading Edit History, type '"q"'."
            f_press_enter_key_to_continue
                 if [ -r EDIT_HISTORY ] ; then
@@ -3557,7 +3700,7 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
            9 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
-           clear
+           clear # Blank the screen.
            # display License (all lines beginning with #LIC but substitute "" for "#LIC" so "#LIC" is not printed).
            sed -n 's/^#LIC//'p $THIS_FILE |more
            echo
