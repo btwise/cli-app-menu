@@ -16,7 +16,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 01:01"
+REVDATE="March-22-2013 01:23"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -32,12 +32,16 @@ REVDATE="March-22-2013 01:01"
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-03-22 *f_subcat_bad_menu_choice added.
+##            *f_applications_bad_menu_choice added.
+##
 ## 2013-03-21 *Fix in all menus different response to f_menu_app_press_enter_key
 ##             When CHOICE_* is alpha versus numeric. Force to be numeric before
 ##             calling f_menu_app_press_enter_key since it uses numeric tests.
 ##             Before, an alpha CHOICE_* would ignore f_menu_app_press_enter_key.
 ##             Clean up lots of extraneous messages "Press enter key to continue."
-##             *iftop allow user to choose network interface to monitor.
+##            *f_menu_app_network_monitor iftop allow user to choose network
+##             interface to monitor.
 ##
 ## 2013-03-19 *Main menu test if file EDIT_HISTORY exists and is readable.
 ##            *f_menu_app_audio add sox.

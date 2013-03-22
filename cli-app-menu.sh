@@ -16,7 +16,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 01:01"
+REVDATE="March-22-2013 01:23"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -490,6 +490,46 @@ ERROR=$? # Save error flag condition.
 } # End of function f_application_run
 #
 # +----------------------------------------+
+# | Function f_application_bad_menu_choice |
+# +----------------------------------------+
+#
+# Inputs: DELIMITER, APP_NAME, WEB_SITE.
+#
+f_application_bad_menu_choice () {
+case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+     [A-Za-z]*)
+     CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                   # specifically for alpha nonsense responses.
+                   # Note for legitimate responses, when entering an app function, the
+                   # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+     ;;
+esac
+if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+   CHOICE_APP=-2   # No display "Press enter key" if out-of-bounds numeric response.
+fi
+} # End of function f_application_bad_menu_choice
+#
+# +----------------------------------------+
+# |    Function f_subcat_bad_menu_choice   |
+# +----------------------------------------+
+#
+# Inputs: DELIMITER, APP_NAME, WEB_SITE.
+#
+f_subcat_bad_menu_choice () {
+case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
+     [A-Za-z]*)
+     CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
+                   # specifically for alpha nonsense responses.
+                   # Note for legitimate responses, when entering an app function, the
+                   # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+     ;;
+esac
+if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
+   CHOICE_SCAT=-2   # No display "Press enter key" if out-of-bounds numeric response.
+fi
+} # End of function f_subcat_bad_menu_choice
+#
+# +----------------------------------------+
 # |       Function f_application_error     |
 # +----------------------------------------+
 #
@@ -641,17 +681,7 @@ f_menu_cat_sample_template () {
                  ;;
             esac                # End of Application Category case statement.
             #
-            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering sub-menu function, the
-                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
-               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_subcat_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
       done  # End of Application Category until loop.
 } # End of function f_menu_cat_sample_template
 #
@@ -691,19 +721,9 @@ f_menu_app_sample_template () {
                  ;;
             esac                # End of <Sample Template> Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
-      done  # End of <Sample Template> Applications until loop.
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
+      done  # End of <Sample Template> Applications until loop.
 } # End of function f_menu_app_sample_template
 #
 # **************************************
@@ -914,17 +934,7 @@ f_menu_cat_internet () {
                  ;;
             esac                # End of Internet Category case statement.
             #
-            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_SCAT=-2 # Force stay in until loop.
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering sub-menu function, the
-                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
-               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_subcat_bad_menu_choice
       done  # End of Internet Category until loop.
 } # End of function f_menu_cat_internet
 #
@@ -981,17 +991,7 @@ f_menu_app_web_browsers () {
                  ;;
             esac                # End of Web Browsers Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Web Browsers Applications until loop.
 } # End of function f_menu_app_web_browsers
@@ -1055,17 +1055,7 @@ f_menu_app_bittorrent () {
                  ;;
             esac                # End of Bittorrent Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Bittorrent Applications until loop.
 } # End of function f_menu_app_bittorrent
@@ -1105,14 +1095,14 @@ f_menu_app_downloaders () {
                  clear
                  echo "Display md5 checksum. Usage: md5sum [OPTION] [FILE]"
                  echo "md5sum --help"
-                 f_press_enter_to_continue
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  3 | [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp] | [Mm][Dd][5][Pp][Aa] | [Mm][Dd][5][Pp][Aa][Ss] | [Mm][Dd][5][Pp][Aa][Ss][Ss])
                  APP_NAME="md5pass"
                  clear
                  echo "Create a password hash. Usage: md5pass [PASSWORD][SALT]"
-                 f_press_enter_to_continue
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss] | [Ss][Hh][Aa][1][Ss][Uu] | [Ss][Hh][Aa][1][Ss][Uu][Mm])
@@ -1120,29 +1110,19 @@ f_menu_app_downloaders () {
                  clear
                  echo "Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]"
                  echo "sha1sum --help"
-                 f_press_enter_to_continue
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
                  APP_NAME="sha1pass"
                  clear
                  echo "Create a password hash. Usage: sha1pass [PASSWORD][SALT]"
-                 f_press_enter_to_continue
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
             esac                # End of Downloader Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Downloaders Applications until loop.
 } # End of function f_menu_app_downloaders
@@ -1210,17 +1190,7 @@ f_menu_app_email () {
                  ;;
             esac                # End of E-mail Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of E-mail Applications until loop.
 } # End of function f_menu_app_email
@@ -1258,17 +1228,7 @@ f_menu_app_fax () {
                  ;;
             esac                # End of FAX Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of FAX Applications until loop.
 } # End of function f_menu_app_fax
@@ -1331,17 +1291,7 @@ f_menu_app_file_transfer () {
                  ;;
             esac                # End of File Transfer Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of File Transfer Applications until loop.
 } # End of function f_menu_app_file_transfer
@@ -1399,17 +1349,7 @@ f_menu_app_instant_messaging () {
                  ;;
             esac                # End of Instant Messaging Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Instant Messaging Applications until loop.
 } # End of function f_menu_app_instant_messaging
@@ -1467,17 +1407,7 @@ f_menu_app_irc_clients () {
                  ;;
             esac                # End of IRC Clients Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of IRC Clients Applications until loop.
 } # End of function f_menu_app_irc_clients
@@ -1535,17 +1465,7 @@ f_menu_app_news_readers () {
                  ;;
             esac                # End of News Reader Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of News Reader Applications until loop.
 } # End of function f_menu_app_news_readers
@@ -1583,17 +1503,7 @@ f_menu_app_network_chat () {
                  ;;
             esac                # End of Network Chat Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Network Chat Applications until loop.
 } # End of function f_menu_app_network_chat
@@ -1651,17 +1561,7 @@ f_menu_app_podcatchers () {
                  ;;
             esac                # End of Podcatcher Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Podcatcher Applications until loop.
 } # End of function f_menu_app_podcatchers
@@ -1709,17 +1609,7 @@ f_menu_app_remote_connection () {
                  ;;
             esac                # End of Remote Connection Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Remote Connection Applications until loop.
 } # End of function f_menu_app_remote_connection
@@ -1787,17 +1677,7 @@ f_menu_app_rssfeeders () {
                  ;;
             esac                # End of RSS Feeder Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of RSS Feeder Applications until loop.
 } # End of function f_menu_app_rssfeeders
@@ -1833,17 +1713,7 @@ f_menu_cat_network () {
                  ;;
             esac                # End of Network Application Category case statement.
             #
-            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
-               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_subcat_bad_menu_choice
       done  # End of Network Application Category until loop.
 } # End of function f_menu_cat_network
 #
@@ -1960,17 +1830,7 @@ f_menu_app_network_config () {
                  ;;
             esac                # End of Network Configuration Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Network Configuration Applications until loop.
 } # End of function f_menu_app_network_config
@@ -2033,17 +1893,7 @@ f_menu_app_network_monitors () {
                  ;;
             esac                # End of Network Monitor Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Network Monitor Applications until loop.
 } # End of function f_menu_app_network_monitors
@@ -2116,17 +1966,7 @@ f_menu_app_file_managers () {
                  ;;
             esac               # End of File Manager Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of File Manager Applications until loop.
 } # End of f_menu_app_file_managers
@@ -2258,17 +2098,7 @@ f_menu_app_text_editors () {
                  ;;
             esac                # End of Text Editor Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Text Editor Applications until loop.
 } # End of f_menu_app_text_editors
@@ -2312,17 +2142,7 @@ f_menu_cat_system_applications () {
                  ;;
             esac                # End of System Category case statement.
             #
-            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering sub-menu function, the
-                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
-               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_subcat_bad_menu_choice
       done  # End of System Category until loop.
 } # End of function f_menu_cat_system_applications
 #
@@ -2479,17 +2299,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
             esac                # End of System Monitors case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of System Monitors until loop.
 } # End of f_menu_app_sys_monitors
@@ -2522,17 +2332,7 @@ f_menu_app_sys_logs () {
                  ;;
             esac                # End of System Logs case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of System Logs until loop.
 } # End of f_menu_app_sys_logs
@@ -2575,17 +2375,7 @@ f_menu_app_sys_screens () {
                  ;;
             esac                # End of System Screens case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of System Screens until loop.
 } # End of f_menu_app_sys_screens
@@ -2628,17 +2418,7 @@ f_menu_app_sys_other () {
                  ;;
             esac                # End of Other System Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Other System Applications until loop.
 } # End of f_menu_app_sys_other
@@ -2711,17 +2491,7 @@ f_menu_app_calendar_todo () {
                  ;;
             esac                # End of Calendar-ToDo Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Calendar-ToDo Applications until loop.
 } # End of f_menu_app_calendar_todo
@@ -2766,17 +2536,7 @@ f_menu_app_calculators () {
                  ;;
             esac                # End of Calculator Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Calculator Applications until loop.
 } # End of f_menu_app_calculators
@@ -2819,17 +2579,7 @@ f_menu_app_spreadsheets () {
                  ;;
             esac                # End of Spreadsheet Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Spreadsheet Applications until loop.} # End of menu_app_spreadsheets
 } # End of f_menu_app_spreadsheets
@@ -2862,17 +2612,7 @@ f_menu_app_note_applications () {
                  ;;
             esac                # End of Note Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Note Applications until loop.
 } # End of f_menu_note_applications
@@ -2974,17 +2714,7 @@ f_menu_app_audio_applications () {
                  ;;
             esac                # End of Audio Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Audio Applications until loop.
 } # End of f_menu_app_audio_applications
@@ -3032,17 +2762,7 @@ f_menu_app_screen_savers () {
                  ;;
             esac                # End of Screen-saver Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Screen-saver Applications until loop.
 } # End of f_menu_app_screen_savers
@@ -3106,17 +2826,7 @@ f_menu_app_image_graphics_applications () {
                  ;;
             esac                # End of Image-Graphics Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Image-Graphics Applications until loop.
 } # End of f_menu_app_image_graphics_applications
@@ -3170,17 +2880,7 @@ f_menu_app_education_applications () {
                  ;;
             esac                # End of Education Applications case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Education Applications until loop.
 } # End of f_menu_app_education_applications
@@ -3248,17 +2948,7 @@ f_menu_cat_games () {
                  ;;
             esac                # End of Game Category case statement.
             #
-            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering sub-menu function, the
-                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
-               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_subcat_bad_menu_choice
       done  # End of Game Category until loop.
 } # End of function f_menu_cat_games
 #
@@ -3319,17 +3009,7 @@ f_menu_app_games_arcade () {
                  ;;
             esac # End of Arcade Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Arcade Games until loop.
 } # End of f_menu_app_games_arcade
@@ -3371,17 +3051,7 @@ f_menu_app_games_board () {
                  ;;
             esac # End of Board Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Board Games until loop.
 } # End of f_menu_app_games_board
@@ -3423,17 +3093,7 @@ f_menu_app_games_card () {
                  ;;
             esac # End of Card Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Card Games until loop.
 } # End of f_menu_app_games_card
@@ -3470,17 +3130,7 @@ f_menu_app_games_mud () {
                  ;;
             esac # End of MUD Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of MUD Games until loop.
 } # End of f_menu_app_games_mud
@@ -3537,17 +3187,7 @@ f_menu_app_games_puzzle () {
                  ;;
             esac # End of Puzzle Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Puzzle Games until loop.
 } # End of f_menu_app_games_puzzle
@@ -3596,17 +3236,7 @@ f_menu_app_games_quiz () {
                  ;;
             esac # End of Quiz Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Quiz Games until loop.
 } # End of f_menu_app_games_quiz
@@ -3669,17 +3299,7 @@ f_menu_app_games_rpg () {
                  ;;
             esac # End of RPG Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of RPG Games until loop.
 } # End of f_menu_app_games_rpg
@@ -3722,17 +3342,7 @@ f_menu_app_games_simulation () {
                  ;;
             esac # End of Simulation Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Simulation Games until loop.
 } # End of f_menu_app_games_simulation
@@ -3843,17 +3453,7 @@ f_menu_app_games_word () {
                  ;;
             esac # End of Word Games case statement.
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
+            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
             f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Word Games until loop.
 } # End of f_menu_app_games_word
