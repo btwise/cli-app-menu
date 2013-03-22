@@ -16,7 +16,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-19-2013 23:58"
+REVDATE="March-22-2013 01:01"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -74,10 +74,10 @@ REVDATE="March-19-2013 23:58"
 #:
 #: *If an application is not installed, script will automatically install it.
 #:
-#: *If an application needs sudo, script will automatically give a sudo option.
 #:
 #: *Designed for ease of extensibility and menu editing.
 #:
+#: *If an application needs sudo, script will automatically give a sudo option.
 #: *Option numbers in menu display are automatically generated.
 #:  (However, case pattern matching including option numbers are hand-written).
 #:
@@ -127,13 +127,23 @@ REVDATE="March-19-2013 23:58"
 #:               instead install package "bsdgames", a collection of games.
 #: APP_RUN     - String; Command to run when application is a web browser,
 #:               actually also includes name of web site to browse.
-#: CHOICE_APP  - String; User choice in Applications Menu. '0' means quit menu.
-#:               '-1' stay in menu loop
-#:               '-2' means application help invoked so don't show
-#:               "Press enter key to continue" message again.
-#: CHOICE_CAT  - String; User choice in Applications Category Menu.
-#: CHOICE_MAIN - String; User choice in Main Menu.
-#: CHOICE_SCAT - String; User choice in Sub-Category Menu.
+#: CHOICE_APP  - String; User choice in Applications Menu (alpha-numeric).
+#:               First few letters of user choice from menu.
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, display "Press enter key to continue."
+#:               '-2' stay in menu loop, do not display "Press enter key to continue."
+#: CHOICE_CAT  - String; User choice in Applications Category Menu (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
+#:               '-2' stay in menu loop, for nonsense choice.
+#: CHOICE_MAIN - String; User choice in Main Menu (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, display "Press enter key to continue."
+#:               '-2' stay in menu loop, do not display "Press enter key to continue."
+#: CHOICE_SCAT - String; User choice in Sub-Category Menu (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
+#:               '-2' stay in menu loop, for nonsense choice.
 #: DELIMITER   - String; Delimiter prefix of menu option string.
 #: ERROR       - Number; Save error code number from $? function.
 #: MAX         - Number; Maximum option choice number in menu.
@@ -233,6 +243,9 @@ REVDATE="March-19-2013 23:58"
 # +----------------------------------------+
 #
 f_initvars_menu_app () {
+      TCOLOR="black"
+      ERROR=0        # Initialize to 0 to indicate success at running last command.
+      APP_NAME=""    # Initialize to null. String variable contains application name.
       CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting Applications Menu.
       CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting Sub-Category Menu.
       CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting Category Menu.
@@ -246,7 +259,7 @@ f_initvars_menu_app () {
 # Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
 #
 f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
-      clear # clear or blank screen
+      clear # Blank the screen.
       f_term_color # Set terminal color.
       echo "--- $MENU_TITLE ---"
       echo
@@ -330,7 +343,7 @@ f_quit_subcat_menu () {
       case $CHOICE_SCAT in
            # Quit?
            0)
-              CHOICE_SCAT=0
+           CHOICE_SCAT=0
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu] | [Rr][Ee][Tt][Uu][Rr] | [Rr][Ee][Tt][Uu][Rr][Nn])
            CHOICE_SCAT=0
@@ -364,7 +377,6 @@ f_term_color () { # Set terminal display properties.
       case $TCOLOR in
            [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
               setterm -reset -bold on
-              CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
            ;;
            [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
               setterm -reset
@@ -392,7 +404,7 @@ f_press_enter_key_to_continue () { # Display message and wait for user input.
 # Inputs: CHOICE_APP.
 #
 f_menu_app_press_enter_key () { # Display message and wait for user input.
-      # $CHOICE_APP = 0 means quit menu 
+      # $CHOICE_APP =  0 means quit menu 
       # $CHOICE_APP = -2 means application help invoked so don't show "press enter key" message again.
       #
       if [ $CHOICE_APP -ne 0 -a $CHOICE_APP -ne -2 ] ; then
@@ -407,12 +419,12 @@ f_menu_app_press_enter_key () { # Display message and wait for user input.
 # Inputs: CHOICE_APP, ERROR.
 #
 f_application_help () { # function where $CHOICE_APP="<Application name> --help" or "man <Application name>"
-      f_term_color # Set terminal color.
+      # f_term_color # Set terminal color.
       case $CHOICE_APP in
            *--help)
               echo "To quit help, type '"q"'."
               f_press_enter_key_to_continue
-              clear # clear screen
+              clear # Blank screen
               $CHOICE_APP |more # <Application name> --help | more
               ERROR=$? # Save error flag condition.
               if [ $ERROR -ne 0 ] ; then
@@ -422,13 +434,13 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  echo -e "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}' # $CHOICE_APP = "man <Application name>" so need awk to grab only the name.
                  echo # The echo -e \c option supresses the line feed after the first echo command so that the message is on a single line.
               fi
-              CHOICE_APP=-2
               f_press_enter_key_to_continue
+              CHOICE_APP=-2
            ;;
            man' '*)
               echo "To quit help, type '"q"'."
               f_press_enter_key_to_continue
-              clear # clear screen
+              clear # Blank screen
               $CHOICE_APP # CHOICE_APP = man <Application name>.
               ERROR=$? # Save error flag condition.
               if [ $ERROR -ne 0 ] ; then
@@ -452,6 +464,9 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
 # Inputs: DELIMITER, APP_NAME, WEB_SITE.
 #
 f_application_run () {
+CHOICE_APP=-1 # Force stay in menu until loop with "Press enter to continue" message afterwards.
+clear # Blank the screen.
+#
 if [ $DELIMITER="#MWB" ] ; then # If application is a web browser. #MWB This 3rd field prevents awk from printing this line into menu options. 
    APP_RUN="$APP_NAME $WEB_SITE"
    $APP_RUN
@@ -482,16 +497,22 @@ ERROR=$? # Save error flag condition.
 #
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
-         echo "An error code $ERROR has occurred when launching this $APP_NAME application."      
+         echo "An error code $ERROR has occurred" 
+         echo "while launching this $APP_NAME application."      
          f_press_enter_key_to_continue
          #
-         f_initvars_menu_app # Be sure variable is set to redisplay current menu afterwards.
+         # Be sure variable is set to redisplay current menu afterwards.
+         CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting Applications Menu.
+         CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting Sub-Category Menu.
+         CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting Category Menu.
+         CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting Main Menu.
       fi
       #
       case $ERROR in
            1 | 13)
            echo
-           echo -n "Run $APP_NAME again this time using sudo (temporary root permissions) (y/N)?"
+           echo "Run $APP_NAME again this time using sudo?"
+           echo -n "Use sudo (temporary root permissions) (y/N)? "
            read ANS
            case $ANS in
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -532,7 +553,7 @@ f_application_error () {
                 APP_NAME_INSTALL=$APP_NAME
                 #
                 case $APP_NAME_INSTALL in # Set variable APP_NAME_INSTALL.
-                *' '*) 
+                *' '*)  
                 # If string APP_NAME/APP_NAME_INSTALL includes spaces for run-time parameters, then just extract package name. 
                 # i.e. "dstat 1 10", then just grab "dstat" as package name.
                 #
@@ -584,7 +605,8 @@ adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar |
            esac
            ;;
       esac
-  # This function needs to be followed by a f_press_enter_key_to_continue or f_menu_app_press_enter_key so that messages are displayed.
+      # This function needs to be followed by a f_press_enter_key_to_continue 
+      # or by a f_menu_app_press_enter_key so that messages are displayed.
 } # End of function f_application_error
 #
 # +----------------------------------------+
@@ -595,7 +617,7 @@ adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar |
 #
 f_menu_cat_sample_template () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -ge 0 -a $CHOICE_SCAT -le $MAX ]
+      until [ $CHOICE_SCAT -eq 0 ] # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Application Category until loop.
             #MXC App Cat1
             #MXC App Cat2
@@ -608,7 +630,7 @@ f_menu_cat_sample_template () {
             #
             f_quit_subcat_menu
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Application Category case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
@@ -618,6 +640,18 @@ f_menu_cat_sample_template () {
                  f_menu_cat_name2
                  ;;
             esac                # End of Application Category case statement.
+            #
+            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering sub-menu function, the
+                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
+               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
       done  # End of Application Category until loop.
 } # End of function f_menu_cat_sample_template
 #
@@ -629,7 +663,7 @@ f_menu_cat_sample_template () {
 #
 f_menu_app_sample_template () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ] # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Applications until loop.
             #MXX Application name - Description.
             #MXX Application2 name - Description.
@@ -643,7 +677,7 @@ f_menu_app_sample_template () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of <Sample Template> Applications case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Nn] | [Aa][Pp][Pp]' '[Nn][Aa] | [Aa][Pp][Pp]' '[Nn][Aa][Mm] | [Aa][Pp][Pp]' '[Nn][Aa][Mm][Ee])
@@ -656,8 +690,20 @@ f_menu_app_sample_template () {
                  f_application_run
                  ;;
             esac                # End of <Sample Template> Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
       done  # End of <Sample Template> Applications until loop.
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
 } # End of function f_menu_app_sample_template
 #
 # **************************************
@@ -668,7 +714,7 @@ f_menu_app_sample_template () {
 #
 f_menu_cat_applications () {
       f_initvars_menu_app
-      until [ $CHOICE_CAT -ge 0 -a $CHOICE_CAT -le $MAX ]
+      until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
             #AAB Internet        - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
             #AAB Network         - Wireless connection, network monitoring, tools.
@@ -693,7 +739,7 @@ f_menu_cat_applications () {
             #
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_CAT in 
                  # Quit?
@@ -707,102 +753,74 @@ f_menu_cat_applications () {
             #
             case $CHOICE_CAT in # Start of Application Category case statement.
                  1 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
-                 #
                  f_menu_cat_internet     # Internet Applications Menu.
-                 #
-                 ;; # End of Internet Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  2 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk])
-                 #
                  f_menu_cat_network     # Network Applications Menu.
-                 #
-                 ;; # End of Network Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  3 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
-                 #
                  f_menu_app_file_managers     # File Manager Applications Menu.
-                 #
-                 ;; # End of Internet File Manager Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  4 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Ee] | [Tt][Ee][Xx][Tt]' '[Ee][Dd] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr][Ss])
-                 #
                  f_menu_app_text_editors     # Text Editor Applications Menu.
-                 #
-                 ;; # End of Text Editor Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  5 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
-                 #
                  f_menu_cat_system_applications     # System Applications Menu.
-                 #
-                 ;; # End of System Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  6 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
-                 #
                  f_menu_app_calendar_todo     # Calendar-ToDo Applications Menu.
-                 #
-                 ;; # End of Calendar-ToDo Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  7 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
-                 #
                  f_menu_app_calculators     # Calculator Applications Menu.
-                 #
-                 ;; # End of Calculator Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  8 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
-                 #
                  f_menu_app_spreadsheets     # Spreadsheet Applications Menu.
-                 #
-                 ;; # End of Spreadsheet Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  9 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
-                 #
                  f_menu_app_note_applications     # Note Applications Menu.
-                 #
-                 ;; # End of Note Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  10 | [Aa] | [Aa][Uu] | [Aa][Uu][Dd] | [Aa][Uu][Dd][Ii] | [Aa][Uu][Dd][Ii][Oo])
-                 #
                  f_menu_app_audio_applications     # Audio Applications Menu.
-                 #
-                 ;; # End of Audio Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  11 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee][Rr])
-                 #
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
-                 #
-                 ;; # End of Screen-saver Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-2
+                 ;;
                  12 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss][-] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc][Ss])
-                 #
                  f_menu_app_image_graphics_applications     # Image-Graphics Applications Menu.
-                 #
-                 ;; # End of Image-Graphics Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-1
+                 ;;
                  13 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
-                 #
                  f_menu_app_education_applications     # Education Applications Menu.
-                 #
-                 ;; # End of Education Applications Menu case clause.
-                 #
-                 #
+                 CHOICE_CAT=-1
+                 ;;
                  14 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
-                 #
                  f_menu_cat_games
-                 #
-                 ;; # End of Games Applications Menu case clause.
+                 CHOICE_CAT=-1
+                 ;;
             esac # End of Application Category case statement.
+            #
+            case $CHOICE_CAT in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_CAT=-2 # Force stay in until loop.
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering sub-menu function, the
+                               # f_initvars_menu_app resets CHOICE_CAT=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_CAT -le -3 -o $CHOICE_CAT -gt $MAX ] ; then
+               CHOICE_CAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
       done # End of Application Category until loop.
 } # End of function f_menu_cat_applications
 #
@@ -814,7 +832,7 @@ f_menu_cat_applications () {
 #
 f_menu_cat_internet () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -ge 0 -a $CHOICE_SCAT -le $MAX ]
+      until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of Internet Category until loop.
             #BIN Web Browsers      - Internet web  browsers.
             #BIN Bittorrent        - File transfer.
@@ -839,49 +857,74 @@ f_menu_cat_internet () {
             f_quit_subcat_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Internet Category case statement.
                  1 | [Ww] | [Ww][Ee] | [Ww][Ee][Bb] | [Ww][Ee][Bb]' ' | [Ww][Ee][Bb]' '[Bb] | [Ww][Ee][Bb]' '[Bb][Rr] | [Ww][Ee][Bb]' '[Bb][Rr][Oo] |  [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss][Ee] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss][Ee][Rr])
+                 CHOICE_SCAT=-1
                  f_menu_app_web_browsers
                  ;;
                  2 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
+                 CHOICE_SCAT=-1
                  f_menu_app_bittorrent
                  ;;
                  3 | [Dd] | [Dd][Oo] | [Dd][Oo][Ww] | [Dd][Oo][Ww][Nn] | [Dd][Oo][Ww][Nn][Ll] | [Dd][Oo][Ww][Nn][Ll][Oo] |  [Dd][Oo][Ww][Nn][Ll][Oo][Aa] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee][Rr] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee][Rr][Ss])
+                 CHOICE_SCAT=-1
                  f_menu_app_downloaders
                  ;;
                  4 | [Ee] | [Ee][Mm] | [Ee][Mm][Aa] | [Ee][Mm][Aa][Ii] | [Ee][Mm][Aa][Ii][Ll])
+                 CHOICE_SCAT=-1
                  f_menu_app_email
                  ;;
                  5 | [Ff] | [Ff][Aa] | [Ff][Aa][Xx])
+                 CHOICE_SCAT=-1
                  f_menu_app_fax
                  ;;
                  6 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Tt] | [Ff][Ii][Ll][Ee]' '[Tt][Rr] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn] |[Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee][Rr])
+                 CHOICE_SCAT=-1
                  f_menu_app_file_transfer
                  ;;
                  7 | [Ii] | [Ii][Nn] | [Ii][Nn][Ss] | [Ii][Nn][Ss][Tt] | [Ii][Nn][Ss][Tt][Aa] | [Ii][Nn][Ss][Tt][Aa][Nn] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' ' | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii][Nn] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii][Nn][Gg])
+                 CHOICE_SCAT=-1
                  f_menu_app_instant_messaging
                  ;;
                  8 | [Ii] | [Ii][Rr] | [Ii][Rr][Cc] | [Ii][Rr][Cc]' ' | [Ii][Rr][Cc]' '[Cc] | [Ii][Rr][Cc]' '[Cc][Ll] | [Ii][Rr][Cc]' '[Cc][Ll][Ii] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn][Tt] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn][Tt][Ss])
+                 CHOICE_SCAT=-1
                  f_menu_app_irc_clients
                  ;;
                  9 | [Nn] | [Nn][Ee] | [Nn][Ee][Ww] | [Nn][Ee][Ww][Ss] | [Nn][Ee][Ww][Ss]' ' | [Nn][Ee][Ww][Ss]' '[Rr] | [Nn][Ee][Ww][Ss]' '[Rr][Ee] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee][Rr] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee][Rr][Ss])
+                 CHOICE_SCAT=-1
                  f_menu_app_news_readers
                  ;;
                  10 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' ' | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh][Aa] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh][Aa][Tt])
+                 CHOICE_SCAT=-1
                  f_menu_app_network_chat
                  ;;
                  11 | [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Cc] | [Pp][Oo][Dd][Cc][Aa] | [Pp][Oo][Dd][Cc][Aa][Tt] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee][Rr] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee][Rr][Ss])
+                 CHOICE_SCAT=-1
                  f_menu_app_podcatchers
                  ;;
                  12 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Oo] | [Rr][Ee][Mm][Oo][Tt] | [Rr][Ee][Mm][Oo][Tt][Ee] | [Rr][Ee][Mm][Oo][Tt][Ee]' ' | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii][Oo] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii][Oo][Nn])
+                 CHOICE_SCAT=-1
                  f_menu_app_remote_connection
                  ;;
                  13 | [Rr] | [Rr][Ss] | [Rr][Ss][Ss] | [Rr][Ss][Ss]' ' | [Rr][Ss][Ss]' '[Ff] | [Rr][Ss][Ss]' '[Ff][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee][Rr] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee][Rr][Ss])
+                 CHOICE_SCAT=-1
                  f_menu_app_rssfeeders
                  ;;
             esac                # End of Internet Category case statement.
+            #
+            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_SCAT=-2 # Force stay in until loop.
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering sub-menu function, the
+                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
+               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
       done  # End of Internet Category until loop.
 } # End of function f_menu_cat_internet
 #
@@ -891,7 +934,7 @@ f_menu_cat_internet () {
 #
 f_menu_app_web_browsers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Web Browsers Applications until loop.
             #MWB elinks - Web browser, tables, frames, forms support, tabbed browsing.
             #MWB lynx   - Web browser, NLS support.
@@ -908,7 +951,7 @@ f_menu_app_web_browsers () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Web Browser Applications case statement.
                  1 | [Ee] | [Ee][Ll] | [Ee][Ll][Ii] | [Ee][Ll][Ii][Nn] | [Ee][Ll][Ii][Nn][Kk] | [Ee][Ll][Ii][Nn][Kk][Ss]) 
@@ -937,7 +980,19 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
             esac                # End of Web Browsers Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Web Browsers Applications until loop.
 } # End of function f_menu_app_web_browsers
 #
@@ -963,7 +1018,7 @@ fi
 #
 f_menu_app_bittorrent () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Bittorrent Applications until loop.
             #MBT bittornado - Torrent file transfer.
             #MBT bittorrent - Bittorrent file transfer.
@@ -979,7 +1034,7 @@ f_menu_app_bittorrent () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Bittorrent Applications case statement.
                  1 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd][Oo])
@@ -999,7 +1054,19 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
             esac                # End of Bittorrent Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Bittorrent Applications until loop.
 } # End of function f_menu_app_bittorrent
 #
@@ -1009,7 +1076,7 @@ f_menu_app_bittorrent () {
 #
 f_menu_app_downloaders () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Downloaders Applications until loop.
             #MDL aria2    - Downloader.
             #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
@@ -1026,7 +1093,7 @@ f_menu_app_downloaders () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Dowloader Applications case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
@@ -1038,31 +1105,45 @@ f_menu_app_downloaders () {
                  clear
                  echo "Display md5 checksum. Usage: md5sum [OPTION] [FILE]"
                  echo "md5sum --help"
+                 f_press_enter_to_continue
                  f_application_run
-                 CHOICE_APP=-1
                  ;;
                  3 | [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp] | [Mm][Dd][5][Pp][Aa] | [Mm][Dd][5][Pp][Aa][Ss] | [Mm][Dd][5][Pp][Aa][Ss][Ss])
                  APP_NAME="md5pass"
+                 clear
                  echo "Create a password hash. Usage: md5pass [PASSWORD][SALT]"
+                 f_press_enter_to_continue
                  f_application_run
-                 CHOICE_APP=-1
                  ;;
                  4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss] | [Ss][Hh][Aa][1][Ss][Uu] | [Ss][Hh][Aa][1][Ss][Uu][Mm])
                  APP_NAME="sha1sum --help"
                  clear
                  echo "Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]"
                  echo "sha1sum --help"
+                 f_press_enter_to_continue
                  f_application_run
-                 CHOICE_APP=-1
                  ;;
                  5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
                  APP_NAME="sha1pass"
+                 clear
                  echo "Create a password hash. Usage: sha1pass [PASSWORD][SALT]"
+                 f_press_enter_to_continue
                  f_application_run
-                 CHOICE_APP=-1
                  ;;
             esac                # End of Downloader Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Downloaders Applications until loop.
 } # End of function f_menu_app_downloaders
 #
@@ -1072,7 +1153,7 @@ f_menu_app_downloaders () {
 #
 f_menu_app_email () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of E-mail Applications until loop.
             #MEM alpine     - E-mail, FOSS version of pine.
             #MEM cone       - E-mail.
@@ -1092,7 +1173,7 @@ f_menu_app_email () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of E-mail Applications case statement.
                  1 | [Aa] | [Aa][Ll] | [Aa][Ll][Pp] | [Aa][Ll][Pp][Ii] | [Aa][Ll][Pp][Ii][Nn] | [Aa][Ll][Pp][Ii][Nn][Ee])
@@ -1128,7 +1209,19 @@ f_menu_app_email () {
                  f_application_run
                  ;;
             esac                # End of E-mail Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of E-mail Applications until loop.
 } # End of function f_menu_app_email
 #
@@ -1138,7 +1231,7 @@ f_menu_app_email () {
 #
 f_menu_app_fax () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of FAX Applications until loop.
             #MFX efax           - FAX over modem.
             #MFX hylafax-client - Works with HylaFAX server software.
@@ -1152,7 +1245,7 @@ f_menu_app_fax () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of FAX Applications case statement.
                  1  | [Ee] | [Ee][Ff] | [Ee][Ff][Aa] | [Ee][Ff][Aa][Xx])
@@ -1164,7 +1257,19 @@ f_menu_app_fax () {
                  f_application_run
                  ;;
             esac                # End of FAX Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of FAX Applications until loop.
 } # End of function f_menu_app_fax
 #
@@ -1174,7 +1279,7 @@ f_menu_app_fax () {
 #
 f_menu_app_file_transfer () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of File Transfer Applications until loop.
             #MFT cmdftp - File transfer client.
             #MFT curl   - File transfer.
@@ -1193,7 +1298,7 @@ f_menu_app_file_transfer () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Transfer Applications case statement.
                  1 | [Cc] | [Cc][Mm] | [Cc][Mm][Dd] | [Cc][Mm][Dd][Ff] | [Cc][Mm][Dd][Ff][Tt] | [Cc][Mm][Dd][Ff][Tt][Pp])
@@ -1225,7 +1330,19 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
             esac                # End of File Transfer Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of File Transfer Applications until loop.
 } # End of function f_menu_app_file_transfer
 #
@@ -1235,14 +1352,14 @@ f_menu_app_file_transfer () {
 #
 f_menu_app_instant_messaging () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of FAX Applications until loop.
             #MIM bitlbee   - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
-            #MIM centericq - Supports the ICQ2000, Yahoo!, AIM, MSN, IRC and Jabber.
-            #MIM centerim  - Supports the ICQ2000, Yahoo!, AIM, MSN, IRC and Jabber.
-            #MIM finch     - AIM/ICQ, Yahoo!, MSN, IRC, Jabber/XMPP/Google Talk, Napster, etc.
+            #MIM centericq - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+            #MIM centerim  - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+            #MIM finch     - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster, etc.
             #MIM freetalk  - Jabber client.
-            #MIM mcabber   - Jabber client.
+            #MIM mcabber   - Jabber client.          	
             #
             MENU_TITLE="Instant Messaging Applications Menu"
             DELIMITER="#MIM" #MIM This 3rd field prevents awk from printing this line into menu options. 
@@ -1253,7 +1370,7 @@ f_menu_app_instant_messaging () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Instant Messaging Applications case statement.
                  1 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Ll] | [Bb][Ii][Tt][Ll][Bb] | [Bb][Ii][Tt][Ll][Bb][Ee] | [Bb][Ii][Tt][Ll][Bb][Ee][Ee])
@@ -1281,7 +1398,19 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
             esac                # End of Instant Messaging Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Instant Messaging Applications until loop.
 } # End of function f_menu_app_instant_messaging
 #
@@ -1291,7 +1420,7 @@ f_menu_app_instant_messaging () {
 #
 f_menu_app_irc_clients () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of IRC Clients Applications until loop.
             #MIR epic5 - IRC client based on ircI.
             #MIR ii    - Minimalist FIFO and filesystem-based IRC client. Based on sic.
@@ -1309,7 +1438,7 @@ f_menu_app_irc_clients () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of IRC Clients Applications case statement.
                  1 | [Ee] | [Ee][Pp] | [Ee][Pp][Ii] | [Ee][Pp][Ii][Cc])
@@ -1337,7 +1466,19 @@ f_menu_app_irc_clients () {
                  f_application_run
                  ;;
             esac                # End of IRC Clients Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of IRC Clients Applications until loop.
 } # End of function f_menu_app_irc_clients
 #
@@ -1347,7 +1488,7 @@ f_menu_app_irc_clients () {
 #
 f_menu_app_news_readers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
             #MNR gnus - News reader.
             #MNR nn   - News reader.
@@ -1365,7 +1506,7 @@ f_menu_app_news_readers () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of News Reader Applications case statement.
                  1 | [Gg] | [Gg][Nn] | [Gg][Nn][Uu] | [Gg][Nn][Uu][Ss])
@@ -1393,7 +1534,19 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
             esac                # End of News Reader Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of News Reader Applications until loop.
 } # End of function f_menu_app_news_readers
 #
@@ -1403,7 +1556,7 @@ f_menu_app_news_readers () {
 #
 f_menu_app_network_chat () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Chat Applications until loop.
             #MNC talk  - Copies lines from your terminal to that of another user.
             #MNC ytalk - Multi-user chat program can do multiple connections.
@@ -1417,7 +1570,7 @@ f_menu_app_network_chat () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Chat Applications case statement.
                  1 | [Tt] | [Tt][Aa] | [Tt][Aa][Ll] | [Tt][Aa][Ll][Kk])
@@ -1429,7 +1582,19 @@ f_menu_app_network_chat () {
                  f_application_run
                  ;;
             esac                # End of Network Chat Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Network Chat Applications until loop.
 } # End of function f_menu_app_network_chat
 #
@@ -1439,7 +1604,7 @@ f_menu_app_network_chat () {
 #
 f_menu_app_podcatchers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Podcatcher Applications until loop.
             #MPO bashpodder - Podcatcher.
             #MPO goldenpod  - Podcatcher.
@@ -1457,7 +1622,7 @@ f_menu_app_podcatchers () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Podcatcher Applications case statement.
                  1 | [Bb] | [Bb][Aa]| [Bb][Aa][Ss] | [Bb][Aa][Ss][Hh] | [Bb][Aa][Ss][Hh][Pp] | [Bb][Aa][Ss][Hh][Pp[Oo]  | [Bb][Aa][Ss][Hh][Pp[Oo][Dd] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee][Rr])
@@ -1485,7 +1650,19 @@ f_menu_app_podcatchers () {
                  f_application_run
                  ;;
             esac                # End of Podcatcher Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Podcatcher Applications until loop.
 } # End of function f_menu_app_podcatchers
 #
@@ -1495,7 +1672,7 @@ f_menu_app_podcatchers () {
 #
 f_menu_app_remote_connection () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Remote Connection Applications until loop.
             #MRC cpu     - Remote connection.
             #MRC openssh - Remote connection.
@@ -1511,7 +1688,7 @@ f_menu_app_remote_connection () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Remote Connection Applications case statement.
                  1 | [Cc] | [Cc][Pp] | [Cc][Pp][Uu])
@@ -1531,7 +1708,19 @@ f_menu_app_remote_connection () {
                  f_application_run
                  ;;
             esac                # End of Remote Connection Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of Remote Connection Applications until loop.
 } # End of function f_menu_app_remote_connection
 #
@@ -1541,7 +1730,7 @@ f_menu_app_remote_connection () {
 #
 f_menu_app_rssfeeders () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
             #MRS canto      - RSS feeder.
             #MRS newsbeuter - RSS feeder.
@@ -1561,7 +1750,7 @@ f_menu_app_rssfeeders () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of RSS Feeder Applications case statement.
                  1 | [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Tt] | [Cc][Aa][Nn][Tt][Oo])
@@ -1597,7 +1786,19 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
             esac                # End of RSS Feeder Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done  # End of RSS Feeder Applications until loop.
 } # End of function f_menu_app_rssfeeders
 #
@@ -1607,7 +1808,7 @@ f_menu_app_rssfeeders () {
 #
 f_menu_cat_network () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -ge 0 -a $CHOICE_SCAT -le $MAX ]
+      until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of Network Application Category until loop.
             #BNE Configuration - scan for wireless networks, display wired/wireless config and routing tables.
             #BNE Monitors - LAN monitors, network packet analyzers, network mappers.
@@ -1621,7 +1822,7 @@ f_menu_cat_network () {
             f_quit_subcat_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Network Application Category case statement.
                  1 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Ff] | [Cc][Oo][Nn][Ff][Ii] | [Cc][Oo][Nn][Ff][Ii][Gg] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii][Oo] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii][Oo][Nn])
@@ -1631,6 +1832,18 @@ f_menu_cat_network () {
                  f_menu_app_network_monitors
                  ;;
             esac                # End of Network Application Category case statement.
+            #
+            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
+               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
       done  # End of Network Application Category until loop.
 } # End of function f_menu_cat_network
 #
@@ -1640,7 +1853,7 @@ f_menu_cat_network () {
 #
 f_menu_app_network_config () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Configuration Applications until loop.
             #MNF iptables     - firewall configuration rules for a chain.
             #MNF ufw          - firewall configuration and status.
@@ -1666,22 +1879,30 @@ f_menu_app_network_config () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Configuration Applications case statement.
                  1 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa] | [Ii][Pp][Tt][Aa][Bb] | [Ii][Pp][Tt][Aa][Bb][Ll] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
                  APP_NAME="iptables --list"
+                 clear
+                 echo "List iptables of this PC (localhost) as an example."
+                 echo "Usage: iptables --list"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  2 | [Uu] | [Uu][Ff] | [Uu][Ff][Ww])
                  APP_NAME="ufw status verbose"
+                 clear
+                 echo "Display ufw firewall status of this PC (localhost) as an example."
+                 echo "Usage: ufw status verbose"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  3 | [Ii] | [Ii][Ff] | [Ii][Ff][Cc] | [Ii][Ff][Cc][Oo] | [Ii][Ff][Cc][Oo][Nn] | [Ii][Ff][Cc][Oo][Nn][Ff] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="ifconfig"
                  f_application_run
                  ;;
-                 2 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Rr] | [Ii][Pp]' '[Rr][Oo] | [Ii][Pp]' '[Rr][Oo][Uu] | [Ii][Pp]' '[Rr][Oo][Uu][Tt] | [Ii][Pp]' '[Rr][Oo][Uu][Tt][Ee])
+                 4 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Rr] | [Ii][Pp]' '[Rr][Oo] | [Ii][Pp]' '[Rr][Oo][Uu] | [Ii][Pp]' '[Rr][Oo][Uu][Tt] | [Ii][Pp]' '[Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="ip route"
                  f_application_run
                  ;;
@@ -1691,10 +1912,10 @@ f_menu_app_network_config () {
                  ;;
                  6 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
                  APP_NAME="ping localhost -c 5"
+                 clear
                  echo "Pinging this PC (localhost) for five times as an example."
                  echo "Usage: ping localhost -c 5"
                  echo "Many web sites block pings resulting in a message: '100% package loss'."
-                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  7 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
@@ -1703,35 +1924,54 @@ f_menu_app_network_config () {
                  ;;
                  8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee][6])
                  APP_NAME="traceroute6 localhost"
+                 clear
+                 echo "traceroute6 of this PC (localhost) as an example."
+                 echo "Usage: traceroute6 localhost"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  9 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
                  APP_NAME="wicd-curses"
                  f_application_run
                  ;;
-                 9 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
+                 10 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="iwconfig"
                  f_application_run
                  ;;
-                 10 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
-                 APP_NAME="smbc"
+                 11 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 APP_NAME="smbc --help"
+                 clear
+                 echo "Display help for smbc (Samba Commander)."
+                 echo "Usage on networks with Microsoft Windows PCs."
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 11 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
+                 12 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
-                 12 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
+                 13 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
-                 13 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
+                 14 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
             esac                # End of Network Configuration Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Network Configuration Applications until loop.
 } # End of function f_menu_app_network_config
 #
@@ -1741,7 +1981,7 @@ f_menu_app_network_config () {
 #
 f_menu_app_network_monitors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Monitor Applications until loop.
             #MNM cbm         - Color Bandwidth Meter, ncurses based display.
             #MNM iftop       - IP LAN monitor.
@@ -1759,7 +1999,7 @@ f_menu_app_network_monitors () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Monitor Applications case statement.
                  1 | [Cc] | [Cc][Bb] | [Cc][Bb][Mm])
@@ -1768,6 +2008,11 @@ f_menu_app_network_monitors () {
                  ;;
                  2 | [Ii] | [Ii][Ff] | [Ii][Ff][Tt] | [Ii][Ff][Tt][Oo] | [Ii][Ff][Tt][Oo][Pp])
                  APP_NAME="iftop"
+                 ifconfig |  grep Link | awk '{print $1;}' # Search for "Link" in ifconfig output and parse first word (network interface).
+                 echo -n "Enter FULL-NAME of network interface to monitor with $APP_NAME: "
+                 read ANS
+                 APP_NAME="iftop -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  3 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
@@ -1787,7 +2032,19 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
             esac                # End of Network Monitor Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Network Monitor Applications until loop.
 } # End of function f_menu_app_network_monitors
 #
@@ -1797,7 +2054,7 @@ f_menu_app_network_monitors () {
 #
 f_menu_app_file_managers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of File Manager Applications until loop.
             #MFI  clex   - File manager.
             #MFI  mc     - File Manager, Midnight Commander.
@@ -1818,7 +2075,7 @@ f_menu_app_file_managers () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Manager Applications case statement.
                  1 | [Cc] | [Cc][Ll] | [Cc][Ll][Ee] | [Cc][Ll][Ee][Xx])
@@ -1858,7 +2115,19 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
             esac               # End of File Manager Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of File Manager Applications until loop.
 } # End of f_menu_app_file_managers
 #
@@ -1868,7 +2137,7 @@ f_menu_app_file_managers () {
 #
 f_menu_app_text_editors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Editor Applications until loop.
             #MTE beav       - Binary editor and viewer.
             #MTE dav        - Text editor.
@@ -1901,7 +2170,7 @@ f_menu_app_text_editors () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
                  1 | [Bb] | [Bb][Ee] | [Bb][Ee][Aa] | [Bb][Ee][Aa][Vv] | [Bb][Ee][Aa][Vv][Ee])
@@ -1985,10 +2254,22 @@ f_menu_app_text_editors () {
                  ;;
                  20 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
                  APP_NAME="wdiff"
+                 f_application_run
                  ;;
             esac                # End of Text Editor Applications case statement.
-            f_application_error $ERROR $APP_NAME # If application is not installed display help instructions.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Text Editor Applications until loop.
 } # End of f_menu_app_text_editors
 #
@@ -1998,7 +2279,7 @@ f_menu_app_text_editors () {
 #
 f_menu_cat_system_applications () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -ge 0 -a $CHOICE_SCAT -le $MAX ]
+      until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of System Category until loop.
             #BSY Logs     - System Log file viewers.
             #BSY Monitors - System processes, resources, and disk I/O monitors.
@@ -2014,7 +2295,7 @@ f_menu_cat_system_applications () {
             f_quit_subcat_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of System Category case statement.
                  1 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
@@ -2030,6 +2311,18 @@ f_menu_cat_system_applications () {
                  f_menu_app_sys_screens
                  ;;
             esac                # End of System Category case statement.
+            #
+            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering sub-menu function, the
+                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
+               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
       done  # End of System Category until loop.
 } # End of function f_menu_cat_system_applications
 #
@@ -2039,7 +2332,7 @@ f_menu_cat_system_applications () {
 #
 f_menu_app_sys_monitors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Monitors until loop.
             #MSM atop        - System process and resource manager.
             #MSM glances     - System process and resource manager.
@@ -2071,69 +2364,83 @@ f_menu_app_sys_monitors () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Monitors case statement.
                  1 | [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Pp])
                  APP_NAME="atop"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  2 | [Gg] | [Gg][Ll] | [Gg][Ll][Aa] | [Gg][Ll][Aa][Nn] | [Gg][Ll][Aa][Nn][Cc] | [Gg][Ll][Aa][Nn][Cc][Ee] | [Gg][Ll][Aa][Nn][Cc][Ee][Ss])
                  APP_NAME="glances"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  3 | [Hh] | [Hh][Tt] | [Hh][Tt][Oo] | [Hh][Tt][Oo][Pp])
                  APP_NAME="htop"
                  f_how_to_quit_application "q or <F10>"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  4 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
                  APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  5 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
+                 clear
+                 echo "dstat this PC (localhost) for ten times as an example."
+                 echo "Usage: dstat 1 10"
+                 f_press_enter_key_to_continue
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  6 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
                  APP_NAME="iotop"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  7 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
                  APP_NAME="ncdu"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  8 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
                  clear
                  echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
                  APP_NAME="ls -l /dev/disk/by-uuid"
                  f_application_run             
-                 f_press_enter_key_to_continue
                  ;;
                  9 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
                  APP_NAME="cfdisk"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  10 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
                  APP_NAME="parted"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  11 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  12 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
                  ;;
                  13 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
                  APP_NAME="dmidecode"
@@ -2141,43 +2448,49 @@ f_menu_app_sys_monitors () {
                  ;;
                  14 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
                  APP_NAME="hdparm -I /dev/sda"
+                 clear
                  echo "Find information about the first hard disk drive: /dev/sda"
                  echo "Usage: 'hdparm -I /dev/sda'"
                  f_press_enter_key_to_continue
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  15 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
                  APP_NAME="lsb_release -a"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  16 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
                  APP_NAME="uname -a"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  17 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
                  APP_NAME="lsmod "
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  18 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
                  APP_NAME="printenv"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  19 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  20 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
                  APP_NAME="lsof"
                  f_application_run
-                 f_press_enter_key_to_continue
             esac                # End of System Monitors case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of System Monitors until loop.
 } # End of f_menu_app_sys_monitors
 #
@@ -2187,7 +2500,7 @@ f_menu_app_sys_monitors () {
 #
 f_menu_app_sys_logs () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Logs until loop.
             #MLO multitail - View multiple log files using multiple panes.
             #
@@ -2200,7 +2513,7 @@ f_menu_app_sys_logs () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Logs case statement.
                  1 | [Mm] | [Mm][Uu] | [Mm][Uu][Ll] | [Mm][Uu][Ll][Tt] | [Mm][Uu][Ll][Tt][Ii] | [Mm][Uu][Ll][Tt][Ii][Tt] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll])
@@ -2208,7 +2521,19 @@ f_menu_app_sys_logs () {
                  f_application_run
                  ;;
             esac                # End of System Logs case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of System Logs until loop.
 } # End of f_menu_app_sys_logs
 #
@@ -2218,7 +2543,7 @@ f_menu_app_sys_logs () {
 #
 f_menu_app_sys_screens () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Screens until loop.
             #MSC byobu     - Multiple sessions.
             #MSC screen    - Multiple sessions via split or pager screens.
@@ -2233,7 +2558,7 @@ f_menu_app_sys_screens () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Screens case statement.
                  1 | [Bb] | [Bb][Yy] | [Bb][Yy][Oo] | [Bb][Yy][Oo][Bb] | [Bb][Yy][Oo][Bb][Uu])
@@ -2249,7 +2574,19 @@ f_menu_app_sys_screens () {
                  f_application_run
                  ;;
             esac                # End of System Screens case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of System Screens until loop.
 } # End of f_menu_app_sys_screens
 #
@@ -2259,7 +2596,7 @@ f_menu_app_sys_screens () {
 #
 f_menu_app_sys_other () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Other until loop.
             #MSO dosemu    - DOS emulator.
             #MSO dtrx      - Extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
@@ -2274,7 +2611,7 @@ f_menu_app_sys_other () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Other System Applications case statement.
                  1 | [Dd] | [Dd][Oo] | [Dd][Oo][Ss] | [Dd][Oo][Ss][Ee] | [Dd][Oo][Ss][Ee][Mm] | [Dd][Oo][Ss][Ee][Mm][Uu])
@@ -2290,7 +2627,19 @@ f_menu_app_sys_other () {
                  f_application_run
                  ;;
             esac                # End of Other System Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Other System Applications until loop.
 } # End of f_menu_app_sys_other
 #
@@ -2300,7 +2649,7 @@ f_menu_app_sys_other () {
 #
 f_menu_app_calendar_todo () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Calendar-ToDo Applications until loop.
             #MCA cal     - Displays a monthly calendar.
             #MCA gcalcli - Google calendar.
@@ -2321,7 +2670,7 @@ f_menu_app_calendar_todo () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calendar-ToDo Applications case statement.
                  1 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
@@ -2361,7 +2710,19 @@ f_menu_app_calendar_todo () {
                  f_application_run
                  ;;
             esac                # End of Calendar-ToDo Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Calendar-ToDo Applications until loop.
 } # End of f_menu_app_calendar_todo
 #
@@ -2371,7 +2732,7 @@ f_menu_app_calendar_todo () {
 #
 f_menu_app_calculators () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Calculator Applications until loop.
             #MCC bc       - Calculator.
             #MCC orpie    - RPN Reverse Polish Notation calculator.
@@ -2386,24 +2747,37 @@ f_menu_app_calculators () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calculator Applications case statement.
-                 2 | [Bb] | [Bb][Cc])
+                 1 | [Bb] | [Bb][Cc])
                  APP_NAME="bc"
                  f_how_to_quit_application "quit"
                  f_application_run
                   ;;
-                 3 | [Oo] | [Oo][Rr] | [Oo][Rr][Pp] | [Oo][Rr][Pp][Ii] | [Oo][Rr][Pp][Ii][Ee])
+                 2 | [Oo] | [Oo][Rr] | [Oo][Rr][Pp] | [Oo][Rr][Pp][Ii] | [Oo][Rr][Pp][Ii][Ee])
                  APP_NAME="orpie"
                  f_application_run
                  ;;
-                 1 | [Tt] | [Tt][Aa] | [Tt][Aa][Pp] | [Tt][Aa][Pp][Ee] | [Tt][Aa][Pp][Ee][Cc] | [Tt][Aa][Pp][Ee][Cc][Aa] | [Tt][Aa][Pp][Ee][Cc][Aa][Ll] | [Tt][Aa][Pp][Ee][Cc][Aa][Ll][Cc])
+                 3 | [Tt] | [Tt][Aa] | [Tt][Aa][Pp] | [Tt][Aa][Pp][Ee] | [Tt][Aa][Pp][Ee][Cc] | [Tt][Aa][Pp][Ee][Cc][Aa] | [Tt][Aa][Pp][Ee][Cc][Aa][Ll] | [Tt][Aa][Pp][Ee][Cc][Aa][Ll][Cc])
                  APP_NAME="tapecalc"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
             esac                # End of Calculator Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Calculator Applications until loop.
 } # End of f_menu_app_calculators
 #
@@ -2413,7 +2787,7 @@ f_menu_app_calculators () {
 #
 f_menu_app_spreadsheets () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Spreadsheet Applications until loop.
             #MSP oleo - Full-screen spreadsheet having a more Emacs-like feel.
             #MSP sc   - Spreadsheet.
@@ -2428,7 +2802,7 @@ f_menu_app_spreadsheets () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Spreadsheet Applications case statement.
                  1 | [Oo] | [Oo][Ll] | [Oo][Ll][Ee] | [Oo][Ll][Ee][Oo])
@@ -2444,7 +2818,19 @@ f_menu_app_spreadsheets () {
                  f_application_run
                  ;;
             esac                # End of Spreadsheet Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Spreadsheet Applications until loop.} # End of menu_app_spreadsheets
 } # End of f_menu_app_spreadsheets
 #
@@ -2454,7 +2840,7 @@ f_menu_app_spreadsheets () {
 #
 f_menu_app_note_applications () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Note Applications until loop.
             #MNO hnb - Hierarchical notebook.
             #
@@ -2467,7 +2853,7 @@ f_menu_app_note_applications () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Note Applications case statement.
                  1 | [Hh] | [Hh][Nn] | [Hh][Nn][Bb])
@@ -2475,7 +2861,19 @@ f_menu_app_note_applications () {
                  f_application_run
                  ;;
             esac                # End of Note Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Note Applications until loop.
 } # End of f_menu_note_applications
 #
@@ -2485,7 +2883,7 @@ f_menu_app_note_applications () {
 #
 f_menu_app_audio_applications () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Audio Applications until loop.
             #MAU abcde         - Audio CD ripper.
             #MAU avconv        - Audio/Video converter.
@@ -2511,7 +2909,7 @@ f_menu_app_audio_applications () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Audio Applications case statement.
                  1 | [Aa] | [Aa][Bb] | [AA][Bb][Cc] | [Aa][Bb][Cc][Dd] | [Aa][Bb][Cc][Dd][Ee)
@@ -2535,7 +2933,6 @@ f_menu_app_audio_applications () {
                  5 | [Jj] | [Jj][Uu] | [Jj][Uu][Kk] | [Jj][Uu][Kk][Ee])
                  APP_NAME="juke"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  6 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
                  APP_NAME="moc"
@@ -2553,7 +2950,6 @@ f_menu_app_audio_applications () {
                  9 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
                  APP_NAME="mplayer"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  10 | [Dd] | [Dd][Rr] | [Dd][Rr][Aa] | [Dd][Rr][Aa][Dd] | [Dd][Rr][Aa][Dd][Ii] | [Dd][Rr][Aa][Dd][Ii][Oo])
                  APP_NAME="dradio"
@@ -2577,7 +2973,19 @@ f_menu_app_audio_applications () {
                  f_application_run
                  ;;
             esac                # End of Audio Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Audio Applications until loop.
 } # End of f_menu_app_audio_applications
 #
@@ -2587,7 +2995,7 @@ f_menu_app_audio_applications () {
 #
 f_menu_app_screen_savers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
             #MSS cmatrix   - Matrix-like screen-saver.
             #MSS rain      - Rain on screen.
@@ -2603,7 +3011,7 @@ f_menu_app_screen_savers () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Screen-saver Applications case statement.
                  1 | [Cc] | [Cc][Mm] | [Cc][Mm][Aa] | [Cc][Mm][Aa][Tt] | [Cc][Mm][Aa][Tt][Rr] | [Cc][Mm][Aa][Tt][Rr][Ii] | [Cc][Mm][Aa][Tt][Rr][Ii][Xx])
@@ -2623,7 +3031,19 @@ f_menu_app_screen_savers () {
                  f_application_run
                  ;;
             esac                # End of Screen-saver Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Screen-saver Applications until loop.
 } # End of f_menu_app_screen_savers
 #
@@ -2634,7 +3054,7 @@ f_menu_app_screen_savers () {
 #
 f_menu_app_image_graphics_applications () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
             #MIG aview      - ASCII art and image viewer
             #MIG hasciicam  - ASCII web camera images.
@@ -2651,18 +3071,16 @@ f_menu_app_image_graphics_applications () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Image-Graphics Applications case statement.
                  1 | [Aa] | [Aa][Vv] | [Aa][Vv][Ii] | [Aa][Vv][Ii][Ee] | [Aa][Vv][Ii][Ee][Ww])
                  APP_NAME="aview"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  2 | [Hh] | [Hh][Aa] | [Hh][Aa][Ss] | [Hh][Aa][Ss][Cc] | [Hh][Aa][Ss][Cc][Ii] | [Hh][Aa][Ss][Cc][Ii][Ii] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa][Mm])
                  APP_NAME="hasciicam"
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Aa] | [Cc][Aa][Cc][Aa][-] | [Cc][Aa][Cc][Aa][-][Uu] | [Cc][Aa][Cc][Aa][-][Uu][Tt] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll][Ss])
                  APP_NAME="caca-utils"
@@ -2685,10 +3103,21 @@ f_menu_app_image_graphics_applications () {
                  #
                  APP_NAME="linuxlogo -L "$ANS
                  f_application_run
-                 f_press_enter_key_to_continue
                  ;;
             esac                # End of Image-Graphics Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Image-Graphics Applications until loop.
 } # End of f_menu_app_image_graphics_applications
 #
@@ -2699,7 +3128,7 @@ f_menu_app_image_graphics_applications () {
 #
 f_menu_app_education_applications () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Education Applications until loop.
             #MED aldo  - Morse code training.
             #MED cw    - Morse code training.
@@ -2716,7 +3145,7 @@ f_menu_app_education_applications () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Education Applications case statement.
                  1 | [Aa] | [Aa][Ll] | [Aa][Ll][Dd] | [Aa][Ll][Dd][Oo])
@@ -2740,7 +3169,19 @@ f_menu_app_education_applications () {
                  f_application_run
                  ;;
             esac                # End of Education Applications case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Education Applications until loop.
 } # End of f_menu_app_education_applications
 #
@@ -2750,7 +3191,7 @@ f_menu_app_education_applications () {
 #
 f_menu_cat_games () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -ge 0 -a $CHOICE_SCAT -le $MAX ]
+      until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of Application Category until loop.
             #BGA Arcade Games
             #BGA Board Games
@@ -2772,7 +3213,7 @@ f_menu_cat_games () {
             f_quit_subcat_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Game Category case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Cc] | [Aa][Rr][Cc][Aa] | [Aa][Rr][Cc][Aa][Dd] | [Aa][Rr][Cc][Aa][Dd][Ee]) 
@@ -2806,6 +3247,18 @@ f_menu_cat_games () {
                  f_menu_app_games_word
                  ;;
             esac                # End of Game Category case statement.
+            #
+            case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering sub-menu function, the
+                               # f_initvars_menu_app resets CHOICE_SCAT=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
+               CHOICE_SCAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
       done  # End of Game Category until loop.
 } # End of function f_menu_cat_games
 #
@@ -2814,7 +3267,7 @@ f_menu_cat_games () {
 # +----------------------------------------+
 f_menu_app_games_arcade () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Arcade Games until loop.
             #MGB freesweep      - Minesweeper game.
             #MGB moon-buggy     - Drive a moon buggy on the moon.
@@ -2833,7 +3286,7 @@ f_menu_app_games_arcade () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Arcade Games case statement.
                  1 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss] | [Ff][Rr][Ee][Ee][Ss][Ww] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee][Pp])
@@ -2865,17 +3318,28 @@ f_menu_app_games_arcade () {
                  f_application_run
                  ;;
             esac # End of Arcade Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Arcade Games until loop.
 } # End of f_menu_app_games_arcade
-#
 #
 # +----------------------------------------+
 # |     Function f_menu_app_games_board    |
 # +----------------------------------------+
 f_menu_app_games_board () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Board Games until loop.
             #MGC atom4          - Board game strategy 2-player ncurses-based.
             #MGC backgammon     - Backgammon.
@@ -2890,7 +3354,7 @@ f_menu_app_games_board () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Board Games case statement.
                  1 | [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Mm] | [Aa][Tt][Oo][Mm][4])
@@ -2906,7 +3370,19 @@ f_menu_app_games_board () {
                  f_application_run
                  ;;
             esac # End of Board Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Board Games until loop.
 } # End of f_menu_app_games_board
 #
@@ -2915,7 +3391,7 @@ f_menu_app_games_board () {
 # +----------------------------------------+
 f_menu_app_games_card () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Card Games until loop.
             #MGD canfield       - Solitaire card game with betting.
             #MGD cribbage       - Cribbage Card game.
@@ -2930,7 +3406,7 @@ f_menu_app_games_card () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Card Games case statement.
                  1 | [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Ff] | [Cc][Aa][Nn][Ff][Ii] | [Cc][Aa][Nn][Ff][Ii][Ee] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll][Dd)
@@ -2946,7 +3422,19 @@ f_menu_app_games_card () {
                  f_application_run
                  ;;
             esac # End of Card Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Card Games until loop.
 } # End of f_menu_app_games_card
 #
@@ -2955,7 +3443,7 @@ f_menu_app_games_card () {
 # +----------------------------------------+
 f_menu_app_games_mud () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of MUD Games until loop.
             #MGE crawl          - Explore a cave, retrieve the Orb of Zot.
             #MGE tintin++       - Telnet client to play MUDs (Multi-User Dungeons).
@@ -2969,7 +3457,7 @@ f_menu_app_games_mud () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of MUD Games case statement.
                  1 |[Cc] |[Cc][Rr] |[Cc][Rr][Aa] |[Cc][Rr][Aa][Ww] |[Cc][Rr][Aa][Ww][Ll])
@@ -2981,17 +3469,28 @@ f_menu_app_games_mud () {
                  f_application_run
                  ;;
             esac # End of MUD Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of MUD Games until loop.
 } # End of f_menu_app_games_mud
-#
 #
 # +----------------------------------------+
 # |    Function f_menu_app_games_puzzle    |
 # +----------------------------------------+
 f_menu_app_games_puzzle () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Puzzle Games until loop.
             #MGF bastet         - Tetris-like game.
             #MGF bcd            - Reformat input as a punch card.
@@ -3009,7 +3508,7 @@ f_menu_app_games_puzzle () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Puzzle Games case statement.
                  1 | [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Tt] | [Bb][Aa][Ss][Tt][Ee] | [Bb][Aa][Ss][Tt][Ee][Tt])
@@ -3037,7 +3536,19 @@ f_menu_app_games_puzzle () {
                  f_application_run
                  ;;
             esac # End of Puzzle Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Puzzle Games until loop.
 } # End of f_menu_app_games_puzzle
 #
@@ -3046,7 +3557,7 @@ f_menu_app_games_puzzle () {
 # +----------------------------------------+
 f_menu_app_games_quiz () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Quiz Games until loop.
             #MGG arithmetic     - Basic arithmetic quiz.
             #MGG geekcode       - Code tells others how geeky you are.
@@ -3062,7 +3573,7 @@ f_menu_app_games_quiz () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Quiz Games case statement.
                  1 |[Aa] |[Aa][Rr] |[Aa][Rr][Ii] |[Aa][Rr][Ii][Tt] |[Aa][Rr][Ii][Tt][Hh] |[Aa][Rr][Ii][Tt][Hh][Mm] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt][Ii] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt][Ii][Cc])
@@ -3084,7 +3595,19 @@ f_menu_app_games_quiz () {
                  f_application_run
                  ;;
             esac # End of Quiz Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Quiz Games until loop.
 } # End of f_menu_app_games_quiz
 #
@@ -3093,7 +3616,7 @@ f_menu_app_games_quiz () {
 # +----------------------------------------+
 f_menu_app_games_rpg () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of RPG Games until loop.
             #MGH adventure      - Explore Colossal Cave. 
             #MGH battlestar     - Tropical adventure game.
@@ -3112,7 +3635,7 @@ f_menu_app_games_rpg () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of RPG Games case statement.
                  1 | [Aa] | [Aa][Dd] | [Aa][Dd][Vv] | [Aa][Dd][Vv][Ee] | [Aa][Dd][Vv][Ee][Nn] | [Aa][Dd][Vv][Ee][Nn][Tt] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr][Ee])
@@ -3145,7 +3668,19 @@ f_menu_app_games_rpg () {
                  f_application_run
                  ;;
             esac # End of RPG Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of RPG Games until loop.
 } # End of f_menu_app_games_rpg
 #
@@ -3154,7 +3689,7 @@ f_menu_app_games_rpg () {
 # +----------------------------------------+
 f_menu_app_games_simulation () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Simulation Games until loop.
             #MGI atc            - Air traffic controller.
             #MGI sail           - Command a Man O'War fighting ship.
@@ -3169,7 +3704,7 @@ f_menu_app_games_simulation () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Simulation Games case statement.
                  1 | [Aa] | [Aa][Tt] | [Aa][Tt][Cc])
@@ -3186,7 +3721,19 @@ f_menu_app_games_simulation () {
                  f_application_run
                  ;;
             esac # End of Simulation Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Simulation Games until loop.
 } # End of f_menu_app_games_simulation
 #
@@ -3195,7 +3742,7 @@ f_menu_app_games_simulation () {
 # +----------------------------------------+
 f_menu_app_games_strategy () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Strategy Games until loop.
             #MGJ gomoku         - 2-player game of 5-in-a-row.
             #MGJ hunt           - Multi-user game. Kill everyone else.
@@ -3211,7 +3758,7 @@ f_menu_app_games_strategy () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Strategy Games case statement.
                  1 | [Gg] | [Gg][Oo] | [Gg][Oo][Mm] | [Gg][Oo][Mm][Oo] | [Gg][Oo][Mm][Oo][Kk] | [Gg][Oo][Mm][Oo][Kk][Uu])
@@ -3228,6 +3775,7 @@ f_menu_app_games_strategy () {
                  ;;
                  4 | [Ww] | [Ww][Aa] | [Ww][Aa][Rr] | [Ww][Aa][Rr][Gg] | [Ww][Aa][Rr][Gg][Aa] | [Ww][Aa][Rr][Gg][Aa][Mm] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee][Ss])
                  APP_NAME="wargames"
+                 clear
                  echo
                  echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
                  echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
@@ -3240,11 +3788,21 @@ f_menu_app_games_strategy () {
                  echo "that it is simply a recreational program."
                  f_press_enter_key_to_continue
                  f_application_run
-                 # For some unknown reason, wargames does not like f_menu_app_press_enter_key so had to add function below. 
-                 f_press_enter_key_to_continue
                  ;;
             esac # End of Strategy Games case statement
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Strategy Games until loop.
 } # End of f_menu_app_games_strategy
 #
@@ -3253,7 +3811,7 @@ f_menu_app_games_strategy () {
 # +----------------------------------------+
 f_menu_app_games_word () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -ge 0 -a $CHOICE_APP -le $MAX ]
+      until [ $CHOICE_APP -eq 0 ]
       do    # Start of Word Games until loop.
             #MGK boggle         - Word search game.
             #MGK hangman        - Classic hangman word game.
@@ -3268,7 +3826,7 @@ f_menu_app_games_word () {
             f_quit_app_menu
             f_application_help
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Clear application name.
+            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Word Games case statement.
                  1 | [Bb] | [Bb][Oo] | [Bb][Oo][Gg] | [Bb][Oo][Gg][Gg] | [Bb][Oo][Gg][Gg][Ll] | [Bb][Oo][Gg][Gg][Ll][Ee])
@@ -3284,7 +3842,19 @@ f_menu_app_games_word () {
                  f_application_run
                  ;;
             esac # End of Word Games case statement.
-            f_menu_app_press_enter_key # If application displays information to stdout, allow user to read it.
+            #
+            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+                 *[A-Za-z]*)
+                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                               # specifically for alpha nonsense responses.
+                               # Note for legitimate responses, when entering an app function, the
+                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+                 ;;
+            esac
+            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
+               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
+            fi
+            f_menu_app_press_enter_key # If application displays information, allow user to read it.
       done # End of Word Games until loop.
 } # End of f_menu_app_games_word
 #
@@ -3293,20 +3863,13 @@ f_menu_app_games_word () {
 # **************************************
 #
 # **************************************
-# ***Initialize script-wide variables***
-# **************************************
-f_initvars_menu_app
-TCOLOR="black"
-ERROR=0     # Initialize to 0 to indicate success at running last command.
-APP_NAME="" # Initialize to null. String variable contains application name.
-#
-# **************************************
 # ***           Main Menu            ***
 # **************************************
 #
 # Inputs: CHOICE_MAIN, MAX, THIS_FILE, REVISION, REVDATE.
 #
-until [ $CHOICE_MAIN -ge 0 -a $CHOICE_MAIN -le $MAX ]
+f_initvars_menu_app
+until [ $CHOICE_MAIN -eq 0 ]
 do    # Start of CLI Menu util loop.
       #AAA Applications   - Launch a command-line application.
       #AAA Help           - How to get help on an application.
@@ -3339,48 +3902,45 @@ do    # Start of CLI Menu util loop.
       case $CHOICE_MAIN in # Start of CLI Menu case statement.
            1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][Ll] | [Aa][Pp][Pp][Ll][Ii] | [Aa][Pp][Pp][Ll][Ii][Cc] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn][Ss])
            f_menu_cat_applications
+           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
            2 | [Hh] | [Hh][Ee] | [Hh][Ee][Ll] | [Hh][Ee][Ll][Pp])
            clear
-           echo "To quit help, type '"q"'."
-           f_press_enter_key_to_continue
+           # echo "To quit help, type '"q"'."
+           # f_press_enter_key_to_continue
            sed -n 's/^#@//'p $THIS_FILE |more
-           f_press_enter_key_to_continue
            # display Help Applications (all lines beginning with #@ but substitute "" for "#@" so "#@" is not printed).
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           CHOICE_MAIN=-1 # Display "Press enter key to continue."
            ;;
            3 | [Dd] | [Dd][Ii] | [Dd][Ii][Ss] | [Dd][Ii][Ss][Kk] | [Dd][Ii][Ss][Kk]' ' | [Dd][Ii][Ss][Kk]' '[Ss] | [Dd][Ii][Ss][Kk]' '[Ss][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu][Ss])
            clear
            df -hT
-           f_press_enter_key_to_continue
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           CHOICE_MAIN=-1 # Display "Press enter key to continue."
            ;;
            4 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
            clear
            echo "To quit documentation, type '"q"'."
            f_press_enter_key_to_continue
            sed -n 's/^#://'p $THIS_FILE |more 
-           f_press_enter_key_to_continue
            # display Documentation (all lines beginning with #: but substitute "" for "#:" so "#:" is not printed).
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
            5 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
            TCOLOR="black"
            f_term_color # Set terminal color.
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
            6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
            TCOLOR="white"
            f_term_color # Set terminal color.
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;  
            7 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
            clear
            echo "CLI Menu version: $REVISION"
            echo "       Edited on: $REVDATE"
            echo "Bash script name: $THIS_FILE"
-           f_press_enter_key_to_continue
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           CHOICE_MAIN=-1 # Display "Press enter key to continue."
            ;;
            8 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear
@@ -3393,10 +3953,9 @@ do    # Start of CLI Menu util loop.
                    echo "The file EDIT_HISTORY is either missing or cannot be read."
                    echo
                 fi
-           f_press_enter_key_to_continue
            # display Edit History (all lines beginning with ## but substitute "" for "##" so "##" is not printed).
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
-           ;; # End of Application Category case clause.
+           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           ;;
            9 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear
            # display License (all lines beginning with #LIC but substitute "" for "#LIC" so "#LIC" is not printed).
@@ -3420,10 +3979,9 @@ do    # Start of CLI Menu util loop.
                    case $ANS in
                         [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                         echo
-                        APP_NAME="w3m"
+                         APP_NAME="w3m"
                         WEB_SITE="http://www.gnu.org/licenses/gpl.html"
                         f_application_run
-                        f_press_enter_key_to_continue
                         ;;
                         [Nn] | [Nn][Oo])
                         ;;
@@ -3433,8 +3991,23 @@ do    # Start of CLI Menu util loop.
                [Nn] | [Nn][Oo])
                ;;
            esac
-           CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting.
+           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
       esac # End of CLI Menu case statement.
+      #
+      case $CHOICE_MAIN in # Convert string to integer -2 to force stay in until loop.
+           *[A-Za-z]*)
+           CHOICE_MAIN=-2 # Force stay in until loop without echo "Press enter to continue".
+                         # specifically for alpha nonsense responses.
+                         # Note for legitimate responses, when entering an app function, the
+                         # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+           ;;
+      esac
+      if [ $CHOICE_MAIN -le -3 -o $CHOICE_MAIN -gt $MAX ] ; then
+         CHOICE_MAIN=-2     # No display "Press enter key" if out-of-bounds numeric response.
+      fi
+      if [ $CHOICE_MAIN -eq -1 ] ; then
+         f_press_enter_key_to_continue
+      fi
 done # End of CLI Menu until loop.
 # all dun dun noodles.
