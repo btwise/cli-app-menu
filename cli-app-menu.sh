@@ -16,7 +16,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 23:13"
+REVDATE="March-22-2013 23:57"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -3697,7 +3697,7 @@ do    # Start of CLI Menu util loop.
       #AAA Disk status         - Free disk space and mount-points.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
       #AAA Black               - Set display white on black.
-      #AAA White               - Set display black on white; will not work in X-windows.
+      #AAA White               - Set display black on white; doesn't work in X-windows.
       #AAA About CLI Menu      - What version am I using.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA Update Edit History - Add/Edit to the Edit History.
@@ -3768,20 +3768,31 @@ do    # Start of CLI Menu util loop.
            clear # Blank the screen.
            echo "To quit reading Edit History, type '"q"'."
            f_press_enter_key_to_continue
-                if [ -r EDIT_HISTORY ] ; then
-                   sed -n 's/^##//'p EDIT_HISTORY |more
-                else
-                   echo
-                   echo "The file EDIT_HISTORY is either missing or cannot be read."
-                   echo
-                fi
+           if [ -r EDIT_HISTORY ] ; then
+              sed -n 's/^##//'p EDIT_HISTORY |more
+              CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           else
+              echo
+              echo "The file EDIT_HISTORY is either missing or cannot be read."
+              echo
+              CHOICE_MAIN=-1   # Display "Press enter key to continue."
+           fi
            # display Edit History (all lines beginning with ## but substitute "" for "##" so "##" is not printed).
-           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
            9 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
-           APP_NAME="joe EDIT_HISTORY"
-           f_application_run
-           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           clear # Blank the screen.
+           if [ -r EDIT_HISTORY ] ; then
+              APP_NAME="joe EDIT_HISTORY"
+              echo "To get help within the joe editor, type 'Ctrl-K h'"
+              f_press_enter_key_to_continue
+              f_application_run
+              CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           else
+              echo
+              echo "The file EDIT_HISTORY is either missing or cannot be read."
+              echo
+              CHOICE_MAIN=-1   # Display "Press enter key to continue."
+           fi
            ;;
            10 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear # Blank the screen.
