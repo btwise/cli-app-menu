@@ -16,9 +16,9 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 11:03"
+REVDATE="March-22-2013 21:37"
 #
-#LIC ©2013 Copyright 4013 Bob Chin
+#LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
 #LIC the Free Software Foundation, either version 3 of the License, or
@@ -436,8 +436,7 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  echo -e "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}' # $CHOICE_APP = "man <Application name>" so need awk to grab only the name.
                  echo # The echo -e \c option supresses the line feed after the first echo command so that the message is on a single line.
               fi
-              f_press_enter_key_to_continue
-              CHOICE_APP=-2
+              CHOICE_APP=-1
            ;;
            man' '*)
               echo "To quit help, type '"q"'."
@@ -1102,7 +1101,7 @@ f_menu_app_downloaders () {
                  clear # Blank the screen.
                  echo "Display md5 checksum."
                  echo
-                 echo "Usage: md5sum [OPTION] [FILE]"
+                 echo "Usage: md5sum [OPTION]... [FILE]..."
                  echo
                  echo "For more help type: md5sum --hep"
                  echo "Now show help. Usage: man md5sum"
@@ -1128,7 +1127,7 @@ f_menu_app_downloaders () {
                  clear # Blank the screen.
                  echo "Display sha1 checksum."
                  echo
-                 echo "Usage: sha1sum [OPTION] [FILE]"
+                 echo "Usage: sha1sum [OPTION]... [FILE]..."
                  echo
                  echo "For more help type: sha1sum --help"
                  echo "Now show help. Usage: man sha1sum"
@@ -1760,7 +1759,7 @@ f_menu_app_network_config () {
             #MNF route        - Shows routing table.
             #MNF ping         - Check LAN/WAN connectivity. Usage: ping <ip-address>.
             #MNF mtr          - Traceroute tool, has features of ping and traceroute.
-            #MNF traceroute6  - Traceroute tool, trace network path to destination. 
+            #MNF traceroute   - Traceroute tool, trace network path to destination. 
             #MNF wicd-curses  - Wireless scan and connect to wired/wireless networks.
             #MNF iwconfig     - Wireless NIC configuration.
             #MNF smbc         - Samba file manager for folder shares with Microsoft Windows.
@@ -1782,8 +1781,14 @@ f_menu_app_network_config () {
             case $CHOICE_APP in # Start of Network Configuration Applications case statement.
                  1 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa] | [Ii][Pp][Tt][Aa][Bb] | [Ii][Pp][Tt][Aa][Bb][Ll] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
                  APP_NAME="iptables --list"
-                 clear # Blank the screen.
-                 echo "List iptables of this PC (localhost) as an example."
+                  clear # Blank the screen.
+                 echo "Administration tool for IPv4 packet filtering and NAT."
+                 echo
+                 echo "Usage: iptables [-t table] {-A|-C|-D} chain rule-specification"
+                 echo
+                 echo "For more help type: man iptables"
+                 echo
+                 echo "List all chains of the IPv4 packet filter (firewall) on this PC (localhost)."
                  echo
                  echo "Now run iptables. Usage: iptables --list"
                  f_press_enter_key_to_continue
@@ -1792,6 +1797,22 @@ f_menu_app_network_config () {
                  2 | [Uu] | [Uu][Ff] | [Uu][Ff][Ww])
                  APP_NAME="ufw status verbose"
                  clear # Blank the screen.
+                 echo "Manage the netfilter firewall."
+                 echo
+                 echo "Usage: ufw [--dry-run] enable|disable|reload"
+                 echo "       ufw [--dry-run] default allow|deny|reject [incoming|outgoing]"
+                 echo "       ufw [--dry-run] logging on|off|LEVEL"
+                 echo "       ufw [--dry-run] reset"
+                 echo "       ufw [--dry-run] status [verbose|numbered]"
+                 echo "       ufw [--dry-run] show REPORT"
+                 echo "       ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out]"
+                 echo "           [log|log-all] PORT[/protocol]"
+                 echo "       ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out"
+                 echo "           on INTERFACE] [log|log-all] [proto protocol]"
+                 echo "           [from ADDRESS [port PORT]] [to ADDRESS [port PORT]]"
+                 echo "       ufw [--dry-run] delete NUM"
+                 echo "       ufw [--dry-run] app list|info|default|update"
+                 echo
                  echo "Display ufw firewall status of this PC (localhost) as an example."
                  echo
                  echo "Now run ufw. Usage: ufw status verbose"
@@ -1813,22 +1834,64 @@ f_menu_app_network_config () {
                  6 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
                  APP_NAME="ping localhost -c 5"
                  clear # Blank the screen.
+                 echo "Send ICMP ECHO_REQUEST to network hosts."
+                 echo
+                 echo "Usage: ping  [-LRUbdfnqrvVaAB] [-c count] [-m mark] [-i interval] [-l preload]"
+                 echo "             [-p pattern] [-s packetsize] [-t ttl] [-w deadline] [-F flowlabel]"
+                 echo "             [-I interface]  [-M  hint] [-N nioption] [-Q tos] [-S sndbuf]"
+                 echo "             [-T timestamp option] [-W timeout] [hop ...] destination"
+                 echo
+                 echo "Usage: ping destination where destination may be an IP-address or url."
+                 echo "       i.e. ping 192.168.1.1 or ping www.sourceforge.net"
+                 echo
+                 echo "For more help type: man ping" 
+                 echo
                  echo "Pinging this PC (localhost) for five times as an example."
                  echo
                  echo "Now run ping. Usage: ping localhost -c 5"
+                 echo
                  echo "Many web sites block pings resulting in a message: '100% package loss'."
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  7 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
                  APP_NAME="mtr"
+                 clear # Blank the screen.
+                 echo "Network diagnostic tool combining the functionality of traceroute and ping."
+                 echo
+                 echo "Usage: mtr [-hvrctglspniu46]  [--help] [--version] [--report] [--report-wide]"
+                 echo "[--report-cycles COUNT] [--curses] [--split] [--raw] [--no-dns] [--gtk]"
+                 echo "[--address IP.ADD.RE.SS] [--interval SECONDS] [--psize BYTES | -s BYTES]"
+                 echo " HOSTNAME [PACKETSIZE]"
+                 echo
+                 echo "For more help type: man mtr" 
+                 echo
+                 echo "mtr of this PC (localhost) as an example."
+                 echo
+                 echo "Now run mtr. Usage: mtr localhost"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee][6])
-                 APP_NAME="traceroute6 localhost"
+                 8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee])
+                 APP_NAME="traceroute localhost"
                  clear # Blank the screen.
-                 echo "traceroute6 of this PC (localhost) as an example."
+                 echo "Trace path to network host."
                  echo
-                 echo "Now run traceroute6. Usage: traceroute6 localhost"
+                 echo "Usage: traceroute [-46dFITUnreAV] [-f first_ttl] [-g gate,...]"
+                 echo "                  [-i device] [-m max_ttl] [-p port] [-s src_addr]"
+                 echo "                  [-q nqueries] [-N squeries] [-t tos] [-l flow_label]"
+                 echo "                  [-w waittime] [-z sendwait] [-UL] [-P proto] [--sport=port]"
+                 echo "                  [-M method] [-O mod_options] [--mtu] [--back]"
+                 echo "                  host [packet_len]"
+                 echo "       traceroute6  [options]"
+                 echo "     tcptraceroute  [options]"
+                 echo "               lft  [options]"
+                 echo
+                 echo "For more help type: man traceroute" 
+                 echo
+                 echo "traceroute of this PC (localhost) as an example."
+                 echo
+                 echo "Now run traceroute. Usage: traceroute localhost"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -2316,7 +2379,14 @@ f_menu_app_sys_monitors () {
                  5 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
                  clear # Blank the screen.
+                 echo "Display system resource statistics."
+                 echo
+                 echo "Usage: dstat [-afv] [options..] [delay [count]]"
+                 echo
+                 echo "For more help type: man dstat"
+                 echo
                  echo "dstat this PC (localhost) for ten times as an example."
+                 echo
                  echo "Now run dstat. Usage: dstat 1 10"
                  f_press_enter_key_to_continue
                  f_application_run
@@ -2412,7 +2482,15 @@ f_menu_app_sys_information () {
                  6 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
                  APP_NAME="hdparm -I /dev/sda"
                  clear # Blank the screen.
-                 echo "Find information about the first hard disk drive: /dev/sda"
+                 echo
+                 echo "Get SATA/IDE hard disk drive parameters."
+                 echo
+                 echo "Usage: hdparm [options..] [device ...]"
+                 echo
+                 echo "For more help type: man hdparm"
+                 echo
+                 echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
+                 echo
                  echo "Now run hdparm. Usage: 'hdparm -I /dev/sda'"
                  f_press_enter_key_to_continue
                  f_application_run
