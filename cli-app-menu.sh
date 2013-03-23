@@ -16,7 +16,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 21:37"
+REVDATE="March-22-2013 23:13"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -1781,7 +1781,7 @@ f_menu_app_network_config () {
             case $CHOICE_APP in # Start of Network Configuration Applications case statement.
                  1 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa] | [Ii][Pp][Tt][Aa][Bb] | [Ii][Pp][Tt][Aa][Bb][Ll] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
                  APP_NAME="iptables --list"
-                  clear # Blank the screen.
+                 clear # Blank the screen.
                  echo "Administration tool for IPv4 packet filtering and NAT."
                  echo
                  echo "Usage: iptables [-t table] {-A|-C|-D} chain rule-specification"
@@ -3692,15 +3692,16 @@ f_menu_app_games_word () {
 f_initvars_menu_app
 until [ $CHOICE_MAIN -eq 0 ]
 do    # Start of CLI Menu util loop.
-      #AAA Applications   - Launch a command-line application.
-      #AAA Help           - How to get help on an application.
-      #AAA Disk status    - Free disk space and mount-points.
-      #AAA Documentation  - Script documentation, programmer notes, licensing.
-      #AAA Black          - Set display white on black.
-      #AAA White          - Set display black on white; will not work in X-windows.
-      #AAA About CLI Menu - What version am I using.
-      #AAA Edit History   - All the craziness behind the scenes.
-      #AAA License        - Licensing, GPL.
+      #AAA Applications        - Launch a command-line application.
+      #AAA Help                - How to get help on an application.
+      #AAA Disk status         - Free disk space and mount-points.
+      #AAA Documentation       - Script documentation, programmer notes, licensing.
+      #AAA Black               - Set display white on black.
+      #AAA White               - Set display black on white; will not work in X-windows.
+      #AAA About CLI Menu      - What version am I using.
+      #AAA Edit History        - All the craziness behind the scenes.
+      #AAA Update Edit History - Add/Edit to the Edit History.
+      #AAA License             - Licensing, GPL.
       #
       MENU_TITLE="Main Menu"
       DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu options. 
@@ -3777,7 +3778,12 @@ do    # Start of CLI Menu util loop.
            # display Edit History (all lines beginning with ## but substitute "" for "##" so "##" is not printed).
            CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
            ;;
-           9 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
+           9 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           APP_NAME="joe EDIT_HISTORY"
+           f_application_run
+           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           ;;
+           10 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear # Blank the screen.
            # display License (all lines beginning with #LIC but substitute "" for "#LIC" so "#LIC" is not printed).
            sed -n 's/^#LIC//'p $THIS_FILE |more

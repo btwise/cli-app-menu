@@ -25,7 +25,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 21:37"
+REVDATE="March-22-2013 23:13"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -46,12 +46,13 @@ REVDATE="March-22-2013 21:37"
 ##            *f_menu_app_sys_information added.
 ##            *Standardize help messages.
 ##            *README, EDIT_HISTORY now can be read by sh <FILENAME> as a script.
+##            *Main Menu add option "Update Edit History".
 ##
 ## 2013-03-21 *Fix in all menus different response to f_menu_app_press_enter_key
 ##             When CHOICE_* is alpha versus numeric. Force to be numeric before
 ##             calling f_menu_app_press_enter_key since it uses numeric tests.
 ##             Before, an alpha CHOICE_* would ignore f_menu_app_press_enter_key.
-##             Clean up lots of extraneous messages "Press enter key to continue."
+##            *Clean up lots of extraneous messages "Press enter key to continue."
 ##            *f_menu_app_network_monitor iftop allow user to choose network
 ##             interface to monitor.
 ##
