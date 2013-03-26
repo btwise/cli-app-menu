@@ -3,12 +3,20 @@
 # File naming convention for archiving:
 # $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
 #
-# The double # at the beginning of lines below are used to delineate the Edit History.
+# Note: FILE LOCATIONS of cli-app-menu.sh, EDIT_HISTORY, COPYING, README.
 #
-## Edit History
-##
-## After each edit made, update Edit History and version (date stamp string) of
-## script.
+# Edit history is now documented in a separate file/script 'EDIT_HISTORY'.
+# The files EDIT_HISTORY, COPYING, README must be in the same folder/directory
+# as this file/script so the Main Menu options to view/edit 'Edit History' or
+# to view 'License' can work.
+#
+#
+# Note: Updating this script, cli-app-menu.sh.
+#
+# After each edit made, update the version (date stamp string) of this script
+# in both the EDIT_HISTORY file and this file.
+# Also update the edit history in the EDIT_HISTORY file.
+#
 THIS_FILE="cli-app-menu.sh"
 #
 # Calculate revision number by counting all lines starting with "## 2013".
@@ -16,7 +24,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 23:57"
+REVDATE="March-26-2013 17:15"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -121,35 +129,42 @@ REVDATE="March-22-2013 23:57"
 #: +----------------------------------------+
 #:
 #: APP_NAME    - String; application name also command to run.
+#:
 #: APP_NAME_INSTALL - String; used when APP_NAME does not match actual package
 #:               name to be installed. i.e. APP_NAME="trek" but package name is
 #:               actually "bsdgames". So to install "trek" game, you must
 #:               instead install package "bsdgames", a collection of games.
+#:
 #: APP_RUN     - String; Command to run when application is a web browser,
 #:               actually also includes name of web site to browse.
+#:
 #: CHOICE_APP  - String; User choice in Applications Menu (alpha-numeric).
 #:               First few letters of user choice from menu.
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, display "Press enter key to continue."
-#:               '-2' stay in menu loop, do not display "Press enter key to continue."
-#: CHOICE_CAT  - String; User choice in Applications Category Menu (alpha-numeric).
+#:
+#: CHOICE_CAT  - String; User choice in Applications Category Menu (alpha-
+#:                    numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
-#:               '-2' stay in menu loop, for nonsense choice.
+#:
 #: CHOICE_MAIN - String; User choice in Main Menu (alpha-numeric).
 #:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, display "Press enter key to continue."
-#:               '-2' stay in menu loop, do not display "Press enter key to continue."
+#:               '-1' stay in menu loop, legitimate choice.
+#:
 #: CHOICE_SCAT - String; User choice in Sub-Category Menu (alpha-numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
-#:               '-2' stay in menu loop, for nonsense choice.
+#:
 #: DELIMITER   - String; Delimiter prefix of menu option string.
 #: ERROR       - Number; Save error code number from $? function.
 #: MAX         - Number; Maximum option choice number in menu.
 #: MENU_TITLE  - String; Title of menu.
 #: XNUM        - Number; Scratch variable used in awk statement in f_show_menu.
 #  XSTR        - String; Scratch variable.
+#  PRESSKEY    - Number: Ask "Press Enter key to continue".
+#                '0' Do not ask "Press Enter key to continue".
+#                '1' Ask "Press Enter key to continue".
 #: REVDATE     - String; Revision date of shell script.
 #: REVISION    - String; Revision number of shell script.
 #: TCOLOR      - String; Background color of display terminal; Black or White.
@@ -246,67 +261,96 @@ REVDATE="March-22-2013 23:57"
 #
 f_initvars_menu_app () {
       TCOLOR="black"
-      ERROR=0        # Initialize to 0 to indicate success at running last command.
-      APP_NAME=""    # Initialize to null. String variable contains application name.
-      CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting Applications Menu.
-      CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting Sub-Category Menu.
-      CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting Category Menu.
-      CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting Main Menu.
+      ERROR=0        # Initialize to 0 to indicate success at running last
+                     # command.
+      APP_NAME=""    # Initialize to null. String variable contains
+                     # application name.
+      CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting 
+                     # Applications Menu.
+      CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting 
+                     # Sub-Category Menu.
+      CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting
+                     # Category Menu.
+      CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting
+                     # Main Menu.
+      PRESS_KEY=1    # Display "Press 'Enter' key to continue."
 } # End of f_initvars_menu_app
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
-# Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
+#  Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
+# Outputs: MAX, XNUM.
 #
 f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
       clear # Blank the screen.
       f_term_color # Set terminal color.
       echo "--- $MENU_TITLE ---"
       echo
-      if [ $DELIMITER = "#AAA" ] ; then #AAA This 3rd field prevents awk from printing this line into menu options.
+      if [ $DELIMITER = "#AAA" ] ; then #AAA This 3rd field prevents awk from  printing this line into menu options.
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
       fi
       #
       # The following command grep <pattern> <filename> | awk '{<if condition>{print field}}
-      # will print the menu items. The command automatically calculates the menu option numbers for you.
+      # will print the menu items. The command automatically calculates the
+      # menu option numbers for you.
       #
-      # Search (grep) for all lines in this file containing the special comment marker string.
-      # Pass (pipe) results to awk which prints the second field delimited by the special comment string.
-      # awk will not print the second field if there is a third field (lines containing 2 special comment strings).
-      # The if statement conditional "($2&&!$3)" means if 2nd field exists and not a 3rd field, then print.
-
-      # This prevents the lines of code which set the $ DELIMITER variable from being printed as part of the menu.
+      # Search (grep) for all lines in this file containing the special comment
+      # marker string.
+      # Pass (pipe) results to awk which prints the second field delimited by
+      # the special comment string.
+      # awk will not print the second field if there is a third field (lines
+      # containing 2 special comment strings).
+      # The if statement conditional "($2&&!$3)" means if 2nd field exists and
+      # not a 3rd field, then print.
+      # This prevents the lines of code which set the $ DELIMITER variable from
+      # being printed as part of the menu.
       #
-      # The menu option numbers are incremented by using any unset variable name (such as "NUM") followed by "++",
-      # However, because NUM is unset, it will increment from zero, whereas we want it to increment from one.
+      # The menu option numbers are incremented by using any unset variable name
+      # (such as "NUM") followed by "++",
+      # However, because NUM is unset, it will increment from zero, whereas we
+      # want it to increment from one.
       # To do this, we add one before NUM so the expression is now "1+NUM++".
-      # so numbering will always starts at zero. Interestingly the "++" increment command is only valid from within awk.
+      # so numbering will always starts at zero. Interestingly the "++"
+      # increment command is only valid from within awk.
       #
-      MAX=$(grep $DELIMITER -c $THIS_FILE) # Count number of lines containing special comment marker string to get maximum item number.
+      MAX=$(grep $DELIMITER -c $THIS_FILE) 
+      # Count number of lines containing special comment marker string to get
+      # maximum item number.
       awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
       case $DELIMITER in
            # Application Menu?
            "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-3)) # Subtract 3 total since 3 lines of code not part of menu display, contain the special comment marker.
+              MAX=$((MAX=$MAX-3)) 
+              # Subtract 3 total since 3 lines of code not part of menu display,
+              # contain the special comment marker.
               echo
               echo "'0', Q/quit, or E/exit to quit this script, $THIS_FILE."
            ;; 
            "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-2)) # Subtract 2 total since 2 lines of code not part of menu display, contain the special comment marker.
+              MAX=$((MAX=$MAX-2))
+              # Subtract 2 total since 2 lines of code not part of menu display,
+              # contain the special comment marker.
            ;;
            "#MWB") #MWB This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-3)) # Subtract 3 total since 3 lines of code not part of menu display, contain the special comment marker.
+              MAX=$((MAX=$MAX-3))
+              # Subtract 3 total since 3 lines of code not part of menu display,
+              # contain the special comment marker.
               echo
-              echo "For help, type: '<app_name> --help' or 'man <app-name>'"
+              echo "For help, type: '<application name> --help' or 'man <application name>'"
+              echo "Also accepts application options i.e. <application name> -version"
            ;; 
-           "#M"* | "#B"*) # Only display help message in application menus. Do not display in application category menus or main menu.
-              MAX=$((MAX=$MAX-1)) # Subtract 1 total since 1 line of code to set $DELIMITER contains the special comment marker.
+           "#M"* | "#B"*) # Only display help message in application menus.
+              # Do not display in application category menus or main menu.
+              MAX=$((MAX=$MAX-1))
+              # Subtract 1 total since 1 line of code to set $DELIMITER where
+              # contains the special comment marker.
               echo
-              echo "For help, type: '<app_name> --help' or 'man <app-name>'"
+              echo "For help, type: '<application name> --help' or 'man <application name>'"
+              echo "Also accepts application options i.e. <application name> -version"
            ;;
       esac
       echo
@@ -317,8 +361,8 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
 # |        Function f_quit_app_menu        |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_APP.
-#
+#  Inputs: CHOICE_APP.
+# Outputs: CHOICE_APP.
 f_quit_app_menu () {
       case $CHOICE_APP in
            # Quit?
@@ -328,7 +372,8 @@ f_quit_app_menu () {
            [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu] | [Rr][Ee][Tt][Uu][Rr] | [Rr][Ee][Tt][Uu][Rr][Nn])
            CHOICE_APP=0
            ;;
-           # Commented out because there is a game with the title "Quiz" and entering "qui" would quit the menu.
+           # Commented out because there is a game with the title "Quiz" and
+           # entering "qui" would quit the menu.
            # [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
            #   CHOICE_APP=0
            # ;;
@@ -339,7 +384,8 @@ f_quit_app_menu () {
 # |       Function f_quit_subcat_menu      |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_SCAT.
+#  Inputs: CHOICE_SCAT.
+# Outputs: CHOICE_SCAT.
 #
 f_quit_subcat_menu () {
       case $CHOICE_SCAT in
@@ -359,7 +405,10 @@ f_quit_subcat_menu () {
 #
 # Inputs: $1, $2, APP_NAME.
 #
-f_how_to_quit_application () { # $1 typed key to quit. $2 string "no-clear" if screen should not be cleared.
+f_how_to_quit_application () { 
+      # $1 typed key to quit. 
+      # $2 string "no-clear" if screen should not be cleared.
+      #
       if [ -z $2 ] ; then
       # if [ $2 != "no-clear" ] ; then
          clear # Blank the screen.
@@ -400,19 +449,19 @@ f_press_enter_key_to_continue () { # Display message and wait for user input.
 } # End of function f_press_enter_key_to_continue
 #
 # +----------------------------------------+
-# |   Function f_menu_app_press_enter_key  |
+# |   Function f_option_press_enter_key  |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_APP.
+# Inputs: PRESS_KEY.
 #
-f_menu_app_press_enter_key () { # Display message and wait for user input.
-      # $CHOICE_APP =  0 means quit menu 
-      # $CHOICE_APP = -2 means application help invoked so don't show "press enter key" message again.
+f_option_press_enter_key () { # Display message and wait for user input.
+      # $PRESS_KEY = 0 means Do not display "Press 'Enter' key to continue."
+      # $PRESS_KEY = 1 means Display "Press 'Enter' key to continue."
       #
-      if [ $CHOICE_APP -ne 0 -a $CHOICE_APP -ne -2 ] ; then
+      if [ $PRESS_KEY -eq 1 ] ; then
          f_press_enter_key_to_continue
       fi
-} # End of function f_menu_app_press_enter_key
+} # End of function f_option_press_enter_key
 #
 # +----------------------------------------+
 # |       Function f_application_help      |
@@ -420,7 +469,8 @@ f_menu_app_press_enter_key () { # Display message and wait for user input.
 #
 # Inputs: CHOICE_APP, ERROR.
 #
-f_application_help () { # function where $CHOICE_APP="<Application name> --help" or "man <Application name>"
+f_application_help () { # function where $CHOICE_APP="<Application name> --help"
+                        # or "man <Application name>"
       # f_term_color # Set terminal color.
       case $CHOICE_APP in
            *--help)
@@ -430,13 +480,18 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
               $CHOICE_APP |more # <Application name> --help | more
               ERROR=$? # Save error flag condition.
               if [ $ERROR -ne 0 ] ; then
-                 # Error code 1 $?=1 means no --help available. Error code 0 (zero) where $?=0 means no error.
+                 # Error code 1 $?=1 means no --help available.
+                 # Error code 0 (zero) where $?=0 means no error.
                  # Message "No --help option available for <Application name>"
                  echo
-                 echo -e "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}' # $CHOICE_APP = "man <Application name>" so need awk to grab only the name.
-                 echo # The echo -e \c option supresses the line feed after the first echo command so that the message is on a single line.
+                 echo -e "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}'
+                 # $CHOICE_APP = "man <Application name>" so need awk to grab
+                 # only the name.
+                 # The echo -e \c option supresses the line feed after the first
+                 # echo command so that the message is on a single line.
+                 echo
               fi
-              CHOICE_APP=-1
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            ;;
            man' '*)
               echo "To quit help, type '"q"'."
@@ -445,15 +500,18 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
               $CHOICE_APP # CHOICE_APP = man <Application name>.
               ERROR=$? # Save error flag condition.
               if [ $ERROR -ne 0 ] ; then
-                 # Error code 16 where $?=16 means no man(ual) entry. Error code 0 (zero) where $?=0 means no error.
+                 # Error code 16 where $?=16 means no man(ual) entry.
+                 # Error code 0 (zero) where $?=0 means no error.
                  # Message "No manual entry for <Application name>" 
                  echo
-                 echo "No manual pages available for \c"; echo $CHOICE_APP | awk '{print $2;}' # $CHOICE_APP = "man <Application name>" so need awk to grab only the name.
+                 echo "No manual pages available for \c"; echo $CHOICE_APP | awk '{print $2;}' 
+                 # $CHOICE_APP = "man <Application name>" so need awk to grab
+                 # only the name.
                  echo "This application may either not be installed or is installed but man pages were never written for it."
                  #
                  f_press_enter_key_to_continue
               fi
-              CHOICE_APP=-2                                         
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
 } # End of function f_application_help
@@ -462,51 +520,64 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
 # |       Function f_application_run       |
 # +----------------------------------------+
 #
-# Inputs: DELIMITER, APP_NAME, WEB_SITE.
+#  Inputs: APP_NAME.
+# Outputs: CHOICE_APP=-1.
 #
 f_application_run () {
-CHOICE_APP=-1 # Force stay in menu until loop with "Press enter to continue" message afterwards.
+CHOICE_APP=-1 # Force stay in menu until loop.
+# Convert string to integer -1. Also indicates valid menu choice.
+# If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+#
 clear # Blank the screen.
 #
-if [ $DELIMITER="#MWB" ] ; then # If application is a web browser. #MWB This 3rd field prevents awk from printing this line into menu options. 
-   APP_RUN="$APP_NAME $WEB_SITE"
-   $APP_RUN
-else
-   $APP_NAME # Run application.
-fi
+$APP_NAME # Run application.
 #
 ERROR=$? # Save error flag condition.
-      case $ERROR in
-           127)  # Error code 127 means application is not installed.
-           f_application_error # installs application.
-           if [ $ERROR=127 -a $ANS="Y" ] ; then # If user decided to install application.
-              $APP_NAME           # Run application.
-              f_application_error # Check for errors. If so, display appropriate error message.
-           fi
-           ;;
-           1 | 13)
-           f_application_error # Display appropriate error message.
-           ;;
-      esac
+case $ERROR in
+     127)  # Error code 127 means application is not installed.
+     f_application_error # installs application.
+     # If user decided to install application.
+     if [ $ERROR=127 -a $ANS="Y" ] ; then 
+        $APP_NAME           # Run application.
+        f_application_error # Check for errors.
+                            # If so, display appropriate error message.
+     fi
+     ;;
+     1 | 13)
+     f_application_error # Display appropriate error message.
+     ;;
+esac
+#
 } # End of function f_application_run
 #
 # +----------------------------------------+
 # | Function f_application_bad_menu_choice |
 # +----------------------------------------+
 #
-# Inputs: DELIMITER, APP_NAME, WEB_SITE.
+#  Inputs: CHOICE_APP, APP_NAME.
+# Outputs: CHOICE_APP, PRESS_KEY.
+#
+# Always set CHOICE_APP from string to an integer because menu until loop
+# tests until [ CHOICE_APP -eq 0 ] and will error if CHOICE_APP is a string.
+#
+# Function f_application_run is always called before this function.
+# If valid menu choice, f_application_run sets CHOICE_APP=-1 then leave alone.
+# If CHOICE_APP=0 to quit menu, then leave alone.
+# If invalid menu choice, CHOICE_APP is bad string or bad integer,
+#    then set CHOICE_APP=-1 and do not display "Press 'Enter' key to continue."
 #
 f_application_bad_menu_choice () {
-case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
+case $CHOICE_APP in
      [A-Za-z]*)
-     CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                   # specifically for alpha nonsense responses.
-                   # Note for legitimate responses, when entering an app function, the
-                   # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+                   # Specifically for alpha nonsense responses.
      ;;
 esac
 if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-   CHOICE_APP=-2   # No display "Press enter key" if out-of-bounds numeric response.
+   CHOICE_APP=-1   # Convert string to integer -1 forcing stay in until loop.
+   PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
+                   # Specifically for out-of-bounds numeric response.
 fi
 } # End of function f_application_bad_menu_choice
 #
@@ -514,19 +585,21 @@ fi
 # |    Function f_subcat_bad_menu_choice   |
 # +----------------------------------------+
 #
-# Inputs: DELIMITER, APP_NAME, WEB_SITE.
+#  Inputs: CHOICE_SCAT.
+# Outputs: CHOICE_SCAT, PRESS_KEY.
 #
 f_subcat_bad_menu_choice () {
-case $CHOICE_SCAT in # Convert string to integer -2 to force stay in until loop.
+case $CHOICE_SCAT in
      [A-Za-z]*)
-     CHOICE_SCAT=-2 # Force stay in until loop without echo "Press enter to continue".
-                   # specifically for alpha nonsense responses.
-                   # Note for legitimate responses, when entering an app function, the
-                   # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+     CHOICE_SCAT=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                    # Specifically for alpha nonsense responses.
      ;;
 esac
 if [ $CHOICE_SCAT -le -3 -o $CHOICE_SCAT -gt $MAX ] ; then
-   CHOICE_SCAT=-2   # No display "Press enter key" if out-of-bounds numeric response.
+   CHOICE_SCAT=-1   # Convert string to integer -1 forcing stay in until loop.
+   PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
+                    # Specifically for out-of-bounds numeric response.
 fi
 } # End of function f_subcat_bad_menu_choice
 #
@@ -534,7 +607,9 @@ fi
 # |       Function f_application_error     |
 # +----------------------------------------+
 #
-# Inputs: ERROR, APP_NAME. 
+#  Inputs: ERROR, APP_NAME. 
+# Outputs: CHOICE_MAIN, CHOICE_CAT, CHOICE_SCAT, CHOICE_APP,
+#          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL.
 #
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
@@ -543,35 +618,55 @@ f_application_error () {
          f_press_enter_key_to_continue
          #
          # Be sure variable is set to redisplay current menu afterwards.
-         CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting Applications Menu.
-         CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting Sub-Category Menu.
-         CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting Category Menu.
-         CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting Main Menu.
+         CHOICE_APP=-1  # Initialize to -1 to force until loop
+                        # without exiting Applications Menu.
+         CHOICE_SCAT=-1 # Initialize to -1 to force until loop 
+                        # without exiting Sub-Category Menu.
+         CHOICE_CAT=-1  # Initialize to -1 to force until loop
+                        # without exiting Category Menu.
+         CHOICE_MAIN=-1 # Initialize to -1 to force until loop
+                        # without exiting Main Menu.
       fi
       #
-      case $ERROR in
+      case $ERROR in # Start of Error Number case statement.
            1 | 13)
            echo
            echo "Run $APP_NAME again this time using sudo?"
            echo -n "Use sudo (temporary root permissions) (y/N)? "
            read ANS
-           case $ANS in
+           case $ANS in  # Start of Use SUDO case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                sudo $APP_NAME
+                APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
+                case $APP_NAME_SUDO in # Start of APP_NAME_SUDO case statement.
+                     *' '*)  
+                     # If string APP_NAME/APP_NAME_SUDO includes spaces for
+                     # run-time parameters, then just extract package name. 
+                     # i.e. "dstat 1 10", then just grab "dstat" as package name.
+                     # i.e. "dstat --version", then just grab "dstat" as package name.
+                     APP_NAME_SUDO=$(echo $APP_NAME_SUDO | awk '{print $1;}')
+                     ;;
+                esac                    # End of APP_NAME_SUDO case statement.
+                #
+                sudo $APP_NAME_SUDO
                 ERROR=$? # Save error flag condition.
-                if [ $ERROR -ne 0 ] ; then
-                   # Error code 1 $?=1 means sudo failed. Error code 0 (zero) where $?=0 means no error.
-                   echo "Running sudo $APP_NAME failed."
+                #
+                if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
+                   # Error code 1 $?=1 means sudo failed.
+                   # Error code 0 (zero) where $?=0 means no error.
+                   echo
+                   echo "Running sudo $APP_NAME_SUDO failed."
                    echo "May be caused by bad sudo password, or user has no permission to use sudo,"
-                   echo "or bad $APP_NAME syntax."
-                   echo "consult help using man $APP_NAME."
+                   echo "or bad $APP_NAME_SUDO syntax."
+                   echo "consult help using man $APP_NAME_SUDO."
                    echo
                 fi
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                 ;;              
                 [Nn] | [Nn][Oo] | *)
                 ERROR=0
+                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
-           esac
+           esac     # End of Use SUDO case statement.
            ;;
            127) # Error code 127 means application is not installed.
            echo
@@ -588,66 +683,89 @@ f_application_error () {
            echo 
            echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)?"
            read ANS
-           case $ANS in
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+           case $ANS in # Start of Install Application Option case statement.
+                [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
                 #
-                APP_NAME_INSTALL=$APP_NAME
+                APP_NAME_INSTALL=$APP_NAME 
+                # Default of APP_NAME_INSTALL is simply APP_NAME. 
+                # This may be modified below in the Installation Package Name
+                # case statement.
                 #
-                case $APP_NAME_INSTALL in # Set variable APP_NAME_INSTALL.
-                *' '*)  
-                # If string APP_NAME/APP_NAME_INSTALL includes spaces for run-time parameters, then just extract package name. 
-                # i.e. "dstat 1 10", then just grab "dstat" as package name.
+                case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
+                     *' '*)  
+                     # If string APP_NAME/APP_NAME_INSTALL includes spaces for
+                     # run-time parameters, then just extract package name. 
+                     # i.e. "dstat 1 10", then just grab "dstat" as package name.
+                     #
+                     APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
+                     ;;
+                esac                      # End of APP_NAME_INSTALL case statement.
                 #
-                APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
-                ;;
-                esac
+                # Below are cases where the APP_NAME is not the same as the
+                # package name used to install the application.
+                # i.e. The game 'trek' is installed using the package called
+                # 'bsdgames'.
                 #
-                case $APP_NAME_INSTALL in # Set variable APP_NAME_INSTALL.
+                case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
 adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
-                APP_NAME_INSTALL="bsdgames"
-                ;;
-                glances) # Add repository for glances application.
-                sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
-                sudo apt-get update
-                ;;
-                moc)
-                APP_NAME_INSTALL="libqt4-dev"
-                ;;
-                aria2c)
-                APP_NAME_INSTALL="aria2"
-                esac
+                     APP_NAME_INSTALL="bsdgames"
+                     ;;
+                     glances) # Add repository for glances application.
+                     sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
+                     sudo apt-get update
+                     ;;
+                     moc)
+                     APP_NAME_INSTALL="libqt4-dev"
+                     ;;
+                     aria2c)
+                     APP_NAME_INSTALL="aria2"
+                     ;;
+                     todo)
+                     APP_NAME_INSTALL="devtodo"
+                     ;;
+                     lynx)
+                     APP_NAME_INSTALL="lynx-cur"
+                esac # End of Install Package Name case statement.
                 #
-                if [ -d /etc/apt ] ; then # if /etc/apt directory exists, then use apt-get install for Debian-based packages.
+                if [ -d /etc/apt ] ; then 
+                   # if /etc/apt directory exists, then use apt-get install
+                   # for Debian-based packages.
                    sudo apt-get install $APP_NAME_INSTALL
                    ERROR=$? # Save error flag condition.
                    if [ $ERROR -ne 0 ] ; then
                       # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
                       echo
-                      echo "Installation of $APP_NAME failed. Command sudo apt-get install $APP_NAME_INSTALL failed."
+                      echo "Installation of $APP_NAME_INSTALL failed. Command sudo apt-get install $APP_NAME_INSTALL failed."
                       echo "May be a failure downloading package. Bad Internet connection?"
                       echo
                    fi
                 fi 
-                if [ -d /var/lib/rpm ] ; then # if /var/lib/rpm directory exists, then use rpm install for RPM-based packages.
-                   sudo rpm -ivh $APP_NAME_INSTALL # Assume if not Debian, then Red Hat distro packages.
+                if [ -d /var/lib/rpm ] ; then 
+                   # if /var/lib/rpm directory exists, then use rpm install
+                   # for RPM-based packages.
+                   sudo rpm -ivh $APP_NAME_INSTALL 
+                   # Assume if not Debian, then Red Hat distro packages.
                    ERROR=$? # Save error flag condition.
                    if [ $ERROR -ne 0 ] ; then
-                      # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+                      # Error code 1 $?=1 means installation failed.
+                      # Error code 0 (zero) where $?=0 means no error.
                       echo
-                      echo "Installation of $APP_NAME failed. Command sudo rpm -ivh $APP_NAME_INSTALL failed."
+                      echo "Installation of $APP_NAME_INSTALL failed. Command sudo rpm -ivh $APP_NAME_INSTALL failed."
                       echo "May be a failure downloading package. Bad Internet connection"
                       echo
                    fi
                 fi
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                 ;;              
-                [Nn] | [Nn][Oo] | *)
+                [Nn] | [Nn][Oo] | *) # No, do not install the application.
                 ERROR=0
+                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
-           esac
+           esac # End of Install Application Option case statement.
            ;;
-      esac
+      esac # End of Error Number case statement.
       # This function needs to be followed by a f_press_enter_key_to_continue 
-      # or by a f_menu_app_press_enter_key so that messages are displayed.
+      # or by a f_option_press_enter_key so that messages are displayed.
 } # End of function f_application_error
 #
 # +----------------------------------------+
@@ -658,7 +776,8 @@ adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar |
 #
 f_menu_cat_sample_template () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] # Only way to exit menu is to enter "0" or "[R]eturn".
+      until [ $CHOICE_SCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Application Category until loop.
             #MXC App Cat1
             #MXC App Cat2
@@ -682,7 +801,9 @@ f_menu_cat_sample_template () {
                  ;;
             esac                # End of Application Category case statement.
             #
-            f_subcat_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
+            if [ $CHOICE_SCAT -ne -0 ] ; then
+               CHOICE_SCAT=-1 # Force stay in until loop.
+            fi
       done  # End of Application Category until loop.
 } # End of function f_menu_cat_sample_template
 #
@@ -694,7 +815,8 @@ f_menu_cat_sample_template () {
 #
 f_menu_app_sample_template () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] # Only way to exit menu is to enter "0" or "[R]eturn".
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Applications until loop.
             #MXX Application name - Description.
             #MXX Application2 name - Description.
@@ -722,8 +844,10 @@ f_menu_app_sample_template () {
                  ;;
             esac                # End of <Sample Template> Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of <Sample Template> Applications until loop.
 } # End of function f_menu_app_sample_template
 #
@@ -776,77 +900,66 @@ f_menu_cat_applications () {
             case $CHOICE_CAT in # Start of Application Category case statement.
                  1 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
                  f_menu_cat_internet     # Internet Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk])
                  f_menu_cat_network     # Network Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
                  f_menu_app_file_managers     # File Manager Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Ee] | [Tt][Ee][Xx][Tt]' '[Ee][Dd] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_text_editors     # Text Editor Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Tt] | [Tt][Ee][Xx][Tt]' '[Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll][Ss])
                  f_menu_app_text_tools
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
                  f_menu_cat_system_applications     # System Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
                  f_menu_app_calendar_todo     # Calendar-ToDo Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
                  f_menu_app_calculators     # Calculator Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  9 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
                  f_menu_app_spreadsheets     # Spreadsheet Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  10 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
                  f_menu_app_note_applications     # Note Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  11 | [Aa] | [Aa][Uu] | [Aa][Uu][Dd] | [Aa][Uu][Dd][Ii] | [Aa][Uu][Dd][Ii][Oo])
                  f_menu_app_audio_applications     # Audio Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  12 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee][Rr])
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
-                 CHOICE_CAT=-2
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  13 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss][-] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc][Ss])
                  f_menu_app_image_graphics_applications     # Image-Graphics Applications Menu.
-                 CHOICE_CAT=-1
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  14 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
                  f_menu_app_education_applications     # Education Applications Menu.
-                 CHOICE_CAT=-1
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  15 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
                  f_menu_cat_games
-                 CHOICE_CAT=-1
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
             esac # End of Application Category case statement.
             #
-            case $CHOICE_CAT in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_CAT=-2 # Force stay in until loop.
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering sub-menu function, the
-                               # f_initvars_menu_app resets CHOICE_CAT=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_CAT -le -3 -o $CHOICE_CAT -gt $MAX ] ; then
-               CHOICE_CAT=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
       done # End of Application Category until loop.
 } # End of function f_menu_cat_applications
 #
@@ -940,7 +1053,9 @@ f_menu_cat_internet () {
                  ;;
             esac                # End of Internet Category case statement.
             #
-            f_subcat_bad_menu_choice
+            if [ $CHOICE_SCAT -ne -0 ] ; then
+               CHOICE_SCAT=-1 # Force stay in until loop.
+            fi
       done  # End of Internet Category until loop.
 } # End of function f_menu_cat_internet
 #
@@ -970,35 +1085,62 @@ f_menu_app_web_browsers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Web Browser Applications case statement.
-                 1 | [Ee] | [Ee][Ll] | [Ee][Ll][Ii] | [Ee][Ll][Ii][Nn] | [Ee][Ll][Ii][Nn][Kk] | [Ee][Ll][Ii][Nn][Kk][Ss]) 
+                 1 | [Ee] | [Ee][Ll] | [Ee][Ll][Ii] | [Ee][Ll][Ii][Nn] | [Ee][Ll][Ii][Nn][Kk] | [Ee][Ll][Ii][Nn][Kk][Ss] | [Ee][Ll][Ii][Nn][Kk][Ss])
                  APP_NAME="elinks"
                  f_web_site
                  f_application_run
                  ;;
-                 2 | [Ll] | [Ll][Yy] | [Ll][Yy][Nn] | [Ll][Yy][Nn][Xx] | [Ll][Yy][Nn][Xx]'-' | [Ll][Yy][Nn][Xx]'-'[Cc] | [Ll][Yy][Nn][Xx]'-'[Cc][Uu] | [Ll][Yy][Nn][Xx]'-'[Cc][Uu][Rr])
-                 APP_NAME="lynx-cur"
+                 [Ee][Ll][Ii][Nn][Kk][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
                  f_web_site
                  f_application_run
                  ;;
-                 3 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss]) 
+                 2 | [Ll] | [Ll][Yy] | [Ll][Yy][Nn] | [Ll][Yy][Nn][Xx] | [Ll][Yy][Nn][Xx])
+                 APP_NAME="lynx"
+                 f_web_site
+                 f_application_run
+                 ;;
+                 [Ll][Yy][Nn][Xx]'-'[Cc][Uu][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 ;;
+                 3 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss]) 
                  APP_NAME="links"
                  f_web_site
                  f_application_run
                  ;;
-                 4 |[Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss][2])
+                 [Ll][Ii][Nn][Kk][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 ;;
+                 4 |[Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss][2] | [Ll][Ii][Nn][Kk][Ss][2])
                  APP_NAME="links2"
                  f_web_site
                  f_application_run
                  ;;
-                 5 | [Ww] | [Ww][3] | [Ww][3][Mm])
+                 [Ll][Ii][Nn][Kk][Ss][2]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 ;;
+                 5 | [Ww] | [Ww][3] | [Ww][3][Mm] | [Ww][3][Mm])
                  APP_NAME="w3m"
+                 f_web_site
+                 f_application_run
+                 ;;
+                 [Ww][3][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
                  f_web_site
                  f_application_run
                  ;;
             esac                # End of Web Browsers Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of Web Browsers Applications until loop.
 } # End of function f_menu_app_web_browsers
 #
@@ -1006,16 +1148,58 @@ f_menu_app_web_browsers () {
 # |          Function f_web_site           |
 # +----------------------------------------+
 #
+#  Inputs: APP_NAME.
+# Outputs: APP_NAME, WEB_SITE, PRESS_KEY.
+#
 f_web_site () {
-echo
-echo "When using the web browser directly from the command line,"
-echo "use the syntax: $APP_NAME WEB_SITE"
-echo
-echo "Enter the name of the web site:"
-read WEB_SITE
-if [ -z "$WEB_SITE" ] ; then # If no web site specified, default to a web site. Note the test command has $WEB_SITE in quotes because it may not be set prior to this test.
-   WEB_SITE="http://www.lxer.com"
-fi
+case $APP_NAME in # Start of case statement.
+     #
+     # The order of the case pattern matching clauses is necessary.
+     #
+     # Does $APP_NAME have space followed by dash?
+     # If so, 2nd word is an application option and not a web site.
+     #
+     *' '[\-]*) # Space followed by dash in name. Same as ' -'*) pattern.
+                 # The pattern ' '[\-] is the same as ' -' pattern.
+                 # The dash is usually used in range pattern [0-9] [a-zA-Z]
+                 # but the back-slash makes dash interpreted as literal dash.
+     # No action needs to be taken. Invoking application option not a web site.
+     #
+    WEB_SITE="" 
+    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+     ;;
+     # Does $APP_NAME have space not followed by dash?
+     # If so, 2nd word treated as a web site.
+     #
+     *' '[!\-]*) # Space not followed by dash. Assume 2nd word is the web site.
+     # WEB_SITE=$(echo $APP_NAME | awk '{print $2;}') # TEST LINE.
+     # APP_NAME=$(echo $APP_NAME | awk '{print $1;}') # TEST LINE.
+     # echo $APP_NAME to browse in $WEB_SITE          # TEST LINE.
+     # f_press_enter_key_to_continue                  # TEST LINE.
+     #
+     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+     ;;
+     # Does $APP_NAME have no spaces?
+     # If so, treat as a web browser without a specified web site.
+     #
+     *[!' ']*) # No spaces in name which is everything left-over by default.
+     echo
+     echo "When using the web browser directly from the command line,"
+     echo "use the syntax: $APP_NAME WEB_SITE"
+     echo
+     echo -n "Enter the name of the web site: "
+     read WEB_SITE
+     #
+     # If no web site specified, default to a web site. Note the test command
+     # has $WEB_SITE in quotes because it may not be set prior to this test.
+     if [ -z "$WEB_SITE" ] ; then
+         WEB_SITE="http://www.lxer.com"
+     fi
+     #
+     APP_NAME="$APP_NAME $WEB_SITE"
+     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+     ;;
+esac # End of case statement.
 } # End of function f_web_site
 #
 # +----------------------------------------+
@@ -1047,22 +1231,40 @@ f_menu_app_bittorrent () {
                  APP_NAME="bittornado"
                  f_application_run
                  ;;
+                 [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd][Oo]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt])
                  APP_NAME="bittorrent"
+                 f_application_run
+                 ;;
+                 [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Cc] | [Cc][Tt] | [Cc][Tt][Oo] | [Cc][Tt][Oo][Rr] | [Cc][Tt][Oo][Rr][Rr] | [Cc][Tt][Oo][Rr][Rr][Ee] | [Cc][Tt][Oo][Rr][Rr][Ee][Nn] | [Cc][Tt][Oo][Rr][Rr][Ee][Nn][Tt])
                  APP_NAME="ctorrent"
                  f_application_run
                  ;;
+                 [Cc][Tt][Oo][Rr][Rr][Ee][Nn][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Rr] | [Rr][Tt] | [Rr][Tt][Oo] | [Rr][Tt][Oo][Rr] | [Rr][Tt][Oo][Rr][Rr] | [Rr][Tt][Oo][Rr][Rr][Ee] | [Rr][Tt][Oo][Rr][Rr][Ee][Nn] | [Rr][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
                  APP_NAME="rtorrent"
                  f_application_run
                  ;;
+                 [Rr][Tt][Oo][Rr][Rr][Ee][Nn][Tt]' '[-]*) 
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Bittorrent Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of Bittorrent Applications until loop.
 } # End of function f_menu_app_bittorrent
 #
@@ -1096,6 +1298,10 @@ f_menu_app_downloaders () {
                  APP_NAME="aria2c"
                  f_application_run
                  ;;
+                 [Aa][Rr][Ii][Aa][2]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Mm][ | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Ss] | [Mm][Dd][5][Ss][Uu] | [Mm][Dd][5][Ss][Uu][Mm])
                  APP_NAME="man md5sum"
                  clear # Blank the screen.
@@ -1103,9 +1309,13 @@ f_menu_app_downloaders () {
                  echo
                  echo "Usage: md5sum [OPTION]... [FILE]..."
                  echo
-                 echo "For more help type: md5sum --hep"
+                 echo "*** For more help type: md5sum --hep"
                  echo "Now show help. Usage: man md5sum"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Mm][Dd][5][Ss][Uu][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp] | [Mm][Dd][5][Pp][Aa] | [Mm][Dd][5][Pp][Aa][Ss] | [Mm][Dd][5][Pp][Aa][Ss][Ss])
@@ -1115,11 +1325,15 @@ f_menu_app_downloaders () {
                  echo
                  echo "Usage: md5pass [PASSWORD] [SALT]"
                  echo
-                 echo "For more help type: man md5pass"
+                 echo "*** For more help type: man md5pass"
                  echo
                  echo "md5pass without any SALT value causes a random salt value to be generated."
                  echo "Now run md5pass. Usage: 'md5pass'."
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Mm][Dd][5][Pp][Aa][Ss][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss] | [Ss][Hh][Aa][1][Ss][Uu] | [Ss][Hh][Aa][1][Ss][Uu][Mm])
@@ -1129,9 +1343,13 @@ f_menu_app_downloaders () {
                  echo
                  echo "Usage: sha1sum [OPTION]... [FILE]..."
                  echo
-                 echo "For more help type: sha1sum --help"
+                 echo "*** For more help type: sha1sum --help"
                  echo "Now show help. Usage: man sha1sum"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ss][Hh][Aa][1][Ss][Uu][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
@@ -1140,17 +1358,23 @@ f_menu_app_downloaders () {
                  echo "Create a password hash. Usage: sha1pass [PASSWORD][SALT]"
                  echo
                  echo "Usage: sha1pass [PASSWORD] [SALT]"
-                 echo "For more help type: man sha1pass"
+                 echo "*** For more help type: man sha1pass"
                  echo
                  echo "sha1pass without any SALT value causes a random salt value to be generated."
                  echo "Now run sha1pass. Usage: 'sha1pass'."
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Downloader Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of Downloaders Applications until loop.
 } # End of function f_menu_app_downloaders
 #
@@ -1187,38 +1411,72 @@ f_menu_app_email () {
                  APP_NAME="alpine"
                  f_application_run
                  ;;
-                 2 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Ee]) 
+                 [Aa][Ll][Pp][Ii][Nn][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Ee])
                  APP_NAME="cone"
+                 f_application_run
+                 ;;
+                 [Cc][Oo][Nn][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3  | [Ee] | [Ee][Ll] | [Ee][Ll][Mm] | [Ee][Ll][Mm][Oo])
                  APP_NAME="elmo"
                  f_application_run
                  ;;
-                 4 | [Ff] | [Ff][Ee] | [Ff][Ee][Tt] | [Ff][Ee][Tt][Cc] | [Ff][Ee][Tt][Cc][Hh] | [Ff][Ee][Tt][Cc][Hh][Yy] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh][Oo] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh][Oo][Oo]) 
+                 [Ee][Ll][Mm][Oo]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Ff] | [Ff][Ee] | [Ff][Ee][Tt] | [Ff][Ee][Tt][Cc] | [Ff][Ee][Tt][Cc][Hh] | [Ff][Ee][Tt][Cc][Hh][Yy] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh][Oo] | [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh][Oo][Oo])
                  APP_NAME="fetchyahoo"
+                 f_application_run
+                 ;;
+                 [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh][Oo][Oo]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Mm] | [Mm][Uu] | [Mm][Uu][Tt] | [Mm][Uu][Tt][Tt])
                  APP_NAME="mutt"
                  f_application_run
                  ;;
+                 [Mm][Uu][Tt][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Nn] | [Nn][Ee] | [Nn][Ee][Dd] | [Nn][Ee][Dd][Mm] | [Nn][Ee][Dd][Mm][Aa] | [Nn][Ee][Dd][Mm][Aa][Ii] | [Nn][Ee][Dd][Mm][Aa][Ii][Ll])
                  APP_NAME="nedmail"
+                 f_application_run
+                 ;;
+                 [Nn][Ee][Dd][Mm][Aa][Ii][Ll]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Ee])
                  APP_NAME="pine"
                  f_application_run
                  ;;
+                 [Pp][Ii][Nn][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  8 | [Ss] | [Ss][Uu] | [Ss][Uu][Pp] | [Ss][Uu][Pp][Pp])
                  APP_NAME="supp"
                  f_application_run
                  ;;
+                 [Ss][Uu][Pp][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of E-mail Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of E-mail Applications until loop.
 } # End of function f_menu_app_email
 #
@@ -1249,14 +1507,24 @@ f_menu_app_fax () {
                  APP_NAME="efax"
                  f_application_run
                  ;;
+                 [Ee][Ff][Aa][Xx]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Hh] | [Hh][Yy] | [Hh][Yy][Ll] | [Hh][Yy][Ll][Aa] | [Hh][Yy][Ll][Aa][Ff] | [Hh][Yy][Ll][Aa][Ff][Aa] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc][Ll] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc][Ll][Ii] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc][Ll][Ii][Ee] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc][Ll][Ii][Ee][Nn] | [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="hylafax-client"
                  f_application_run
                  ;;
+                 [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc][Ll][Ii][Ee][Nn][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of FAX Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of FAX Applications until loop.
 } # End of function f_menu_app_fax
 #
@@ -1292,34 +1560,64 @@ f_menu_app_file_transfer () {
                  APP_NAME="cmdftp"
                  f_application_run
                  ;;
+                 [Cc][Mm][Dd][Ff][Tt][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Cc] | [Cc][Uu]  | [Cc][Uu][Rr] | [Cc][Uu][Rr][Ll])
                  APP_NAME="curl"
+                 f_application_run
+                 ;;
+                 [Cc][Uu][Rr][Ll]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Ff] | [Ff][Tt] | [Ff][Tt][Pp])
                  APP_NAME="ftp"
                  f_application_run
                  ;;
+                 [Ff][Tt][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Ff] | [Ff][Tt] | [Ff][Tt][Pp] | [Ff][Tt][Pp][Ff] | [Ff][Tt][Pp][Ff][Ss])
                  APP_NAME="ftpfs"
+                 f_application_run
+                 ;;
+                 [Ff][Tt][Pp][Ff][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Ll] | [Ll][Ff] | [Ll][Ff][Tt] | [Ll][Ff][Tt][Pp])
                  APP_NAME="lftp"
                  f_application_run
                  ;;
+                 [Ll][Ff][Tt][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6  | [Nn] | [Nn][Cc] | [Nn][Cc][Ff] | [Nn][Cc][Ff][Tt] | [Nn][Cc][Ff][Tt][Pp])
                  APP_NAME="ncftp"
+                 f_application_run
+                 ;;
+                 [Nn][Cc][Ff][Tt][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Ss] | [Ss][Cc] | [Ss][Cc][Pp])
                  APP_NAME="scp"
                  f_application_run
                  ;;
+                 [Ss][Cc][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of File Transfer Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of File Transfer Applications until loop.
 } # End of function f_menu_app_file_transfer
 #
@@ -1354,30 +1652,56 @@ f_menu_app_instant_messaging () {
                  APP_NAME="bitlbee"
                  f_application_run
                  ;;
+                 [Bb][Ii][Tt][Ll][Bb][Ee][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc][Qq])
                  APP_NAME="centericq"
+                 f_application_run
+                 ;;
+                 [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc][Qq]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm])
                  APP_NAME="centerim"
                  f_application_run
                  ;;
+                 [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Cc] | [Ff][Ii][Nn][Cc][Hh])
                  APP_NAME="finch"
+                 f_application_run
+                 ;;
+                 [Ff][Ii][Nn][Cc][Hh]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Tt] | [Ff][Rr][Ee][Ee][Tt][Aa] | [Ff][Rr][Ee][Ee][Tt][Aa][Ll] | [Ff][Rr][Ee][Ee][Tt][Aa][Ll][Kk])
                  APP_NAME="freetalk"
                  f_application_run
                  ;;
+                 [Ff][Rr][Ee][Ee][Tt][Aa][Ll][Kk]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Mm] | [Mm][Cc] | [Mm][Cc][Aa] | [Mm][Cc][Aa][Bb] | [Mm][Cc][Aa][Bb][Bb] | [Mm][Cc][Aa][Bb][Bb][Ee] | [Mm][Cc][Aa][Bb][Bb][Ee][Rr])
                  APP_NAME="mcabber"
                  f_application_run
                  ;;
+                 [Mm][Cc][Aa][Bb][Bb][Ee][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Instant Messaging Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of Instant Messaging Applications until loop.
 } # End of function f_menu_app_instant_messaging
 #
@@ -1412,30 +1736,56 @@ f_menu_app_irc_clients () {
                  APP_NAME="epic"
                  f_application_run
                  ;;
+                 [Ee][Pp][Ii][Cc]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Ii] |[Ii][Ii])
                  APP_NAME="ii"
+                 f_application_run
+                 ;;
+                 [Ii][Ii]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Ii] | [Ii][Rr] | [Ii][Rr][Cc] | [Ii][Rr][Cc][Ii] | [Ii][Rr][Cc][Ii][Ii])
                  APP_NAME="ircii"
                  f_application_run
                  ;;
+                 [Ii][Rr][Cc][Ii][Ii]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Ii] | [Ii][Rr] | [Ii][Rr][Ss] | [Ii][Rr][Ss][Ss] | [Ii][Rr][Ss][Ss][Ii])
                  APP_NAME="irssi"
+                 f_application_run
+                 ;;
+                 [Ii][Rr][Ss][Ss][Ii]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Pp] | [Pp][Oo] | [Pp][Oo][Rr] | [Pp][Oo][Rr][Kk])
                  APP_NAME="pork"
                  f_application_run
                  ;;
+                 [Pp][Oo][Rr][Kk]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Ss] | [Ss][Ii] | [Ss][Ii][Cc])
                  APP_NAME="sic"
                  f_application_run
                  ;;
+                 [Ss][Ii][Cc]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of IRC Clients Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of IRC Clients Applications until loop.
 } # End of function f_menu_app_irc_clients
 #
@@ -1470,30 +1820,56 @@ f_menu_app_news_readers () {
                  APP_NAME="gnus"
                  f_application_run
                  ;;
+                 [Gg][Nn][Uu][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Nn] | [Nn][Nn]) 
                  APP_NAME="nn"
+                 f_application_run
+                 ;;
+                 [Nn][Nn]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Rr] | [Rr][Nn])
                  APP_NAME="rn"
                  f_application_run
                  ;;
+                 [Rr][Nn]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4  | [Ss] | [Ss][Ll] | [Ss][Ll][Rr] | [Ss][Ll][Rr][Nn]) 
                  APP_NAME="slrn"
+                 f_application_run
+                 ;;
+                 [Ss][Ll][Rr][Nn]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Tt] | [Tt][Ii] | [Tt][Ii][Nn])
                  APP_NAME="tin"
                  f_application_run
                  ;;
+                 [Tt][Ii][Nn]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Tt] | [Tt][Rr] | [Tt][Rr][Nn])
                  APP_NAME="trn"
                  f_application_run
                  ;;
+                 [Tt][Rr][Nn]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of News Reader Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of News Reader Applications until loop.
 } # End of function f_menu_app_news_readers
 #
@@ -1524,14 +1900,24 @@ f_menu_app_network_chat () {
                  APP_NAME="talk"
                  f_application_run
                  ;;
+                 [Tt][Aa][Ll][Kk]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Yy] | [Yy][Tt] | [Yy][Tt][Aa] | [Yy][Tt][Aa][Ll] | [Yy][Tt][Aa][Ll][Kk])
                  APP_NAME="ytalk"
                  f_application_run
                  ;;
+                 [Yy][Tt][Aa][Ll][Kk]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Network Chat Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of Network Chat Applications until loop.
 } # End of function f_menu_app_network_chat
 #
@@ -1566,30 +1952,56 @@ f_menu_app_podcatchers () {
                  APP_NAME="bashpodder"
                  f_application_run
                  ;;
+                 [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Gg] | [Gg][Oo] | [Gg][Oo][Ll] | [Gg][Oo][Ll][Dd] | [Gg][Oo][Ll][Dd][Ee] | [Gg][Oo][Ll][Dd][Ee][Nn] | [Gg][Oo][Ll][Dd][Ee][Nn][Pp] | [Gg][Oo][Ll][Dd][Ee][Nn][Pp][Oo] | [Gg][Oo][Ll][Dd][Ee][Nn][Pp][Oo][Dd])
                  APP_NAME="goldenpod"
+                 f_application_run
+                 ;;
+                 [Gg][Oo][Ll][Dd][Ee][Nn][Pp][Oo][Dd]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Hh] | [Hh][Pp] | [Hh][Pp][Oo] | [Hh][Pp][Oo][Dd] | [Hh][Pp][Oo][Dd][Dd] | [Hh][Pp][Oo][Dd][Dd][Ee] | [Hh][Pp][Oo][Dd][Dd][Ee][Rr])
                  APP_NAME="hpodder"
                  f_application_run
                  ;;
+                 [Hh][Pp][Oo][Dd][Dd][Ee][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Gg] | [Pp][Oo][Dd][Gg][Ee] | [Pp][Oo][Dd][Gg][Ee][Tt])
                  APP_NAME="podget"
+                 f_application_run
+                 ;;
+                 [Pp][Oo][Dd][Gg][Ee][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Rr] | [Pp][Oo][Dd][Rr][Aa] | [Pp][Oo][Dd][Rr][Aa][Cc] | [Pp][Oo][Dd][Rr][Aa][Cc][Ee] | [Pp][Oo][Dd][Rr][Aa][Cc][Ee][Rr])
                  APP_NAME="podracer"
                  f_application_run
                  ;;
+                 [Pp][Oo][Dd][Rr][Aa][Cc][Ee][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Uu] | [Uu][Rr] | [Uu][Rr][Aa] | [Uu][Rr][Aa][Nn] | [Uu][Rr][Aa][Nn][Ii] | [Uu][Rr][Aa][Nn][Ii][Aa] | [Uu][Rr][Aa][Nn][Ii][Aa][Cc] | [Uu][Rr][Aa][Nn][Ii][Aa][Cc][Aa] | [Uu][Rr][Aa][Nn][Ii][Aa][Cc][Aa][Ss] | [Uu][Rr][Aa][Nn][Ii][Aa][Cc][Aa][Ss][Tt])
                  APP_NAME="uraniacast"
                  f_application_run
                  ;;
+                 [Uu][Rr][Aa][Nn][Ii][Aa][Cc][Aa][Ss][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Podcatcher Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of Podcatcher Applications until loop.
 } # End of function f_menu_app_podcatchers
 #
@@ -1622,22 +2034,40 @@ f_menu_app_remote_connection () {
                  APP_NAME="cpu"
                  f_application_run
                  ;;
+                 [Cc][Pp][Uu]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Oo] | [Oo][Pp] | [Oo][Pp][Ee] | [Oo][Pp][Ee][Nn] | [Oo][Pp][Ee][Nn][Ss] | [Oo][Pp][Ee][Nn][Ss][Ss] | [Oo][Pp][Ee][Nn][Ss][Ss][Hh])
                  APP_NAME="openssh"
+                 f_application_run
+                 ;;
+                 [Oo][Pp][Ee][Nn][Ss][Ss][Hh]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Ss] | [Ss][Ss] | [Ss][Ss][Hh])
                  APP_NAME="ssh"
                  f_application_run
                  ;;
+                 [Ss][Ss][Hh]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Ss] | [Ss][Ss] | [Ss][Ss][Ll] | [Ss][Ss][Ll][Hh])
                  APP_NAME="sslh"
                  f_application_run
                  ;;
+                 [Ss][Ss][Ll][Hh]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Remote Connection Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of Remote Connection Applications until loop.
 } # End of function f_menu_app_remote_connection
 #
@@ -1674,38 +2104,72 @@ f_menu_app_rssfeeders () {
                  APP_NAME="canto"
                  f_application_run
                  ;;
+                 [Cc][Aa][Nn][Tt][Oo]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Nn] | [Nn][Ee] | [Nn][Ee][Ww] | [Nn][Ee][Ww][Ss] | [Nn][Ee][Ww][Ss][Bb] | [Nn][Ee][Ww][Ss][Bb][Ee] | [Nn][Ee][Ww][Ss][Bb][Ee][Uu] | [Nn][Ee][Ww][Ss][Bb][Ee][Uu][Tt] | [Nn][Ee][Ww][Ss][Bb][Ee][Uu][Tt][Ee] | [Nn][Ee][Ww][Ss][Bb][Ee][Uu][Tt][Ee][Rr])
                  APP_NAME="newsbeuter"
+                 f_application_run
+                 ;;
+                 [Nn][Ee][Ww][Ss][Bb][Ee][Uu][Tt][Ee][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Nn] | [Nn][Rr] | [Nn][Rr][Ss] | [Nn][Rr][Ss][Ss])
                  APP_NAME="nrss"
                  f_application_run
                  ;;
+                 [Nn][Rr][Ss][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Oo] | [Oo][Ll] | [Oo][Ll][Ii] | [Oo][Ll][Ii][Vv] | [Oo][Ll][Ii][Vv][Ee])
                  APP_NAME="olive"
+                 f_application_run
+                 ;;
+                 [Oo][Ll][Ii][Vv][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Rr] | [Rr][Aa] | [Rr][Aa][Gg] | [Rr][Aa][Gg][Gg] | [Rr][Aa][Gg][Gg][Ll] | [Rr][Aa][Gg][Gg][Ll][Ee])
                  APP_NAME="raggle"
                  f_application_run
                  ;;
+                 [Rr][Aa][Gg][Gg][Ll][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Rr] | [Rr][Aa] | [Rr][Aa][Ww] | [Rr][Aa][Ww][Dd] | [Rr][Aa][Ww][Dd][Oo] | [Rr][Aa][Ww][Dd][Oo][Gg])
                  APP_NAME="rawdog"
+                 f_application_run
+                 ;;
+                 [Rr][Aa][Ww][Dd][Oo][Gg]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Rr] | [Rr][Ss] | [Rr][Ss][Ss]  | [Rr][Ss][Ss][Tt]  | [Rr][Ss][Ss][Tt][Aa]  | [Rr][Ss][Ss][Tt][Aa][Ii]  | [Rr][Ss][Ss][Tt][Aa][Ii][Ll])
                  APP_NAME="rsstail"
                  f_application_run
                  ;;
+                 [Rr][Ss][Ss][Tt][Aa][Ii][Ll]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  8 | [Ss] | [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Ww] | [Ss][Nn][Oo][Ww][Nn] | [Ss][Nn][Oo][Ww][Nn][Ee] | [Ss][Nn][Oo][Ww][Nn][Ee][Ww] | [Ss][Nn][Oo][Ww][Nn][Ee][Ww][Ss])
                  APP_NAME="snownews"
                  f_application_run
                  ;;
+                 [Ss][Nn][Oo][Ww][Nn][Ee][Ww][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of RSS Feeder Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done  # End of RSS Feeder Applications until loop.
 } # End of function f_menu_app_rssfeeders
 #
@@ -1717,7 +2181,7 @@ f_menu_cat_network () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of Network Application Category until loop.
-            #BNE Configuration - scan for wireless networks, display wired/wireless config and routing tables.
+            #BNE Configuration - scan for wireless networks, display wired/wireless config.
             #BNE Monitors - LAN monitors, network packet analyzers, network mappers.
             #
             MENU_TITLE="Network Application Category Menu"
@@ -1740,7 +2204,9 @@ f_menu_cat_network () {
                  ;;
             esac                # End of Network Application Category case statement.
             #
-            f_subcat_bad_menu_choice
+            if [ $CHOICE_SCAT -ne -0 ] ; then
+               CHOICE_SCAT=-1 # Force stay in until loop.
+            fi
       done  # End of Network Application Category until loop.
 } # End of function f_menu_cat_network
 #
@@ -1786,12 +2252,16 @@ f_menu_app_network_config () {
                  echo
                  echo "Usage: iptables [-t table] {-A|-C|-D} chain rule-specification"
                  echo
-                 echo "For more help type: man iptables"
+                 echo "*** For more help type: man iptables"
                  echo
                  echo "List all chains of the IPv4 packet filter (firewall) on this PC (localhost)."
                  echo
                  echo "Now run iptables. Usage: iptables --list"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  2 | [Uu] | [Uu][Ff] | [Uu][Ff][Ww])
@@ -1819,16 +2289,32 @@ f_menu_app_network_config () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 [Uu][Ff][Ww]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Ii] | [Ii][Ff] | [Ii][Ff][Cc] | [Ii][Ff][Cc][Oo] | [Ii][Ff][Cc][Oo][Nn] | [Ii][Ff][Cc][Oo][Nn][Ff] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="ifconfig"
+                 f_application_run
+                 ;;
+                 [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Rr] | [Ii][Pp]' '[Rr][Oo] | [Ii][Pp]' '[Rr][Oo][Uu] | [Ii][Pp]' '[Rr][Oo][Uu][Tt] | [Ii][Pp]' '[Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="ip route"
                  f_application_run
                  ;;
+                 [Ii][Pp]' '[Rr][Oo][Uu][Tt][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  5 | [Rr] | [Rr][Oo] | [Rr][Oo][Uu] | [Rr][Oo][Uu][Tt] | [Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="route"
+                 f_application_run
+                 ;;
+                 [Rr][Oo][Uu][Tt][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  6 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
@@ -1844,7 +2330,7 @@ f_menu_app_network_config () {
                  echo "Usage: ping destination where destination may be an IP-address or url."
                  echo "       i.e. ping 192.168.1.1 or ping www.sourceforge.net"
                  echo
-                 echo "For more help type: man ping" 
+                 echo "*** For more help type: man ping" 
                  echo
                  echo "Pinging this PC (localhost) for five times as an example."
                  echo
@@ -1852,6 +2338,10 @@ f_menu_app_network_config () {
                  echo
                  echo "Many web sites block pings resulting in a message: '100% package loss'."
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Pp][Ii][Nn][Gg]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
@@ -1864,12 +2354,16 @@ f_menu_app_network_config () {
                  echo "[--address IP.ADD.RE.SS] [--interval SECONDS] [--psize BYTES | -s BYTES]"
                  echo " HOSTNAME [PACKETSIZE]"
                  echo
-                 echo "For more help type: man mtr" 
+                 echo "*** For more help type: man mtr" 
                  echo
                  echo "mtr of this PC (localhost) as an example."
                  echo
                  echo "Now run mtr. Usage: mtr localhost"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Mm][Tt][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee])
@@ -1887,7 +2381,7 @@ f_menu_app_network_config () {
                  echo "     tcptraceroute  [options]"
                  echo "               lft  [options]"
                  echo
-                 echo "For more help type: man traceroute" 
+                 echo "*** For more help type: man traceroute" 
                  echo
                  echo "traceroute of this PC (localhost) as an example."
                  echo
@@ -1895,12 +2389,24 @@ f_menu_app_network_config () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  9 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
                  APP_NAME="wicd-curses"
                  f_application_run
                  ;;
+                 [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  10 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="iwconfig"
+                 f_application_run
+                 ;;
+                 [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  11 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
@@ -1914,22 +2420,40 @@ f_menu_app_network_config () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 [Ss][Mm][Bb][Cc]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  12 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
+                 f_application_run
+                 ;;
+                 [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  13 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
+                 [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  14 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
+                 [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Network Configuration Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Network Configuration Applications until loop.
 } # End of function f_menu_app_network_config
 #
@@ -1964,6 +2488,10 @@ f_menu_app_network_monitors () {
                  APP_NAME="cbm"
                  f_application_run
                  ;;
+                 [Cc][Bb][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Ii] | [Ii][Ff] | [Ii][Ff][Tt] | [Ii][Ff][Tt][Oo] | [Ii][Ff][Tt][Oo][Pp])
                  APP_NAME="iftop"
                  ifconfig |  grep Link | awk '{print $1;}' # Search for "Link" in ifconfig output and parse first word (network interface).
@@ -1973,26 +2501,48 @@ f_menu_app_network_monitors () {
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
+                 [Ii][Ff][Tt][Oo][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
                  APP_NAME="iptraf"
+                 f_application_run
+                 ;;
+                 [Ii][Pp][Tt][Rr][Aa][Ff]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Nn] | [Nn][Cc])
                  APP_NAME="nc"
                  f_application_run
                  ;;
+                 [Nn][Cc]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  5 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
                  APP_NAME="ngrep"
+                 f_application_run
+                 ;;
+                 [Nn][Gg][Rr][Ee][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  6 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
                  APP_NAME="nmap"
                  f_application_run
                  ;;
+                 [Nn][Mm][Aa][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Network Monitor Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Network Monitor Applications until loop.
 } # End of function f_menu_app_network_monitors
 #
@@ -2030,42 +2580,80 @@ f_menu_app_file_managers () {
                  APP_NAME="clex"
                  f_application_run
                  ;;
+                 [Cc][Ll][Ee][Xx]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Mm] | [Mm][Cc])
                  APP_NAME="mc"
+                 f_application_run
+                 ;;
+                 [Mm][Cc]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Rr] | [Rr][Aa] | [Rr][Aa][Nn] | [Rr][Aa][Nn][Gg] | [Rr][Aa][Nn][Gg][Ee] | [Rr][Aa][Nn][Gg][Ee][Rr])
                  APP_NAME="ranger"
                  f_application_run
                  ;;
+                 [Rr][Aa][Nn][Gg][Ee][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="smbc Samba Commander"
+                 f_application_run
+                 ;;
+                 [Ss][Mm][Bb][Cc]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Vv] | [Vv][Ff] | [Vv][Ff][Uu]) 
                  APP_NAME="vfu"
                  f_application_run
                  ;;
+                 [Vv][Ff][Uu]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Vv] | [Vv][Ii] | [Vv][Ii][Ff] | [Vv][Ii][Ff][Mm])
                  APP_NAME="vifm"
+                 f_application_run
+                 ;;
+                 [Vv][Ii][Ff][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Dd] | [Dd][Ee] | [Dd][Ee][Tt] | [Dd][Ee][Tt][Oo] | [Dd][Ee][Tt][Oo][Xx])
                  APP_NAME="detox"
                  f_application_run
                  ;;
+                 [Dd][Ee][Tt][Oo][Xx]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  8 | [Jj] | [Jj][Ll] | [Jj][Ll][Ee] | [Jj][Ll][Ee][Ss] | [Jj][Ll][Ee][Ss][Ss])
                  APP_NAME="jless"
+                 f_application_run
+                 ;;
+                 [Jj][Ll][Ee][Ss][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  9 | [Mm] | [Mm][Oo] | [Mm][Oo][Ss] | [Mm][Oo][Ss][Tt])
                  APP_NAME="most"
                  f_application_run
                  ;;
+                 [Mm][Oo][Ss][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac               # End of File Manager Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of File Manager Applications until loop.
 } # End of f_menu_app_file_managers
 #
@@ -2103,29 +2691,57 @@ f_menu_app_text_editors () {
                  APP_NAME="beav"
                  f_application_run
                  ;;
+                 [Bb][Ee][Aa][Vv][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Dd] | [Dd][Aa] | [Dd][Aa][Vv])
                  APP_NAME="dav"
                  f_how_to_quit_application "<F5>"
+                 f_application_run
+                 ;;
+                 [Dd][Aa][Vv]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Ee] | [Ee][Dd])
                  APP_NAME="ed"
                  f_application_run
                  ;;
+                 [Ee][Dd]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Ee] | [Ee][Mm] | [Ee][Mm][Aa] | [Ee][Mm][Aa][Cc] | [Ee][Mm][Aa][Cc][Ss])
                  APP_NAME="emacs"
+                 f_application_run
+                 ;;
+                 [Ee][Mm][Aa][Cc][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Jj] | [Jj][Oo] | [Jj][Oo][Ee])
                  APP_NAME="joe"
                  f_application_run
                  ;;
+                 [Jj][Oo][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Nn] | [Nn][Aa] | [Nn][Aa][Nn] | [Nn][Aa][Nn][Oo])
                  APP_NAME="nano"
                  f_application_run
                  ;;
+                 [Nn][Aa][Nn][Oo]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  7 | [Pp] | [Pp][Ii] | [Pp][Ii][Cc] | [Pp][Ii][Cc][Oo])
                  APP_NAME="pico"
+                 f_application_run
+                 ;;
+                 [Pp][Ii][Cc][Oo]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  8 | [Vv] | [Vv][Ii])
@@ -2133,15 +2749,25 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
+                 [Vv][Ii]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  9 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm])
                  APP_NAME="vim"
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
+                 [Vv][Ii][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Text Editor Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Text Editor Applications until loop.
 } # End of f_menu_app_text_editors
 #
@@ -2181,8 +2807,16 @@ f_menu_app_text_tools () {
                  APP_NAME="doconce"
                  f_application_run
                  ;;
+                 [Dd][Oo][Cc][Oo][Nn][Cc][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
                  APP_NAME="imediff"
+                 f_application_run
+                 ;;
+                 [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
@@ -2194,9 +2828,13 @@ f_menu_app_text_tools () {
                  echo "       [ --body_deco string ] [ --bold_delimiter string ] [ --bullets string ]"
                  echo "       [ --bullets_ordered string ] [ --caps_tag tag ]"
                  echo
-                 echo "For more help type: txt2html --help"
+                 echo "*** For more help type: txt2html --help"
                  echo "Now show help. Usage: man txt2html"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
@@ -2207,9 +2845,13 @@ f_menu_app_text_tools () {
                  echo "Usage: txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
                  echo "       [-I txt] [-B txt] [-d date] [ifile]"
                  echo
-                 echo "For more help type: txt2man --help"
+                 echo "*** For more help type: txt2man --help"
                  echo "Now show help. Usage: man txt2man"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Mm][Aa][Nn]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
@@ -2222,9 +2864,13 @@ f_menu_app_text_tools () {
                  echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
                  echo "       txt2pdbdoc -V"
                  echo
-                 echo "For more help type: txt2pdbdoc --help"
+                 echo "*** For more help type: txt2pdbdoc --help"
                  echo "Now show help. Usage: man txt2pdbdoc"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  6 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
@@ -2234,9 +2880,13 @@ f_menu_app_text_tools () {
                  echo
                  echo "Usage: txt2regex --all|--prog <p1,p2,...,pN>"
                  echo
-                 echo "For more help type: txt2regex --help"
+                 echo "*** For more help type: txt2regex --help"
                  echo "Now show help. Usage: man txt2regex"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
@@ -2248,31 +2898,53 @@ f_menu_app_text_tools () {
                  echo 
                  echo "Usage: txt2tags [options] [FILE...]"
                  echo
-                 echo "For more help type: txt2tags --help"
+                 echo "*** For more help type: txt2tags --help"
                  echo "Now show help. Usage: man txt2tags"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  8 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
+                 [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  9 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
                  APP_NAME="diff"
+                 f_application_run
+                 ;;
+                 [Dd][Ii][Ff][Ff]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  10 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
+                 [Vv][Ii][Mm][Dd][Ii][Ff][Ff]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  11 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
                  APP_NAME="wdiff"
                  f_application_run
                  ;;
+                 [Ww][Dd][Ii][Ff][Ff]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Text Editor Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Text Tool Applications until loop.
 } # End of f_menu_app_text_tools
 #
@@ -2356,25 +3028,41 @@ f_menu_app_sys_monitors () {
                  APP_NAME="atop"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Aa][Tt][Oo][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  2 | [Gg] | [Gg][Ll] | [Gg][Ll][Aa] | [Gg][Ll][Aa][Nn] | [Gg][Ll][Aa][Nn][Cc] | [Gg][Ll][Aa][Nn][Cc][Ee] | [Gg][Ll][Aa][Nn][Cc][Ee][Ss])
                  APP_NAME="glances"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Gg][Ll][Aa][Nn][Cc][Ee][Ss]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  3 | [Hh] | [Hh][Tt] | [Hh][Tt][Oo] | [Hh][Tt][Oo][Pp])
                  APP_NAME="htop"
                  f_how_to_quit_application "q or <F10>"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Hh][Tt][Oo][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  4 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
                  APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Tt][Oo][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  5 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
@@ -2383,37 +3071,55 @@ f_menu_app_sys_monitors () {
                  echo
                  echo "Usage: dstat [-afv] [options..] [delay [count]]"
                  echo
-                 echo "For more help type: man dstat"
+                 echo "*** For more help type: man dstat"
                  echo
                  echo "dstat this PC (localhost) for ten times as an example."
                  echo
                  echo "Now run dstat. Usage: dstat 1 10"
                  f_press_enter_key_to_continue
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Dd][Ss][Tt][Aa][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  6 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
                  APP_NAME="iotop"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Ii][Oo][Tt][Oo][Pp]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  7 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Ss][Aa][Ii][Dd][Aa][Rr]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  8 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Yy][Aa][Cc][Pp][Ii]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
             esac                # End of System Monitors case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of System Monitors until loop.
 } # End of f_menu_app_sys_monitors
 #
@@ -2455,7 +3161,11 @@ f_menu_app_sys_information () {
                  APP_NAME="ncdu"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Nn][Cc][Dd][Uu]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  2 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
                  clear # Blank the screen.
@@ -2463,20 +3173,36 @@ f_menu_app_sys_information () {
                  APP_NAME="ls -l /dev/disk/by-uuid"
                  f_application_run             
                  ;;
+                 [Uu][Uu][Ii][Dd]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
                  APP_NAME="cfdisk"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Cc][Ff][Dd][Ii][Ss][Kk]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  4 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
                  APP_NAME="parted"
                  f_how_to_quit_application "q"
                  f_application_run
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 [Pp][Aa][Rr][Tt][Ee][Dd]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  5 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
                  APP_NAME="dmidecode"
+                 f_application_run
+                 ;;
+                 [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  6 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
@@ -2487,7 +3213,7 @@ f_menu_app_sys_information () {
                  echo
                  echo "Usage: hdparm [options..] [device ...]"
                  echo
-                 echo "For more help type: man hdparm"
+                 echo "*** For more help type: man hdparm"
                  echo
                  echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
                  echo
@@ -2495,33 +3221,64 @@ f_menu_app_sys_information () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 7 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]) 
+                 [Hh][Dd][Pp][Aa][Rr][Mm]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
                  APP_NAME="lsb_release -a"
+                 f_application_run
+                 ;;
+                 [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  8 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
                  APP_NAME="uname -a"
                  f_application_run
                  ;;
+                 [Uu][Nn][Aa][Mm][Ee]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  9 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
                  APP_NAME="lsmod "
+                 f_application_run
+                 ;;
+                 [Ll][Ss][Mm][Oo][Dd]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  10 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
                  APP_NAME="printenv"
                  f_application_run
                  ;;
+                 [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  11 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
+                 f_application_run
+                 ;;
+                 [Ll][Ss][Uu][Ss][Bb]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  12 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
                  APP_NAME="lsof"
                  f_application_run
+                 ;;
+                 [Ll][Ss][Oo][Ff]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of System Information case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of System Information until loop.
 } # End of f_menu_app_sys_information
 #
@@ -2551,10 +3308,16 @@ f_menu_app_sys_logs () {
                  APP_NAME="multitail"
                  f_application_run
                  ;;
+                 [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of System Logs case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of System Logs until loop.
 } # End of f_menu_app_sys_logs
 #
@@ -2586,18 +3349,32 @@ f_menu_app_sys_screens () {
                  APP_NAME="byobu"
                  f_application_run
                  ;;
+                 [Bb][Yy][Oo][Bb][Uu]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn])
                  APP_NAME="screen"
+                 f_application_run
+                 ;;
+                 [Ss][Cc][Rr][Ee][Ee][Nn]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Tt] | [Tt][Mm] | [Tt][Mm][Uu] | [Tt][Mm][Uu][Xx])
                  APP_NAME="tmux"
                  f_application_run
                  ;;
+                 [Tt][Mm][Uu][Xx]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of System Screens case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of System Screens until loop.
 } # End of f_menu_app_sys_screens
 #
@@ -2629,18 +3406,32 @@ f_menu_app_sys_other () {
                  APP_NAME="dosemu"
                  f_application_run
                  ;;
+                 [Dd][Oo][Ss][Ee][Mm][Uu]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Dd] | [Dd][Tt] | [Dd][Tt][Rr] | [Dd][Tt][Rr][Xx])
                  APP_NAME="dtrx"
+                 f_application_run
+                 ;;
+                 [Dd][Tt][Rr][Xx]' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Oo] | [Ss][Cc][Rr][Oo][Tt])
                  APP_NAME="scrot"
                  f_application_run
                  ;;
+                 [Ss][Cc][Rr][Oo][Tt]' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Other System Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Other System Applications until loop.
 } # End of f_menu_app_sys_other
 #
@@ -2659,7 +3450,7 @@ f_menu_app_calendar_todo () {
             #MCA remind  - Sophisticated calendar with alarms. Sunrise, sunset, moon phases.
             #MCA when    - Calendar.
             #MCA wyrd    - Calendar, ncurses-based.
-            #MCA devtodo - To-Do List hierarchical.
+            #MCA todo    - To-Do List hierarchical. Install package 'devtodo'.
             #MCA yaGTD   - To-Do List.
             #
             MENU_TITLE="Calendar-ToDo Applications Menu"
@@ -2678,42 +3469,106 @@ f_menu_app_calendar_todo () {
                  APP_NAME="cal"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll] | [Gg][Cc][Aa][Ll][Cc] | [Gg][Cc][Aa][Ll][Cc][Ll] | [Gg][Cc][Aa][Ll][Cc][Ll][Ii])
                  APP_NAME="gcalcli"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Pp] | [Pp][Aa] | [Pp][Aa][Ll])
                  APP_NAME="pal"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Pp] | [Pp][Oo] | [Pp][Oo][Mm])
                  APP_NAME="pom"
                  f_application_run
                  ;;
-                 5 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm | [Rr][Ee][Mm][Ii] | [Rr][Ee][Mm][Ii][Nn] | [Rr][Ee][Mm][Ii][Nn][Dd)
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Ii] | [Rr][Ee][Mm][Ii][Nn] | [Rr][Ee][Mm][Ii][Nn][Dd)
                  APP_NAME="remind"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ee] | [Ww][Hh][Ee][Nn])
                  APP_NAME="when"
                  f_application_run
                  ;;
-                 7 | [Ww] | [Ww][Yy] | [Ww][Yy][Rr] | [Ww][Yy][Rr][Dd])
-                 APP_NAME="wyrd"
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Dd] | [Dd][Ee] | [Dd][Ee][Vv] | [Dd][Ee][Vv][Tt] | [Dd][Ee][Vv][Tt][Oo] | [Dd][Ee][Vv][Tt][Oo][Dd] | [Dd][Ee][Vv][Tt][Oo][Dd][Oo])
-                 APP_NAME="devtodo"
+                 7 | [Ww] | [Ww][Yy] | [Ww][Yy][Rr] | [Ww][Yy][Rr][Dd])
+                 APP_NAME="wyrd"
+                 f_how_to_quit_application "Q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
+                 APP_NAME="todo"
+                 clear # Blank the screen.
+                 echo "Simple To-Do list using hidden file .todo as a database list."
+                 echo
+                 echo "todo [<options>]"
+                 echo "       With no options, displays the items in the current directory."
+                 echo
+                 echo "tda [-p <priority>] [-g <index>] [<text>]"
+                 echo "      Add a new item, optionally grafting it as a child of the given item."
+                 echo
+                 echo "tde <index>"
+                 echo "     Edit the given item."
+                 echo
+                 echo "tdr <indices>"
+                 echo "     Remove the given items."
+                 echo
+                 echo "tdd <indices>"
+                 echo "     Mark the specified items as being done."
+                 echo
+                 echo "*** For more help type: man todo"
+                 echo
+                 echo "todo -a to add a new note, todo -A -all to show all notes."
+                 echo 
+                 echo "Now run todo. Usage: todo"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  9 | [Yy] | [Yy][Aa] | [Yy][Aa][Gg] | [Yy][Aa][Gg][Tt] | [Yy][Aa][Gg][Tt][Dd])
-                 APP_NAME="yaGTD"
+                 APP_NAME="yagtd"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Calendar-ToDo Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Calendar-ToDo Applications until loop.
 } # End of f_menu_app_calendar_todo
 #
@@ -2746,8 +3601,16 @@ f_menu_app_calculators () {
                  f_how_to_quit_application "quit"
                  f_application_run
                   ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Oo] | [Oo][Rr] | [Oo][Rr][Pp] | [Oo][Rr][Pp][Ii] | [Oo][Rr][Pp][Ii][Ee])
                  APP_NAME="orpie"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Tt] | [Tt][Aa] | [Tt][Aa][Pp] | [Tt][Aa][Pp][Ee] | [Tt][Aa][Pp][Ee][Cc] | [Tt][Aa][Pp][Ee][Cc][Aa] | [Tt][Aa][Pp][Ee][Cc][Aa][Ll] | [Tt][Aa][Pp][Ee][Cc][Aa][Ll][Cc])
@@ -2755,10 +3618,16 @@ f_menu_app_calculators () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Calculator Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Calculator Applications until loop.
 } # End of f_menu_app_calculators
 #
@@ -2790,18 +3659,32 @@ f_menu_app_spreadsheets () {
                  APP_NAME="oleo"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  1 | [Ss] | [Ss][Cc])
                  APP_NAME="sc"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Ss] | [Ss][Ll] | [Ss][Ll][Ss] | [Ss][Ll][Ss][Cc])
                  APP_NAME="slsc"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Spreadsheet Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Spreadsheet Applications until loop.} # End of menu_app_spreadsheets
 } # End of f_menu_app_spreadsheets
 #
@@ -2831,10 +3714,16 @@ f_menu_app_note_applications () {
                  APP_NAME="hnb"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Note Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Note Applications until loop.
 } # End of f_menu_note_applications
 #
@@ -2877,13 +3766,25 @@ f_menu_app_audio_applications () {
                  APP_NAME="abcde"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
                  APP_NAME="avconv"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Ss] | [Ss][Oo] | [Ss][Oo][Xx])
                  APP_NAME="sox"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Cc] | [Cc][Mm] | [Cc][Mm][Uu] | [Cc][Mm][Uu][Ss])
@@ -2891,12 +3792,24 @@ f_menu_app_audio_applications () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  5 | [Jj] | [Jj][Uu] | [Jj][Uu][Kk] | [Jj][Uu][Kk][Ee])
                  APP_NAME="juke"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
                  APP_NAME="moc"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Nn] | [Nn][Cc] | [Nn][Cc][Mm] | [Nn][Cc][Mm][Pp] | [Nn][Cc][Mm][Pp][Cc])
@@ -2904,12 +3817,24 @@ f_menu_app_audio_applications () {
                  APP_NAME="ncmpc"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  8 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  9 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
                  APP_NAME="mplayer"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  10 | [Dd] | [Dd][Rr] | [Dd][Rr][Aa] | [Dd][Rr][Aa][Dd] | [Dd][Rr][Aa][Dd][Ii] | [Dd][Rr][Aa][Dd][Ii][Oo])
@@ -2917,26 +3842,48 @@ f_menu_app_audio_applications () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  11 | [Rr] | [Rr][Aa] | [Rr][Aa][Dd] | [Rr][Aa][Dd][Ii] | [Rr][Aa][Dd][Ii][Oo])
                  APP_NAME="radio"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  12 | [Ee] | [Ee][Bb] | [Ee][Bb][Oo] | [Ee][Bb][Oo][Oo] | [Ee][Bb][Oo][Oo][Kk] | [Ee][Bb][Oo][Oo][Kk][–] | [Ee][Bb][Oo][Oo][Kk][–][Ss] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee][Rr])
                  APP_NAME="ebook-speaker"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  13 | [Ff] | [Ff][Ee] | [Ff][Ee][Ss] | [Ff][Ee][Ss][Tt] | [Ff][Ee][Ss][Tt][Ii] | [Ff][Ee][Ss][Tt][Ii][Vv] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll])
                  APP_NAME="festival"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  14 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Aa] | [Ss][Cc][Rr][Ee][Aa][Dd] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr])
                  APP_NAME="screader"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Audio Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Audio Applications until loop.
 } # End of f_menu_app_audio_applications
 #
@@ -2969,22 +3916,40 @@ f_menu_app_screen_savers () {
                  APP_NAME="cmatrix"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Rr] | [Rr][Aa] | [Rr][Aa][Ii] | [Rr][Aa][Ii][Nn])
                  APP_NAME="rain"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Tt] | [Tt][Tt] | [Tt][Tt][Yy] | [Tt][Tt][Yy][-] | [Tt][Tt][Yy][–][Cc] | [Tt][Tt][Yy][–][Cc][Ll] | [Tt][Tt][Yy][–][Cc][Ll][Oo] | [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc] | [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="tty-clock"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm] | [Ww][Oo][Rr][Mm][Ss])
                  APP_NAME="worms"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Screen-saver Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Screen-saver Applications until loop.
 } # End of f_menu_app_screen_savers
 #
@@ -3019,16 +3984,32 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME="aview"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Hh] | [Hh][Aa] | [Hh][Aa][Ss] | [Hh][Aa][Ss][Cc] | [Hh][Aa][Ss][Cc][Ii] | [Hh][Aa][Ss][Cc][Ii][Ii] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa] | [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa][Mm])
                  APP_NAME="hasciicam"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Aa] | [Cc][Aa][Cc][Aa][-] | [Cc][Aa][Cc][Aa][-][Uu] | [Cc][Aa][Cc][Aa][-][Uu][Tt] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll] | [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll][Ss])
                  APP_NAME="caca-utils"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Jj] | [Jj][Pp] | [Jj][Pp][2] | [Jj][Pp][2][Aa])
                  APP_NAME="jp2a"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Uu] | [Ll][Ii][Nn][Uu][Xx] | [Ll][Ii][Nn][Uu][Xx][Ll] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo])
@@ -3045,10 +4026,16 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME="linuxlogo -L "$ANS
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Image-Graphics Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Image-Graphics Applications until loop.
 } # End of f_menu_app_image_graphics_applications
 #
@@ -3083,26 +4070,48 @@ f_menu_app_education_applications () {
                  APP_NAME="aldo"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Cc] | [Cc][Ww])
                  APP_NAME="cw"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Cc] | [Cc][Ww] | [Cc][Ww][Cc] | [Cc][Ww][Cc][Pp])
                  APP_NAME="cwcp"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Mm] | [Pp][Rr][Ii][Mm][Ee] | [Pp][Rr][Ii][Mm][Ee][Ss])
                  APP_NAME="primes"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Education Applications case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Education Applications until loop.
 } # End of f_menu_app_education_applications
 #
@@ -3140,36 +4149,78 @@ f_menu_cat_games () {
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Cc] | [Aa][Rr][Cc][Aa] | [Aa][Rr][Cc][Aa][Dd] | [Aa][Rr][Cc][Aa][Dd][Ee]) 
                  f_menu_app_games_arcade
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Bb] | [Bb][Oo] | [Bb][Oo][Aa] | [Bb][Oo][Aa][Rr] | [Bb][Oo][Aa][Rr][Dd])
                  f_menu_app_games_board
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Rr] | [Cc][Aa][Rr][Dd])
                  f_menu_app_games_card
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Mm] | [Mm][Uu] | [Mm][Uu][Dd])
                  f_menu_app_games_mud
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  5 | [Pp] | [Pp][Uu] | [Pp][Uu][Zz] | [Pp][Uu][Zz][Zz] | [Pp][Uu][Zz][Zz][Ll] | [Pp][Uu][Zz][Zz][Ll][Ee] | [Pp][Uu][Zz][Zz][Ll][Ee][Ss])
                  f_menu_app_games_puzzle
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Zz])
                  f_menu_app_games_quiz
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  7 | [Rr] | [Rr][Pp] | [Rr][Pp][Gg])
                  f_menu_app_games_rpg
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  8 | [Ss] | [Ss][Ii] | [Ss][Ii][Mm] | [Ss][Ii][Mm][Uu] | [Ss][Ii][Mm][Uu][Ll] | [Ss][Ii][Mm][Uu][Ll][Aa] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo][Nn])
                  f_menu_app_games_simulation
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  9 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Aa] | [Ss][Tt][Rr][Aa][Tt] | [Ss][Tt][Rr][Aa][Tt][Ee] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg][Yy])
                  f_menu_app_games_strategy
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  10 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Dd])
                  f_menu_app_games_word
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Game Category case statement.
             #
-            f_subcat_bad_menu_choice
+            if [ $CHOICE_SCAT -ne -0 ] ; then
+               CHOICE_SCAT=-1 # Force stay in until loop.
+            fi
       done  # End of Game Category until loop.
 } # End of function f_menu_cat_games
 #
@@ -3204,34 +4255,64 @@ f_menu_app_games_arcade () {
                  APP_NAME="freeswap"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Mm] | [Mm][Oo] | [Mm][Oo][Oo] | [Mm][Oo][Oo][Nn] | [Mm][Oo][Oo][Nn][-] | [Mm][Oo][Oo][Nn][-][Bb] | [Mm][Oo][Oo][Nn][-][Bb][Uu] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg][Yy])
                  APP_NAME="moon-buggy"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Nn] | [Nn][Ii] | [Nn][Ii][Nn] | [Nn][Ii][Nn][Vv] | [Nn][Ii][Nn][Vv][Aa] | [Nn][Ii][Nn][Vv][Aa][Dd] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr][Ss])
                  APP_NAME="ninvaders"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Pp] | [Pp][Aa] | [Pp][Aa][Cc] | [Pp][Aa][Cc][Mm] | [Pp][Aa][Cc][Mm][Aa] | [Pp][Aa][Cc][Mm][Aa][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll][Ee])
                  APP_NAME="pacman4console"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Rr] | [Rr][Oo] | [Rr][Oo][Bb] | [Rr][Oo][Bb][Oo] | [Rr][Oo][Bb][Oo][Tt] | [Rr][Oo][Bb][Oo][Tt][Ss])
                  APP_NAME="robots"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Ss] | [Ss][Nn] | [Ss][Nn][Aa] | [Ss][Nn][Aa][Kk] | [Ss][Nn][Aa][Kk][Ee])
                  APP_NAME="snake"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm])
                  APP_NAME="worm"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Arcade Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Arcade Games until loop.
 } # End of f_menu_app_games_arcade
 #
@@ -3262,18 +4343,32 @@ f_menu_app_games_board () {
                  APP_NAME="atom4"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Gg] | [Bb][Aa][Cc][Kk][Gg][Aa] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm][Oo] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm][Oo][Nn])
                  APP_NAME="backgammon"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Oo] | [Mm][Oo][Nn][Oo][Pp])
                  APP_NAME="monop"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Board Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Board Games until loop.
 } # End of f_menu_app_games_board
 #
@@ -3304,18 +4399,32 @@ f_menu_app_games_card () {
                  APP_NAME="canfield"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Cc] | [Cc][Rr] | [Cc][Rr][Ii] | [Cc][Rr][Ii][Bb] | [Cc][Rr][Ii][Bb][Bb] | [Cc][Rr][Ii][Bb][Bb][Aa] | [Cc][Rr][Ii][Bb][Bb][Aa][Gg] | [Cc][Rr][Ii][Bb][Bb][Aa][Gg][Ee])
                  APP_NAME="cribbage"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Gg] | [Gg][Oo] | [Gg][Oo][-] | [Gg][Oo][-][Ff] | [Gg][Oo][-][Ff][Ii] | [Gg][Oo][-][Ff][Ii][Ss] | [Gg][Oo][-][Ff][Ii][Ss][Hh])
                  APP_NAME="go-fish"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Card Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Card Games until loop.
 } # End of f_menu_app_games_card
 #
@@ -3345,14 +4454,24 @@ f_menu_app_games_mud () {
                  APP_NAME="crawl"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Tt] | [Tt][Ii] | [Tt][Ii][Nn] | [Tt][Ii][Nn][Tt] | [Tt][Ii][Nn][Tt][Ii] | [Tt][Ii][Nn][Tt][Ii][Nn] | [Tt][Ii][Nn][Tt][Ii][Nn][+] | [Tt][Ii][Nn][Tt][Ii][Nn][+][+])
                  APP_NAME="tintin++"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of MUD Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of MUD Games until loop.
 } # End of f_menu_app_games_mud
 #
@@ -3386,30 +4505,56 @@ f_menu_app_games_puzzle () {
                  APP_NAME="bastet"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Bb] | [Bb][Cc] | [Bb][Cc][Dd])
                  APP_NAME="bcd"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Dd] | [Dd][Aa] | [Dd][Aa][Bb])
                  APP_NAME="dab"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Rr] | [Nn][Ee][Tt][Rr][Ii] | [Nn][Ee][Tt][Rr][Ii][Ss])
                  APP_NAME="netris"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Pp] | [Pp][Ee] | [Pp][Ee][Tt] | [Pp][Ee][Tt][Rr] | [Pp][Ee][Tt][Rr][Ii] | [Pp][Ee][Tt][Rr][Ii][Ss])
                  APP_NAME="petris"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Pp] | [Pp][Pp] | [Pp][Pp][Tt])
                  APP_NAME="ppt"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Puzzle Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Puzzle Games until loop.
 } # End of f_menu_app_games_puzzle
 #
@@ -3442,12 +4587,24 @@ f_menu_app_games_quiz () {
                  f_how_to_quit_application "Ctrl-Z"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Gg] | [Gg][Ee] | [Gg][Ee][Ee] | [Gg][Ee][Ee][Kk] | [Gg][Ee][Ee][Kk][Cc] | [Gg][Ee][Ee][Kk][Cc][Oo] | [Gg][Ee][Ee][Kk][Cc][Oo][Dd] | [Gg][Ee][Ee][Kk][Cc][Oo][Dd][Ee])
                  APP_NAME="geekcode"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Zz])
@@ -3455,10 +4612,16 @@ f_menu_app_games_quiz () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Quiz Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Quiz Games until loop.
 } # End of f_menu_app_games_quiz
 #
@@ -3494,34 +4657,64 @@ f_menu_app_games_rpg () {
                  f_how_to_quit_application "quit"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Bb] | [Bb][Aa] | [Bb][Aa][Tt] | [Bb][Aa][Tt][Tt] | [Bb][Aa][Tt][Tt][Ll] | [Bb][Aa][Tt][Tt][Ll][Ee] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt][Aa] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt][Aa][Rr])
                  APP_NAME="battlestar"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [hH] | [hH][Aa] | [hH][Aa][Cc] | [hH][Aa][Cc][Kk])
                  APP_NAME="hack"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][hH] | [Nn][Ee][Tt][hH][Aa] | [Nn][Ee][Tt][hH][Aa][Cc] | [Nn][Ee][Tt][hH][Aa][Cc][Kk])
                  APP_NAME="nethack-console"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Pp] | [Pp][Hh] | [Pp][Hh][Aa] | [Pp][Hh][Aa][Nn] | [Pp][Hh][Aa][Nn][Tt] | [Pp][Hh][Aa][Nn][Tt][Aa] | [Pp][Hh][Aa][Nn][Tt][Aa][Ss] | [Pp][Hh][Aa][Nn][Tt][Aa][Ss][Ii] | [Pp][Hh][Aa][Nn][Tt][Aa][Ss][Ii][Aa])
                  APP_NAME="phantasia"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Ss] | [Ss][Ll] | [Ss][Ll][Aa] | [Ss][Ll][Aa][Ss] | [Ss][Ll][Aa][Ss][Hh] | [Ss][Ll][Aa][Ss][Hh][Ee] | [Ss][Ll][Aa][Ss][Hh][Ee][Mm])
                  APP_NAME="slashem"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Ww] | [Ww][Uu] | [Ww][Uu][Mm] | [Ww][Uu][Mm][Pp])
                  APP_NAME="wump"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of RPG Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of RPG Games until loop.
 } # End of f_menu_app_games_rpg
 #
@@ -3552,8 +4745,16 @@ f_menu_app_games_simulation () {
                  APP_NAME="atc"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 |[Ss] |[Ss][Aa] |[Ss][Aa][Ii] |[Ss][Aa][Ii][Ll])
                  APP_NAME="sail"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Tt] | [Tt][Rr] | [Tt][Rr][Ee] | [Tt][Rr][Ee][Kk])
@@ -3561,10 +4762,16 @@ f_menu_app_games_simulation () {
                  f_how_to_quit_application "at the prompt Command: terminate"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Simulation Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Simulation Games until loop.
 } # End of f_menu_app_games_simulation
 #
@@ -3596,12 +4803,24 @@ f_menu_app_games_strategy () {
                  APP_NAME="gomoku"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Hh] | [Hh][Uu] | [Hh][Uu][Nn] | [Hh][Uu][Nn][Tt])
                  APP_NAME="hunt"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Mm] | [Mm][Ii] | [Mm][Ii][Ll] | [Mm][Ii][Ll][Ll] | [Mm][Ii][Ll][Ll][Ee])
                  APP_NAME="mille"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Ww] | [Ww][Aa] | [Ww][Aa][Rr] | [Ww][Aa][Rr][Gg] | [Ww][Aa][Rr][Gg][Aa] | [Ww][Aa][Rr][Gg][Aa][Mm] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee][Ss])
@@ -3620,20 +4839,16 @@ f_menu_app_games_strategy () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Strategy Games case statement
             #
-            case $CHOICE_APP in # Convert string to integer -2 to force stay in until loop.
-                 *[A-Za-z]*)
-                 CHOICE_APP=-2 # Force stay in until loop without echo "Press enter to continue".
-                               # specifically for alpha nonsense responses.
-                               # Note for legitimate responses, when entering an app function, the
-                               # f_application_run resets CHOICE_APP=-1. No need to set it here. 
-                 ;;
-            esac
-            if [ $CHOICE_APP -le -3 -o $CHOICE_APP -gt $MAX ] ; then
-               CHOICE_APP=-2     # No display "Press enter key" if out-of-bounds numeric response.
-            fi
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Strategy Games until loop.
 } # End of f_menu_app_games_strategy
 #
@@ -3664,18 +4879,32 @@ f_menu_app_games_word () {
                  APP_NAME="boggle"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Hh] | [Hh][Aa] | [Hh][Aa][Nn] | [Hh][Aa][Nn][Gg] | [Hh][Aa][Nn][Gg][Mm] | [Hh][Aa][Nn][Gg][Mm][Aa] | [Hh][Aa][Nn][Gg][Mm][Aa][Nn])
                  APP_NAME="hangman"
+                 f_application_run
+                 ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  3 | [Pp] | [Pp][Ii] | [Pp][Ii][Gg])
                  APP_NAME="pig"
                  f_application_run
                  ;;
+                 ' '[-]*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac # End of Word Games case statement.
             #
-            f_application_bad_menu_choice # Trap bad menu choices, do not echo Press enter key to continue.
-            f_menu_app_press_enter_key # If application displays information, allow user to read it.
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
       done # End of Word Games until loop.
 } # End of f_menu_app_games_word
 #
@@ -3724,60 +4953,70 @@ do    # Start of CLI Menu util loop.
       case $CHOICE_MAIN in # Start of CLI Menu case statement.
            1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][Ll] | [Aa][Pp][Pp][Ll][Ii] | [Aa][Pp][Pp][Ll][Ii][Cc] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn] | [Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn][Ss])
            f_menu_cat_applications
-           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
            2 | [Hh] | [Hh][Ee] | [Hh][Ee][Ll] | [Hh][Ee][Ll][Pp])
            clear # Blank the screen.
            # echo "To quit help, type '"q"'."
            # f_press_enter_key_to_continue
            sed -n 's/^#@//'p $THIS_FILE |more
-           # display Help Applications (all lines beginning with #@ but substitute "" for "#@" so "#@" is not printed).
-           CHOICE_MAIN=-1 # Display "Press enter key to continue."
+           # display Help Applications (all lines beginning with #@ but
+           # substitute "" for "#@" so "#@" is not printed).
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            3 | [Dd] | [Dd][Ii] | [Dd][Ii][Ss] | [Dd][Ii][Ss][Kk] | [Dd][Ii][Ss][Kk]' ' | [Dd][Ii][Ss][Kk]' '[Ss] | [Dd][Ii][Ss][Kk]' '[Ss][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu][Ss])
            clear # Blank the screen.
            df -hT
-           CHOICE_MAIN=-1 # Display "Press enter key to continue."
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            4 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
            clear # Blank the screen.
            echo "To quit documentation, type '"q"'."
            f_press_enter_key_to_continue
            sed -n 's/^#://'p $THIS_FILE |more 
-           # display Documentation (all lines beginning with #: but substitute "" for "#:" so "#:" is not printed).
-           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           # display Documentation (all lines beginning with #: but
+           # substitute "" for "#:" so "#:" is not printed).
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            5 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
            TCOLOR="black"
            f_term_color # Set terminal color.
-           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
            TCOLOR="white"
            f_term_color # Set terminal color.
-           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;  
            7 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
            clear # Blank the screen.
            echo "CLI Menu version: $REVISION"
            echo "       Edited on: $REVDATE"
            echo "Bash script name: $THIS_FILE"
-           CHOICE_MAIN=-1 # Display "Press enter key to continue."
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            8 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
            echo "To quit reading Edit History, type '"q"'."
            f_press_enter_key_to_continue
            if [ -r EDIT_HISTORY ] ; then
+              # display Edit History (all lines beginning with ## but
+              # substitute "" for "##" so "##" is not printed).
               sed -n 's/^##//'p EDIT_HISTORY |more
-              CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            else
               echo
               echo "The file EDIT_HISTORY is either missing or cannot be read."
               echo
-              CHOICE_MAIN=-1   # Display "Press enter key to continue."
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
-           # display Edit History (all lines beginning with ## but substitute "" for "##" so "##" is not printed).
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            9 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
@@ -3786,22 +5025,24 @@ do    # Start of CLI Menu util loop.
               echo "To get help within the joe editor, type 'Ctrl-K h'"
               f_press_enter_key_to_continue
               f_application_run
-              CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            else
               echo
               echo "The file EDIT_HISTORY is either missing or cannot be read."
               echo
-              CHOICE_MAIN=-1   # Display "Press enter key to continue."
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            10 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear # Blank the screen.
-           # display License (all lines beginning with #LIC but substitute "" for "#LIC" so "#LIC" is not printed).
+           # display License (all lines beginning with #LIC but
+           # substitute "" for "#LIC" so "#LIC" is not printed).
            sed -n 's/^#LIC//'p $THIS_FILE |more
            echo
            echo -n "Read the full license text contained in file 'COPYING'? (N/y) "
            read ANS
-           case $ANS in
+           case $ANS in # Start of license case statment.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                 echo
                 echo "To quit reading License, type '"q"'."
@@ -3814,38 +5055,39 @@ do    # Start of CLI Menu util loop.
                    echo 
                    echo -n "Read the full license text at http://www.gnu.org/licenses/ ? (N/y) "
                    read ANS
-                   case $ANS in
+                   case $ANS in # Start of gnu.org case statement.
                         [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                         echo
                          APP_NAME="w3m"
                         WEB_SITE="http://www.gnu.org/licenses/gpl.html"
+                        APP_NAME="$APP_NAME $WEB_SITE"
                         f_application_run
                         ;;
                         [Nn] | [Nn][Oo])
                         ;;
-                   esac
+                   esac         # End of gnu.org case statement.
                fi
                ;;
                [Nn] | [Nn][Oo])
                ;;
-           esac
-           CHOICE_MAIN=-2 # Do not display "Press enter key to continue."
+           esac         # End of license case statment.
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
       esac # End of CLI Menu case statement.
       #
-      case $CHOICE_MAIN in # Convert string to integer -2 to force stay in until loop.
-           *[A-Za-z]*)
-           CHOICE_MAIN=-2 # Force stay in until loop without echo "Press enter to continue".
-                         # specifically for alpha nonsense responses.
-                         # Note for legitimate responses, when entering an app function, the
-                         # f_application_run resets CHOICE_APP=-1. No need to set it here. 
+      case $CHOICE_MAIN in
+           [A-Za-z]*)
+           CHOICE_MAIN=-1 # Convert string to integer -1. Stay in until loop.
+           PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                          # Specifically for alpha nonsense responses.
            ;;
-      esac
-      if [ $CHOICE_MAIN -le -3 -o $CHOICE_MAIN -gt $MAX ] ; then
-         CHOICE_MAIN=-2     # No display "Press enter key" if out-of-bounds numeric response.
-      fi
-      if [ $CHOICE_MAIN -eq -1 ] ; then
-         f_press_enter_key_to_continue
-      fi
+     esac
+     if [ $CHOICE_MAIN -le -3 -o $CHOICE_MAIN -gt $MAX ] ; then
+        CHOICE_MAIN=-1  # Convert string to integer -1. Stay in until loop.
+        PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
+                        # Specifically for out-of-bounds numeric response.
+     fi
+     f_option_press_enter_key
 done # End of CLI Menu until loop.
 # all dun dun noodles.

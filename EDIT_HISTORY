@@ -25,7 +25,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-22-2013 23:57"
+REVDATE="March-26-2013 17:15"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,17 @@ REVDATE="March-22-2013 23:57"
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-03-26 *Add ability to enter application [OPTIONS] on menu choice line.
+##            *f_application_bad_menu_choice sets CHOICE_APP=-1 for all strings.
+##             and sets PRESS_KEY=0 so menu is immediately redisplayed.
+##            *f_web_site optimized code and can enter web browser application
+##             name with(out) web site and with(out) -OPTIONS.
+##            *f_option_press_enter_key added introduce PRESS_KEY variable and
+##             replaces f_menu_app_press_enter.
+##
+## 2013-03-23 *Clean up comments to optimize for an 80 column display.
+##            *f_menu_app_calendar_todo clean up apps display when run.
 ##
 ## 2013-03-22 *f_subcat_bad_menu_choice added.
 ##            *f_applications_bad_menu_choice added.
