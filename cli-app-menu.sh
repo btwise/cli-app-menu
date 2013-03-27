@@ -24,7 +24,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-26-2013 17:15"
+REVDATE="March-26-2013 23:57"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -3469,7 +3469,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="cal"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Aa][Ll]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3477,7 +3477,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="gcalcli"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Gg][Cc][Aa][Ll][Cc][Ll][Ii]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3485,7 +3485,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="pal"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Aa][Ll]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3493,7 +3493,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="pom"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Oo][Mm]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3501,7 +3501,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="remind"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Rr][Ee][Mm][Ii][Nn][Dd' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3509,7 +3509,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="when"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ww][Hh][Ee][Nn]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3519,7 +3519,7 @@ f_menu_app_calendar_todo () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
                  ;;
-                 ' '[-]*)
+                 [Ww][Yy][Rr][Dd]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3551,7 +3551,7 @@ f_menu_app_calendar_todo () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Tt][Oo][Dd][Oo]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3559,7 +3559,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="yagtd"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Yy][Aa][Gg][Tt][Dd]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3600,8 +3600,8 @@ f_menu_app_calculators () {
                  APP_NAME="bc"
                  f_how_to_quit_application "quit"
                  f_application_run
-                  ;;
-                 ' '[-]*)
+                 ;;
+                 [Bb][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3609,7 +3609,7 @@ f_menu_app_calculators () {
                  APP_NAME="orpie"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Oo][Rr][Pp][Ii][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3618,7 +3618,7 @@ f_menu_app_calculators () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Tt][Aa][Pp][Ee][Cc][Aa][Ll][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3659,15 +3659,15 @@ f_menu_app_spreadsheets () {
                  APP_NAME="oleo"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Oo][Ll][Ee][Oo]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 1 | [Ss] | [Ss][Cc])
+                 2 | [Ss] | [Ss][Cc])
                  APP_NAME="sc"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ss][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3675,7 +3675,7 @@ f_menu_app_spreadsheets () {
                  APP_NAME="slsc"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ss][Ll][Ss][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3714,7 +3714,7 @@ f_menu_app_note_applications () {
                  APP_NAME="hnb"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Hh][Nn][Bb]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3766,7 +3766,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="abcde"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Bb][Cc][Dd][Ee' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3775,7 +3775,7 @@ f_menu_app_audio_applications () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Vv][Cc][Oo][Nn][Vv]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3783,7 +3783,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="sox"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ss][Oo][Xx]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3792,7 +3792,7 @@ f_menu_app_audio_applications () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Mm][Uu][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3800,7 +3800,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="juke"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Jj][Uu][Kk][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3808,7 +3808,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="moc"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Mm][Oo][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3817,7 +3817,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="ncmpc"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Nn][Cc][Mm][Pp][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3825,7 +3825,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ff][Ff][Mm][Ee][Gg]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3833,7 +3833,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Mm][Pp][Ll][Aa][Yy][Ee][Rr]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3842,7 +3842,7 @@ f_menu_app_audio_applications () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Dd][Rr][Aa][Dd][Ii][Oo]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3850,7 +3850,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="radio"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Rr][Aa][Dd][Ii][Oo]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3858,7 +3858,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="ebook-speaker"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee][Rr]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3866,7 +3866,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="festival"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3874,7 +3874,7 @@ f_menu_app_audio_applications () {
                  APP_NAME="screader"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3916,7 +3916,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="cmatrix"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Mm][Aa][Tt][Rr][Ii][Xx]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3924,7 +3924,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="rain"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Rr][Aa][Ii][Nn]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3932,7 +3932,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="tty-clock"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc][Kk]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3940,7 +3940,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="worms"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ww][Oo][Rr][Mm][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3984,7 +3984,7 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME="aview"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Vv][Ii][Ee][Ww]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3992,7 +3992,7 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME="hasciicam"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa][Mm]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4000,7 +4000,7 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME="caca-utils"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4008,7 +4008,7 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME="jp2a"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Jj][Pp][2][Aa]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4026,7 +4026,7 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME="linuxlogo -L "$ANS
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4070,7 +4070,7 @@ f_menu_app_education_applications () {
                  APP_NAME="aldo"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Ll][Dd][Oo]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4078,7 +4078,7 @@ f_menu_app_education_applications () {
                  APP_NAME="cw"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Ww]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4086,7 +4086,7 @@ f_menu_app_education_applications () {
                  APP_NAME="cwcp"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Ww][Cc][Pp]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4094,7 +4094,7 @@ f_menu_app_education_applications () {
                  APP_NAME="morse"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Mm][Oo][Rr][Ss][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4102,7 +4102,7 @@ f_menu_app_education_applications () {
                  APP_NAME="primes"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Rr][Ii][Mm][Ee][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4149,72 +4149,32 @@ f_menu_cat_games () {
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Cc] | [Aa][Rr][Cc][Aa] | [Aa][Rr][Cc][Aa][Dd] | [Aa][Rr][Cc][Aa][Dd][Ee]) 
                  f_menu_app_games_arcade
                  ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
                  2 | [Bb] | [Bb][Oo] | [Bb][Oo][Aa] | [Bb][Oo][Aa][Rr] | [Bb][Oo][Aa][Rr][Dd])
                  f_menu_app_games_board
-                 ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Rr] | [Cc][Aa][Rr][Dd])
                  f_menu_app_games_card
                  ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
                  4 | [Mm] | [Mm][Uu] | [Mm][Uu][Dd])
                  f_menu_app_games_mud
-                 ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
                  5 | [Pp] | [Pp][Uu] | [Pp][Uu][Zz] | [Pp][Uu][Zz][Zz] | [Pp][Uu][Zz][Zz][Ll] | [Pp][Uu][Zz][Zz][Ll][Ee] | [Pp][Uu][Zz][Zz][Ll][Ee][Ss])
                  f_menu_app_games_puzzle
                  ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
                  6 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Zz])
                  f_menu_app_games_quiz
-                 ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
                  7 | [Rr] | [Rr][Pp] | [Rr][Pp][Gg])
                  f_menu_app_games_rpg
                  ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
                  8 | [Ss] | [Ss][Ii] | [Ss][Ii][Mm] | [Ss][Ii][Mm][Uu] | [Ss][Ii][Mm][Uu][Ll] | [Ss][Ii][Mm][Uu][Ll][Aa] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo][Nn])
                  f_menu_app_games_simulation
-                 ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
                  9 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Aa] | [Ss][Tt][Rr][Aa][Tt] | [Ss][Tt][Rr][Aa][Tt][Ee] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg][Yy])
                  f_menu_app_games_strategy
                  ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
                  10 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Dd])
                  f_menu_app_games_word
-                 ;;
-                 ' '[-]*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
             esac                # End of Game Category case statement.
             #
@@ -4255,7 +4215,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="freeswap"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee][Pp]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4263,7 +4223,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="moon-buggy"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg][Yy]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4271,7 +4231,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="ninvaders"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4279,7 +4239,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="pacman4console"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4287,7 +4247,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="robots"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Rr][Oo][Bb][Oo][Tt][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4295,7 +4255,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="snake"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ss][Nn][Aa][Kk][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4303,7 +4263,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="worm"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ww][Oo][Rr][Mm]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4343,7 +4303,7 @@ f_menu_app_games_board () {
                  APP_NAME="atom4"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Tt][Oo][Mm][4]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4351,7 +4311,7 @@ f_menu_app_games_board () {
                  APP_NAME="backgammon"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm][Oo][Nn]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4359,7 +4319,7 @@ f_menu_app_games_board () {
                  APP_NAME="monop"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Mm][Oo][Nn][Oo][Pp]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4399,7 +4359,7 @@ f_menu_app_games_card () {
                  APP_NAME="canfield"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Aa][Nn][Ff][Ii][Ee][Ll][Dd' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4407,7 +4367,7 @@ f_menu_app_games_card () {
                  APP_NAME="cribbage"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Rr][Ii][Bb][Bb][Aa][Gg][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4415,7 +4375,7 @@ f_menu_app_games_card () {
                  APP_NAME="go-fish"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Gg][Oo][-][Ff][Ii][Ss][Hh]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4454,7 +4414,7 @@ f_menu_app_games_mud () {
                  APP_NAME="crawl"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Cc][Rr][Aa][Ww][Ll]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4462,7 +4422,7 @@ f_menu_app_games_mud () {
                  APP_NAME="tintin++"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Tt][Ii][Nn][Tt][Ii][Nn][+][+]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4505,7 +4465,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="bastet"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Bb][Aa][Ss][Tt][Ee][Tt]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4513,7 +4473,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="bcd"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Bb][Cc][Dd]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4521,7 +4481,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="dab"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Dd][Aa][Bb]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4529,7 +4489,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="netris"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Nn][Ee][Tt][Rr][Ii][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4537,7 +4497,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="petris"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Ee][Tt][Rr][Ii][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4545,7 +4505,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="ppt"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Pp][Tt]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4587,7 +4547,7 @@ f_menu_app_games_quiz () {
                  f_how_to_quit_application "Ctrl-Z"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt][Ii][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4595,7 +4555,7 @@ f_menu_app_games_quiz () {
                  APP_NAME="geekcode"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Gg][Ee][Ee][Kk][Cc][Oo][Dd][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4603,7 +4563,7 @@ f_menu_app_games_quiz () {
                  APP_NAME="morse"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Mm][Oo][Rr][Ss][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4612,7 +4572,7 @@ f_menu_app_games_quiz () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Qq][Uu][Ii][Zz]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4657,7 +4617,7 @@ f_menu_app_games_rpg () {
                  f_how_to_quit_application "quit"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4665,7 +4625,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="battlestar"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt][Aa][Rr]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4673,7 +4633,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="hack"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [hH][Aa][Cc][Kk]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4681,7 +4641,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="nethack-console"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Nn][Ee][Tt][hH][Aa][Cc][Kk]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4689,7 +4649,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="phantasia"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Hh][Aa][Nn][Tt][Aa][Ss][Ii][Aa]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4697,7 +4657,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="slashem"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ss][Ll][Aa][Ss][Hh][Ee][Mm]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4705,7 +4665,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="wump"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ww][Uu][Mm][Pp]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4745,7 +4705,7 @@ f_menu_app_games_simulation () {
                  APP_NAME="atc"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Aa][Tt][Cc]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4753,7 +4713,7 @@ f_menu_app_games_simulation () {
                  APP_NAME="sail"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ss][Aa][Ii][Ll]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4762,7 +4722,7 @@ f_menu_app_games_simulation () {
                  f_how_to_quit_application "at the prompt Command: terminate"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Tt][Rr][Ee][Kk]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4803,7 +4763,7 @@ f_menu_app_games_strategy () {
                  APP_NAME="gomoku"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Gg][Oo][Mm][Oo][Kk][Uu]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4811,7 +4771,7 @@ f_menu_app_games_strategy () {
                  APP_NAME="hunt"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Hh][Uu][Nn][Tt]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4819,7 +4779,7 @@ f_menu_app_games_strategy () {
                  APP_NAME="mille"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Mm][Ii][Ll][Ll][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4839,7 +4799,7 @@ f_menu_app_games_strategy () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Ww][Aa][Rr][Gg][Aa][Mm][Ee][Ss]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4879,7 +4839,7 @@ f_menu_app_games_word () {
                  APP_NAME="boggle"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Bb][Oo][Gg][Gg][Ll][Ee]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4887,7 +4847,7 @@ f_menu_app_games_word () {
                  APP_NAME="hangman"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Hh][Aa][Nn][Gg][Mm][Aa][Nn]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4895,7 +4855,7 @@ f_menu_app_games_word () {
                  APP_NAME="pig"
                  f_application_run
                  ;;
-                 ' '[-]*)
+                 [Pp][Ii][Gg]' '[-]*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
