@@ -24,7 +24,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-27-2013 10:30"
+REVDATE="March-27-2013 12:25"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -119,7 +119,7 @@ REVDATE="March-27-2013 10:30"
 #:         for the items below the new item.
 #:
 #:    The case patterns will accept both the menu option number, or all or part
-
+#:
 #:    of the menu item name in upper or lower case or any mixture of case.
 #:
 #:
@@ -161,10 +161,10 @@ REVDATE="March-27-2013 10:30"
 #: MAX         - Number; Maximum option choice number in menu.
 #: MENU_TITLE  - String; Title of menu.
 #: XNUM        - Number; Scratch variable used in awk statement in f_show_menu.
-#  XSTR        - String; Scratch variable.
-#  PRESSKEY    - Number: Ask "Press Enter key to continue".
-#                '0' Do not ask "Press Enter key to continue".
-#                '1' Ask "Press Enter key to continue".
+#: XSTR        - String; Scratch variable.
+#: PRESSKEY    - Number: Ask "Press Enter key to continue".
+#:               '0' Do not ask "Press Enter key to continue".
+#:               '1' Ask "Press Enter key to continue".
 #: REVDATE     - String; Revision date of shell script.
 #: REVISION    - String; Revision number of shell script.
 #: TCOLOR      - String; Background color of display terminal; Black or White.
@@ -219,7 +219,7 @@ REVDATE="March-27-2013 10:30"
 #:MPO - Podcatcher Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
-# MSC - System Screen Applications Menu
+#:MSC - System Screen Applications Menu
 #:MSI - System Information Applications Menu
 #:MSM - System Monitor Applications Menu
 #:MSP - Spreadsheet Applications Menu
@@ -232,6 +232,25 @@ REVDATE="March-27-2013 10:30"
 #:MXX - Sample Template Applications Menu
 #
 #
+#@ +----------------------------------------+
+#@ |            Menu Features               |
+#@ +----------------------------------------+
+#@
+#@ At the menu prompt, you can enter OPTIONS and FILES.
+#@
+#@ <application name> [OPTIONS]
+#@
+#@ <application name> [OPTIONS] [FILES]
+#@
+#@ Examples:
+#@
+#@ For a web browser:
+#@ elinks www.lxer.com
+#@
+#@ To compare two text files:
+#@ colordiff --side-by-side --suppress-common-lines <file name 1> <file name 2>
+#@
+#@
 #@ +----------------------------------------+
 #@ |      General help on an application    |
 #@ +----------------------------------------+
@@ -3151,6 +3170,7 @@ f_menu_app_sys_information () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Information until loop.
+            #MSI df          - Disk usage and mount points, usage: -hT.
             #MSI ncdu        - Disk usage monitor, ncurses-based.
             #MSI uuid        - Use ls -l to show disk uuid number.
             #MSI cfdisk      - Disk partition tool.
@@ -3176,7 +3196,16 @@ f_menu_app_sys_information () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Information case statement.
-                 1 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
+                 1 | [Dd] | [Dd][Ff])
+                 clear # Blank the screen.
+                 APP_NAME="df -hT"
+                 f_application_run
+                 ;;
+                 [Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
                  APP_NAME="ncdu"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3186,7 +3215,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
+                 3 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
                  clear # Blank the screen.
                  echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
                  APP_NAME="ls -l /dev/disk/by-uuid"
@@ -3196,7 +3225,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
+                 4 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
                  APP_NAME="cfdisk"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3206,7 +3235,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
+                 5 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
                  APP_NAME="parted"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3216,7 +3245,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 6 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
                  APP_NAME="dmidecode"
                  f_application_run
                  ;;
@@ -4902,8 +4931,7 @@ f_initvars_menu_app
 until [ $CHOICE_MAIN -eq 0 ]
 do    # Start of CLI Menu util loop.
       #AAA Applications        - Launch a command-line application.
-      #AAA Help                - How to get help on an application.
-      #AAA Disk status         - Free disk space and mount-points.
+      #AAA Help and Features   - How to use and what can it do.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
       #AAA Black               - Set display white on black.
       #AAA White               - Set display black on white; doesn't work in X-windows.
@@ -4935,7 +4963,7 @@ do    # Start of CLI Menu util loop.
            f_menu_cat_applications
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           2 | [Hh] | [Hh][Ee] | [Hh][Ee][Ll] | [Hh][Ee][Ll][Pp])
+           2 | [Hh] | [Hh][Ee] | [Hh][Ee][Ll] | [Hh][Ee][Ll][Pp] | [Hh][Ee][Ll][Pp]' ' | [Hh][Ee][Ll][Pp]' '[Aa] | [Hh][Ee][Ll][Pp]' '[Aa][Nn] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' ' | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu][Rr] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu][Rr][Ee] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu][Rr][Ee][Ss])
            clear # Blank the screen.
            # echo "To quit help, type '"q"'."
            # f_press_enter_key_to_continue
@@ -4945,13 +4973,7 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           3 | [Dd] | [Dd][Ii] | [Dd][Ii][Ss] | [Dd][Ii][Ss][Kk] | [Dd][Ii][Ss][Kk]' ' | [Dd][Ii][Ss][Kk]' '[Ss] | [Dd][Ii][Ss][Kk]' '[Ss][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu] | [Dd][Ii][Ss][Kk]' '[Ss][Tt][Aa][Tt][Uu][Ss])
-           clear # Blank the screen.
-           df -hT
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           4 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
+           3 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
            clear # Blank the screen.
            echo "To quit documentation, type '"q"'."
            f_press_enter_key_to_continue
@@ -4961,19 +4983,19 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           5 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
+           4 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
            TCOLOR="black"
            f_term_color # Set terminal color.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
+           5 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
            TCOLOR="white"
            f_term_color # Set terminal color.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;  
-           7 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
+           6 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
            clear # Blank the screen.
            echo "CLI Menu version: $REVISION"
            echo "       Edited on: $REVDATE"
@@ -4981,7 +5003,7 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           8 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           7 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
            echo "To quit reading Edit History, type '"q"'."
            f_press_enter_key_to_continue
@@ -4998,7 +5020,7 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           9 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           8 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
            if [ -r EDIT_HISTORY ] ; then
               APP_NAME="joe EDIT_HISTORY"
@@ -5014,7 +5036,7 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           10 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
+           9 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear # Blank the screen.
            # display License (all lines beginning with #LIC but
            # substitute "" for "#LIC" so "#LIC" is not printed).
@@ -5057,6 +5079,10 @@ do    # Start of CLI Menu util loop.
       esac # End of CLI Menu case statement.
       #
       case $CHOICE_MAIN in
+           "")
+           CHOICE_MAIN=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+           ;;
            [A-Za-z]*)
            CHOICE_MAIN=-1 # Convert string to integer -1. Stay in until loop.
            PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
