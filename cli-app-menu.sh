@@ -24,7 +24,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-27-2013 16:12"
+REVDATE="March-28-2013 00:53"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -205,9 +205,6 @@ REVDATE="March-27-2013 16:12"
 #:MGI - Simulation Games
 #:MGJ - Strategy Games
 #:MGK - Word Games
-#:MGI - Simulation Games
-#:MGJ - Strategy Games
-#:MGK - Word Games
 #:MIG - Image-Graphics Applications Menu
 #:MIM - Instant Messaging Applications Menu
 #:MIR - Internet Relay Chat (IRC) Applications Menu
@@ -329,12 +326,12 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
       # being printed as part of the menu.
       #
       # The menu option numbers are incremented by using any unset variable name
-      # (such as "NUM") followed by "++",
-      # However, because NUM is unset, it will increment from zero, whereas we
+      # (such as "XNUM") followed by "++",
+      # However, because XNUM is unset, it will increment from zero, whereas we
       # want it to increment from one.
-      # To do this, we add one before NUM so the expression is now "1+NUM++".
-      # so numbering will always starts at zero. Interestingly the "++"
-      # increment command is only valid from within awk.
+      # To do this, we add one before XNUM so the expression is now "1+XNUM++".
+      # so numbering will always start at one. Interestingly the "++" increment
+      # command is only valid from within awk.
       #
       MAX=$(grep $DELIMITER -c $THIS_FILE) 
       # Count number of lines containing special comment marker string to get
@@ -497,10 +494,8 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
       # f_term_color # Set terminal color.
       case $CHOICE_APP in
            *--help)
-              echo "To quit help, type '"q"'."
-              f_press_enter_key_to_continue
               clear # Blank screen
-              $CHOICE_APP |more # <Application name> --help | more
+              $CHOICE_APP | more -d # <Application name> --help | more -d
               ERROR=$? # Save error flag condition.
               if [ $ERROR -ne 0 ] ; then
                  # Error code 1 $?=1 means no --help available.
@@ -849,8 +844,8 @@ f_menu_app_sample_template () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Applications until loop.
-            #MXX Application name - Description.
-            #MXX Application2 name - Description.
+            #MXX appname  - Description Application1 name.
+            #MXX app2name - Description Application2 name.
             #
             MENU_TITLE="<Sample Template> Applications Menu"
             DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options. 
@@ -864,19 +859,19 @@ f_menu_app_sample_template () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of <Sample Template> Applications case statement.
-                 1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Nn] | [Aa][Pp][Pp]' '[Nn][Aa] | [Aa][Pp][Pp]' '[Nn][Aa][Mm] | [Aa][Pp][Pp]' '[Nn][Aa][Mm][Ee])
+                 1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][Nn] | [Aa][Pp][Pp][Nn][Aa] | [Aa][Pp][Pp][Nn][Aa][Mm] | [Aa][Pp][Pp][Nn][Aa][Mm][Ee])
                  APP_NAME="appname"
                  f_application_run
                  ;;
-                 [Aa][Pp][Pp]' '[Nn][Aa][Mm][Ee]' '*)
+                 [Aa][Pp][Pp][Nn][Aa][Mm][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2]' ' | [Aa][Pp][Pp][2]' '[Nn] | [Aa][Pp][Pp][2]' '[Nn][Aa] | [Aa][Pp][Pp][2]' '[Nn][Aa][Mm] | [Aa][Pp][Pp][2]' '[Nn][Aa][Mm][Ee])
+                 2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2][Nn] | [Aa][Pp][Pp][2][Nn][Aa] | [Aa][Pp][Pp][2][Nn][Aa][Mm] | [Aa][Pp][Pp][2][Nn][Aa][Mm][Ee])
                  APP_NAME="app2name"
                  f_application_run
                  ;;
-                 [Aa][Pp][Pp][2]' '[Nn][Aa][Mm][Ee]' '*)
+                 [Aa][Pp][Pp][2][Nn][Aa][Mm][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2256,20 +2251,20 @@ f_menu_app_network_config () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Configuration Applications until loop.
-            #MNF iptables     - firewall configuration rules for a chain.
-            #MNF ufw          - firewall configuration and status.
-            #MNF ifconfig     - NIC configuration.
-            #MNF ip route     - Shows routing.
-            #MNF route        - Shows routing table.
-            #MNF ping         - Check LAN/WAN connectivity. Usage: ping <ip-address>.
-            #MNF mtr          - Traceroute tool, has features of ping and traceroute.
-            #MNF traceroute   - Traceroute tool, trace network path to destination. 
-            #MNF wicd-curses  - Wireless scan and connect to wired/wireless networks.
-            #MNF iwconfig     - Wireless NIC configuration.
-            #MNF smbc         - Samba file manager for folder shares with Microsoft Windows.
-            #MNF smbclient    - Samba client (share folders with Microsoft Windows).
-            #MNF smbstatus    - Samba files lock status.
-            #MNF testparm     - Samba configuration display.
+            #MNF iptables    - firewall configuration rules for a chain.
+            #MNF ufw         - firewall configuration and status.
+            #MNF ifconfig    - NIC configuration.
+            #MNF ip route    - Shows routing.
+            #MNF route       - Shows routing table.
+            #MNF ping        - Check LAN/WAN connectivity. Usage: ping <ip-address>.
+            #MNF mtr         - Traceroute tool, has features of ping and traceroute.
+            #MNF traceroute  - Traceroute tool, trace network path to destination. 
+            #MNF wicd-curses - Wireless scan and connect to wired/wireless networks.
+            #MNF iwconfig    - Wireless NIC configuration.
+            #MNF smbc        - Samba file manager for folder shares with Microsoft Windows.
+            #MNF smbclient   - Samba client (share folders with Microsoft Windows).
+            #MNF smbstatus   - Samba files lock status.
+            #MNF testparm    - Samba configuration display.
             #
             MENU_TITLE="Network Configuration Applications Menu"
             DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
@@ -4096,10 +4091,10 @@ f_menu_app_education_applications () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Education Applications until loop.
-            #MED aldo  - Morse code training.
-            #MED cw    - Morse code training.
-            #MED cwcp  - Morse code training.
-            #MED morse - Morse code training.
+            #MED aldo   - Morse code training.
+            #MED cw     - Morse code training.
+            #MED cwcp   - Morse code training.
+            #MED morse  - Morse code training.
             #MED primes - Prime number calculator. 
            #
             MENU_TITLE="Education Applications Menu"
@@ -4933,6 +4928,7 @@ do    # Start of CLI Menu util loop.
       #AAA Applications        - Launch a command-line application.
       #AAA Help and Features   - How to use and what can it do.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
+      #AAA List Applications   - List of all CLI applications in this menu.
       #AAA Black               - Set display white on black.
       #AAA White               - Set display black on white; doesn't work in X-windows.
       #AAA About CLI Menu      - What version am I using.
@@ -4968,9 +4964,7 @@ do    # Start of CLI Menu util loop.
            ;;
            2 | [Hh] | [Hh][Ee] | [Hh][Ee][Ll] | [Hh][Ee][Ll][Pp] | [Hh][Ee][Ll][Pp]' ' | [Hh][Ee][Ll][Pp]' '[Aa] | [Hh][Ee][Ll][Pp]' '[Aa][Nn] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' ' | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu][Rr] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu][Rr][Ee] | [Hh][Ee][Ll][Pp]' '[Aa][Nn][Dd]' '[Ff][Ee][Aa][Tt][Uu][Rr][Ee][Ss])
            clear # Blank the screen.
-           # echo "To quit help, type '"q"'."
-           # f_press_enter_key_to_continue
-           sed -n 's/^#@//'p $THIS_FILE |more
+           sed -n 's/^#@//'p $THIS_FILE | more -d
            # display Help Applications (all lines beginning with #@ but
            # substitute "" for "#@" so "#@" is not printed).
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -4978,27 +4972,61 @@ do    # Start of CLI Menu util loop.
            ;;
            3 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
            clear # Blank the screen.
-           echo "To quit documentation, type '"q"'."
-           f_press_enter_key_to_continue
-           sed -n 's/^#://'p $THIS_FILE |more 
+           sed -n 's/^#://'p $THIS_FILE | more -d 
            # display Documentation (all lines beginning with #: but
            # substitute "" for "#:" so "#:" is not printed).
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           4 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
+           4 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt] | [Ll][Ii][Ss][Tt]' ' | [Ll][Ii][Ss][Tt]' '[Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' ' | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn][Ss])
+           clear # Blank the screen.
+           #
+           # 1. grep finds all lines containing "#M" followed by two letters in
+           #    this script.
+           #    .i.e. "            #MGF bastet         - Tetris-like game." #MGF This 3rd field prevents awk from  printing this line into menu options.
+           #
+           #    Lines starting with "#M" are applications listed in menus.
+           #    The string "#M" followed by 2 letters are the special menu
+           #    option marker. i.e. #MGF is the marker for Puzzle Games. #MGF This 3rd field prevents awk from  printing this line into menu options.
+           #
+           # 2. The first awk parses results and chosen if lines contain only
+           #    one "#M". Results are printed, showing everything after "#M".
+           #    i.e. "GF bastet         - Tetris-like game."
+           #
+           # 3. The second awk substitutes "" for only the first word and
+           #    prints all the rest of the words.
+           #    'sub' string function substitutes only the first match (word).
+           #    'print $0' I/O statement prints all the rest of the words.
+           #    i.e. "bastet         - Tetris-like game." 
+           #    (Where "GF" substituted by "".)
+           #
+           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
+           #
+           # The code below will work but is less elegant.
+           #
+           # 3. The second awk prints out the 2nd to the 15th words in the
+           #    resultant string. The 1st word is skipped because it is the
+           #    last 2 letters of the special menu option marker.
+           #    i.e. "bastet - Tetris-like game."
+           #
+           # grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{print $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14$,15}' | more -d
+           #
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;
+           5 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
            TCOLOR="black"
            f_term_color # Set terminal color.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           5 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
+           6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
            TCOLOR="white"
            f_term_color # Set terminal color.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;  
-           6 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
+           7 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
            clear # Blank the screen.
            echo "CLI Menu version: $REVISION"
            echo "       Edited on: $REVDATE"
@@ -5006,14 +5034,12 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           7 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           8 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
-           echo "To quit reading Edit History, type '"q"'."
-           f_press_enter_key_to_continue
            if [ -r EDIT_HISTORY ] ; then
               # display Edit History (all lines beginning with ## but
               # substitute "" for "##" so "##" is not printed).
-              sed -n 's/^##//'p EDIT_HISTORY |more
+              sed -n 's/^##//'p EDIT_HISTORY | more -d
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            else
               echo
@@ -5023,7 +5049,7 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           8 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           9 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
            if [ -r EDIT_HISTORY ] ; then
               APP_NAME="joe EDIT_HISTORY"
@@ -5039,21 +5065,19 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           9 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
+           10 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear # Blank the screen.
            # display License (all lines beginning with #LIC but
            # substitute "" for "#LIC" so "#LIC" is not printed).
-           sed -n 's/^#LIC//'p $THIS_FILE |more
+           sed -n 's/^#LIC//'p $THIS_FILE | more -d
            echo
            echo -n "Read the full license text contained in file 'COPYING'? (N/y) "
            read ANS
            case $ANS in # Start of license case statment.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                 echo
-                echo "To quit reading License, type '"q"'."
-                f_press_enter_key_to_continue
                 if [ -r COPYING ] ; then
-                   cat COPYING | more
+                   cat COPYING | more -d
                 else
                    echo
                    echo "The file COPYING is either missing or cannot be read."
