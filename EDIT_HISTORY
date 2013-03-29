@@ -25,7 +25,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-28-2013 19:01" 
+REVDATE="March-29-2013 01:08" 
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,9 @@ REVDATE="March-28-2013 19:01"
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-03-29 *f_menu_app_network_monitors add kismet, snort, tcpdump, wireshark.
+##            *f_menu_app_network_config add iwlist.
+##
 ## 2013-03-28 *Update "Help and Features" options.
 ##            *Move "Disk Status" from Main Menu to System Information Menu.
 ##            *Main Menu add "List Applications" option.
@@ -50,6 +53,7 @@ REVDATE="March-28-2013 19:01"
 ##             grandfatherclock.
 ##            *Fux pesky Press Enter Key to continue inconsistency in menus.
 ##            *Miscellaneous small fixes.
+##            *Remove blank lines.
 ##
 ## 2013-03-26 *f_quit_app_menu fix add PRESS_KEY=0 for case statement.
 ##            *application menu case pattern matching, change from ' '[-]* and
