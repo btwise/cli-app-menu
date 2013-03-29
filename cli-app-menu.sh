@@ -24,7 +24,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-28-2013 19:01"
+REVDATE="March-28-2013 22:03"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -258,7 +258,6 @@ REVDATE="March-28-2013 19:01"
 #@              joe --help
 #@
 #@ 2.    man <application name>       Where 'man' is short for 'manual'
-#@
 #@
 #@       Example for more help on the 'joe' text editor,
 #@              man joe
@@ -508,7 +507,6 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  # only the name.
                  # The echo -e \c option supresses the line feed after the first
                  # echo command so that the message is on a single line.
-
                  echo
               fi
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -2286,6 +2284,7 @@ f_menu_app_network_config () {
             #MNF traceroute  - Traceroute tool, trace network path to destination. 
             #MNF wicd-curses - Wireless scan and connect to wired/wireless networks.
             #MNF iwconfig    - Wireless NIC configuration.
+            #MNF iwlist      - Get detailed information from wired/wireless interface.
             #MNF smbc        - Samba file manager for folder shares with Microsoft Windows.
             #MNF smbclient   - Samba client (share folders with Microsoft Windows).
             #MNF smbstatus   - Samba files lock status.
@@ -2469,7 +2468,15 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 11 | [Ii] | [Ii][Ww] | [Ii][Ww][Ll] | [Ii][Ww][Ll][Ii] | [Ii][Ww][Ll][Ii][Ss] | [Ii][Ww][Ll][Ii][Ss][Tt])
+                 APP_NAME="iwlist"
+                 f_application_run
+                 ;;
+                 [Ii][Ww][Ll][Ii][Ss][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 12 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="man smbc"
                  clear # Blank the screen.
                  echo "Display help for smbc (Samba Commander)."
@@ -2484,7 +2491,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
+                 13 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
@@ -2492,7 +2499,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
+                 14 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
@@ -2500,7 +2507,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
+                 15 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
@@ -2531,6 +2538,10 @@ f_menu_app_network_monitors () {
             #MNM nc          - Netcat reads/writes data across network.
             #MNM ngrep       - Network packet analyzer.
             #MNM nmap        - Network Mapper, mapping, auditing, security scanning.
+            #MNF kismet      - Wireless network detector, packet sniffer, auditor.
+            #MNM snort       - Packet sniffer/logger, Network Intrusion Detection System.
+            #MNM tcpdump     - Packet sniffer/logger.
+            #MNM wireshark   - Packet sniffer/logger.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Monitor Applications Menu"
@@ -2595,6 +2606,38 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
                  [Nn][Mm][Aa][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
+                 APP_NAME="kismet"
+                 f_application_run
+                 ;;
+                 [Kk][Ii][Ss][Mm][Ee][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
+                 APP_NAME="snort"
+                 f_application_run
+                 ;;
+                 [Ss][Nn][Oo][Rr][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
+                 APP_NAME="tcpdump"
+                 f_application_run
+                 ;;
+                 [Tt][Cc][Pp][Dd][Uu][Mm][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
+                 APP_NAME="wireshark"
+                 f_application_run
+                 ;;
+                 [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2846,10 +2889,14 @@ f_menu_app_text_tools () {
       do    # Start of Text Tool Applications until loop.
             #MTT antiword   - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
             #MTT doconce    - Text markup language to transform text formats.
+            #MTT gs         - GhostScript, PostScript, and PDF viewer.
             #MTT imediff2   - Interactive 2-way file merge.
-            #MTT txt2html   - Converts plain ASCII text to html format.
+            #MTT pdftops    - Converts PDF to PS (PostScript) format.
+            #MTT ps2ascii   - Converts PS (PostScript) to text format.
+            #MTT ps2pdf     - Converts PS (PostScript) to PDF format.
+            #MTT txt2html   - Converts plain ASCII text to HTML format.
             #MTT txt2man    - Converts plain ASCII text to man format.
-            #MTT txt2pdbdoc - Converts plain ASCII text to pdb doc format for Palm Pilots.
+            #MTT txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
             #MTT txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
             #MTT txt2tags   - Converts plain ASCII text to a variety of formats.
             #MTT colordiff  - Differences between two text files shown in color.
@@ -2886,7 +2933,15 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
+                 3 | [Gg] | [Gg][Ss])
+                 APP_NAME="gs"
+                 f_application_run
+                 ;;
+                 [Gg][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
                  APP_NAME="imediff"
                  f_application_run
                  ;;
@@ -2894,7 +2949,32 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 5 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo] | [Pp][Dd][Ff][Tt][Oo][Pp] | [Pp][Dd][Ff][Tt][Oo][Pp][Ss])
+                 APP_NAME="pdftops"
+                 f_application_run
+                 ;;
+                 [Pp][Dd][Ff][Tt][Oo][Pp][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa] | [Pp][Ss][2][Aa][Ss] | [Pp][Ss][2][Aa][Ss][Cc] | [Pp][Ss][2][Aa][Ss][Cc][Ii] | [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii])
+                 APP_NAME="ps2ascii"
+                 f_application_run
+                 ;;
+                 [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+           #MTT ps2pdf     - Converts PS (PostScript) to PDF format.
+                 7 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp] | [Pp][Ss][2][Pp][Dd] | [Pp][Ss][2][Pp][Dd][Ff])
+                 APP_NAME="ps2pdf"
+                 f_application_run
+                 ;;
+                 [Pp][Ss][2][Pp][Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
                  APP_NAME="man txt2html"
                  clear # Blank the screen.
                  echo "Convert plain text files to html." 
@@ -2912,7 +2992,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
+                 9 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
                  APP_NAME="man txt2man"
                  clear # Blank the screen.
                  echo "Convert plain text files to man pages." 
@@ -2929,7 +3009,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
+                 10 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
                  APP_NAME="man txt2pdbdoc"
                  clear # Blank the screen.
                  echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
@@ -2948,7 +3028,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
+                 11 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
                  APP_NAME="man txt2regex"
                  clear # Blank the screen.
                  echo "Convert human sentences to regex." 
@@ -2964,7 +3044,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
+                 12 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
                  APP_NAME="man txt2tags"
                  clear # Blank the screen.
                  echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
@@ -2982,7 +3062,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
+                 13 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
@@ -2990,7 +3070,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
+                 14 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
                  APP_NAME="diff"
                  f_application_run
                  ;;
@@ -2998,7 +3078,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
+                 15 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
@@ -3006,7 +3086,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
+                 16 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
                  APP_NAME="wdiff"
                  f_application_run
                  ;;
@@ -4071,7 +4151,6 @@ f_menu_app_audio_applications () {
                  f_application_run
                  ;;
                  14 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Aa] | [Ss][Cc][Rr][Ee][Aa][Dd] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr])
-
                  APP_NAME="screader"
                  f_application_run
                  ;;
@@ -4722,7 +4801,6 @@ f_menu_app_games_puzzle () {
                  APP_NAME="dab"
                  f_application_run
                  ;;
-
                  [Dd][Aa][Bb]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
