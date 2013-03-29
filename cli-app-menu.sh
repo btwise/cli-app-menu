@@ -24,7 +24,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-28-2013 00:53"
+REVDATE="March-28-2013 19:01"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -258,6 +258,7 @@ REVDATE="March-28-2013 00:53"
 #@              joe --help
 #@
 #@ 2.    man <application name>       Where 'man' is short for 'manual'
+#@
 #@
 #@       Example for more help on the 'joe' text editor,
 #@              man joe
@@ -507,6 +508,7 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  # only the name.
                  # The echo -e \c option supresses the line feed after the first
                  # echo command so that the message is on a single line.
+
                  echo
               fi
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -707,7 +709,7 @@ f_application_error () {
            echo "To install under Slackware-based Linux use command:"
            echo "                           sudo installpkg <application package name>"
            echo 
-           echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)?"
+           echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
            read ANS
            case $ANS in # Start of Install Application Option case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
@@ -808,6 +810,7 @@ f_menu_cat_sample_template () {
             #MXC App Cat1
             #MXC App Cat2
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Application Category Menu"
             DELIMITER="#MXC" #MXC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -847,6 +850,7 @@ f_menu_app_sample_template () {
             #MXX appname  - Description Application1 name.
             #MXX app2name - Description Application2 name.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="<Sample Template> Applications Menu"
             DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -900,12 +904,12 @@ f_menu_cat_applications () {
             #AAB Text Editors    - Create/Edit text files.
             #AAB Text Tools      - Text file format converters and compare text files
             #AAB System          - Monitor system processes, resources, utilities, etc.
-            #AAB Calendar-ToDo   - Personal organization.
+            #AAB Calendar-ToDo   - Personal organization, calendar, to-do, (alarm) clocks.
             #AAB Calculator      - Simple "pocket" calculators.
             #AAB Spreadsheet     - Basic spreadsheet.
             #AAB Notebook        - Write notes in a "notebook".
             #AAB Audio           - Music players, audio utilities.
-            #AAB Screensaver     - For when you're away.
+            #AAB Screen-saver    - For when you're away.
             #AAB Images-Graphics - View images and graphics files.
             #AAB Education       - Learn something.
             #AAB Games           - Fun time!
@@ -975,7 +979,7 @@ f_menu_cat_applications () {
                  f_menu_app_audio_applications     # Audio Applications Menu.
                  CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
-                 12 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss][Aa][Vv][Ee][Rr])
+                 12 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][-] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee][Rr])
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
                  CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
@@ -1106,6 +1110,7 @@ f_menu_app_web_browsers () {
             #MWB links  - Web browser, no graphics mode.
             #MWB w3m    - Web browser, tables, frames support, IPv6 support.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Web Browser Applications Menu"
             DELIMITER="#MWB" #MWB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1121,11 +1126,13 @@ f_menu_app_web_browsers () {
                  1 | [Ee] | [Ee][Ll] | [Ee][Ll][Ii] | [Ee][Ll][Ii][Nn] | [Ee][Ll][Ii][Nn][Kk] | [Ee][Ll][Ii][Nn][Kk][Ss] | [Ee][Ll][Ii][Nn][Kk][Ss])
                  APP_NAME="elinks"
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Ee][Ll][Ii][Nn][Kk][Ss]' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  2 | [Ll] | [Ll][Yy] | [Ll][Yy][Nn] | [Ll][Yy][Nn][Xx] | [Ll][Yy][Nn][Xx])
@@ -1133,7 +1140,7 @@ f_menu_app_web_browsers () {
                  f_web_site
                  f_application_run
                  ;;
-                 [Ll][Yy][Nn][Xx]'-'[Cc][Uu][Rr]' '*)
+                 [Ll][Yy][Nn][Xx]' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_application_run
@@ -1141,31 +1148,37 @@ f_menu_app_web_browsers () {
                  3 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss]) 
                  APP_NAME="links"
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Ll][Ii][Nn][Kk][Ss]' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  4 |[Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss][2] | [Ll][Ii][Nn][Kk][Ss][2])
                  APP_NAME="links2"
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Ll][Ii][Nn][Kk][Ss][2]' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  5 | [Ww] | [Ww][3] | [Ww][3][Mm] | [Ww][3][Mm])
                  APP_NAME="w3m"
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Ww][3][Mm]' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
             esac                # End of Web Browsers Applications case statement.
@@ -1248,6 +1261,7 @@ f_menu_app_bittorrent () {
             #MBT ctorrent   - Torrent file transfer.
             #MBT rtorrent   - Torrent file transfer.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Bittorrent Applications Menu"
             DELIMITER="#MBT" #MBT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1315,6 +1329,7 @@ f_menu_app_downloaders () {
             #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
             #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Dowloader-Checksum Applications Menu"
             DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1428,6 +1443,7 @@ f_menu_app_email () {
             #MEM pine       - E-mail.
             #MEM sup        - E-mail.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="E-mail Applications Menu"
             DELIMITER="#MEM" #MEM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1524,6 +1540,7 @@ f_menu_app_fax () {
             #MFX efax           - FAX over modem.
             #MFX hylafax-client - Works with HylaFAX server software.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="FAX Applications Menu"
             DELIMITER="#MFX" #MFX This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1577,6 +1594,7 @@ f_menu_app_file_transfer () {
             #MFT ncftp  - File transfer client.
             #MFT scp    - File transfer.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Transfer Applications Menu"
             DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1669,6 +1687,7 @@ f_menu_app_instant_messaging () {
             #MIM freetalk  - Jabber client.
             #MIM mcabber   - Jabber client.          	
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Instant Messaging Applications Menu"
             DELIMITER="#MIM" #MIM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1753,6 +1772,7 @@ f_menu_app_irc_clients () {
             #MIR pork  - Ncurses-based AOL Instant Messenger and IRC client.
             #MIR sic   - Fast small IRC client.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="IRC Clients Applications Menu"
             DELIMITER="#MIR" #MIR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1837,6 +1857,7 @@ f_menu_app_news_readers () {
             #MNR tin  - News reader.
             #MNR trn  - News reader.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="News Reader Applications Menu"
             DELIMITER="#MNR" #MNR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1917,6 +1938,7 @@ f_menu_app_network_chat () {
             #MNC talk  - Copies lines from your terminal to that of another user.
             #MNC ytalk - Multi-user chat program can do multiple connections.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Chat Applications Menu"
             DELIMITER="#MNC" #MNC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -1969,6 +1991,7 @@ f_menu_app_podcatchers () {
             #MPO podracer   - Podcatcher.
             #MPO uraniacast - Podcatcher.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Podcatcher Applications Menu"
             DELIMITER="#MPO" #MPO This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -2051,6 +2074,7 @@ f_menu_app_remote_connection () {
             #MRC ssh     - Remote connection.
             #MRC sslh    - Remote connection.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Remote Connection Applications Menu"
             DELIMITER="#MRC" #MRC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -2121,6 +2145,7 @@ f_menu_app_rssfeeders () {
             #MRS rsstail    - RSS feeder.
             #MRS snownews   - RSS feeder.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="RSS Feeder Applications Menu"
             DELIMITER="#MRS" #MRS This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -2266,6 +2291,7 @@ f_menu_app_network_config () {
             #MNF smbstatus   - Samba files lock status.
             #MNF testparm    - Samba configuration display.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Configuration Applications Menu"
             DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -2321,6 +2347,7 @@ f_menu_app_network_config () {
                  echo "Now run ufw. Usage: ufw status verbose"
                  f_press_enter_key_to_continue
                  f_application_run
+
                  ;;
                  [Uu][Ff][Ww]' '*)
                  APP_NAME=$CHOICE_APP
@@ -2505,9 +2532,10 @@ f_menu_app_network_monitors () {
             #MNM ngrep       - Network packet analyzer.
             #MNM nmap        - Network Mapper, mapping, auditing, security scanning.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Monitor Applications Menu"
             DELIMITER="#MNM" #MNM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
+            f_show_menu $MENU_TITLE $DELIMITER
             #
             read CHOICE_APP
             #
@@ -2597,6 +2625,7 @@ f_menu_app_file_managers () {
             #MFI  jless  - File viewer pager.
             #MFI  most   - File viewer pager.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Manager Applications Menu"
             DELIMITER="#MFI" #MFI This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -2708,6 +2737,7 @@ f_menu_app_text_editors () {
             #MTE vi         - Classic full-screen text editor.
             #MTE vim        - vi "Improved" text editor.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Editor Applications Menu"
             DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -2755,10 +2785,12 @@ f_menu_app_text_editors () {
                  ;;
                  5 | [Jj] | [Jj][Oo] | [Jj][Oo][Ee])
                  APP_NAME="joe"
+                 f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  ;;
                  [Jj][Oo][Ee]' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  ;;
                  6 | [Nn] | [Nn][Aa] | [Nn][Aa][Nn] | [Nn][Aa][Nn][Oo])
@@ -2812,6 +2844,7 @@ f_menu_app_text_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Tool Applications until loop.
+            #MTT antiword   - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
             #MTT doconce    - Text markup language to transform text formats.
             #MTT imediff2   - Interactive 2-way file merge.
             #MTT txt2html   - Converts plain ASCII text to html format.
@@ -2824,6 +2857,7 @@ f_menu_app_text_tools () {
             #MTT vimdiff    - Differences between two text files shown in color highlights.
             #MTT wdiff      - Differences between two text files shown using +/- signs.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Tool Applications Menu"
             DELIMITER="#MTT" #MTT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -2836,7 +2870,15 @@ f_menu_app_text_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
-                 1 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Oo] | [Dd][Oo][Cc][Oo][Nn] | [Dd][Oo][Cc][Oo][Nn][Cc] | [Dd][Oo][Cc][Oo][Nn][Cc][Ee])
+                 1 | [Aa] | [Aa][Nn] | [Aa][Nn][Tt] | [Aa][Nn][Tt][Ii] | [Aa][Nn][Tt][Ii][Ww] | [Aa][Nn][Tt][Ii][Ww][Oo] | [Aa][Nn][Tt][Ii][Ww][Oo][Rr] | [Aa][Nn][Tt][Ii][Ww][Oo][Rr][Dd])
+                 APP_NAME="antiword"
+                 f_application_run
+                 ;;
+                 [Aa][Nn][Tt][Ii][Ww][Oo][Rr][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Oo] | [Dd][Oo][Cc][Oo][Nn] | [Dd][Oo][Cc][Oo][Nn][Cc] | [Dd][Oo][Cc][Oo][Nn][Cc][Ee])
                  APP_NAME="doconce"
                  f_application_run
                  ;;
@@ -2844,7 +2886,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
+                 3 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
                  APP_NAME="imediff"
                  f_application_run
                  ;;
@@ -2852,7 +2894,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
                  APP_NAME="man txt2html"
                  clear # Blank the screen.
                  echo "Convert plain text files to html." 
@@ -2870,7 +2912,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
+                 5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
                  APP_NAME="man txt2man"
                  clear # Blank the screen.
                  echo "Convert plain text files to man pages." 
@@ -2887,7 +2929,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
+                 6 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
                  APP_NAME="man txt2pdbdoc"
                  clear # Blank the screen.
                  echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
@@ -2906,7 +2948,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
+                 7 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
                  APP_NAME="man txt2regex"
                  clear # Blank the screen.
                  echo "Convert human sentences to regex." 
@@ -2922,7 +2964,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
+                 8 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
                  APP_NAME="man txt2tags"
                  clear # Blank the screen.
                  echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
@@ -2940,7 +2982,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
+                 9 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
@@ -2948,7 +2990,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
+                 10 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
                  APP_NAME="diff"
                  f_application_run
                  ;;
@@ -2956,7 +2998,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
+                 11 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
@@ -2964,7 +3006,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
+                 12 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
                  APP_NAME="wdiff"
                  f_application_run
                  ;;
@@ -3045,6 +3087,7 @@ f_menu_app_sys_monitors () {
             #MSM saidar      - Monitor system processes, network I/O, disks I/O, free space.
             #MSM yacpi       - ACPI monitor, ncurses-based.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3061,7 +3104,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="atop"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Aa][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3071,7 +3114,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="glances"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Gg][Ll][Aa][Nn][Cc][Ee][Ss]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3081,7 +3124,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="htop"
                  f_how_to_quit_application "q or <F10>"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Hh][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3091,7 +3134,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3111,7 +3154,7 @@ f_menu_app_sys_monitors () {
                  echo "Now run dstat. Usage: dstat 1 10"
                  f_press_enter_key_to_continue
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Dd][Ss][Tt][Aa][Tt]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3121,7 +3164,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="iotop"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ii][Oo][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3131,7 +3174,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss][Aa][Ii][Dd][Aa][Rr]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3141,7 +3184,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Yy][Aa][Cc][Pp][Ii]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3179,6 +3222,7 @@ f_menu_app_sys_information () {
             #MSI lsusb       - Display USB devices.
             #MSI lsof        - Display information about open files.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Information Menu"
             DELIMITER="#MSI" #MSI This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3204,7 +3248,7 @@ f_menu_app_sys_information () {
                  APP_NAME="ncdu"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn][Cc][Dd][Uu]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3224,7 +3268,7 @@ f_menu_app_sys_information () {
                  APP_NAME="cfdisk"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Cc][Ff][Dd][Ii][Ss][Kk]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3234,7 +3278,7 @@ f_menu_app_sys_information () {
                  APP_NAME="parted"
                  f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp][Aa][Rr][Tt][Ee][Dd]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3335,6 +3379,7 @@ f_menu_app_sys_logs () {
       do    # Start of System Logs until loop.
             #MLO multitail - View multiple log files using multiple panes.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Logs Menu"
             DELIMITER="#MLO" #MLO This 3rd field prevents awk from printing this line into menu options.
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3376,6 +3421,7 @@ f_menu_app_sys_screens () {
             #MSC screen    - Multiple sessions via split or pager screens.
             #MSC tmux      - Multiple sessions with multiplexing.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Screens Menu"
             DELIMITER="#MSC" #MSC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3433,6 +3479,7 @@ f_menu_app_sys_other () {
             #MSO dtrx      - Extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
             #MSO scrot     - Screen capture.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Other System Applications Menu"
             DELIMITER="#MSO" #MSO This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3486,16 +3533,20 @@ f_menu_app_calendar_todo () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Calendar-ToDo Applications until loop.
-            #MCA cal     - Displays a monthly calendar.
-            #MCA gcalcli - Google calendar.
-            #MCA pal     - Calendar.
-            #MCA pom     - Display phase of moon on given date.
-            #MCA remind  - Sophisticated calendar with alarms. Sunrise, sunset, moon phases.
-            #MCA when    - Calendar.
-            #MCA wyrd    - Calendar, ncurses-based.
-            #MCA todo    - To-Do List hierarchical. Install package 'devtodo'.
-            #MCA yaGTD   - To-Do List.
+            #MCA cal              - Displays a monthly calendar.
+            #MCA gcalcli          - Google calendar.
+            #MCA pal              - Calendar.
+            #MCA pom              - Display phase of moon on given date.
+            #MCA remind           - Calendar alarms, Sun rise/set, moon phases.
+            #MCA when             - Calendar.
+            #MCA wyrd             - Calendar, ncurses-based.
+            #MCA todo             - To-Do List hierarchical. Install package 'devtodo'.
+            #MCA yaGTD            - To-Do List.
+            #MCA binary-clock     - Binary numbers 1/0 tells time.
+            #MCA clockywock       - Analog clock, ncurses-based.
+            #MCA grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Calendar-ToDo Applications Menu"
             DELIMITER="#MCA" #MCA This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3560,7 +3611,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME="wyrd"
                  f_how_to_quit_application "Q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."                 ;;
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ww][Yy][Rr][Dd]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3606,6 +3657,108 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 10 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
+                 APP_NAME="binary-clock"
+                 f_application_run
+                 echo
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 11 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
+                 APP_NAME="clockywock"
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://soomka.com/"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://soomka.com/"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 12 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
+                 APP_NAME="grandfatherclock"
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://freecode.com/projects/grandfatherclock"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://freecode.com/projects/grandfatherclock"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
             esac                # End of Calendar-ToDo Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -3627,6 +3780,7 @@ f_menu_app_calculators () {
             #MCC orpie    - RPN Reverse Polish Notation calculator.
             #MCC tapecalc - Tape-like calculator.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Calculator Applications Menu"
             DELIMITER="#MCC" #MCC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3686,6 +3840,7 @@ f_menu_app_spreadsheets () {
             #MSP sc   - Spreadsheet.
             #MSP slsc - Spreadsheet based on sc.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Spreadsheet Applications Menu"
             DELIMITER="#MSP" #MSP This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3741,6 +3896,7 @@ f_menu_app_note_applications () {
       do    # Start of Note Applications until loop.
             #MNO hnb - Hierarchical notebook.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Note Applications Menu"
             DELIMITER="#MNO" #MNO This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3793,6 +3949,7 @@ f_menu_app_audio_applications () {
             #MAU festival      - Speech synthesizer reads text.
             #MAU screader      - Speech synthesizer reads screen text.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Audio Applications Menu"
             DELIMITER="#MAU" #MAU This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3914,6 +4071,7 @@ f_menu_app_audio_applications () {
                  f_application_run
                  ;;
                  14 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Aa] | [Ss][Cc][Rr][Ee][Aa][Dd] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr])
+
                  APP_NAME="screader"
                  f_application_run
                  ;;
@@ -3938,11 +4096,13 @@ f_menu_app_screen_savers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
-            #MSS cmatrix   - Matrix-like screen-saver.
-            #MSS rain      - Rain on screen.
-            #MSS tty-clock - Display a digital clack full-screen.
-            #MSS worms     - Worms wiggle on the screen.
+            #MSS asciiaquarium - Aquarium on screen.
+            #MSS cmatrix       - Matrix-like screen-saver.
+            #MSS rain          - Rain on screen.
+            #MSS tty-clock     - Display a digital clack full-screen.
+            #MSS worms         - Worms wiggle on the screen.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Screen-saver Applications Menu"
             DELIMITER="#MSS" #MSS This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -3955,7 +4115,27 @@ f_menu_app_screen_savers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Screen-saver Applications case statement.
-                 1 | [Cc] | [Cc][Mm] | [Cc][Mm][Aa] | [Cc][Mm][Aa][Tt] | [Cc][Mm][Aa][Tt][Rr] | [Cc][Mm][Aa][Tt][Rr][Ii] | [Cc][Mm][Aa][Tt][Rr][Ii][Xx])
+                 1 | [Aa] | [Aa][Ss] | [Aa][Ss][Cc] | [Aa][Ss][Cc][Ii] | [Aa][Ss][Cc][Ii][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu][Mm])
+                 APP_NAME="asciiaquarium"
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://www.robobunny.com/projects/asciiquarium/html/"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+[Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Cc] | [Cc][Mm] | [Cc][Mm][Aa] | [Cc][Mm][Aa][Tt] | [Cc][Mm][Aa][Tt][Rr] | [Cc][Mm][Aa][Tt][Rr][Ii] | [Cc][Mm][Aa][Tt][Rr][Ii][Xx])
                  APP_NAME="cmatrix"
                  f_application_run
                  ;;
@@ -3963,7 +4143,7 @@ f_menu_app_screen_savers () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Rr] | [Rr][Aa] | [Rr][Aa][Ii] | [Rr][Aa][Ii][Nn])
+                 3 | [Rr] | [Rr][Aa] | [Rr][Aa][Ii] | [Rr][Aa][Ii][Nn])
                  APP_NAME="rain"
                  f_application_run
                  ;;
@@ -3971,7 +4151,7 @@ f_menu_app_screen_savers () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Tt] | [Tt][Tt] | [Tt][Tt][Yy] | [Tt][Tt][Yy][-] | [Tt][Tt][Yy][–][Cc] | [Tt][Tt][Yy][–][Cc][Ll] | [Tt][Tt][Yy][–][Cc][Ll][Oo] | [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc] | [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc][Kk])
+                 4 | [Tt] | [Tt][Tt] | [Tt][Tt][Yy] | [Tt][Tt][Yy][-] | [Tt][Tt][Yy][–][Cc] | [Tt][Tt][Yy][–][Cc][Ll] | [Tt][Tt][Yy][–][Cc][Ll][Oo] | [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc] | [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="tty-clock"
                  f_application_run
                  ;;
@@ -3979,7 +4159,7 @@ f_menu_app_screen_savers () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm] | [Ww][Oo][Rr][Mm][Ss])
+                 5 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm] | [Ww][Oo][Rr][Mm][Ss])
                  APP_NAME="worms"
                  f_application_run
                  ;;
@@ -4011,6 +4191,7 @@ f_menu_app_image_graphics_applications () {
             #MIG jp2a       - Convert jpg images to ascii images.
             #MIG linuxlogo  - Color ANSI system logo
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Image-Graphics Applications Menu"
             DELIMITER="#MIG" #MIG This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4097,9 +4278,11 @@ f_menu_app_education_applications () {
             #MED morse  - Morse code training.
             #MED primes - Prime number calculator. 
            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Education Applications Menu"
             DELIMITER="#MED" #MED This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
+            f_show_menu $MENU_TITLE $DELIMITER
+ 
             #
             read CHOICE_APP
             #
@@ -4234,6 +4417,7 @@ f_menu_app_games_arcade () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Arcade Games until loop.
+            #MGB asciijump      - Ski jump game.
             #MGB freesweep      - Minesweeper game.
             #MGB moon-buggy     - Drive a moon buggy on the moon.
             #MGB ninvaders      - Space invaders-like game ncurses-based.
@@ -4242,6 +4426,7 @@ f_menu_app_games_arcade () {
             #MGB snake          - Be chased by a snake while collecting money.
             #MGB worm           - Be a growing worm, don't crash into yourself.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Arcade Game Menu"
             DELIMITER="#MGB" #MGB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4254,7 +4439,15 @@ f_menu_app_games_arcade () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Arcade Games case statement.
-                 1 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss] | [Ff][Rr][Ee][Ee][Ss][Ww] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee][Pp])
+                 1 | [Aa] | [Aa][Ss] | [Aa][Ss][Cc] | [Aa][Ss][Cc][Ii] | [Aa][Ss][Cc][Ii][Ii] | [Aa][Ss][Cc][Ii][Ii][Jj] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm][Pp])
+                 APP_NAME="asciijump"
+                 f_application_run
+                 ;;
+                 [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss] | [Ff][Rr][Ee][Ee][Ss][Ww] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee][Pp])
                  APP_NAME="freeswap"
                  f_application_run
                  ;;
@@ -4262,7 +4455,7 @@ f_menu_app_games_arcade () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Mm] | [Mm][Oo] | [Mm][Oo][Oo] | [Mm][Oo][Oo][Nn] | [Mm][Oo][Oo][Nn][-] | [Mm][Oo][Oo][Nn][-][Bb] | [Mm][Oo][Oo][Nn][-][Bb][Uu] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg][Yy])
+                 3 | [Mm] | [Mm][Oo] | [Mm][Oo][Oo] | [Mm][Oo][Oo][Nn] | [Mm][Oo][Oo][Nn][-] | [Mm][Oo][Oo][Nn][-][Bb] | [Mm][Oo][Oo][Nn][-][Bb][Uu] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg] | [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg][Yy])
                  APP_NAME="moon-buggy"
                  f_application_run
                  ;;
@@ -4270,7 +4463,7 @@ f_menu_app_games_arcade () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Nn] | [Nn][Ii] | [Nn][Ii][Nn] | [Nn][Ii][Nn][Vv] | [Nn][Ii][Nn][Vv][Aa] | [Nn][Ii][Nn][Vv][Aa][Dd] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr][Ss])
+                 4 | [Nn] | [Nn][Ii] | [Nn][Ii][Nn] | [Nn][Ii][Nn][Vv] | [Nn][Ii][Nn][Vv][Aa] | [Nn][Ii][Nn][Vv][Aa][Dd] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr][Ss])
                  APP_NAME="ninvaders"
                  f_how_to_quit_application "q" 
                  f_application_run
@@ -4279,7 +4472,7 @@ f_menu_app_games_arcade () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Pp] | [Pp][Aa] | [Pp][Aa][Cc] | [Pp][Aa][Cc][Mm] | [Pp][Aa][Cc][Mm][Aa] | [Pp][Aa][Cc][Mm][Aa][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll][Ee])
+                 5 | [Pp] | [Pp][Aa] | [Pp][Aa][Cc] | [Pp][Aa][Cc][Mm] | [Pp][Aa][Cc][Mm][Aa] | [Pp][Aa][Cc][Mm][Aa][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll][Ee])
                  APP_NAME="pacman4console"
                  f_application_run
                  ;;
@@ -4287,7 +4480,7 @@ f_menu_app_games_arcade () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Rr] | [Rr][Oo] | [Rr][Oo][Bb] | [Rr][Oo][Bb][Oo] | [Rr][Oo][Bb][Oo][Tt] | [Rr][Oo][Bb][Oo][Tt][Ss])
+                 6 | [Rr] | [Rr][Oo] | [Rr][Oo][Bb] | [Rr][Oo][Bb][Oo] | [Rr][Oo][Bb][Oo][Tt] | [Rr][Oo][Bb][Oo][Tt][Ss])
                  APP_NAME="robots"
                  f_application_run
                  ;;
@@ -4295,7 +4488,7 @@ f_menu_app_games_arcade () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Ss] | [Ss][Nn] | [Ss][Nn][Aa] | [Ss][Nn][Aa][Kk] | [Ss][Nn][Aa][Kk][Ee])
+                 7 | [Ss] | [Ss][Nn] | [Ss][Nn][Aa] | [Ss][Nn][Aa][Kk] | [Ss][Nn][Aa][Kk][Ee])
                  APP_NAME="snake"
                  f_application_run
                  ;;
@@ -4303,7 +4496,7 @@ f_menu_app_games_arcade () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm])
+                 8 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm])
                  APP_NAME="worm"
                  f_application_run
                  ;;
@@ -4331,6 +4524,7 @@ f_menu_app_games_board () {
             #MGC backgammon     - Backgammon.
             #MGC monop          - Monopoly-like game.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Board Games Menu"
             DELIMITER="#MGC" #MGC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4387,6 +4581,7 @@ f_menu_app_games_card () {
             #MGD cribbage       - Cribbage Card game.
             #MGD go-fish        - Go Fish card game.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Card Game Menu"
             DELIMITER="#MGD" #MGD This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4442,6 +4637,7 @@ f_menu_app_games_mud () {
             #MGE crawl          - Explore a cave, retrieve the Orb of Zot.
             #MGE tintin++       - Telnet client to play MUDs (Multi-User Dungeons).
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="MUD Game Menu"
             DELIMITER="#MGE" #MGE This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4493,6 +4689,7 @@ f_menu_app_games_puzzle () {
             #MGF petris         - Tetris-like game.
             #MGF ppt            - Reformat input as a paper tape.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Puzzle Game Menu"
             DELIMITER="#MGF" #MGF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4525,6 +4722,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="dab"
                  f_application_run
                  ;;
+
                  [Dd][Aa][Bb]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -4574,6 +4772,7 @@ f_menu_app_games_quiz () {
             #MGG morse          - Morse code training.
             #MGG quiz           - Quiz with choice of assorted topics.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Quiz Game Menu"
             DELIMITER="#MGG" #MGG This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4644,6 +4843,7 @@ f_menu_app_games_rpg () {
             #MGH slashem        - Enter the Dungeons of Doom.
             #MGH wump           - Hunt the Wumpus, watch out for bats, pits.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="RPG Game Menu"
             DELIMITER="#MGH" #MGH This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4733,6 +4933,7 @@ f_menu_app_games_simulation () {
             #MGI sail           - Command a Man O'War fighting ship.
             #MGI trek           - Star Trek blast Klingons.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Simulation Games Menu"
             DELIMITER="#MGI" #MGI This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4791,6 +4992,7 @@ f_menu_app_games_strategy () {
             #MGJ mille          - Travel 700 miles card game.
             #MGJ wargames       - Computer prompt from movie "War Games". 
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Strategy Game Menu"
             DELIMITER="#MGJ" #MGJ This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4867,6 +5069,7 @@ f_menu_app_games_word () {
             #MGK hangman        - Classic hangman word game.
             #MGK pig            - Converts text into pig-latin.
             #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Word Game Menu"
             DELIMITER="#MGK" #MGK This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
@@ -4927,14 +5130,14 @@ until [ $CHOICE_MAIN -eq 0 ]
 do    # Start of CLI Menu util loop.
       #AAA Applications        - Launch a command-line application.
       #AAA Help and Features   - How to use and what can it do.
-      #AAA Documentation       - Script documentation, programmer notes, licensing.
-      #AAA List Applications   - List of all CLI applications in this menu.
-      #AAA Black               - Set display white on black.
-      #AAA White               - Set display black on white; doesn't work in X-windows.
       #AAA About CLI Menu      - What version am I using.
+      #AAA Documentation       - Script documentation, programmer notes, licensing.
       #AAA Edit History        - All the craziness behind the scenes.
-      #AAA Update Edit History - Add/Edit to the Edit History.
       #AAA License             - Licensing, GPL.
+      #AAA List Applications   - List of all CLI applications in this menu.
+      #AAA Update Edit History - Make changes to the Edit History.
+      #AAA Black               - Set display white on black (works in X-terminals).
+      #AAA White               - Set display black on white (except in X-terminals).
       #
       MENU_TITLE="Main Menu"
       DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu options. 
@@ -4970,63 +5173,7 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           3 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
-           clear # Blank the screen.
-           sed -n 's/^#://'p $THIS_FILE | more -d 
-           # display Documentation (all lines beginning with #: but
-           # substitute "" for "#:" so "#:" is not printed).
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           4 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt] | [Ll][Ii][Ss][Tt]' ' | [Ll][Ii][Ss][Tt]' '[Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' ' | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn][Ss])
-           clear # Blank the screen.
-           #
-           # 1. grep finds all lines containing "#M" followed by two letters in
-           #    this script.
-           #    .i.e. "            #MGF bastet         - Tetris-like game." #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #
-           #    Lines starting with "#M" are applications listed in menus.
-           #    The string "#M" followed by 2 letters are the special menu
-           #    option marker. i.e. #MGF is the marker for Puzzle Games. #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #
-           # 2. The first awk parses results and chosen if lines contain only
-           #    one "#M". Results are printed, showing everything after "#M".
-           #    i.e. "GF bastet         - Tetris-like game."
-           #
-           # 3. The second awk substitutes "" for only the first word and
-           #    prints all the rest of the words.
-           #    'sub' string function substitutes only the first match (word).
-           #    'print $0' I/O statement prints all the rest of the words.
-           #    i.e. "bastet         - Tetris-like game." 
-           #    (Where "GF" substituted by "".)
-           #
-           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
-           #
-           # The code below will work but is less elegant.
-           #
-           # 3. The second awk prints out the 2nd to the 15th words in the
-           #    resultant string. The 1st word is skipped because it is the
-           #    last 2 letters of the special menu option marker.
-           #    i.e. "bastet - Tetris-like game."
-           #
-           # grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{print $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14$,15}' | more -d
-           #
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           5 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
-           TCOLOR="black"
-           f_term_color # Set terminal color.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
-           TCOLOR="white"
-           f_term_color # Set terminal color.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;  
-           7 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
+           3 | [Aa][Bb] | [Aa][Bb][Oo] | [Aa][Bb][Oo][Uu] | [Aa][Bb][Oo][Uu][Tt] | [Aa][Bb][Oo][Uu][Tt]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' ' | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn] | [Aa][Bb][Oo][Uu][Tt]' '[Cc][Ll][Ii]' '[Mm][Ee][Nn][Uu])
            clear # Blank the screen.
            echo "CLI Menu version: $REVISION"
            echo "       Edited on: $REVDATE"
@@ -5034,7 +5181,15 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           8 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           4 | [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
+           clear # Blank the screen.
+           sed -n 's/^#://'p $THIS_FILE | more -d 
+           # display Documentation (all lines beginning with #: but
+           # substitute "" for "#:" so "#:" is not printed).
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;
+           5 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
            if [ -r EDIT_HISTORY ] ; then
               # display Edit History (all lines beginning with ## but
@@ -5049,23 +5204,7 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           9 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
-           clear # Blank the screen.
-           if [ -r EDIT_HISTORY ] ; then
-              APP_NAME="joe EDIT_HISTORY"
-              echo "To get help within the joe editor, type 'Ctrl-K h'"
-              f_press_enter_key_to_continue
-              f_application_run
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           else
-              echo
-              echo "The file EDIT_HISTORY is either missing or cannot be read."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-           fi
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           10 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
+           6 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear # Blank the screen.
            # display License (all lines beginning with #LIC but
            # substitute "" for "#LIC" so "#LIC" is not printed).
@@ -5103,6 +5242,70 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
+           7 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt] | [Ll][Ii][Ss][Tt]' ' | [Ll][Ii][Ss][Tt]' '[Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' ' | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn][Ss])
+           clear # Blank the screen.
+           #
+           # 1. grep finds all lines containing "#M" followed by two letters in
+           #    this script.
+           #    .i.e. "            #MGF bastet         - Tetris-like game." #MGF This 3rd field prevents awk from  printing this line into menu options.
+           #
+           #    Lines starting with "#M" are applications listed in menus.
+           #    The string "#M" followed by 2 letters are the special menu
+           #    option marker. i.e. #MGF is the marker for Puzzle Games. #MGF This 3rd field prevents awk from  printing this line into menu options.
+           #
+           # 2. The first awk parses results and chosen if lines contain only
+           #    one "#M". Results are printed, showing everything after "#M".
+           #    i.e. "GF bastet         - Tetris-like game."
+           #
+           # 3. The second awk substitutes "" for only the first word and
+           #    prints all the rest of the words.
+           #    'sub' string function substitutes only the first match (word).
+           #    'print $0' I/O statement prints all the rest of the words.
+           #    i.e. "bastet         - Tetris-like game." 
+           #    (Where "GF" substituted by "".)
+           #
+           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
+           #
+           # The code below will work but is less elegant.
+           #
+           # 3. The second awk prints out the 2nd to the 15th words in the
+           #    resultant string. The 1st word is skipped because it is the
+           #    last 2 letters of the special menu option marker.
+           #    i.e. "bastet - Tetris-like game."
+           #
+           # grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{print $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14$,15}' | more -d
+           #
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;
+           8 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           clear # Blank the screen.
+           if [ -r EDIT_HISTORY ] ; then
+              APP_NAME="joe EDIT_HISTORY"
+              echo "To get help within the joe editor, type 'Ctrl-K h'"
+              f_press_enter_key_to_continue
+              f_application_run
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           else
+              echo
+              echo "The file EDIT_HISTORY is either missing or cannot be read."
+              echo
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           fi
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;
+           9 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
+           TCOLOR="black"
+           f_term_color # Set terminal color.
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;
+           10 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
+           TCOLOR="white"
+           f_term_color # Set terminal color.
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;  
       esac # End of CLI Menu case statement.
       #
       case $CHOICE_MAIN in
@@ -5124,3 +5327,4 @@ do    # Start of CLI Menu util loop.
      f_option_press_enter_key
 done # End of CLI Menu until loop.
 # all dun dun noodles.
+
