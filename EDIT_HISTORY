@@ -18,14 +18,14 @@ sed -n 's/^##//'p EDIT_HISTORY |more
 ##
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
-THIS_FILE="EDIT_HISTORY"
+xTHIS_FILE="EDIT_HISTORY"
 #
 # Calculate revision number by counting all lines starting with "## 2013".
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-29-2013 01:08" 
+REVDATE="March-29-2013 01:22" 
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
