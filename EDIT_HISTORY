@@ -5,12 +5,9 @@
 #
 # Usage: sh EDIT_HISTORY
 #
+THIS_FILE="EDIT_HISTORY"
 clear
-echo "To quit reading Edit History, type '"q"'."
-echo -n "Press '"Enter"' key to continue."
-read ANS
-echo
-sed -n 's/^##//'p EDIT_HISTORY |more
+sed -n 's/^##//'p $THIS_FILE | more -d
 #
 # The double # at the beginning of lines below are used to delineate the Edit History.
 #
@@ -18,14 +15,13 @@ sed -n 's/^##//'p EDIT_HISTORY |more
 ##
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
-xTHIS_FILE="EDIT_HISTORY"
 #
 # Calculate revision number by counting all lines starting with "## 2013".
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="March-29-2013 01:22" 
+REVDATE="March-29-2013 21:56" 
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -43,6 +39,7 @@ REVDATE="March-29-2013 01:22"
 ##
 ## 2013-03-29 *f_menu_app_network_monitors add kismet, snort, tcpdump, wireshark.
 ##            *f_menu_app_network_config add iwlist.
+##            *f_menu_app_sys_monitors add clamscan, freshclam.
 ##
 ## 2013-03-28 *Update "Help and Features" options.
 ##            *Move "Disk Status" from Main Menu to System Information Menu.
