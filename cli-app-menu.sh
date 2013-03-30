@@ -24,7 +24,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-29-2013 01:22"
+REVDATE="March-29-2013 21:56"
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -561,7 +561,7 @@ case $ERROR in
                             # If so, display appropriate error message.
      fi
      ;;
-     1 | 13)
+     1 | 13 | 62 | [!0])
      f_application_error # Display appropriate error message.
      ;;
 esac
@@ -639,8 +639,10 @@ fi
 #
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
+         echo
+         echo $THIS_FILE" says:"
          echo "An error code $ERROR has occurred" 
-         echo "while launching this $APP_NAME application."      
+         echo "while launching this $APP_NAME application."
          f_press_enter_key_to_continue
          #
          # Be sure variable is set to redisplay current menu afterwards.
@@ -655,7 +657,11 @@ f_application_error () {
       fi
       #
       case $ERROR in # Start of Error Number case statement.
-           1 | 13)
+           1 | 13 | 62 | [!0]) 
+           #  1-general
+           # 13-some unknown app?
+           # 62-"command not found" freshclam log folders not set up.
+           # [!0]-not zero, any non-zero error number.
            echo
            echo "Run $APP_NAME again this time using sudo?"
            echo -n "Use sudo (temporary root permissions) (y/N)? "
@@ -733,24 +739,28 @@ f_application_error () {
                 # 'bsdgames'.
                 #
                 case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
-adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
+                     adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
                      APP_NAME_INSTALL="bsdgames"
+                     ;;
+                     aria2c)
+                     APP_NAME_INSTALL="aria2"
+                     ;;
+                     clamscan)
+                     APP_NAME_INSTALL="clamav"
                      ;;
                      glances) # Add repository for glances application.
                      sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
                      sudo apt-get update
                      ;;
+                     lynx)
+                     APP_NAME_INSTALL="lynx-cur"
+                     ;;
                      moc)
                      APP_NAME_INSTALL="libqt4-dev"
-                     ;;
-                     aria2c)
-                     APP_NAME_INSTALL="aria2"
                      ;;
                      todo)
                      APP_NAME_INSTALL="devtodo"
                      ;;
-                     lynx)
-                     APP_NAME_INSTALL="lynx-cur"
                 esac # End of Install Package Name case statement.
                 #
                 if [ -d /etc/apt ] ; then 
@@ -3166,6 +3176,8 @@ f_menu_app_sys_monitors () {
             #MSM iotop       - Disk i/o process monitor.
             #MSM saidar      - Monitor system processes, network I/O, disks I/O, free space.
             #MSM yacpi       - ACPI monitor, ncurses-based.
+            #MSM clamscan    - Clam anti-virus program scans for viruses.
+            #MSM freshclam   - Clam anti-virus database definition update.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Monitors Menu"
@@ -3269,6 +3281,36 @@ f_menu_app_sys_monitors () {
                  [Yy][Aa][Cc][Pp][Ii]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 ;;
+                 9 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
+                 APP_NAME="clamscan -r /home"
+                 clear # Blank the screen.
+                 echo "Usage: clamscan [options] [file/directory/-]"
+                 echo "Usage: clamscan -r ~ will recursively scan your home directory."
+                 echo
+                 echo "*** For more help type: clamscan --help"
+                 echo
+                 echo "Clam anti-virus will now scan the folder, please be patient"
+                 echo "since Clam anti-virus is slow to scan, but thorough."
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 10 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
+                 APP_NAME="freshclam"
+                 # f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
             esac                # End of System Monitors case statement.
             #
