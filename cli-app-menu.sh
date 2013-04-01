@@ -1,32 +1,46 @@
 #!/bin/bash 
-# 
+#
+# +----------------------------------------+
+# |            Brief Description           |
+# +----------------------------------------+
+#
+# Script cli-app-menu.sh is a menu of CLI applications and commands
+# to help CLI newbies to discover what a command line can do.
+#
+THIS_FILE="cli-app-menu.sh"
+#
 # File naming convention for archiving:
 # $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
 #
-# Note: FILE LOCATIONS of cli-app-menu.sh, EDIT_HISTORY, COPYING, README.
+# +----------------------------------------+
+# | FILE LOCATIONS of cli-app-menu project |
+# +----------------------------------------+
 #
 # Edit history is now documented in a separate file/script 'EDIT_HISTORY'.
 # The files EDIT_HISTORY, COPYING, README must be in the same folder/directory
 # as this file/script so the Main Menu options to view/edit 'Edit History' or
 # to view 'License' can work.
 #
-#
-# Note: Updating this script, cli-app-menu.sh.
+# +----------------------------------------+
+# |        HOW-TO Update this script       |
+# +----------------------------------------+
 #
 # After each edit made, update the version (date stamp string) of this script
 # in both the EDIT_HISTORY file and this file.
 # Also update the edit history in the EDIT_HISTORY file.
 #
-THIS_FILE="cli-app-menu.sh"
+# +----------------------------------------+
+# |    Revision number and Revision Date   |
+# +----------------------------------------+
 #
 # Calculate revision number by counting all lines starting with "## 2013".
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="March-29-2013 21:56"
+REVDATE="April-01-2013 18:35"
 #
-#LIC ©2013 Copyright 2013 Bob Chin
+#LIC ©2013 Copyright 2013 Robert D. Chin
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
 #LIC the Free Software Foundation, either version 3 of the License, or
@@ -2542,16 +2556,18 @@ f_menu_app_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Monitor Applications until loop.
-            #MNM cbm         - Color Bandwidth Meter, ncurses based display.
-            #MNM iftop       - IP LAN monitor.
-            #MNM iptraf      - IP LAN monitor.
-            #MNM nc          - Netcat reads/writes data across network.
-            #MNM ngrep       - Network packet analyzer.
-            #MNM nmap        - Network Mapper, mapping, auditing, security scanning.
-            #MNM kismet      - Wireless network detector, packet sniffer, auditor.
-            #MNM snort       - Packet sniffer/logger, Network Intrusion Detection System.
-            #MNM tcpdump     - Packet sniffer/logger.
-            #MNM wireshark   - Packet sniffer/logger.
+            #MNM cbm       - Color Bandwidth Meter, ncurses based display.
+            #MNM iftop     - IP LAN monitor.
+            #MNM iptraf    - IP LAN monitor.
+            #MNM slurm     - Network interface I/O load monitor.
+            #MNM nc        - Netcat reads/writes data across network.
+            #MNM netstat   - Print network connections, routing tables, interface stats, etc.
+            #MNM ngrep     - Network packet analyzer.
+            #MNM nmap      - Network Mapper, mapping, auditing, security scanning.
+            #MNM kismet    - Wireless network detector, packet sniffer, auditor.
+            #MNM snort     - Packet sniffer/logger, Network Intrusion Detection System.
+            #MNM tcpdump   - Packet sniffer/logger.
+            #MNM wireshark - Packet sniffer/logger.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Monitor Applications Menu"
@@ -2595,7 +2611,15 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Nn] | [Nn][Cc])
+                 4 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
+                 APP_NAME="slurm"
+                 f_application_run
+                 ;;
+                 [Ss][Ll][Uu][Rr][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Nn] | [Nn][Cc])
                  APP_NAME="nc"
                  f_application_run
                  ;;
@@ -2603,7 +2627,53 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
+                 6 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
+                 APP_NAME="netstat -l"
+                 clear # Blank the screen.
+                 echo "Print network connections, routing tables, interface statistics,"
+                 echo "masquerade connections, and multicast memberships."
+                 echo
+                 echo "Usage:"
+                 echo "netstat [address_family_options]  [--tcp|-t] [--udp|-u] [--raw|-w]"
+                 echo "[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts] [--numeric-ports]"
+                 echo "[--numeric-users] [--symbolic|-N] [--extend|-e[--extend|-e]] [--timers|-o]"
+                 echo "[--program|-p] [--verbose|-v] [--continuous|-c]"
+                 echo
+                 echo "netstat {--route|-r}  [address_family_options] [--extend|-e[--extend|-e]]"
+                 echo "[--verbose|-v] [--numeric|-n] [--numeric-hosts]  [--numeric-ports]"
+                 echo "[--numeric-users] [--continuous|-c]"
+                 echo
+                 echo "netstat {--interfaces|-i}  [--all|-a] [--extend|-e[--extend|-e]] [--verbose|-v]"
+                 echo "[--program|-p] [--numeric|-n] [--numeric-hosts] [--numeric-ports]"
+                 echo "[--numeric-users] [--continuous|-c]"
+                 echo
+                 echo "netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports]"
+                 echo "[--numeric-users] [--continuous|-c]"
+                 echo
+                 echo "netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts]"
+                 echo "[--numeric-ports] [--numeric-users] [--continuous|-c]"
+                 echo
+                 echo "netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--raw|-w]"
+                 echo
+                 echo "netstat {--version|-V}"
+                 echo
+                 echo "netstat {--help|-h}"
+                 echo
+                 echo "*** For more help type: man traceroute" 
+                 echo
+                 echo "traceroute of this PC (localhost) as an example."
+                 echo
+                 echo
+                 echo "Now run netstat. Usage: netstat -l"
+                 f_press_enter_key_to_continue
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 ;;
+                 [Nn][Ee][Tt][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
                  APP_NAME="ngrep"
                  f_application_run
                  ;;
@@ -2611,7 +2681,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
+                 8 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
                  APP_NAME="nmap"
                  f_application_run
                  ;;
@@ -2619,7 +2689,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
+                 9 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
                  APP_NAME="kismet"
                  f_application_run
                  ;;
@@ -2627,7 +2697,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
+                 10 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
                  APP_NAME="snort"
                  f_application_run
                  ;;
@@ -2635,7 +2705,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
+                 11 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
                  APP_NAME="tcpdump"
                  f_application_run
                  ;;
@@ -2643,7 +2713,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
+                 12 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
                  APP_NAME="wireshark"
                  f_application_run
                  ;;
@@ -2789,6 +2859,7 @@ f_menu_app_text_editors () {
             #MTE pico       - Simple full-screen text editor.
             #MTE vi         - Classic full-screen text editor.
             #MTE vim        - vi "Improved" text editor.
+            #MTE zile       - Very small Emacs-subset editor.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Editor Applications Menu"
@@ -2877,6 +2948,14 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  [Vv][Ii][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Zz] | [Zz][Ii] | [Zz][Ii][Ll] | [Zz][Ii][Ll][Ee])
+                 APP_NAME="zile"
+                 f_application_run
+                 ;;
+                 [Zz][Ii][Ll][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3172,6 +3251,7 @@ f_menu_app_sys_monitors () {
             #MSM glances     - System process and resource manager.
             #MSM htop        - System process and resource manager.
             #MSM top         - System process and resource manager.
+            #MOM tload       - System load average graphical monitor.
             #MSM dstat       - View system resources.
             #MSM iotop       - Disk i/o process monitor.
             #MSM saidar      - Monitor system processes, network I/O, disks I/O, free space.
@@ -3232,7 +3312,17 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
+                 5 | [Tt] | [Tt][Ll] | [Tt][Ll][Oo] | [Tt][Ll][Oo][Aa] | [Tt][Ll][Oo][Aa][Dd])
+                 APP_NAME="tload"
+                 f_how_to_quit_application "Ctrl-Z or Ctrl-C (There is no way to cleanly exit back to the menu)."
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt][Ll][Oo][Aa][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
                  clear # Blank the screen.
                  echo "Display system resource statistics."
@@ -3252,7 +3342,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
+                 7 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
                  APP_NAME="iotop"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3262,7 +3352,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
+                 8 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3272,7 +3362,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
+                 9 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3282,7 +3372,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
+                 10 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
                  APP_NAME="clamscan -r /home"
                  clear # Blank the screen.
                  echo "Usage: clamscan [options] [file/directory/-]"
@@ -3301,7 +3391,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 10 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
+                 11 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
                  APP_NAME="freshclam"
                  # f_how_to_quit_application "q"
                  f_application_run
@@ -5252,6 +5342,7 @@ do    # Start of CLI Menu util loop.
       #AAA Help and Features   - How to use and what can it do.
       #AAA About CLI Menu      - What version am I using.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
+      #AAA Download            - Download latest version of this script via wget.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA License             - Licensing, GPL.
       #AAA List Applications   - List of all CLI applications in this menu.
@@ -5309,7 +5400,23 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           5 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           5 | [Dd] | [Dd][Oo] | [Dd][Oo][Ww] | [Dd][Oo][Ww][Nn] | [Dd][Oo][Ww][Nn][Ll] | [Dd][Oo][Ww][Nn][Ll][Oo] |  [Dd][Oo][Ww][Nn][Ll][Oo][Aa] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd])
+           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/cli-app-menu.sh"
+           wget $WEB_SITE
+           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/README"
+           wget $WEB_SITE
+           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/COPYING"
+           wget $WEB_SITE
+           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/EDIT_HISTORY"
+           wget $WEB_SITE
+           echo
+           echo "Downloaded files are in the same folder as this script."
+           echo "The file names will be appended with a '.1'"
+           echo "and you will have to manually copy them to the original names."
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;
+           6 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt]' '[Hh] | [Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
            if [ -r EDIT_HISTORY ] ; then
               # display Edit History (all lines beginning with ## but
@@ -5324,7 +5431,7 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           6 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
+           7 | [Ll] | [Ll][Ii] | [Ll][Ii][Cc] | [Ll][Ii][Cc][Ee] | [Ll][Ii][Cc][Ee][Nn] | [Ll][Ii][Cc][Ee][Nn][Cc] | [Ll][Ii][Cc][Ee][Nn][Cc][Ee])
            clear # Blank the screen.
            # display License (all lines beginning with #LIC but
            # substitute "" for "#LIC" so "#LIC" is not printed).
@@ -5362,7 +5469,7 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           7 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt] | [Ll][Ii][Ss][Tt]' ' | [Ll][Ii][Ss][Tt]' '[Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' ' | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn][Ss])
+           8 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt] | [Ll][Ii][Ss][Tt]' ' | [Ll][Ii][Ss][Tt]' '[Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' ' | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn] | [Ll][Ii][Ss][Tt]' '[Oo][Ff]' '[Aa][Pp][Pp][Ll][Ii][Cc][Aa][Tt][Ii][Oo][Nn][Ss])
            clear # Blank the screen.
            #
            # 1. grep finds all lines containing "#M" followed by two letters in
@@ -5398,7 +5505,7 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           8 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
+           9 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr] | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee][Dd][Ii][Tt]' '[Hh][Ii][Ss][Tt][Oo][Rr][Yy])
            clear # Blank the screen.
            if [ -r EDIT_HISTORY ] ; then
               APP_NAME="joe EDIT_HISTORY"
@@ -5414,13 +5521,13 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           9 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
+           10 | [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
            TCOLOR="black"
            f_term_color # Set terminal color.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           10 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
+           11 | [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
            TCOLOR="white"
            f_term_color # Set terminal color.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
