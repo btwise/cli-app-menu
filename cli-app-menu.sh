@@ -38,7 +38,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-01-2013 18:35"
+REVDATE="April-2-2013 23:59"
 #
 #LIC ©2013 Copyright 2013 Robert D. Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -142,6 +142,7 @@ REVDATE="April-01-2013 18:35"
 #: |  List of variables used in this script |
 #: +----------------------------------------+
 #:
+#: ANS         - String; Answer to question.
 #: APP_NAME    - String; application name also command to run.
 #:
 #: APP_NAME_INSTALL - String; used when APP_NAME does not match actual package
@@ -174,16 +175,18 @@ REVDATE="April-01-2013 18:35"
 #: ERROR       - Number; Save error code number from $? function.
 #: MAX         - Number; Maximum option choice number in menu.
 #: MENU_TITLE  - String; Title of menu.
-#: XNUM        - Number; Scratch variable used in awk statement in f_show_menu.
-#: XSTR        - String; Scratch variable.
+#:
 #: PRESSKEY    - Number: Ask "Press Enter key to continue".
 #:               '0' Do not ask "Press Enter key to continue".
 #:               '1' Ask "Press Enter key to continue".
+#:
 #: REVDATE     - String; Revision date of shell script.
 #: REVISION    - String; Revision number of shell script.
 #: TCOLOR      - String; Background color of display terminal; Black or White.
 #: THIS_FILE   - String; name of shell script.
 #: WEB_SITE    - String; name of web site used when application is a web browser.
+#: XNUM        - Number; Scratch variable used in awk statement in f_show_menu.
+#: XSTR        - String; Scratch variable.
 #:
 #:
 #: +----------------------------------------+
@@ -683,16 +686,6 @@ f_application_error () {
            case $ANS in  # Start of Use SUDO case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                 APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
-                case $APP_NAME_SUDO in # Start of APP_NAME_SUDO case statement.
-                     *' '*)  
-                     # If string APP_NAME/APP_NAME_SUDO includes spaces for
-                     # run-time parameters, then just extract package name. 
-                     # i.e. "dstat 1 10", then just grab "dstat" as package name.
-                     # i.e. "dstat --version", then just grab "dstat" as package name.
-                     APP_NAME_SUDO=$(echo $APP_NAME_SUDO | awk '{print $1;}')
-                     ;;
-                esac                    # End of APP_NAME_SUDO case statement.
-                #
                 sudo $APP_NAME_SUDO
                 ERROR=$? # Save error flag condition.
                 #
@@ -742,6 +735,7 @@ f_application_error () {
                      # If string APP_NAME/APP_NAME_INSTALL includes spaces for
                      # run-time parameters, then just extract package name. 
                      # i.e. "dstat 1 10", then just grab "dstat" as package name.
+                     # i.e. "dstat --version", then just grab "dstat" as package name.
                      #
                      APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
                      ;;
@@ -771,6 +765,9 @@ f_application_error () {
                      ;;
                      moc)
                      APP_NAME_INSTALL="libqt4-dev"
+                     ;;
+                     mpstat| iostat | pidstat | sadf | sar)
+                     APP_NAME_INSTALL="systat"
                      ;;
                      todo)
                      APP_NAME_INSTALL="devtodo"
@@ -2415,7 +2412,7 @@ f_menu_app_network_config () {
                  echo
                  echo "*** For more help type: man ping" 
                  echo
-                 echo "Pinging this PC (localhost) for five times as an example."
+                 echo "Pinging this PC (localhost) for 5 times as an example."
                  echo
                  echo "Now run ping. Usage: ping localhost -c 5"
                  echo
@@ -2557,6 +2554,7 @@ f_menu_app_network_monitors () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Monitor Applications until loop.
             #MNM cbm       - Color Bandwidth Meter, ncurses based display.
+            #MNM ifstat    - Bandwidth statistics. (See also dstat, System Monitors Menu).
             #MNM iftop     - IP LAN monitor.
             #MNM iptraf    - IP LAN monitor.
             #MNM slurm     - Network interface I/O load monitor.
@@ -2585,41 +2583,62 @@ f_menu_app_network_monitors () {
                  1 | [Cc] | [Cc][Bb] | [Cc][Bb][Mm])
                  APP_NAME="cbm"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Cc][Bb][Mm]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 2 | [Ii] | [Ii][Ff] | [Ii][Ff][Tt] | [Ii][Ff][Tt][Oo] | [Ii][Ff][Tt][Oo][Pp])
+                 2 | [Ii] | [Ii][Ff] | [Ii][Ff][Ss] | [Ii][Ff][Ss][Tt] | [Ii][Ff][Ss][Tt][Aa] | [Ii][Ff][Ss][Tt][Aa][Tt])
+                 APP_NAME="ifstat 2 5"
+                 clear # Blank the screen.
+                 echo "ifstat this PC's NIC (localhost) for 5 times every 2 seconds as an example."
+                 echo
+                 echo "Now run ifstat. Usage: ifstat 2 5"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ii][Ff][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Ii] | [Ii][Ff] | [Ii][Ff][Tt] | [Ii][Ff][Tt][Oo] | [Ii][Ff][Tt][Oo][Pp])
                  APP_NAME="iftop"
-                 ifconfig |  grep Link | awk '{print $1;}' # Search for "Link" in ifconfig output and parse first word (network interface).
-                 echo -n "Enter FULL-NAME of network interface to monitor with $APP_NAME: "
-                 read ANS
+                 f_find_NIC
                  APP_NAME="iftop -i $ANS"
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ii][Ff][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 3 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
+                 4 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
                  APP_NAME="iptraf"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ii][Pp][Tt][Rr][Aa][Ff]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 4 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
+                 5 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
                  APP_NAME="slurm"
+                 f_find_NIC
+                 APP_NAME="slurm -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  [Ss][Ll][Uu][Rr][Mm]' '*)
+                 f_how_to_quit_application "q" "no-clear"
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Nn] | [Nn][Cc])
+                 6 | [Nn] | [Nn][Cc])
                  APP_NAME="nc"
                  f_application_run
                  ;;
@@ -2627,7 +2646,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
+                 7 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
                  APP_NAME="netstat -l"
                  clear # Blank the screen.
                  echo "Print network connections, routing tables, interface statistics,"
@@ -2635,37 +2654,24 @@ f_menu_app_network_monitors () {
                  echo
                  echo "Usage:"
                  echo "netstat [address_family_options]  [--tcp|-t] [--udp|-u] [--raw|-w]"
-                 echo "[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts] [--numeric-ports]"
-                 echo "[--numeric-users] [--symbolic|-N] [--extend|-e[--extend|-e]] [--timers|-o]"
-                 echo "[--program|-p] [--verbose|-v] [--continuous|-c]"
+                 echo "[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts]  ...etc."
                  echo
                  echo "netstat {--route|-r}  [address_family_options] [--extend|-e[--extend|-e]]"
-                 echo "[--verbose|-v] [--numeric|-n] [--numeric-hosts]  [--numeric-ports]"
-                 echo "[--numeric-users] [--continuous|-c]"
+                 echo "[--verbose|-v]  [--numeric|-n]  [--numeric-hosts]   [--numeric-ports] ...etc."
                  echo
-                 echo "netstat {--interfaces|-i}  [--all|-a] [--extend|-e[--extend|-e]] [--verbose|-v]"
-                 echo "[--program|-p] [--numeric|-n] [--numeric-hosts] [--numeric-ports]"
-                 echo "[--numeric-users] [--continuous|-c]"
+                 echo "netstat {--interfaces|-i}  [--all|-a] [--extend|-e[--extend|-e]] ...etc."
                  echo
-                 echo "netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports]"
-                 echo "[--numeric-users] [--continuous|-c]"
+                 echo "netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] ..etc."
                  echo
-                 echo "netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts]"
-                 echo "[--numeric-ports] [--numeric-users] [--continuous|-c]"
+                 echo "netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts] ..etc."
                  echo
                  echo "netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--raw|-w]"
-                 echo
-                 echo "netstat {--version|-V}"
-                 echo
-                 echo "netstat {--help|-h}"
                  echo
                  echo "*** For more help type: man traceroute" 
                  echo
                  echo "traceroute of this PC (localhost) as an example."
                  echo
-                 echo
                  echo "Now run netstat. Usage: netstat -l"
-                 f_press_enter_key_to_continue
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
@@ -2673,7 +2679,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
+                 8 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
                  APP_NAME="ngrep"
                  f_application_run
                  ;;
@@ -2681,7 +2687,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
+                 9 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
                  APP_NAME="nmap"
                  f_application_run
                  ;;
@@ -2689,7 +2695,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
+                 10 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
                  APP_NAME="kismet"
                  f_application_run
                  ;;
@@ -2697,23 +2703,60 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
+                 11 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
                  APP_NAME="snort"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_find_NIC
+                      APP_NAME="snort -i $ANS"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  [Ss][Nn][Oo][Rr][Tt]' '*)
                  APP_NAME=$CHOICE_APP
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
-                 11 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
+                 12 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
                  APP_NAME="tcpdump"
+                 f_find_NIC
+                 APP_NAME="tcpdump -i $ANS -c 5"
+                 clear # Blank the screen.
+                 echo "tcpdump this PC's NIC (localhost) for 5 packets an example."
+                 echo
+                 echo "Now run tcpdump. Usage: tcpdump -i $ANS -c 5"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Tt][Cc][Pp][Dd][Uu][Mm][Pp]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
+                 13 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
                  APP_NAME="wireshark"
                  f_application_run
                  ;;
@@ -2729,6 +2772,21 @@ f_menu_app_network_monitors () {
             f_option_press_enter_key
       done # End of Network Monitor Applications until loop.
 } # End of function f_menu_app_network_monitors
+#
+# +----------------------------------------+
+# |          Function f_find_NIC           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+# Outputs: ANS.
+#
+f_find_NIC () {
+# Search for "Link" in ifconfig output and parse first word (network interface).
+ifconfig |  grep Link | awk '{print $1;}'
+echo -n "Enter FULL-NAME of network interface to monitor with $APP_NAME: "
+read ANS
+# There is not yet any error checking on $ANS.
+}
 #
 # +----------------------------------------+
 # |    Function f_menu_app_file_managers   |
@@ -3247,17 +3305,21 @@ f_menu_app_sys_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Monitors until loop.
-            #MSM atop        - System process and resource manager.
-            #MSM glances     - System process and resource manager.
-            #MSM htop        - System process and resource manager.
-            #MSM top         - System process and resource manager.
-            #MOM tload       - System load average graphical monitor.
-            #MSM dstat       - View system resources.
-            #MSM iotop       - Disk i/o process monitor.
-            #MSM saidar      - Monitor system processes, network I/O, disks I/O, free space.
-            #MSM yacpi       - ACPI monitor, ncurses-based.
-            #MSM clamscan    - Clam anti-virus program scans for viruses.
-            #MSM freshclam   - Clam anti-virus database definition update.
+            #MSM atop      - System process and resource manager.
+            #MSM glances   - System process and resource manager.
+            #MSM htop      - System process and resource manager.
+            #MSM pidstat   - System process and resource manager.
+            #MSM ps        - System process and resource manager.
+            #MSM top       - System process and resource manager.
+            #MSM tload     - System load average graphical monitor.
+            #MSM mpstat    - CPU microprocessor usage monitor.
+            #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
+            #MSM iostat    - CPU usage and disk I/O process monitor.
+            #MSM iotop     - Disk I/O process monitor.
+            #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
+            #MSM yacpi     - ACPI monitor, ncurses-based.
+            #MSM clamscan  - Clam anti-virus program scans for viruses.
+            #MSM freshclam - Clam anti-virus database definition update.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Monitors Menu"
@@ -3302,7 +3364,54 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
+                 4 | [Pp] | [Pp][Ii] | [Pp][Ii][Dd] | [Pp][Ii][Dd][Ss] | [Pp][Ii][Dd][Ss][Tt] | [Pp][Ii][Dd][Ss][Tt][Aa] | [Pp][Ii][Dd][Ss][Tt][Aa][Tt])
+                 APP_NAME="pidstat 2 3"
+                 clear # Blank the screen.
+                 echo "pidstat this PC's CPU (localhost) for 3 times every 2 seconds as an example."
+                 echo
+                 echo "*** For more help type: man pidstat"
+                 echo
+                 echo "Now run pidstat. Usage: pidstat 2 3"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Pp][Ii][Dd][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Pp] | [Pp][Ss])
+                 APP_NAME="ps -ejH"
+                 clear # Blank the screen.
+                 echo "To see every process on the system using standard syntax:"
+                 echo "[ps -e ] [ ps -ef ] [ ps -eF ] [ ps -ely ]"
+                 echo
+                 echo "To see every process on the system using BSD syntax:"
+                 echo "[ ps ax] [ ps axu ]"
+                 echo
+                 echo "To print a process tree:"
+                 echo "[ ps -ejH ] [ ps axjf ]"
+                 echo
+                 echo "To get info about threads:"
+                 echo "[ ps -eLf ] [ ps axms ]"
+                 echo
+                 echo "To get security info:"
+                 echo "[ ps -eo euser,ruser,suser,fuser,f,comm,label ]"
+                 echo "[ ps axZ] [ ps -eM ]"
+                 echo
+                 echo "To see every process running as root (real & effective ID) in user format:"
+                 echo "[ ps -U root -u root u ]"
+                 echo
+                 echo "*** For more help type: man ps"
+                 echo
+                 echo "Now run ps. Usage: ps -ejH"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Pp][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
                  APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3312,17 +3421,64 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Tt] | [Tt][Ll] | [Tt][Ll][Oo] | [Tt][Ll][Oo][Aa] | [Tt][Ll][Oo][Aa][Dd])
+                 7 | [Tt] | [Tt][Ll] | [Tt][Ll][Oo] | [Tt][Ll][Oo][Aa] | [Tt][Ll][Oo][Aa][Dd])
                  APP_NAME="tload"
-                 f_how_to_quit_application "Ctrl-Z or Ctrl-C (There is no way to cleanly exit back to the menu)."
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 clear # Blank the screen.
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  [Tt][Ll][Oo][Aa][Dd]' '*)
                  APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 8 | [Mm] | [Mm][Pp] | [Mm][Pp][Ss] | [Mm][Pp][Ss][Tt] | [Mm][Pp][Ss][Tt][Aa] | [Mm][Pp][Ss][Tt][Aa][Tt])
+                 APP_NAME="mpstat 2 5"
+                 clear # Blank the screen.
+                 echo "Display CPU statistics."
+                 echo
+                 echo "Usage:"
+                 echo "mpstat [ -A ] [ -I { SUM | CPU | SCPU | ALL } ] [ -u ]"
+                 echo "[ -P { cpu [,...] | ON | ALL } ] [ -V ] [ interval [ count ] ]"
+                 echo
+                 echo "*** For more help type: man mpstat"
+                 echo
+                 echo "mpstat this PC's CPU (localhost) for 5 times every 2 seconds as an example."
+                 echo
+                 echo "Now run mpstat. Usage: dstat 2 5"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 6 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
+                 [Mm][Pp][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
                  clear # Blank the screen.
                  echo "Display system resource statistics."
@@ -3331,7 +3487,7 @@ f_menu_app_sys_monitors () {
                  echo
                  echo "*** For more help type: man dstat"
                  echo
-                 echo "dstat this PC (localhost) for ten times as an example."
+                 echo "dstat this PC (localhost) for 10 times as an example."
                  echo
                  echo "Now run dstat. Usage: dstat 1 10"
                  f_press_enter_key_to_continue
@@ -3342,7 +3498,15 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
+                 10 | [Ii]| [Ii][Oo] | [Ii][Oo][Ss] | [Ii][Oo][Ss][Tt] | [Ii][Oo][Ss][Tt][Aa] | [Ii][Oo][Ss][Tt][Aa][Tt])
+                 APP_NAME="iostat"
+                 f_application_run
+                 ;;
+                 [Ii][Oo][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 11 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
                  APP_NAME="iotop"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3352,7 +3516,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
+                 12 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3362,7 +3526,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
+                 13 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3372,7 +3536,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
+                 14 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
                  APP_NAME="clamscan -r /home"
                  clear # Blank the screen.
                  echo "Usage: clamscan [options] [file/directory/-]"
@@ -3391,7 +3555,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 11 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
+                 15 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
                  APP_NAME="freshclam"
                  # f_how_to_quit_application "q"
                  f_application_run
@@ -3426,13 +3590,18 @@ f_menu_app_sys_information () {
             #MSI cfdisk      - Disk partition tool.
             #MSI parted      - Disk partition tool.
             #MSI dmidecode   - Display Main board information.
+            #MSI lshw        - Display Main board information.
+            #MSI free        - Display memory usage RAM and swap.
+            #MSI vmstat      - Display memory usage RAM and swap, CPU information.
             #MSI hdparm      - Display hard disk drive information.
             #MSI lsb_release - Display Linux distro and LSB (Linux Standard Base).
             #MSI uname       - Display linux kernel information.
             #MSI lsmod       - Display linux kernel module information.
             #MSI printenv    - Display environmental variables.
             #MSI lsusb       - Display USB devices.
+            #MSI lspci       - Display PCI buses and connected devices.
             #MSI lsof        - Display information about open files.
+            #MSI uptime      - Display how long PC has been running, # users, load average.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Information Menu"
@@ -3504,7 +3673,59 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
+                 7 | [Ll] | [Ll][Ss] | [Ll][Ss][Hh] | [Ll][Ss][Hh][Ww])
+                 clear # Blank the screen.
+                 APP_NAME="lshw -short"
+                 echo "Displays main board information"
+                 echo
+                 echo "Usage:"
+                 echo "lshw [ -version ]"
+                 echo "lshw [ -help ]"
+                 echo "lshw [ -X ]"
+                 echo "lshw  [ -html ] [ -short ] [ -xml ] [ -json ] [ -businfo ] [ -dump filename ]"
+                 echo "[ -class class... ] [ -disable test... ] [ -enable test... ] [ -sanitize ]"
+                 echo "[ -numeric ] [ -quiet ]"
+                 echo
+                 echo "*** For more help type: man lshw"
+                 echo
+                 echo "Display short report."
+                 echo
+                 echo "Now run lshw. Usage: lshw -short"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ll][Ss][Hh][Ww]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee])
+                 APP_NAME="free -m -t -s 2 -c 5"
+                 clear # Blank the screen.
+                 echo "Display the amount of free and used memory both RAM and swap"
+                 echo
+                 echo "Usage: free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
+                 echo
+                 echo "*** For more help type: man free"
+                 echo
+                 echo "Display in MB (Megabytes) with column totals, for 5 times every 2 seconds."
+                 echo
+                 echo "Now run free. Usage: free -m -t -s 2 -c 5"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ff][Rr][Ee][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Vv] | [Vv][Mm] | [Vv][Mm][Ss] | [Vv][Mm][Ss][Tt] | [Vv][Mm][Ss][Tt][Aa] | [Vv][Mm][Ss][Tt][Aa][Tt])
+                 APP_NAME="vmstat"
+                 f_application_run
+                 ;;
+                 [Vv][Mm][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
                  APP_NAME="hdparm -I /dev/sda"
                  clear # Blank the screen.
                  echo
@@ -3524,7 +3745,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
+                 11 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
                  APP_NAME="lsb_release -a"
                  f_application_run
                  ;;
@@ -3532,7 +3753,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
+                 12 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
                  APP_NAME="uname -a"
                  f_application_run
                  ;;
@@ -3540,7 +3761,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
+                 13 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
                  APP_NAME="lsmod "
                  f_application_run
                  ;;
@@ -3548,7 +3769,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 14 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
                  APP_NAME="printenv"
                  f_application_run
                  ;;
@@ -3556,7 +3777,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
+                 15 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
                  f_application_run
                  ;;
@@ -3564,11 +3785,27 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
+                 16 | [Ll] | [Ll][Ss] | [Ll][Ss][Pp] | [Ll][Ss][Pp][Cc] | [Ll][Ss][Pp][Cc][Ii])
+                 APP_NAME="lspci"
+                 f_application_run
+                 ;;
+                 [Ll][Ss][Pp][Cc][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 17 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
                  APP_NAME="lsof"
                  f_application_run
                  ;;
                  [Ll][Ss][Oo][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 18 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
+                 APP_NAME="uptime"
+                 f_application_run
+                 ;;
+                 [Uu][Pp][Tt][Ii][Mm][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
