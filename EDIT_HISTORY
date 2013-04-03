@@ -21,7 +21,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="April-1-2013 18:35" 
+REVDATE="April-2-2013 23:59" 
 #
 #LIC ©2013 Copyright 2013 Bob Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -36,6 +36,13 @@ REVDATE="April-1-2013 18:35"
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-04-02 *Fix bug with sudo which ran apps only w/o parameters.
+##            *A few small bug fixes with "Press Enter Key" needed in some apps.
+##            *f_find_NIC added to find NICs (Network Interface Cards).
+##            *f_menu_app_network_monitors add ifstat.
+##            *f_menu_app_sys_monitors add free, iostat, lshw, lspci, pidstat,
+##             ps, mpstat, uptime, vmstat.
 ##
 ## 2013-04-01 *f_menu_app_network_monitors add netstat, slurm.
 ##            *f_menu_app_text_editors add zile.
