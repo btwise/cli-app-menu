@@ -38,7 +38,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-2-2013 23:59"
+REVDATE="April-4-2013 10:29"
 #
 #LIC ©2013 Copyright 2013 Robert D. Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -2301,6 +2301,7 @@ f_menu_app_network_config () {
             #MNF ip route    - Shows routing.
             #MNF route       - Shows routing table.
             #MNF ping        - Check LAN/WAN connectivity. Usage: ping <ip-address>.
+            #MNF speedometer - Check LAN/WAN connectivity speed.
             #MNF mtr         - Traceroute tool, has features of ping and traceroute.
             #MNF traceroute  - Traceroute tool, trace network path to destination. 
             #MNF wicd-curses - Wireless scan and connect to wired/wireless networks.
@@ -2424,7 +2425,15 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
+                 7 | [Ss] | [Ss][Pp] | [Ss][Pp][Ee] | [Ss][Pp][Ee][Ee] | [Ss][Pp][Ee][Ee][Dd] | [Ss][Pp][Ee][Ee][Dd][Oo] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee][Rr])
+                 APP_NAME="speedometer"
+                 f_application_run
+                 ;;
+                 [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
                  APP_NAME="mtr"
                  clear # Blank the screen.
                  echo "Network diagnostic tool combining the functionality of traceroute and ping."
@@ -2446,7 +2455,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee])
+                 9 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="traceroute localhost"
                  clear # Blank the screen.
                  echo "Trace path to network host."
@@ -2473,7 +2482,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
+                 10 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
                  APP_NAME="wicd-curses"
                  f_application_run
                  ;;
@@ -2481,7 +2490,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
+                 11 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="iwconfig"
                  f_application_run
                  ;;
@@ -2489,7 +2498,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ii] | [Ii][Ww] | [Ii][Ww][Ll] | [Ii][Ww][Ll][Ii] | [Ii][Ww][Ll][Ii][Ss] | [Ii][Ww][Ll][Ii][Ss][Tt])
+                 12 | [Ii] | [Ii][Ww] | [Ii][Ww][Ll] | [Ii][Ww][Ll][Ii] | [Ii][Ww][Ll][Ii][Ss] | [Ii][Ww][Ll][Ii][Ss][Tt])
                  APP_NAME="iwlist"
                  f_application_run
                  ;;
@@ -2497,7 +2506,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 13 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="man smbc"
                  clear # Blank the screen.
                  echo "Display help for smbc (Samba Commander)."
@@ -2512,7 +2521,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
+                 14 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
@@ -2520,7 +2529,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
+                 15 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
@@ -2528,7 +2537,7 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 15 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
+                 16 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
@@ -2555,8 +2564,10 @@ f_menu_app_network_monitors () {
       do    # Start of Network Monitor Applications until loop.
             #MNM cbm       - Color Bandwidth Meter, ncurses based display.
             #MNM ifstat    - Bandwidth statistics. (See also dstat, System Monitors Menu).
-            #MNM iftop     - IP LAN monitor.
-            #MNM iptraf    - IP LAN monitor.
+            #MNM iftop     - Bandwidth statistics. Packet sniffer.
+            #MNM jnettop   - Bandwidth statistics across streams.
+            #MNM iptraf    - IP LAN monitor, ncurses based display.
+            #MNM sntop     - IP LAN monitor. Display network hosts and connections.
             #MNM slurm     - Network interface I/O load monitor.
             #MNM nc        - Netcat reads/writes data across network.
             #MNM netstat   - Print network connections, routing tables, interface stats, etc.
@@ -2616,7 +2627,20 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 4 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
+                 4 | [Jj] | [Jj][Nn] | [Jj][Nn][Ee] | [Jj][Nn][Ee][Tt] | [Jj][Nn][Ee][Tt][Tt] | [Jj][Nn][Ee][Tt][Tt][Oo] | [Jj][Nn][Ee][Tt][Tt][Oo][Pp])
+                 APP_NAME="jnettop"
+                 f_find_NIC
+                 APP_NAME="jnettop -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj][Nn][Ee][Tt][Tt][Oo][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 5 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
                  APP_NAME="iptraf"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2626,7 +2650,23 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 5 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
+                 6 | [Ss] | [Ss][Nn] | [Ss][Nn][Tt] | [Ss][Nn][Tt][Oo] | [Ss][Nn][Tt][Oo][Pp])
+                 APP_NAME="sntop --refresh=3"
+                 clear # Blank the screen.
+                 echo "sntop for every 3 seconds as an example."
+                 echo
+                 echo "Now run sntop. Usage: sntop --refresh=3"
+                 echo
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss][Nn][Tt][Oo][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 7 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
                  APP_NAME="slurm"
                  f_find_NIC
                  APP_NAME="slurm -i $ANS"
@@ -2638,7 +2678,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Nn] | [Nn][Cc])
+                 8 | [Nn] | [Nn][Cc])
                  APP_NAME="nc"
                  f_application_run
                  ;;
@@ -2646,7 +2686,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
+                 9 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
                  APP_NAME="netstat -l"
                  clear # Blank the screen.
                  echo "Print network connections, routing tables, interface statistics,"
@@ -2679,7 +2719,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
+                 10 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
                  APP_NAME="ngrep"
                  f_application_run
                  ;;
@@ -2687,7 +2727,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
+                 11 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
                  APP_NAME="nmap"
                  f_application_run
                  ;;
@@ -2695,7 +2735,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
+                 12 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
                  APP_NAME="kismet"
                  f_application_run
                  ;;
@@ -2703,7 +2743,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
+                 13 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
                  APP_NAME="snort"
                  clear # Blank the screen.
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
@@ -2741,7 +2781,7 @@ f_menu_app_network_monitors () {
                       ;;
                  esac
                  ;;
-                 12 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
+                 14 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
                  APP_NAME="tcpdump"
                  f_find_NIC
                  APP_NAME="tcpdump -i $ANS -c 5"
@@ -2756,7 +2796,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
+                 15 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
                  APP_NAME="wireshark"
                  f_application_run
                  ;;
@@ -5579,7 +5619,7 @@ do    # Start of CLI Menu util loop.
       #AAA Help and Features   - How to use and what can it do.
       #AAA About CLI Menu      - What version am I using.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
-      #AAA Download            - Download latest version of this script via wget.
+      #AAA Download            - Download latest released version of this script.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA License             - Licensing, GPL.
       #AAA List Applications   - List of all CLI applications in this menu.
