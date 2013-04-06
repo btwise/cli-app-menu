@@ -38,7 +38,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-4-2013 10:29"
+REVDATE="April-6-2013 17:26"
 #
 #LIC ©2013 Copyright 2013 Robert D. Chin
 #LIC This program is free software: you can redistribute it and/or modify
@@ -750,11 +750,17 @@ f_application_error () {
                      adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
                      APP_NAME_INSTALL="bsdgames"
                      ;;
+                     animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
+                     APP_NAME_INSTALL="imagemagick"
+                     ;;
                      aria2c)
                      APP_NAME_INSTALL="aria2"
                      ;;
                      clamscan)
                      APP_NAME_INSTALL="clamav"
+                     ;;
+                     fbgs)
+                     APP_NAME_INSTALL="fbi"
                      ;;
                      glances) # Add repository for glances application.
                      sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
@@ -768,6 +774,9 @@ f_application_error () {
                      ;;
                      mpstat| iostat | pidstat | sadf | sar)
                      APP_NAME_INSTALL="systat"
+                     ;;
+                     photorec)
+                     APP_NAME_INSTALL="testdisk"
                      ;;
                      todo)
                      APP_NAME_INSTALL="devtodo"
@@ -955,60 +964,60 @@ f_menu_cat_applications () {
             #
             case $CHOICE_CAT in # Start of Application Category case statement.
                  1 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
-                 f_menu_cat_internet     # Internet Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_cat_internet          # Internet Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk])
-                 f_menu_cat_network     # Network Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_cat_network           # Network Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
                  f_menu_app_file_managers     # File Manager Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Ee] | [Tt][Ee][Xx][Tt]' '[Ee][Dd] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr][Ss])
-                 f_menu_app_text_editors     # Text Editor Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_text_editors      # Text Editor Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Tt] | [Tt][Ee][Xx][Tt]' '[Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll][Ss])
-                 f_menu_app_text_tools
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_text_tools        # Text Tools Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
-                 f_menu_cat_system_applications     # System Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_cat_system            # System Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
                  f_menu_app_calendar_todo     # Calendar-ToDo Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
-                 f_menu_app_calculators     # Calculator Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_calculators       # Calculator Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  9 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
-                 f_menu_app_spreadsheets     # Spreadsheet Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  10 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
-                 f_menu_app_note_applications     # Note Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_note              # Note Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  11 | [Aa] | [Aa][Uu] | [Aa][Uu][Dd] | [Aa][Uu][Dd][Ii] | [Aa][Uu][Dd][Ii][Oo])
-                 f_menu_app_audio_applications     # Audio Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_audio             # Audio Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  12 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][-] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee][Rr])
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  13 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss][-] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc][Ss])
-                 f_menu_app_image_graphics_applications     # Image-Graphics Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_image_graphics   # Image-Graphics Applications Menu.
+                 CHOICE_CAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  14 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
-                 f_menu_app_education_applications     # Education Applications Menu.
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 f_menu_app_education       # Education Applications Menu.
+                 CHOICE_CAT=-1              # Legitimate response. Stay in menu loop.
                  ;;
                  15 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
                  f_menu_cat_games
@@ -2836,15 +2845,21 @@ f_menu_app_file_managers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of File Manager Applications until loop.
-            #MFI  clex   - File manager.
-            #MFI  mc     - File Manager, Midnight Commander.
-            #MFI  ranger - File manager.
-            #MFI  smbc   - Samba file manager for folder shares with Microsoft Windows.
-            #MFI  vfu    - File manager, ncurses-based.
-            #MFI  vifm   - File manager with vi-like commands.
-            #MFI  detox  - File name clean up.
-            #MFI  jless  - File viewer pager.
-            #MFI  most   - File viewer pager.
+            #MFI clex     - File manager.
+            #MFI mc       - File Manager, Midnight Commander.
+            #MFI ranger   - File manager.
+            #MFI smbc     - Samba file manager for folder shares with Microsoft Windows.
+            #MFI vfu      - File manager, ncurses-based.
+            #MFI vifm     - File manager with vi-like commands.
+            #MFI detox    - File name clean up.
+            #MFI jless    - File viewer pager.
+            #MFI most     - File viewer pager.
+            #MFI find     - Find files using pattern matching.
+            #MFI locate   - Find files using an internal database.
+            #MFI shred    - Delete files securely without recovery.
+            #MFI foremost - File recovery from within a *.img disk image file.
+            #MFI photorec  - File recovery.
+            #MFI safecopy - File recovery.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Manager Applications Menu"
@@ -2929,6 +2944,182 @@ f_menu_app_file_managers () {
                  ;;
                  [Mm][Oo][Ss][Tt]' '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
+                 APP_NAME="find --help"
+                 clear # Blank the screen.
+                 echo "Find and search for files."
+                 echo
+                 echo "Usage:"
+                 echo "find [-H] [-L] [-P] [-D debugopts] [-Olevel] [path...] [expression]"
+                 echo
+                 echo "Example: find file with name *test-file* in directory /home/user/."
+                 echo "find -iname /home/user/ *\"test-file1\"*"
+                 echo
+                 echo "Example: find file and then delete it."
+                 echo "find  -iname /home/user/ *\"test-file\"* -exec rm '{}' +"
+                 echo
+                 echo "*** For more help type: man find" 
+                 echo
+                 echo "Now run find. Usage: find --help"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ff][Ii][Nn][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "Find and search for files."
+                 echo
+                 echo "Usage:"
+                 echo "find [-H] [-L] [-P] [-D debugopts] [-Olevel] [path...] [expression]"
+                 echo
+                 echo "Example: find file with name *test-file* in directory /home/user/."
+                 echo "find -iname /home/user/ *\"test-file1\"*"
+                 echo
+                 echo "Example: find file and then delete it."
+                 echo "find  -iname /home/user/ *\"test-file\"* -exec rm '{}' +"
+                 echo
+                 echo "*** For more help type: man find" 
+                 echo
+                 echo "Now run find. Usage: $APP_NAME"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 11 | [Ll] | [Ll][Oo] | [Ll][Oo][Cc] | [Ll][Oo][Cc][Aa] | [Ll][Oo][Cc][Aa][Tt] | [Ll][Oo][Cc][Aa][Tt][Ee])
+                 APP_NAME="locate"
+                 f_application_run
+                 ;;
+                 [Ll][Oo][Cc][Aa][Tt][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 12 | [Ss] | [Ss][Hh] | [Ss][Hh][Rr] | [Ss][Hh][Rr][Ee] | [Ss][Hh][Rr][Ee][Dd])
+                 APP_NAME="shred"
+                 f_application_run
+                 ;;
+                 [Ss][Hh][Rr][Ee][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 13 | [Ff] | [Ff][Oo] | [Ff][Oo][Rr] | [Ff][Oo][Rr][Ee] | [Ff][Oo][Rr][Ee][Mm] | [Ff][Oo][Rr][Ee][Mm][Oo] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt])
+                 APP_NAME="foremost --help"
+                 clear # Blank the screen.
+                 echo "Recover deleted files."
+                 echo
+                 echo "Usage:"
+                 echo "foremost [-h] [-V] [-d] [-vqwQT] [-b <blocksize>] [-o <dir>] [-t <type>]"
+                 echo "         [-s <num>] [-i <file>]"
+                 echo
+                 echo "Recovers these file-types: jpg, gif, png, bmp, avi, exe, mpg, wav, riff," 
+                 echo "wmv, mov, pdf, ole, doc, zip, rar, htm, cpp."
+                 echo
+                 echo "Examples"
+                 echo
+                 echo "Run the default case"
+                 echo "foremost image.dd"
+                 echo
+                 echo "Search all defined types"
+                 echo "foremost -t all -i image.dd"
+                 echo
+                 echo "Search for gif and pdf's"
+                 echo "foremost -t gif,pdf -i image.dd"
+                 echo
+                 echo "*** For more help type: man foremost" 
+                 echo
+                 echo "Now run find. Usage: foremost --help"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "Recover deleted files."
+                 echo
+                 echo "Usage:"
+                 echo "foremost [-h] [-V] [-d] [-vqwQT] [-b <blocksize>] [-o <dir>] [-t <type>]"
+                 echo "         [-s <num>] [-i <file>]"
+                 echo
+                 echo "Recovers these file-types: jpg, gif, png, bmp, avi, exe, mpg, wav, riff," 
+                 echo "wmv, mov, pdf, ole, doc, zip, rar, htm, cpp."
+                 echo
+                 echo "Examples"
+                 echo
+                 echo "Run the default case"
+                 echo "foremost image.dd"
+                 echo
+                 echo "Search all defined types"
+                 echo "foremost -t all -i image.dd"
+                 echo
+                 echo "Search for gif and pdf's"
+                 echo "foremost -t gif,pdf -i image.dd"
+                 echo
+                 echo "*** For more help type: man foremost" 
+                 echo
+                 echo "Now run find. Usage: $APP_NAME"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 14 | [Pp] | [Pp][Hh] | [Pp][Hh][Oo] | [Pp][Hh][Oo][Tt] | [Pp][Hh][Oo][Tt][Oo] | [Pp][Hh][Oo][Tt][Oo][Rr] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee][Cc])
+                 APP_NAME="photorec --help"
+                 clear # Blank the screen.
+                 echo "Recover lost files from harddisk, digital camera and cdrom."
+                 echo
+                 echo "Usage:"
+                 echo "photorec [/log] [/debug] [/d recup_dir] [device|image.dd|image.e01]"
+                 echo
+                 echo           "OPTIONS"
+                 echo "         /log   create a photorec.log file"
+                 echo "         /debug add debug information"
+                 echo
+                 echo "*** For more help type: man photorec" 
+                 echo
+                 echo "Now run photorec. Usage: photorec --help"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Pp][Hh][Oo][Tt][Oo][Rr][Ee][Cc]' '*)
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "Recover lost files from harddisk, digital camera and cdrom."
+                 echo
+                 echo "Usage:"
+                 echo "photorec [/log] [/debug] [/d recup_dir] [device|image.dd|image.e01]"
+                 echo
+                 echo           "OPTIONS"
+                 echo "         /log   create a photorec.log file"
+                 echo "         /debug add debug information"
+                 echo
+                 echo "*** For more help type: man photorec" 
+                 echo
+                 echo "Now run photorec. Usage: $APP_NAME"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 15 | [Ss] | [Ss][Aa] | [Ss][Aa][Ff] | [Ss][Aa][Ff][Ee] | [Ss][Aa][Ff][Ee][Cc] | [Ss][Aa][Ff][Ee][Cc][Oo] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp][Yy])
+                 APP_NAME="safecopy --help"
+                 clear # Blank the screen.
+                 echo "Recover lost data."
+                 echo
+                 echo "Usage: safecopy [options] <source> <target>"
+                 echo
+                 echo "*** For more help type: man safecopy" 
+                 echo
+                 echo "Now run safecopy. Usage: safecopy --help"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ss][Aa][Ff][Ee][Cc][Oo][Pp][Yy]' '*)
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "Recover lost data."
+                 echo
+                 echo "Usage: safecopy [options] <source> <target>"
+                 echo
+                 echo "*** For more help type: man safecopy" 
+                 echo
+                 echo "Now run safecopy. Usage: $APP_NAME"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
             esac               # End of File Manager Applications case statement.
@@ -3077,6 +3268,7 @@ f_menu_app_text_tools () {
             #MTT antiword   - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
             #MTT doconce    - Text markup language to transform text formats.
             #MTT gs         - GhostScript, PostScript, and PDF viewer.
+            #MTT fbgs       - GhostScript, PostScript, and PDF viewer.
             #MTT imediff2   - Interactive 2-way file merge.
             #MTT pdftops    - Converts PDF to PS (PostScript) format.
             #MTT ps2ascii   - Converts PS (PostScript) to text format.
@@ -3128,7 +3320,15 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
+                 4 | [Ff] | [Ff][Bb] | [Ff][Bb][Gg] | [Ff][Bb][Gg][Ss])
+                 APP_NAME="fbgs"
+                 f_application_run
+                 ;;
+                 [Ff][Bb][Gg][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
                  APP_NAME="imediff"
                  f_application_run
                  ;;
@@ -3136,7 +3336,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo] | [Pp][Dd][Ff][Tt][Oo][Pp] | [Pp][Dd][Ff][Tt][Oo][Pp][Ss])
+                 6 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo] | [Pp][Dd][Ff][Tt][Oo][Pp] | [Pp][Dd][Ff][Tt][Oo][Pp][Ss])
                  APP_NAME="pdftops"
                  f_application_run
                  ;;
@@ -3144,7 +3344,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa] | [Pp][Ss][2][Aa][Ss] | [Pp][Ss][2][Aa][Ss][Cc] | [Pp][Ss][2][Aa][Ss][Cc][Ii] | [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii])
+                 7 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa] | [Pp][Ss][2][Aa][Ss] | [Pp][Ss][2][Aa][Ss][Cc] | [Pp][Ss][2][Aa][Ss][Cc][Ii] | [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii])
                  APP_NAME="ps2ascii"
                  f_application_run
                  ;;
@@ -3152,8 +3352,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-           #MTT ps2pdf     - Converts PS (PostScript) to PDF format.
-                 7 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp] | [Pp][Ss][2][Pp][Dd] | [Pp][Ss][2][Pp][Dd][Ff])
+                 8 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp] | [Pp][Ss][2][Pp][Dd] | [Pp][Ss][2][Pp][Dd][Ff])
                  APP_NAME="ps2pdf"
                  f_application_run
                  ;;
@@ -3161,7 +3360,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 9 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
                  APP_NAME="man txt2html"
                  clear # Blank the screen.
                  echo "Convert plain text files to html." 
@@ -3179,7 +3378,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
+                 10 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
                  APP_NAME="man txt2man"
                  clear # Blank the screen.
                  echo "Convert plain text files to man pages." 
@@ -3196,7 +3395,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
+                 11 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
                  APP_NAME="man txt2pdbdoc"
                  clear # Blank the screen.
                  echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
@@ -3215,7 +3414,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
+                 12 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
                  APP_NAME="man txt2regex"
                  clear # Blank the screen.
                  echo "Convert human sentences to regex." 
@@ -3231,7 +3430,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
+                 13 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
                  APP_NAME="man txt2tags"
                  clear # Blank the screen.
                  echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
@@ -3249,7 +3448,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
+                 14 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
@@ -3257,7 +3456,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
+                 15 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
                  APP_NAME="diff"
                  f_application_run
                  ;;
@@ -3265,7 +3464,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 15 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
+                 16 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
@@ -3273,7 +3472,7 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 16 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
+                 17 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
                  APP_NAME="wdiff"
                  f_application_run
                  ;;
@@ -3291,10 +3490,10 @@ f_menu_app_text_tools () {
 } # End of f_menu_app_text_tools
 #
 # +----------------------------------------+
-# | Function f_menu_cat_system_applications|
+# |        Function f_menu_cat_system      |
 # +----------------------------------------+
 #
-f_menu_cat_system_applications () {
+f_menu_cat_system () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of System Category until loop.
@@ -3335,7 +3534,7 @@ f_menu_cat_system_applications () {
             #
             f_subcat_bad_menu_choice
       done  # End of System Category until loop.
-} # End of function f_menu_cat_system_applications
+} # End of function f_menu_cat_system
 #
 # +----------------------------------------+
 # |    Function f_menu_app_sys_monitors    |
@@ -4034,6 +4233,7 @@ f_menu_app_calendar_todo () {
             #MCA binary-clock     - Binary numbers 1/0 tells time.
             #MCA clockywock       - Analog clock, ncurses-based.
             #MCA grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
+            #MCA saytime          - Audio clock.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Calendar-ToDo Applications Menu"
@@ -4248,6 +4448,14 @@ f_menu_app_calendar_todo () {
                       ;;
                  esac                # End of Install case statement.
                  ;;
+                 13 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
+                 APP_NAME="saytime"
+                 f_application_run
+                 ;;
+                 [Ss][Aa][Yy][Tt][Ii][Mm][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of Calendar-ToDo Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -4376,10 +4584,10 @@ f_menu_app_spreadsheets () {
 } # End of f_menu_app_spreadsheets
 #
 # +----------------------------------------+
-# |  Function f_menu_app_note_applications |
+# |         Function f_menu_app_note       |
 # +----------------------------------------+
 #
-f_menu_app_note_applications () {
+f_menu_app_note () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Note Applications until loop.
@@ -4413,13 +4621,13 @@ f_menu_app_note_applications () {
             # If application displays information, allow user to read it.
             f_option_press_enter_key
       done # End of Note Applications until loop.
-} # End of f_menu_note_applications
+} # End of f_menu_app_note
 #
 # +----------------------------------------+
-# | Function f_menu_app_audio_applications |
+# |        Function f_menu_app_audio       |
 # +----------------------------------------+
 #
-f_menu_app_audio_applications () {
+f_menu_app_audio () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Audio Applications until loop.
@@ -4574,7 +4782,7 @@ f_menu_app_audio_applications () {
             # If application displays information, allow user to read it.
             f_option_press_enter_key
       done # End of Audio Applications until loop.
-} # End of f_menu_app_audio_applications
+} # End of f_menu_app_audio
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -4665,17 +4873,28 @@ f_menu_app_screen_savers () {
 } # End of f_menu_app_screen_savers
 #
 # +----------------------------------------+
-# | Function                               |
-# |  f_menu_app_image_graphic_applications |
+# |    Function f_menu_app_image_graphic   |
 # +----------------------------------------+
 #
-f_menu_app_image_graphics_applications () {
+f_menu_app_image_graphics () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
             #MIG aview      - ASCII art and image viewer
             #MIG hasciicam  - ASCII web camera images.
             #MIG caca-utils - Image viewer and converter jpg to ascii images.
+            #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png, etc.
+            #MIG animate    - ImageMagick tool animates an image sequence on X-windows GUI.
+            #MIG composite  - ImageMagick tool overlaps one image on top of another.
+            #MIG compare    - ImageMagick tool annotate differences between image versions.
+            #MIG conjure    - ImageMagick tool run Magick Scripting Language (MSL).
+            #MIG convert    - ImageMagick tool converts format, resize, crop, flip, etc.
+            #MIG display    - ImageMagick tool display image on X-windows GUI.
+            #MIG identify   - ImageMagick tool show format, characteristics of image files.
+            #MIG import     - ImageMagick tool Screen capture on X-windows GUI.
+            #MIG mogrify    - ImageMagick tool resize, blur, crop, dither, flip, join etc.
+            #MIG montage    - ImageMagick tool create a composite image from many images.
+            #MIG stream     - ImageMagick tool stream image to an archive format.
             #MIG jp2a       - Convert jpg images to ascii images.
             #MIG linuxlogo  - Color ANSI system logo
             #
@@ -4716,7 +4935,103 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Jj] | [Jj][Pp] | [Jj][Pp][2] | [Jj][Pp][2][Aa])
+                 4 | [Ff] | [Ff][Bb] | [Ff][Bb][Ii])
+                 APP_NAME="fbi"
+                 f_application_run
+                 ;;
+                 [Ff][Bb][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Aa] | [Aa][Nn] | [Aa][Nn][Ii] | [Aa][Nn][Ii][Mm] | [Aa][Nn][Ii][Mm][Aa] | [Aa][Nn][Ii][Mm][Aa][Tt] | [Aa][Nn][Ii][Mm][Aa][Tt][Ee])
+                 APP_NAME="animate"
+                 f_application_run
+                 ;;
+                 [Aa][Nn][Ii][Mm][Aa][Tt][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Oo] | [Cc][Oo][Mm][Pp][Oo][Ss] | [Cc][Oo][Mm][Pp][Oo][Ss][Ii] | [Cc][Oo][Mm][Pp][Oo][Ss][Ii][Tt] | [Cc][Oo][Mm][Pp][Oo][Ss][Ii][Tt][Ee])
+                 APP_NAME="composite"
+                 f_application_run
+                 ;;
+                 [Cc][Oo][Mm][Pp][Oo][Ss][Ii][Tt][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa] | [Cc][Oo][Mm][Pp][Aa][Rr] | [Cc][Oo][Mm][Pp][Aa][Rr][Ee])
+                 APP_NAME="compare"
+                 f_application_run
+                 ;;
+                 [Cc][Oo][Mm][Pp][Aa][Rr][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Jj] | [Cc][Oo][Nn][Jj][Uu] | [Cc][Oo][Nn][Jj][Uu][Rr] | [Cc][Oo][Nn][Jj][Uu][Rr][Ee])
+                 APP_NAME="conjure"
+                 f_application_run
+                 ;;
+                 [Cc][Oo][Nn][Jj][Uu][Rr][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Vv] | [Cc][Oo][Nn][Vv][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt])
+                 APP_NAME="convert"
+                 f_application_run
+                 ;;
+                 [Cc][Oo][Nn][Vv][Ee][Rr][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Dd] | [Dd][Ii] | [Dd][Ii][Ss] | [Dd][Ii][Ss][Pp] | [Dd][Ii][Ss][Pp][Ll] | [Dd][Ii][Ss][Pp][Ll][Aa] | [Dd][Ii][Ss][Pp][Ll][Aa][Yy])
+                 APP_NAME="display"
+                 f_application_run
+                 ;;
+                 [Dd][Ii][Ss][Pp][Ll][Aa][Yy]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 11 | [Ii] | [Ii][Dd] | [Ii][Dd][Ee] | [Ii][Dd][Ee][Nn] | [Ii][Dd][Ee][Nn][Tt] | [Ii][Dd][Ee][Nn][Tt][Ii] | [Ii][Dd][Ee][Nn][Tt][Ii][Ff] | [Ii][Dd][Ee][Nn][Tt][Ii][Ff][Yy])
+                 APP_NAME="identify"
+                 f_application_run
+                 ;;
+                 [Ii][Dd][Ee][Nn][Tt][Ii][Ff][Yy]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 12 | [Ii] | [Ii][Mm] | [Ii][Mm][Pp] | [Ii][Mm][Pp][Oo] | [Ii][Mm][Pp][Oo][Rr] | [Ii][Mm][Pp][Oo][Rr][Tt])
+                 APP_NAME="import"
+                 f_application_run
+                 ;;
+                 [Ii][Mm][Pp][Oo][Rr][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 13 | [Mm] | [Mm][Oo] | [Mm][Oo][Gg] | [Mm][Oo][Gg][Rr] | [Mm][Oo][Gg][Rr][Ii] | [Mm][Oo][Gg][Rr][Ii][Ff] | [Mm][Oo][Gg][Rr][Ii][Ff][Yy])
+                 APP_NAME="mogrify"
+                 f_application_run
+                 ;;
+                 [Mm][Oo][Gg][Rr][Ii][Ff][Yy]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 14 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Tt] | [Mm][Oo][Nn][Tt][Aa] | [Mm][Oo][Nn][Tt][Aa][Gg] | [Mm][Oo][Nn][Tt][Aa][Gg][Ee])
+                 APP_NAME="montage"
+                 f_application_run
+                 ;;
+                 [Mm][Oo][Nn][Tt][Aa][Gg][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 15 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Ee] | [Ss][Tt][Rr][Ee][Aa] | [Ss][Tt][Rr][Ee][Aa][Mm])
+                 APP_NAME="stream"
+                 f_application_run
+                 ;;
+                 [Ss][Tt][Rr][Ee][Aa][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 16 | [Jj] | [Jj][Pp] | [Jj][Pp][2] | [Jj][Pp][2][Aa])
                  APP_NAME="jp2a"
                  f_application_run
                  ;;
@@ -4724,7 +5039,7 @@ f_menu_app_image_graphics_applications () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Uu] | [Ll][Ii][Nn][Uu][Xx] | [Ll][Ii][Nn][Uu][Xx][Ll] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo])
+                 17 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Uu] | [Ll][Ii][Nn][Uu][Xx] | [Ll][Ii][Nn][Uu][Xx][Ll] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo])
                  ANS=-1 # Initialize $ANS for until loop.
                  until [ $ANS -ge 1 -a $ANS -le 26 ]
                  do
@@ -4749,25 +5064,27 @@ f_menu_app_image_graphics_applications () {
             # If application displays information, allow user to read it.
             f_option_press_enter_key
       done # End of Image-Graphics Applications until loop.
-} # End of f_menu_app_image_graphics_applications
+} # End of f_menu_app_image_graphics
 #
 # +----------------------------------------+
-# | Function                               |
-# |    f_menu_app_education_applications   |
+# |     Function f_menu_app_education      |
 # +----------------------------------------+
 #
-f_menu_app_education_applications () {
+f_menu_app_education () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Education Applications until loop.
-            #MED aldo   - Morse code training.
-            #MED cw     - Morse code training.
-            #MED cwcp   - Morse code training.
-            #MED morse  - Morse code training.
-            #MED primes - Prime number calculator. 
+            #MED lifelines - geneology.
+            #MED diatheke  - Holy Bible research tool.
+            #MED aldo      - Morse code training.
+            #MED cw        - Morse code training.
+            #MED cwcp      - Morse code training.
+            #MED morse     - Morse code training.
+            #MED primes    - Prime number calculator. 
+            #MED gtypist   - Typing tutor.
            #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Education Applications Menu"
+            MENU_TITLE="Education/Hobby Applications Menu"
             DELIMITER="#MED" #MED This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER
  
@@ -4780,7 +5097,23 @@ f_menu_app_education_applications () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Education Applications case statement.
-                 1 | [Aa] | [Aa][Ll] | [Aa][Ll][Dd] | [Aa][Ll][Dd][Oo])
+                 1 | [Ll] | [Ll][Ii] | [Ll][Ii][Ff] | [Ll][Ii][Ff][Ee] | [Ll][Ii][Ff][Ee][Ll] | [Ll][Ii][Ff][Ee][Ll][Ii] | [Ll][Ii][Ff][Ee][Ll][Ii][Nn] | [Ll][Ii][Ff][Ee][Ll][Ii][Nn][Ee] | [Ll][Ii][Ff][Ee][Ll][Ii][Nn][Ee][Ss])
+                 APP_NAME="lifelines"
+                 f_application_run
+                 ;;
+                 [Ll][Ii][Ff][Ee][Ll][Ii][Nn][Ee][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Tt] | [Dd][Ii][Aa][Tt][Hh] | [Dd][Ii][Aa][Tt][Hh][Ee] | [Dd][Ii][Aa][Tt][Hh][Ee][Kk] | [Dd][Ii][Aa][Tt][Hh][Ee][Kk][Ee])
+                 APP_NAME="diatheke"
+                 f_application_run
+                 ;;
+                 [Dd][Ii][Aa][Tt][Hh][Ee][Kk][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Aa] | [Aa][Ll] | [Aa][Ll][Dd] | [Aa][Ll][Dd][Oo])
                  APP_NAME="aldo"
                  f_application_run
                  ;;
@@ -4788,7 +5121,7 @@ f_menu_app_education_applications () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Cc] | [Cc][Ww])
+                 4 | [Cc] | [Cc][Ww])
                  APP_NAME="cw"
                  f_application_run
                  ;;
@@ -4796,7 +5129,7 @@ f_menu_app_education_applications () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Cc] | [Cc][Ww] | [Cc][Ww][Cc] | [Cc][Ww][Cc][Pp])
+                 5 | [Cc] | [Cc][Ww] | [Cc][Ww][Cc] | [Cc][Ww][Cc][Pp])
                  APP_NAME="cwcp"
                  f_application_run
                  ;;
@@ -4804,7 +5137,7 @@ f_menu_app_education_applications () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
+                 6 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
                  f_application_run
                  ;;
@@ -4812,11 +5145,19 @@ f_menu_app_education_applications () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Mm] | [Pp][Rr][Ii][Mm][Ee] | [Pp][Rr][Ii][Mm][Ee][Ss])
+                 7 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Mm] | [Pp][Rr][Ii][Mm][Ee] | [Pp][Rr][Ii][Mm][Ee][Ss])
                  APP_NAME="primes"
                  f_application_run
                  ;;
                  [Pp][Rr][Ii][Mm][Ee][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Gg] | [Gg][Tt] | [Gg][Tt][Yy] | [Gg][Tt][Yy][Pp] | [Gg][Tt][Yy][Pp][Ii] | [Gg][Tt][Yy][Pp][Ii][Ss] | [Gg][Tt][Yy][Pp][Ii][Ss][Tt])
+                 APP_NAME="gtypist"
+                 f_application_run
+                 ;;
+                 [Gg][Tt][Yy][Pp][Ii][Ss][Tt]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4827,7 +5168,7 @@ f_menu_app_education_applications () {
             # If application displays information, allow user to read it.
             f_option_press_enter_key
       done # End of Education Applications until loop.
-} # End of f_menu_app_education_applications
+} # End of f_menu_app_education
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
