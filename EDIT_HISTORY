@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#©2013 Copyright 2013 Robert D. Chin
+# ©2013 Copyright 2013 Robert D. Chin
 #
 # File naming convention for archiving:
 # $THIS_FILE_<YYYY-MM-DD_HHMM>
@@ -8,8 +8,6 @@
 # Usage: sh EDIT_HISTORY
 #
 THIS_FILE="EDIT_HISTORY"
-clear
-sed -n 's/^##//'p $THIS_FILE | more -d
 #
 # The double # at the beginning of lines below are used to delineate the Edit History.
 #
@@ -23,9 +21,19 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="April-6-2013 17:26" 
+REVDATE="April-07-2013 02:05" 
+clear
+echo "Edit History version: $REVISION"
+echo "       Edited on: $REVDATE"
+echo "Bash script name: $THIS_FILE"
+echo
+echo -n "Press '"Enter"' key to continue."
+read ANS
+sed -n 's/^##//'p $THIS_FILE | more -d
 #
-#LIC ©2013 Copyright 2013 Robert D. Chin
+#LIC This program, EDIT_HISTORY is under copyright.
+#LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
+#LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
 #LIC the Free Software Foundation, either version 3 of the License, or
@@ -38,6 +46,13 @@ REVDATE="April-6-2013 17:26"
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-04-07 *f_menu_cat_text added.
+##            *f_menu_app_text_compare added.
+##            *f_menu_app_text_converters added.
+##            *f_menu_app_text_tools added.
+##            *f_menu_cat_image added.
+##            *f_menu_app_imagemagick added.
 ##
 ## 2013-04-06 *f_menu_app_calendar_todo add saytime.
 ##            *f_menu_app_education add diatheke, liflines, gtypist.
