@@ -1,5 +1,7 @@
 #!/bin/bash 
 #
+# ©2013 Copyright 2013 Robert D. Chin
+#
 # +----------------------------------------+
 # |            Brief Description           |
 # +----------------------------------------+
@@ -25,7 +27,7 @@ THIS_FILE="cli-app-menu.sh"
 # |        HOW-TO Update this script       |
 # +----------------------------------------+
 #
-# After each edit made, update the version (date stamp string) of this script
+	# After each edit made, update the version (date stamp string) of this script
 # in both the EDIT_HISTORY file and this file.
 # Also update the edit history in the EDIT_HISTORY file.
 #
@@ -38,9 +40,11 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-6-2013 17:26"
+REVDATE="April-07-2013 02:05"
 #
-#LIC ©2013 Copyright 2013 Robert D. Chin
+#LIC This program, cli-app-menu.sh is under copyright.
+#LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
+#LIC
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
 #LIC the Free Software Foundation, either version 3 of the License, or
@@ -68,7 +72,7 @@ REVDATE="April-6-2013 17:26"
 #:   what I've started.
 #:
 #: Please enjoy . . . bob chin (2013).
-#:
+#:                    rdchin at yahoo.com.
 #:
 #: +----------------------------------------+
 #: |      Why is this menu so complex?      |
@@ -197,9 +201,11 @@ REVDATE="April-6-2013 17:26"
 #:AAB - Application Categories Menu
 #:
 #:BGA - Game Categories Menu
+#:BIG - Image Categories Menu
 #:BIN - Internet Categories Menu
 #:BNE - Network Categories Menu
 #:BSY - System Categories Menu
+#:BTX - Text Categories Menu
 #:BXC - Sample Template Application Categories Menu
 #:
 #:MAU - Audio Applications Menu
@@ -223,6 +229,7 @@ REVDATE="April-6-2013 17:26"
 #:MGJ - Strategy Games
 #:MGK - Word Games
 #:MIG - Image-Graphics Applications Menu
+#:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu
 #:MIR - Internet Relay Chat (IRC) Applications Menu
 #:MNC - Network Chat Applications Menu
@@ -240,6 +247,8 @@ REVDATE="April-6-2013 17:26"
 #:MSS - Screen-saver Applications Menu
 #:MLO - System Log Applications Menu
 #:MSO - System Other Applications Menu
+#:MTC - Text Compare Applications Menu
+#:MTV - Text Converter Applications Menu
 #:MTE - Text Editor Applications Menu
 #:MTT - Text Tool Applications Menu
 #:MWB - Web Browser Applications Menu
@@ -852,9 +861,11 @@ f_menu_cat_sample_template () {
             case $CHOICE_SCAT in # Start of Application Category case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
                  f_menu_cat_name1
+                 CHOICE_SCAT=-1
                  ;;
                  2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][2]) 
                  f_menu_cat_name2
+                 CHOICE_SCAT=-1
                  ;;
             esac                # End of Application Category case statement.
             #
@@ -926,21 +937,20 @@ f_menu_cat_applications () {
       f_initvars_menu_app
       until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
-            #AAB Internet        - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
-            #AAB Network         - Wireless connection, network monitoring, tools.
-            #AAB File Managers   - Copy, move, rename, delete files/folders on localhost.
-            #AAB Text Editors    - Create/Edit text files.
-            #AAB Text Tools      - Text file format converters and compare text files
-            #AAB System          - Monitor system processes, resources, utilities, etc.
+            #AAB Audio           - Music players, audio utilities.
             #AAB Calendar-ToDo   - Personal organization, calendar, to-do, (alarm) clocks.
             #AAB Calculator      - Simple "pocket" calculators.
-            #AAB Spreadsheet     - Basic spreadsheet.
-            #AAB Notebook        - Write notes in a "notebook".
-            #AAB Audio           - Music players, audio utilities.
-            #AAB Screen-saver    - For when you're away.
-            #AAB Images-Graphics - View images and graphics files.
             #AAB Education       - Learn something.
+            #AAB File Managers   - Copy, move, rename, delete files/folders on localhost.
             #AAB Games           - Fun time!
+            #AAB Image           - View images and graphics files.
+            #AAB Internet        - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
+            #AAB Network         - Wireless connection, network monitoring, tools.
+            #AAB Notebook        - Write notes in a "notebook".
+            #AAB Screen-saver    - For when you're away.
+            #AAB Spreadsheet     - Basic spreadsheet.
+            #AAB System          - Monitor system processes, resources, utilities, etc.
+            #AAB Text            - Create/Edit text files, text format converters, etc.
             #
             MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
@@ -963,65 +973,61 @@ f_menu_cat_applications () {
             esac
             #
             case $CHOICE_CAT in # Start of Application Category case statement.
-                 1 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
-                 f_menu_cat_internet          # Internet Applications Menu.
+                 1 | [Aa] | [Aa][Uu] | [Aa][Uu][Dd] | [Aa][Uu][Dd][Ii] | [Aa][Uu][Dd][Ii][Oo])
+                 f_menu_app_audio             # Audio Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 2 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk])
-                 f_menu_cat_network           # Network Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 3 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
-                 f_menu_app_file_managers     # File Manager Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 4 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Ee] | [Tt][Ee][Xx][Tt]' '[Ee][Dd] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr] | [Tt][Ee][Xx][Tt]' '[Ee][Dd][Ii][Tt][Oo][Rr][Ss])
-                 f_menu_app_text_editors      # Text Editor Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 5 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt] | [Tt][Ee][Xx][Tt]' ' | [Tt][Ee][Xx][Tt]' '[Tt] | [Tt][Ee][Xx][Tt]' '[Tt][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll] | [Tt][Ee][Xx][Tt]' '[Tt][Oo][Oo][Ll][Ss])
-                 f_menu_app_text_tools        # Text Tools Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 6 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
-                 f_menu_cat_system            # System Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 7 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
-                 f_menu_app_calendar_todo     # Calendar-ToDo Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 8 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
+                 2 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
                  f_menu_app_calculators       # Calculator Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 9 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
-                 f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
+                 3 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
+                 f_menu_app_calendar_todo     # Calendar-ToDo Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 4 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
+                 f_menu_app_education       # Education Applications Menu.
+                 CHOICE_CAT=-1              # Legitimate response. Stay in menu loop.
+                 ;;
+                 5 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
+                 f_menu_app_file_managers     # File Manager Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 6 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
+                 f_menu_cat_games
+                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 7 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss])
+                 f_menu_cat_image            # Image-Graphics Applications Menu.
+                 CHOICE_CAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 8 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
+                 f_menu_cat_internet          # Internet Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 9 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk])
+                 f_menu_cat_network           # Network Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  10 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
                  f_menu_app_note              # Note Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 11 | [Aa] | [Aa][Uu] | [Aa][Uu][Dd] | [Aa][Uu][Dd][Ii] | [Aa][Uu][Dd][Ii][Oo])
-                 f_menu_app_audio             # Audio Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 12 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][-] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee][Rr])
+                 11 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][-] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee][Rr])
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 13 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss][-] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Ss][-][Gg][Rr][Aa][Pp][Hh][Ii][Cc][Ss])
-                 f_menu_app_image_graphics   # Image-Graphics Applications Menu.
-                 CHOICE_CAT=-1               # Legitimate response. Stay in menu loop.
+                 12 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
+                 f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 14 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
-                 f_menu_app_education       # Education Applications Menu.
-                 CHOICE_CAT=-1              # Legitimate response. Stay in menu loop.
+                 13 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
+                 f_menu_cat_system            # System Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 15 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
-                 f_menu_cat_games
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 14 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt])
+                 f_menu_cat_text              # Text Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
             esac # End of Application Category case statement.
             #
@@ -3132,6 +3138,285 @@ f_menu_app_file_managers () {
 } # End of f_menu_app_file_managers
 #
 # +----------------------------------------+
+# |         Function f_menu_cat_text       |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_SCAT, MAX
+#
+f_menu_cat_text () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Text Application Category until loop.
+            #BTX Compare    - Show differences between text files.
+            #BTX Converters - Convert between text document/file formats.
+            #BTX Editors    - Create/Edit text documents/files.
+            #BTX Tools      - Viewers,text markup language.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Text Application Category Menu"
+            DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_quit_subcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Text Application Category case statement.
+                 1 | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa] | [Cc][Oo][Mm][Pp][Aa][Rr] | [Cc][Oo][Mm][Pp][Aa][Rr][Ee])
+                 f_menu_app_text_compare
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;               
+                 2 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Vv] | [Cc][Oo][Nn][Vv][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr][Ss])
+                 f_menu_app_text_converters
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 3 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss])
+                 f_menu_app_text_editors
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 4 | [Tt] | [Tt][Oo] | [Tt][Oo][Oo] | [Tt][Oo][Oo][Ll] | [Tt][Oo][Oo][Ll][Ss])
+                 f_menu_app_text_tools         # Text Tools Applications Menu.
+                 CHOICE_CAT=-1                 # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                # End of Text Application Category case statement.
+            #
+            if [ $CHOICE_SCAT -ne -0 ] ; then
+               CHOICE_SCAT=-1 # Force stay in until loop.
+            fi
+      done  # End of Text Application Category until loop.
+} # End of function f_menu_cat_text
+#
+# +----------------------------------------+
+# |    Function f_menu_app_text_compare    |
+# +----------------------------------------+
+#
+f_menu_app_text_compare () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Compare Applications until loop.
+            #MTC imediff2  - Interactive 2-way file merge.
+            #MTC colordiff - Differences between two text files shown in color.
+            #MTC diff      - Differences between two text files shown using <> signs.
+            #MTC vimdiff   - Differences between two text files shown in color highlights.
+            #MTC wdiff     - Differences between two text files shown using +/- signs.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Text Compare Applications Menu"
+            DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Compare Applications case statement.
+                 1 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
+                 APP_NAME="imediff"
+                 f_application_run
+                 ;;
+                 [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
+                 APP_NAME="colordiff"
+                 f_application_run
+                 ;;
+                 [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
+                 APP_NAME="diff"
+                 f_application_run
+                 ;;
+                 [Dd][Ii][Ff][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
+                 APP_NAME="vimdiff"
+                 f_application_run
+                 ;;
+                 [Vv][Ii][Mm][Dd][Ii][Ff][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
+                 APP_NAME="wdiff"
+                 f_application_run
+                 ;;
+                 [Ww][Dd][Ii][Ff][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Text Compare Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of Text Compare Applications until loop.
+} # End of f_menu_app_text_compare
+#
+# +----------------------------------------+
+# |   Function f_menu_app_text_converters  |
+# +----------------------------------------+
+#
+f_menu_app_text_converters () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Converter Applications until loop.
+            #MTV pdftops    - Converts PDF to PS (PostScript) format.
+            #MTV ps2ascii   - Converts PS (PostScript) to text format.
+            #MTV ps2pdf     - Converts PS (PostScript) to PDF format.
+            #MTV txt2html   - Converts plain ASCII text to HTML format.
+            #MTV txt2man    - Converts plain ASCII text to man format.
+            #MTV txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
+            #MTV txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+            #MTV txt2tags   - Converts plain ASCII text to a variety of formats.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Text Converter Applications Menu"
+            DELIMITER="#MTV" #MTV This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Converter Applications case statement.
+                 1 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo] | [Pp][Dd][Ff][Tt][Oo][Pp] | [Pp][Dd][Ff][Tt][Oo][Pp][Ss])
+                 APP_NAME="pdftops"
+                 f_application_run
+                 ;;
+                 [Pp][Dd][Ff][Tt][Oo][Pp][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa] | [Pp][Ss][2][Aa][Ss] | [Pp][Ss][2][Aa][Ss][Cc] | [Pp][Ss][2][Aa][Ss][Cc][Ii] | [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii])
+                 APP_NAME="ps2ascii"
+                 f_application_run
+                 ;;
+                 [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp] | [Pp][Ss][2][Pp][Dd] | [Pp][Ss][2][Pp][Dd][Ff])
+                 APP_NAME="ps2pdf"
+                 f_application_run
+                 ;;
+                 [Pp][Ss][2][Pp][Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 APP_NAME="man txt2html"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to html." 
+                 echo
+                 echo "Usage: txt2html [ --append_file filename ] [ --append_head filename ]"
+                 echo "       [ --body_deco string ] [ --bold_delimiter string ] [ --bullets string ]"
+                 echo "       [ --bullets_ordered string ] [ --caps_tag tag ]"
+                 echo
+                 echo "*** For more help type: txt2html --help"
+                 echo "Now show help. Usage: man txt2html"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
+                 APP_NAME="man txt2man"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to man pages." 
+                 echo
+                 echo "Usage: txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
+                 echo "       [-I txt] [-B txt] [-d date] [ifile]"
+                 echo
+                 echo "*** For more help type: txt2man --help"
+                 echo "Now show help. Usage: man txt2man"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Mm][Aa][Nn]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
+                 APP_NAME="man txt2pdbdoc"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
+                 echo "for PalmPilots and DocReaders."
+                 echo
+                 echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
+                 echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
+                 echo "       txt2pdbdoc -V"
+                 echo
+                 echo "*** For more help type: txt2pdbdoc --help"
+                 echo "Now show help. Usage: man txt2pdbdoc"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
+                 APP_NAME="man txt2regex"
+                 clear # Blank the screen.
+                 echo "Convert human sentences to regex." 
+                 echo
+                 echo "Usage: txt2regex --all|--prog <p1,p2,...,pN>"
+                 echo
+                 echo "*** For more help type: txt2regex --help"
+                 echo "Now show help. Usage: man txt2regex"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
+                 APP_NAME="man txt2tags"
+                 clear # Blank the screen.
+                 echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
+                 echo "Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page, MoinMoin, PageMaker,"
+                 echo "Plain Text, PmWiki, SGML, Wikipedia and XHTML."
+                 echo 
+                 echo "Usage: txt2tags [options] [FILE...]"
+                 echo
+                 echo "*** For more help type: txt2tags --help"
+                 echo "Now show help. Usage: man txt2tags"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Text Converter Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of Text Converter Applications until loop.
+} # End of f_menu_app_text_converters
+#
+# +----------------------------------------+
 # |     Function f_menu_app_text_editors   |
 # +----------------------------------------+
 #
@@ -3265,23 +3550,10 @@ f_menu_app_text_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Tool Applications until loop.
-            #MTT antiword   - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
-            #MTT doconce    - Text markup language to transform text formats.
-            #MTT gs         - GhostScript, PostScript, and PDF viewer.
-            #MTT fbgs       - GhostScript, PostScript, and PDF viewer.
-            #MTT imediff2   - Interactive 2-way file merge.
-            #MTT pdftops    - Converts PDF to PS (PostScript) format.
-            #MTT ps2ascii   - Converts PS (PostScript) to text format.
-            #MTT ps2pdf     - Converts PS (PostScript) to PDF format.
-            #MTT txt2html   - Converts plain ASCII text to HTML format.
-            #MTT txt2man    - Converts plain ASCII text to man format.
-            #MTT txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
-            #MTT txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
-            #MTT txt2tags   - Converts plain ASCII text to a variety of formats.
-            #MTT colordiff  - Differences between two text files shown in color.
-            #MTT diff       - Differences between two text files shown using <> signs.
-            #MTT vimdiff    - Differences between two text files shown in color highlights.
-            #MTT wdiff      - Differences between two text files shown using +/- signs.
+            #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
+            #MTT doconce  - Text markup language to manipulate, transform, and convert text.
+            #MTT gs       - GhostScript, PostScript, and PDF viewer.
+            #MTT fbgs     - GhostScript, PostScript, and PDF viewer.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Tool Applications Menu"
@@ -3325,158 +3597,6 @@ f_menu_app_text_tools () {
                  f_application_run
                  ;;
                  [Ff][Bb][Gg][Ss]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 5 | [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
-                 APP_NAME="imediff"
-                 f_application_run
-                 ;;
-                 [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 6 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo] | [Pp][Dd][Ff][Tt][Oo][Pp] | [Pp][Dd][Ff][Tt][Oo][Pp][Ss])
-                 APP_NAME="pdftops"
-                 f_application_run
-                 ;;
-                 [Pp][Dd][Ff][Tt][Oo][Pp][Ss]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 7 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa] | [Pp][Ss][2][Aa][Ss] | [Pp][Ss][2][Aa][Ss][Cc] | [Pp][Ss][2][Aa][Ss][Cc][Ii] | [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii])
-                 APP_NAME="ps2ascii"
-                 f_application_run
-                 ;;
-                 [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 8 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp] | [Pp][Ss][2][Pp][Dd] | [Pp][Ss][2][Pp][Dd][Ff])
-                 APP_NAME="ps2pdf"
-                 f_application_run
-                 ;;
-                 [Pp][Ss][2][Pp][Dd][Ff]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 9 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
-                 APP_NAME="man txt2html"
-                 clear # Blank the screen.
-                 echo "Convert plain text files to html." 
-                 echo
-                 echo "Usage: txt2html [ --append_file filename ] [ --append_head filename ]"
-                 echo "       [ --body_deco string ] [ --bold_delimiter string ] [ --bullets string ]"
-                 echo "       [ --bullets_ordered string ] [ --caps_tag tag ]"
-                 echo
-                 echo "*** For more help type: txt2html --help"
-                 echo "Now show help. Usage: man txt2html"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 10 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
-                 APP_NAME="man txt2man"
-                 clear # Blank the screen.
-                 echo "Convert plain text files to man pages." 
-                 echo
-                 echo "Usage: txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
-                 echo "       [-I txt] [-B txt] [-d date] [ifile]"
-                 echo
-                 echo "*** For more help type: txt2man --help"
-                 echo "Now show help. Usage: man txt2man"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 [Tt][Xx][Tt][2][Mm][Aa][Nn]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 11 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
-                 APP_NAME="man txt2pdbdoc"
-                 clear # Blank the screen.
-                 echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
-                 echo "for PalmPilots and DocReaders."
-                 echo
-                 echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
-                 echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
-                 echo "       txt2pdbdoc -V"
-                 echo
-                 echo "*** For more help type: txt2pdbdoc --help"
-                 echo "Now show help. Usage: man txt2pdbdoc"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 12 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
-                 APP_NAME="man txt2regex"
-                 clear # Blank the screen.
-                 echo "Convert human sentences to regex." 
-                 echo
-                 echo "Usage: txt2regex --all|--prog <p1,p2,...,pN>"
-                 echo
-                 echo "*** For more help type: txt2regex --help"
-                 echo "Now show help. Usage: man txt2regex"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 13 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
-                 APP_NAME="man txt2tags"
-                 clear # Blank the screen.
-                 echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
-                 echo "Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page, MoinMoin, PageMaker,"
-                 echo "Plain Text, PmWiki, SGML, Wikipedia and XHTML."
-                 echo 
-                 echo "Usage: txt2tags [options] [FILE...]"
-                 echo
-                 echo "*** For more help type: txt2tags --help"
-                 echo "Now show help. Usage: man txt2tags"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 14 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
-                 APP_NAME="colordiff"
-                 f_application_run
-                 ;;
-                 [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 15 | [Dd] | [[Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff])
-                 APP_NAME="diff"
-                 f_application_run
-                 ;;
-                 [Dd][Ii][Ff][Ff]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 16 | [Vv] | [Vv][Ii] | [Vv][Ii][Mm] | [Vv][Ii][Mm][Dd] | [Vv][Ii][Mm][Dd][Ii] | [Vv][Ii][Mm][Dd][Ii][Ff] | [Vv][Ii][Mm][Dd][Ii][Ff][Ff])
-                 APP_NAME="vimdiff"
-                 f_application_run
-                 ;;
-                 [Vv][Ii][Mm][Dd][Ii][Ff][Ff]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 17 | [Ww] | [Ww][Dd] | [Ww][Dd][Ii] | [Ww][Dd][Ii][Ff] | [Ww][Dd][Ii][Ff][Ff])
-                 APP_NAME="wdiff"
-                 f_application_run
-                 ;;
-                 [Ww][Dd][Ii][Ff][Ff]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4873,7 +4993,50 @@ f_menu_app_screen_savers () {
 } # End of f_menu_app_screen_savers
 #
 # +----------------------------------------+
-# |    Function f_menu_app_image_graphic   |
+# |       Function f_menu_cat_image        |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_SCAT, MAX
+#
+f_menu_cat_image () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Image Application Category until loop.
+            #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
+            #BIG ImageMagick - Tools to manipulate images.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Image Application Category Menu"
+            DELIMITER="#BIG" #BIG This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_quit_subcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Image Application Category case statement.
+                 1 | [Tt] | [Tt][Oo] | [Tt][Oo][Oo] | [Tt][Oo][Oo][Ll] | [Tt][Oo][Oo][Ll][Ss])
+                 f_menu_app_image_graphics
+                 CHOICE_SCAT=-1
+                 ;;
+                 2 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Mm] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc][Kk]) 
+                 f_menu_app_imagemagick
+                 CHOICE_SCAT=-1
+                 ;;
+            esac                # End of Image Application Category case statement.
+            #
+            if [ $CHOICE_SCAT -ne -0 ] ; then
+               CHOICE_SCAT=-1 # Force stay in until loop.
+            fi
+      done  # End of Image Application Category until loop.
+} # End of function f_menu_cat_image
+#
+#
+# +----------------------------------------+
+# |    Function f_menu_app_image_graphics   |
 # +----------------------------------------+
 #
 f_menu_app_image_graphics () {
@@ -4884,17 +5047,6 @@ f_menu_app_image_graphics () {
             #MIG hasciicam  - ASCII web camera images.
             #MIG caca-utils - Image viewer and converter jpg to ascii images.
             #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png, etc.
-            #MIG animate    - ImageMagick tool animates an image sequence on X-windows GUI.
-            #MIG composite  - ImageMagick tool overlaps one image on top of another.
-            #MIG compare    - ImageMagick tool annotate differences between image versions.
-            #MIG conjure    - ImageMagick tool run Magick Scripting Language (MSL).
-            #MIG convert    - ImageMagick tool converts format, resize, crop, flip, etc.
-            #MIG display    - ImageMagick tool display image on X-windows GUI.
-            #MIG identify   - ImageMagick tool show format, characteristics of image files.
-            #MIG import     - ImageMagick tool Screen capture on X-windows GUI.
-            #MIG mogrify    - ImageMagick tool resize, blur, crop, dither, flip, join etc.
-            #MIG montage    - ImageMagick tool create a composite image from many images.
-            #MIG stream     - ImageMagick tool stream image to an archive format.
             #MIG jp2a       - Convert jpg images to ascii images.
             #MIG linuxlogo  - Color ANSI system logo
             #
@@ -4943,6 +5095,74 @@ f_menu_app_image_graphics () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 5 | [Jj] | [Jj][Pp] | [Jj][Pp][2] | [Jj][Pp][2][Aa])
+                 APP_NAME="jp2a"
+                 f_application_run
+                 ;;
+                 [Jj][Pp][2][Aa]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Uu] | [Ll][Ii][Nn][Uu][Xx] | [Ll][Ii][Nn][Uu][Xx][Ll] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo])
+                 ANS=-1 # Initialize $ANS for until loop.
+                 until [ $ANS -ge 1 -a $ANS -le 26 ]
+                 do
+                       clear # Blank the screen.
+                       APP_NAME="linuxlogo -L list"
+                       f_application_run
+                       echo -n "Enter number (1-26): "
+                       read ANS
+                 done
+                 #
+                 APP_NAME="linuxlogo -L "$ANS
+                 f_application_run
+                 ;;
+                 [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Image-Graphics Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of Image-Graphics Applications until loop.
+} # End of f_menu_app_image_graphics
+#
+# +----------------------------------------+
+# |    Function f_menu_app_imagemagick    |
+# +----------------------------------------+
+#
+f_menu_app_imagemagick () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of ImageMagick Applications until loop.
+            #MIK animate    - ImageMagick tool animates an image sequence on X-windows GUI.
+            #MIK composite  - ImageMagick tool overlaps one image on top of another.
+            #MIK compare    - ImageMagick tool annotate differences between image versions.
+            #MIK conjure    - ImageMagick tool run Magick Scripting Language (MSL).
+            #MIK convert    - ImageMagick tool converts format, resize, crop, flip, etc.
+            #MIK display    - ImageMagick tool display image on X-windows GUI.
+            #MIK identify   - ImageMagick tool show format, characteristics of image files.
+            #MIK import     - ImageMagick tool Screen capture on X-windows GUI.
+            #MIK mogrify    - ImageMagick tool resize, blur, crop, dither, flip, join etc.
+            #MIK montage    - ImageMagick tool create a composite image from many images.
+            #MIK stream     - ImageMagick tool stream image to an archive format.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="ImageMagick Applications Menu"
+            DELIMITER="#MIK" #MIK This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of ImageMagick Applications case statement.
                  5 | [Aa] | [Aa][Nn] | [Aa][Nn][Ii] | [Aa][Nn][Ii][Mm] | [Aa][Nn][Ii][Mm][Aa] | [Aa][Nn][Ii][Mm][Aa][Tt] | [Aa][Nn][Ii][Mm][Aa][Tt][Ee])
                  APP_NAME="animate"
                  f_application_run
@@ -5031,40 +5251,14 @@ f_menu_app_image_graphics () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 16 | [Jj] | [Jj][Pp] | [Jj][Pp][2] | [Jj][Pp][2][Aa])
-                 APP_NAME="jp2a"
-                 f_application_run
-                 ;;
-                 [Jj][Pp][2][Aa]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 17 | [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Uu] | [Ll][Ii][Nn][Uu][Xx] | [Ll][Ii][Nn][Uu][Xx][Ll] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg] | [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo])
-                 ANS=-1 # Initialize $ANS for until loop.
-                 until [ $ANS -ge 1 -a $ANS -le 26 ]
-                 do
-                       clear # Blank the screen.
-                       APP_NAME="linuxlogo -L list"
-                       f_application_run
-                       echo -n "Enter number (1-26): "
-                       read ANS
-                 done
-                 #
-                 APP_NAME="linuxlogo -L "$ANS
-                 f_application_run
-                 ;;
-                 [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-            esac                # End of Image-Graphics Applications case statement.
+            esac                # End of ImageMagick Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Image-Graphics Applications until loop.
-} # End of f_menu_app_image_graphics
+      done # End of ImageMagick Applications until loop.
+} # End of f_menu_app_imagemagick
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
