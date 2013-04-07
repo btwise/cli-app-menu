@@ -27,7 +27,7 @@ THIS_FILE="cli-app-menu.sh"
 # |        HOW-TO Update this script       |
 # +----------------------------------------+
 #
-	# After each edit made, update the version (date stamp string) of this script
+# After each edit made, update the version (date stamp string) of this script
 # in both the EDIT_HISTORY file and this file.
 # Also update the edit history in the EDIT_HISTORY file.
 #
@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-07-2013 02:05"
+REVDATE="April-07-2013 12:02"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -237,6 +237,7 @@ REVDATE="April-07-2013 02:05"
 #:MNM - Network Monitor Applications Menu
 #:MNO - Note Applications Menu
 #:MNR - News Reader Applications Menu
+#:MPE - Personal Organizer Applications Menu
 #:MPO - Podcatcher Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
@@ -248,6 +249,7 @@ REVDATE="April-07-2013 02:05"
 #:MLO - System Log Applications Menu
 #:MSO - System Other Applications Menu
 #:MTC - Text Compare Applications Menu
+#:MTD - To-Do Applications Menu
 #:MTV - Text Converter Applications Menu
 #:MTE - Text Editor Applications Menu
 #:MTT - Text Tool Applications Menu
@@ -867,7 +869,7 @@ f_menu_cat_sample_template () {
                  f_menu_cat_name2
                  CHOICE_SCAT=-1
                  ;;
-            esac                # End of Application Category case statement.
+            esac                 # End of Application Category case statement.
             #
             if [ $CHOICE_SCAT -ne -0 ] ; then
                CHOICE_SCAT=-1 # Force stay in until loop.
@@ -938,7 +940,6 @@ f_menu_cat_applications () {
       until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
             #AAB Audio           - Music players, audio utilities.
-            #AAB Calendar-ToDo   - Personal organization, calendar, to-do, (alarm) clocks.
             #AAB Calculator      - Simple "pocket" calculators.
             #AAB Education       - Learn something.
             #AAB File Managers   - Copy, move, rename, delete files/folders on localhost.
@@ -947,6 +948,7 @@ f_menu_cat_applications () {
             #AAB Internet        - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
             #AAB Network         - Wireless connection, network monitoring, tools.
             #AAB Notebook        - Write notes in a "notebook".
+            #AAB Organizers      - Personal organization, calendar, to-do, (alarm) clocks.
             #AAB Screen-saver    - For when you're away.
             #AAB Spreadsheet     - Basic spreadsheet.
             #AAB System          - Monitor system processes, resources, utilities, etc.
@@ -981,13 +983,9 @@ f_menu_cat_applications () {
                  f_menu_app_calculators       # Calculator Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 3 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr][-][Tt][Oo][Dd][Oo])
-                 f_menu_app_calendar_todo     # Calendar-ToDo Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
                  4 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
-                 f_menu_app_education       # Education Applications Menu.
-                 CHOICE_CAT=-1              # Legitimate response. Stay in menu loop.
+                 f_menu_app_education         # Education Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
                  f_menu_app_file_managers     # File Manager Applications Menu.
@@ -998,8 +996,8 @@ f_menu_cat_applications () {
                  CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss])
-                 f_menu_cat_image            # Image-Graphics Applications Menu.
-                 CHOICE_CAT=-1               # Legitimate response. Stay in menu loop.
+                 f_menu_cat_image             # Image-Graphics Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
                  f_menu_cat_internet          # Internet Applications Menu.
@@ -1011,6 +1009,10 @@ f_menu_cat_applications () {
                  ;;
                  10 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
                  f_menu_app_note              # Note Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 10 | [Oo] | [Oo][Rr] | [Oo][Rr][Gg] | [Oo][Rr][Gg][Aa] | [Oo][Rr][Gg][Aa][Nn] | [Oo][Rr][Gg][Aa][Nn][Ii] | [Oo][Rr][Gg][Aa][Nn][Ii][Zz] | [Oo][Rr][Gg][Aa][Nn][Ii][Zz][Ee] | [Oo][Rr][Gg][Aa][Nn][Ii][Zz][Ee][Rr)
+                 f_menu_cat_organizer         # Personal Organizer Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  11 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][-] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee][Rr])
@@ -4334,29 +4336,69 @@ f_menu_app_sys_other () {
 } # End of f_menu_app_sys_other
 #
 # +----------------------------------------+
-# |    Function f_menu_app_calendar_todo   |
+# |      Function f_menu_cat_organizer     |
 # +----------------------------------------+
 #
-f_menu_app_calendar_todo () {
+# Inputs: CHOICE_SCAT, MAX
+#
+f_menu_cat_organizer () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Application Category until loop.
+            #MPE Calendar - Calendars.
+            #MPE ToDo     - To-Do lists, alarm clocks.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Personal Organizer Application Category Menu"
+            DELIMITER="#MPE" #MPE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_quit_subcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Personal Organizer Application Category case statement.
+                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr])
+                 f_menu_app_calendar          # Calendar-ToDo Applications Menu.
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 2 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
+                 f_menu_app_todo              # To-Do Applications Menu.
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Personal Organizer Application Category case statement.
+            #
+            if [ $CHOICE_SCAT -ne -0 ] ; then
+               CHOICE_SCAT=-1 # Force stay in until loop.
+            fi
+      done  # End of Personal Organizer Application Category until loop.
+} # End of function f_menu_cat_organizer
+#
+# +----------------------------------------+
+# |      Function f_menu_app_calendar      |
+# +----------------------------------------+
+#
+f_menu_app_calendar () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
-      do    # Start of Calendar-ToDo Applications until loop.
+      do    # Start of Calendar Applications until loop.
             #MCA cal              - Displays a monthly calendar.
+            #MCA ccal             - Calendar color.
+            #MCA calcurse         - Calendar ncurses-based.
+            #MCA gcal             - Calendar, almost the same as cal.
             #MCA gcalcli          - Google calendar.
-            #MCA pal              - Calendar.
+            #MCA pal              - Calendar with events.
+            #MCA pcal             - Generate PostScript or HTML Calendars.
             #MCA pom              - Display phase of moon on given date.
             #MCA remind           - Calendar alarms, Sun rise/set, moon phases.
             #MCA when             - Calendar.
             #MCA wyrd             - Calendar, ncurses-based.
-            #MCA todo             - To-Do List hierarchical. Install package 'devtodo'.
-            #MCA yaGTD            - To-Do List.
-            #MCA binary-clock     - Binary numbers 1/0 tells time.
-            #MCA clockywock       - Analog clock, ncurses-based.
-            #MCA grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
-            #MCA saytime          - Audio clock.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Calendar-ToDo Applications Menu"
+            MENU_TITLE="Calendar Applications Menu"
             DELIMITER="#MCA" #MCA This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -4367,7 +4409,7 @@ f_menu_app_calendar_todo () {
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Calendar-ToDo Applications case statement.
+            case $CHOICE_APP in # Start of Calendar Applications case statement.
                  1 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
                  APP_NAME="cal"
                  f_application_run
@@ -4376,7 +4418,34 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll] | [Gg][Cc][Aa][Ll][Cc] | [Gg][Cc][Aa][Ll][Cc][Ll] | [Gg][Cc][Aa][Ll][Cc][Ll][Ii])
+                 2 | [Cc] | [Cc][Cc] | [Cc][Cc][Aa] | [Cc][Cc][Aa][Ll])
+                 APP_NAME="ccal"
+                 f_application_run
+                 ;;
+                 [Cc][Cc][Aa][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Rr] | [Cc][Aa][Ll][Cc][Uu][Rr][Ss] | [Cc][Aa][Ll][Cc][Uu][Rr][Ss][Ee])
+                 APP_NAME="calcurse"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 f_application_run
+                 ;;
+                 [Cc][Aa][Ll][Cc][Uu][Rr][Ss][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll])
+                 APP_NAME="gcal"
+                 f_application_run
+                 ;;
+                 [Gg][Cc][Aa][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll] | [Gg][Cc][Aa][Ll][Cc] | [Gg][Cc][Aa][Ll][Cc][Ll] | [Gg][Cc][Aa][Ll][Cc][Ll][Ii])
                  APP_NAME="gcalcli"
                  f_application_run
                  ;;
@@ -4384,7 +4453,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Pp] | [Pp][Aa] | [Pp][Aa][Ll])
+                 6 | [Pp] | [Pp][Aa] | [Pp][Aa][Ll])
                  APP_NAME="pal"
                  f_application_run
                  ;;
@@ -4392,7 +4461,15 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Pp] | [Pp][Oo] | [Pp][Oo][Mm])
+                 7 | [Pp] | [Pp][Cc][Aa] | [Pp][Cc][Aa][Ll])
+                 APP_NAME="pcal"
+                 f_application_run
+                 ;;
+                 [Pp][Cc][Aa][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Pp] | [Pp][Oo] | [Pp][Oo][Mm])
                  APP_NAME="pom"
                  f_application_run
                  ;;
@@ -4400,7 +4477,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Ii] | [Rr][Ee][Mm][Ii][Nn] | [Rr][Ee][Mm][Ii][Nn][Dd)
+                 9 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Ii] | [Rr][Ee][Mm][Ii][Nn] | [Rr][Ee][Mm][Ii][Nn][Dd)
                  APP_NAME="remind"
                  f_application_run
                  ;;
@@ -4408,7 +4485,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Ww] | [Ww][Hh] | [Ww][Hh][Ee] | [Ww][Hh][Ee][Nn])
+                 10 | [Ww] | [Ww][Hh] | [Ww][Hh][Ee] | [Ww][Hh][Ee][Nn])
                  APP_NAME="when"
                  f_application_run
                  ;;
@@ -4416,7 +4493,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Ww] | [Ww][Yy] | [Ww][Yy][Rr] | [Ww][Yy][Rr][Dd])
+                 11 | [Ww] | [Ww][Yy] | [Ww][Yy][Rr] | [Ww][Yy][Rr][Dd])
                  APP_NAME="wyrd"
                  f_how_to_quit_application "Q"
                  f_application_run
@@ -4426,7 +4503,45 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
+            esac                # End of Calendar Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of Calendar Applications until loop.
+} # End of f_menu_app_calendar
+#
+#
+# +----------------------------------------+
+# |        Function f_menu_app_todo        |
+# +----------------------------------------+
+#
+f_menu_app_todo () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of ToDo Applications until loop.
+            #MTD todo             - To-Do List hierarchical. Install package 'devtodo'.
+            #MTD yaGTD            - To-Do List.
+            #MTD binary-clock     - Binary numbers 1/0 tells time.
+            #MTD clockywock       - Analog clock, ncurses-based.
+            #MTD grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
+            #MTD saytime          - Audio clock.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="To-Do/Clock Applications Menu"
+            DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of ToDo Applications case statement.
+                 1 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
                  APP_NAME="todo"
                  clear # Blank the screen.
                  echo "Simple To-Do list using hidden file .todo as a database list."
@@ -4458,7 +4573,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Yy] | [Yy][Aa] | [Yy][Aa][Gg] | [Yy][Aa][Gg][Tt] | [Yy][Aa][Gg][Tt][Dd])
+                 2 | [Yy] | [Yy][Aa] | [Yy][Aa][Gg] | [Yy][Aa][Gg][Tt] | [Yy][Aa][Gg][Tt][Dd])
                  APP_NAME="yagtd"
                  f_application_run
                  ;;
@@ -4466,7 +4581,7 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
+                 3 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="binary-clock"
                  f_application_run
                  echo
@@ -4500,7 +4615,7 @@ f_menu_app_calendar_todo () {
                       ;;
                  esac                # End of Install case statement.
                  ;;
-                 11 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
+                 4 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
                  APP_NAME="clockywock"
                  f_application_run
                  echo 
@@ -4534,7 +4649,7 @@ f_menu_app_calendar_todo () {
                       ;;
                  esac                # End of Install case statement.
                  ;;
-                 12 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
+                 5 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="grandfatherclock"
                  f_application_run
                  echo 
@@ -4568,7 +4683,7 @@ f_menu_app_calendar_todo () {
                       ;;
                  esac                # End of Install case statement.
                  ;;
-                 13 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
+                 6 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
                  APP_NAME="saytime"
                  f_application_run
                  ;;
@@ -4576,14 +4691,14 @@ f_menu_app_calendar_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-            esac                # End of Calendar-ToDo Applications case statement.
+            esac                # End of ToDo Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Calendar-ToDo Applications until loop.
-} # End of f_menu_app_calendar_todo
+      done # End of ToDo Applications until loop.
+} # End of f_menu_app_todo
 #
 # +----------------------------------------+
 # |     Function f_menu_app_calculators    |
@@ -5033,7 +5148,6 @@ f_menu_cat_image () {
             fi
       done  # End of Image Application Category until loop.
 } # End of function f_menu_cat_image
-#
 #
 # +----------------------------------------+
 # |    Function f_menu_app_image_graphics   |
