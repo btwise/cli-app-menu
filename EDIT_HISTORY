@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="April-07-2013 02:05" 
+REVDATE="April-07-2013 12:02" 
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -53,6 +53,11 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_text_tools added.
 ##            *f_menu_cat_image added.
 ##            *f_menu_app_imagemagick added.
+##            *f_menu_cat_organizer added.
+##            *f_menu_app_calendar added.
+##            *f_menu_app_todo added.
+##            *f_menu_app_calendar_todo deleted.
+##            *f_menu_app_calendar added calcurse, ccal, gcal, pcal.
 ##
 ## 2013-04-06 *f_menu_app_calendar_todo add saytime.
 ##            *f_menu_app_education add diatheke, liflines, gtypist.
