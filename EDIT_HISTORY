@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="April-07-2013 12:02" 
+REVDATE="April-08-2013 22:34" 
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,18 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-04-08 *f_menu_cat_file_management added.
+##            *f_menu_app_file_encryption added. Add bcrypt, ccrypt, crypt,
+##             mcrypt, pgp, scrypt, truecrypt, zcrypt.
+##            *f_menu_app_file_find added.
+##            *f_menu_app_file_viewers added. Add more.
+##            *f_menu_app_file_recover added.
+##            *f_menu_cat_system added.
+##            *f_menu_app_sys_backup added. Add rsync, tar, gzip, gunzip,
+##             zip, unzip.
+##            *f_menu_app_sys_disks added. Add du, pydf.
+##            *f_menu_app_instant_messaging add barnowl.
 ##
 ## 2013-04-07 *f_menu_cat_text added.
 ##            *f_menu_app_text_compare added.
