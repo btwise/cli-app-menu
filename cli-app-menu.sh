@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-07-2013 12:02"
+REVDATE="April-08-2013 22:34"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -200,13 +200,14 @@ REVDATE="April-07-2013 12:02"
 #:AAA - Main Menu
 #:AAB - Application Categories Menu
 #:
+#:BFM - File Management Categories Menu
 #:BGA - Game Categories Menu
 #:BIG - Image Categories Menu
 #:BIN - Internet Categories Menu
 #:BNE - Network Categories Menu
 #:BSY - System Categories Menu
 #:BTX - Text Categories Menu
-#:BXC - Sample Template Application Categories Menu
+#:BXC - Sample Template Categories Menu
 #:
 #:MAU - Audio Applications Menu
 #:MBT - Bittorrent Applications Menu
@@ -215,8 +216,12 @@ REVDATE="April-07-2013 12:02"
 #:MDL - Dowloader Applications Menu
 #:MED - Education Applications Menu
 #:MEM - E-mail Applications Menu
+#:MFE - File Encryption Applications Menu
+#:MFF - File Search and find Applications Menu
 #:MFI - File Manager Applications Menu
+#:MFR - File Recovery/Deletion Applications Menu
 #:MFT - File Transfer Applications Menu
+#:MFV - File Viewer Applications Menu
 #:MFX - FAX Applications Menu
 #:MGB - Arcade Games
 #:MGC - Board Games
@@ -241,7 +246,9 @@ REVDATE="April-07-2013 12:02"
 #:MPO - Podcatcher Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
+# MSB - System Backup Applications Menu
 #:MSC - System Screen Applications Menu
+# MSD - System Disk Information Applications Menu
 #:MSI - System Information Applications Menu
 #:MSM - System Monitor Applications Menu
 #:MSP - Spreadsheet Applications Menu
@@ -767,6 +774,9 @@ f_application_error () {
                      aria2c)
                      APP_NAME_INSTALL="aria2"
                      ;;
+                     barnowl | zcrypt)
+                     APP_NAME_INSTALL="barnowl"
+                     ;;
                      clamscan)
                      APP_NAME_INSTALL="clamav"
                      ;;
@@ -846,12 +856,12 @@ f_menu_cat_sample_template () {
       until [ $CHOICE_SCAT -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Application Category until loop.
-            #MXC App Cat1
-            #MXC App Cat2
+            #BXC App Cat1
+            #BXC App Cat2
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Application Category Menu"
-            DELIMITER="#MXC" #MXC This 3rd field prevents awk from printing this line into menu options. 
+            DELIMITER="#BXC" #BXC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
             read CHOICE_SCAT
@@ -863,17 +873,16 @@ f_menu_cat_sample_template () {
             case $CHOICE_SCAT in # Start of Application Category case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
                  f_menu_cat_name1
-                 CHOICE_SCAT=-1
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][2]) 
                  f_menu_cat_name2
-                 CHOICE_SCAT=-1
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Application Category case statement.
             #
-            if [ $CHOICE_SCAT -ne -0 ] ; then
-               CHOICE_SCAT=-1 # Force stay in until loop.
-            fi
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
       done  # End of Application Category until loop.
 } # End of function f_menu_cat_sample_template
 #
@@ -988,7 +997,7 @@ f_menu_cat_applications () {
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
-                 f_menu_app_file_managers     # File Manager Applications Menu.
+                 f_menu_cat_file_management   # File Management Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
@@ -1073,62 +1082,61 @@ f_menu_cat_internet () {
             #
             case $CHOICE_SCAT in # Start of Internet Category case statement.
                  1 | [Ww] | [Ww][Ee] | [Ww][Ee][Bb] | [Ww][Ee][Bb]' ' | [Ww][Ee][Bb]' '[Bb] | [Ww][Ee][Bb]' '[Bb][Rr] | [Ww][Ee][Bb]' '[Bb][Rr][Oo] |  [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss][Ee] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss][Ee][Rr])
-                 CHOICE_SCAT=-1
                  f_menu_app_web_browsers
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
-                 CHOICE_SCAT=-1
                  f_menu_app_bittorrent
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Dd] | [Dd][Oo] | [Dd][Oo][Ww] | [Dd][Oo][Ww][Nn] | [Dd][Oo][Ww][Nn][Ll] | [Dd][Oo][Ww][Nn][Ll][Oo] |  [Dd][Oo][Ww][Nn][Ll][Oo][Aa] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee][Rr] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee][Rr][Ss])
-                 CHOICE_SCAT=-1
                  f_menu_app_downloaders
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Ee] | [Ee][Mm] | [Ee][Mm][Aa] | [Ee][Mm][Aa][Ii] | [Ee][Mm][Aa][Ii][Ll])
-                 CHOICE_SCAT=-1
                  f_menu_app_email
+                 CHOICE_SCAT=-1
                  ;;
                  5 | [Ff] | [Ff][Aa] | [Ff][Aa][Xx])
-                 CHOICE_SCAT=-1
                  f_menu_app_fax
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Tt] | [Ff][Ii][Ll][Ee]' '[Tt][Rr] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn] |[Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee][Rr])
-                 CHOICE_SCAT=-1
                  f_menu_app_file_transfer
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Ii] | [Ii][Nn] | [Ii][Nn][Ss] | [Ii][Nn][Ss][Tt] | [Ii][Nn][Ss][Tt][Aa] | [Ii][Nn][Ss][Tt][Aa][Nn] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' ' | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii][Nn] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii][Nn][Gg])
-                 CHOICE_SCAT=-1
                  f_menu_app_instant_messaging
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Ii] | [Ii][Rr] | [Ii][Rr][Cc] | [Ii][Rr][Cc]' ' | [Ii][Rr][Cc]' '[Cc] | [Ii][Rr][Cc]' '[Cc][Ll] | [Ii][Rr][Cc]' '[Cc][Ll][Ii] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn][Tt] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn][Tt][Ss])
-                 CHOICE_SCAT=-1
                  f_menu_app_irc_clients
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  9 | [Nn] | [Nn][Ee] | [Nn][Ee][Ww] | [Nn][Ee][Ww][Ss] | [Nn][Ee][Ww][Ss]' ' | [Nn][Ee][Ww][Ss]' '[Rr] | [Nn][Ee][Ww][Ss]' '[Rr][Ee] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee][Rr] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee][Rr][Ss])
-                 CHOICE_SCAT=-1
                  f_menu_app_news_readers
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  10 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' ' | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh][Aa] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh][Aa][Tt])
-                 CHOICE_SCAT=-1
                  f_menu_app_network_chat
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  11 | [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Cc] | [Pp][Oo][Dd][Cc][Aa] | [Pp][Oo][Dd][Cc][Aa][Tt] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee][Rr] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee][Rr][Ss])
-                 CHOICE_SCAT=-1
                  f_menu_app_podcatchers
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  12 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Oo] | [Rr][Ee][Mm][Oo][Tt] | [Rr][Ee][Mm][Oo][Tt][Ee] | [Rr][Ee][Mm][Oo][Tt][Ee]' ' | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii][Oo] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii][Oo][Nn])
-                 CHOICE_SCAT=-1
                  f_menu_app_remote_connection
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  13 | [Rr] | [Rr][Ss] | [Rr][Ss][Ss] | [Rr][Ss][Ss]' ' | [Rr][Ss][Ss]' '[Ff] | [Rr][Ss][Ss]' '[Ff][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee][Rr] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee][Rr][Ss])
-                 CHOICE_SCAT=-1
                  f_menu_app_rssfeeders
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Internet Category case statement.
             #
-            if [ $CHOICE_SCAT -ne -0 ] ; then
-               CHOICE_SCAT=-1 # Force stay in until loop.
-            fi
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
       done  # End of Internet Category until loop.
 } # End of function f_menu_cat_internet
 #
@@ -1715,7 +1723,8 @@ f_menu_app_file_transfer () {
 f_menu_app_instant_messaging () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
-      do    # Start of FAX Applications until loop.
+      do    # Start of Internet Messaging Applications until loop.
+            #MIM barnowl   - BarnOwl supports AIM, IRC, Jabber, Zephyr.
             #MIM bitlbee   - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
             #MIM centericq - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
             #MIM centerim  - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
@@ -1736,7 +1745,27 @@ f_menu_app_instant_messaging () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Instant Messaging Applications case statement.
-                 1 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Ll] | [Bb][Ii][Tt][Ll][Bb] | [Bb][Ii][Tt][Ll][Bb][Ee] | [Bb][Ii][Tt][Ll][Bb][Ee][Ee])
+                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Rr] | [Bb][Aa][Rr][Nn] | [Bb][Aa][Rr][Nn][Oo] | [Bb][Aa][Rr][Nn][Oo][Ww] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-][Ii] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-][Ii][Rr] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-][Ii][Rr][Cc])
+                 APP_NAME="barnowl"
+                 clear # Blank the screen.
+                 echo "BarnOwl Internet Messenger."
+                 echo
+                 echo "Usage: barnowl"
+                 echo "Inside barnowl type ':help' (colon help) for built-in help page."
+                 echo
+                 echo "*** For more help type: man barnowl"
+                 echo
+                 echo "Now run barnowl. Usage: barnowl"
+                 echo
+                 f_how_to_quit_application ":q (colon q)" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Bb][Ii][Tt][Ll][Bb][Ee][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Ll] | [Bb][Ii][Tt][Ll][Bb] | [Bb][Ii][Tt][Ll][Bb][Ee] | [Bb][Ii][Tt][Ll][Bb][Ee][Ee])
                  APP_NAME="bitlbee"
                  f_application_run
                  ;;
@@ -1744,7 +1773,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc][Qq])
+                 3 | [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc][Qq])
                  APP_NAME="centericq"
                  f_application_run
                  ;;
@@ -1752,7 +1781,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm])
+                 4 | [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm])
                  APP_NAME="centerim"
                  f_application_run
                  ;;
@@ -1760,7 +1789,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Cc] | [Ff][Ii][Nn][Cc][Hh])
+                 5 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Cc] | [Ff][Ii][Nn][Cc][Hh])
                  APP_NAME="finch"
                  f_application_run
                  ;;
@@ -1768,7 +1797,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Tt] | [Ff][Rr][Ee][Ee][Tt][Aa] | [Ff][Rr][Ee][Ee][Tt][Aa][Ll] | [Ff][Rr][Ee][Ee][Tt][Aa][Ll][Kk])
+                 6 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Tt] | [Ff][Rr][Ee][Ee][Tt][Aa] | [Ff][Rr][Ee][Ee][Tt][Aa][Ll] | [Ff][Rr][Ee][Ee][Tt][Aa][Ll][Kk])
                  APP_NAME="freetalk"
                  f_application_run
                  ;;
@@ -1776,7 +1805,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Mm] | [Mm][Cc] | [Mm][Cc][Aa] | [Mm][Cc][Aa][Bb] | [Mm][Cc][Aa][Bb][Bb] | [Mm][Cc][Aa][Bb][Bb][Ee] | [Mm][Cc][Aa][Bb][Bb][Ee][Rr])
+                 7 | [Mm] | [Mm][Cc] | [Mm][Cc][Aa] | [Mm][Cc][Aa][Bb] | [Mm][Cc][Aa][Bb][Bb] | [Mm][Cc][Aa][Bb][Bb][Ee] | [Mm][Cc][Aa][Bb][Bb][Ee][Rr])
                  APP_NAME="mcabber"
                  f_application_run
                  ;;
@@ -2292,15 +2321,16 @@ f_menu_cat_network () {
             case $CHOICE_SCAT in # Start of Network Application Category case statement.
                  1 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Ff] | [Cc][Oo][Nn][Ff][Ii] | [Cc][Oo][Nn][Ff][Ii][Gg] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii][Oo] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii][Oo][Nn])
                  f_menu_app_network_config
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt] | [Mm][Oo][Nn][Ii][Tt][Oo] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_network_monitors
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Network Application Category case statement.
             #
-            if [ $CHOICE_SCAT -ne -0 ] ; then
-               CHOICE_SCAT=-1 # Force stay in until loop.
-            fi
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
       done  # End of Network Application Category until loop.
 } # End of function f_menu_cat_network
 #
@@ -2846,6 +2876,62 @@ read ANS
 }
 #
 # +----------------------------------------+
+# |  Function f_menu_cat_file_management   |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_SCAT, MAX
+#
+f_menu_cat_file_management () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of File Management Application Category until loop.
+            #BFM Encryption - Encrypt/Decrypt files for privacy and security.
+            #BFM Find       - File search.
+            #BFM Managers   - Directory tree views, rename, add/delete, files, folders.
+            #BFM Viewers    - View files a page at a time.
+            #BFM Undelete   - Recover deleted files and secure delete w/o recovery.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="File Management Application Category Menu"
+            DELIMITER="#BFM" #BFM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_quit_subcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Application Category case statement.
+                 1 | [Ee] | [Ee][Nn] | [Ee][Nn][Cc] | [Ee][Nn][Cc][Rr] | [Ee][Nn][Cc][Rr][Yy] | [Ee][Nn][Cc][Rr][Yy][Pp] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo][Nn])
+                 f_menu_app_file_encryption
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 2 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
+                 f_menu_app_file_find
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 3 | [Mm] | [Mm][Aa] | [Mm][Aa][Nn] | [Mm][Aa][Nn][Aa] | [Mm][Aa][Nn][Aa][Gg] | [Mm][Aa][Nn][Aa][Gg][Ee] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
+                 f_menu_app_file_managers
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 4 | [Vv] | [Vv][Ii] | [Vv][Ii][Ee] | [Vv][Ii][Ee][Ww] | [Vv][Ii][Ee][Ww][Ee] | [Vv][Ii][Ee][Ww][Ee][Rr] | [Vv][Ii][Ee][Ww][Ee][Rr][Ss]) 
+                 f_menu_app_file_viewers
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 5 | [Uu] | [Uu][Nn] | [Uu][Nn][Dd] | [Uu][Nn][Dd][Ee] | [Uu][Nn][Dd][Ee][Ll] | [Uu][Nn][Dd][Ee][Ll][Ee] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt][Ee])
+                 f_menu_app_file_recover
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of File Management Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
+      done  # End of File Management Application Category until loop.
+} # End of function f_menu_cat_file_management
+#
+# +----------------------------------------+
 # |    Function f_menu_app_file_managers   |
 # +----------------------------------------+
 #
@@ -2853,21 +2939,13 @@ f_menu_app_file_managers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of File Manager Applications until loop.
-            #MFI clex     - File manager.
-            #MFI mc       - File Manager, Midnight Commander.
-            #MFI ranger   - File manager.
-            #MFI smbc     - Samba file manager for folder shares with Microsoft Windows.
-            #MFI vfu      - File manager, ncurses-based.
-            #MFI vifm     - File manager with vi-like commands.
-            #MFI detox    - File name clean up.
-            #MFI jless    - File viewer pager.
-            #MFI most     - File viewer pager.
-            #MFI find     - Find files using pattern matching.
-            #MFI locate   - Find files using an internal database.
-            #MFI shred    - Delete files securely without recovery.
-            #MFI foremost - File recovery from within a *.img disk image file.
-            #MFI photorec  - File recovery.
-            #MFI safecopy - File recovery.
+            #MFI clex   - File manager.
+            #MFI mc     - File Manager, Midnight Commander.
+            #MFI ranger - File manager.
+            #MFI smbc   - Samba file manager for folder shares with Microsoft Windows.
+            #MFI vfu    - File manager, ncurses-based.
+            #MFI vifm   - File manager with vi-like commands.
+            #MFI detox  - File name clean up.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Manager Applications Menu"
@@ -2938,23 +3016,150 @@ f_menu_app_file_managers () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Jj] | [Jj][Ll] | [Jj][Ll][Ee] | [Jj][Ll][Ee][Ss] | [Jj][Ll][Ee][Ss][Ss])
-                 APP_NAME="jless"
+            esac               # End of File Manager Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of File Manager Applications until loop.
+} # End of f_menu_app_file_managers
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_encryption  |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_file_encryption () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of File Encryption Applications until loop.
+            #MFE bcrypt    - Uses the blowfish encryption algorithm.
+            #MFE ccrypt    - Uses the Rijndael cipher algorithm.
+            #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
+            #MFE mcrypt    - a simple crypting program, a replacement for the old Unix crypt.
+            #MFE pgp       - Pretty Good Privacy (pgp).
+            #MFE scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
+            #MFE truecrypt - Program released under TrueCrypt License (not Open-source).
+            #MFE zcrypt    - Another crypt program.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="File Encryption Applications Menu"
+            DELIMITER="#MFE" #MFE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of File Encryption Applications case statement.
+                 1 | [Bb] | [Bb][Cc] | [Bb][Cc][Rr] | [Bb][Cc][Rr][Yy] | [Bb][Cc][Rr][Yy][Pp] | [Bb][Cc][Rr][Yy][Pp][Tt])
+                 APP_NAME="bcrypt"
                  f_application_run
                  ;;
-                 [Jj][Ll][Ee][Ss][Ss]' '*)
+                 [Bb][Cc][Rr][Yy][Pp][Tt]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Mm] | [Mm][Oo] | [Mm][Oo][Ss] | [Mm][Oo][Ss][Tt])
-                 APP_NAME="most"
+                 2 | [Cc] | [Cc][Cc] | [Cc][Cc][Rr] | [Cc][Cc][Rr][Yy] | [Cc][Cc][Rr][Yy][Pp] | [Cc][Cc][Rr][Yy][Pp][Tt])
+                 APP_NAME="ccrypt"
                  f_application_run
                  ;;
-                 [Mm][Oo][Ss][Tt]' '*)
+                 [Cc][Cc][Rr][Yy][Pp][Tt]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
+                 3 | [Cc] | [Cc][Rr] | [Cc][Rr][Yy] | [Cc][Rr][Yy][Pp] | [Cc][Rr][Yy][Pp][Tt])
+                 APP_NAME="crypt"
+                 f_application_run
+                 ;;
+                 [Cc][Rr][Yy][Pp][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Mm] | [Mm][Cc] | [Mm][Cc][Rr] | [Mm][Cc][Rr][Yy] | [Mm][Cc][Rr][Yy][Pp] | [Mm][Cc][Rr][Yy][Pp][Tt])
+                 APP_NAME="mcrypt"
+                 f_application_run
+                 ;;
+                 [Mm][Cc][Rr][Yy][Pp][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Pp] | [Pp][Gg] | [Pp][Gg][Pp])
+                 APP_NAME="pgp"
+                 f_application_run
+                 ;;
+                 [Pp][Gg][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Yy] | [Ss][Cc][Rr][Yy][Pp] | [Ss][Cc][Rr][Yy][Pp][Tt])
+                 APP_NAME="scrypt"
+                 f_application_run
+                 ;;
+                 [Ss][Cc][Rr][Yy][Pp][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Tt] | [Tt][Rr] | [Tt][Rr][Uu] | [Tt][Rr][Uu][Ee] | [Tt][Rr][Uu][Ee][Cc] | [Tt][Rr][Uu][Ee][Cc][Rr] | [Tt][Rr][Uu][Ee][Cc][Rr][Yy] | [Tt][Rr][Uu][Ee][Cc][Rr][Yy][Pp] | [Tt][Rr][Uu][Ee][Cc][Rr][Yy][Pp][Tt])
+                 APP_NAME="truecrypt"
+                 f_application_run
+                 ;;
+                 [Tt][Rr][Uu][Ee][Cc][Rr][Yy][Pp][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Zz] | [Zz][Cc] | [Zz][Cc][Rr] | [Zz][Cc][Rr][Yy] | [Zz][Cc][Rr][Yy][Pp] | [Zz][Cc][Rr][Yy][Pp][Tt])
+                 APP_NAME="zcrypt"
+                 f_application_run
+                 ;;
+                 [Zz][Cc][Rr][Yy][Pp][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of File Encryption Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of File Encryption Applications until loop.
+} # End of function f_menu_app_file_encryption
+#
+#
+# +----------------------------------------+
+# |      Function f_menu_app_file_find     |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_file_find () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Find File Applications until loop.
+            #MFF find   - Find files using pattern matching.
+            #MFF locate - Find files using an internal database.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Find File Applications Menu"
+            DELIMITER="#MFF" #MFF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #APP_NAME
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Find File Applications case statement.
+                 1 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
                  APP_NAME="find --help"
                  clear # Blank the screen.
                  echo "Find and search for files."
@@ -2976,25 +3181,9 @@ f_menu_app_file_managers () {
                  ;;
                  [Ff][Ii][Nn][Dd]' '*)
                  APP_NAME=$CHOICE_APP
-                 clear # Blank the screen.
-                 echo "Find and search for files."
-                 echo
-                 echo "Usage:"
-                 echo "find [-H] [-L] [-P] [-D debugopts] [-Olevel] [path...] [expression]"
-                 echo
-                 echo "Example: find file with name *test-file* in directory /home/user/."
-                 echo "find -iname /home/user/ *\"test-file1\"*"
-                 echo
-                 echo "Example: find file and then delete it."
-                 echo "find  -iname /home/user/ *\"test-file\"* -exec rm '{}' +"
-                 echo
-                 echo "*** For more help type: man find" 
-                 echo
-                 echo "Now run find. Usage: $APP_NAME"
-                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 11 | [Ll] | [Ll][Oo] | [Ll][Oo][Cc] | [Ll][Oo][Cc][Aa] | [Ll][Oo][Cc][Aa][Tt] | [Ll][Oo][Cc][Aa][Tt][Ee])
+                 2 | [Ll] | [Ll][Oo] | [Ll][Oo][Cc] | [Ll][Oo][Cc][Aa] | [Ll][Oo][Cc][Aa][Tt] | [Ll][Oo][Cc][Aa][Tt][Ee])
                  APP_NAME="locate"
                  f_application_run
                  ;;
@@ -3002,7 +3191,45 @@ f_menu_app_file_managers () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ss] | [Ss][Hh] | [Ss][Hh][Rr] | [Ss][Hh][Rr][Ee] | [Ss][Hh][Rr][Ee][Dd])
+            esac                # End of Find File Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Find File Applications until loop.
+} # End of function f_menu_app_file_find
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_recover     |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_file_recover () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of File Recovery Applications until loop.
+            #MFR shred    - Delete files securely without recovery.
+            #MFR foremost - File recovery from within a *.img disk image file.
+            #MFR photorec - File recovery.
+            #MFR safecopy - File recovery.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="File Recovery Applications Menu"
+            DELIMITER="#MFR" #MFR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #APP_NAME
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of File Recovery Applications case statement.
+                 1 | [Ss] | [Ss][Hh] | [Ss][Hh][Rr] | [Ss][Hh][Rr][Ee] | [Ss][Hh][Rr][Ee][Dd])
                  APP_NAME="shred"
                  f_application_run
                  ;;
@@ -3010,7 +3237,7 @@ f_menu_app_file_managers () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ff] | [Ff][Oo] | [Ff][Oo][Rr] | [Ff][Oo][Rr][Ee] | [Ff][Oo][Rr][Ee][Mm] | [Ff][Oo][Rr][Ee][Mm][Oo] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt])
+                 2 | [Ff] | [Ff][Oo] | [Ff][Oo][Rr] | [Ff][Oo][Rr][Ee] | [Ff][Oo][Rr][Ee][Mm] | [Ff][Oo][Rr][Ee][Mm][Oo] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt])
                  APP_NAME="foremost --help"
                  clear # Blank the screen.
                  echo "Recover deleted files."
@@ -3041,34 +3268,9 @@ f_menu_app_file_managers () {
                  ;;
                  [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt]' '*)
                  APP_NAME=$CHOICE_APP
-                 clear # Blank the screen.
-                 echo "Recover deleted files."
-                 echo
-                 echo "Usage:"
-                 echo "foremost [-h] [-V] [-d] [-vqwQT] [-b <blocksize>] [-o <dir>] [-t <type>]"
-                 echo "         [-s <num>] [-i <file>]"
-                 echo
-                 echo "Recovers these file-types: jpg, gif, png, bmp, avi, exe, mpg, wav, riff," 
-                 echo "wmv, mov, pdf, ole, doc, zip, rar, htm, cpp."
-                 echo
-                 echo "Examples"
-                 echo
-                 echo "Run the default case"
-                 echo "foremost image.dd"
-                 echo
-                 echo "Search all defined types"
-                 echo "foremost -t all -i image.dd"
-                 echo
-                 echo "Search for gif and pdf's"
-                 echo "foremost -t gif,pdf -i image.dd"
-                 echo
-                 echo "*** For more help type: man foremost" 
-                 echo
-                 echo "Now run find. Usage: $APP_NAME"
-                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 14 | [Pp] | [Pp][Hh] | [Pp][Hh][Oo] | [Pp][Hh][Oo][Tt] | [Pp][Hh][Oo][Tt][Oo] | [Pp][Hh][Oo][Tt][Oo][Rr] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee][Cc])
+                 3 | [Pp] | [Pp][Hh] | [Pp][Hh][Oo] | [Pp][Hh][Oo][Tt] | [Pp][Hh][Oo][Tt][Oo] | [Pp][Hh][Oo][Tt][Oo][Rr] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee][Cc])
                  APP_NAME="photorec --help"
                  clear # Blank the screen.
                  echo "Recover lost files from harddisk, digital camera and cdrom."
@@ -3088,23 +3290,9 @@ f_menu_app_file_managers () {
                  ;;
                  [Pp][Hh][Oo][Tt][Oo][Rr][Ee][Cc]' '*)
                  APP_NAME=$CHOICE_APP
-                 clear # Blank the screen.
-                 echo "Recover lost files from harddisk, digital camera and cdrom."
-                 echo
-                 echo "Usage:"
-                 echo "photorec [/log] [/debug] [/d recup_dir] [device|image.dd|image.e01]"
-                 echo
-                 echo           "OPTIONS"
-                 echo "         /log   create a photorec.log file"
-                 echo "         /debug add debug information"
-                 echo
-                 echo "*** For more help type: man photorec" 
-                 echo
-                 echo "Now run photorec. Usage: $APP_NAME"
-                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 15 | [Ss] | [Ss][Aa] | [Ss][Aa][Ff] | [Ss][Aa][Ff][Ee] | [Ss][Aa][Ff][Ee][Cc] | [Ss][Aa][Ff][Ee][Cc][Oo] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp][Yy])
+                 4 | [Ss] | [Ss][Aa] | [Ss][Aa][Ff] | [Ss][Aa][Ff][Ee] | [Ss][Aa][Ff][Ee][Cc] | [Ss][Aa][Ff][Ee][Cc][Oo] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp][Yy])
                  APP_NAME="safecopy --help"
                  clear # Blank the screen.
                  echo "Recover lost data."
@@ -3119,25 +3307,77 @@ f_menu_app_file_managers () {
                  ;;
                  [Ss][Aa][Ff][Ee][Cc][Oo][Pp][Yy]' '*)
                  APP_NAME=$CHOICE_APP
-                 clear # Blank the screen.
-                 echo "Recover lost data."
-                 echo
-                 echo "Usage: safecopy [options] <source> <target>"
-                 echo
-                 echo "*** For more help type: man safecopy" 
-                 echo
-                 echo "Now run safecopy. Usage: $APP_NAME"
-                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
-            esac               # End of File Manager Applications case statement.
+            esac                # End of File Recovery Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of File Manager Applications until loop.
-} # End of f_menu_app_file_managers
+      done  # End of File Recovery Applications until loop.
+} # End of function f_menu_app_file_recover
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_viewers    |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_file_viewers () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of File Viewer Applications until loop.
+            #MFV jless - File viewer pager.
+            #MFV more  - File viewer pager.
+            #MFV most  - File viewer pager.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="File Viewer Applications Menu"
+            DELIMITER="#MFV" #MFV This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #APP_NAME
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of File Viewer Applications case statement.
+                 1 | [Jj] | [Jj][Ll] | [Jj][Ll][Ee] | [Jj][Ll][Ee][Ss] | [Jj][Ll][Ee][Ss][Ss])
+                 APP_NAME="jless"
+                 f_application_run
+                 ;;
+                 [Jj][Ll][Ee][Ss][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee])
+                 APP_NAME="more"
+                 f_application_run
+                 ;;
+                 [Mm][Oo][Rr][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Mm] | [Mm][Oo] | [Mm][Oo][Ss] | [Mm][Oo][Ss][Tt])
+                 APP_NAME="most"
+                 f_application_run
+                 ;;
+                 [Mm][Oo][Ss][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of File Viewer Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of File Viewer Applications until loop.
+} # End of function f_menu_app_file_viewers
 #
 # +----------------------------------------+
 # |         Function f_menu_cat_text       |
@@ -3169,25 +3409,24 @@ f_menu_cat_text () {
             case $CHOICE_SCAT in # Start of Text Application Category case statement.
                  1 | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa] | [Cc][Oo][Mm][Pp][Aa][Rr] | [Cc][Oo][Mm][Pp][Aa][Rr][Ee])
                  f_menu_app_text_compare
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;               
                  2 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Vv] | [Cc][Oo][Nn][Vv][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr][Ss])
                  f_menu_app_text_converters
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_text_editors
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Tt] | [Tt][Oo] | [Tt][Oo][Oo] | [Tt][Oo][Oo][Ll] | [Tt][Oo][Oo][Ll][Ss])
-                 f_menu_app_text_tools         # Text Tools Applications Menu.
-                 CHOICE_CAT=-1                 # Legitimate response. Stay in menu loop.
+                 f_menu_app_text_tools
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-            esac                # End of Text Application Category case statement.
+            esac                 # End of Text Application Category case statement.
             #
-            if [ $CHOICE_SCAT -ne -0 ] ; then
-               CHOICE_SCAT=-1 # Force stay in until loop.
-            fi
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
       done  # End of Text Application Category until loop.
 } # End of function f_menu_cat_text
 #
@@ -3430,6 +3669,7 @@ f_menu_app_text_editors () {
             #MTE dav        - Text editor.
             #MTE ed         - Classic CLI text editor.
             #MTE emacs      - Full screen text editor with plugins.
+            #MTE groff      - Uses macros to format text, create man pages to PS printers.
             #MTE joe        - Text editor. Ctrl-K H for help.
             #MTE nano       - Simple full-screen text editor.
             #MTE pico       - Simple full-screen text editor.
@@ -3480,6 +3720,28 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  [Ee][Mm][Aa][Cc][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Gg] | [Gg][Rr] | [Gg][Rr][Oo] | [Gg][Rr][Oo][Ff] | [Gg][Rr][Oo][Ff][Ff])
+                 APP_NAME="groff"
+                 clear # Blank the screen.
+                 echo "Use macro command language to output formatted text for PostScript printers."
+                 echo
+                 echo "Usage:" 
+                 echo "groff [-abcegiklpstzCEGNRSUVXZ] [-d cs] [-D arg] [-f fam] [-F dir] [-I dir]"
+                 echo "      [-K arg] [-L arg] [-m name] [-M dir] [-n num] [-o list] [-P arg]"
+                 echo "      [-r cn] [-T dev] [-w name] [-W name] [file ...]"
+                 echo "groff -h | --help"
+                 echo "groff -v | --version [option ...]"
+                 echo
+                 echo "*** For more help type: $APP_NAME --help"
+                 echo "Now show help. Usage: man $APP_NAME"
+                 APP_NAME="groff --help"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Gg][Rr][Oo][Ff][Ff]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3619,9 +3881,11 @@ f_menu_cat_system () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of System Category until loop.
+            #BSY Backup      - Backup and archive.
+            #BSY Disks       - Disk information.
+            #BSY Information - System information on mainboard, peripherals etc.
             #BSY Logs        - System Log file viewers.
             #BSY Monitors    - System processes, resources, and disk I/O monitors.
-            #BSY Information - System information on disks, mainboard, etc.
             #BSY Other       - Screen capture, file compression, DOS Emulators.
             #BSY Screens     - Multiple screen sessions.
             #
@@ -3637,26 +3901,128 @@ f_menu_cat_system () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of System Category case statement.
-                 1 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
-                 f_menu_app_sys_logs
+                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Uu] | [Bb][Aa][Cc][Kk][Uu][Pp])
+                 f_menu_app_sys_backup
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 2 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
-                 f_menu_app_sys_monitors
+                 2 | [Dd] | [Dd][Ii] | [Dd][Ii][Ss] | [Dd][Ii][Ss][Kk] | [Dd][Ii][Ss][Kk][Ss]) 
+                 f_menu_app_sys_disks
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Ii] | [Ii][Nn] | [Ii][Nn][Ff] | [Ii][Nn][Ff][Oo] | [Ii][Nn][Ff][Oo][Rr] | [Ii][Nn][Ff][Oo][Rr][Mm] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo][Nn)
                  f_menu_app_sys_information
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 4 | [Oo] | [Oo][Tt] | [Oo][Tt][Hh] | [Oo][Tt][Hh][Ee] | [Oo][Tt][Hh][Ee][Rr]) 
+                 4 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
+                 f_menu_app_sys_logs
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 5 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
+                 f_menu_app_sys_monitors
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 6 | [Oo] | [Oo][Tt] | [Oo][Tt][Hh] | [Oo][Tt][Hh][Ee] | [Oo][Tt][Hh][Ee][Rr]) 
                  f_menu_app_sys_other
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 5 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
+                 7 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
                  f_menu_app_sys_screens
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-            esac                # End of System Category case statement.
+            esac                 # End of System Category case statement.
             #
+            # Trap bad menu choices, do not echo Press enter key to continue.
             f_subcat_bad_menu_choice
       done  # End of System Category until loop.
 } # End of function f_menu_cat_system
+#
+# +----------------------------------------+
+# |     Function f_menu_app_sys_backup     |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_sys_backup () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Backup Applications until loop.
+            #MSB rsync  - Backup, mirror, directories and files.
+            #MSB tar    - Backup, compress files.
+            #MSB gzip   - Compress files to zip files.
+            #MSB gunzip - Uncompress zip files.
+            #MSB zip    - Compress files to zip files. 
+            #MSB unzip  - Uncompress zip files.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Backup/Archive Applications Menu"
+            DELIMITER="#MSB" #MSB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #APP_NAME
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Backup Applications case statement.
+                 1 | [Rr] | [Rr][Ss] | [Rr][Ss][Yy] | [Rr][Ss][Yy][Nn] | [Rr][Ss][Yy][Nn][Cc])
+                 APP_NAME="rsync"
+                 f_application_run
+                 ;;
+                 [Rr][Ss][Yy][Nn][Cc]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Tt] | [Tt][Aa] | [Tt][Aa][Rr])
+                 APP_NAME="tar"
+                 f_application_run
+                 ;;
+                 [Tt][Aa][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Gg] | [Gg][Zz] | [Gg][Zz][Ii] | [Gg][Zz][Ii][Pp])
+                 APP_NAME="gzip"
+                 f_application_run
+                 ;;
+                 [Gg][Zz][Ii][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Gg] | [Gg][Uu] | [Gg][Uu][Nn] | [Gg][Uu][Nn][Zz] | [Gg][Uu][Nn][Zz][Ii] | [Gg][Uu][Nn][Zz][Ii][Pp])
+                 APP_NAME="gunzip"
+                 f_application_run
+                 ;;
+                 [Gg][Uu][Nn][Zz][Ii][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Zz] | [Zz][Ii] | [Zz][Ii][Pp])
+                 APP_NAME="zip"
+                 f_application_run
+                 ;;
+                 [Zz][Ii][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Uu] | [Uu][Nn] | [Uu][Nn][Zz] | [Uu][Nn][Zz][Ii] | [Uu][Nn][Zz][Ii][Pp])
+                 APP_NAME="unzip"
+                 f_application_run
+                 ;;
+                 [Uu][Nn][Zz][Ii][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Backup Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Backup Applications until loop.
+} # End of function f_menu_app_sys_backup
 #
 # +----------------------------------------+
 # |    Function f_menu_app_sys_monitors    |
@@ -3936,6 +4302,167 @@ f_menu_app_sys_monitors () {
       done # End of System Monitors until loop.
 } # End of f_menu_app_sys_monitors
 #
+# +----------------------------------------+
+# |      Function f_menu_app_sys_disks     |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_sys_disks () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of System Disks Information Applications until loop.
+            #MSD df          - Disk usage and mount points, usage: -hT.
+            #MSD pydf        - Disk usage df clone written in python.
+            #MSD du          - Disk usage monitor by directory.
+            #MSD ncdu        - Disk usage monitor, ncurses-based.
+            #MSD uuid        - Use ls -l to show disk uuid number.
+            #MSD cfdisk      - Disk partition tool.
+            #MSD parted      - Disk partition tool.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="System Disks Information Menu"
+            DELIMITER="#MSD" #MSD This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #APP_NAME
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of System Disks Information Applications case statement.
+                 1 | [Dd] | [Dd][Ff])
+                 APP_NAME="df -hT"
+                 clear # Blank the screen.
+                 echo "Displays free space on disk"
+                 echo
+                 echo "Usage:"
+                 echo "df [OPTION]... [FILE]..."
+                 echo "df [OPTION]... --files0-from=F"
+                 echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+                 echo "   --total                 produce a grand total"
+                 echo "   -t, --type=TYPE         limit listing to specific file systems"
+                 echo "   -T, --print-type        print file system type"
+                 echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
+                 echo
+                 echo "*** For more help type: man df"
+                 echo
+                 echo "Display total disk usage in human-readable format."
+                 echo
+                 echo "Now run du. Usage: df -hT"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Pp] | [Pp][Yy] | [Pp][Yy][Dd] | [Pp][Yy][Dd][Ff])
+                 APP_NAME="pydf -hT"
+                 clear # Blank the screen.
+                 echo "Displays free space on disk"
+                 echo
+                 echo "Usage:"
+                 echo "pydf [OPTION]... [FILE]..."
+                 echo "pydf [OPTION]... --files0-from=F"
+                 echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+                 echo "   --total                 produce a grand total"
+                 echo "   -t, --type=TYPE         limit listing to specific file systems"
+                 echo "   -T, --print-type        print file system type"
+                 echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
+                 echo
+                 echo "*** For more help type: man df"
+                 echo
+                 echo "Display total disk usage in human-readable format."
+                 echo
+                 echo "Now run df. Usage: df -hT"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Pp][Yy][Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Dd] | [Dd][Uu])
+                 APP_NAME="du -hsc"
+                 clear # Blank the screen.
+                 echo "Displays disk usage per directory"
+                 echo
+                 echo "Usage:"
+                 echo "du [OPTION]... [FILE]..."
+                 echo "du [OPTION]... --files0-from=F"
+                 echo "   -h, --human-readable  human-readable format (e.g., 1K 234M 2G)"
+                 echo "   -c, --total           produce a grand total"
+                 echo "   -S, --separate-dirs   do not include sub-folders"
+                 echo "   -s, --summarize       display only a total"
+                 echo "   --exclude=PATTERN     exclude files matching PATTERN"
+                 echo "   -d, --max-depth=N     N  or  fewer  levels  below"
+                 echo
+                 echo "*** For more help type: man du"
+                 echo
+                 echo "Display total disk usage in human-readable format."
+                 echo
+                 echo "Now run du. Usage: du -hc"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Dd][Uu]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+
+                 4 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
+                 APP_NAME="ncdu"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn][Cc][Dd][Uu]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
+                 clear # Blank the screen.
+                 echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
+                 APP_NAME="ls -l /dev/disk/by-uuid"
+                 f_application_run             
+                 ;;
+                 [Uu][Uu][Ii][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
+                 APP_NAME="cfdisk"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc][Ff][Dd][Ii][Ss][Kk]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
+                 APP_NAME="parted"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp][Aa][Rr][Tt][Ee][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of System Disks Information> Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of System Disks Information Applications until loop.
+} # End of function f_menu_app_sys_disks
+#
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sys_information  |
@@ -3945,11 +4472,6 @@ f_menu_app_sys_information () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Information until loop.
-            #MSI df          - Disk usage and mount points, usage: -hT.
-            #MSI ncdu        - Disk usage monitor, ncurses-based.
-            #MSI uuid        - Use ls -l to show disk uuid number.
-            #MSI cfdisk      - Disk partition tool.
-            #MSI parted      - Disk partition tool.
             #MSI dmidecode   - Display Main board information.
             #MSI lshw        - Display Main board information.
             #MSI free        - Display memory usage RAM and swap.
@@ -3977,56 +4499,7 @@ f_menu_app_sys_information () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Information case statement.
-                 1 | [Dd] | [Dd][Ff])
-                 clear # Blank the screen.
-                 APP_NAME="df -hT"
-                 f_application_run
-                 ;;
-                 [Dd][Ff]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 2 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
-                 APP_NAME="ncdu"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Nn][Cc][Dd][Uu]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 3 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
-                 clear # Blank the screen.
-                 echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
-                 APP_NAME="ls -l /dev/disk/by-uuid"
-                 f_application_run             
-                 ;;
-                 [Uu][Uu][Ii][Dd]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 4 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
-                 APP_NAME="cfdisk"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc][Ff][Dd][Ii][Ss][Kk]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 5 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
-                 APP_NAME="parted"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Pp][Aa][Rr][Tt][Ee][Dd]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 6 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 1 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
                  APP_NAME="dmidecode"
                  f_application_run
                  ;;
@@ -4034,7 +4507,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Ll] | [Ll][Ss] | [Ll][Ss][Hh] | [Ll][Ss][Hh][Ww])
+                 2 | [Ll] | [Ll][Ss] | [Ll][Ss][Hh] | [Ll][Ss][Hh][Ww])
                  clear # Blank the screen.
                  APP_NAME="lshw -short"
                  echo "Displays main board information"
@@ -4059,7 +4532,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee])
+                 3 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee])
                  APP_NAME="free -m -t -s 2 -c 5"
                  clear # Blank the screen.
                  echo "Display the amount of free and used memory both RAM and swap"
@@ -4078,7 +4551,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Vv] | [Vv][Mm] | [Vv][Mm][Ss] | [Vv][Mm][Ss][Tt] | [Vv][Mm][Ss][Tt][Aa] | [Vv][Mm][Ss][Tt][Aa][Tt])
+                 4 | [Vv] | [Vv][Mm] | [Vv][Mm][Ss] | [Vv][Mm][Ss][Tt] | [Vv][Mm][Ss][Tt][Aa] | [Vv][Mm][Ss][Tt][Aa][Tt])
                  APP_NAME="vmstat"
                  f_application_run
                  ;;
@@ -4086,7 +4559,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
+                 5 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
                  APP_NAME="hdparm -I /dev/sda"
                  clear # Blank the screen.
                  echo
@@ -4106,7 +4579,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
+                 6 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
                  APP_NAME="lsb_release -a"
                  f_application_run
                  ;;
@@ -4114,7 +4587,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
+                 7 | [Uu] | [Uu][Nn] | [Uu][Nn][Aa] | [Uu][Nn][Aa][Mm] | [Uu][Nn][Aa][Mm][Ee])
                  APP_NAME="uname -a"
                  f_application_run
                  ;;
@@ -4122,7 +4595,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
+                 8 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
                  APP_NAME="lsmod "
                  f_application_run
                  ;;
@@ -4130,7 +4603,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 9 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
                  APP_NAME="printenv"
                  f_application_run
                  ;;
@@ -4138,7 +4611,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 15 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
+                 10 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
                  f_application_run
                  ;;
@@ -4146,7 +4619,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 16 | [Ll] | [Ll][Ss] | [Ll][Ss][Pp] | [Ll][Ss][Pp][Cc] | [Ll][Ss][Pp][Cc][Ii])
+                 11 | [Ll] | [Ll][Ss] | [Ll][Ss][Pp] | [Ll][Ss][Pp][Cc] | [Ll][Ss][Pp][Cc][Ii])
                  APP_NAME="lspci"
                  f_application_run
                  ;;
@@ -4154,7 +4627,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 17 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
+                 12 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
                  APP_NAME="lsof"
                  f_application_run
                  ;;
@@ -4162,7 +4635,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 18 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
+                 13 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
                  APP_NAME="uptime"
                  f_application_run
                  ;;
@@ -4362,18 +4835,17 @@ f_menu_cat_organizer () {
             #
             case $CHOICE_SCAT in # Start of Personal Organizer Application Category case statement.
                  1 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr])
-                 f_menu_app_calendar          # Calendar-ToDo Applications Menu.
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 f_menu_app_calendar
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
-                 f_menu_app_todo              # To-Do Applications Menu.
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 f_menu_app_todo
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Personal Organizer Application Category case statement.
             #
-            if [ $CHOICE_SCAT -ne -0 ] ; then
-               CHOICE_SCAT=-1 # Force stay in until loop.
-            fi
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
       done  # End of Personal Organizer Application Category until loop.
 } # End of function f_menu_cat_organizer
 #
@@ -5135,17 +5607,16 @@ f_menu_cat_image () {
             case $CHOICE_SCAT in # Start of Image Application Category case statement.
                  1 | [Tt] | [Tt][Oo] | [Tt][Oo][Oo] | [Tt][Oo][Oo][Ll] | [Tt][Oo][Oo][Ll][Ss])
                  f_menu_app_image_graphics
-                 CHOICE_SCAT=-1
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Mm] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc][Kk]) 
                  f_menu_app_imagemagick
-                 CHOICE_SCAT=-1
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-            esac                # End of Image Application Category case statement.
+            esac                 # End of Image Application Category case statement.
             #
-            if [ $CHOICE_SCAT -ne -0 ] ; then
-               CHOICE_SCAT=-1 # Force stay in until loop.
-            fi
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
       done  # End of Image Application Category until loop.
 } # End of function f_menu_cat_image
 #
@@ -5511,39 +5982,48 @@ f_menu_cat_games () {
             case $CHOICE_SCAT in # Start of Game Category case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Cc] | [Aa][Rr][Cc][Aa] | [Aa][Rr][Cc][Aa][Dd] | [Aa][Rr][Cc][Aa][Dd][Ee]) 
                  f_menu_app_games_arcade
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Bb] | [Bb][Oo] | [Bb][Oo][Aa] | [Bb][Oo][Aa][Rr] | [Bb][Oo][Aa][Rr][Dd])
                  f_menu_app_games_board
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Rr] | [Cc][Aa][Rr][Dd])
                  f_menu_app_games_card
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Mm] | [Mm][Uu] | [Mm][Uu][Dd])
                  f_menu_app_games_mud
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Pp] | [Pp][Uu] | [Pp][Uu][Zz] | [Pp][Uu][Zz][Zz] | [Pp][Uu][Zz][Zz][Ll] | [Pp][Uu][Zz][Zz][Ll][Ee] | [Pp][Uu][Zz][Zz][Ll][Ee][Ss])
                  f_menu_app_games_puzzle
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Zz])
                  f_menu_app_games_quiz
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Rr] | [Rr][Pp] | [Rr][Pp][Gg])
                  f_menu_app_games_rpg
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Ss] | [Ss][Ii] | [Ss][Ii][Mm] | [Ss][Ii][Mm][Uu] | [Ss][Ii][Mm][Uu][Ll] | [Ss][Ii][Mm][Uu][Ll][Aa] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo][Nn])
                  f_menu_app_games_simulation
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  9 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Aa] | [Ss][Tt][Rr][Aa][Tt] | [Ss][Tt][Rr][Aa][Tt][Ee] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg][Yy])
                  f_menu_app_games_strategy
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  10 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Dd])
                  f_menu_app_games_word
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-            esac                # End of Game Category case statement.
+            esac                 # End of Game Category case statement.
             #
-            if [ $CHOICE_SCAT -ne -0 ] ; then
-               CHOICE_SCAT=-1 # Force stay in until loop.
-            fi
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
       done  # End of Game Category until loop.
 } # End of function f_menu_cat_games
 #
