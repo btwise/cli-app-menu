@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-08-2013 22:34"
+REVDATE="April-09-2013 10:47"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -249,6 +249,7 @@ REVDATE="April-08-2013 22:34"
 # MSB - System Backup Applications Menu
 #:MSC - System Screen Applications Menu
 # MSD - System Disk Information Applications Menu
+# MSH - System Health Applications Menu
 #:MSI - System Information Applications Menu
 #:MSM - System Monitor Applications Menu
 #:MSP - Spreadsheet Applications Menu
@@ -904,7 +905,7 @@ f_menu_app_sample_template () {
             MENU_TITLE="<Sample Template> Applications Menu"
             DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
-            #APP_NAME
+            #
             read CHOICE_APP
             #
             f_quit_app_menu
@@ -3150,7 +3151,7 @@ f_menu_app_file_find () {
             MENU_TITLE="Find File Applications Menu"
             DELIMITER="#MFF" #MFF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
-            #APP_NAME
+            #
             read CHOICE_APP
             #
             f_quit_app_menu
@@ -3220,7 +3221,7 @@ f_menu_app_file_recover () {
             MENU_TITLE="File Recovery Applications Menu"
             DELIMITER="#MFR" #MFR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
-            #APP_NAME
+            #
             read CHOICE_APP
             #
             f_quit_app_menu
@@ -3337,7 +3338,7 @@ f_menu_app_file_viewers () {
             MENU_TITLE="File Viewer Applications Menu"
             DELIMITER="#MFV" #MFV This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
-            #APP_NAME
+            #
             read CHOICE_APP
             #
             f_quit_app_menu
@@ -3883,6 +3884,7 @@ f_menu_cat_system () {
       do    # Start of System Category until loop.
             #BSY Backup      - Backup and archive.
             #BSY Disks       - Disk information.
+            #BSY Health      - Anti-virus scanners, root-kit detectors etc.
             #BSY Information - System information on mainboard, peripherals etc.
             #BSY Logs        - System Log file viewers.
             #BSY Monitors    - System processes, resources, and disk I/O monitors.
@@ -3909,23 +3911,27 @@ f_menu_cat_system () {
                  f_menu_app_sys_disks
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 3 | [Ii] | [Ii][Nn] | [Ii][Nn][Ff] | [Ii][Nn][Ff][Oo] | [Ii][Nn][Ff][Oo][Rr] | [Ii][Nn][Ff][Oo][Rr][Mm] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo][Nn)
+                 3 | [Hh] | [Hh][Ee] | [Hh][Ee][Aa] | [Hh][Ee][Aa][Ll] | [Hh][Ee][Aa][Ll][Tt] | [Hh][Ee][Aa][Ll][Tt][Hh])
+                 f_menu_app_sys_health
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 4 | [Ii] | [Ii][Nn] | [Ii][Nn][Ff] | [Ii][Nn][Ff][Oo] | [Ii][Nn][Ff][Oo][Rr] | [Ii][Nn][Ff][Oo][Rr][Mm] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo][Nn)
                  f_menu_app_sys_information
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 4 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
+                 5 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
                  f_menu_app_sys_logs
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 5 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
+                 6 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
                  f_menu_app_sys_monitors
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 6 | [Oo] | [Oo][Tt] | [Oo][Tt][Hh] | [Oo][Tt][Hh][Ee] | [Oo][Tt][Hh][Ee][Rr]) 
+                 7 | [Oo] | [Oo][Tt] | [Oo][Tt][Hh] | [Oo][Tt][Hh][Ee] | [Oo][Tt][Hh][Ee][Rr]) 
                  f_menu_app_sys_other
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 7 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
+                 8 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
                  f_menu_app_sys_screens
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
@@ -3958,7 +3964,7 @@ f_menu_app_sys_backup () {
             MENU_TITLE="Backup/Archive Applications Menu"
             DELIMITER="#MSB" #MSB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
-            #APP_NAME
+            #
             read CHOICE_APP
             #
             f_quit_app_menu
@@ -4033,6 +4039,7 @@ f_menu_app_sys_monitors () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Monitors until loop.
             #MSM atop      - System process and resource manager.
+            #MSM chkconfig - System update/query run-level processes.
             #MSM glances   - System process and resource manager.
             #MSM htop      - System process and resource manager.
             #MSM pidstat   - System process and resource manager.
@@ -4045,8 +4052,6 @@ f_menu_app_sys_monitors () {
             #MSM iotop     - Disk I/O process monitor.
             #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
             #MSM yacpi     - ACPI monitor, ncurses-based.
-            #MSM clamscan  - Clam anti-virus program scans for viruses.
-            #MSM freshclam - Clam anti-virus database definition update.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Monitors Menu"
@@ -4071,7 +4076,30 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Gg] | [Gg][Ll] | [Gg][Ll][Aa] | [Gg][Ll][Aa][Nn] | [Gg][Ll][Aa][Nn][Cc] | [Gg][Ll][Aa][Nn][Cc][Ee] | [Gg][Ll][Aa][Nn][Cc][Ee][Ss])
+                 2 | [Cc] | [Cc][Hh] | [Cc][Hh][Kk] | [Cc][Hh][Kk][Cc] | [Cc][Hh][Kk][Cc][Oo] | [Cc][Hh][Kk][Cc][Oo][Nn] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg])
+                 APP_NAME="chkconfig -l"
+                 clear # Blank the screen.
+                 echo "chkconfig manipulates run-level services at boot time."
+                 echo
+                 echo "chkconfig -t|--terse [names]"
+                 echo "chkconfig -s|--set [name state]"
+                 echo "chkconfig -e|--edit [names]"
+                 echo "chkconfig -c|--check name [state]"
+                 echo "chkconfig -l|--list [--deps] [names]"
+                 echo "chkconfig -A|--allservices"
+                 echo "chkconfig -a|--add [names]"
+                 echo "chkconfig -d|--del [names]"
+                 echo "*** For more help type: man chkconfig"
+                 echo
+                 echo "Now run chkconfig. Usage: chkconfig -l"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Gg] | [Gg][Ll] | [Gg][Ll][Aa] | [Gg][Ll][Aa][Nn] | [Gg][Ll][Aa][Nn][Cc] | [Gg][Ll][Aa][Nn][Cc][Ee] | [Gg][Ll][Aa][Nn][Cc][Ee][Ss])
                  APP_NAME="glances"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -4081,7 +4109,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Hh] | [Hh][Tt] | [Hh][Tt][Oo] | [Hh][Tt][Oo][Pp])
+                 4 | [Hh] | [Hh][Tt] | [Hh][Tt][Oo] | [Hh][Tt][Oo][Pp])
                  APP_NAME="htop"
                  f_how_to_quit_application "q or <F10>"
                  f_application_run
@@ -4091,7 +4119,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Pp] | [Pp][Ii] | [Pp][Ii][Dd] | [Pp][Ii][Dd][Ss] | [Pp][Ii][Dd][Ss][Tt] | [Pp][Ii][Dd][Ss][Tt][Aa] | [Pp][Ii][Dd][Ss][Tt][Aa][Tt])
+                 5 | [Pp] | [Pp][Ii] | [Pp][Ii][Dd] | [Pp][Ii][Dd][Ss] | [Pp][Ii][Dd][Ss][Tt] | [Pp][Ii][Dd][Ss][Tt][Aa] | [Pp][Ii][Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="pidstat 2 3"
                  clear # Blank the screen.
                  echo "pidstat this PC's CPU (localhost) for 3 times every 2 seconds as an example."
@@ -4106,7 +4134,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Pp] | [Pp][Ss])
+                 6 | [Pp] | [Pp][Ss])
                  APP_NAME="ps -ejH"
                  clear # Blank the screen.
                  echo "To see every process on the system using standard syntax:"
@@ -4138,7 +4166,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
+                 7 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
                  APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -4148,7 +4176,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Tt] | [Tt][Ll] | [Tt][Ll][Oo] | [Tt][Ll][Oo][Aa] | [Tt][Ll][Oo][Aa][Dd])
+                 8 | [Tt] | [Tt][Ll] | [Tt][Ll][Oo] | [Tt][Ll][Oo][Aa] | [Tt][Ll][Oo][Aa][Dd])
                  APP_NAME="tload"
                  clear # Blank the screen.
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
@@ -4184,7 +4212,7 @@ f_menu_app_sys_monitors () {
                       ;;
                  esac
                  ;;
-                 8 | [Mm] | [Mm][Pp] | [Mm][Pp][Ss] | [Mm][Pp][Ss][Tt] | [Mm][Pp][Ss][Tt][Aa] | [Mm][Pp][Ss][Tt][Aa][Tt])
+                 9 | [Mm] | [Mm][Pp] | [Mm][Pp][Ss] | [Mm][Pp][Ss][Tt] | [Mm][Pp][Ss][Tt][Aa] | [Mm][Pp][Ss][Tt][Aa][Tt])
                  APP_NAME="mpstat 2 5"
                  clear # Blank the screen.
                  echo "Display CPU statistics."
@@ -4205,7 +4233,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
+                 10 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
                  clear # Blank the screen.
                  echo "Display system resource statistics."
@@ -4225,7 +4253,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ii]| [Ii][Oo] | [Ii][Oo][Ss] | [Ii][Oo][Ss][Tt] | [Ii][Oo][Ss][Tt][Aa] | [Ii][Oo][Ss][Tt][Aa][Tt])
+                 11 | [Ii]| [Ii][Oo] | [Ii][Oo][Ss] | [Ii][Oo][Ss][Tt] | [Ii][Oo][Ss][Tt][Aa] | [Ii][Oo][Ss][Tt][Aa][Tt])
                  APP_NAME="iostat"
                  f_application_run
                  ;;
@@ -4233,7 +4261,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
+                 12 | [Ii]| [Ii][Oo] | [Ii][Oo][Tt] | [Ii][Oo][Tt][Oo] | [Ii][Oo][Tt][Oo][Pp])
                  APP_NAME="iotop"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -4243,7 +4271,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
+                 13 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -4253,7 +4281,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
+                 14 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -4262,36 +4290,6 @@ f_menu_app_sys_monitors () {
                  [Yy][Aa][Cc][Pp][Ii]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 ;;
-                 14 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
-                 APP_NAME="clamscan -r /home"
-                 clear # Blank the screen.
-                 echo "Usage: clamscan [options] [file/directory/-]"
-                 echo "Usage: clamscan -r ~ will recursively scan your home directory."
-                 echo
-                 echo "*** For more help type: clamscan --help"
-                 echo
-                 echo "Clam anti-virus will now scan the folder, please be patient"
-                 echo "since Clam anti-virus is slow to scan, but thorough."
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 15 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
-                 APP_NAME="freshclam"
-                 # f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
             esac                # End of System Monitors case statement.
             #
@@ -4325,7 +4323,7 @@ f_menu_app_sys_disks () {
             MENU_TITLE="System Disks Information Menu"
             DELIMITER="#MSD" #MSD This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
-            #APP_NAME
+            #
             read CHOICE_APP
             #
             f_quit_app_menu
@@ -4463,6 +4461,99 @@ f_menu_app_sys_disks () {
       done  # End of System Disks Information Applications until loop.
 } # End of function f_menu_app_sys_disks
 #
+#
+# +----------------------------------------+
+# |     Function f_menu_app_sys_health     |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_sys_health () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of System Health Applications until loop.
+            #MSH clamscan   - Clam anti-virus program scans for viruses.
+            #MSH freshclam  - Clam anti-virus database definition update.
+            #MSH chkrootkit - Root Kit detector.
+            #MSH rkhunter   - Root Kit detector.
+            #MSH tripwire   - Detects/Reports changes in system files.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="System Health Applications Menu"
+            DELIMITER="#MSH" #MSH This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of System Health Applications case statement.
+                 1 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
+                 APP_NAME="clamscan -r /home"
+                 clear # Blank the screen.
+                 echo "Usage: clamscan [options] [file/directory/-]"
+                 echo "Usage: clamscan -r ~ will recursively scan your home directory."
+                 echo
+                 echo "*** For more help type: clamscan --help"
+                 echo
+                 echo "Clam anti-virus will now scan the folder, please be patient"
+                 echo "since Clam anti-virus is slow to scan, but thorough."
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 2 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
+                 APP_NAME="freshclam"
+                 # f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 3 | [Cc] | [Cc][Hh] | [Cc][Hh][Kk | [Cc][Hh][Kk] | [Cc][Hh][Kk][Rr] | [Cc][Hh][Kk][Rr][Oo] | [Cc][Hh][Kk][Rr][Oo][Oo] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt])
+                 APP_NAME="chkrootkit"
+                 f_application_run
+                 ;;
+                 [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Rr] | [Rr][Kk] | [Rr][Kk][Hh] | [Rr][Kk][Hh][Uu] | [Rr][Kk][Hh][Uu][Nn] | [Rr][Kk][Hh][Uu][Nn][Tt] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr])
+                 APP_NAME="rkhunter"
+                 f_application_run
+                 ;;
+                 [Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Tt] | [Tt][Rr] | [Tt][Rr][Ii] | [Tt][Rr][Ii][Pp] | [Tt][Rr][Ii][Pp][Ww] | [Tt][Rr][Ii][Pp][Ww][Ii] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee])
+                 APP_NAME="tripwire"
+                 f_application_run
+                 ;;
+                 [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of System Health Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of System Health Applications until loop.
+} # End of function f_menu_app_sys_health
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sys_information  |
