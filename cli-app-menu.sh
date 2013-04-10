@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-10-2013 10:33"
+REVDATE="April-11-2013 00:26"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -175,6 +175,10 @@ REVDATE="April-10-2013 10:33"
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
 #:
+#: CHOICE_TCAT - String; User choice in 3rd-level Category Menu (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
+#:
 #: DELIMITER   - String; Delimiter prefix of menu option string.
 #: ERROR       - Number; Save error code number from $? function.
 #: MAX         - Number; Maximum option choice number in menu.
@@ -205,6 +209,7 @@ REVDATE="April-10-2013 10:33"
 #:BIG - Image Categories Menu
 #:BIN - Internet Categories Menu
 #:BNE - Network Categories Menu
+#:BOF - Office Categories Menu
 #:BSY - System Categories Menu
 #:BTX - Text Categories Menu
 #:BXC - Sample Template Categories Menu
@@ -242,8 +247,8 @@ REVDATE="April-10-2013 10:33"
 #:MNM - Network Monitor Applications Menu
 #:MNO - Note Applications Menu
 #:MNR - News Reader Applications Menu
-#:MPE - Personal Organizer Applications Menu
 #:MPO - Podcatcher Applications Menu
+#:MPR - Presentation Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
 # MSB - System Backup Applications Menu
@@ -317,14 +322,16 @@ f_initvars_menu_app () {
                      # command.
       APP_NAME=""    # Initialize to null. String variable contains
                      # application name.
-      CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting 
-                     # Applications Menu.
-      CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting 
-                     # Sub-Category Menu.
-      CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting
-                     # Category Menu.
       CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting
                      # Main Menu.
+      CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting
+                     # Category Menu.
+      CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting 
+                     # Sub-Category Menu.
+      CHOICE_TCAT=-1 # Initialize to -1 to force until loop without exiting 
+                     # 3rd-level Category Menu.
+      CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting 
+                     # Applications Menu.
       PRESS_KEY=1    # Display "Press 'Enter' key to continue."
 } # End of f_initvars_menu_app
 #
@@ -428,7 +435,28 @@ f_quit_subcat_menu () {
            PRESS_KEY=0
            ;;
       esac
-} # End of function f_quit_subcat_menu#
+} # End of function f_quit_subcat_menu
+#
+# +----------------------------------------+
+# |       Function f_quit_tcat_menu      |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_TCAT.
+# Outputs: CHOICE_TCAT.
+#
+f_quit_tcat_menu () {
+      case $CHOICE_TCAT in
+           # Quit?
+           0)
+           CHOICE_TCAT=0
+           PRESS_KEY=0
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu] | [Rr][Ee][Tt][Uu][Rr] | [Rr][Ee][Tt][Uu][Rr][Nn])
+           CHOICE_TCAT=0
+           PRESS_KEY=0
+           ;;
+      esac
+} # End of function f_quit_tcat_menu#
 #
 # +----------------------------------------+
 # |        Function f_quit_app_menu        |
@@ -666,6 +694,32 @@ fi
 } # End of function f_subcat_bad_menu_choice
 #
 # +----------------------------------------+
+# |    Function f_tcat_bad_menu_choice   |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_TCAT.
+# Outputs: CHOICE_TCAT, PRESS_KEY.
+#
+f_subcat_bad_menu_choice () {
+case $CHOICE_TCAT in
+     "")
+     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+     ;;
+     [A-Za-z]*)
+     CHOICE_TCAT=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                    # Specifically for alpha nonsense responses.
+     ;;
+esac
+if [ $CHOICE_TCAT -le -2 -o $CHOICE_TCAT -gt $MAX ] ; then
+   CHOICE_TCAT=-1   # Convert string to integer -1 forcing stay in until loop.
+   PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
+                    # Specifically for out-of-bounds numeric response.
+fi
+} # End of function f_tcat_bad_menu_choice
+#
+# +----------------------------------------+
 # |       Function f_application_error     |
 # +----------------------------------------+
 #
@@ -684,14 +738,16 @@ f_application_error () {
          f_press_enter_key_to_continue
          #
          # Be sure variable is set to redisplay current menu afterwards.
-         CHOICE_APP=-1  # Initialize to -1 to force until loop
-                        # without exiting Applications Menu.
-         CHOICE_SCAT=-1 # Initialize to -1 to force until loop 
-                        # without exiting Sub-Category Menu.
-         CHOICE_CAT=-1  # Initialize to -1 to force until loop
-                        # without exiting Category Menu.
          CHOICE_MAIN=-1 # Initialize to -1 to force until loop
                         # without exiting Main Menu.
+         CHOICE_CAT=-1  # Initialize to -1 to force until loop
+                        # without exiting Category Menu.
+         CHOICE_SCAT=-1 # Initialize to -1 to force until loop 
+                        # without exiting Sub-Category Menu.
+         CHOICE_TCAT=-1 # Initialize to -1 to force until loop 
+                        # without exiting 3rd-level Category Menu.
+         CHOICE_APP=-1  # Initialize to -1 to force until loop
+                        # without exiting Applications Menu.
       fi
       #
       case $ERROR in # Start of Error Number case statement.
@@ -849,21 +905,21 @@ f_application_error () {
 } # End of function f_application_error
 #
 # +----------------------------------------+
-# |  Function f_menu_cat_sample_template   |
+# |  Function f_menu_scat_sample_template   |
 # +----------------------------------------+
 #
 # Inputs: CHOICE_SCAT, MAX
 #
-f_menu_cat_sample_template () {
+f_menu_scat_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
-      do    # Start of Application Category until loop.
+      do    # Start of <Sample Template> Application Category until loop.
             #BXC App Cat1
             #BXC App Cat2
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Application Category Menu"
+            MENU_TITLE="<Sample Template> Application Category Menu"
             DELIMITER="#BXC" #BXC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -873,7 +929,7 @@ f_menu_cat_sample_template () {
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_SCAT in # Start of Application Category case statement.
+            case $CHOICE_SCAT in # Start of <Sample Template> Application Category case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
                  f_menu_cat_name1
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
@@ -882,12 +938,54 @@ f_menu_cat_sample_template () {
                  f_menu_cat_name2
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-            esac                 # End of Application Category case statement.
+            esac                 # End of <Sample Template> Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_subcat_bad_menu_choice
-      done  # End of Application Category until loop.
-} # End of function f_menu_cat_sample_template
+      done  # End of <Sample Template> Application Category until loop.
+} # End of function f_menu_scat_sample_template
+#
+#
+# +----------------------------------------+
+# |  Function f_menu_tcat_sample_template   |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_TCAT, MAX
+#
+f_menu_tcat_sample_template () {
+      f_initvars_menu_app
+      until [ $CHOICE_TCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of <Sample Template> Application Category until loop.
+            #BXC App Cat1
+            #BXC App Cat2
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="<Sample Template> Application Category Menu"
+            DELIMITER="#BXC" #BXC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_TCAT
+            #
+            f_quit_tcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_TCAT in # Start of <Sample Template> Application Category case statement.
+                 1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
+                 f_menu_cat_name1
+                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][2]) 
+                 f_menu_cat_name2
+                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of <Sample Template> Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_tcat_bad_menu_choice
+      done  # End of <Sample Template> Application Category until loop.
+} # End of function f_menu_tcat_sample_template
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -951,20 +1049,16 @@ f_menu_cat_applications () {
       f_initvars_menu_app
       until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
-            #AAB Audio           - Music players, audio utilities.
-            #AAB Calculator      - Simple "pocket" calculators.
-            #AAB Education       - Learn something.
-            #AAB File Managers   - Copy, move, rename, delete files/folders on localhost.
-            #AAB Games           - Fun time!
-            #AAB Image           - View images and graphics files.
-            #AAB Internet        - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
-            #AAB Network         - Wireless connection, network monitoring, tools.
-            #AAB Notebook        - Write notes in a "notebook".
-            #AAB Organizers      - Personal organization, calendar, to-do, (alarm) clocks.
-            #AAB Screen-saver    - For when you're away.
-            #AAB Spreadsheet     - Basic spreadsheet.
-            #AAB System          - Monitor system processes, resources, utilities, etc.
-            #AAB Text            - Create/Edit text files, text format converters, etc.
+            #AAB Audio         - Music players, audio utilities.
+            #AAB Education     - Learn something.
+            #AAB File Managers - Copy, move, rename, delete files/folders on localhost.
+            #AAB Games         - Fun time!
+            #AAB Image         - View images and graphics files.
+            #AAB Internet      - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
+            #AAB Network       - Wireless connection, network monitoring, tools.
+            #AAB Office        - Text Editors, Spreadsheets, Presentation, Organizers, Calcs.
+            #AAB Screen-saver  - For when you're away.
+            #AAB System        - Monitor system processes, resources, utilities, etc.
             #
             MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
@@ -991,62 +1085,112 @@ f_menu_cat_applications () {
                  f_menu_app_audio             # Audio Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 2 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
-                 f_menu_app_calculators       # Calculator Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 4 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
+                 2 | [Ee] | [Ee][Dd] | [Ee][Dd][Uu] | [Ee][Dd][Uu][Cc] | [Ee][Dd][Uu][Cc][Aa] | [Ee][Dd][Uu][Cc][Aa][Tt] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo] | [Ee][Dd][Uu][Cc][Aa][Tt][Ii][Oo][Nn])
                  f_menu_app_education         # Education Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 5 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
+                 3 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Mm] | [Ff][Ii][Ll][Ee]' '[Mm][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Ff][Ii][Ll][Ee]' '[Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
                  f_menu_cat_file_management   # File Management Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 6 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
+                 4 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
                  f_menu_cat_games
                  CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
                  ;;
-                 7 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss])
+                 5 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss])
                  f_menu_cat_image             # Image-Graphics Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 8 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
+                 6 | [Ii] | [Ii][Nn] | [Ii][Nn][Tt] | [Ii][Nn][Tt][Ee] | [Ii][Nn][Tt][Ee][Rr] | [Ii][Nn][Tt][Ee][Rr][Nn] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee] | [Ii][Nn][Tt][Ee][Rr][Nn][Ee][Tt])
                  f_menu_cat_internet          # Internet Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 9 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk])
+                 7 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk])
                  f_menu_cat_network           # Network Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 10 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
-                 f_menu_app_note              # Note Applications Menu.
+                 8 | [Oo] | [Oo][Ff] | [Oo][Ff][Ff] | [Oo][Ff][Ff][Ii] | [Oo][Ff][Ff][Ii][Cc] | [Oo][Ff][Ff][Ii][Cc][Ee])
+                 f_menu_cat_office            # Office Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 10 | [Oo] | [Oo][Rr] | [Oo][Rr][Gg] | [Oo][Rr][Gg][Aa] | [Oo][Rr][Gg][Aa][Nn] | [Oo][Rr][Gg][Aa][Nn][Ii] | [Oo][Rr][Gg][Aa][Nn][Ii][Zz] | [Oo][Rr][Gg][Aa][Nn][Ii][Zz][Ee] | [Oo][Rr][Gg][Aa][Nn][Ii][Zz][Ee][Rr)
-                 f_menu_cat_organizer         # Personal Organizer Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 11 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][-] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee][Rr])
+                 9 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][-] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn][-][Ss][Aa][Vv][Ee][Rr])
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 12 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
-                 f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 13 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
+                 10 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
                  f_menu_cat_system            # System Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
-                 ;;
-                 14 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt])
-                 f_menu_cat_text              # Text Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
             esac # End of Application Category case statement.
             #
       done # End of Application Category until loop.
 } # End of function f_menu_cat_applications
+#
+# +----------------------------------------+
+# |       Function f_menu_cat_office       |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_SCAT, MAX
+#
+f_menu_cat_office () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Office Application Category until loop.
+            #BOF Calculators  - Simple "pocket" calculators.
+            #BOF Calendar     - Calendars.
+            #BOF Notebooks    - Write notes in a "notebook".
+            #BOF Presenters   - Text slideshow presentation.
+            #BOF Spreadsheets - Basic spreadsheet.
+            #BOF Text         - Create/Edit text files, text format converters, etc.
+            #BOF ToDo         - To-Do lists, alarm clocks.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Office Application Category Menu"
+            DELIMITER="#BOF" #BOF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_quit_subcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Office Application Category case statement.
+                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
+                 f_menu_app_calculators       # Calculator Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 2 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr])
+                 f_menu_app_calendar
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 3 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
+                 f_menu_app_note              # Note Applications Menu.
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 4 | [Pp] | [Pp][Rr] | [Pp][Rr][Ee] | [Pp][Rr][Ee][Nn] | [Pp][Rr][Ee][Nn][Tt] | [Pp][Rr][Ee][Nn][Tt][Ee] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr][Ss])
+                 f_menu_app_presentation      # Presentation Applications Menu.
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 5 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
+                 f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 6 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt])
+                 f_menu_cat_text              # Text Applications Menu.
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 7 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
+                 f_menu_app_todo
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Office Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_subcat_bad_menu_choice
+      done  # End of Office Application Category until loop.
+} # End of function f_menu_cat_office
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -3386,11 +3530,11 @@ f_menu_app_file_viewers () {
 # |         Function f_menu_cat_text       |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_SCAT, MAX
+# Inputs: CHOICE_TCAT, MAX
 #
 f_menu_cat_text () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
+      until [ $CHOICE_TCAT -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Text Application Category until loop.
             #BTX Compare    - Show differences between text and pdf files.
@@ -3403,33 +3547,33 @@ f_menu_cat_text () {
             DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_SCAT
+            read CHOICE_TCAT
             #
-            f_quit_subcat_menu
+            f_quit_tcat_menu
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_SCAT in # Start of Text Application Category case statement.
+            case $CHOICE_TCAT in # Start of Text Application Category case statement.
                  1 | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa] | [Cc][Oo][Mm][Pp][Aa][Rr] | [Cc][Oo][Mm][Pp][Aa][Rr][Ee])
                  f_menu_app_text_compare
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;               
                  2 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Vv] | [Cc][Oo][Nn][Vv][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr][Ss])
                  f_menu_app_text_converters
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_text_editors
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 CHOICE_S]TCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Tt] | [Tt][Oo] | [Tt][Oo][Oo] | [Tt][Oo][Oo][Ll] | [Tt][Oo][Oo][Ll][Ss])
                  f_menu_app_text_tools
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Text Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_subcat_bad_menu_choice
+            f_tcat_bad_menu_choice
       done  # End of Text Application Category until loop.
 } # End of function f_menu_cat_text
 #
@@ -4945,47 +5089,6 @@ f_menu_app_sys_other () {
 } # End of f_menu_app_sys_other
 #
 # +----------------------------------------+
-# |      Function f_menu_cat_organizer     |
-# +----------------------------------------+
-#
-# Inputs: CHOICE_SCAT, MAX
-#
-f_menu_cat_organizer () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
-      do    # Start of Application Category until loop.
-            #MPE Calendar - Calendars.
-            #MPE ToDo     - To-Do lists, alarm clocks.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Personal Organizer Application Category Menu"
-            DELIMITER="#MPE" #MPE This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_quit_subcat_menu
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of Personal Organizer Application Category case statement.
-                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr])
-                 f_menu_app_calendar
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
-                 ;;
-                 2 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
-                 f_menu_app_todo
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Personal Organizer Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_subcat_bad_menu_choice
-      done  # End of Personal Organizer Application Category until loop.
-} # End of function f_menu_cat_organizer
-#
-# +----------------------------------------+
 # |      Function f_menu_app_calendar      |
 # +----------------------------------------+
 #
@@ -5465,6 +5568,49 @@ f_menu_app_note () {
             f_option_press_enter_key
       done # End of Note Applications until loop.
 } # End of f_menu_app_note
+#
+# +----------------------------------------+
+# |    Function f_menu_app_presentation    |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_presentation () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Presentation Applications until loop.
+            #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Presentation Applications Menu"
+            DELIMITER="#MPR" #MPR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Presentation Applications case statement.
+                 1 | [Tt] | [Tt][Pp] | [Tt][Pp][Pp])
+                 APP_NAME="tpp"
+                 f_application_run
+                 ;;
+                 [Tt][Pp][Pp]]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Presentation Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Presentation> Applications until loop.
+} # End of function f_menu_app_presentation
 #
 # +----------------------------------------+
 # |        Function f_menu_app_audio       |
