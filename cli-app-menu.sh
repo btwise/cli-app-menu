@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-09-2013 10:47"
+REVDATE="April-10-2013 10:33"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -677,7 +677,9 @@ f_application_error () {
       if [ $ERROR -ne 0 ] ; then
          echo
          echo $THIS_FILE" says:"
-         echo "An error code $ERROR has occurred" 
+         echo "              ***********"
+         echo "An error code >>> $ERROR <<< has occurred" 
+         echo "              ***********"
          echo "while launching this $APP_NAME application."
          f_press_enter_key_to_continue
          #
@@ -3391,7 +3393,7 @@ f_menu_cat_text () {
       until [ $CHOICE_SCAT -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Text Application Category until loop.
-            #BTX Compare    - Show differences between text files.
+            #BTX Compare    - Show differences between text and pdf files.
             #BTX Converters - Convert between text document/file formats.
             #BTX Editors    - Create/Edit text documents/files.
             #BTX Tools      - Viewers,text markup language.
@@ -3444,6 +3446,7 @@ f_menu_app_text_compare () {
             #MTC diff      - Differences between two text files shown using <> signs.
             #MTC vimdiff   - Differences between two text files shown in color highlights.
             #MTC wdiff     - Differences between two text files shown using +/- signs.
+            #MTC diffpdf   - Compare pdf files.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Compare Applications Menu"
@@ -3495,6 +3498,14 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  [Ww][Dd][Ii][Ff][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Dd] | [Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff] | [Dd][Ii][Ff][Ff][Pp] | [Dd][Ii][Ff][Ff][Pp][Dd] | [Dd][Ii][Ff][Ff][Pp][Dd][Ff])
+                 APP_NAME="diffpdf"
+                 f_application_run
+                 ;;
+                 [Dd][Ii][Ff][Ff][Pp][Dd][Ff]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4495,6 +4506,8 @@ f_menu_app_sys_health () {
                  1 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
                  APP_NAME="clamscan -r /home"
                  clear # Blank the screen.
+                 echo "Clamscan Anti-virus scanner"
+                 echo
                  echo "Usage: clamscan [options] [file/directory/-]"
                  echo "Usage: clamscan -r ~ will recursively scan your home directory."
                  echo
@@ -4539,7 +4552,30 @@ f_menu_app_sys_health () {
                  f_application_run
                  ;;
                  5 | [Tt] | [Tt][Rr] | [Tt][Rr][Ii] | [Tt][Rr][Ii][Pp] | [Tt][Rr][Ii][Pp][Ww] | [Tt][Rr][Ii][Pp][Ww][Ii] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee])
-                 APP_NAME="tripwire"
+                 APP_NAME="man tripwire"
+                 clear # Blank the screen.
+                 echo "Detects unauthorized file changes"
+                 echo
+                 echo "*** For more help type: man tripwire for use and operation."
+                 echo "*** For more help type: man twadmin - create, encode policy, config files."
+                 echo "*** For more help type: man twprint - print database."
+                 echo "*** For more help type: man siggen - display hash values for files."
+                 echo "*** For more help type: man twconfig - explanation of config files."
+                 echo "*** For more help type: man twpolicy - explanation of policy files."
+                 echo "*** For more help type: man twfiles - overview of files, settings."
+                 echo
+                 echo "Usage:"
+                 echo "Database Initialization:  tripwire [-m i|--init] [options]"
+                 echo "Integrity Checking:  tripwire [-m c|--check] [object1 [object2...]]"
+                 echo "Database Update:  tripwire [-m u|--update]"
+                 echo "Policy Update:  tripwire [-m p|--update-policy] policyfile.txt"
+                 echo "Test:  tripwire [-m t|--test] --email address"
+                 echo "Type 'tripwire [mode] --help' OR"
+                 echo "'tripwire --help mode [mode...]' OR"
+                 echo "'tripwire --help all' for extended help"
+                 echo
+                 echo "Now run man tripwire. Usage: man tripwire"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee]' '*)
@@ -4574,6 +4610,7 @@ f_menu_app_sys_information () {
             #MSI printenv    - Display environmental variables.
             #MSI lsusb       - Display USB devices.
             #MSI lspci       - Display PCI buses and connected devices.
+            #MSI acpitool    - Display ACPI power/battery settings.
             #MSI lsof        - Display information about open files.
             #MSI uptime      - Display how long PC has been running, # users, load average.
             #
@@ -4718,7 +4755,15 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
+                 12 | [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt] | [Aa][Cc][Pp][Ii][Tt][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
+                 APP_NAME="acpitool"
+                 f_application_run
+                 ;;
+                 [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 13 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
                  APP_NAME="lsof"
                  f_application_run
                  ;;
@@ -4726,7 +4771,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
+                 14 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
                  APP_NAME="uptime"
                  f_application_run
                  ;;
