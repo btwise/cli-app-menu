@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-11-2013 00:26"
+REVDATE="April-23-2013 16:41"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -94,12 +94,16 @@ REVDATE="April-11-2013 00:26"
 #: |             Script features            |
 #: +----------------------------------------+
 #:
-#: *Run-time displayed text is no wider than 80-columns across.
+#: *Optimized for 80x24 display or 640x480 pixel displays.
+#:  Run-time displayed text is no wider than 80-columns across.
+#:  Run-time menus are no longer than 17 items for 24 row displays.
+#:  Although the game, "Pacman for Console" needs 32 rows minimum to play.
+#:
+#: *Limited to 3 menu levels below the Main Menu to run any application.
 #:
 #: *You can get application help by 'man' or '--help' from the menu prompt.
 #:
 #: *If an application is not installed, script will automatically install it.
-#:
 #:
 #: *Designed for ease of extensibility and menu editing.
 #:
@@ -114,33 +118,41 @@ REVDATE="April-11-2013 00:26"
 #: |       HOW-TO Add a new menu item       |
 #: +----------------------------------------+
 #:
+#: The template to add a new category menu is:     f_menu_cat_sample_template
+#: The template to add a new sub-category menu is: f_menu_scat_sample_template
+#: The template to add a new application menu is:  f_menu_app_sample_template
+#:
+#: In brief:
+#
 #: 1. The menu code is contained in functions before the main program code.
+#:    The main program code, "Main Menu" is at the bottom of this listing.
 #:
-#: 2. Within the menu function, decide what row in the menu that you want
-#:    to place the new menu item.
+#: 2. If you are adding a new application within an application menu, 
+#:    a) decide what row in the menu that you want to place the new menu item.
+#:    b) Add the item string: <Special Menu Option Marker beginning with #> 
+#:       <name of item> <space><dash><space> <description>
+#:    c) Each Special Menu Option Marker MUST be unique for each menu.
 #:
-#: 3. Add the item string: <Special Menu Option Marker beginning with #> <name
-#:    of item> <space><dash><space> <description>
-#:
-#:    Each Special Menu Option Marker MUST be unique for each menu.
-#:
-#:    Note: Please see bottom of this document 
+#:    Note: Please see bottom of this document
 #:          for a list of Special Menu Option Markers.
 #:
-#: 4. Create a new case statement with a corresponding pattern for the new item.
-#: 
-#: 5. Adjust the case statement patterns of menu items after the new menu item.
-#:    If you added the item in the middle of the menu, all case patterns for the
-#:    items below it need to be adjusted.
+#:    d) Create a new case statement for the new item.
+#:    e) Adjust the case statement patterns of menu items below the new item.
+#:       If you added the item in the middle of the menu, all case patterns for
+#:       the items below it need to be adjusted.
 #:
 #:    i.e. The number in the case pattern would need to be incremented by 1 
 #:         for the items below the new item.
 #:
 #:    The case patterns will accept both the menu option number, or all or part
-#:
 #:    of the menu item name in upper or lower case or any mixture of case.
 #:
+#: 3. If you are adding a new category or sub-category menu, please use the
+#:    templates for this very purpose.
+#:    f_menu_cat_sample_template or f_menu_scat_sample_template.
 #:
+#: 4. If you are adding a new application menu, please use the template for
+#:    this very purpose, f_menu_app_sample_template.
 #:
 #: +----------------------------------------+
 #: |  List of variables used in this script |
@@ -249,6 +261,7 @@ REVDATE="April-11-2013 00:26"
 #:MNR - News Reader Applications Menu
 #:MPO - Podcatcher Applications Menu
 #:MPR - Presentation Applications Menu
+#:MPS - PDF-PS Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
 # MSB - System Backup Applications Menu
@@ -1140,9 +1153,10 @@ f_menu_cat_office () {
             #BOF Calculators  - Simple "pocket" calculators.
             #BOF Calendar     - Calendars.
             #BOF Notebooks    - Write notes in a "notebook".
+            #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
             #BOF Presenters   - Text slideshow presentation.
             #BOF Spreadsheets - Basic spreadsheet.
-            #BOF Text         - Create/Edit text files, text format converters, etc.
+            #BOF Text         - Create/Edit text files, text format converters, etc.        
             #BOF ToDo         - To-Do lists, alarm clocks.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -1169,19 +1183,23 @@ f_menu_cat_office () {
                  f_menu_app_note              # Note Applications Menu.
                  CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 4 | [Pp] | [Pp][Rr] | [Pp][Rr][Ee] | [Pp][Rr][Ee][Nn] | [Pp][Rr][Ee][Nn][Tt] | [Pp][Rr][Ee][Nn][Tt][Ee] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr][Ss])
+                 4 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][-] | [Pp][Dd][Ff][-][Pp] | [Pp][Dd][Ff][-][Pp][Ss] | [Pp][Dd][Ff][-][Pp][Ss]' ' | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd] | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd][Oo] | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd][Oo][Cc] | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd][Oo][Cc][Ss])
+                 f_menu_app_pdfps
+                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 5 | [Pp] | [Pp][Rr] | [Pp][Rr][Ee] | [Pp][Rr][Ee][Nn] | [Pp][Rr][Ee][Nn][Tt] | [Pp][Rr][Ee][Nn][Tt][Ee] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr][Ss])
                  f_menu_app_presentation      # Presentation Applications Menu.
                  CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 5 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
+                 6 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
                  f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
                  CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 6 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt])
+                 7 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt])
                  f_menu_cat_text              # Text Applications Menu.
                  CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 7 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
+                 8 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
                  f_menu_app_todo
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
@@ -3537,7 +3555,7 @@ f_menu_cat_text () {
       until [ $CHOICE_TCAT -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Text Application Category until loop.
-            #BTX Compare    - Show differences between text and pdf files.
+            #BTX Compare    - Show differences between text files.
             #BTX Converters - Convert between text document/file formats.
             #BTX Editors    - Create/Edit text documents/files.
             #BTX Tools      - Viewers,text markup language.
@@ -3590,7 +3608,6 @@ f_menu_app_text_compare () {
             #MTC diff      - Differences between two text files shown using <> signs.
             #MTC vimdiff   - Differences between two text files shown in color highlights.
             #MTC wdiff     - Differences between two text files shown using +/- signs.
-            #MTC diffpdf   - Compare pdf files.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Compare Applications Menu"
@@ -3645,14 +3662,6 @@ f_menu_app_text_compare () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Dd] | [Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff] | [Dd][Ii][Ff][Ff][Pp] | [Dd][Ii][Ff][Ff][Pp][Dd] | [Dd][Ii][Ff][Ff][Pp][Dd][Ff])
-                 APP_NAME="diffpdf"
-                 f_application_run
-                 ;;
-                 [Dd][Ii][Ff][Ff][Pp][Dd][Ff]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
             esac                # End of Text Compare Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -3670,9 +3679,6 @@ f_menu_app_text_converters () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Converter Applications until loop.
-            #MTV pdftops    - Converts PDF to PS (PostScript) format.
-            #MTV ps2ascii   - Converts PS (PostScript) to text format.
-            #MTV ps2pdf     - Converts PS (PostScript) to PDF format.
             #MTV txt2html   - Converts plain ASCII text to HTML format.
             #MTV txt2man    - Converts plain ASCII text to man format.
             #MTV txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
@@ -3692,31 +3698,7 @@ f_menu_app_text_converters () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Converter Applications case statement.
-                 1 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo] | [Pp][Dd][Ff][Tt][Oo][Pp] | [Pp][Dd][Ff][Tt][Oo][Pp][Ss])
-                 APP_NAME="pdftops"
-                 f_application_run
-                 ;;
-                 [Pp][Dd][Ff][Tt][Oo][Pp][Ss]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 2 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa] | [Pp][Ss][2][Aa][Ss] | [Pp][Ss][2][Aa][Ss][Cc] | [Pp][Ss][2][Aa][Ss][Cc][Ii] | [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii])
-                 APP_NAME="ps2ascii"
-                 f_application_run
-                 ;;
-                 [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 3 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp] | [Pp][Ss][2][Pp][Dd] | [Pp][Ss][2][Pp][Dd][Ff])
-                 APP_NAME="ps2pdf"
-                 f_application_run
-                 ;;
-                 [Pp][Ss][2][Pp][Dd][Ff]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 1 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
                  APP_NAME="man txt2html"
                  clear # Blank the screen.
                  echo "Convert plain text files to html." 
@@ -3734,7 +3716,7 @@ f_menu_app_text_converters () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
+                 2 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
                  APP_NAME="man txt2man"
                  clear # Blank the screen.
                  echo "Convert plain text files to man pages." 
@@ -3751,7 +3733,7 @@ f_menu_app_text_converters () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
+                 3 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
                  APP_NAME="man txt2pdbdoc"
                  clear # Blank the screen.
                  echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
@@ -3770,7 +3752,7 @@ f_menu_app_text_converters () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
+                 4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
                  APP_NAME="man txt2regex"
                  clear # Blank the screen.
                  echo "Convert human sentences to regex." 
@@ -3786,7 +3768,7 @@ f_menu_app_text_converters () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
+                 5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
                  APP_NAME="man txt2tags"
                  clear # Blank the screen.
                  echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
@@ -3972,8 +3954,6 @@ f_menu_app_text_tools () {
       do    # Start of Text Tool Applications until loop.
             #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
             #MTT doconce  - Text markup language to manipulate, transform, and convert text.
-            #MTT gs       - GhostScript, PostScript, and PDF viewer.
-            #MTT fbgs     - GhostScript, PostScript, and PDF viewer.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Tool Applications Menu"
@@ -4004,22 +3984,6 @@ f_menu_app_text_tools () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Gg] | [Gg][Ss])
-                 APP_NAME="gs"
-                 f_application_run
-                 ;;
-                 [Gg][Ss]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 4 | [Ff] | [Ff][Bb] | [Ff][Bb][Gg] | [Ff][Bb][Gg][Ss])
-                 APP_NAME="fbgs"
-                 f_application_run
-                 ;;
-                 [Ff][Bb][Gg][Ss]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
             esac                # End of Text Editor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -4028,6 +3992,109 @@ f_menu_app_text_tools () {
             f_option_press_enter_key
       done # End of Text Tool Applications until loop.
 } # End of f_menu_app_text_tools
+#
+# +----------------------------------------+
+# |       Function f_menu_app_pdfps       |
+# +----------------------------------------+
+#
+f_menu_app_pdfps () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Tool Applications until loop.
+            #MPS diffpdf  - Compare pdf files.
+            #MPS gs       - GhostScript, PostScript, and PDF viewer.
+            #MPS fbgs     - GhostScript, PostScript, and PDF viewer.
+            #MPS pdfjam   - Merge pdf files into a single file.
+            #MPS pdftex   - Typesetter creates pdf files.
+            #MPS pdftops  - Converts PDF to PS (PostScript) format.
+            #MPS ps2ascii - Converts PS (PostScript) to text format.
+            #MPS ps2pdf   - Converts PS (PostScript) to PDF format.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="PDF and PS Applications Menu"
+            DELIMITER="#MPS" #MPS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of PDF and PS Applications case statement.
+                 1 | [Dd] | [Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff] | [Dd][Ii][Ff][Ff][Pp] | [Dd][Ii][Ff][Ff][Pp][Dd] | [Dd][Ii][Ff][Ff][Pp][Dd][Ff])
+                 APP_NAME="diffpdf"
+                 f_application_run
+                 ;;
+                 [Dd][Ii][Ff][Ff][Pp][Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Gg] | [Gg][Ss])
+                 APP_NAME="gs"
+                 f_application_run
+                 ;;
+                 [Gg][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Ff] | [Ff][Bb] | [Ff][Bb][Gg] | [Ff][Bb][Gg][Ss])
+                 APP_NAME="fbgs"
+                 f_application_run
+                 ;;
+                 [Ff][Bb][Gg][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Jj] | [Pp][Dd][Ff][Jj][Aa] | [Pp][Dd][Ff][Jj][Aa][Mm])
+                 APP_NAME="pdfjam"
+                 f_application_run
+                 ;;
+                 [Pp][Dd][Ff][Jj][Aa][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Ee] | [Pp][Dd][Ff][Tt][Ee][Xx])
+                 APP_NAME="pdftex"
+                 f_application_run
+                 ;;
+                 [Pp][Dd][Ff][Tt][Ee][Xx]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo] | [Pp][Dd][Ff][Tt][Oo][Pp] | [Pp][Dd][Ff][Tt][Oo][Pp][Ss])
+                 APP_NAME="pdftops"
+                 f_application_run
+                 ;;
+                 [Pp][Dd][Ff][Tt][Oo][Pp][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa] | [Pp][Ss][2][Aa][Ss] | [Pp][Ss][2][Aa][Ss][Cc] | [Pp][Ss][2][Aa][Ss][Cc][Ii] | [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii])
+                 APP_NAME="ps2ascii"
+                 f_application_run
+                 ;;
+                 [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp] | [Pp][Ss][2][Pp][Dd] | [Pp][Ss][2][Pp][Dd][Ff])
+                 APP_NAME="ps2pdf"
+                 f_application_run
+                 ;;
+                 [Pp][Ss][2][Pp][Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of PDF and PS Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of pdf-ps Applications until loop.
+} # End of f_menu_app_pdfps
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
