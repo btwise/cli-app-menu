@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-23-2013 16:41"
+REVDATE="April-26-2013 23:57"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -748,7 +748,7 @@ f_application_error () {
          echo "An error code >>> $ERROR <<< has occurred" 
          echo "              ***********"
          echo "while launching this $APP_NAME application."
-         f_press_enter_key_to_continue
+         # f_press_enter_key_to_continue
          #
          # Be sure variable is set to redisplay current menu afterwards.
          CHOICE_MAIN=-1 # Initialize to -1 to force until loop
@@ -769,33 +769,45 @@ f_application_error () {
            # 13-some unknown app?
            # 62-"command not found" freshclam log folders not set up.
            # [!0]-not zero, any non-zero error number.
-           echo
-           echo "Run $APP_NAME again this time using sudo?"
-           echo -n "Use sudo (temporary root permissions) (y/N)? "
-           read ANS
-           case $ANS in  # Start of Use SUDO case statement.
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+           case $APP_NAME in  # Start of sudo-error case statement
+                sudo' '*)
                 APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
-                sudo $APP_NAME_SUDO
-                ERROR=$? # Save error flag condition.
-                #
-                if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
-                   # Error code 1 $?=1 means sudo failed.
-                   # Error code 0 (zero) where $?=0 means no error.
-                   echo
-                   echo "Running sudo $APP_NAME_SUDO failed."
-                   echo "May be caused by bad sudo password, or user has no permission to use sudo,"
-                   echo "or bad $APP_NAME_SUDO syntax."
-                   echo "consult help using man $APP_NAME_SUDO."
-                   echo
-                fi
+                APP_NAME_SUDO=$(echo $APP_NAME | awk '{print $2;}')
+                echo
+                echo "Try running $APP_NAME_SUDO without the sudo command."
+                echo "There is a possibility that the application is not installed."
                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;              
-                [Nn] | [Nn][Oo] | *)
-                ERROR=0
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
-           esac     # End of Use SUDO case statement.
+                *)
+                echo
+                echo "Run $APP_NAME again this time using sudo?"
+                echo -n "Use sudo (temporary root permissions) (y/N)? "
+                read ANS
+                case $ANS in  # Start of Use SUDO case statement.
+                     [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                     APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
+                     sudo $APP_NAME_SUDO
+                     ERROR=$? # Save error flag condition.
+                     #
+                     if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
+                        # Error code 1 $?=1 means sudo failed.
+                        # Error code 0 (zero) where $?=0 means no error.
+                        echo
+                        echo "Running sudo $APP_NAME_SUDO failed."
+                        echo "May be caused by bad sudo password, or user has no permission to use sudo,"
+                        echo "or bad $APP_NAME_SUDO syntax."
+                        echo "consult help using man $APP_NAME_SUDO."
+                        echo
+                     fi
+                     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                     ;;              
+                     [Nn] | [Nn][Oo] | *)
+                     ERROR=0
+                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                     ;;
+                esac     # End of Use SUDO case statement.
+                ;;
+           esac   # End of sudo-error case statement
            ;;
            127) # Error code 127 means application is not installed.
            echo
@@ -814,7 +826,28 @@ f_application_error () {
            read ANS
            case $ANS in # Start of Install Application Option case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                #
+                f_application_install
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                ;;              
+                [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                ERROR=0
+                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                ;;
+           esac # End of Install Application Option case statement.
+           ;;
+      esac # End of Error Number case statement.
+      # This function needs to be followed by a f_press_enter_key_to_continue 
+      # or by a f_option_press_enter_key so that messages are displayed.
+} # End of function f_application_error
+#
+# +----------------------------------------+
+# |     Function f_application_install     |
+# +----------------------------------------+
+#
+#  Inputs: ERROR, APP_NAME. 
+# Outputs: APP_NAME_INSTALL.
+#
+f_application_install () {
                 APP_NAME_INSTALL=$APP_NAME 
                 # Default of APP_NAME_INSTALL is simply APP_NAME. 
                 # This may be modified below in the Installation Package Name
@@ -904,21 +937,10 @@ f_application_error () {
                       echo
                    fi
                 fi
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;              
-                [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                ERROR=0
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-           esac # End of Install Application Option case statement.
-           ;;
-      esac # End of Error Number case statement.
-      # This function needs to be followed by a f_press_enter_key_to_continue 
-      # or by a f_option_press_enter_key so that messages are displayed.
-} # End of function f_application_error
+} # End of function f_application_install
 #
 # +----------------------------------------+
-# |  Function f_menu_scat_sample_template   |
+# |  Function f_menu_scat_sample_template  |
 # +----------------------------------------+
 #
 # Inputs: CHOICE_SCAT, MAX
@@ -960,7 +982,7 @@ f_menu_scat_sample_template () {
 #
 #
 # +----------------------------------------+
-# |  Function f_menu_tcat_sample_template   |
+# |  Function f_menu_tcat_sample_template  |
 # +----------------------------------------+
 #
 # Inputs: CHOICE_TCAT, MAX
@@ -3308,8 +3330,9 @@ f_menu_app_file_find () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Find File Applications until loop.
-            #MFF find   - Find files using pattern matching.
-            #MFF locate - Find files using an internal database.
+            #MFF find     - Find files using pattern matching.
+            #MFF locate   - Find files using an internal database, mlocate.
+            #MFF updatedb - Update the internal database, mlocate, used by locate.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Find File Applications Menu"
@@ -3349,10 +3372,46 @@ f_menu_app_file_find () {
                  f_application_run
                  ;;
                  2 | [Ll] | [Ll][Oo] | [Ll][Oo][Cc] | [Ll][Oo][Cc][Aa] | [Ll][Oo][Cc][Aa][Tt] | [Ll][Oo][Cc][Aa][Tt][Ee])
-                 APP_NAME="locate"
+                 APP_NAME="locate --help"
+                 clear # Blank the screen.
+                 echo "Find and search for files."
+                 echo
+                 echo "The locate command is dependent on an up-to-date database, mlocate."
+                 echo "To update the mlocate database, run the command, 'updatedb'."
+                 echo
+                 echo "Usage: locate [OPTION]... [PATTERN]..."
+                 echo "Search for entries in a mlocate database."
+
+                 echo "  -b, --basename         match only the base name of path names"
+                 echo "  -c, --count            only print number of found entries"
+                 echo "  -d, --database DBPATH  use DBPATH instead of default database (which is"
+                 echo "                         /var/lib/mlocate/mlocate.db)"
+                 echo "  -e, --existing         only print entries for currently existing files"
+                 echo "  -L, --follow           follow trailing symbolic links when checking file"
+                 echo "                         existence (default)"
+                 echo "  -i, --ignore-case      ignore case distinctions when matching patterns"
+                 echo
+                 echo "Example: find all text files in the /usr directory."
+                 echo "locate /usr/*.txt"
+                 echo
+                 echo "Example: find file with name *test-file* in directory /home/user/."
+                 echo "locate /home/user/*test-file*"
+                 echo
+                 echo "*** For more help type: man locate" 
+                 echo
+                 echo "Now run find. Usage: locate --help"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Ll][Oo][Cc][Aa][Tt][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee][Dd] | [Uu][Pp][Dd][Aa][Tt][Ee][Dd][Bb])
+                 APP_NAME="updatedb"
+                 f_application_run
+                 ;;
+                 [Uu][Pp][Dd][Aa][Tt][Ee][Dd][Bb]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4297,6 +4356,12 @@ f_menu_app_sys_monitors () {
                  [Aa][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Aa][Tt][Oo][Pp]' '* | sudo' '[Aa][Tt][Oo][Pp])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  2 | [Cc] | [Cc][Hh] | [Cc][Hh][Kk] | [Cc][Hh][Kk][Cc] | [Cc][Hh][Kk][Cc][Oo] | [Cc][Hh][Kk][Cc][Oo][Nn] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="chkconfig -l"
@@ -4321,6 +4386,10 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg]' '* | sudo' '[Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Gg] | [Gg][Ll] | [Gg][Ll][Aa] | [Gg][Ll][Aa][Nn] | [Gg][Ll][Aa][Nn][Cc] | [Gg][Ll][Aa][Nn][Cc][Ee] | [Gg][Ll][Aa][Nn][Cc][Ee][Ss])
                  APP_NAME="glances"
                  f_how_to_quit_application "q"
@@ -4330,6 +4399,12 @@ f_menu_app_sys_monitors () {
                  [Gg][Ll][Aa][Nn][Cc][Ee][Ss]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Gg][Ll][Aa][Nn][Cc][Ee][Ss]' '* | sudo' '[Gg][Ll][Aa][Nn][Cc][Ee][Ss])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  4 | [Hh] | [Hh][Tt] | [Hh][Tt][Oo] | [Hh][Tt][Oo][Pp])
                  APP_NAME="htop"
@@ -4340,6 +4415,12 @@ f_menu_app_sys_monitors () {
                  [Hh][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Hh][Tt][Oo][Pp]' '* | sudo' '[Hh][Tt][Oo][Pp])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  5 | [Pp] | [Pp][Ii] | [Pp][Ii][Dd] | [Pp][Ii][Dd][Ss] | [Pp][Ii][Dd][Ss][Tt] | [Pp][Ii][Dd][Ss][Tt][Aa] | [Pp][Ii][Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="pidstat 2 3"
@@ -4353,6 +4434,10 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  ;;
                  [Pp][Ii][Dd][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Pp][Ii][Dd][Ss][Tt][Aa][Tt]' '* | sudo' '[Pp][Ii][Dd][Ss][Tt][Aa][Tt])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4388,6 +4473,10 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Pp][Ss]' '* | sudo' '[Pp][Ss])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  7 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
                  APP_NAME="top"
                  f_how_to_quit_application "q"
@@ -4397,6 +4486,12 @@ f_menu_app_sys_monitors () {
                  [Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Tt][Oo][Pp]' '* | sudo' '[Tt][Oo][Pp])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  8 | [Tt] | [Tt][Ll] | [Tt][Ll][Oo] | [Tt][Ll][Oo][Aa] | [Tt][Ll][Oo][Aa][Dd])
                  APP_NAME="tload"
@@ -4417,6 +4512,24 @@ f_menu_app_sys_monitors () {
                  esac
                  ;;
                  [Tt][Ll][Oo][Aa][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 sudo' '[Tt][Ll][Oo][Aa][Dd]' '* | sudo' '[Tt][Ll][Oo][Aa][Dd])
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
@@ -4455,6 +4568,10 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Mm][Pp][Ss][Tt][Aa][Tt]' '* | sudo' '[Mm][Pp][Ss][Tt][Aa][Tt])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  10 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
                  clear # Blank the screen.
@@ -4474,12 +4591,22 @@ f_menu_app_sys_monitors () {
                  [Dd][Ss][Tt][Aa][Tt]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Dd][Ss][Tt][Aa][Tt]' '* | sudo' '[Dd][Ss][Tt][Aa][Tt])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  11 | [Ii]| [Ii][Oo] | [Ii][Oo][Ss] | [Ii][Oo][Ss][Tt] | [Ii][Oo][Ss][Tt][Aa] | [Ii][Oo][Ss][Tt][Aa][Tt])
                  APP_NAME="iostat"
                  f_application_run
                  ;;
                  [Ii][Oo][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Ii][Oo][Ss][Tt][Aa][Tt]' '* | sudo' '[Ii][Oo][Ss][Tt][Aa][Tt])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4492,6 +4619,12 @@ f_menu_app_sys_monitors () {
                  [Ii][Oo][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Ii][Oo][Tt][Oo][Pp]' '* | sudo' '[Ii][Oo][Tt][Oo][Pp])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  13 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
@@ -4502,6 +4635,12 @@ f_menu_app_sys_monitors () {
                  [Ss][Aa][Ii][Dd][Aa][Rr]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Ss][Aa][Ii][Dd][Aa][Rr]' '* | sudo' '[Ss][Aa][Ii][Dd][Aa][Rr])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  14 | [Yy] | [Yy][Aa] | [Yy][Aa][Cc] | [Yy][Aa][Cc][Pp] | [Yy][Aa][Cc][Pp][Ii])
                  APP_NAME="yacpi"
@@ -4512,6 +4651,12 @@ f_menu_app_sys_monitors () {
                  [Yy][Aa][Cc][Pp][Ii]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Yy][Aa][Cc][Pp][Ii]' '* | sudo' '[Yy][Aa][Cc][Pp][Ii])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of System Monitors case statement.
             #
@@ -4580,6 +4725,10 @@ f_menu_app_sys_disks () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Dd][Ff]' '* | sudo' '[Dd][Ff])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Pp] | [Pp][Yy] | [Pp][Yy][Dd] | [Pp][Yy][Dd][Ff])
                  APP_NAME="pydf -hT"
                  clear # Blank the screen.
@@ -4603,6 +4752,10 @@ f_menu_app_sys_disks () {
                  f_application_run
                  ;;
                  [Pp][Yy][Dd][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Pp][Yy][Dd][Ff]' '* | sudo' '[Pp][Yy][Dd][Ff])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4633,7 +4786,10 @@ f_menu_app_sys_disks () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-
+                 sudo' '[Dd][Uu]' '* | sudo' '[Dd][Uu])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Nn] | [Nn][Cc] | [Nn][Cc][Dd] | [Nn][Cc][Dd][Uu])
                  APP_NAME="ncdu"
                  f_how_to_quit_application "q"
@@ -4643,6 +4799,12 @@ f_menu_app_sys_disks () {
                  [Nn][Cc][Dd][Uu]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Nn][Cc][Dd][Uu]' '* | sudo' '[Nn][Cc][Dd][Uu])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  5 | [Uu] | [Uu][Uu] | [Uu][Uu][Ii] | [Uu][Uu][Ii][Dd])
                  clear # Blank the screen.
@@ -4651,6 +4813,10 @@ f_menu_app_sys_disks () {
                  f_application_run             
                  ;;
                  [Uu][Uu][Ii][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Uu][Uu][Ii][Dd]' '* | sudo' '[Uu][Uu][Ii][Dd])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4663,6 +4829,12 @@ f_menu_app_sys_disks () {
                  [Cc][Ff][Dd][Ii][Ss][Kk]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Cc][Ff][Dd][Ii][Ss][Kk]' '* | sudo' '[Cc][Ff][Dd][Ii][Ss][Kk])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  7 | [Pp] | [Pp][Aa] | [Pp][Aa][Rr] | [Pp][Aa][Rr][Tt] | [Pp][Aa][Rr][Tt][Ee] | [Pp][Aa][Rr][Tt][Ee][Dd])
                  APP_NAME="parted"
@@ -4673,6 +4845,12 @@ f_menu_app_sys_disks () {
                  [Pp][Aa][Rr][Tt][Ee][Dd]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Pp][Aa][Rr][Tt][Ee][Dd]' '* | sudo' '[Pp][Aa][Rr][Tt][Ee][Dd])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of System Disks Information> Applications case statement.
             #
@@ -4735,6 +4913,11 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
+                 sudo' '[Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn]' '* | sudo' '[Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
                  2 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
                  APP_NAME="freshclam"
                  # f_how_to_quit_application "q"
@@ -4742,6 +4925,11 @@ f_menu_app_sys_health () {
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 sudo' '[Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm]' '* | sudo' '[Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -4754,11 +4942,19 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt]' '* | sudo' '[Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Rr] | [Rr][Kk] | [Rr][Kk][Hh] | [Rr][Kk][Hh][Uu] | [Rr][Kk][Hh][Uu][Nn] | [Rr][Kk][Hh][Uu][Nn][Tt] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr])
                  APP_NAME="rkhunter"
                  f_application_run
                  ;;
                  [Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr]' '* | sudo' '[Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4790,6 +4986,10 @@ f_menu_app_sys_health () {
                  f_application_run
                  ;;
                  [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee]' '* | sudo' '[Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4846,6 +5046,10 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee]' '* | sudo' '[Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Ll] | [Ll][Ss] | [Ll][Ss][Hh] | [Ll][Ss][Hh][Ww])
                  clear # Blank the screen.
                  APP_NAME="lshw -short"
@@ -4871,6 +5075,10 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Ll][Ss][Hh][Ww]' '* | sudo' '[Ll][Ss][Hh][Ww])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee])
                  APP_NAME="free -m -t -s 2 -c 5"
                  clear # Blank the screen.
@@ -4890,11 +5098,19 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Ff][Rr][Ee][Ee]' '* | sudo' '[Ff][Rr][Ee][Ee])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  4 | [Vv] | [Vv][Mm] | [Vv][Mm][Ss] | [Vv][Mm][Ss][Tt] | [Vv][Mm][Ss][Tt][Aa] | [Vv][Mm][Ss][Tt][Aa][Tt])
                  APP_NAME="vmstat"
                  f_application_run
                  ;;
                  [Vv][Mm][Ss][Tt][Aa][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Vv][Mm][Ss][Tt][Aa][Tt]' '* | sudo' '[Vv][Mm][Ss][Tt][Aa][Tt])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4918,11 +5134,19 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Hh][Dd][Pp][Aa][Rr][Mm]' '* | sudo' '[Hh][Dd][Pp][Aa][Rr][Mm])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  6 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
                  APP_NAME="lsb_release -a"
                  f_application_run
                  ;;
                  [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]' '* | sudo' '[Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4934,11 +5158,19 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Uu][Nn][Aa][Mm][Ee]' '* | sudo' '[Uu][Nn][Aa][Mm][Ee])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  8 | [Ll] | [Ll][Ss] | [Ll][Ss][Mm] | [Ll][Ss][Mm][Oo] | [Ll][Ss][Mm][Oo][Dd])
                  APP_NAME="lsmod "
                  f_application_run
                  ;;
                  [Ll][Ss][Mm][Oo][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Ll][Ss][Mm][Oo][Dd]' '* | sudo' '[Ll][Ss][Mm][Oo][Dd])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4950,11 +5182,19 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv]' '* | sudo' '[Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  10 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
                  f_application_run
                  ;;
                  [Ll][Ss][Uu][Ss][Bb]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Ll][Ss][Uu][Ss][Bb]' '* | sudo' '[Ll][Ss][Uu][Ss][Bb])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4966,11 +5206,19 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Ll][Ss][Pp][Cc][Ii]' '* | sudo' '[Ll][Ss][Pp][Cc][Ii])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  12 | [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt] | [Aa][Cc][Pp][Ii][Tt][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
                  APP_NAME="acpitool"
                  f_application_run
                  ;;
                  [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll]' '* | sudo' '[Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4982,11 +5230,19 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Ll][Ss][Oo][Ff]' '* | sudo' '[Ll][Ss][Oo][Ff])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  14 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
                  APP_NAME="uptime"
                  f_application_run
                  ;;
                  [Uu][Pp][Tt][Ii][Mm][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Uu][Pp][Tt][Ii][Mm][Ee]' '* | sudo' '[Uu][Pp][Tt][Ii][Mm][Ee])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5027,6 +5283,10 @@ f_menu_app_sys_logs () {
                  f_application_run
                  ;;
                  [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll]' '* | sudo' '[Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5072,6 +5332,10 @@ f_menu_app_sys_screens () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Bb][Yy][Oo][Bb][Uu]' '* | sudo' '[Bb][Yy][Oo][Bb][Uu])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  2 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn])
                  APP_NAME="screen"
                  f_application_run
@@ -5080,11 +5344,19 @@ f_menu_app_sys_screens () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 sudo' '[Ss][Cc][Rr][Ee][Ee][Nn]' '* | sudo' '[Ss][Cc][Rr][Ee][Ee][Nn])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Tt] | [Tt][Mm] | [Tt][Mm][Uu] | [Tt][Mm][Uu][Xx])
                  APP_NAME="tmux"
                  f_application_run
                  ;;
                  [Tt][Mm][Uu][Xx]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 sudo' '[Tt][Mm][Uu][Xx]' '* | sudo' '[Tt][Mm][Uu][Xx])
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6209,7 +6481,8 @@ f_menu_app_education () {
             #MED cwcp      - Morse code training.
             #MED morse     - Morse code training.
             #MED primes    - Prime number calculator. 
-            #MED gtypist   - Typing tutor.
+            #MED gtypist   - Typing tutor displays a sentence for practice.
+            #MED typespeed - Typing tutor displays flying words arcade-style across screen.
            #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Education/Hobby Applications Menu"
@@ -6286,6 +6559,14 @@ f_menu_app_education () {
                  f_application_run
                  ;;
                  [Gg][Tt][Yy][Pp][Ii][Ss][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Tt] | [Tt][Yy] | [Tt][Yy][Pp] | [Tt][Yy][Pp][Ee] | [Tt][Yy][Pp][Ee][Ss] | [Tt][Yy][Pp][Ee][Ss][Pp] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee][Dd])
+                 APP_NAME="typespeed"
+                 f_application_run
+                 ;;
+                 [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee][Dd]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
