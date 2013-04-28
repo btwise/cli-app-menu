@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-28-2013 01:23"
+REVDATE="April-28-2013 01:51"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -937,7 +937,7 @@ f_application_install () {
                      APP_NAME_INSTALL="libqt4-dev"
                      ;;
                      mpstat| iostat | pidstat | sadf | sar)
-                     APP_NAME_INSTALL="systat"
+                     APP_NAME_INSTALL="sysstat"
                      ;;
                      photorec)
                      APP_NAME_INSTALL="testdisk"
