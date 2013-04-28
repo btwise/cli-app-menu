@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-28-2013 01:51"
+REVDATE="April-28-2013 10:00"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -165,6 +165,7 @@ REVDATE="April-28-2013 01:51"
 #:    If you copied from a template or another menu, check the Special Menu
 #:    Option Markers for consistency.
 #:    In the example below, #MXX is before each menu item and in DELIMITER.
+#:
 #:            #MXX appname  - Description Application1 name.
 #:            #MXX app2name - Description Application2 name.
 #:            #
@@ -287,10 +288,11 @@ REVDATE="April-28-2013 01:51"
 #:MIR - Internet Relay Chat (IRC) Applications Menu
 #:MNC - Network Chat Applications Menu
 #:MNF - Firewalls Applications Menu
-#:MNL - Lan/Wan Applications Menu
+#:MNL - LAN/WAN Applications Menu
 #:MNM - Network Monitor Applications Menu
 #:MNN - NIC Diagnostic Tools Applications Menu
 #:MNO - Note Applications Menu
+#:MNP - Network Packet Applications Menu
 #:MNR - News Reader Applications Menu
 #:MNS - Network Sharing Applications Menu
 #:MPO - Podcatcher Applications Menu
@@ -2536,11 +2538,12 @@ f_menu_cat_network () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of Network Application Category until loop.
-            #BNE Firewalls - Configure firewalls.
-            #BNE LAN-WAN   - Test network connectivity, speed, routing.
-            #BNE NIC Tools - Configure wired/wireless cards, scan for wireless networks.
-            #BNE Sharing   - Configure file sharing with Microsoft Windows PCs/networks.
-            #BNE Monitors  - LAN monitors, network packet analyzers, network mappers.
+            #BNE Firewalls    - Configure firewalls.
+            #BNE LAN-WAN      - Test network connectivity, speed, routing.
+            #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
+            #BNE Sharing      - Configure file sharing with Microsoft Windows PCs/networks.
+            #BNE Monitors     - LAN monitors, network mappers.
+            #BNE Packet Tools - Packet sniffers, packet analyzers.
             #
             MENU_TITLE="Network Application Category Menu"
             DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
@@ -2572,6 +2575,10 @@ f_menu_cat_network () {
                  ;;
                  5 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt] | [Mm][Oo][Nn][Ii][Tt][Oo] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_network_monitors
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 6 | [Pp] | [Pp][Aa] | [Pp][Aa][Cc] | [Pp][Aa][Cc][Kk] | [Pp][Aa][Cc][Kk][Ee] | [Pp][Aa][Cc][Kk][Ee][Tt] | [Pp][Aa][Cc][Kk][Ee][Tt]' ' | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo][Oo] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo][Oo][Ll] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo][Oo][Ll][Ss])
+                 f_menu_app_packet_tools
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Network Application Category case statement.
@@ -3186,21 +3193,15 @@ f_menu_app_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Monitor Applications until loop.
-            #MNM cbm       - Color Bandwidth Meter, ncurses based display.
-            #MNM ifstat    - Bandwidth statistics. (See also dstat, System Monitors Menu).
-            #MNM iftop     - Bandwidth statistics. Packet sniffer.
-            #MNM jnettop   - Bandwidth statistics across streams.
-            #MNM iptraf    - IP LAN monitor, ncurses based display.
-            #MNM sntop     - IP LAN monitor. Display network hosts and connections.
-            #MNM slurm     - Network interface I/O load monitor.
-            #MNM nc        - Netcat reads/writes data across network.
-            #MNM netstat   - Print network connections, routing tables, interface stats, etc.
-            #MNM ngrep     - Network packet analyzer.
-            #MNM nmap      - Network Mapper, mapping, auditing, security scanning.
-            #MNM kismet    - Wireless network detector, packet sniffer, auditor.
-            #MNM snort     - Packet sniffer/logger, Network Intrusion Detection System.
-            #MNM tcpdump   - Packet sniffer/logger.
-            #MNM wireshark - Packet sniffer/logger.
+            #MNM cbm     - Color Bandwidth Meter, ncurses based display.
+            #MNM ifstat  - Bandwidth statistics. (See also dstat, System Monitors Menu).
+            #MNM iftop   - Bandwidth statistics.
+            #MNM jnettop - Bandwidth statistics across streams.
+            #MNM iptraf  - IP LAN monitor, ncurses based display.
+            #MNM sntop   - IP LAN monitor. Display network hosts and connections.
+            #MNM slurm   - Network interface I/O load monitor.
+            #MNM nc      - Netcat reads/writes data across network.
+            #MNM netstat - Print network connections, routing tables, interface stats, etc.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Monitor Applications Menu"
@@ -3271,7 +3272,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="jnettop -i $ANS"
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Jj][Nn][Ee][Tt][Tt][Oo][Pp]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3385,9 +3386,66 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
+            esac                # End of Network Monitor Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of Network Monitor Applications until loop.
+} # End of function f_menu_app_network_monitors
+#
+# +----------------------------------------+
+# |    Function f_menu_app_packet_tools    |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_packet_tools () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Packet Tools Applications until loop.
+            #MNP ngrep     - Network packet analyzer.
+            #MNP nmap      - Network Mapper, mapping, auditing, security scanning.
+            #MNP kismet    - Wireless network detector, packet sniffer, auditor.
+            #MNP snort     - Packet sniffer/logger, Network Intrusion Detection System.
+            #MNP tcpdump   - Packet sniffer/logger.
+            #MNP wireshark - Packet sniffer/logger.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Packet Tools Applications Menu"
+            DELIMITER="#MNP" #MNP This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Packet Tools Applications case statement.
+                 1 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
                  APP_NAME="ngrep"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "Note: ngrep needs root permissions."
+                 echo "      You need to use 'sudo ngrep'."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  [Nn][Gg][Rr][Ee][Pp]' '*)
                  APP_NAME=$CHOICE_APP
@@ -3395,9 +3453,23 @@ f_menu_app_network_monitors () {
                  ;;
                  'sudo ngrep '* | 'sudo ngrep')
                  APP_NAME=$CHOICE_APP
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
-                 11 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
+                 2 | [Nn] | [Nn][Mm] | [Nn][Mm][Aa] | [Nn][Mm][Aa][Pp])
                  APP_NAME="nmap"
                  f_application_run
                  ;;
@@ -3409,7 +3481,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
+                 3 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
                  APP_NAME="kismet"
                  f_application_run
                  ;;
@@ -3421,7 +3493,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
+                 4 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
                  APP_NAME="snort"
                  clear # Blank the screen.
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
@@ -3477,7 +3549,7 @@ f_menu_app_network_monitors () {
                       ;;
                  esac
                  ;;
-                 14 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
+                 5 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
                  APP_NAME="tcpdump"
                  f_find_NIC
                  APP_NAME="tcpdump -i $ANS -c 5"
@@ -3496,7 +3568,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 15 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
+                 6 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
                  APP_NAME="wireshark"
                  f_application_run
                  ;;
@@ -3508,14 +3580,14 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-            esac                # End of Network Monitor Applications case statement.
+            esac                # End of Packet Tools Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Network Monitor Applications until loop.
-} # End of function f_menu_app_network_monitors
+      done  # End of Packet Tools Applications until loop.
+} # End of function f_menu_app_packet_tools
 #
 # +----------------------------------------+
 # |          Function f_find_NIC           |
@@ -5908,6 +5980,14 @@ f_menu_app_sys_software () {
                  ;;
                  3 | [Dd] | [Dd][Pp] | [Dd][Pp][Kk] | [Dd][Pp][Kk][Gg])
                  APP_NAME="dpkg"
+                 clear # Blank the screen.
+                 echo "To get a list of all the software packages installed on your PC:"
+                 echo
+                 echo "dpkg --get-selections to list all installed packages."
+                 echo
+                 echo "*** For more help type: man dpkg"
+                 echo
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Dd][Pp][Kk][Gg]' '*)
@@ -5922,6 +6002,7 @@ f_menu_app_sys_software () {
                  APP_NAME="synaptic"
                  clear # Blank the screen.
                  echo "Synaptic is a GUI package manager and is in the menu for reference only."
+                 f_press_enter_key_to_continue
                  ;;
                  5 | [Aa] | [Aa][Ll] | [Aa][Ll][Ii] | [Aa][Ll][Ii][Ee] | [Aa][Ll][Ii][Ee][Nn])
                  APP_NAME="alien"
@@ -5965,6 +6046,7 @@ f_menu_app_sys_software () {
                  echo "YaST is a GUI package manager and is in the menu for reference purposes only."
                  echo
                  echo "YaST can be launched from the command line with the 'yast' command."
+                 f_press_enter_key_to_continue
                  ;;
                  9 | [Yy] | [Yy][Uu] | [Yy][Uu][Mm])
                  APP_NAME="yum"
