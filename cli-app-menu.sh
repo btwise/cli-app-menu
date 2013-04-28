@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-26-2013 23:57"
+REVDATE="April-28-2013 01:23"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -73,6 +73,7 @@ REVDATE="April-26-2013 23:57"
 #:
 #: Please enjoy . . . bob chin (2013).
 #:                    rdchin at yahoo.com.
+#:
 #:
 #: +----------------------------------------+
 #: |      Why is this menu so complex?      |
@@ -153,6 +154,36 @@ REVDATE="April-26-2013 23:57"
 #:
 #: 4. If you are adding a new application menu, please use the template for
 #:    this very purpose, f_menu_app_sample_template.
+#:
+#:
+#: +----------------------------------------+
+#: |   Trouble-shooting a new menu item     |
+#: +----------------------------------------+
+#:
+#: 1. Some or all of the menu items are missing.
+#:
+#:    If you copied from a template or another menu, check the Special Menu
+#:    Option Markers for consistency.
+#:    In the example below, #MXX is before each menu item and in DELIMITER.
+#:            #MXX appname  - Description Application1 name.
+#:            #MXX app2name - Description Application2 name.
+#:            #
+#:            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+#:            MENU_TITLE="<Sample Template> Applications Menu"
+#:            DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options.
+#:
+#: 2. Menu items only display when the number is selected, not letters.
+#:
+#:    Check the case patterns of the letters.
+#:    Wrong! 1 | [Aa][Pp][Pp][Nn][Aa][Mm][Ee])
+#:    Right! 1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][Nn] | [Aa][Pp][Pp][Nn][Aa] | [Aa][Pp][Pp][Nn][Aa][Mm] | [Aa][Pp][Pp][Nn][Aa][Mm][Ee])
+#:
+#: 3. Menu items only display when the letters are selected, not the number.
+#:    Or Wrong application is run when I select the number.
+#:
+#:    Check to see that you do not have duplicate numbers or out of sequence
+#:    numbers in the case patterns.
+#:
 #:
 #: +----------------------------------------+
 #: |  List of variables used in this script |
@@ -255,10 +286,13 @@ REVDATE="April-26-2013 23:57"
 #:MIM - Instant Messaging Applications Menu
 #:MIR - Internet Relay Chat (IRC) Applications Menu
 #:MNC - Network Chat Applications Menu
-#:MNF - Network Configuration Applications Menu
+#:MNF - Firewalls Applications Menu
+#:MNL - Lan/Wan Applications Menu
 #:MNM - Network Monitor Applications Menu
+#:MNN - NIC Diagnostic Tools Applications Menu
 #:MNO - Note Applications Menu
 #:MNR - News Reader Applications Menu
+#:MNS - Network Sharing Applications Menu
 #:MPO - Podcatcher Applications Menu
 #:MPR - Presentation Applications Menu
 #:MPS - PDF-PS Applications Menu
@@ -266,8 +300,9 @@ REVDATE="April-26-2013 23:57"
 #:MRS - RSS News Feeder Applications Menu
 # MSB - System Backup Applications Menu
 #:MSC - System Screen Applications Menu
-# MSD - System Disk Information Applications Menu
-# MSH - System Health Applications Menu
+#:MSD - System Disk Information Applications Menu
+#:MSF - System Software Package Applications Menu
+#:MSH - System Health Applications Menu
 #:MSI - System Information Applications Menu
 #:MSM - System Monitor Applications Menu
 #:MSP - Spreadsheet Applications Menu
@@ -451,7 +486,7 @@ f_quit_subcat_menu () {
 } # End of function f_quit_subcat_menu
 #
 # +----------------------------------------+
-# |       Function f_quit_tcat_menu      |
+# |       Function f_quit_tcat_menu        |
 # +----------------------------------------+
 #
 #  Inputs: CHOICE_TCAT.
@@ -546,7 +581,7 @@ f_press_enter_key_to_continue () { # Display message and wait for user input.
 } # End of function f_press_enter_key_to_continue
 #
 # +----------------------------------------+
-# |   Function f_option_press_enter_key  |
+# |   Function f_option_press_enter_key    |
 # +----------------------------------------+
 #
 # Inputs: PRESS_KEY.
@@ -707,7 +742,7 @@ fi
 } # End of function f_subcat_bad_menu_choice
 #
 # +----------------------------------------+
-# |    Function f_tcat_bad_menu_choice   |
+# |    Function f_tcat_bad_menu_choice     |
 # +----------------------------------------+
 #
 #  Inputs: CHOICE_TCAT.
@@ -892,6 +927,9 @@ f_application_install () {
                      sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
                      sudo apt-get update
                      ;;
+                     ifplugstatus)
+                     APP_NAME_INSTALL="ifplugd"
+                     ;;
                      lynx)
                      APP_NAME_INSTALL="lynx-cur"
                      ;;
@@ -1056,6 +1094,12 @@ f_menu_app_sample_template () {
                  [Aa][Pp][Pp][Nn][Aa][Mm][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 'sudo appname '* | 'sudo appname')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2][Nn] | [Aa][Pp][Pp][2][Nn][Aa] | [Aa][Pp][Pp][2][Nn][Aa][Mm] | [Aa][Pp][Pp][2][Nn][Aa][Mm][Ee])
                  APP_NAME="app2name"
@@ -1433,6 +1477,27 @@ case $APP_NAME in # Start of case statement.
      #
      # The order of the case pattern matching clauses is necessary.
      #
+     # Does $APP_NAME start with 'sudo'?
+     # Does $APP_NAME have no spaces?
+     # If so, treat as a web browser without a specified web site.
+     #
+     'sudo '* | *[!' ']*) # Starts with 'sudo' command or it has no spaces in name.
+     echo
+     echo "When using the web browser or network application directly from the command line,"
+     echo "use the syntax: $APP_NAME WEB_SITE"
+     echo
+     echo -n "Enter the name of the web site: "
+     read WEB_SITE
+     #
+     # If no web site specified, default to a web site. Note the test command
+     # has $WEB_SITE in quotes because it may not be set prior to this test.
+     if [ -z "$WEB_SITE" ] ; then
+         WEB_SITE="http://www.lxer.com"
+     fi
+     #
+     APP_NAME="$APP_NAME $WEB_SITE"
+     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+     ;;
      # Does $APP_NAME have space followed by dash?
      # If so, 2nd word is an application option and not a web site.
      #
@@ -1454,26 +1519,6 @@ case $APP_NAME in # Start of case statement.
      # echo $APP_NAME to browse in $WEB_SITE          # TEST LINE.
      # f_press_enter_key_to_continue                  # TEST LINE.
      #
-     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-     ;;
-     # Does $APP_NAME have no spaces?
-     # If so, treat as a web browser without a specified web site.
-     #
-     *[!' ']*) # No spaces in name which is everything left-over by default.
-     echo
-     echo "When using the web browser directly from the command line,"
-     echo "use the syntax: $APP_NAME WEB_SITE"
-     echo
-     echo -n "Enter the name of the web site: "
-     read WEB_SITE
-     #
-     # If no web site specified, default to a web site. Note the test command
-     # has $WEB_SITE in quotes because it may not be set prior to this test.
-     if [ -z "$WEB_SITE" ] ; then
-         WEB_SITE="http://www.lxer.com"
-     fi
-     #
-     APP_NAME="$APP_NAME $WEB_SITE"
      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
      ;;
 esac # End of case statement.
@@ -2491,8 +2536,11 @@ f_menu_cat_network () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of Network Application Category until loop.
-            #BNE Configuration - scan for wireless networks, display wired/wireless config.
-            #BNE Monitors - LAN monitors, network packet analyzers, network mappers.
+            #BNE Firewalls - Configure firewalls.
+            #BNE LAN-WAN   - Test network connectivity, speed, routing.
+            #BNE NIC Tools - Configure wired/wireless cards, scan for wireless networks.
+            #BNE Sharing   - Configure file sharing with Microsoft Windows PCs/networks.
+            #BNE Monitors  - LAN monitors, network packet analyzers, network mappers.
             #
             MENU_TITLE="Network Application Category Menu"
             DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
@@ -2506,11 +2554,23 @@ f_menu_cat_network () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Network Application Category case statement.
-                 1 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Ff] | [Cc][Oo][Nn][Ff][Ii] | [Cc][Oo][Nn][Ff][Ii][Gg] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii][Oo] | [Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Aa][Tt][Ii][Oo][Nn])
-                 f_menu_app_network_config
+                 1 | [Ff] | [Ff][Ii] | [Ff][Ii][Rr] | [Ff][Ii][Rr][Ee] | [Ff][Ii][Rr][Ee][Ww] | [Ff][Ii][Rr][Ee][Ww][Aa] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll][Ss])
+                 f_menu_app_firewalls
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
-                 2 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt] | [Mm][Oo][Nn][Ii][Tt][Oo] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr][Ss])
+                 2 | [Ll] | [Ll][Aa] | [Ll][Aa][Nn] | [Ll][Aa][Nn][-] | [Ll][Aa][Nn][-][Ww] | [Ll][Aa][Nn][-][Ww][Aa] | [Ll][Aa][Nn][-][Ww][Aa][Nn])
+                 f_menu_app_lanwan
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 3 | [Nn] | [Nn][Ii] | [Nn][Ii][Cc] | [Nn][Ii][Cc]' ' | [Nn][Ii][Cc]' '[Tt] | [Nn][Ii][Cc]' '[Tt][Oo] | [Nn][Ii][Cc]' '[Tt][Oo][Oo] | [Nn][Ii][Cc]' '[Tt][Oo][Oo][Ll] | [Nn][Ii][Cc]' '[Tt][Oo][Oo][Ll][Ss])
+                 f_menu_app_nic_tools
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][Rr] | [Ss][Hh][Aa][Rr][Ii] | [Ss][Hh][Aa][Rr][Ii][Nn] | [Ss][Hh][Aa][Rr][Ii][Nn][Gg])
+                 f_menu_app_network_sharing
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 5 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt] | [Mm][Oo][Nn][Ii][Tt][Oo] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_network_monitors
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
@@ -2522,32 +2582,21 @@ f_menu_cat_network () {
 } # End of function f_menu_cat_network
 #
 # +----------------------------------------+
-# |   Function f_menu_app_network_config   |
+# |      Function f_menu_app_firewalls     |
 # +----------------------------------------+
 #
-f_menu_app_network_config () {
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_firewalls () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
-      do    # Start of Network Configuration Applications until loop.
-            #MNF iptables    - firewall configuration rules for a chain.
-            #MNF ufw         - firewall configuration and status.
-            #MNF ifconfig    - NIC configuration.
-            #MNF ip route    - Shows routing.
-            #MNF route       - Shows routing table.
-            #MNF ping        - Check LAN/WAN connectivity. Usage: ping <ip-address>.
-            #MNF speedometer - Check LAN/WAN connectivity speed.
-            #MNF mtr         - Traceroute tool, has features of ping and traceroute.
-            #MNF traceroute  - Traceroute tool, trace network path to destination. 
-            #MNF wicd-curses - Wireless scan and connect to wired/wireless networks.
-            #MNF iwconfig    - Wireless NIC configuration.
-            #MNF iwlist      - Get detailed information from wired/wireless interface.
-            #MNF smbc        - Samba file manager for folder shares with Microsoft Windows.
-            #MNF smbclient   - Samba client (share folders with Microsoft Windows).
-            #MNF smbstatus   - Samba files lock status.
-            #MNF testparm    - Samba configuration display.
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of <Sample Template> Applications until loop.
+            #MNF iptables - Firewall configuration rules for a chain.
+            #MNF ufw      - Firewall configuration and status.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Network Configuration Applications Menu"
+            MENU_TITLE="Firewall Applications Menu"
             DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -2558,7 +2607,7 @@ f_menu_app_network_config () {
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Network Configuration Applications case statement.
+            case $CHOICE_APP in # Start of Firewall Applications case statement.
                  1 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa] | [Ii][Pp][Tt][Aa][Bb] | [Ii][Pp][Tt][Aa][Bb][Ll] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
                  APP_NAME="iptables --list"
                  clear # Blank the screen.
@@ -2575,6 +2624,10 @@ f_menu_app_network_config () {
                  f_application_run
                  ;;
                  [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo iptables '* | 'sudo iptables')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2602,21 +2655,133 @@ f_menu_app_network_config () {
                  echo "Now run ufw. Usage: ufw status verbose"
                  f_press_enter_key_to_continue
                  f_application_run
-
                  ;;
                  [Uu][Ff][Ww]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ii] | [Ii][Ff] | [Ii][Ff][Cc] | [Ii][Ff][Cc][Oo] | [Ii][Ff][Cc][Oo][Nn] | [Ii][Ff][Cc][Oo][Nn][Ff] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg])
-                 APP_NAME="ifconfig"
-                 f_application_run
-                 ;;
-                 [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg]' '*)
+                 'sudo ufw '* | 'sudo ufw')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Rr] | [Ii][Pp]' '[Rr][Oo] | [Ii][Pp]' '[Rr][Oo][Uu] | [Ii][Pp]' '[Rr][Oo][Uu][Tt] | [Ii][Pp]' '[Rr][Oo][Uu][Tt][Ee])
+            esac                # End of Firewall Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Firewall Applications until loop.
+} # End of function f_menu_app_firewalls
+#
+# +----------------------------------------+
+# |       Function f_menu_app_lanwan       |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_lanwan () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of LAN/WAN Applications until loop.
+            #MNL ip           - Shows routing, devices, policy routing and tunnels.
+            #MNL ip addr      - protocol (IP or IPv6) address on a device.
+            #MNL ip link      - Shows network device.
+            #MNL ip neighbor  - ARP or NDISC cache entry.
+            #MNL ip route     - Shows routing.
+            #MNL route        - Shows routing table.
+            #MNL ping         - Check LAN/WAN connectivity. Usage: ping <ip-address>.
+            #MNL speedometer  - Check LAN/WAN connectivity speed.
+            #MNL mtr          - Traceroute tool, has features of ping and traceroute.
+            #MNL traceroute   - Traceroute tool, trace network path to destination. 
+            #MNL nslookup     - Query Internet domain servers.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="LAN/WAN Applications Menu"
+            DELIMITER="#MNL" #MNL This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of LAN/WAN Applications case statement.
+                 1 | [Ii] | [Ii][Pp])
+                 APP_NAME="ip"
+                 f_application_run
+                 clear # Blank the screen.
+                 echo "IP - manipulate routing, devices, policy routing and tunnels."
+                 echo
+                 echo "Usage: ip [ OPTIONS ] OBJECT { COMMAND | help }"
+                 echo
+                 echo "OBJECT := { link | addr | addrlabel | route | rule | neigh | tunnel | maddr |"
+                 echo " mroute }"
+                 echo "link      - network device."
+                 echo "address   - protocol (IP or IPv6) address on a device."
+                 echo "addrlabel - label configuration for protocol address selection."
+                 echo "neighbour - ARP or NDISC cache entry."
+                 echo "route     - routing table entry."
+                 echo "rule      - rule in routing policy database."
+                 echo "maddress  - multicast address."
+                 echo "mroute    - multicast routing cache entry."
+                 echo "tunnel    - tunnel over IP."
+                 echo
+                 echo "OPTIONS := { -V[ersion] | -s[tatistics] | -r[esolve] | -f[amily] { inet | inet6"
+                 echo "             | ipx | dnet | link } | -o   OBJECT"
+                 echo
+                 echo "*** For more help type: man ip" 
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ii][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ip '* | 'sudo ip')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Aa] | [Ii][Pp]' '[Aa][Dd] | [Ii][Pp]' '[Aa][Dd][Dd] | [Ii][Pp]' '[Aa][Dd][Dd][Rr])
+                 APP_NAME="ip addr"
+                 f_application_run
+                 ;;
+                 [Ii][Pp]' '[Aa][Dd][Dd][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ip addr '* | 'sudo ip addr')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Ll] | [Ii][Pp]' '[Ll][Ii] | [Ii][Pp]' '[Ll][Ii][Nn] | [Ii][Pp]' '[Ll][Ii][Nn][Kk])
+                 APP_NAME="ip link"
+                 f_application_run
+                 ;;
+                 [Ii][Pp]' '[Ll][Ii][Nn][Kk]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ip link '* | 'sudo ip link')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Nn] | [Ii][Pp]' '[Nn][Ee] | [Ii][Pp]' '[Nn][Ee][Ii] | [Ii][Pp]' '[Nn][Ee][Ii][Gg] | [Ii][Pp]' '[Nn][Ee][Ii][Gg][Hh] | [Ii][Pp]' '[Nn][Ee][Ii][Gg][Hh][Bb] | [Ii][Pp]' '[Nn][Ee][Ii][Gg][Hh][Bb][Oo] | [Ii][Pp]' '[Nn][Ee][Ii][Gg][Hh][Bb][Oo][Rr])
+                 APP_NAME="ip neighbor"
+                 f_application_run
+                 ;;
+                 [Ii][Pp]' '][Nn][Ee][Ii][Gg][Hh][Bb][Oo][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ip neighbor '* | 'sudo ip neighbor')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Rr] | [Ii][Pp]' '[Rr][Oo] | [Ii][Pp]' '[Rr][Oo][Uu] | [Ii][Pp]' '[Rr][Oo][Uu][Tt] | [Ii][Pp]' '[Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="ip route"
                  f_application_run
                  ;;
@@ -2624,7 +2789,11 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Rr] | [Rr][Oo] | [Rr][Oo][Uu] | [Rr][Oo][Uu][Tt] | [Rr][Oo][Uu][Tt][Ee])
+                 'sudo ip route '* | 'sudo ip route')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Rr] | [Rr][Oo] | [Rr][Oo][Uu] | [Rr][Oo][Uu][Tt] | [Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="route"
                  f_application_run
                  ;;
@@ -2632,7 +2801,11 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
+                 'sudo route '* | 'sudo route')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
                  APP_NAME="ping localhost -c 5"
                  clear # Blank the screen.
                  echo "Send ICMP ECHO_REQUEST to network hosts."
@@ -2651,15 +2824,19 @@ f_menu_app_network_config () {
                  echo
                  echo "Now run ping. Usage: ping localhost -c 5"
                  echo
-                 echo "Many web sites block pings resulting in a message: '100% package loss'."
+                 echo "Many web sites block pings resulting in a message: '100% packet loss'."
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Pp][Ii][Nn][Gg]' '*)
+                 'sudo ping')
+                 APP_NAME="sudo ping localhost -c 5"
+                 f_application_run
+                 ;;
+                 [Pp][Ii][Nn][Gg]' '* | 'sudo ping '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Ss] | [Ss][Pp] | [Ss][Pp][Ee] | [Ss][Pp][Ee][Ee] | [Ss][Pp][Ee][Ee][Dd] | [Ss][Pp][Ee][Ee][Dd][Oo] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee][Rr])
+                 8 | [Ss] | [Ss][Pp] | [Ss][Pp][Ee] | [Ss][Pp][Ee][Ee] | [Ss][Pp][Ee][Ee][Dd] | [Ss][Pp][Ee][Ee][Dd][Oo] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee] | [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee][Rr])
                  APP_NAME="speedometer"
                  f_application_run
                  ;;
@@ -2667,7 +2844,11 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
+                 'sudo speedometer '* | 'sudo speedometer')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
                  APP_NAME="mtr"
                  clear # Blank the screen.
                  echo "Network diagnostic tool combining the functionality of traceroute and ping."
@@ -2689,8 +2870,12 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee])
-                 APP_NAME="traceroute localhost"
+                 'sudo mtr '* | 'sudo mtr')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee])
+                 APP_NAME="traceroute"
                  clear # Blank the screen.
                  echo "Trace path to network host."
                  echo
@@ -2708,15 +2893,145 @@ f_menu_app_network_config () {
                  echo
                  echo "traceroute of this PC (localhost) as an example."
                  echo
-                 echo "Now run traceroute. Usage: traceroute localhost"
+                 echo "Now run traceroute. Usage: traceroute <URL or web-site or IP-address>"
                  f_press_enter_key_to_continue
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee]' '* | 'sudo traceroute '* )
+                 APP_NAME=$CHOICE_APP
+                 # f_web_site # Don't use f_web_site since web site may have already been entered.
                  f_application_run
                  ;;
-                 [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee]' '*)
+                 'sudo traceroute')
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 11 | [Nn] | [Nn][Ss] | [Nn][Ss][Ll] | [Nn][Ss][Ll][Oo] | [Nn][Ss][Ll][Oo][Oo] | [Nn][Ss][Ll][Oo][Oo][Kk] | [Nn][Ss][Ll][Oo][Oo][Kk][Uu] | [Nn][Ss][Ll][Oo][Oo][Kk][Uu][Pp])
+                 APP_NAME="nslookup"
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn][Ss][Ll][Oo][Oo][Kk][Uu][Pp]' '* |  'sudo nslookup '*)
+                 APP_NAME=$CHOICE_APP
+                 # f_web_site # Don't use f_web_site since web site may have already been entered.
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 'sudo nslookup')
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of LAN/WAN Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of LAN/WAN Applications until loop.
+} # End of function f_menu_app_lanwan
+#
+# +----------------------------------------+
+# |      Function f_menu_app_nic_tools     |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_nic_tools () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of <Sample Template> Applications until loop.
+            #MNN ifconfig     - NIC configuration.
+            #MNN ethtool      - NIC configuration.
+            #MNN mii-tool     - NIC configuration of Media Independent Interface Unit.
+            #MNN mii-diag     - NIC configuration of network cards.
+            #MNN nictools-pci - NIC configuration of specific oem network cards.
+            #MNN wicd-curses  - Wireless scan and connect to wired/wireless networks.
+            #MNN iwconfig     - Wireless NIC configuration.
+            #MNN ifplugstatus - Wireless USB NIC status.
+            #MNN iwlist       - Get detailed information from wired/wireless interface.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="NIC Tools Applications Menu"
+            DELIMITER="#MNN" #MNN This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of NIC Tools Applications case statement.
+                 1 | [Ii] | [Ii][Ff] | [Ii][Ff][Cc] | [Ii][Ff][Cc][Oo] | [Ii][Ff][Cc][Oo][Nn] | [Ii][Ff][Cc][Oo][Nn][Ff] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii] | [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg])
+                 APP_NAME="ifconfig"
+                 f_application_run
+                 ;;
+                 [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
+                 'sudo ifconfig '* | 'sudo ifconfig')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Ee] | [Ee][Tt] | [Ee][Tt][Hh] | [Ee][Tt][Hh][Tt] | [Ee][Tt][Hh][Tt][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo][Ll])
+                 APP_NAME="ethtool"
+                 f_application_run
+                 ;;
+                 [Ee][Tt][Hh][Tt][Oo][Oo][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ethtool '* | 'sudo ethtool')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Mm] | [Mm][Ii] | [Mm][Ii][Ii] | [Mm][Ii][Ii][-] | [Mm][Ii][Ii][-][Tt] | [Mm][Ii][Ii][-][Tt][Oo] | [Mm][Ii][Ii][-][Tt][Oo][Oo] | [Mm][Ii][Ii][-][Tt][Oo][Oo][Ll])
+                 APP_NAME="mii-tool"
+                 f_application_run
+                 ;;
+                 [Mm][Ii][Ii][-][Tt][Oo][Oo][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo mii-tool '* | 'sudo mii-tool')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Mm] | [Mm][Ii] | [Mm][Ii][Ii] | [Mm][Ii][Ii][-] | [Mm][Ii][Ii][-][Dd] | [Mm][Ii][Ii][-][Dd][Ii] | [Mm][Ii][Ii][-][Dd][Ii][Aa] | [Mm][Ii][Ii][-][Dd][Ii][Aa][Gg])
+                 APP_NAME="mii-diag"
+                 f_application_run
+                 ;;
+                 [Mm][Ii][Ii][-][Dd][Ii][Aa][Gg]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo mii-diag '* | 'sudo mii-diag')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Nn] | [Nn][Ii] | [Nn][Ii][Cc] | [NN][Ii][Cc] | [NN][Ii][Cc][Tt] | [NN][Ii][Cc][Tt][Oo] | [NN][Ii][Cc][Tt][Oo][Oo] | [NN][Ii][Cc][Tt][Oo][Oo][Ll] | [NN][Ii][Cc][Tt][Oo][Oo][Ll][Ss] | [NN][Ii][Cc][Tt][Oo][Oo][Ll][Ss][-] | [NN][Ii][Cc][Tt][Oo][Oo][Ll][Ss][-][Pp] | [NN][Ii][Cc][Tt][Oo][Oo][Ll][Ss][-][Pp][Cc] | [NN][Ii][Cc][Tt][Oo][Oo][Ll][Ss][-][Pp][Cc][Ii])
+                 APP_NAME="nictools-pci"
+                 f_application_run
+                 ;;
+                 [NN][Ii][Cc][Tt][Oo][Oo][Ll][Ss][-][Pp][Cc][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo nictools-pci '* | 'sudo nictools-pci')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Ww] | [Ww][Ii] | [Ww][Ii][Cc] | [Ww][Ii][Cc][Dd] | [Ww][Ii][Cc][Dd][-] | [Ww][Ii][Cc][Dd][-][Cc] | [Ww][Ii][Cc][Dd][-][Cc][Uu] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee] | [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss])
                  APP_NAME="wicd-curses"
                  f_application_run
                  ;;
@@ -2724,7 +3039,11 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
+                 'sudo wicd-curses '* | 'sudo wicd-curses')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Ii] | [Ii][Ww] | [Ii][Ww][Cc] | [Ii][Ww][Cc][Oo] | [Ii][Ww][Cc][Oo][Nn] | [Ii][Ww][Cc][Oo][Nn][Ff] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii] | [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="iwconfig"
                  f_application_run
                  ;;
@@ -2732,7 +3051,23 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Ii] | [Ii][Ww] | [Ii][Ww][Ll] | [Ii][Ww][Ll][Ii] | [Ii][Ww][Ll][Ii][Ss] | [Ii][Ww][Ll][Ii][Ss][Tt])
+                 'sudo iwconfig '* | 'sudo iwconfig')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Ii] | [Ii][Ff] | [Ii][Ff][Pp] | [Ii][Ff][Pp][Ll] | [Ii][Ff][Pp][Ll][Uu] | [Ii][Ff][Pp][Ll][Uu][Gg] | [Ii][Ff][Pp][Ll][Uu][Gg][Ss] | [Ii][Ff][Pp][Ll][Uu][Gg][Ss][Tt] | [Ii][Ff][Pp][Ll][Uu][Gg][Ss][Tt][Aa] | [Ii][Ff][Pp][Ll][Uu][Gg][Ss][Tt][Aa][Tt] | [Ii][Ff][Pp][Ll][Uu][Gg][Ss][Tt][Aa][Tt][Uu] | [Ii][Ff][Pp][Ll][Uu][Gg][Ss][Tt][Aa][Tt][Uu][Ss])
+                 APP_NAME="ifplugstatus"
+                 f_application_run
+                 ;;
+                 [Ii][Ff][Pp][Ll][Uu][Gg][Ss][Tt][Aa][Tt][Uu][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ifplugstatus '* | 'sudo ifplugstatus')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Ii] | [Ii][Ww] | [Ii][Ww][Ll] | [Ii][Ww][Ll][Ii] | [Ii][Ww][Ll][Ii][Ss] | [Ii][Ww][Ll][Ii][Ss][Tt])
                  APP_NAME="iwlist"
                  f_application_run
                  ;;
@@ -2740,7 +3075,46 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 'sudo iwlist '* | 'sudo iwlist')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of NIC Tools Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of NIC Tools Applications until loop.
+} # End of function f_menu_app_nic_tools
+#
+# +----------------------------------------+
+# |   Function f_menu_app_network_sharing  |
+# +----------------------------------------+
+#
+f_menu_app_network_sharing () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Network Configuration Applications until loop.
+            #MNS smbc        - Samba file manager for folder shares with Microsoft Windows.
+            #MNS smbclient   - Samba client (share folders with Microsoft Windows).
+            #MNS smbstatus   - Samba files lock status.
+            #MNS testparm    - Samba configuration display.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Network Sharing Applications Menu"
+            DELIMITER="#MNS" #MNS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Network Sharing Applications case statement.
+                 1 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="man smbc"
                  clear # Blank the screen.
                  echo "Display help for smbc (Samba Commander)."
@@ -2755,7 +3129,11 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
+                 'sudo smbc '* | 'sudo smbc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
@@ -2763,7 +3141,11 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 15 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
+                 'sudo smbclient '* | 'sudo smbclient')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
@@ -2771,7 +3153,11 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 16 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
+                 'sudo smbstatus '* | 'sudo smbstatus')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
@@ -2779,14 +3165,18 @@ f_menu_app_network_config () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-            esac                # End of Network Configuration Applications case statement.
+                 'sudo testparm '* | 'sudo testparm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Network Sharing Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Network Configuration Applications until loop.
-} # End of function f_menu_app_network_config
+      done # End of Network Sharing Applications until loop.
+} # End of function f_menu_app_network_sharing
 #
 # +----------------------------------------+
 # |Function f_menu_app_network_monitors    |
@@ -2835,6 +3225,11 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 'sudo cbm '* | 'sudo cbm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  2 | [Ii] | [Ii][Ff] | [Ii][Ff][Ss] | [Ii][Ff][Ss][Tt] | [Ii][Ff][Ss][Tt][Aa] | [Ii][Ff][Ss][Tt][Aa][Tt])
                  APP_NAME="ifstat 2 5"
                  clear # Blank the screen.
@@ -2848,6 +3243,10 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 'sudo ifstat '* | 'sudo ifstat')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  3 | [Ii] | [Ii][Ff] | [Ii][Ff][Tt] | [Ii][Ff][Tt][Oo] | [Ii][Ff][Tt][Oo][Pp])
                  APP_NAME="iftop"
                  f_find_NIC
@@ -2857,6 +3256,11 @@ f_menu_app_network_monitors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ii][Ff][Tt][Oo][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 'sudo iftop '* | 'sudo iftop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2874,12 +3278,22 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 'sudo jnettop '* | 'sudo jnettop')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  5 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
                  APP_NAME="iptraf"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ii][Pp][Tt][Rr][Aa][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 'sudo iptraf '* | 'sudo iptraf')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2900,6 +3314,11 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 'sudo sntop '* | 'sudo sntop')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  7 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
                  APP_NAME="slurm"
                  f_find_NIC
@@ -2912,11 +3331,20 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 'sudo slurm '* | 'sudo slurm')
+                 f_how_to_quit_application "q" "no-clear"
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  8 | [Nn] | [Nn][Cc])
                  APP_NAME="nc"
                  f_application_run
                  ;;
                  [Nn][Cc]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo nc '* | 'sudo nc')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2953,11 +3381,19 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 'sudo netstat '* | 'sudo netstat')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  10 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
                  APP_NAME="ngrep"
                  f_application_run
                  ;;
                  [Nn][Gg][Rr][Ee][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ngrep '* | 'sudo ngrep')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2969,11 +3405,19 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 'sudo nmap '* | 'sudo nmap')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  12 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
                  APP_NAME="kismet"
                  f_application_run
                  ;;
                  [Kk][Ii][Ss][Mm][Ee][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo kismet '* | 'sudo kismet')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3015,6 +3459,24 @@ f_menu_app_network_monitors () {
                       ;;
                  esac
                  ;;
+                 'sudo snort '* | 'sudo snort')
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
                  14 | [Tt] | [Tt][Cc] | [Tt][Cc][Pp] | [Tt][Cc][Pp][Dd] | [Tt][Cc][Pp][Dd][Uu] | [Tt][Cc][Pp][Dd][Uu][Mm] | [Tt][Cc][Pp][Dd][Uu][Mm][Pp])
                  APP_NAME="tcpdump"
                  f_find_NIC
@@ -3030,11 +3492,19 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 'sudo tcpdump '* | 'sudo tcpdump')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  15 | [Ww] | [Ww][Ii] | [Ww][Ii][Rr] | [Ww][Ii][Rr][Ee] | [Ww][Ii][Rr][Ee][Ss] | [Ww][Ii][Rr][Ee][Ss][Hh] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr] | [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk])
                  APP_NAME="wireshark"
                  f_application_run
                  ;;
                  [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo wireshark '* | 'sudo wireshark')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4171,6 +4641,7 @@ f_menu_cat_system () {
             #BSY Monitors    - System processes, resources, and disk I/O monitors.
             #BSY Other       - Screen capture, file compression, DOS Emulators.
             #BSY Screens     - Multiple screen sessions.
+            #BSY Software    - (Un)Install and manage software packages (programs).
             #
             MENU_TITLE="System Category Menu"
             DELIMITER="#BSY" #BSY This 3rd field prevents awk from printing this line into menu options. 
@@ -4214,6 +4685,10 @@ f_menu_cat_system () {
                  ;;
                  8 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
                  f_menu_app_sys_screens
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+                 9 | [Ss] | [Ss][Oo] | [Ss][Oo][Ff] | [Ss][Oo][Ff][Tt] | [Ss][Oo][Ff][Tt][Ww] | [Ss][Oo][Ff][Tt][Ww][Aa] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr][Ee])
+                 f_menu_app_sys_software
                  CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of System Category case statement.
@@ -4358,7 +4833,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Aa][Tt][Oo][Pp]' '* | sudo' '[Aa][Tt][Oo][Pp])
+                 'sudo atop '* | 'sudo atop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4386,7 +4861,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg]' '* | sudo' '[Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg])
+                 'sudo chkconfig '* | 'sudo chkconfig')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4401,7 +4876,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Gg][Ll][Aa][Nn][Cc][Ee][Ss]' '* | sudo' '[Gg][Ll][Aa][Nn][Cc][Ee][Ss])
+                 'sudo glances '* | 'sudo glances')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4417,7 +4892,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Hh][Tt][Oo][Pp]' '* | sudo' '[Hh][Tt][Oo][Pp])
+                 'sudo htop '* | 'sudo htop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4437,7 +4912,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Pp][Ii][Dd][Ss][Tt][Aa][Tt]' '* | sudo' '[Pp][Ii][Dd][Ss][Tt][Aa][Tt])
+                 'sudo pidstat '* | 'sudo pidstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4473,7 +4948,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Pp][Ss]' '* | sudo' '[Pp][Ss])
+                 'sudo ps '* | 'sudo ps')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4488,7 +4963,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Tt][Oo][Pp]' '* | sudo' '[Tt][Oo][Pp])
+                 'sudo top '* | 'sudo top')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4529,7 +5004,7 @@ f_menu_app_sys_monitors () {
                       ;;
                  esac
                  ;;
-                 sudo' '[Tt][Ll][Oo][Aa][Dd]' '* | sudo' '[Tt][Ll][Oo][Aa][Dd])
+                 'sudo tload '* | 'sudo tload')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
@@ -4568,7 +5043,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Mm][Pp][Ss][Tt][Aa][Tt]' '* | sudo' '[Mm][Pp][Ss][Tt][Aa][Tt])
+                 'sudo mpstat '* | 'sudo mpstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4593,7 +5068,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Dd][Ss][Tt][Aa][Tt]' '* | sudo' '[Dd][Ss][Tt][Aa][Tt])
+                 'sudo dstat '* | 'sudo dstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4606,7 +5081,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ii][Oo][Ss][Tt][Aa][Tt]' '* | sudo' '[Ii][Oo][Ss][Tt][Aa][Tt])
+                 'sudo iostat '* | 'sudo iostat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4621,7 +5096,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Ii][Oo][Tt][Oo][Pp]' '* | sudo' '[Ii][Oo][Tt][Oo][Pp])
+                 'sudo iotop '* | 'sudo iotop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4637,7 +5112,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Ss][Aa][Ii][Dd][Aa][Rr]' '* | sudo' '[Ss][Aa][Ii][Dd][Aa][Rr])
+                 'sudo saidar '* | 'sudo saidar')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4653,7 +5128,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Yy][Aa][Cc][Pp][Ii]' '* | sudo' '[Yy][Aa][Cc][Pp][Ii])
+                 'sudo yacpi '* | 'sudo yacpi')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4725,7 +5200,7 @@ f_menu_app_sys_disks () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Dd][Ff]' '* | sudo' '[Dd][Ff])
+                 'sudo df '* | 'sudo df')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4755,7 +5230,7 @@ f_menu_app_sys_disks () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Pp][Yy][Dd][Ff]' '* | sudo' '[Pp][Yy][Dd][Ff])
+                 'sudo pydf '* | 'sudo pydf')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4786,7 +5261,7 @@ f_menu_app_sys_disks () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Dd][Uu]' '* | sudo' '[Dd][Uu])
+                 'sudo du '* | 'sudo du')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4801,7 +5276,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Nn][Cc][Dd][Uu]' '* | sudo' '[Nn][Cc][Dd][Uu])
+                 'sudo ncdu '* | 'sudo ncdu')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4816,7 +5291,7 @@ f_menu_app_sys_disks () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Uu][Uu][Ii][Dd]' '* | sudo' '[Uu][Uu][Ii][Dd])
+                 'sudo uuid '* | 'sudo uuid')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4831,7 +5306,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Cc][Ff][Dd][Ii][Ss][Kk]' '* | sudo' '[Cc][Ff][Dd][Ii][Ss][Kk])
+                 'sudo cfdisk '* | 'sudo cfdisk')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4847,7 +5322,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Pp][Aa][Rr][Tt][Ee][Dd]' '* | sudo' '[Pp][Aa][Rr][Tt][Ee][Dd])
+                 'sudo parted '* | 'sudo parted')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -4913,7 +5388,7 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn]' '* | sudo' '[Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
+                 'sudo clamscan '* | 'sudo clamscan')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -4929,7 +5404,7 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 sudo' '[Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm]' '* | sudo' '[Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
+                 'sudo freshclam '* | 'sudo freshclam')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -4942,7 +5417,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt]' '* | sudo' '[Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt])
+                 'sudo chkrootkit '* | 'sudo chkrootkit')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4954,7 +5429,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr]' '* | sudo' '[Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr])
+                 'sudo rkhunter '* | 'sudo rkhunter')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4989,7 +5464,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee]' '* | sudo' '[Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee])
+                 'sudo tripwire '* | 'sudo tripwire')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5046,7 +5521,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee]' '* | sudo' '[Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 'sudo dmidecode '* | 'sudo dmidecode')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5075,7 +5550,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ll][Ss][Hh][Ww]' '* | sudo' '[Ll][Ss][Hh][Ww])
+                 'sudo lshw '* | 'sudo lshw')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5098,7 +5573,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ff][Rr][Ee][Ee]' '* | sudo' '[Ff][Rr][Ee][Ee])
+                 'sudo free '* | 'sudo free')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5110,7 +5585,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Vv][Mm][Ss][Tt][Aa][Tt]' '* | sudo' '[Vv][Mm][Ss][Tt][Aa][Tt])
+                 'sudo vmstat '* | 'sudo vmstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5134,19 +5609,19 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Hh][Dd][Pp][Aa][Rr][Mm]' '* | sudo' '[Hh][Dd][Pp][Aa][Rr][Mm])
+                 'sudo hdparm '* | 'sudo hdparm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][' '] | [Ll][Ss][Bb][' '][Rr] | [Ll][Ss][Bb][' '][Rr][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
+                 6 | [Ll] | [Ll][Ss] | [Ll][Ss][Bb] | [Ll][Ss][Bb][_] | [Ll][Ss][Bb][_][Rr] | [Ll][Ss][Bb][_][Rr][Ee] | [Ll][Ss][Bb][_][Rr][Ee][Ll] | [Ll][Ss][Bb][_][Rr][Ee][Ll][Ee] | [Ll][Ss][Bb][_][Rr][Ee][Ll][Ee][Aa] | [Ll][Ss][Bb][_][Rr][Ee][Ll][Ee][Aa][Ss] | [Ll][Ss][Bb][_][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
                  APP_NAME="lsb_release -a"
                  f_application_run
                  ;;
-                 [Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]' '*)
+                 [Ll][Ss][Bb][_][Rr][Ee][Ll][Ee][Aa][Ss][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee]' '* | sudo' '[Ll][Ss][Bb][' '][Rr][Ee][Ll][Ee][Aa][Ss][Ee])
+                 'sudo lsb_release '* | 'sudo lsb_release')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5158,7 +5633,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Uu][Nn][Aa][Mm][Ee]' '* | sudo' '[Uu][Nn][Aa][Mm][Ee])
+                 'sudo uname '* | 'sudo uname')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5170,7 +5645,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ll][Ss][Mm][Oo][Dd]' '* | sudo' '[Ll][Ss][Mm][Oo][Dd])
+                 'sudo lsmod '* | 'sudo lsmod')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5182,7 +5657,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv]' '* | sudo' '[Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 'sudo printenv '* | 'sudo printenv')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5194,7 +5669,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ll][Ss][Uu][Ss][Bb]' '* | sudo' '[Ll][Ss][Uu][Ss][Bb])
+                 'sudo lsusb '* | 'sudo lsusb')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5206,7 +5681,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ll][Ss][Pp][Cc][Ii]' '* | sudo' '[Ll][Ss][Pp][Cc][Ii])
+                 'sudo lspci '* | 'sudo lspci')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5218,7 +5693,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll]' '* | sudo' '[Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
+                 'sudo acpitool '* | 'sudo acpitool')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5230,7 +5705,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ll][Ss][Oo][Ff]' '* | sudo' '[Ll][Ss][Oo][Ff])
+                 'sudo lsof '* | 'sudo lsof')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5242,7 +5717,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Uu][Pp][Tt][Ii][Mm][Ee]' '* | sudo' '[Uu][Pp][Tt][Ii][Mm][Ee])
+                 'sudo uptime '* | 'sudo uptime')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5286,7 +5761,7 @@ f_menu_app_sys_logs () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll]' '* | sudo' '[Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll])
+                 'sudo multitail '* | 'sudo multitail')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5332,7 +5807,7 @@ f_menu_app_sys_screens () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Bb][Yy][Oo][Bb][Uu]' '* | sudo' '[Bb][Yy][Oo][Bb][Uu])
+                 'sudo byobu '* | 'sudo byobu')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5344,7 +5819,7 @@ f_menu_app_sys_screens () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Ss][Cc][Rr][Ee][Ee][Nn]' '* | sudo' '[Ss][Cc][Rr][Ee][Ee][Nn])
+                 'sudo screen '* | 'sudo screen')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5356,7 +5831,7 @@ f_menu_app_sys_screens () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 sudo' '[Tt][Mm][Uu][Xx]' '* | sudo' '[Tt][Mm][Uu][Xx])
+                 'sudo tmux '* | 'sudo tmux')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5368,6 +5843,161 @@ f_menu_app_sys_screens () {
             f_option_press_enter_key
       done # End of System Screens until loop.
 } # End of f_menu_app_sys_screens
+#
+# +----------------------------------------+
+# |    Function f_menu_app_sys_software    |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_sys_software () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of <Sample Template> Applications until loop.
+            #MSF apt      - Debian package manager.
+            #MSF aptitude - Debian package manager.
+            #MSF dpkg     - Debian package manager.
+            #MSF synaptic - GUI Debian package manager.
+            #MSF alien    - Converts rpm to deb packages.
+            #MSF rpm      - Red Hat package manager.
+            #MSF urpmi    - Mandriva, Mageia package manager.
+            #MSF YaST     - GUI OpenSUSE package manager.
+            #MSF yum      - Red Hat, CentOS, "Yellow Dog Updated" package manager.
+            #MSF zypper   - OpenSUSE package manager on which is based YaST GUI.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="System Software Applications Menu"
+            DELIMITER="#MSF" #MSF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Synstem Software Applications case statement.
+                 1 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt])
+                 APP_NAME="apt"
+                 f_application_run
+                 ;;
+                 [Aa][Pp][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo apt '* | 'sudo apt')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Ii] | [Aa][Pp][Tt][Ii][Tt] | [Aa][Pp][Tt][Ii][Tt][Uu] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee])
+                 APP_NAME="aptitude"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 'sudo aptitude '* | 'sudo aptitude')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 3 | [Dd] | [Dd][Pp] | [Dd][Pp][Kk] | [Dd][Pp][Kk][Gg])
+                 APP_NAME="dpkg"
+                 f_application_run
+                 ;;
+                 [Dd][Pp][Kk][Gg]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo dpkg '* | 'sudo dpkg')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Ss] | [Ss][Yy] | [Ss][Yy][Nn] | [Ss][Yy][Nn][Aa] | [Ss][Yy][Nn][Aa][Pp] | [Ss][Yy][Nn][Aa][Pp][Tt] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii][Cc])
+                 APP_NAME="synaptic"
+                 clear # Blank the screen.
+                 echo "Synaptic is a GUI package manager and is in the menu for reference only."
+                 ;;
+                 5 | [Aa] | [Aa][Ll] | [Aa][Ll][Ii] | [Aa][Ll][Ii][Ee] | [Aa][Ll][Ii][Ee][Nn])
+                 APP_NAME="alien"
+                 f_application_run
+                 ;;
+                 [Aa][Ll][Ii][Ee][Nn]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo alien '* | 'sudo alien')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Rr] | [Rr][Pp] | [Rr][Pp][Mm])
+                 APP_NAME="rpm"
+                 f_application_run
+                 ;;
+                 [Rr][Pp][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo rpm '* | 'sudo rpm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Uu] | [Uu][Rr] | [Uu][Rr][Pp] | [Uu][Rr][Pp][Mm] | [Uu][Rr][Pp][Mm][Ii])
+                 APP_NAME="urpmi"
+                 f_application_run
+                 ;;
+                 [Uu][Rr][Pp][Mm][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo urpmi '* | 'sudo urpmi')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Yy][Aa][Ss][Tt])
+                 APP_NAME="yast"
+                 clear # Blank the screen.
+                 echo "YaST is a GUI package manager and is in the menu for reference purposes only."
+                 echo
+                 echo "YaST can be launched from the command line with the 'yast' command."
+                 ;;
+                 9 | [Yy] | [Yy][Uu] | [Yy][Uu][Mm])
+                 APP_NAME="yum"
+                 f_application_run
+                 ;;
+                 [Yy][Uu][Mm]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo yum '* | 'sudo yum')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Zz] | [Zz][Yy] | [Zz][Yy][Pp] | [Zz][Yy][Pp][Pp] | [Zz][Yy][Pp][Pp][Ee] | [Zz][Yy][Pp][Pp][Ee][Rr])
+                 APP_NAME="zypper"
+                 f_application_run
+                 ;;
+                 [Zz][Yy][Pp][Pp][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo zypper '* | 'sudo zypper')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Synstem Software Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Synstem Software Applications until loop.
+} # End of function f_menu_app_sys_software
 #
 # +----------------------------------------+
 # |     Function f_menu_app_sys_other      |
