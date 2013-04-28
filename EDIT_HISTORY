@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="April-28-2013 01:51" 
+REVDATE="April-28-2013 10:00" 
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -49,6 +49,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##
 ## 2013-04-28 *Add "Trouble-shooting a new menu item".
 ##            *Re-do sudo processing to allow lowercase commands only.
+##            *f_menu_app_packet_tools added.
 ##            *f_menu_app_firewalls added.
 ##            *f_menu_app_lanwan added. Add ip, ip addr, ip link,
 ##                               ip neighbor, nslookup.
