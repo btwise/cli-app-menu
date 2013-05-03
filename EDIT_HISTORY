@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="April-28-2013 10:00" 
+REVDATE="May-03-2013 00:48"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,11 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-05-03 *f_menu_app_audio move any video apps.
+##            *f_menu_app_video added. Add video apps.
+##            *f_app_web_site improve case statements and documentation.
+##            *Improve documentation on "List all applications" in Main Menu.
 ##
 ## 2013-04-28 *Add "Trouble-shooting a new menu item".
 ##            *Re-do sudo processing to allow lowercase commands only.
@@ -224,7 +229,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##             when it includes additional parameters separated by spaces.
 ##
 ## 2013-03-07 *f_application_error add trap for error code 1 for sudo.
-##            *Add function f_application_run to re-run newly installed apps.
+##            *Add function f_application_ruMay-01-2013 01:57"n to re-run newly installed apps.
 ##            *Rework all application menus to use f_application_run.
 ##
 ## 2013-03-06 *f_menu_app_sys_monitors add System tools, cfdisk, parted.
