@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="April-28-2013 10:00"
+REVDATE="May-03-2013 00:48"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -316,6 +316,7 @@ REVDATE="April-28-2013 10:00"
 #:MTV - Text Converter Applications Menu
 #:MTE - Text Editor Applications Menu
 #:MTT - Text Tool Applications Menu
+#:MVI - Video Applications Menu
 #:MWB - Web Browser Applications Menu
 #:MXX - Sample Template Applications Menu
 #
@@ -617,7 +618,7 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  # Message "No --help option available for <Application name>"
                  echo
                  echo -e "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}'
-                 # $CHOICE_APP = "man <Application name>" so need awk to grab
+                 # $CHOICE_APP = "<Application name> --help" so need awk to grab
                  # only the name.
                  # The echo -e \c option supresses the line feed after the first
                  # echo command so that the message is on a single line.
@@ -626,8 +627,6 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            ;;
            man' '*)
-              echo "To quit help, type '"q"'."
-              f_press_enter_key_to_continue
               clear # Blank screen
               $CHOICE_APP # CHOICE_APP = man <Application name>.
               ERROR=$? # Save error flag condition.
@@ -639,6 +638,8 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  echo "No manual pages available for \c"; echo $CHOICE_APP | awk '{print $2;}' 
                  # $CHOICE_APP = "man <Application name>" so need awk to grab
                  # only the name.
+                 # The echo -e \c option supresses the line feed after the first
+                 # echo command so that the message is on a single line.
                  echo "This application may either not be installed or is installed but man pages were never written for it."
                  #
                  f_press_enter_key_to_continue
@@ -938,7 +939,7 @@ f_application_install () {
                      moc)
                      APP_NAME_INSTALL="libqt4-dev"
                      ;;
-                     mpstat| iostat | pidstat | sadf | sar)
+                     mpstat | iostat | pidstat | sadf | sar)
                      APP_NAME_INSTALL="sysstat"
                      ;;
                      photorec)
@@ -947,7 +948,10 @@ f_application_install () {
                      todo)
                      APP_NAME_INSTALL="devtodo"
                      ;;
-                esac # End of Install Package Name case statement.
+                     aaxine | cacaxine | fbxine)
+                     APP_NAME_INSTALL="xine-console"
+                     ;;
+                     esac # End of Install Package Name case statement.
                 #
                 if [ -d /etc/apt ] ; then 
                    # if /etc/apt directory exists, then use apt-get install
@@ -1130,7 +1134,7 @@ f_menu_cat_applications () {
       f_initvars_menu_app
       until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
-            #AAB Audio         - Music players, audio utilities.
+            #AAB Audio         - Music players, editors, utilities.
             #AAB Education     - Learn something.
             #AAB File Managers - Copy, move, rename, delete files/folders on localhost.
             #AAB Games         - Fun time!
@@ -1140,6 +1144,7 @@ f_menu_cat_applications () {
             #AAB Office        - Text Editors, Spreadsheets, Presentation, Organizers, Calcs.
             #AAB Screen-saver  - For when you're away.
             #AAB System        - Monitor system processes, resources, utilities, etc.
+            #AAB Video         - Video players, editors, utilities.
             #
             MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
@@ -1200,6 +1205,10 @@ f_menu_cat_applications () {
                  ;;
                  10 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Tt] | [Ss][Yy][Ss][Tt][Ee] | [Ss][Yy][Ss][Tt][Ee][Mm])
                  f_menu_cat_system            # System Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 11 | [Vv] | [Vv][Ii] | [Vv][Ii][Dd] | [Vv][Ii][Dd][Ee] | [Vv][Ii][Dd][Ee][Oo])
+                 f_menu_app_video             # Video Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
             esac # End of Application Category case statement.
@@ -1483,7 +1492,39 @@ case $APP_NAME in # Start of case statement.
      # Does $APP_NAME have no spaces?
      # If so, treat as a web browser without a specified web site.
      #
-     'sudo '* | *[!' ']*) # Starts with 'sudo' command or it has no spaces in name.
+     'sudo '*) # Starts with 'sudo' command.
+     # If so, 2nd word is an application option and not a web site.
+     # Assumed format: sudo w3m
+     # It is assumed that users who do "sudo <application name> <options>"
+     # know what they are doing and do not need to be prompted to provide
+     # a web site and do not call f_web_site in the application case statments.
+     #
+     # The application case statements will not allow any other sudo
+     # formats i.e. sudo -width 80 links -driver atheos -html-images 0.
+     # To accomodate all formats would require extensive parsing and
+     # differentiating between an option and a web site.
+     #
+     APP_NAME_SUDO=$(echo $APP_NAME | awk '{print $2;}')
+     # awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
+     # APP_OPT=$(echo APP_NAME 
+     # WEB_SITE=$(echo $APP_NAME | awk '{print $2;}')
+     echo
+     echo "When using the web browser or network application directly from the command line,"
+     echo "use the syntax: $APP_NAME WEB_SITE"
+     echo
+     echo -n "Enter the name of the web site: "
+     read WEB_SITE
+     #
+     # If no web site specified, default to a web site. Note the test command
+     # has $WEB_SITE in quotes because it may not be set prior to this test.
+     if [ -z "$WEB_SITE" ] ; then
+         WEB_SITE="http://www.lxer.com"
+     fi
+     #
+     APP_NAME="$APP_NAME $WEB_SITE"
+     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+     ;;
+     *[!' ']*) # It has no spaces in name.
      echo
      echo "When using the web browser or network application directly from the command line,"
      echo "use the syntax: $APP_NAME WEB_SITE"
@@ -1509,6 +1550,9 @@ case $APP_NAME in # Start of case statement.
                  # but the back-slash makes dash interpreted as literal dash.
      # No action needs to be taken. Invoking application option not a web site.
      #
+     echo
+     echo "There is no web site specified, just a "-option" invoking application option and not a web site."
+     echo
     WEB_SITE="" 
     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
      ;;
@@ -6667,6 +6711,7 @@ f_menu_app_presentation () {
 # |        Function f_menu_app_audio       |
 # +----------------------------------------+
 #
+
 f_menu_app_audio () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
@@ -6823,6 +6868,159 @@ f_menu_app_audio () {
             f_option_press_enter_key
       done # End of Audio Applications until loop.
 } # End of f_menu_app_audio
+#
+#
+# +----------------------------------------+
+# |      Function f_menu_app_video         |
+# +----------------------------------------+
+#
+# Inputs: CHOICE_APP, MAX.
+#
+f_menu_app_video () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Video Applications until loop.
+            #MVI avconv       - Audio/Video converter.
+            #MVI cclive       - Download/Play Youtube videos.
+            #MVI ffmpeg       - Multimedia Record, convert, stream and play. 
+            #MVI mplayer      - Multimedia player.
+            #MVI xine-console - xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
+            #MVI aaxine       - xine video player.
+            #MVI cacaxine     - xine video player.
+            #MVI fbxine       - xine video player.
+            #MVI vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
+            #MVI mpgtx        - Splits/joins MPEG1 video/audio files; MPEG2, MP3 tools.
+            #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
+            #MVI mjpegtools   - MJPEG video playback, editing, video capture.
+            #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Video Applications Menu"
+            DELIMITER="#MVI" #MVI This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Video Applications case statement.
+                 1 | [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
+                 APP_NAME="avconv"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Aa][Vv][Cc][Oo][Nn][Vv]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Cc] | [Cc][Cc] | [Cc][Cc][Ll] | [Cc][Cc][Ll][Ii] | [Cc][Cc][Ll][Ii][Vv] | [Cc][Cc][Ll][Ii][Vv][Ee])
+                 APP_NAME="cclive"
+                 f_application_run
+                 ;;
+                 [Cc][Cc][Ll][Ii][Vv][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
+                 APP_NAME="ffmpeg"
+                 f_application_run
+                 ;;
+                 [Ff][Ff][Mm][Ee][Gg]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
+                 APP_NAME="mplayer"
+                 f_application_run
+                 ;;
+                 [Mm][Pp][Ll][Aa][Yy][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                  5| [Xx] | [Xx][Ii] | [Xx][Ii][Nn] | [Xx][Ii][Nn][Ee] | [Xx][Ii][Nn][Ee][-] | [Xx][Ii][Nn][Ee][-][Cc] | [Xx][Ii][Nn][Ee][-][Cc][Oo] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll][Ee])
+                 APP_NAME="xine-console"
+                 f_application_run
+                 ;;
+                 [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Aa] | [Aa][Aa] | [Aa][Aa][Xx] | [Aa][Aa][Xx][Ii] | [Aa][Aa][Xx][Ii][Nn] | [Aa][Aa][Xx][Ii][Nn][Ee])
+                 APP_NAME="aaxine"
+                 f_application_run
+                 ;;
+                 [Aa][Aa][Xx][Ii][Nn][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Aa] | [Cc][Aa][Cc][Aa][Xx] | [Cc][Aa][Cc][Aa][Xx][Ii] | [Cc][Aa][Cc][Aa][Xx][Ii][Nn] | [Cc][Aa][Cc][Aa][Xx][Ii][Nn][Ee])
+                 APP_NAME="cacaxine"
+                 f_application_run
+                 ;;
+                 [Cc][Aa][Cc][Aa][Xx][Ii][Nn][Ee]'*')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Ff] | [Ff][Bb] | [Ff][Bb][Xx] | [Ff][Bb][Xx][Ii] | [Ff][Bb][Xx][Ii][Nn] | [Ff][Bb][Xx][Ii][Nn][Ee])
+                 APP_NAME="fbxine"
+                 f_application_run
+                 ;;
+                 [Ff][Bb][Xx][Ii][Nn][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 9 | [Vv] | [Vv][Ll] | [Vv][Ll]Cc])
+                 APP_NAME="vlc"
+                 f_application_run
+                 ;;
+                 [Vv][Ll]Cc]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Mm] | [Mm][Pp] | [Mm][Pp][Gg] | [Mm][Pp][Gg][Tt] | [Mm][Pp][Gg][Tt][Xx])
+                 APP_NAME="mpgtx"
+                 f_application_run
+                 ;;
+                 [Mm][Pp][Gg][Tt][Xx]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 11 | [Mm] | [Mm][Ee] | [Mm][Ee][Nn] | [Mm][Ee][Nn][Cc] | [Mm][Ee][Nn][Cc][Oo] | [Mm][Ee][Nn][Cc][Oo][Dd] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee][Rr])
+                 APP_NAME="mencoder"
+                 f_application_run
+                 ;;
+                 [Mm][Ee][Nn][Cc][Oo][Dd][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 12 | [Mm] | [Mm][Jj] | [Mm][Jj][Pp] | [Mm][Jj][Pp][Ee] | [Mm][Jj][Pp][Ee][Gg] | [Mm][Jj][Pp][Ee][Gg][Tt] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll][Ss])
+                 APP_NAME="mencoder"
+                 f_application_run
+                 ;;
+                 [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 13 | [Ee] | [Ee][Pp] | [Ee][Pp][Ii] | [Ee][Pp][Ii][Ss] | [Ee][Pp][Ii][Ss][Oo] | [Ee][Pp][Ii][Ss][Oo][Dd] | [Ee][Pp][Ii][Ss][Oo][Dd][Ee] | [Ee][Pp][Ii][Ss][Oo][Dd][Ee][Rr])
+                 APP_NAME="episoder"
+                 f_application_run
+                 ;;
+                 [Ee][Pp][Ii][Ss][Oo][Dd][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Video Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Video Applications until loop.
+} # End of function f_menu_app_video
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -8230,13 +8428,17 @@ do    # Start of CLI Menu util loop.
            #
            # 2. The first awk parses results and chosen if lines contain only
            #    one "#M". Results are printed, showing everything after "#M".
-           #    i.e. "GF bastet         - Tetris-like game."
+           #    i.e.      Selected: "#MGF bastet         - Tetris-like game."
+           #              print $2: "GF bastet         - Tetris-like game."
            #
            # 3. The second awk substitutes "" for only the first word and
            #    prints all the rest of the words.
            #    'sub' string function substitutes only the first match (word).
-           #    'print $0' I/O statement prints all the rest of the words.
-           #    i.e. "bastet         - Tetris-like game." 
+           #    i.e.  Piped result: "GF bastet         - Tetris-like game."
+           #         result of sub: "bastet         - Tetris-like game."
+           #
+           # 4. 'print $0' I/O statement prints all the rest of the words.
+           #         i.e. print $0: "bastet         - Tetris-like game." 
            #    (Where "GF" substituted by "".)
            #
            grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
@@ -8246,6 +8448,9 @@ do    # Start of CLI Menu util loop.
            # 3. The second awk prints out the 2nd to the 15th words in the
            #    resultant string. The 1st word is skipped because it is the
            #    last 2 letters of the special menu option marker.
+           #    i.e. "GF bastet         - Tetris-like game."
+           #
+           #    2nd to 15th words printed.
            #    i.e. "bastet - Tetris-like game."
            #
            # grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{print $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14$,15}' | more -d
@@ -8302,4 +8507,3 @@ do    # Start of CLI Menu util loop.
      f_option_press_enter_key
 done # End of CLI Menu until loop.
 # all dun dun noodles.
-
