@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-03-2013 00:48"
+REVDATE="May-04-2013 22:07"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -47,50 +47,53 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-05-03 *f_application_help set CHOICE_APP=-1.
+##            *Sub-menus added comments.
+##
 ## 2013-05-03 *f_menu_app_audio move any video apps.
-##            *f_menu_app_video added. Add video apps.
+##            *f_menu_app_video added. Added video apps.
 ##            *f_app_web_site improve case statements and documentation.
 ##            *Improve documentation on "List all applications" in Main Menu.
 ##
-## 2013-04-28 *Add "Trouble-shooting a new menu item".
+## 2013-04-28 *Added "Trouble-shooting a new menu item".
 ##            *Re-do sudo processing to allow lowercase commands only.
 ##            *f_menu_app_packet_tools added.
 ##            *f_menu_app_firewalls added.
-##            *f_menu_app_lanwan added. Add ip, ip addr, ip link,
+##            *f_menu_app_lanwan added. Added ip, ip addr, ip link,
 ##                               ip neighbor, nslookup.
-##            *f_menu_app_nic_tools added. Add ethtool, mii-tool, mii-diag,
+##            *f_menu_app_nic_tools added. Added ethtool, mii-tool, mii-diag,
 ##                                  nictools-pci, ifplugstatus.
 ##            *f_menu_app_network_sharing added.
 ##            *f_menu_app_system_software added.
 ##            *Fix bug typo "systat" to "sysstat".
 ##
-## 2013-04-26 *f_menu_app_education add typespeed.
-##            *f_menu_app_file_find add updatedb, add help comments for locate.
+## 2013-04-26 *f_menu_app_education added typespeed.
+##            *f_menu_app_file_find added updatedb and help comments for locate.
 ##
 ## 2013-04-23 *f_menu_app_pdfps added. Move all pdf and ps apps to this menu.
 ##
 ## 2013-04-11 *f_menu_cat_personal_organizers deleted.
 ##            *f_menu_cat_office added.
-##            *f_menu_app_presentation added. Add tpp.
+##            *f_menu_app_presentation added. Added tpp.
 ##
-## 2013-04-10 *f_menu_sys_health added. Add tripwire help info.
-##            *f_menu_app_text_compare add diffpdf.
-##            *f_menu_app_sys_information add acpitool.
+## 2013-04-10 *f_menu_sys_health added. Added tripwire help info.
+##            *f_menu_app_text_compare added diffpdf.
+##            *f_menu_app_sys_information added acpitool.
 ##
-## 2013-04-09 *f_menu_sys_health added. Add chkrootkit, rkhunter, tripwire.
+## 2013-04-09 *f_menu_sys_health added. Added chkrootkit, rkhunter, tripwire.
 ##            *f_menu_sys_monitors added chkconfig.
 ##
 ## 2013-04-08 *f_menu_cat_file_management added.
-##            *f_menu_app_file_encryption added. Add bcrypt, ccrypt, crypt,
+##            *f_menu_app_file_encryption added. Added bcrypt, ccrypt, crypt,
 ##             mcrypt, pgp, scrypt, truecrypt, zcrypt.
 ##            *f_menu_app_file_find added.
-##            *f_menu_app_file_viewers added. Add more.
+##            *f_menu_app_file_viewers added. Added more.
 ##            *f_menu_app_file_recover added.
 ##            *f_menu_cat_system added.
-##            *f_menu_app_sys_backup added. Add rsync, tar, gzip, gunzip,
+##            *f_menu_app_sys_backup added. Added rsync, tar, gzip, gunzip,
 ##             zip, unzip.
-##            *f_menu_app_sys_disks added. Add du, pydf.
-##            *f_menu_app_instant_messaging add barnowl.
+##            *f_menu_app_sys_disks added. Added du, pydf.
+##            *f_menu_app_instant_messaging added barnowl.
 ##
 ## 2013-04-07 *f_menu_cat_text added.
 ##            *f_menu_app_text_compare added.
@@ -104,50 +107,50 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_calendar_todo deleted.
 ##            *f_menu_app_calendar added calcurse, ccal, gcal, pcal.
 ##
-## 2013-04-06 *f_menu_app_calendar_todo add saytime.
-##            *f_menu_app_education add diatheke, liflines, gtypist.
-##            *f_menu_app_file_managers add find, locate, shred, foremost, 
+## 2013-04-06 *f_menu_app_calendar_todo added saytime.
+##            *f_menu_app_education added diatheke, liflines, gtypist.
+##            *f_menu_app_file_managers added find, locate, shred, foremost, 
 ##             photorec, safecopy.
-##            *f_menu_app_image_graphics add fbi, animate, composite, compare,
+##            *f_menu_app_image_graphics added fbi, animate, composite, compare,
 ##             conjure, convert, display, identify, import, mogrify, montage,
 ##             stream.
-##            *f_menu_app_text_tools add fbgs.
+##            *f_menu_app_text_tools added fbgs.
 ##
-## 2013-04-04 *f_menu_app_network_config add speedometer.
-##            *f_menu_app_network_monitor add jnettop, sntop.
+## 2013-04-04 *f_menu_app_network_config added speedometer.
+##            *f_menu_app_network_monitor added jnettop, sntop.
 ##
 ## 2013-04-02 *Fix bug with sudo which ran apps only w/o parameters.
 ##            *A few small bug fixes with "Press Enter Key" needed in some apps.
 ##            *f_find_NIC added to find NICs (Network Interface Cards).
-##            *f_menu_app_network_monitors add ifstat.
-##            *f_menu_app_sys_monitors add free, iostat, lshw, lspci, pidstat,
+##            *f_menu_app_network_monitors added ifstat.
+##            *f_menu_app_sys_monitors added free, iostat, lshw, lspci, pidstat,
 ##             ps, mpstat, uptime, vmstat.
 ##
-## 2013-04-01 *f_menu_app_network_monitors add netstat, slurm.
-##            *f_menu_app_text_editors add zile.
-##            *f_menu_app_sys_monitors add tload.
+## 2013-04-01 *f_menu_app_network_monitors added netstat, slurm.
+##            *f_menu_app_text_editors added zile.
+##            *f_menu_app_sys_monitors added tload.
 ##            *Main menu option Download the latest version script from github.
 ##
-## 2013-03-29 *f_menu_app_network_monitors add kismet, snort, tcpdump, wireshark.
-##            *f_menu_app_network_config add iwlist.
-##            *f_menu_app_sys_monitors add clamscan, freshclam.
+## 2013-03-29 *f_menu_app_network_monitors added kismet, snort, tcpdump, wireshark.
+##            *f_menu_app_network_config added iwlist.
+##            *f_menu_app_sys_monitors added clamscan, freshclam.
 ##
 ## 2013-03-28 *Update "Help and Features" options.
 ##            *Move "Disk Status" from Main Menu to System Information Menu.
-##            *Main Menu add "List Applications" option.
-##            *f_menu_app_text_tools add antiword application.
-##            *f_menu_app_games_arcade add asciijump.
-##            *f_menu_app_calendar_todo add binary-clock, clockywock,
+##            *Main Menu added "List Applications" option.
+##            *f_menu_app_text_tools added antiword application.
+##            *f_menu_app_games_arcade added asciijump.
+##            *f_menu_app_calendar_todo added binary-clock, clockywock,
 ##             grandfatherclock.
 ##            *Fux pesky Press Enter Key to continue inconsistency in menus.
 ##            *Miscellaneous small fixes.
 ##            *Remove blank lines.
 ##
-## 2013-03-26 *f_quit_app_menu fix add PRESS_KEY=0 for case statement.
+## 2013-03-26 *f_quit_app_menu fix added PRESS_KEY=0 for case statement.
 ##            *application menu case pattern matching, change from ' '[-]* and
 ##             change to ' '* to allow more than just OPTIONS but also [FILES].
 ##
-## 2013-03-26 *Add ability to enter application [OPTIONS] on menu choice line.
+## 2013-03-26 *Added ability to enter application [OPTIONS] on menu choice line.
 ##            *f_application_bad_menu_choice sets CHOICE_APP=-1 for all strings.
 ##             and sets PRESS_KEY=0 so menu is immediately redisplayed.
 ##            *f_web_site optimized code and can enter web browser application
@@ -163,7 +166,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_sys_information added.
 ##            *Standardize help messages.
 ##            *README, EDIT_HISTORY now can be read by sh <FILENAME> as a script.
-##            *Main Menu add option "Update Edit History".
+##            *Main Menu added option "Update Edit History".
 ##
 ## 2013-03-21 *Fix in all menus different response to f_menu_app_press_enter_key
 ##             When CHOICE_* is alpha versus numeric. Force to be numeric before
@@ -174,48 +177,48 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##             interface to monitor.
 ##
 ## 2013-03-19 *Main menu test if file EDIT_HISTORY exists and is readable.
-##            *f_menu_app_audio add sox.
-##            *f_menu_app_text_editors add txt2html, txt2pdbdoc, txt2regex,
+##            *f_menu_app_audio added sox.
+##            *f_menu_app_text_editors added txt2html, txt2pdbdoc, txt2regex,
 ##             and txt2tags.
 ##
 ## 2013-03-18 Fix typo on first line #!bin/bash which had an appended comment.
 ##            Thanks to D.J.J. Ringer.
 ##
-## 2013-03-17 *f_how_to_quit_application add option to clear.
-##            *f_menu_app_network_config add option to ping -c 10.
-##            *f_menu_app_sys_monitors add lsof, hdparm.
+## 2013-03-17 *f_how_to_quit_application added option to clear.
+##            *f_menu_app_network_config added option to ping -c 10.
+##            *f_menu_app_sys_monitors added lsof, hdparm.
 ##            *f_application_error use echo -n for Y/N questions.
 ##            *Edit History update and clean up. 
 ##
-## 2013-03-16 *f_menu_app_downloaders add md5sum, sha1sum, md5pass, sha1pass.
+## 2013-03-16 *f_menu_app_downloaders added md5sum, sha1sum, md5pass, sha1pass.
 ##            *f_menu_app_downloaders fix aria2 install.
-##            *f_menu_app_sys_monitors add uuid, dmidecode, lsb, uname, lsmod,
+##            *f_menu_app_sys_monitors added uuid, dmidecode, lsb, uname, lsmod,
 ##             printenv, lsusb.
 ##            *f_menu_app_sys_monitors fix display for dmidecode, lsb, lsmod, 
 ##             printenv, lsusb.
-##            *f_menu_app_network_config add iptables, ufw.
+##            *f_menu_app_network_config added iptables, ufw.
 ##              
-## 2013-03-15 f_menu_app_network_config add traceroute6, ping.
+## 2013-03-15 f_menu_app_network_config added traceroute6, ping.
 ##
 ##
 ## 2013-03-14 Main menu option License if no file COPYING, 
 ##            then use web browser, w3m to view license at www.gnu.org.
 ##
 ## 2013-03-13 *f_menu_app_image_graphics_applications linuxlogo display menu.
-##            *Main menu option License add option to display file COPYING.
+##            *Main menu option License added option to display file COPYING.
 ##
-## 2013-03-12 *Add copyright and license text. Add Main Menu option "License".
-##            *f_menu_app_sys_monitors add f_how_to_quit_application.
-##            *f_menu_app_text_editors add f_how_to_quit_application.
-##            *f_menu_app_sys_monitors add saidar.
+## 2013-03-12 *Added copyright and license text. Added Main Menu option "License".
+##            *f_menu_app_sys_monitors added f_how_to_quit_application.
+##            *f_menu_app_text_editors added f_how_to_quit_application.
+##            *f_menu_app_sys_monitors added saidar.
 ##            *f_application_error create installation routine for glances.
 ##            *f_show_menu supress line-feed at options prompt, fix $MAX.
-##            *f_menu_app_audio_application add avconv.
+##            *f_menu_app_audio_application added avconv.
 ##
-## 2013-03-09 *f_application_error add case statement to install bsdgames
+## 2013-03-09 *f_application_error added case statement to install bsdgames
 ##             if any of the games included in bsdgames are not installed.
 ##            *Automatically calculate revision number using grep -c(ount).
-##            *Add sub-menus for Games.
+##            *Added sub-menus for Games.
 ##            *f_quit_app_menu, f_quit_subcat_menu delete "Quit", "Exit"
 ##             options leave only zero and "Return" because "Quit" is too
 ##             close to "Quiz" game, and "Exit" was undocumented.
@@ -228,25 +231,25 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_application_error now extracts package name from $APP_NAME
 ##             when it includes additional parameters separated by spaces.
 ##
-## 2013-03-07 *f_application_error add trap for error code 1 for sudo.
-##            *Add function f_application_ruMay-01-2013 01:57"n to re-run newly installed apps.
+## 2013-03-07 *f_application_error added trap for error code 1 for sudo.
+##            *Added function f_application_run to re-run newly installed apps.
 ##            *Rework all application menus to use f_application_run.
 ##
-## 2013-03-06 *f_menu_app_sys_monitors add System tools, cfdisk, parted.
-##            *f_menu_app_text_editors add Text tools, colordiff, diff, vimdiff,
+## 2013-03-06 *f_menu_app_sys_monitors added System tools, cfdisk, parted.
+##            *f_menu_app_text_editors added Text tools, colordiff, diff, vimdiff,
 ##             and wdiff.
 ##
 ## 2013-03-04 *Clean up displays so text fits on an 80-column wide screen.
-##            *f_application_error add error message if installation fails.
+##            *f_application_error added error message if installation fails.
 ##            *f_show_menu start menu option numbering at 1 not zero.
-##            *f_show_menu add option 0, to quit.
+##            *f_show_menu added option 0, to quit.
 ##            *Delete option 0, to quit in all f_sub-menus.
 ##
 ## 2013-03-03 *Created sub-menu, "Network Category" under Applications menu.
 ##            *Added Network applications smbclient, smbstatus, testparm.
-##            *Add function f_press_enter_key_to_continue.
-##            *Add function f_menu_app_press_enter.
-##            *Add function f_menu_app_press_enter in application functions.
+##            *Added function f_press_enter_key_to_continue.
+##            *Added function f_menu_app_press_enter.
+##            *Added function f_menu_app_press_enter in application functions.
 ##            *Delete statements "read x" in application functions.
 ##            *f_application_error fix bad syntax [ $ERROR <> 0 ].
 ##            *f_application_help fix bad syntax [ $ERROR <> 0 ].
@@ -254,30 +257,30 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##
 ## 2013-02-26 *Added cbm, a system resource monitor, and smbc, file manager
 ##             for Samba server shared folders.
-##            *f_menu_app_text_editors add text editors, ed, emacs, pico, vi.
-##            *f_menu_app_spreadsheets_editors add spreadsheets, oleo, slsc.
-##            *f_menu_app_calendar-todo add calendars, cal, remind.
-##            *f_menu_app_calendar-todo add To-Do list, devtodo.
+##            *f_menu_app_text_editors added text editors, ed, emacs, pico, vi.
+##            *f_menu_app_spreadsheets_editors added spreadsheets, oleo, slsc.
+##            *f_menu_app_calendar-todo added calendars, cal, remind.
+##            *f_menu_app_calendar-todo added To-Do list, devtodo.
 ##
 ## 2013-02-20 *Created sub-menu, "System Category" under Applications Menu.
 ##            *Cleaned up menus, sorted items by function.
-##            *Add function f_menu_cat_sample_template.
+##            *Added function f_menu_cat_sample_template.
 ##
 ## 2013-02-19 f_application_error, improve error message processing.
 ##
-## 2013-02-18 Add more applications, clean up more code.
+## 2013-02-18 Added more applications, clean up more code.
 ##
-## 2013-02-17 Add case string pattern matching for all Internet applications.
+## 2013-02-17 Added case string pattern matching for all Internet applications.
 ##
 ## 2013-02-14 *Clean up listing for readability.
 ##            *Create sub-menu, "Internet Category" under Applications Menu. 
-##            *Add Internet application menus for web browsers, bittorrent, 
+##            *Added Internet application menus for web browsers, bittorrent, 
 ##             downloaders, email, FAX, file transfer, instant messaging,
 ##             Internet relay chat, news readers, network chat, podcatchers,
 ##             remote connection and RSS feeders.
 ##            *Make all application menus into functions rather than using
 ##             nested until loops.
-##            *Add functions f_menu_app_sample_template, f_initvars_menu_app,
+##            *Added functions f_menu_app_sample_template, f_initvars_menu_app,
 ##             f_menu_app_internet.
 ##            *Bug fix f_application_error by adding f_initvars_menu_app to
 ##             prevent return to previous menu rather than return to the same
@@ -297,32 +300,32 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##             eliminate repeated code.
 ##            *Create function f_application_error with an option to install
 ##             a missing application.
-##            *f_application_help, add error trapping to trap lack of help 
+##            *f_application_help, added error trapping to trap lack of help 
 ##             manual or help messages.
-##            *Add option to quit any menu by entering "exit".
+##            *Added option to quit any menu by entering "exit".
 ##
 ## 2013-01-24 *Use sed/awk (not echo) to display menu and calculate $MAX.
 ##            *This took several days to figure out but now I grok awk.
-##            *Add a HOW-TO Add new item under General Help.
+##            *Added a HOW-TO Added new item under General Help.
 ##
 ## 2013-01-16 *Edit History, improve sed to display without leading "##" by
 ##             using substitution of null for "##".
 ##            *Application menus, finish adding help options.
 ##            *System menu, delete application cmatrix.
-##            *System menu, add application top.
-##            *System menu, add application htop.
-##            *System menu, add application glances.
-##            *Network menu, add application iftop. 
-##            *Games menu, add applications cribbage, boggle.
+##            *System menu, added application top.
+##            *System menu, added application htop.
+##            *System menu, added application glances.
+##            *Network menu, added application iftop. 
+##            *Games menu, added applications cribbage, boggle.
 ##            *Games menu, delete package name debian-jr-games.
 ##
 ## 2013-01-15 *Edit History, use sed to display text.
 ##            *All menus, change prompt from "Choose 0 to $MAX or name" 
 ##             to "Enter 0 to$MAX or letters".
-##            *Application menus, add help options to all applications
+##            *Application menus, added help options to all applications
 ##             accessible from the applications menus.
 ##
-## 2013=01-14 CLI Menu, add Black/White screen options.
+## 2013=01-14 CLI Menu, added Black/White screen options.
 ##
 ## 2013-01-08 Case pattern matching for strings is enabled for all menus.
 ##
@@ -333,7 +336,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##             loops from changing value on exit.
 ##            *Do not clear screen before displaying each application menu so
 ##             that you can see any error messages.
-##            *Add CLI Menu option 'About CLI Menu' and get menu options
+##            *Added CLI Menu option 'About CLI Menu' and get menu options
 ##             'Help' and 'Free disk space' working.
 ##
 ## 2013-01-01 *Change to using until loops because the while loops abnormally
