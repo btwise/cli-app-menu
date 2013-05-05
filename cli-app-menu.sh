@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-03-2013 00:48"
+REVDATE="May-04-2013 22:07"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -602,11 +602,11 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # |       Function f_application_help      |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_APP, ERROR.
+#  Inputs: CHOICE_APP, ERROR.
+# Outputs: PRESS_KEY, CHOICE_APP=-1
 #
 f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                         # or "man <Application name>"
-      # f_term_color # Set terminal color.
       case $CHOICE_APP in
            *--help)
               clear # Blank screen
@@ -625,6 +625,9 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  echo
               fi
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              CHOICE_APP=-1 # Force stay in menu until loop.
+              # Convert string to integer -1. Also indicates valid menu choice.
+              # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
            man' '*)
               clear # Blank screen
@@ -645,8 +648,12 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  f_press_enter_key_to_continue
               fi
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              CHOICE_APP=-1 # Force stay in menu until loop.
+              # Convert string to integer -1. Also indicates valid menu choice.
+              # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
       esac
+#
 } # End of function f_application_help
 #
 # +----------------------------------------+
@@ -987,7 +994,8 @@ f_application_install () {
 # |  Function f_menu_scat_sample_template  |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_SCAT, MAX
+#  Inputs: CHOICE_SCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_scat_sample_template () {
       f_initvars_menu_app
@@ -1006,16 +1014,15 @@ f_menu_scat_sample_template () {
             #
             f_quit_subcat_menu
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of <Sample Template> Application Category case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
-                 f_menu_cat_name1
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_cat_name1             # Application Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][2]) 
-                 f_menu_cat_name2
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_cat_name2             # Application Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of <Sample Template> Application Category case statement.
             #
@@ -1029,7 +1036,9 @@ f_menu_scat_sample_template () {
 # |  Function f_menu_tcat_sample_template  |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_TCAT, MAX
+#  Inputs: CHOICE_TCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_TCAT
+
 #
 f_menu_tcat_sample_template () {
       f_initvars_menu_app
@@ -1048,16 +1057,15 @@ f_menu_tcat_sample_template () {
             #
             f_quit_tcat_menu
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_TCAT in # Start of <Sample Template> Application Category case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
-                 f_menu_cat_name1
-                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_cat_name1             # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][2]) 
-                 f_menu_cat_name2
-                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_cat_name2             # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of <Sample Template> Application Category case statement.
             #
@@ -1070,7 +1078,8 @@ f_menu_tcat_sample_template () {
 # |   Function f_menu_app_sample_template  |
 # +----------------------------------------+
 #
-# Inputs: CHOICE_APP, MAX.
+#  Inputs: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sample_template () {
       f_initvars_menu_app
@@ -1179,9 +1188,9 @@ f_menu_cat_applications () {
                  f_menu_cat_file_management   # File Management Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
-                 4 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss]) # Games Applications Menu.
-                 f_menu_cat_games
-                 CHOICE_CAT=-1 # Legitimate response. Stay in menu loop.
+                 4 | [Gg] | [Gg][Aa] | [Gg][Aa][Mm] | [Gg][Aa][Mm][Ee] | [Gg][Aa][Mm][Ee][Ss])
+                 f_menu_cat_games             # Games Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Ss] | [Ii][Mm][Aa][Gg][Ee][Ss])
                  f_menu_cat_image             # Image-Graphics Applications Menu.
@@ -1253,28 +1262,28 @@ f_menu_cat_office () {
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr])
-                 f_menu_app_calendar
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_calendar          # Calendar Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
                  f_menu_app_note              # Note Applications Menu.
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][-] | [Pp][Dd][Ff][-][Pp] | [Pp][Dd][Ff][-][Pp][Ss] | [Pp][Dd][Ff][-][Pp][Ss]' ' | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd] | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd][Oo] | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd][Oo][Cc] | [Pp][Dd][Ff][-][Pp][Ss]' '[Dd][Oo][Cc][Ss])
-                 f_menu_app_pdfps
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 f_menu_app_pdfps             # PDF-PS Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Pp] | [Pp][Rr] | [Pp][Rr][Ee] | [Pp][Rr][Ee][Nn] | [Pp][Rr][Ee][Nn][Tt] | [Pp][Rr][Ee][Nn][Tt][Ee] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr][Ss])
                  f_menu_app_presentation      # Presentation Applications Menu.
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
                  f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Tt] | [Tt][Ee] | [Tt][Ee][Xx] | [Tt][Ee][Xx][Tt])
                  f_menu_cat_text              # Text Applications Menu.
-                 CHOICE_SCAT=-1                # Legitimate response. Stay in menu loop.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
                  f_menu_app_todo
@@ -1324,56 +1333,56 @@ f_menu_cat_internet () {
             #
             case $CHOICE_SCAT in # Start of Internet Category case statement.
                  1 | [Ww] | [Ww][Ee] | [Ww][Ee][Bb] | [Ww][Ee][Bb]' ' | [Ww][Ee][Bb]' '[Bb] | [Ww][Ee][Bb]' '[Bb][Rr] | [Ww][Ee][Bb]' '[Bb][Rr][Oo] |  [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss][Ee] | [Ww][Ee][Bb]' '[Bb][Rr][Oo][Ww][Ss][Ee][Rr])
-                 f_menu_app_web_browsers
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_web_browsers      # Web Browser Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
-                 f_menu_app_bittorrent
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_bittorrent        # Bittorrent Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Dd] | [Dd][Oo] | [Dd][Oo][Ww] | [Dd][Oo][Ww][Nn] | [Dd][Oo][Ww][Nn][Ll] | [Dd][Oo][Ww][Nn][Ll][Oo] |  [Dd][Oo][Ww][Nn][Ll][Oo][Aa] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee][Rr] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd][Ee][Rr][Ss])
-                 f_menu_app_downloaders
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_downloaders       # Downloaders Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Ee] | [Ee][Mm] | [Ee][Mm][Aa] | [Ee][Mm][Aa][Ii] | [Ee][Mm][Aa][Ii][Ll])
-                 f_menu_app_email
-                 CHOICE_SCAT=-1
+                 f_menu_app_email             # Email Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop. 
                  ;;
                  5 | [Ff] | [Ff][Aa] | [Ff][Aa][Xx])
-                 f_menu_app_fax
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_fax               # FAX Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Tt] | [Ff][Ii][Ll][Ee]' '[Tt][Rr] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn] |[Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee][Rr])
-                 f_menu_app_file_transfer
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_file_transfer     # File Transfer Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Ii] | [Ii][Nn] | [Ii][Nn][Ss] | [Ii][Nn][Ss][Tt] | [Ii][Nn][Ss][Tt][Aa] | [Ii][Nn][Ss][Tt][Aa][Nn] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' ' | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii][Nn] | [Ii][Nn][Ss][Tt][Aa][Nn][Tt]' '[Mm][Ee][Ss][Ss][Aa][Gg][Ii][Nn][Gg])
-                 f_menu_app_instant_messaging
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_instant_messaging #Instant Messaging Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Ii] | [Ii][Rr] | [Ii][Rr][Cc] | [Ii][Rr][Cc]' ' | [Ii][Rr][Cc]' '[Cc] | [Ii][Rr][Cc]' '[Cc][Ll] | [Ii][Rr][Cc]' '[Cc][Ll][Ii] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn][Tt] | [Ii][Rr][Cc]' '[Cc][Ll][Ii][Ee][Nn][Tt][Ss])
-                 f_menu_app_irc_clients
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_irc_clients       # IRC Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  9 | [Nn] | [Nn][Ee] | [Nn][Ee][Ww] | [Nn][Ee][Ww][Ss] | [Nn][Ee][Ww][Ss]' ' | [Nn][Ee][Ww][Ss]' '[Rr] | [Nn][Ee][Ww][Ss]' '[Rr][Ee] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee][Rr] | [Nn][Ee][Ww][Ss]' '[Rr][Ee][Aa][Dd][Ee][Rr][Ss])
-                 f_menu_app_news_readers
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_news_readers      # News Readers Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  10 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww] | [Nn][Ee][Tt][Ww][Oo] | [Nn][Ee][Tt][Ww][Oo][Rr] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' ' | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh][Aa] | [Nn][Ee][Tt][Ww][Oo][Rr][Kk]' '[Cc][Hh][Aa][Tt])
-                 f_menu_app_network_chat
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_network_chat      # Network Chat Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  11 | [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Cc] | [Pp][Oo][Dd][Cc][Aa] | [Pp][Oo][Dd][Cc][Aa][Tt] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee][Rr] | [Pp][Oo][Dd][Cc][Aa][Tt][Cc][Hh][Ee][Rr][Ss])
-                 f_menu_app_podcatchers
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_podcatchers       # Podcatcher Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  12 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Oo] | [Rr][Ee][Mm][Oo][Tt] | [Rr][Ee][Mm][Oo][Tt][Ee] | [Rr][Ee][Mm][Oo][Tt][Ee]' ' | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii][Oo] | [Rr][Ee][Mm][Oo][Tt][Ee]' '[Cc][Oo][Nn][Nn][Ee][Cc][Tt][Ii][Oo][Nn])
-                 f_menu_app_remote_connection
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_remote_connection # Remote Connection Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  13 | [Rr] | [Rr][Ss] | [Rr][Ss][Ss] | [Rr][Ss][Ss]' ' | [Rr][Ss][Ss]' '[Ff] | [Rr][Ss][Ss]' '[Ff][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee][Rr] | [Rr][Ss][Ss]' '[Ff][Ee][Ee][Dd][Ee][Rr][Ss])
-                 f_menu_app_rssfeeders
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_rssfeeders        # RSS Feeder Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Internet Category case statement.
             #
@@ -1526,10 +1535,10 @@ case $APP_NAME in # Start of case statement.
      ;;
      *[!' ']*) # It has no spaces in name.
      echo
-     echo "When using the web browser or network application directly from the command line,"
+     echo "When using a web browser or network application directly from the command line,"
      echo "use the syntax: $APP_NAME WEB_SITE"
      echo
-     echo -n "Enter the name of the web site: "
+     echo -n "Enter the name of the web site: (i.e. www.lxer.com) "
      read WEB_SITE
      #
      # If no web site specified, default to a web site. Note the test command
@@ -1551,7 +1560,8 @@ case $APP_NAME in # Start of case statement.
      # No action needs to be taken. Invoking application option not a web site.
      #
      echo
-     echo "There is no web site specified, just a "-option" invoking application option and not a web site."
+     echo "There is no web site specified, just a "-option" invoking an application option"
+     echo "and not a web site."
      echo
     WEB_SITE="" 
     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -2602,28 +2612,28 @@ f_menu_cat_network () {
             #
             case $CHOICE_SCAT in # Start of Network Application Category case statement.
                  1 | [Ff] | [Ff][Ii] | [Ff][Ii][Rr] | [Ff][Ii][Rr][Ee] | [Ff][Ii][Rr][Ee][Ww] | [Ff][Ii][Rr][Ee][Ww][Aa] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll][Ss])
-                 f_menu_app_firewalls
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_firewalls         # Firewall Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Ll] | [Ll][Aa] | [Ll][Aa][Nn] | [Ll][Aa][Nn][-] | [Ll][Aa][Nn][-][Ww] | [Ll][Aa][Nn][-][Ww][Aa] | [Ll][Aa][Nn][-][Ww][Aa][Nn])
-                 f_menu_app_lanwan
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_lanwan            # LANWAN Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Nn] | [Nn][Ii] | [Nn][Ii][Cc] | [Nn][Ii][Cc]' ' | [Nn][Ii][Cc]' '[Tt] | [Nn][Ii][Cc]' '[Tt][Oo] | [Nn][Ii][Cc]' '[Tt][Oo][Oo] | [Nn][Ii][Cc]' '[Tt][Oo][Oo][Ll] | [Nn][Ii][Cc]' '[Tt][Oo][Oo][Ll][Ss])
-                 f_menu_app_nic_tools
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_nic_tools         # NIC Tools Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][Rr] | [Ss][Hh][Aa][Rr][Ii] | [Ss][Hh][Aa][Rr][Ii][Nn] | [Ss][Hh][Aa][Rr][Ii][Nn][Gg])
-                 f_menu_app_network_sharing
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_network_sharing   # Network Sharing Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt] | [Mm][Oo][Nn][Ii][Tt][Oo] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr][Ss])
-                 f_menu_app_network_monitors
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_network_monitors  # Network Monitors Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Pp] | [Pp][Aa] | [Pp][Aa][Cc] | [Pp][Aa][Cc][Kk] | [Pp][Aa][Cc][Kk][Ee] | [Pp][Aa][Cc][Kk][Ee][Tt] | [Pp][Aa][Cc][Kk][Ee][Tt]' ' | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo][Oo] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo][Oo][Ll] | [Pp][Aa][Cc][Kk][Ee][Tt]' '[Tt][Oo][Oo][Ll][Ss])
-                 f_menu_app_packet_tools
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_packet_tools      # Packet Tools Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Network Application Category case statement.
             #
@@ -3678,24 +3688,24 @@ f_menu_cat_file_management () {
             #
             case $CHOICE_SCAT in # Start of Application Category case statement.
                  1 | [Ee] | [Ee][Nn] | [Ee][Nn][Cc] | [Ee][Nn][Cc][Rr] | [Ee][Nn][Cc][Rr][Yy] | [Ee][Nn][Cc][Rr][Yy][Pp] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo][Nn])
-                 f_menu_app_file_encryption
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_file_encryption   # File Encryption Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
-                 f_menu_app_file_find
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_file_find         # File Find Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Mm] | [Mm][Aa] | [Mm][Aa][Nn] | [Mm][Aa][Nn][Aa] | [Mm][Aa][Nn][Aa][Gg] | [Mm][Aa][Nn][Aa][Gg][Ee] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
-                 f_menu_app_file_managers
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_file_managers     # File Manager Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Vv] | [Vv][Ii] | [Vv][Ii][Ee] | [Vv][Ii][Ee][Ww] | [Vv][Ii][Ee][Ww][Ee] | [Vv][Ii][Ee][Ww][Ee][Rr] | [Vv][Ii][Ee][Ww][Ee][Rr][Ss]) 
-                 f_menu_app_file_viewers
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_file_viewers      # File Viewers Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Uu] | [Uu][Nn] | [Uu][Nn][Dd] | [Uu][Nn][Dd][Ee] | [Uu][Nn][Dd][Ee][Ll] | [Uu][Nn][Dd][Ee][Ll][Ee] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt][Ee])
-                 f_menu_app_file_recover
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_file_recover      # File Recovery Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of File Management Application Category case statement.
             #
@@ -4218,20 +4228,20 @@ f_menu_cat_text () {
             #
             case $CHOICE_TCAT in # Start of Text Application Category case statement.
                  1 | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa] | [Cc][Oo][Mm][Pp][Aa][Rr] | [Cc][Oo][Mm][Pp][Aa][Rr][Ee])
-                 f_menu_app_text_compare
-                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_text_compare      # Text Compare Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;               
                  2 | [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Vv] | [Cc][Oo][Nn][Vv][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr] | [Cc][Oo][Nn][Vv][Ee][Rr][Tt][Ee][Rr][Ss])
-                 f_menu_app_text_converters
-                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_text_converters   # Text Converter Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss])
-                 f_menu_app_text_editors
-                 CHOICE_S]TCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_text_editors      # Text Editor Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Tt] | [Tt][Oo] | [Tt][Oo][Oo] | [Tt][Oo][Oo][Ll] | [Tt][Oo][Oo][Ll][Ss])
-                 f_menu_app_text_tools
-                 CHOICE_TCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_text_tools        # Text Tool Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Text Application Category case statement.
             #
@@ -4772,40 +4782,40 @@ f_menu_cat_system () {
             #
             case $CHOICE_SCAT in # Start of System Category case statement.
                  1 | [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Uu] | [Bb][Aa][Cc][Kk][Uu][Pp])
-                 f_menu_app_sys_backup
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_backup        # System Backup Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Dd] | [Dd][Ii] | [Dd][Ii][Ss] | [Dd][Ii][Ss][Kk] | [Dd][Ii][Ss][Kk][Ss]) 
-                 f_menu_app_sys_disks
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_disks         # System Disks Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Hh] | [Hh][Ee] | [Hh][Ee][Aa] | [Hh][Ee][Aa][Ll] | [Hh][Ee][Aa][Ll][Tt] | [Hh][Ee][Aa][Ll][Tt][Hh])
-                 f_menu_app_sys_health
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_health        # System Health Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Ii] | [Ii][Nn] | [Ii][Nn][Ff] | [Ii][Nn][Ff][Oo] | [Ii][Nn][Ff][Oo][Rr] | [Ii][Nn][Ff][Oo][Rr][Mm] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo][Nn)
-                 f_menu_app_sys_information
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_information   # System Information Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
-                 f_menu_app_sys_logs
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_logs          # System Logs Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
-                 f_menu_app_sys_monitors
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_monitors      # System Monitors Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Oo] | [Oo][Tt] | [Oo][Tt][Hh] | [Oo][Tt][Hh][Ee] | [Oo][Tt][Hh][Ee][Rr]) 
-                 f_menu_app_sys_other
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_other         # System Other Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
-                 f_menu_app_sys_screens
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_screens       # System Screens Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  9 | [Ss] | [Ss][Oo] | [Ss][Oo][Ff] | [Ss][Oo][Ff][Tt] | [Ss][Oo][Ff][Tt][Ww] | [Ss][Oo][Ff][Tt][Ww][Aa] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr][Ee])
-                 f_menu_app_sys_software
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_sys_software      # System Software Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of System Category case statement.
             #
@@ -7137,12 +7147,12 @@ f_menu_cat_image () {
             #
             case $CHOICE_SCAT in # Start of Image Application Category case statement.
                  1 | [Tt] | [Tt][Oo] | [Tt][Oo][Oo] | [Tt][Oo][Oo][Ll] | [Tt][Oo][Oo][Ll][Ss])
-                 f_menu_app_image_graphics
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_image_graphics    # Image Graphics Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Mm] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc][Kk]) 
-                 f_menu_app_imagemagick
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_imagemagick       # ImageMagic Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Image Application Category case statement.
             #
@@ -7521,44 +7531,44 @@ f_menu_cat_games () {
             #
             case $CHOICE_SCAT in # Start of Game Category case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Cc] | [Aa][Rr][Cc][Aa] | [Aa][Rr][Cc][Aa][Dd] | [Aa][Rr][Cc][Aa][Dd][Ee]) 
-                 f_menu_app_games_arcade
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_arcade      # Arcade Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  2 | [Bb] | [Bb][Oo] | [Bb][Oo][Aa] | [Bb][Oo][Aa][Rr] | [Bb][Oo][Aa][Rr][Dd])
-                 f_menu_app_games_board
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_board       # Board Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Rr] | [Cc][Aa][Rr][Dd])
-                 f_menu_app_games_card
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_card        # Card Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Mm] | [Mm][Uu] | [Mm][Uu][Dd])
-                 f_menu_app_games_mud
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_mud         # Mud Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  5 | [Pp] | [Pp][Uu] | [Pp][Uu][Zz] | [Pp][Uu][Zz][Zz] | [Pp][Uu][Zz][Zz][Ll] | [Pp][Uu][Zz][Zz][Ll][Ee] | [Pp][Uu][Zz][Zz][Ll][Ee][Ss])
-                 f_menu_app_games_puzzle
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_puzzle      # Puzzle Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Zz])
-                 f_menu_app_games_quiz
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_quiz        # Quiz Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  7 | [Rr] | [Rr][Pp] | [Rr][Pp][Gg])
-                 f_menu_app_games_rpg
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_rpg         # Role Playing Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  8 | [Ss] | [Ss][Ii] | [Ss][Ii][Mm] | [Ss][Ii][Mm][Uu] | [Ss][Ii][Mm][Uu][Ll] | [Ss][Ii][Mm][Uu][Ll][Aa] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo] | [Ss][Ii][Mm][Uu][Ll][Aa][Tt][Ii][Oo][Nn])
-                 f_menu_app_games_simulation
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_simulation  # Simulation Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  9 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Aa] | [Ss][Tt][Rr][Aa][Tt] | [Ss][Tt][Rr][Aa][Tt][Ee] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg] | [Ss][Tt][Rr][Aa][Tt][Ee][Gg][Yy])
-                 f_menu_app_games_strategy
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_strategy    # Strategy Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  10 | [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Dd])
-                 f_menu_app_games_word
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 f_menu_app_games_word        # Word Games Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Game Category case statement.
             #
