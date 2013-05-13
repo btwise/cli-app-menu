@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-13-2013 00:37"
+REVDATE="May-13-2013 15:47"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -49,6 +49,9 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##
 ## 2013-05-13 *f_menu_app_sys_backup added bashburn, burn, cdrecord, xorriso,
 ##             mkcd, mybashburn, simpleburner.
+##             f_menu_app_speech_synthesis added edbrowse.
+##             f_menu_app_video added yougrabber, youtube-dl.
+##             f_menu_app_education added grass.
 ##
 ## 2013-05-11 *f_menu_cat_audio added, 
 ##            *f_menu_app_cdrippers added. Added acripper, cdparanoia, crip,
@@ -56,7 +59,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_audio_editors added.
 ##            *f_menu_app_music_players added.
 ##            *f_menu_app_radio added.
-##            *f_menu_app_speech_synthesis added
+##            *f_menu_app_speech_synthesis added.
 ##
 ## 2013-05-05 *f_menu_app_nic_tools bug fix case pattern matching nictools-pci.
 ##

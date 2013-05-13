@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-13-2013 00:37"
+REVDATE="May-13-2013 15:47"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -68,8 +68,8 @@ REVDATE="May-13-2013 00:37"
 #: 1. I wanted a categorized list of command line applications.
 #: 2. I wanted to learn bash scripting, i.e. functions, looping, tests.
 #: 3. I couldn't find a cli menu to launch cli apps on the web so I thought I'd
-#:   give back to the community and perhaps others could build on and improve on
-#:   what I've started.
+#:    give back to the community and perhaps others could build on and improve
+#:    on what I've started.
 #:
 #: Please enjoy . . . bob chin (2013).
 #:                    rdchin at yahoo.com.
@@ -249,7 +249,6 @@ REVDATE="May-13-2013 00:37"
 #:AAB - Application Categories Menu
 #:
 #:BAU - Audio Categories Menu
-
 #:BFM - File Management Categories Menu
 #:BGA - Game Categories Menu
 #:BIG - Image Categories Menu
@@ -1149,17 +1148,17 @@ f_menu_cat_applications () {
       f_initvars_menu_app
       until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
-            #AAB Audio           - Music players, editors, utilities.
-            #AAB Education       - Learn something.
-            #AAB File Management - copy/move/rename, encrypt, view, find, files/directories.
-            #AAB Games           - Fun time!
-            #AAB Image           - View images and graphics files.
-            #AAB Internet        - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
-            #AAB Network         - Wireless connection, network monitoring, tools.
-            #AAB Office          - Text Editors, Spreadsheets, Presentation, Organizers, Calcs.
-            #AAB Screen-saver    - For when you're away.
-            #AAB System          - Monitor system processes, resources, utilities, etc.
-            #AAB Video           - Video players, editors, utilities.
+            #AAB Audio         - Music players, editors, utilities.
+            #AAB Education     - Learn something.
+            #AAB File handling - copy/move/rename, encrypt, view, find, files/directories.
+            #AAB Games         - Fun time!
+            #AAB Image         - View images and graphics files.
+            #AAB Internet      - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
+            #AAB Network       - Wireless connection, network monitoring, tools.
+            #AAB Office        - Text Editors, Spreadsheets, Presentation, Organizers, Calcs.
+            #AAB Screen-saver  - For when you're away.
+            #AAB System        - Monitor system processes, resources, utilities, etc.
+            #AAB Video         - Video players, editors, utilities.
             #
             MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
@@ -6800,7 +6799,7 @@ f_menu_cat_audio () {
       do    # Start of Audio Application Category until loop.
             #BAU CD Rippers         - Copy music off CD-ROM to files.
             #BAU Editors/Converters - Edit music files and convert to different file formats.
-            #BAU Music Players      - Play music CD-ROM or music files. Jukebox and playlists.
+            #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
             #BAU Radio              - Listen to Internet radio stations.
             #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
             #
@@ -6854,14 +6853,14 @@ f_menu_app_cdrippers () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of CD Rippers Applications until loop.
-            #MAC abcde         - Audio CD ripper.
-            #MAC acripper      - Audio CD ripper.
-            #MAC cdparanoia    - Audio CD ripper.
-            #MAC crip          - Audio CD ripper.
-            #MAC jack          - Audio CD ripper.
-            #MAC lxdvdrip      - Audio CD ripper.
-            #MAC ripit         - Audio CD ripper.
-            #MAC rubyripper    - Audio CD ripper.
+            #MAC abcde      - Audio CD ripper.
+            #MAC acripper   - Audio CD ripper.
+            #MAC cdparanoia - Audio CD ripper.
+            #MAC crip       - Audio CD ripper.
+            #MAC jack       - Audio CD ripper.
+            #MAC lxdvdrip   - Audio CD ripper.
+            #MAC ripit      - Audio CD ripper.
+            #MAC rubyripper - Audio CD ripper.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="CD Rippers Applications Menu"
@@ -6958,8 +6957,8 @@ f_menu_app_audio_editors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Audio Editor Applications until loop.
-            #MAU avconv        - Audio/Video converter.
-            #MAU sox           - Audio file cut/paste and combine, speed playback.
+            #MAU avconv - Audio/Video converter.
+            #MAU sox    - Audio file cut/paste and combine, speed playback.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Audio Editor Applications Menu"
@@ -7012,12 +7011,12 @@ f_menu_app_music_players () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Music Player Applications until loop.
-            #MAP cmus          - Music player.
-            #MAP juke          - Music Jukebox.
-            #MAP moc           - Music player.
-            #MAP ncmpc         - Music player, ncurses-based.
-            #MAP ffmpeg        - Multimedia Record, convert, stream and play. 
-            #MAP mplayer       - Multimedia player.
+            #MAP cmus    - Music player.
+            #MAP juke    - Music Jukebox.
+            #MAP moc     - Music player.
+            #MAP ncmpc   - Music player, ncurses-based.
+            #MAP ffmpeg  - Multimedia Record, convert, stream and play. 
+            #MAP mplayer - Multimedia player.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Music Player Applications Menu"
@@ -7103,8 +7102,8 @@ f_menu_app_radio () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Radio Applications until loop.
-            #MAR dradio        - Radio on world-wide web.
-            #MAR radio         - Radio, ncurses-based.
+            #MAR dradio - Radio on world-wide web.
+            #MAR radio  - Radio, ncurses-based.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Radio Applications Menu"
@@ -7157,9 +7156,10 @@ f_menu_app_speech_synthesis () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Speech Synthesis Applications until loop.
-            #MAS ebook-speaker - Speech synthesizer reads EPUB and MS Reader eBooks.
-            #MAS festival      - Speech synthesizer reads text.
-            #MAS screader      - Speech synthesizer reads screen text.
+            #MAS ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
+            #MAS edbrowse      - Audio web browser, editor, and reads aloud email.
+            #MAS festival      - Reads text from text files or interactively on screen.
+            #MAS screader      - Reads screen text.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Speech Synthesis Applications Menu"
@@ -7182,7 +7182,41 @@ f_menu_app_speech_synthesis () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Ff] | [Ff][Ee] | [Ff][Ee][Ss] | [Ff][Ee][Ss][Tt] | [Ff][Ee][Ss][Tt][Ii] | [Ff][Ee][Ss][Tt][Ii][Vv] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll])
+                 2 | [Ee] | [Ee][Dd] | [Ee][Dd][Bb] | [Ee][Dd][Bb][Rr] | [Ee][Dd][Bb][Rr][Oo] | [Ee][Dd][Bb][Rr][Oo][Ww] | [Ee][Dd][Bb][Rr][Oo][Ww][Ss] | [Ee][Dd][Bb][Rr][Oo][Ww][Ss][Ee])
+                 APP_NAME="edbrowse"
+                 f_application_run
+                 echo
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://the-brannons.com/edbrowse/"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Ee][Dd][Bb][Rr][Oo][Ww][Ss][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://the-brannons.com/edbrowse/"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 3 | [Ff] | [Ff][Ee] | [Ff][Ee][Ss] | [Ff][Ee][Ss][Tt] | [Ff][Ee][Ss][Tt][Ii] | [Ff][Ee][Ss][Tt][Ii][Vv] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll])
                  APP_NAME="festival"
                  f_how_to_quit_application "(quit)"
                  f_application_run
@@ -7191,7 +7225,7 @@ f_menu_app_speech_synthesis () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Aa] | [Ss][Cc][Rr][Ee][Aa][Dd] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr])
+                 4 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Aa] | [Ss][Cc][Rr][Ee][Aa][Dd] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee] | [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr])
                  APP_NAME="screader"
                  f_application_run
                  ;;
@@ -7221,7 +7255,6 @@ f_menu_app_video () {
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Video Applications until loop.
             #MVI avconv       - Audio/Video converter.
-            #MVI cclive       - Download/Play Youtube videos.
             #MVI ffmpeg       - Multimedia Record, convert, stream and play. 
             #MVI mplayer      - Multimedia player.
             #MVI xine-console - xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
@@ -7233,6 +7266,10 @@ f_menu_app_video () {
             #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
             #MVI mjpegtools   - MJPEG video playback, editing, video capture.
             #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
+            #MVI cclive       - Download/Play Youtube videos.
+            #MVI yougrabber   - Download/Play Youtube videos.
+            #MVI youtube-dl   - Download/Play Youtube videos.
+            
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Video Applications Menu"
@@ -7256,15 +7293,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Cc] | [Cc][Cc] | [Cc][Cc][Ll] | [Cc][Cc][Ll][Ii] | [Cc][Cc][Ll][Ii][Vv] | [Cc][Cc][Ll][Ii][Vv][Ee])
-                 APP_NAME="cclive"
-                 f_application_run
-                 ;;
-                 [Cc][Cc][Ll][Ii][Vv][Ee]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 3 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
+                 2 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
@@ -7272,7 +7301,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
+                 3 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
@@ -7280,7 +7309,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                  5| [Xx] | [Xx][Ii] | [Xx][Ii][Nn] | [Xx][Ii][Nn][Ee] | [Xx][Ii][Nn][Ee][-] | [Xx][Ii][Nn][Ee][-][Cc] | [Xx][Ii][Nn][Ee][-][Cc][Oo] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll][Ee])
+                 4| [Xx] | [Xx][Ii] | [Xx][Ii][Nn] | [Xx][Ii][Nn][Ee] | [Xx][Ii][Nn][Ee][-] | [Xx][Ii][Nn][Ee][-][Cc] | [Xx][Ii][Nn][Ee][-][Cc][Oo] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll] | [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll][Ee])
                  APP_NAME="xine-console"
                  f_application_run
                  ;;
@@ -7288,7 +7317,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Aa] | [Aa][Aa] | [Aa][Aa][Xx] | [Aa][Aa][Xx][Ii] | [Aa][Aa][Xx][Ii][Nn] | [Aa][Aa][Xx][Ii][Nn][Ee])
+                 5 | [Aa] | [Aa][Aa] | [Aa][Aa][Xx] | [Aa][Aa][Xx][Ii] | [Aa][Aa][Xx][Ii][Nn] | [Aa][Aa][Xx][Ii][Nn][Ee])
                  APP_NAME="aaxine"
                  f_application_run
                  ;;
@@ -7296,7 +7325,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Aa] | [Cc][Aa][Cc][Aa][Xx] | [Cc][Aa][Cc][Aa][Xx][Ii] | [Cc][Aa][Cc][Aa][Xx][Ii][Nn] | [Cc][Aa][Cc][Aa][Xx][Ii][Nn][Ee])
+                 6 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Aa] | [Cc][Aa][Cc][Aa][Xx] | [Cc][Aa][Cc][Aa][Xx][Ii] | [Cc][Aa][Cc][Aa][Xx][Ii][Nn] | [Cc][Aa][Cc][Aa][Xx][Ii][Nn][Ee])
                  APP_NAME="cacaxine"
                  f_application_run
                  ;;
@@ -7304,7 +7333,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Ff] | [Ff][Bb] | [Ff][Bb][Xx] | [Ff][Bb][Xx][Ii] | [Ff][Bb][Xx][Ii][Nn] | [Ff][Bb][Xx][Ii][Nn][Ee])
+                 7 | [Ff] | [Ff][Bb] | [Ff][Bb][Xx] | [Ff][Bb][Xx][Ii] | [Ff][Bb][Xx][Ii][Nn] | [Ff][Bb][Xx][Ii][Nn][Ee])
                  APP_NAME="fbxine"
                  f_application_run
                  ;;
@@ -7312,7 +7341,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Vv] | [Vv][Ll] | [Vv][Ll]Cc])
+                 8 | [Vv] | [Vv][Ll] | [Vv][Ll]Cc])
                  APP_NAME="vlc"
                  f_application_run
                  ;;
@@ -7320,7 +7349,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Mm] | [Mm][Pp] | [Mm][Pp][Gg] | [Mm][Pp][Gg][Tt] | [Mm][Pp][Gg][Tt][Xx])
+                 9 | [Mm] | [Mm][Pp] | [Mm][Pp][Gg] | [Mm][Pp][Gg][Tt] | [Mm][Pp][Gg][Tt][Xx])
                  APP_NAME="mpgtx"
                  f_application_run
                  ;;
@@ -7328,7 +7357,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Mm] | [Mm][Ee] | [Mm][Ee][Nn] | [Mm][Ee][Nn][Cc] | [Mm][Ee][Nn][Cc][Oo] | [Mm][Ee][Nn][Cc][Oo][Dd] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee][Rr])
+                 10 | [Mm] | [Mm][Ee] | [Mm][Ee][Nn] | [Mm][Ee][Nn][Cc] | [Mm][Ee][Nn][Cc][Oo] | [Mm][Ee][Nn][Cc][Oo][Dd] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee][Rr])
                  APP_NAME="mencoder"
                  f_application_run
                  ;;
@@ -7336,7 +7365,7 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Mm] | [Mm][Jj] | [Mm][Jj][Pp] | [Mm][Jj][Pp][Ee] | [Mm][Jj][Pp][Ee][Gg] | [Mm][Jj][Pp][Ee][Gg][Tt] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll][Ss])
+                 11 | [Mm] | [Mm][Jj] | [Mm][Jj][Pp] | [Mm][Jj][Pp][Ee] | [Mm][Jj][Pp][Ee][Gg] | [Mm][Jj][Pp][Ee][Gg][Tt] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll] | [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll][Ss])
                  APP_NAME="mencoder"
                  f_application_run
                  ;;
@@ -7344,11 +7373,60 @@ f_menu_app_video () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ee] | [Ee][Pp] | [Ee][Pp][Ii] | [Ee][Pp][Ii][Ss] | [Ee][Pp][Ii][Ss][Oo] | [Ee][Pp][Ii][Ss][Oo][Dd] | [Ee][Pp][Ii][Ss][Oo][Dd][Ee] | [Ee][Pp][Ii][Ss][Oo][Dd][Ee][Rr])
+                 12 | [Ee] | [Ee][Pp] | [Ee][Pp][Ii] | [Ee][Pp][Ii][Ss] | [Ee][Pp][Ii][Ss][Oo] | [Ee][Pp][Ii][Ss][Oo][Dd] | [Ee][Pp][Ii][Ss][Oo][Dd][Ee] | [Ee][Pp][Ii][Ss][Oo][Dd][Ee][Rr])
                  APP_NAME="episoder"
                  f_application_run
                  ;;
                  [Ee][Pp][Ii][Ss][Oo][Dd][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 13 | [Cc] | [Cc][Cc] | [Cc][Cc][Ll] | [Cc][Cc][Ll][Ii] | [Cc][Cc][Ll][Ii][Vv] | [Cc][Cc][Ll][Ii][Vv][Ee])
+                 APP_NAME="cclive"
+                 f_application_run
+                 ;;
+                 [Cc][Cc][Ll][Ii][Vv][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+
+                 14 | [Yy] | [Yy][Oo] | [Yy][Oo][Uu] | [Yy][Oo][Uu][Gg] | [Yy][Oo][Uu][Gg][Rr] | [Yy][Oo][Uu][Gg][Rr][Aa] | [Yy][Oo][Uu][Gg][Rr][Aa][Bb] | [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb | [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb][Ee] | [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb][Ee][Rr])
+                 APP_NAME="yougrabber"
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://sourceforge.net/projects/yougrabber/files/"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://sourceforge.net/projects/yougrabber/files/"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 15 | [Yy] | [Yy][Oo] | [Yy][Oo][Uu] | [Yy][Oo][Uu][Tt] | [Yy][Oo][Uu][Tt][Uu] | [Yy][Oo][Uu][Tt][Uu][Bb] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee]'-' | [Yy][Oo][Uu][Tt][Uu][Bb][Ee]'-'[Dd] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee]'-'[Dd] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee]'-'[Dd][Ll])
+                 APP_NAME="youtube-dl"
+                 f_application_run
+                 ;;
+                 [Yy][Oo][Uu][Tt][Uu][Bb][Ee]'-'[Dd][Ll]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7407,6 +7485,18 @@ f_menu_app_screen_savers () {
 [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu][Mm]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://www.robobunny.com/projects/asciiquarium/html/"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
                  ;;
                  2 | [Cc] | [Cc][Mm] | [Cc][Mm][Aa] | [Cc][Mm][Aa][Tt] | [Cc][Mm][Aa][Tt][Rr] | [Cc][Mm][Aa][Tt][Rr][Ii] | [Cc][Mm][Aa][Tt][Rr][Ii][Xx])
                  APP_NAME="cmatrix"
@@ -7724,6 +7814,7 @@ f_menu_app_education () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Education Applications until loop.
             #MED lifelines - geneology.
+            #MED grass     - GIS Map utility (Geographic Information System).
             #MED diatheke  - Holy Bible research tool.
             #MED aldo      - Morse code training.
             #MED cw        - Morse code training.
@@ -7755,7 +7846,15 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Tt] | [Dd][Ii][Aa][Tt][Hh] | [Dd][Ii][Aa][Tt][Hh][Ee] | [Dd][Ii][Aa][Tt][Hh][Ee][Kk] | [Dd][Ii][Aa][Tt][Hh][Ee][Kk][Ee])
+                 2 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Ss] | [Gg][Rr][Aa][Ss][Ss])
+                 APP_NAME="grass"
+                 f_application_run
+                 ;;
+                 [Gg][Rr][Aa][Ss][Ss]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Tt] | [Dd][Ii][Aa][Tt][Hh] | [Dd][Ii][Aa][Tt][Hh][Ee] | [Dd][Ii][Aa][Tt][Hh][Ee][Kk] | [Dd][Ii][Aa][Tt][Hh][Ee][Kk][Ee])
                  APP_NAME="diatheke"
                  f_application_run
                  ;;
@@ -7763,7 +7862,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Aa] | [Aa][Ll] | [Aa][Ll][Dd] | [Aa][Ll][Dd][Oo])
+                 4 | [Aa] | [Aa][Ll] | [Aa][Ll][Dd] | [Aa][Ll][Dd][Oo])
                  APP_NAME="aldo"
                  f_application_run
                  ;;
@@ -7771,7 +7870,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Cc] | [Cc][Ww])
+                 5 | [Cc] | [Cc][Ww])
                  APP_NAME="cw"
                  f_application_run
                  ;;
@@ -7779,7 +7878,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Cc] | [Cc][Ww] | [Cc][Ww][Cc] | [Cc][Ww][Cc][Pp])
+                 6 | [Cc] | [Cc][Ww] | [Cc][Ww][Cc] | [Cc][Ww][Cc][Pp])
                  APP_NAME="cwcp"
                  f_application_run
                  ;;
@@ -7787,7 +7886,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
+                 7 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
                  f_application_run
                  ;;
@@ -7795,7 +7894,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Mm] | [Pp][Rr][Ii][Mm][Ee] | [Pp][Rr][Ii][Mm][Ee][Ss])
+                 8 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Mm] | [Pp][Rr][Ii][Mm][Ee] | [Pp][Rr][Ii][Mm][Ee][Ss])
                  APP_NAME="primes"
                  f_application_run
                  ;;
@@ -7803,7 +7902,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Gg] | [Gg][Tt] | [Gg][Tt][Yy] | [Gg][Tt][Yy][Pp] | [Gg][Tt][Yy][Pp][Ii] | [Gg][Tt][Yy][Pp][Ii][Ss] | [Gg][Tt][Yy][Pp][Ii][Ss][Tt])
+                 9 | [Gg] | [Gg][Tt] | [Gg][Tt][Yy] | [Gg][Tt][Yy][Pp] | [Gg][Tt][Yy][Pp][Ii] | [Gg][Tt][Yy][Pp][Ii][Ss] | [Gg][Tt][Yy][Pp][Ii][Ss][Tt])
                  APP_NAME="gtypist"
                  f_application_run
                  ;;
@@ -7811,7 +7910,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Tt] | [Tt][Yy] | [Tt][Yy][Pp] | [Tt][Yy][Pp][Ee] | [Tt][Yy][Pp][Ee][Ss] | [Tt][Yy][Pp][Ee][Ss][Pp] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee][Dd])
+                 10 | [Tt] | [Tt][Yy] | [Tt][Yy][Pp] | [Tt][Yy][Pp][Ee] | [Tt][Yy][Pp][Ee][Ss] | [Tt][Yy][Pp][Ee][Ss][Pp] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee] | [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee][Dd])
                  APP_NAME="typespeed"
                  f_application_run
                  ;;
