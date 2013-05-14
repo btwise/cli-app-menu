@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-13-2013 23:20"
+REVDATE="May-14-2013 16:46"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,13 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-05-14 *Reorder functions so that the order matches the menus.
+##            *f_menu_app_games_puzzle fix bastet displaying twice in menu.
+##             This is due to a comment referring to bastet not having the
+##             third field #MGF to prevent awk from printing it in a menu.
+##            *f_menu_app_acconting added ledger, hledger, hledger plugins.
+##            *f_menu_app_file_deletion added.
 ##
 ## 2013-05-13 *f_menu_app_sys_backup added bashburn, burn, cdrecord, xorriso,
 ##             mkcd, mybashburn, simpleburner.
@@ -159,7 +166,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_games_arcade added asciijump.
 ##            *f_menu_app_calendar_todo added binary-clock, clockywock,
 ##             grandfatherclock.
-##            *Fux pesky Press Enter Key to continue inconsistency in menus.
+##            *Fix pesky Press Enter Key to continue inconsistency in menus.
 ##            *Miscellaneous small fixes.
 ##            *Remove blank lines.
 ##
