@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-14-2013 16:46"
+REVDATE="May-14-2013 17:45"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -164,7 +164,7 @@ REVDATE="May-14-2013 16:46"
 #:
 #:    If you copied from a template or another menu, check the Special Menu
 #:    Option Markers for consistency.
-#:    In the example below, #MXX is before each menu item and in DELIMITER.
+#:    In the example below, #MXX is before each menu item and in DELIMITER. #MXX This 3rd field prevents awk from printing this line into "List Applications".
 #:
 #:            #MXX appname  - Description Application1 name.
 #:            #MXX app2name - Description Application2 name.

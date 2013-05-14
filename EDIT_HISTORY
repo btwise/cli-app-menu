@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-14-2013 16:46"
+REVDATE="May-14-2013 17:45"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -48,6 +48,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 ## 2013-05-14 *Reorder functions so that the order matches the menus.
+##            *Fix comment line with #MXX so not printed in "List Applications".
 ##            *f_menu_app_games_puzzle fix bastet displaying twice in menu.
 ##             This is due to a comment referring to bastet not having the
 ##             third field #MGF to prevent awk from printing it in a menu.
