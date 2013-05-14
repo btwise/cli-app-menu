@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-13-2013 15:47"
+REVDATE="May-13-2013 23:20"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -2750,17 +2750,17 @@ f_menu_app_lanwan () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of LAN/WAN Applications until loop.
-            #MNL ip           - Shows routing, devices, policy routing and tunnels.
-            #MNL ip addr      - protocol (IP or IPv6) address on a device.
-            #MNL ip link      - Shows network device.
-            #MNL ip neighbor  - ARP or NDISC cache entry.
-            #MNL ip route     - Shows routing.
-            #MNL route        - Shows routing table.
-            #MNL ping         - Check LAN/WAN connectivity. Usage: ping <ip-address>.
-            #MNL speedometer  - Check LAN/WAN connectivity speed.
-            #MNL mtr          - Traceroute tool, has features of ping and traceroute.
-            #MNL traceroute   - Traceroute tool, trace network path to destination. 
-            #MNL nslookup     - Query Internet domain servers.
+            #MNL ip          - Shows routing, devices, policy routing and tunnels.
+            #MNL ip addr     - protocol (IP or IPv6) address on a device.
+            #MNL ip link     - Shows network device.
+            #MNL ip neighbor - ARP or NDISC cache entry.
+            #MNL ip route    - Shows routing.
+            #MNL route       - Shows routing table.
+            #MNL ping        - Check LAN/WAN connectivity. Usage: ping <ip-address>.
+            #MNL speedometer - Check LAN/WAN connectivity speed.
+            #MNL mtr         - Traceroute tool, has features of ping and traceroute.
+            #MNL traceroute  - Traceroute tool, trace network path to destination. 
+            #MNL nslookup    - Query Internet domain servers.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="LAN/WAN Applications Menu"
@@ -3162,10 +3162,10 @@ f_menu_app_network_sharing () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Configuration Applications until loop.
-            #MNS smbc        - Samba file manager for folder shares with Microsoft Windows.
-            #MNS smbclient   - Samba client (share folders with Microsoft Windows).
-            #MNS smbstatus   - Samba files lock status.
-            #MNS testparm    - Samba configuration display.
+            #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.
+            #MNS smbclient - Samba client (share folders with Microsoft Windows).
+            #MNS smbstatus - Samba files lock status.
+            #MNS testparm  - Samba configuration display.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Sharing Applications Menu"
@@ -4463,17 +4463,17 @@ f_menu_app_text_editors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Editor Applications until loop.
-            #MTE beav       - Binary editor and viewer.
-            #MTE dav        - Text editor.
-            #MTE ed         - Classic CLI text editor.
-            #MTE emacs      - Full screen text editor with plugins.
-            #MTE groff      - Uses macros to format text, create man pages to PS printers.
-            #MTE joe        - Text editor. Ctrl-K H for help.
-            #MTE nano       - Simple full-screen text editor.
-            #MTE pico       - Simple full-screen text editor.
-            #MTE vi         - Classic full-screen text editor.
-            #MTE vim        - vi "Improved" text editor.
-            #MTE zile       - Very small Emacs-subset editor.
+            #MTE beav  - Binary editor and viewer.
+            #MTE dav   - Text editor.
+            #MTE ed    - Classic CLI text editor.
+            #MTE emacs - Full screen text editor with plugins.
+            #MTE groff - Uses macros to format text, create man pages to PS printers.
+            #MTE joe   - Text editor. Ctrl-K H for help.
+            #MTE nano  - Simple full-screen text editor.
+            #MTE pico  - Simple full-screen text editor.
+            #MTE vi    - Classic full-screen text editor.
+            #MTE vim   - vi "Improved" text editor.
+            #MTE zile  - Very small Emacs-subset editor.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Text Editor Applications Menu"
@@ -5347,13 +5347,13 @@ f_menu_app_sys_disks () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Disks Information Applications until loop.
-            #MSD df          - Disk usage and mount points, usage: -hT.
-            #MSD pydf        - Disk usage df clone written in python.
-            #MSD du          - Disk usage monitor by directory.
-            #MSD ncdu        - Disk usage monitor, ncurses-based.
-            #MSD uuid        - Use ls -l to show disk uuid number.
-            #MSD cfdisk      - Disk partition tool.
-            #MSD parted      - Disk partition tool.
+            #MSD df     - Disk usage and mount points, usage: -hT.
+            #MSD pydf   - Disk usage df clone written in python.
+            #MSD du     - Disk usage monitor by directory.
+            #MSD ncdu   - Disk usage monitor, ncurses-based.
+            #MSD uuid   - Use ls -l to show disk uuid number.
+            #MSD cfdisk - Disk partition tool.
+            #MSD parted - Disk partition tool.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Disks Information Menu"
@@ -5976,9 +5976,9 @@ f_menu_app_sys_screens () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Screens until loop.
-            #MSC byobu     - Multiple sessions.
-            #MSC screen    - Multiple sessions via split or pager screens.
-            #MSC tmux      - Multiple sessions with multiplexing.
+            #MSC byobu  - Multiple sessions.
+            #MSC screen - Multiple sessions via split or pager screens.
+            #MSC tmux   - Multiple sessions with multiplexing.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Screens Menu"
@@ -6211,9 +6211,9 @@ f_menu_app_sys_other () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Other until loop.
-            #MSO dosemu    - DOS emulator.
-            #MSO dtrx      - Extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
-            #MSO scrot     - Screen capture.
+            #MSO dosemu - DOS emulator.
+            #MSO dtrx   - Extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
+            #MSO scrot  - Screen capture.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Other System Applications Menu"
@@ -6269,17 +6269,17 @@ f_menu_app_calendar () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Calendar Applications until loop.
-            #MCA cal              - Displays a monthly calendar.
-            #MCA ccal             - Calendar color.
-            #MCA calcurse         - Calendar ncurses-based.
-            #MCA gcal             - Calendar, almost the same as cal.
-            #MCA gcalcli          - Google calendar.
-            #MCA pal              - Calendar with events.
-            #MCA pcal             - Generate PostScript or HTML Calendars.
-            #MCA pom              - Display phase of moon on given date.
-            #MCA remind           - Calendar alarms, Sun rise/set, moon phases.
-            #MCA when             - Calendar.
-            #MCA wyrd             - Calendar, ncurses-based.
+            #MCA cal      - Displays a monthly calendar.
+            #MCA ccal     - Calendar color.
+            #MCA calcurse - Calendar ncurses-based.
+            #MCA gcal     - Calendar, almost the same as cal.
+            #MCA gcalcli  - Google calendar.
+            #MCA pal      - Calendar with events.
+            #MCA pcal     - Generate PostScript or HTML Calendars.
+            #MCA pom      - Display phase of moon on given date.
+            #MCA remind   - Calendar alarms, Sun rise/set, moon phases.
+            #MCA when     - Calendar.
+            #MCA wyrd     - Calendar, ncurses-based.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Calendar Applications Menu"
@@ -7269,7 +7269,6 @@ f_menu_app_video () {
             #MVI cclive       - Download/Play Youtube videos.
             #MVI yougrabber   - Download/Play Youtube videos.
             #MVI youtube-dl   - Download/Play Youtube videos.
-            
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Video Applications Menu"
@@ -7683,17 +7682,17 @@ f_menu_app_imagemagick () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of ImageMagick Applications until loop.
-            #MIK animate    - ImageMagick tool animates an image sequence on X-windows GUI.
-            #MIK composite  - ImageMagick tool overlaps one image on top of another.
-            #MIK compare    - ImageMagick tool annotate differences between image versions.
-            #MIK conjure    - ImageMagick tool run Magick Scripting Language (MSL).
-            #MIK convert    - ImageMagick tool converts format, resize, crop, flip, etc.
-            #MIK display    - ImageMagick tool display image on X-windows GUI.
-            #MIK identify   - ImageMagick tool show format, characteristics of image files.
-            #MIK import     - ImageMagick tool Screen capture on X-windows GUI.
-            #MIK mogrify    - ImageMagick tool resize, blur, crop, dither, flip, join etc.
-            #MIK montage    - ImageMagick tool create a composite image from many images.
-            #MIK stream     - ImageMagick tool stream image to an archive format.
+            #MIK animate   - ImageMagick tool animates an image sequence on X-windows GUI.
+            #MIK composite - ImageMagick tool overlaps one image on top of another.
+            #MIK compare   - ImageMagick tool annotate differences between image versions.
+            #MIK conjure   - ImageMagick tool run Magick Scripting Language (MSL).
+            #MIK convert   - ImageMagick tool converts format, resize, crop, flip, etc.
+            #MIK display   - ImageMagick tool display image on X-windows GUI.
+            #MIK identify  - ImageMagick tool show format, characteristics of image files.
+            #MIK import    - ImageMagick tool Screen capture on X-windows GUI.
+            #MIK mogrify   - ImageMagick tool resize, blur, crop, dither, flip, join etc.
+            #MIK montage   - ImageMagick tool create a composite image from many images.
+            #MIK stream    - ImageMagick tool stream image to an archive format.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="ImageMagick Applications Menu"
@@ -8115,9 +8114,9 @@ f_menu_app_games_board () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Board Games until loop.
-            #MGC atom4          - Board game strategy 2-player ncurses-based.
-            #MGC backgammon     - Backgammon.
-            #MGC monop          - Monopoly-like game.
+            #MGC atom4      - Board game strategy 2-player ncurses-based.
+            #MGC backgammon - Backgammon.
+            #MGC monop      - Monopoly-like game.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Board Games Menu"
@@ -8172,9 +8171,9 @@ f_menu_app_games_card () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Card Games until loop.
-            #MGD canfield       - Solitaire card game with betting.
-            #MGD cribbage       - Cribbage Card game.
-            #MGD go-fish        - Go Fish card game.
+            #MGD canfield - Solitaire card game with betting.
+            #MGD cribbage - Cribbage Card game.
+            #MGD go-fish  - Go Fish card game.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Card Game Menu"
@@ -8229,8 +8228,8 @@ f_menu_app_games_mud () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of MUD Games until loop.
-            #MGE crawl          - Explore a cave, retrieve the Orb of Zot.
-            #MGE tintin++       - Telnet client to play MUDs (Multi-User Dungeons).
+            #MGE crawl    - Explore a cave, retrieve the Orb of Zot.
+            #MGE tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="MUD Game Menu"
@@ -8277,12 +8276,12 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Puzzle Games until loop.
-            #MGF bastet         - Tetris-like game.
-            #MGF bcd            - Reformat input as a punch card.
-            #MGF dab            - 2-players try to complete the most boxes.
-            #MGF netris         - Tetris-like game.
-            #MGF petris         - Tetris-like game.
-            #MGF ppt            - Reformat input as a paper tape.
+            #MGF bastet - Tetris-like game.
+            #MGF bcd    - Reformat input as a punch card.
+            #MGF dab    - 2-players try to complete the most boxes.
+            #MGF netris - Tetris-like game.
+            #MGF petris - Tetris-like game.
+            #MGF ppt    - Reformat input as a paper tape.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Puzzle Game Menu"
@@ -8361,10 +8360,10 @@ f_menu_app_games_quiz () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Quiz Games until loop.
-            #MGG arithmetic     - Basic arithmetic quiz.
-            #MGG geekcode       - Code tells others how geeky you are.
-            #MGG morse          - Morse code training.
-            #MGG quiz           - Quiz with choice of assorted topics.
+            #MGG arithmetic - Basic arithmetic quiz.
+            #MGG geekcode   - Code tells others how geeky you are.
+            #MGG morse      - Morse code training.
+            #MGG quiz       - Quiz with choice of assorted topics.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Quiz Game Menu"
@@ -8429,13 +8428,13 @@ f_menu_app_games_rpg () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of RPG Games until loop.
-            #MGH adventure      - Explore Colossal Cave. 
-            #MGH battlestar     - Tropical adventure game.
-            #MGH hack           - Explore the Dungeons of Doom.
-            #MGH nethack        - Retrieve the Amulet of Yendor in the  20th dungeon level.
-            #MGH phantasia      - Fight monsters and other players.
-            #MGH slashem        - Enter the Dungeons of Doom.
-            #MGH wump           - Hunt the Wumpus, watch out for bats, pits.
+            #MGH adventure  - Explore Colossal Cave. 
+            #MGH battlestar - Tropical adventure game.
+            #MGH hack       - Explore the Dungeons of Doom.
+            #MGH nethack    - Retrieve the Amulet of Yendor in the  20th dungeon level.
+            #MGH phantasia  - Fight monsters and other players.
+            #MGH slashem    - Enter the Dungeons of Doom.
+            #MGH wump       - Hunt the Wumpus, watch out for bats, pits.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="RPG Game Menu"
@@ -8523,9 +8522,9 @@ f_menu_app_games_simulation () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Simulation Games until loop.
-            #MGI atc            - Air traffic controller.
-            #MGI sail           - Command a Man O'War fighting ship.
-            #MGI trek           - Star Trek blast Klingons.
+            #MGI atc  - Air traffic controller.
+            #MGI sail - Command a Man O'War fighting ship.
+            #MGI trek - Star Trek blast Klingons.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Simulation Games Menu"
@@ -8581,10 +8580,10 @@ f_menu_app_games_strategy () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Strategy Games until loop.
-            #MGJ gomoku         - 2-player game of 5-in-a-row.
-            #MGJ hunt           - Multi-user game. Kill everyone else.
-            #MGJ mille          - Travel 700 miles card game.
-            #MGJ wargames       - Computer prompt from movie "War Games". 
+            #MGJ gomoku   - 2-player game of 5-in-a-row.
+            #MGJ hunt     - Multi-user game. Kill everyone else.
+            #MGJ mille    - Travel 700 miles card game.
+            #MGJ wargames - Computer prompt from movie "War Games". 
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Strategy Game Menu"
@@ -8659,9 +8658,9 @@ f_menu_app_games_word () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Word Games until loop.
-            #MGK boggle         - Word search game.
-            #MGK hangman        - Classic hangman word game.
-            #MGK pig            - Converts text into pig-latin.
+            #MGK boggle  - Word search game.
+            #MGK hangman - Classic hangman word game.
+            #MGK pig     - Converts text into pig-latin.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Word Game Menu"
