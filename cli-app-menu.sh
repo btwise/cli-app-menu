@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-14-2013 17:45"
+REVDATE="May-15-2013 18:24"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -1466,10 +1466,15 @@ f_menu_app_music_players () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Music Player Applications until loop.
-            #MAP cmus    - Music player.
+            #MAP cdcd    - CD player.
+            #MAP cplay   - CD player.
+            #MAP mcdp    - CD player ncurses-based.
             #MAP juke    - Music Jukebox.
+            #MAP pytone  - Music Jukebox ncurses-based, cross-fading, search, mixer.
+            #MAP cmus    - Music player.
             #MAP moc     - Music player.
             #MAP ncmpc   - Music player, ncurses-based.
+            #MAP yauap   - Music player based on Gstreamer.
             #MAP ffmpeg  - Multimedia Record, convert, stream and play. 
             #MAP mplayer - Multimedia player.
             #
@@ -1486,7 +1491,47 @@ f_menu_app_music_players () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Music Player Applications case statement.
-                 1 | [Cc] | [Cc][Mm] | [Cc][Mm][Uu] | [Cc][Mm][Uu][Ss])
+                 1 | [Cc] | [Cc][DD] | [Cc][Dd][Cc] | [CC][Dd][Cc][Dd])
+                 APP_NAME="cdcd"
+                 f_application_run
+                 ;;
+                 [CC][Dd][Cc][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Cc] | [Cc][Pp] | [Cc][Pp][Ll] | [Cc][Pp][Ll][Aa] | [Cc][Pp][Ll][Aa][Yy])
+                 APP_NAME="cplay"
+                 f_application_run
+                 ;;
+                 [Cc][Pp][Ll][Aa][Yy]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Mm] | [Mm][Cc] | [Mm][Cc][Dd] | [Mm][Cc][Dd][Pp])
+                 APP_NAME="mcdp"
+                 f_application_run
+                 ;;
+                 [Mm][Cc][Dd][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Jj] | [Jj][Uu] | [Jj][Uu][Kk] | [Jj][Uu][Kk][Ee])
+                 APP_NAME="juke"
+                 f_application_run
+                 ;;
+                 [Jj][Uu][Kk][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Pp] | [Pp][Yy] | [Pp][Yy][Tt] | [Pp][Yy][Tt][Oo] | [Pp][Yy][Tt][Oo][Nn] | [Pp][Yy][Tt][Oo][Nn][Ee])
+                 APP_NAME="pytone"
+                 f_application_run
+                 ;;
+                 [Pp][Yy][Tt][Oo][Nn][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Cc] | [Cc][Mm] | [Cc][Mm][Uu] | [Cc][Mm][Uu][Ss])
                  APP_NAME="cmus"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1495,15 +1540,7 @@ f_menu_app_music_players () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Jj] | [Jj][Uu] | [Jj][Uu][Kk] | [Jj][Uu][Kk][Ee])
-                 APP_NAME="juke"
-                 f_application_run
-                 ;;
-                 [Jj][Uu][Kk][Ee]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 3 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
+                 7 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
                  APP_NAME="moc"
                  f_application_run
                  ;;
@@ -1511,7 +1548,7 @@ f_menu_app_music_players () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Nn] | [Nn][Cc] | [Nn][Cc][Mm] | [Nn][Cc][Mm][Pp] | [Nn][Cc][Mm][Pp][Cc])
+                 8 | [Nn] | [Nn][Cc] | [Nn][Cc][Mm] | [Nn][Cc][Mm][Pp] | [Nn][Cc][Mm][Pp][Cc])
                  f_how_to_quit_application "q"
                  APP_NAME="ncmpc"
                  f_application_run
@@ -1520,7 +1557,15 @@ f_menu_app_music_players () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
+                 9 | [Yy] | [Yy][Aa] | [Yy][Aa][Uu] | [Yy][Aa][Uu][Aa] | [Yy][Aa][Uu][Aa][Pp])
+                 APP_NAME="yauap"
+                 f_application_run
+                 ;;
+                 [Yy][Aa][Uu][Aa][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 10 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
@@ -1528,7 +1573,7 @@ f_menu_app_music_players () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
+                 11 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
@@ -2161,7 +2206,7 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  4 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
-                 APP_NAME="smbc Samba Commander"
+                 APP_NAME="smbc"
                  f_application_run
                  ;;
                  [Ss][Mm][Bb][Cc]' '*)
@@ -4308,7 +4353,7 @@ f_menu_app_instant_messaging () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Instant Messaging Applications case statement.
-                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Rr] | [Bb][Aa][Rr][Nn] | [Bb][Aa][Rr][Nn][Oo] | [Bb][Aa][Rr][Nn][Oo][Ww] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-][Ii] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-][Ii][Rr] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll][-][Ii][Rr][Cc])
+                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Rr] | [Bb][Aa][Rr][Nn] | [Bb][Aa][Rr][Nn][Oo] | [Bb][Aa][Rr][Nn][Oo][Ww] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll])
                  APP_NAME="barnowl"
                  clear # Blank the screen.
                  echo "BarnOwl Internet Messenger."
@@ -4324,7 +4369,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Bb][Ii][Tt][Ll][Bb][Ee][Ee]' '*)
+                 [Bb][Aa][Rr][Nn][Oo][Ww][Ll]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8243,13 +8288,13 @@ f_menu_app_sys_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Monitors until loop.
-            #MSM atop      - System process and resource manager.
-            #MSM chkconfig - System update/query run-level processes.
-            #MSM glances   - System process and resource manager.
-            #MSM htop      - System process and resource manager.
-            #MSM pidstat   - System process and resource manager.
-            #MSM ps        - System process and resource manager.
-            #MSM top       - System process and resource manager.
+            #MSM atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
+            #MSM chkconfig - System update/query run-level processes at boot time.
+            #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
+            #MSM htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
+            #MSM pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
+            #MSM ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
+            #MSM top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
             #MSM tload     - System load average graphical monitor.
             #MSM mpstat    - CPU microprocessor usage monitor.
             #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
@@ -8766,6 +8811,25 @@ f_menu_app_sys_software () {
             case $CHOICE_APP in # Start of Synstem Software Applications case statement.
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt])
                  APP_NAME="apt"
+                 clear # Blank the screen.
+                 echo "apt-cache showpkg <package name> Show package general information."
+                 echo "apt-cache show <package name> Show package description and information."
+                 echo "apt-cache depends <package name> Show package dependency information."
+                 echo "apt-cache rdepends <package name> Show package reverse dependency information."
+                 echo "apt-cache unmet <package name> Show package's unmet dependencies."
+                 echo "apt-get check Check for broken dependencies."
+                 echo "apt-get update Updates package information prior to updating or installing."
+                 echo "apt-get upgrade Upgrade packages to latest versions."
+                 echo "apt-get dist-upgrade Usually used after an 'apt-get upgrade' to upgrade kernel."
+                 echo "apt-get install <package name> Installs a new software package."
+                 echo "apt-get remove <package name> Uninstalls a software package."
+                 echo "apt-get purge <package name> Uninstalls a package and its configuration files."
+                 echo "apt-get autoclean Remove obsolete packages from the local repository."
+                 echo "apt-get autoremove remove packages that are no longer needed."
+                 echo
+                 echo "*** For more help type: man apt / man apt-cache / man apt-get"
+                 echo
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Aa][Pp][Tt]' '*)
@@ -8794,11 +8858,14 @@ f_menu_app_sys_software () {
                  3 | [Dd] | [Dd][Pp] | [Dd][Pp][Kk] | [Dd][Pp][Kk][Gg])
                  APP_NAME="dpkg"
                  clear # Blank the screen.
-                 echo "To get a list of all the software packages installed on your PC:"
+                 echo "dpkg --get-selections List all installed packages."
+                 echo "dpkg-query -l <package name> Show package installation status."
+                 echo "dpkg-query -p <package name> Show package description and information."
+                 echo "dpkg -i <package name> Installs a new software package."
+                 echo "dpkg -r <package name> Uninstalls a software package."
+                 echo "dpkg -P <package name> Uninstalls a package and its configuration files."
                  echo
-                 echo "dpkg --get-selections to list all installed packages."
-                 echo
-                 echo "*** For more help type: man dpkg"
+                 echo "*** For more help type: man dpkg / man dpkg-query"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8831,6 +8898,25 @@ f_menu_app_sys_software () {
                  ;;
                  6 | [Rr] | [Rr][Pp] | [Rr][Pp][Mm])
                  APP_NAME="rpm"
+                 clear # Blank the screen.
+                 echo "rpm -q <package name> Show package description and information."
+                 echo "rpm --query <package name> Show package description and information."
+                 echo "rpm -U <package name> Upgrade/Install a package."
+                 echo "rpm --upgrade <package name> Upgrade/Install a package."
+                 echo "rpm -I <package name> Installs new software packages."
+                 echo "rpm --install <package name> Installs new software packages."
+                 echo "rpm -e <package name> Uninstalls software packages."
+                 echo "rpm --erase <package name> Uninstalls software packages."
+                 echo "rpm -V <package name> Verifies packages."
+                 echo "rpm --verify <package name> Verifies packages."
+                 echo "rpm -F <package name> Freshen (upgrade) installed packages."
+                 echo "rpm --freshen<package name> Freshen (upgrade) installed packages."
+                 echo "rpm --initdb Initialize package database."
+                 echo "rpm --rebuilddb Rebuild package database."
+                 echo
+                 echo "*** For more help type: man rpm"
+                 echo
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Rr][Pp][Mm]' '*)
@@ -8863,6 +8949,19 @@ f_menu_app_sys_software () {
                  ;;
                  9 | [Yy] | [Yy][Uu] | [Yy][Uu][Mm])
                  APP_NAME="yum"
+                 clear # Blank the screen.
+                 echo "yum upgrade <package name> Upgrade/Install a package."
+                 echo "yum -list <package name> Show package description and information."
+                 echo "yum search <text> searches package names, descriptions, summaries."
+                 echo "yum provides <text> searches files, packages providing a function."
+                 echo "yum update Upgrade packages to latest versions."
+                 echo "yum install <package name> Installs new software packages."
+                 echo "yum groupinstall <application name> Installs new software packages."
+                 echo "yum remove <package name> Uninstalls software packages."
+                 echo
+                 echo "*** For more help type: man yum"
+                 echo
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Yy][Uu][Mm]' '*)
