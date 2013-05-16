@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-15-2013 23:31"
+REVDATE="May-16-2013 14:02"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -8764,6 +8764,28 @@ f_menu_app_sys_screens () {
                  ;;
                  2 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn])
                  APP_NAME="screen"
+                 clear # Blank the screen.
+                 echo "screen - Multiple screen-window sessions."
+                 echo 
+                 echo "Ctrl-A <double-quote> List all windows."
+                 echo "Ctrl-A N     Show window title."
+                 echo "Ctrl-A a     Name title of the window."
+                 echo
+                 echo "Ctrl-A c     Create new window."
+                 echo "Ctrl-A n     Switch to next window."
+                 echo "Ctrl-A p     Switch to previous window."
+                 echo "Ctrl-A l     Refresh window."
+                 echo "Ctrl-A <single-quote> Prompt window number to use."
+                 echo "Ctrl-A (0-9 or -)  Switch to window number to use."
+                 echo
+                 echo "Ctrl-A k     Kill window."
+                 echo "Ctrl-A S     Split window horizontally."
+                 echo "Ctrl-A <tab> Toggle between split window areas."
+                 echo "Ctrl-A x     Kill split window area."
+                 echo
+                 echo "*** For more help type: man screen"
+                 echo
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  [Ss][Cc][Rr][Ee][Ee][Nn]' '*)
@@ -8809,6 +8831,7 @@ f_menu_app_sys_software () {
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Applications until loop.
             #MSF apt      - Debian package manager.
+            #MSF aptoncd  - Make a CD of Debian packages, install via APT package manager.
             #MSF aptitude - Debian package manager.
             #MSF dpkg     - Debian package manager.
             #MSF synaptic - GUI Debian package manager.
@@ -8861,26 +8884,71 @@ f_menu_app_sys_software () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 'sudo apt '* | 'sudo apt')
+                 'apt-'*) # Allows apt-get, apt-cache, apt-config, apt-add-repository, etc.
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Ii] | [Aa][Pp][Tt][Ii][Tt] | [Aa][Pp][Tt][Ii][Tt][Uu] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee])
-                 APP_NAME="aptitude"
+                 'sudo apt '* | 'sudo apt' | 'sudo apt-'*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 2 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Oo] | [Aa][Pp][Tt][Oo][Nn] | [Aa][Pp][Tt][Oo][Nn][Cc] | [Aa][Pp][Tt][Oo][Nn][Cc][Dd])
+                 APP_NAME="aptoncd"
+                 clear # Blank the screen.
+                 echo "APTonCD is a GUI application and is in the menu for reference only."
+                 echo
+                 echo "However, like many GUI applications, it can be launched by from the CLI."
+                 echo "APTonCD can be launched from the command line with the 'aptoncd' command."
+                 echo
+                 echo "APTonCD allows you to create an installation CD with all the debian packages"
+                 echo "installed on the localhost PC from the /var/cache/apt/archives/ directory."
+                 echo "It is one way to backup the software installed on your PC but such would"
+                 echo "have to be reconfigured afterwards."
+                 echo
+                 echo "APTonCD is fully supported in Ubuntu and works in Debian Etch and Sid."
+                 echo
+                 f_press_enter_key_to_continue
+                 ;;
+                 [Aa][Pp][Tt][Oo][Nn][Cc][Dd])
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Ii] | [Aa][Pp][Tt][Ii][Tt] | [Aa][Pp][Tt][Ii][Tt][Uu] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee])
+                 APP_NAME="aptitude"
+                 echo "aptitude - Debian package manager."
+                 echo 
+                 echo "Usage: aptitude [-S fname] [-u|-i]"
+                 echo "       aptitude [options] <action> ..."
+                 echo 
+                 echo "Options:"
+                 echo " -h    This help text."
+                 echo " -D    Show the dependencies of automatically changed packages."
+                 echo " -v    Display extra information. (may be supplied multiple times)."
+                 echo " -f    Aggressively try to fix broken packages."
+                 echo  
+                 echo "Actions (if none is specified, aptitude will enter interactive mode):"
+                 echo "search    - Search for a package by name and/or expression."
+                 echo "show      - Display detailed information about a package."
+                 echo "install   - Install/upgrade packages."
+                 echo "reinstall - Download and (possibly) reinstall a currently installed package."
+                 echo "remove    - Remove packages."
+                 echo "purge     - Remove packages and their configuration files."
+                 echo "update    - Download lists of new/upgradable packages."
+                 echo
+                 echo "*** For more help type: man apt / man apt-cache / man apt-get"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
                  ;;
                  [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  'sudo aptitude '* | 'sudo aptitude')
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 3 | [Dd] | [Dd][Pp] | [Dd][Pp][Kk] | [Dd][Pp][Kk][Gg])
+                 4 | [Dd] | [Dd][Pp] | [Dd][Pp][Kk] | [Dd][Pp][Kk][Gg])
                  APP_NAME="dpkg"
                  clear # Blank the screen.
                  echo "dpkg - Debian package manager."
@@ -8901,19 +8969,25 @@ f_menu_app_sys_software () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 'sudo dpkg '* | 'sudo dpkg')
+                 'dpkg-'*) # Allows dpkg-query.
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Ss] | [Ss][Yy] | [Ss][Yy][Nn] | [Ss][Yy][Nn][Aa] | [Ss][Yy][Nn][Aa][Pp] | [Ss][Yy][Nn][Aa][Pp][Tt] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii][Cc])
+                 'sudo dpkg '* | 'sudo dpkg' | 'sudo dpkg-'*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Ss] | [Ss][Yy] | [Ss][Yy][Nn] | [Ss][Yy][Nn][Aa] | [Ss][Yy][Nn][Aa][Pp] | [Ss][Yy][Nn][Aa][Pp][Tt] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii][Cc])
                  APP_NAME="synaptic"
                  clear # Blank the screen.
                  echo "Synaptic is a GUI package manager and is in the menu for reference only."
                  echo
-                 echo "Synaptic can be launched from the command line with the 'synaptic'"
+                 echo "However, like many GUI applications, it can be launched by from the CLI."
+                 echo "Synaptic can be launched from the command line with the 'synaptic' command."
+                 echo
                  f_press_enter_key_to_continue
                  ;;
-                 5 | [Aa] | [Aa][Ll] | [Aa][Ll][Ii] | [Aa][Ll][Ii][Ee] | [Aa][Ll][Ii][Ee][Nn])
+                 6 | [Aa] | [Aa][Ll] | [Aa][Ll][Ii] | [Aa][Ll][Ii][Ee] | [Aa][Ll][Ii][Ee][Nn])
                  APP_NAME="alien"
                  f_application_run
                  ;;
@@ -8925,7 +8999,7 @@ f_menu_app_sys_software () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Rr] | [Rr][Pp] | [Rr][Pp][Mm])
+                 7 | [Rr] | [Rr][Pp] | [Rr][Pp][Mm])
                  APP_NAME="rpm"
                  clear # Blank the screen.
                  echo "rpm - RPM (Red Hat) package manager."
@@ -8958,7 +9032,7 @@ f_menu_app_sys_software () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Uu] | [Uu][Rr] | [Uu][Rr][Pp] | [Uu][Rr][Pp][Mm] | [Uu][Rr][Pp][Mm][Ii])
+                 8 | [Uu] | [Uu][Rr] | [Uu][Rr][Pp] | [Uu][Rr][Pp][Mm] | [Uu][Rr][Pp][Mm][Ii])
                  APP_NAME="urpmi"
                  f_application_run
                  ;;
@@ -8970,23 +9044,25 @@ f_menu_app_sys_software () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Yy] | [Yy][Aa] | [Yy][Aa][Ss] | [Yy][Aa][Ss][Tt])
+                 9 | [Yy] | [Yy][Aa] | [Yy][Aa][Ss] | [Yy][Aa][Ss][Tt])
                  APP_NAME="yast"
                  clear # Blank the screen.
-                 echo "YaST is a GUI package manager and is in the menu for reference purposes only."
+                 echo "YaST is a GUI package manager and is in the menu for reference only."
                  echo
+                 echo "However, like many GUI applications, it can be launched by from the CLI."
                  echo "YaST can be launched from the command line with the 'yast' command."
+                 echo
                  f_press_enter_key_to_continue
                  ;;
-                 9 | [Yy] | [Yy][Uu] | [Yy][Uu][Mm])
+                 10 | [Yy] | [Yy][Uu] | [Yy][Uu][Mm])
                  APP_NAME="yum"
                  clear # Blank the screen.
                  echo "yum - 'Yellow Dog Updated' package manager."
                  echo
                  echo "yum upgrade <package name> Upgrade/Install a package."
                  echo "yum -list <package name> Show package description and information."
-                 echo "yum search <text> searches package names, descriptions, summaries."
-                 echo "yum provides <text> searches files, packages providing a function."
+                 echo "yum search <text> Searches package names, descriptions, summaries."
+                 echo "yum provides <text> Searches files, packages providing a function."
                  echo "yum update Upgrade packages to latest versions."
                  echo "yum install <package name> Installs new software packages."
                  echo "yum groupinstall <application name> Installs new software packages."
@@ -9005,8 +9081,24 @@ f_menu_app_sys_software () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Zz] | [Zz][Yy] | [Zz][Yy][Pp] | [Zz][Yy][Pp][Pp] | [Zz][Yy][Pp][Pp][Ee] | [Zz][Yy][Pp][Pp][Ee][Rr])
+                 11 | [Zz] | [Zz][Yy] | [Zz][Yy][Pp] | [Zz][Yy][Pp][Pp] | [Zz][Yy][Pp][Pp][Ee] | [Zz][Yy][Pp][Pp][Ee][Rr])
                  APP_NAME="zypper"
+                 clear # Blank the screen.
+                 echo "zypper - Zypper package manager."
+                 echo
+                 echo "zypper search -is List installed packages."
+                 echo "zypper search -d <text> searches package names, descriptions, summaries."
+                 echo "zypper update Upgrade packages to latest versions."
+                 echo "zypper install <package name> Installs new software packages."
+                 echo "zypper remove <package name> Uninstalls software packages."
+                 echo "zypper refresh Refresh repository package information."
+                 echo "zypper list-updates List updates available for installed packages."
+                 echo "zypper dist-upgrade Upgrade kernel to next version."
+                 echo
+                 echo "*** For more help type: man zypper"
+                 echo
+                 f_press_enter_key_to_continue
+
                  f_application_run
                  ;;
                  [Zz][Yy][Pp][Pp][Ee][Rr]' '*)
