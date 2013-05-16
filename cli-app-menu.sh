@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-16-2013 14:02"
+REVDATE="May-16-2013 14:14"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -8908,10 +8908,6 @@ f_menu_app_sys_software () {
                  echo "APTonCD is fully supported in Ubuntu and works in Debian Etch and Sid."
                  echo
                  f_press_enter_key_to_continue
-                 ;;
-                 [Aa][Pp][Tt][Oo][Nn][Cc][Dd])
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
                  3 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Ii] | [Aa][Pp][Tt][Ii][Tt] | [Aa][Pp][Tt][Ii][Tt][Uu] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee])
                  APP_NAME="aptitude"
