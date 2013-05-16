@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-15-2013 18:24"
+REVDATE="May-15-2013 23:31"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -51,6 +51,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_sys_monitors improve menu descriptions.
 ##            *f_menu_app_sys_software apt, dpkg, rpm, yum, improve help.
 ##            *f_menu_app_instant_messaging fix barnowl pattern matching.
+##            *f_menu_app_sys_software fix YaST pattern matching.
+##            *Consistent format for all application help comments.
 ##
 ## 2013-05-14 *Reorder functions so that the order matches the menus.
 ##            *Fix comment line with #MXX so not printed in "List Applications".

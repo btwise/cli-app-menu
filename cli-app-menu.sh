@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-15-2013 18:24"
+REVDATE="May-15-2013 23:31"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -2074,7 +2074,7 @@ f_menu_app_file_find () {
                  1 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
                  APP_NAME="find --help"
                  clear # Blank the screen.
-                 echo "Find and search for files."
+                 echo "find - Find and search for files."
                  echo
                  echo "Usage:"
                  echo "find [-H] [-L] [-P] [-D debugopts] [-Olevel] [path...] [expression]"
@@ -2098,7 +2098,7 @@ f_menu_app_file_find () {
                  2 | [Ll] | [Ll][Oo] | [Ll][Oo][Cc] | [Ll][Oo][Cc][Aa] | [Ll][Oo][Cc][Aa][Tt] | [Ll][Oo][Cc][Aa][Tt][Ee])
                  APP_NAME="locate --help"
                  clear # Blank the screen.
-                 echo "Find and search for files."
+                 echo "locate - Find and search for files."
                  echo
                  echo "The locate command is dependent on an up-to-date database, mlocate."
                  echo "To update the mlocate database, run the command, 'updatedb'."
@@ -2388,7 +2388,7 @@ f_menu_app_file_recover () {
                  1 | [Ff] | [Ff][Oo] | [Ff][Oo][Rr] | [Ff][Oo][Rr][Ee] | [Ff][Oo][Rr][Ee][Mm] | [Ff][Oo][Rr][Ee][Mm][Oo] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt])
                  APP_NAME="foremost --help"
                  clear # Blank the screen.
-                 echo "Recover deleted files."
+                 echo "foremost - Recover deleted files."
                  echo
                  echo "Usage:"
                  echo "foremost [-h] [-V] [-d] [-vqwQT] [-b <blocksize>] [-o <dir>] [-t <type>]"
@@ -2421,7 +2421,7 @@ f_menu_app_file_recover () {
                  2 | [Pp] | [Pp][Hh] | [Pp][Hh][Oo] | [Pp][Hh][Oo][Tt] | [Pp][Hh][Oo][Tt][Oo] | [Pp][Hh][Oo][Tt][Oo][Rr] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee] | [Pp][Hh][Oo][Tt][Oo][Rr][Ee][Cc])
                  APP_NAME="photorec --help"
                  clear # Blank the screen.
-                 echo "Recover lost files from harddisk, digital camera and cdrom."
+                 echo "photorec - Recover lost files from harddisk, digital camera and cdrom."
                  echo
                  echo "Usage:"
                  echo "photorec [/log] [/debug] [/d recup_dir] [device|image.dd|image.e01]"
@@ -2443,7 +2443,7 @@ f_menu_app_file_recover () {
                  3 | [Ss] | [Ss][Aa] | [Ss][Aa][Ff] | [Ss][Aa][Ff][Ee] | [Ss][Aa][Ff][Ee][Cc] | [Ss][Aa][Ff][Ee][Cc][Oo] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp] | [Ss][Aa][Ff][Ee][Cc][Oo][Pp][Yy])
                  APP_NAME="safecopy --help"
                  clear # Blank the screen.
-                 echo "Recover lost data."
+                 echo "safecopy - Recover lost data."
                  echo
                  echo "Usage: safecopy [options] <source> <target>"
                  echo
@@ -3222,6 +3222,7 @@ f_menu_app_games_strategy () {
                  4 | [Ww] | [Ww][Aa] | [Ww][Aa][Rr] | [Ww][Aa][Rr][Gg] | [Ww][Aa][Rr][Gg][Aa] | [Ww][Aa][Rr][Gg][Aa][Mm] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee][Ss])
                  APP_NAME="wargames"
                  clear # Blank the screen.
+                 echo "wargames - Question asked by the WOPR super-computer."
                  echo
                  echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
                  echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
@@ -3232,6 +3233,7 @@ f_menu_app_games_strategy () {
                  echo
                  echo "WOPR asks this question when David first hacks the backdoor, making David think"
                  echo "that it is simply a recreational program."
+                 echo
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -3989,7 +3991,7 @@ f_menu_app_downloaders () {
                  2 | [Mm][ | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Ss] | [Mm][Dd][5][Ss][Uu] | [Mm][Dd][5][Ss][Uu][Mm])
                  APP_NAME="man md5sum"
                  clear # Blank the screen.
-                 echo "Display md5 checksum."
+                 echo "md5sum - Display md5 checksum."
                  echo
                  echo "Usage: md5sum [OPTION]... [FILE]..."
                  echo
@@ -4005,7 +4007,7 @@ f_menu_app_downloaders () {
                  3 | [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp] | [Mm][Dd][5][Pp][Aa] | [Mm][Dd][5][Pp][Aa][Ss] | [Mm][Dd][5][Pp][Aa][Ss][Ss])
                  APP_NAME="md5pass"
                  clear # Blank the screen.
-                 echo "Create a password hash. Usage: md5pass [PASSWORD][SALT]"
+                 echo "md5pass - Create a password hash."
                  echo
                  echo "Usage: md5pass [PASSWORD] [SALT]"
                  echo
@@ -4013,6 +4015,7 @@ f_menu_app_downloaders () {
                  echo
                  echo "md5pass without any SALT value causes a random salt value to be generated."
                  echo "Now run md5pass. Usage: 'md5pass'."
+                 echo
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -4023,12 +4026,13 @@ f_menu_app_downloaders () {
                  4 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss] | [Ss][Hh][Aa][1][Ss][Uu] | [Ss][Hh][Aa][1][Ss][Uu][Mm])
                  APP_NAME="man sha1sum"
                  clear # Blank the screen.
-                 echo "Display sha1 checksum."
+                 echo "sha1sum - Display sha1 checksum."
                  echo
                  echo "Usage: sha1sum [OPTION]... [FILE]..."
                  echo
                  echo "*** For more help type: sha1sum --help"
                  echo "Now show help. Usage: man sha1sum"
+                 echo
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -4039,13 +4043,14 @@ f_menu_app_downloaders () {
                  5 | [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp] | [Ss][Hh][Aa][1][Pp][Aa] | [Ss][Hh][Aa][1][Pp][Aa][Ss] | [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss])
                  APP_NAME="sha1pass"
                  clear # Blank the screen.
-                 echo "Create a password hash. Usage: sha1pass [PASSWORD][SALT]"
+                 echo "sha1pass - Create a password hash."
                  echo
                  echo "Usage: sha1pass [PASSWORD] [SALT]"
                  echo "*** For more help type: man sha1pass"
                  echo
                  echo "sha1pass without any SALT value causes a random salt value to be generated."
                  echo "Now run sha1pass. Usage: 'sha1pass'."
+                 echo
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -4356,7 +4361,7 @@ f_menu_app_instant_messaging () {
                  1 | [Bb] | [Bb][Aa] | [Bb][Aa][Rr] | [Bb][Aa][Rr][Nn] | [Bb][Aa][Rr][Nn][Oo] | [Bb][Aa][Rr][Nn][Oo][Ww] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll])
                  APP_NAME="barnowl"
                  clear # Blank the screen.
-                 echo "BarnOwl Internet Messenger."
+                 echo "BarnOwl - Internet Messenger."
                  echo
                  echo "Usage: barnowl"
                  echo "Inside barnowl type ':help' (colon help) for built-in help page."
@@ -5045,7 +5050,7 @@ f_menu_app_firewalls () {
                  2 | [Uu] | [Uu][Ff] | [Uu][Ff][Ww])
                  APP_NAME="ufw status verbose"
                  clear # Blank the screen.
-                 echo "Manage the netfilter firewall."
+                 echo "ufw - Manage the netfilter firewall."
                  echo
                  echo "Usage: ufw [--dry-run] enable|disable|reload"
                  echo "       ufw [--dry-run] default allow|deny|reject [incoming|outgoing]"
@@ -5221,7 +5226,7 @@ f_menu_app_lanwan () {
                  7 | [Pp] | [Pp][Ii] | [Pp][Ii][Nn] | [Pp][Ii][Nn] | [Pp][Ii][Nn][Gg])
                  APP_NAME="ping localhost -c 5"
                  clear # Blank the screen.
-                 echo "Send ICMP ECHO_REQUEST to network hosts."
+                 echo "ping - Send ICMP ECHO_REQUEST to network hosts."
                  echo
                  echo "Usage: ping  [-LRUbdfnqrvVaAB] [-c count] [-m mark] [-i interval] [-l preload]"
                  echo "             [-p pattern] [-s packetsize] [-t ttl] [-w deadline] [-F flowlabel]"
@@ -5264,7 +5269,7 @@ f_menu_app_lanwan () {
                  9 | [Mm] | [Mm][Tt] | [Mm][Tt][Rr])
                  APP_NAME="mtr"
                  clear # Blank the screen.
-                 echo "Network diagnostic tool combining the functionality of traceroute and ping."
+                 echo "mtr - Network diagnostic tool with the functionality of traceroute and ping."
                  echo
                  echo "Usage: mtr [-hvrctglspniu46]  [--help] [--version] [--report] [--report-wide]"
                  echo "[--report-cycles COUNT] [--curses] [--split] [--raw] [--no-dns] [--gtk]"
@@ -5290,7 +5295,7 @@ f_menu_app_lanwan () {
                  10 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Cc] | [Tt][Rr][Aa][Cc][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee] | [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee])
                  APP_NAME="traceroute"
                  clear # Blank the screen.
-                 echo "Trace path to network host."
+                 echo "traceroute - Trace path to network host."
                  echo
                  echo "Usage: traceroute [-46dFITUnreAV] [-f first_ttl] [-g gate,...]"
                  echo "                  [-i device] [-m max_ttl] [-p port] [-s src_addr]"
@@ -5536,7 +5541,7 @@ f_menu_app_network_sharing () {
                  1 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="man smbc"
                  clear # Blank the screen.
-                 echo "Display help for smbc (Samba Commander)."
+                 echo "man smbc - Display help for smbc (Samba Commander)."
                  echo
                  echo "Use on networks with Microsoft Windows PCs."
                  echo
@@ -5650,6 +5655,8 @@ f_menu_app_network_monitors () {
                  2 | [Ii] | [Ii][Ff] | [Ii][Ff][Ss] | [Ii][Ff][Ss][Tt] | [Ii][Ff][Ss][Tt][Aa] | [Ii][Ff][Ss][Tt][Aa][Tt])
                  APP_NAME="ifstat 2 5"
                  clear # Blank the screen.
+                 echo "ifstat - Display bandwidth statistics."
+                 echo
                  echo "ifstat this PC's NIC (localhost) for 5 times every 2 seconds as an example."
                  echo
                  echo "Now run ifstat. Usage: ifstat 2 5"
@@ -5768,7 +5775,7 @@ f_menu_app_network_monitors () {
                  9 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
                  APP_NAME="netstat -l"
                  clear # Blank the screen.
-                 echo "Print network connections, routing tables, interface statistics,"
+                 echo "netstat - Print network connections, routing tables, interface statistics,"
                  echo "masquerade connections, and multicast memberships."
                  echo
                  echo "Usage:"
@@ -5847,6 +5854,8 @@ f_menu_app_packet_tools () {
                  1 | [Nn] | [Nn][Gg] | [Nn][Gg][Rr] | [Nn][Gg][Rr][Ee] | [Nn][Gg][Rr][Ee][Pp])
                  APP_NAME="ngrep"
                  clear # Blank the screen.
+                 echo "ngrep - Network packet analyzer."
+                 echo
                  echo "Note: ngrep needs root permissions."
                  echo "      You need to use 'sudo ngrep'."
                  echo
@@ -5872,6 +5881,8 @@ f_menu_app_packet_tools () {
                  'sudo ngrep '* | 'sudo ngrep')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
+                 echo "ngrep - Network packet analyzer."
+                 echo
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
@@ -5914,6 +5925,8 @@ f_menu_app_packet_tools () {
                  4 | [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
                  APP_NAME="snort"
                  clear # Blank the screen.
+                 echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
+                 echo
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
@@ -5934,6 +5947,8 @@ f_menu_app_packet_tools () {
                  [Ss][Nn][Oo][Rr][Tt]' '*)
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
+                 echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
+                 echo
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
@@ -5952,6 +5967,8 @@ f_menu_app_packet_tools () {
                  'sudo snort '* | 'sudo snort')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
+                 echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
+                 echo
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
@@ -5972,6 +5989,8 @@ f_menu_app_packet_tools () {
                  f_find_NIC
                  APP_NAME="tcpdump -i $ANS -c 5"
                  clear # Blank the screen.
+                 echo "tcpdump - Packet sniffer/logger."
+                 echo
                  echo "tcpdump this PC's NIC (localhost) for 5 packets an example."
                  echo
                  echo "Now run tcpdump. Usage: tcpdump -i $ANS -c 5"
@@ -6808,7 +6827,7 @@ f_menu_app_text_converters () {
                  1 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
                  APP_NAME="man txt2html"
                  clear # Blank the screen.
-                 echo "Convert plain text files to html." 
+                 echo "txt2html - Convert plain text files to html." 
                  echo
                  echo "Usage: txt2html [ --append_file filename ] [ --append_head filename ]"
                  echo "       [ --body_deco string ] [ --bold_delimiter string ] [ --bullets string ]"
@@ -6826,7 +6845,7 @@ f_menu_app_text_converters () {
                  2 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm] | [Tt][Xx][Tt][2][Mm][Aa] | [Tt][Xx][Tt][2][Mm][Aa][Nn])
                  APP_NAME="man txt2man"
                  clear # Blank the screen.
-                 echo "Convert plain text files to man pages." 
+                 echo "txt2man - Convert plain text files to man pages." 
                  echo
                  echo "Usage: txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
                  echo "       [-I txt] [-B txt] [-d date] [ifile]"
@@ -6843,8 +6862,8 @@ f_menu_app_text_converters () {
                  3 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp] | [Tt][Xx][Tt][2][Pp][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo] | [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc])
                  APP_NAME="man txt2pdbdoc"
                  clear # Blank the screen.
-                 echo "Convert plain text files to a Doc file in PDB (Pilot Database) format *.pdb"
-                 echo "for PalmPilots and DocReaders."
+                 echo "txt2pdbdoc - Convert plain text files to (Palm Pilot Database) Doc file *.pdb."
+                 echo "for PalmPilots and DocReaders. (Does anyone still have a PalmPilot?)"
                  echo
                  echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
                  echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
@@ -6862,7 +6881,7 @@ f_menu_app_text_converters () {
                  4 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr] | [Tt][Xx][Tt][2][Rr][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee] | [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx])
                  APP_NAME="man txt2regex"
                  clear # Blank the screen.
-                 echo "Convert human sentences to regex." 
+                 echo "txt2regex - Convert human sentences to regex." 
                  echo
                  echo "Usage: txt2regex --all|--prog <p1,p2,...,pN>"
                  echo
@@ -6878,9 +6897,9 @@ f_menu_app_text_converters () {
                  5 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt] | [Tt][Xx][Tt][2][Tt][Aa] | [Tt][Xx][Tt][2][Tt][Aa][Gg] | [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss])
                  APP_NAME="man txt2tags"
                  clear # Blank the screen.
-                 echo "Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook, DokuWiki,"
-                 echo "Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page, MoinMoin, PageMaker,"
-                 echo "Plain Text, PmWiki, SGML, Wikipedia and XHTML."
+                 echo "txt2tags - Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook,"
+                 echo "           DokuWiki, Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page,"
+                 echo "           MoinMoin, PageMaker, Plain Text, PmWiki, SGML, Wikipedia and XHTML."
                  echo 
                  echo "Usage: txt2tags [options] [FILE...]"
                  echo
@@ -6975,7 +6994,8 @@ f_menu_app_text_editors () {
                  6 | [Gg] | [Gg][Rr] | [Gg][Rr][Oo] | [Gg][Rr][Oo][Ff] | [Gg][Rr][Oo][Ff][Ff])
                  APP_NAME="groff"
                  clear # Blank the screen.
-                 echo "Use macro command language to output formatted text for PostScript printers."
+                 echo "groff - Use macro command language to output formatted text"
+                 echo "        for PostScript printers."
                  echo
                  echo "Usage:" 
                  echo "groff [-abcegiklpstzCEGNRSUVXZ] [-d cs] [-D arg] [-f fam] [-F dir] [-I dir]"
@@ -7143,7 +7163,7 @@ f_menu_app_todo () {
                  1 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
                  APP_NAME="todo"
                  clear # Blank the screen.
-                 echo "Simple To-Do list using hidden file .todo as a database list."
+                 echo "todo - Simple To-Do list using hidden file .todo as a database list."
                  echo
                  echo "todo [<options>]"
                  echo "       With no options, displays the items in the current directory."
@@ -7670,7 +7690,7 @@ f_menu_app_sys_disks () {
                  1 | [Dd] | [Dd][Ff])
                  APP_NAME="df -hT"
                  clear # Blank the screen.
-                 echo "Displays free space on disk"
+                 echo "df - Displays free space on disk"
                  echo
                  echo "Usage:"
                  echo "df [OPTION]... [FILE]..."
@@ -7700,7 +7720,7 @@ f_menu_app_sys_disks () {
                  2 | [Pp] | [Pp][Yy] | [Pp][Yy][Dd] | [Pp][Yy][Dd][Ff])
                  APP_NAME="pydf -hT"
                  clear # Blank the screen.
-                 echo "Displays free space on disk"
+                 echo "pydf - Displays free space on disk"
                  echo
                  echo "Usage:"
                  echo "pydf [OPTION]... [FILE]..."
@@ -7730,7 +7750,7 @@ f_menu_app_sys_disks () {
                  3 | [Dd] | [Dd][Uu])
                  APP_NAME="du -hsc"
                  clear # Blank the screen.
-                 echo "Displays disk usage per directory"
+                 echo "du - Displays disk usage per directory"
                  echo
                  echo "Usage:"
                  echo "du [OPTION]... [FILE]..."
@@ -7864,7 +7884,7 @@ f_menu_app_sys_health () {
                  1 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
                  APP_NAME="clamscan -r /home"
                  clear # Blank the screen.
-                 echo "Clamscan Anti-virus scanner"
+                 echo "clamscan -  Anti-virus scanner"
                  echo
                  echo "Usage: clamscan [options] [file/directory/-]"
                  echo "Usage: clamscan -r ~ will recursively scan your home directory."
@@ -7930,7 +7950,7 @@ f_menu_app_sys_health () {
                  5 | [Tt] | [Tt][Rr] | [Tt][Rr][Ii] | [Tt][Rr][Ii][Pp] | [Tt][Rr][Ii][Pp][Ww] | [Tt][Rr][Ii][Pp][Ww][Ii] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee])
                  APP_NAME="man tripwire"
                  clear # Blank the screen.
-                 echo "Detects unauthorized file changes"
+                 echo "tripwire - Detects unauthorized file changes"
                  echo
                  echo "*** For more help type: man tripwire for use and operation."
                  echo "*** For more help type: man twadmin - create, encode policy, config files."
@@ -8026,7 +8046,7 @@ f_menu_app_sys_information () {
                  2 | [Ll] | [Ll][Ss] | [Ll][Ss][Hh] | [Ll][Ss][Hh][Ww])
                  clear # Blank the screen.
                  APP_NAME="lshw -short"
-                 echo "Displays main board information"
+                 echo "lshw - Displays main board information"
                  echo
                  echo "Usage:"
                  echo "lshw [ -version ]"
@@ -8055,7 +8075,7 @@ f_menu_app_sys_information () {
                  3 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee])
                  APP_NAME="free -m -t -s 2 -c 5"
                  clear # Blank the screen.
-                 echo "Display the amount of free and used memory both RAM and swap"
+                 echo "free - Display the amount of free and used memory both RAM and swap"
                  echo
                  echo "Usage: free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
                  echo
@@ -8090,8 +8110,7 @@ f_menu_app_sys_information () {
                  5 | [Hh] | [Hh][Dd] | [Hh][Dd][Pp] | [Hh][Dd][Pp][Aa] | [Hh][Dd][Pp][Aa][Rr] | [Hh][Dd][Pp][Aa][Rr][Mm])
                  APP_NAME="hdparm -I /dev/sda"
                  clear # Blank the screen.
-                 echo
-                 echo "Get SATA/IDE hard disk drive parameters."
+                 echo "hdparm - Get SATA/IDE hard disk drive parameters."
                  echo
                  echo "Usage: hdparm [options..] [device ...]"
                  echo
@@ -8335,7 +8354,7 @@ f_menu_app_sys_monitors () {
                  2 | [Cc] | [Cc][Hh] | [Cc][Hh][Kk] | [Cc][Hh][Kk][Cc] | [Cc][Hh][Kk][Cc][Oo] | [Cc][Hh][Kk][Cc][Oo][Nn] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii] | [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg])
                  APP_NAME="chkconfig -l"
                  clear # Blank the screen.
-                 echo "chkconfig manipulates run-level services at boot time."
+                 echo "chkconfig - Manipulate run-level services at boot time."
                  echo
                  echo "chkconfig -t|--terse [names]"
                  echo "chkconfig -s|--set [name state]"
@@ -8394,6 +8413,8 @@ f_menu_app_sys_monitors () {
                  5 | [Pp] | [Pp][Ii] | [Pp][Ii][Dd] | [Pp][Ii][Dd][Ss] | [Pp][Ii][Dd][Ss][Tt] | [Pp][Ii][Dd][Ss][Tt][Aa] | [Pp][Ii][Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="pidstat 2 3"
                  clear # Blank the screen.
+                 echo "pidstat - View system processes/resources, PID/USR/System/Guest/CPU/Cmd."
+                 echo
                  echo "pidstat this PC's CPU (localhost) for 3 times every 2 seconds as an example."
                  echo
                  echo "*** For more help type: man pidstat"
@@ -8413,6 +8434,8 @@ f_menu_app_sys_monitors () {
                  6 | [Pp] | [Pp][Ss])
                  APP_NAME="ps -ejH"
                  clear # Blank the screen.
+                 echo "ps - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd."
+                 echo
                  echo "To see every process on the system using standard syntax:"
                  echo "[ps -e ] [ ps -ef ] [ ps -eF ] [ ps -ely ]"
                  echo
@@ -8519,7 +8542,7 @@ f_menu_app_sys_monitors () {
                  9 | [Mm] | [Mm][Pp] | [Mm][Pp][Ss] | [Mm][Pp][Ss][Tt] | [Mm][Pp][Ss][Tt][Aa] | [Mm][Pp][Ss][Tt][Aa][Tt])
                  APP_NAME="mpstat 2 5"
                  clear # Blank the screen.
-                 echo "Display CPU statistics."
+                 echo "mpstat - Display CPU statistics."
                  echo
                  echo "Usage:"
                  echo "mpstat [ -A ] [ -I { SUM | CPU | SCPU | ALL } ] [ -u ]"
@@ -8544,7 +8567,7 @@ f_menu_app_sys_monitors () {
                  10 | [Dd] | [Dd][Ss] | [Dd][Ss][Tt] | [Dd][Ss][Tt][Aa] | [Dd][Ss][Tt][Aa][Tt])
                  APP_NAME="dstat 1 10"
                  clear # Blank the screen.
-                 echo "Display system resource statistics."
+                 echo "dstat - Display system resource statistics."
                  echo
                  echo "Usage: dstat [-afv] [options..] [delay [count]]"
                  echo
@@ -8790,10 +8813,10 @@ f_menu_app_sys_software () {
             #MSF dpkg     - Debian package manager.
             #MSF synaptic - GUI Debian package manager.
             #MSF alien    - Converts rpm to deb packages.
-            #MSF rpm      - Red Hat package manager.
+            #MSF rpm      - RPM (Red Hat) package manager.
             #MSF urpmi    - Mandriva, Mageia package manager.
             #MSF YaST     - GUI OpenSUSE package manager.
-            #MSF yum      - Red Hat, CentOS, "Yellow Dog Updated" package manager.
+            #MSF yum      - "Yellow Dog Updated" package manager.
             #MSF zypper   - OpenSUSE package manager on which is based YaST GUI.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -8812,6 +8835,8 @@ f_menu_app_sys_software () {
                  1 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt])
                  APP_NAME="apt"
                  clear # Blank the screen.
+                 echo "apt - Debian package manager."
+                 echo
                  echo "apt-cache showpkg <package name> Show package general information."
                  echo "apt-cache show <package name> Show package description and information."
                  echo "apt-cache depends <package name> Show package dependency information."
@@ -8858,6 +8883,8 @@ f_menu_app_sys_software () {
                  3 | [Dd] | [Dd][Pp] | [Dd][Pp][Kk] | [Dd][Pp][Kk][Gg])
                  APP_NAME="dpkg"
                  clear # Blank the screen.
+                 echo "dpkg - Debian package manager."
+                 echo
                  echo "dpkg --get-selections List all installed packages."
                  echo "dpkg-query -l <package name> Show package installation status."
                  echo "dpkg-query -p <package name> Show package description and information."
@@ -8882,6 +8909,8 @@ f_menu_app_sys_software () {
                  APP_NAME="synaptic"
                  clear # Blank the screen.
                  echo "Synaptic is a GUI package manager and is in the menu for reference only."
+                 echo
+                 echo "Synaptic can be launched from the command line with the 'synaptic'"
                  f_press_enter_key_to_continue
                  ;;
                  5 | [Aa] | [Aa][Ll] | [Aa][Ll][Ii] | [Aa][Ll][Ii][Ee] | [Aa][Ll][Ii][Ee][Nn])
@@ -8899,6 +8928,8 @@ f_menu_app_sys_software () {
                  6 | [Rr] | [Rr][Pp] | [Rr][Pp][Mm])
                  APP_NAME="rpm"
                  clear # Blank the screen.
+                 echo "rpm - RPM (Red Hat) package manager."
+                 echo
                  echo "rpm -q <package name> Show package description and information."
                  echo "rpm --query <package name> Show package description and information."
                  echo "rpm -U <package name> Upgrade/Install a package."
@@ -8939,7 +8970,7 @@ f_menu_app_sys_software () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Yy][Aa][Ss][Tt])
+                 8 | [Yy] | [Yy][Aa] | [Yy][Aa][Ss] | [Yy][Aa][Ss][Tt])
                  APP_NAME="yast"
                  clear # Blank the screen.
                  echo "YaST is a GUI package manager and is in the menu for reference purposes only."
@@ -8950,6 +8981,8 @@ f_menu_app_sys_software () {
                  9 | [Yy] | [Yy][Uu] | [Yy][Uu][Mm])
                  APP_NAME="yum"
                  clear # Blank the screen.
+                 echo "yum - 'Yellow Dog Updated' package manager."
+                 echo
                  echo "yum upgrade <package name> Upgrade/Install a package."
                  echo "yum -list <package name> Show package description and information."
                  echo "yum search <text> searches package names, descriptions, summaries."
