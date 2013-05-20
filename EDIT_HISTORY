@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-17-2013 16:22"
+REVDATE="May-20-2013 19:14"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,9 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-05-20 *f_application_help added feature to install app automatically,
+##             if needed.
 ##
 ## 2013-05-18 *Optimize sudo pattern matching code.
 ##            *f_menu_app_firewalls added arptables, arptables.
