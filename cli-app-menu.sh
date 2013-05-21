@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-18-2013 16:22"
+REVDATE="May-20-2013 19:14"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -611,28 +611,51 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # +----------------------------------------+
 #
 #  Inputs: CHOICE_APP, ERROR.
-# Outputs: PRESS_KEY, CHOICE_APP=-1
+# Outputs: PRESS_KEY, CHOICE_APP=-1, APP_NAME
 #
 f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                         # or "man <Application name>"
       case $CHOICE_APP in
            *--help)
               clear # Blank screen
-              $CHOICE_APP | more -d # <Application name> --help | more -d
+              # $CHOICE_APP | more -d # <Application name> --help | more -d
+              $CHOICE_APP
               ERROR=$? # Save error flag condition.
               if [ $ERROR -ne 0 ] ; then
                  # Error code 1 $?=1 means no --help available.
                  # Error code 0 (zero) where $?=0 means no error.
-                 # Message "No --help option available for <Application name>"
-                 echo
-                 echo -e "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}'
+                 echo "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}'
                  # $CHOICE_APP = "<Application name> --help" so need awk to grab
                  # only the name.
                  # The echo -e \c option supresses the line feed after the first
                  # echo command so that the message is on a single line.
                  echo
+                 echo
+                 echo "This $APP_NAME application is not installed."
+                 echo
+                 echo "To install under Debian-based Linux use command:"
+                 echo "                           sudo apt-get install <application package name>"
+                 echo
+                 echo "To install under Red Hat-based Linux use command:"
+                 echo "                           sudo rpm -ivh <application package name>"
+                 echo
+                 echo "To install under Slackware-based Linux use command:"
+                 echo "                           sudo installpkg <application package name>"
+                 echo 
+                 echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
+                 read ANS
+                 case $ANS in # Start of Install Application Option case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                      f_application_install
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;              
+                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                      ERROR=0
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac # End of Install Application Option case statement.
+
               fi
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
               CHOICE_APP=-1 # Force stay in menu until loop.
               # Convert string to integer -1. Also indicates valid menu choice.
               # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
@@ -641,21 +664,47 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
               clear # Blank screen
               $CHOICE_APP # CHOICE_APP = man <Application name>.
               ERROR=$? # Save error flag condition.
+              # If there are no man pages, ask user if wants to install app.
+              # Function f_application_install needs APP_NAME as input
+              # so use awk to grab only the application's name to use for APP_NAME.
+              APP_NAME=$(echo $CHOICE_APP | awk '{print $2;}')
+              #
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              #
               if [ $ERROR -ne 0 ] ; then
                  # Error code 16 where $?=16 means no man(ual) entry.
                  # Error code 0 (zero) where $?=0 means no error.
                  # Message "No manual entry for <Application name>" 
-                 echo
-                 echo "No manual pages available for \c"; echo $CHOICE_APP | awk '{print $2;}' 
-                 # $CHOICE_APP = "man <Application name>" so need awk to grab
-                 # only the name.
+                 echo "No manual pages available for \c"; echo $APP_NAME 
                  # The echo -e \c option supresses the line feed after the first
                  # echo command so that the message is on a single line.
-                 echo "This application may either not be installed or is installed but man pages were never written for it."
-                 #
-                 f_press_enter_key_to_continue
+                 echo
+                 echo
+                 echo "This application may either not be installed or is installed but man pages"
+                 echo "were never written for it."
+                 echo
+                 echo "To install under Debian-based Linux use command:"
+                 echo "                           sudo apt-get install <application package name>"
+                 echo
+                 echo "To install under Red Hat-based Linux use command:"
+                 echo "                           sudo rpm -ivh <application package name>"
+                 echo
+                 echo "To install under Slackware-based Linux use command:"
+                 echo "                           sudo installpkg <application package name>"
+                 echo 
+                 echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
+                 read ANS
+                 case $ANS in # Start of Install Application Option case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                      f_application_install
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;              
+                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                      ERROR=0
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac # End of Install Application Option case statement.
               fi
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
               CHOICE_APP=-1 # Force stay in menu until loop.
               # Convert string to integer -1. Also indicates valid menu choice.
               # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
@@ -8482,10 +8531,17 @@ f_menu_app_sys_monitors () {
                  9 | [Nn] | [Nn][Mm] | [Nn][Mm][Oo] | [Nn][Mm][Oo][Nn])
                  APP_NAME="nmon"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn][Mm][Oo][Nn]' '-h* | 'sudo nmon '-h*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Nn][Mm][Oo][Nn]' '* | 'sudo nmon '* | 'sudo nmon')
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  10 | [Ss] | [Ss][Aa] | [Ss][Aa][Ii] | [Ss][Aa][Ii][Dd] | [Ss][Aa][Ii][Dd][Aa] | [Ss][Aa][Ii][Dd][Aa][Rr])
                  APP_NAME="saidar"
