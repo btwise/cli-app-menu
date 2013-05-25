@@ -8382,12 +8382,18 @@ f_menu_app_sys_mainboard () {
                  echo
                  echo "*** For more help type: man slabtop"
                  echo
+                 echo "If you get error message: 'fopen /proc/slabinfo: Permission denied'"
+                 echo "Then try running with sudo command i.e. 'sudo slabtop'."
+                 echo
+                 f_press_enter_key_to_continue
                  f_how_to_quit_application "Q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss][Ll][Aa][Bb][Tt][Oo][Pp]' '* | 'sudo slabtop '* | 'sudo slabtop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of Mainboard System Information case statement.
             #
@@ -8466,6 +8472,7 @@ f_menu_app_sys_peripherals () {
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Bb][Ll][Kk][Ii][Dd]' '* | 'sudo blkid '* | 'sudo blkid')
                  APP_NAME=$CHOICE_APP
