@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-20-2013 19:14"
+REVDATE="May-23-2013 22:50"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -312,7 +312,8 @@ REVDATE="May-20-2013 19:14"
 #:MSD - System Disk Information Applications Menu
 #:MSF - System Software Package Applications Menu
 #:MSH - System Health Applications Menu
-#:MSI - System Information Applications Menu
+#:MSI - System Mainboard Information Applications Menu
+#:MSL - System Peripherals Information Applications Menu
 #:MSM - System Monitor Applications Menu
 #:MSP - Spreadsheet Applications Menu
 #:MSR - System Process Applications Menu
@@ -435,7 +436,8 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
       # so numbering will always start at one. Interestingly the "++" increment
       # command is only valid from within awk.
       #
-      MAX=$(grep $DELIMITER -c $THIS_FILE) 
+      MAX=$(grep $DELIMITER -c $THIS_FILE) .
+
       # Count number of lines containing special comment marker string to get
       # maximum item number.
       awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
@@ -1005,6 +1007,9 @@ f_application_install () {
                      ;;
                      mpstat | iostat | pidstat | sadf | sar)
                      APP_NAME_INSTALL="sysstat"
+                     ;;
+                     nagios3)
+                     APP_NAME_INSTALL="nagios3-core"
                      ;;
                      photorec)
                      APP_NAME_INSTALL="testdisk"
@@ -2205,13 +2210,15 @@ f_menu_app_file_managers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of File Manager Applications until loop.
-            #MFI clex   - File manager.
-            #MFI mc     - File Manager, Midnight Commander.
-            #MFI ranger - File manager.
-            #MFI smbc   - Samba file manager for folder shares with Microsoft Windows.
-            #MFI vfu    - File manager, ncurses-based.
-            #MFI vifm   - File manager with vi-like commands.
-            #MFI detox  - File name clean up.
+            #MFI clex    - File manager.
+            #MFI mc      - File Manager, Midnight Commander.
+            #MFI ranger  - File manager.
+            #MFI smbc    - Samba file manager for folder shares with Microsoft Windows.
+            #MFI vfu     - File manager, ncurses-based.
+            #MFI vifm    - File manager with vi-like commands.
+            #MFI detox   - File name clean up.
+            #MFI findmnt - Find a filesystem.
+
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Manager Applications Menu"
@@ -2279,6 +2286,14 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  [Dd][Ee][Tt][Oo][Xx]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd] | [Ff][Ii][Nn][Dd][Mm] | [Ff][Ii][Nn][Dd][Mm][Nn] | [Ff][Ii][Nn][Dd][Mm][Nn][Tt])
+                 APP_NAME="findmnt"
+                 f_application_run
+                 ;;
+                 [Ff][Ii][Nn][Dd][Mm][Nn][Tt]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2490,7 +2505,8 @@ f_menu_app_file_recover () {
                  clear # Blank the screen.
                  echo "safecopy - Recover lost data."
                  echo
-                 echo "Usage: safecopy [options] <source> <target>"
+                 echo "Usage:"
+                 echo "safecopy [options] <source> <target>"
                  echo
                  echo "*** For more help type: man safecopy" 
                  echo
@@ -4038,7 +4054,8 @@ f_menu_app_downloaders () {
                  clear # Blank the screen.
                  echo "md5sum - Display md5 checksum."
                  echo
-                 echo "Usage: md5sum [OPTION]... [FILE]..."
+                 echo "Usage:"
+                 echo "md5sum [OPTION]... [FILE]..."
                  echo
                  echo "*** For more help type: md5sum --hep"
                  echo "Now show help. Usage: man md5sum"
@@ -4054,7 +4071,8 @@ f_menu_app_downloaders () {
                  clear # Blank the screen.
                  echo "md5pass - Create a password hash."
                  echo
-                 echo "Usage: md5pass [PASSWORD] [SALT]"
+                 echo "Usage:"
+                 echo "md5pass [PASSWORD] [SALT]"
                  echo
                  echo "*** For more help type: man md5pass"
                  echo
@@ -4073,7 +4091,8 @@ f_menu_app_downloaders () {
                  clear # Blank the screen.
                  echo "sha1sum - Display sha1 checksum."
                  echo
-                 echo "Usage: sha1sum [OPTION]... [FILE]..."
+                 echo "Usage:"
+                 echo "sha1sum [OPTION]... [FILE]..."
                  echo
                  echo "*** For more help type: sha1sum --help"
                  echo "Now show help. Usage: man sha1sum"
@@ -4090,7 +4109,8 @@ f_menu_app_downloaders () {
                  clear # Blank the screen.
                  echo "sha1pass - Create a password hash."
                  echo
-                 echo "Usage: sha1pass [PASSWORD] [SALT]"
+                 echo "Usage:"
+                 echo "sha1pass [PASSWORD] [SALT]"
                  echo "*** For more help type: man sha1pass"
                  echo
                  echo "sha1pass without any SALT value causes a random salt value to be generated."
@@ -4408,7 +4428,8 @@ f_menu_app_instant_messaging () {
                  clear # Blank the screen.
                  echo "BarnOwl - Internet Messenger."
                  echo
-                 echo "Usage: barnowl"
+                 echo "Usage:"
+                 echo "barnowl"
                  echo "Inside barnowl type ':help' (colon help) for built-in help page."
                  echo
                  echo "*** For more help type: man barnowl"
@@ -5075,7 +5096,8 @@ f_menu_app_firewalls () {
                  clear # Blank the screen.
                  echo "Administration tool for IPv4 packet filtering and NAT."
                  echo
-                 echo "Usage: iptables [-t table] {-A|-C|-D} chain rule-specification"
+                 echo "Usage:"
+                 echo "iptables [-t table] {-A|-C|-D} chain rule-specification"
                  echo
                  echo "*** For more help type: man iptables"
                  echo
@@ -5094,19 +5116,19 @@ f_menu_app_firewalls () {
                  clear # Blank the screen.
                  echo "arptables - Administration tool for ARP tables."
                  echo
-                 echo "Usage: arptables [-t table] -[AD] chain rule-specification [options]"
-                 echo "       arptables [-t table] -[RI] chain rulenum rule-specification [options]"
-                 echo "       arptables [-t table] -D chain rulenum [options]"
-                 echo "       arptables [-t table] -[LFZ] [chain] [options]"
-                 echo "       arptables [-t table] -[NX] chain"
-                 echo "       arptables [-t table] -E old-chain-name new-chain-name"
-                 echo "       arptables [-t table] -P chain target [options]"
+                 echo "Usage:"
+                 echo "arptables [-t table] -[AD] chain rule-specification [options]"
+                 echo "arptables [-t table] -[RI] chain rulenum rule-specification [options]"
+                 echo "arptables [-t table] -D chain rulenum [options]"
+                 echo "arptables [-t table] -[LFZ] [chain] [options]"
+                 echo "arptables [-t table] -[NX] chain"
+                 echo "arptables [-t table] -E old-chain-name new-chain-name"
+                 echo "arptables [-t table] -P chain target [options]"
                  echo
-                 echo "DESCRIPTION"
-                 echo "       arptables  is  a user space tool, it is used to set up and maintain the"
-                 echo "       tables of ARP rules in the Linux kernel. These rules  inspect  the  ARP"
-                 echo "       frames  which  they  see.   arptables is analogous to the iptables user"
-                 echo "       space tool, but arptables is less complicated."
+                 echo "arptables  is  a user space tool, it is used to set up and maintain the"
+                 echo "tables of ARP rules in the Linux kernel. These rules  inspect  the  ARP"
+                 echo "frames  which  they  see.   arptables is analogous to the iptables user"
+                 echo "space tool, but arptables is less complicated."
                  echo
                  echo "*** For more help type: man arptables"
                  echo
@@ -5126,19 +5148,20 @@ f_menu_app_firewalls () {
                  clear # Blank the screen.
                  echo "ufw - Manage the netfilter firewall."
                  echo
-                 echo "Usage: ufw [--dry-run] enable|disable|reload"
-                 echo "       ufw [--dry-run] default allow|deny|reject [incoming|outgoing]"
-                 echo "       ufw [--dry-run] logging on|off|LEVEL"
-                 echo "       ufw [--dry-run] reset"
-                 echo "       ufw [--dry-run] status [verbose|numbered]"
-                 echo "       ufw [--dry-run] show REPORT"
-                 echo "       ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out]"
-                 echo "           [log|log-all] PORT[/protocol]"
-                 echo "       ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out"
-                 echo "           on INTERFACE] [log|log-all] [proto protocol]"
-                 echo "           [from ADDRESS [port PORT]] [to ADDRESS [port PORT]]"
-                 echo "       ufw [--dry-run] delete NUM"
-                 echo "       ufw [--dry-run] app list|info|default|update"
+                 echo "Usage:"
+                 echo "ufw [--dry-run] enable|disable|reload"
+                 echo "ufw [--dry-run] default allow|deny|reject [incoming|outgoing]"
+                 echo "ufw [--dry-run] logging on|off|LEVEL"
+                 echo "ufw [--dry-run] reset"
+                 echo "ufw [--dry-run] status [verbose|numbered]"
+                 echo "ufw [--dry-run] show REPORT"
+                 echo "ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out]"
+                 echo "    [log|log-all] PORT[/protocol]"
+                 echo "ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out"
+                 echo "    on INTERFACE] [log|log-all] [proto protocol]"
+                 echo "    [from ADDRESS [port PORT]] [to ADDRESS [port PORT]]"
+                 echo "ufw [--dry-run] delete NUM"
+                 echo "ufw [--dry-run] app list|info|default|update"
                  echo
                  echo "Display ufw firewall status of this PC (localhost) as an example."
                  echo
@@ -5205,7 +5228,8 @@ f_menu_app_lanwan () {
                  clear # Blank the screen.
                  echo "IP - manipulate routing, devices, policy routing and tunnels."
                  echo
-                 echo "Usage: ip [ OPTIONS ] OBJECT { COMMAND | help }"
+                 echo "Usage:"
+                 echo "ip [ OPTIONS ] OBJECT { COMMAND | help }"
                  echo
                  echo "OBJECT := { link | addr | addrlabel | route | rule | neigh | tunnel | maddr |"
                  echo " mroute }"
@@ -5276,10 +5300,11 @@ f_menu_app_lanwan () {
                  clear # Blank the screen.
                  echo "ping - Send ICMP ECHO_REQUEST to network hosts."
                  echo
-                 echo "Usage: ping  [-LRUbdfnqrvVaAB] [-c count] [-m mark] [-i interval] [-l preload]"
-                 echo "             [-p pattern] [-s packetsize] [-t ttl] [-w deadline] [-F flowlabel]"
-                 echo "             [-I interface]  [-M  hint] [-N nioption] [-Q tos] [-S sndbuf]"
-                 echo "             [-T timestamp option] [-W timeout] [hop ...] destination"
+                 echo "Usage:"
+                 echo "ping  [-LRUbdfnqrvVaAB] [-c count] [-m mark] [-i interval] [-l preload]"
+                 echo "      [-p pattern] [-s packetsize] [-t ttl] [-w deadline] [-F flowlabel]"
+                 echo "      [-I interface]  [-M  hint] [-N nioption] [-Q tos] [-S sndbuf]"
+                 echo "      [-T timestamp option] [-W timeout] [hop ...] destination"
                  echo
                  echo "Usage: ping destination where destination may be an IP-address or url."
                  echo "       i.e. ping 192.168.1.1 or ping www.sourceforge.net"
@@ -5307,19 +5332,20 @@ f_menu_app_lanwan () {
                  clear # Blank the screen.
                  echo "arping - Send ICMP ECHO_REQUEST to network hosts."
                  echo
-                 echo "Usage: arping [-fqbDUAV] [-c count] [-w timeout] [-I device] [-s source] destination"
-                 echo "  -f : quit on first reply"
-                 echo "  -q : be quiet"
-                 echo "  -b : keep broadcasting, don't go unicast"
-                 echo "  -D : duplicate address detection mode"
-                 echo "  -U : Unsolicited ARP mode, update your neighbours"
-                 echo "  -A : ARP answer mode, update your neighbours"
-                 echo "  -V : print version and exit"
-                 echo "  -c count : how many packets to send"
-                 echo "  -w timeout : how long to wait for a reply"
-                 echo "  -I device : which ethernet device to use (eth0)"
-                 echo "  -s source : source ip address"
-                 echo "  destination : ask for what ip address"
+                 echo "Usage:"
+                 echo "arping [-fqbDUAV] [-c count] [-w timeout] [-I device] [-s source] destination"
+                 echo "       -f : quit on first reply"
+                 echo "       -q : be quiet"
+                 echo "       -b : keep broadcasting, don't go unicast"
+                 echo "       -D : duplicate address detection mode"
+                 echo "       -U : Unsolicited ARP mode, update your neighbours"
+                 echo "       -A : ARP answer mode, update your neighbours"
+                 echo "       -V : print version and exit"
+                 echo "       -c count : how many packets to send"
+                 echo "       -w timeout : how long to wait for a reply"
+                 echo "       -I device : which ethernet device to use (eth0)"
+                 echo "       -s source : source ip address"
+                 echo "       destination : ask for what ip address"
                  echo
                  echo "*** For more help type: man arping" 
                  echo
@@ -5352,10 +5378,11 @@ f_menu_app_lanwan () {
                  clear # Blank the screen.
                  echo "mtr - Network diagnostic tool with the functionality of traceroute and ping."
                  echo
-                 echo "Usage: mtr [-hvrctglspniu46]  [--help] [--version] [--report] [--report-wide]"
-                 echo "[--report-cycles COUNT] [--curses] [--split] [--raw] [--no-dns] [--gtk]"
-                 echo "[--address IP.ADD.RE.SS] [--interval SECONDS] [--psize BYTES | -s BYTES]"
-                 echo " HOSTNAME [PACKETSIZE]"
+                 echo "Usage:"
+                 echo "mtr [-hvrctglspniu46]  [--help] [--version] [--report] [--report-wide]"
+                 echo "    [--report-cycles COUNT] [--curses] [--split] [--raw] [--no-dns] [--gtk]"
+                 echo "    [--address IP.ADD.RE.SS] [--interval SECONDS] [--psize BYTES | -s BYTES]"
+                 echo "    HOSTNAME [PACKETSIZE]"
                  echo
                  echo "*** For more help type: man mtr" 
                  echo
@@ -5374,15 +5401,16 @@ f_menu_app_lanwan () {
                  clear # Blank the screen.
                  echo "traceroute - Trace path to network host."
                  echo
-                 echo "Usage: traceroute [-46dFITUnreAV] [-f first_ttl] [-g gate,...]"
-                 echo "                  [-i device] [-m max_ttl] [-p port] [-s src_addr]"
-                 echo "                  [-q nqueries] [-N squeries] [-t tos] [-l flow_label]"
-                 echo "                  [-w waittime] [-z sendwait] [-UL] [-P proto] [--sport=port]"
-                 echo "                  [-M method] [-O mod_options] [--mtu] [--back]"
-                 echo "                  host [packet_len]"
-                 echo "       traceroute6  [options]"
-                 echo "     tcptraceroute  [options]"
-                 echo "               lft  [options]"
+                 echo "Usage:"
+                 echo "traceroute [-46dFITUnreAV] [-f first_ttl] [-g gate,...]"
+                 echo "           [-i device] [-m max_ttl] [-p port] [-s src_addr]"
+                 echo "           [-q nqueries] [-N squeries] [-t tos] [-l flow_label]"
+                 echo "           [-w waittime] [-z sendwait] [-UL] [-P proto] [--sport=port]"
+                 echo "           [-M method] [-O mod_options] [--mtu] [--back]"
+                 echo "host [packet_len]"
+                 echo "traceroute6  [options]"
+                 echo "tcptraceroute  [options]"
+                 echo "lft  [options]"
                  echo
                  echo "*** For more help type: man traceroute" 
                  echo
@@ -5432,23 +5460,23 @@ f_menu_app_lanwan () {
                  clear # Blank the screen.
                  echo "ss - Display TCP/UDP Network and Socket Information."
                  echo
-                 echo "Usage:  ss [options] [ FILTER ]"
-                 echo
-                 echo "-h, --help      Show summary of options."
-                 echo "-a, --all       Display  both  listening  and  non-listening sockets."
-                 echo "-l, --listening Display only listening sockets."
-                 echo "-e, --extended  Show detailed socket information"
-                 echo "-m, --memory    Show socket memory usage."
-                 echo "-p, --processes Show process using socket."
-                 echo "-i, --info      Show internal TCP information."
-                 echo "-s, --summary   Print summary statistics."
-                 echo "-4, --ipv4      Display only IP version 4 sockets (alias for -f inet)."
-                 echo "-6, --ipv6      Display only IP version 6 sockets (alias for -f inet6)."
-                 echo "-0, --packet    Display PACKET sockets (alias for -f link)."
-                 echo "-t, --tcp       Display TCP sockets."
-                 echo "-u, --udp       Display UDP sockets."
-                 echo "-d, --dccp      Display DCCP sockets."
-                 echo "-w, --raw       Display RAW sockets."
+                 echo "Usage:"
+                 echo  "ss [options] [ FILTER ]"
+                 echo "    -h, --help      Show summary of options."
+                 echo "    -a, --all       Display  both  listening  and  non-listening sockets."
+                 echo "    -l, --listening Display only listening sockets."
+                 echo "    -e, --extended  Show detailed socket information"
+                 echo "    -m, --memory    Show socket memory usage."
+                 echo "    -p, --processes Show process using socket."
+                 echo "    -i, --info      Show internal TCP information."
+                 echo "    -s, --summary   Print summary statistics."
+                 echo "    -4, --ipv4      Display only IP version 4 sockets (alias for -f inet)."
+                 echo "    -6, --ipv6      Display only IP version 6 sockets (alias for -f inet6)."
+                 echo "    -0, --packet    Display PACKET sockets (alias for -f link)."
+                 echo "    -t, --tcp       Display TCP sockets."
+                 echo "    -u, --udp       Display UDP sockets."
+                 echo "    -d, --dccp      Display DCCP sockets."
+                 echo "    -w, --raw       Display RAW sockets."
                  echo
                  echo "*** For more help type: man ss" 
                  echo
@@ -5671,6 +5699,7 @@ f_menu_app_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Monitor Applications until loop.
+            #MNM bmon    - Bandwidth monitor and rate estimator.
             #MNM cbm     - Color Bandwidth Meter, ncurses based display.
             #MNM ifstat  - Bandwidth statistics. (See also dstat, System Monitors Menu).
             #MNM iftop   - Bandwidth statistics.
@@ -5680,7 +5709,9 @@ f_menu_app_network_monitors () {
             #MNM iptraf  - IP LAN monitor, ncurses based display.
             #MNM pmacct  - Traffic information monitor.
             #MNM vnstat  - Traffic information monitor.
+            #MNM nagios3 - IP LAN monitor. Display network hosts, devices, connections.
             #MNM sntop   - IP LAN monitor. Display network hosts and connections.
+            #MNM opennms - Network management application. Discovery, reports, statistics.
             #MNM slurm   - Network interface I/O load monitor.
             #MNM nc      - Netcat reads/writes data across network.
             #MNM netstat - Print network connections, routing tables, interface stats, etc.
@@ -5699,7 +5730,17 @@ f_menu_app_network_monitors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Monitor Applications case statement.
-                 1 | [Cc] | [Cc][Bb] | [Cc][Bb][Mm])
+                 1 | [Bb] | [Bb][Mm] | [Bb][Mm][Oo] | [Bb][Mm][Oo][Nn])
+                 APP_NAME="bmon"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Bb][Mm][Oo][Nn]' '* | 'sudo bmon '* | 'sudo bmon')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 2 | [Cc] | [Cc][Bb] | [Cc][Bb][Mm])
                  APP_NAME="cbm"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -5709,7 +5750,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 2 | [Ii] | [Ii][Ff] | [Ii][Ff][Ss] | [Ii][Ff][Ss][Tt] | [Ii][Ff][Ss][Tt][Aa] | [Ii][Ff][Ss][Tt][Aa][Tt])
+                 3 | [Ii] | [Ii][Ff] | [Ii][Ff][Ss] | [Ii][Ff][Ss][Tt] | [Ii][Ff][Ss][Tt][Aa] | [Ii][Ff][Ss][Tt][Aa][Tt])
                  APP_NAME="ifstat 2 5"
                  clear # Blank the screen.
                  echo "ifstat - Display bandwidth statistics."
@@ -5724,7 +5765,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ii] | [Ii][Ff] | [Ii][Ff][Tt] | [Ii][Ff][Tt][Oo] | [Ii][Ff][Tt][Oo][Pp])
+                 4 | [Ii] | [Ii][Ff] | [Ii][Ff][Tt] | [Ii][Ff][Tt][Oo] | [Ii][Ff][Tt][Oo][Pp])
                  APP_NAME="iftop"
                  f_find_NIC
                  APP_NAME="iftop -i $ANS"
@@ -5737,7 +5778,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 4 | [Jj] | [Jj][Nn] | [Jj][Nn][Ee] | [Jj][Nn][Ee][Tt] | [Jj][Nn][Ee][Tt][Tt] | [Jj][Nn][Ee][Tt][Tt][Oo] | [Jj][Nn][Ee][Tt][Tt][Oo][Pp])
+                 5 | [Jj] | [Jj][Nn] | [Jj][Nn][Ee] | [Jj][Nn][Ee][Tt] | [Jj][Nn][Ee][Tt][Tt] | [Jj][Nn][Ee][Tt][Tt][Oo] | [Jj][Nn][Ee][Tt][Tt][Oo][Pp])
                  APP_NAME="jnettop"
                  f_find_NIC
                  APP_NAME="jnettop -i $ANS"
@@ -5750,7 +5791,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 5 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh] | [Nn][Ee][Tt][Hh][Oo] | [Nn][Ee][Tt][Hh][Oo][Gg] | [Nn][Ee][Tt][Hh][Oo][Gg][Ss])
+                 6 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh] | [Nn][Ee][Tt][Hh][Oo] | [Nn][Ee][Tt][Hh][Oo][Gg] | [Nn][Ee][Tt][Hh][Oo][Gg][Ss])
                  APP_NAME="nethogs"
                  f_application_run
                  ;;
@@ -5758,7 +5799,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Nn] | [Nn][Tt] | [Nn][Tt][Oo] | [Nn][Tt][Oo][Pp])
+                 7 | [Nn] | [Nn][Tt] | [Nn][Tt][Oo] | [Nn][Tt][Oo][Pp])
                  APP_NAME="sudo ntop"
                  clear # Blank the screen.
                  echo "ntop - Traffic probe with network usage."
@@ -5804,7 +5845,7 @@ f_menu_app_network_monitors () {
                       ;;
                  esac
                  ;;
-                 7 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
+                 8 | [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Rr] | [Ii][Pp][Tt][Rr][Aa] | [Ii][Pp][Tt][Rr][Aa][Ff])
                  APP_NAME="iptraf"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -5814,7 +5855,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 8 | [Pp] | [Pp][Mm] | [Pp][MM][Aa] | [Pp][MM][Aa][Cc] | [Pp][MM][Aa][Cc][Cc] | [Pp][MM][Aa][Cc][Cc][Tt])
+                 9 | [Pp] | [Pp][Mm] | [Pp][MM][Aa] | [Pp][MM][Aa][Cc] | [Pp][MM][Aa][Cc][Cc] | [Pp][MM][Aa][Cc][Cc][Tt])
                  APP_NAME="pmacct"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -5824,7 +5865,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 9 | [Vv] | [Vv][Nn] | [Vv][Nn][Ss] | [Vv][Nn][Ss][Tt] | [Vv][Nn][Ss][Tt][Aa] | [Vv][Nn][Ss][Tt][Aa][Tt])
+                 10 | [Vv] | [Vv][Nn] | [Vv][Nn][Ss] | [Vv][Nn][Ss][Tt] | [Vv][Nn][Ss][Tt][Aa] | [Vv][Nn][Ss][Tt][Aa][Tt])
                  APP_NAME="vnstat"
                  f_application_run
                  ;;
@@ -5832,7 +5873,29 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ss] | [Ss][Nn] | [Ss][Nn][Tt] | [Ss][Nn][Tt][Oo] | [Ss][Nn][Tt][Oo][Pp])
+                 11 | [Nn] | [Nn][Aa] | [Nn][Aa][Gg] | [Nn][Aa][Gg][Ii] | [Nn][Aa][Gg][Ii][Oo] | [Nn][Aa][Gg][Ii][Oo][Ss] | [Nn][Aa][Gg][Ii][Oo][Ss][3])
+                 APP_NAME="nagios3"
+                 clear # Blank the screen.
+                 echo "nagios3 - network/systems status monitoring daemon."
+                 echo
+                 echo "nagios3  is a daemon program that monitors the status of various network"
+                 echo "accessible systems, devices, and more.  For more information, please consult"
+                 echo "the online documentation available at http://www.nagios.org, or on your"
+                 echo "nagios server's web page."
+                 echo
+                 echo "Usage:"
+                 echo "nagios3 [-h] [-v] [-s] [-d] <main_config_file>"
+                 echo
+                 echo "*** For more help type: man nagios3" 
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Nn][Aa][Gg][Ii][Oo][Ss][3]' '* | 'sudo nagios3 '* | 'sudo nagios3')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 12 | [Ss] | [Ss][Nn] | [Ss][Nn][Tt] | [Ss][Nn][Tt][Oo] | [Ss][Nn][Tt][Oo][Pp])
                  APP_NAME="sntop --refresh=3"
                  clear # Blank the screen.
                  echo "sntop for every 3 seconds as an example."
@@ -5848,7 +5911,24 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 11 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
+                 13 | [Oo] | [Oo][Pp] | [Oo][Pp][Ee] | [Oo][Pp][Ee][Nn] | [Oo][Pp][Ee][Nn][Nn] | [Oo][Pp][Ee][Nn][Nn][Mm] | [Oo][Pp][Ee][Nn][Nn][Mm][Ss])
+                 APP_NAME="opennms"
+                 clear # Blank the screen.
+                 echo "OpenNMS is a commercial open source application and is in the menu for"
+                 echo "reference only."
+                 echo
+                 echo "Description from the OpenNMS website:"
+                 echo "OpenNMS is an award winning network management application platform with a long"
+                 echo "track record of providing solutions for enterprises and carriers."
+                 echo "OpenNMS main features are Automated and Directed Discovery, Event and"
+                 echo "Notification Management, Service Assurance, Performance Measurement."
+                 echo
+                 echo "http://www.opennms.org/about/ or http://sourceforge.net/projects/opennms/"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 14 | [Ss] | [Ss][Ll] | [Ss][Ll][Uu] | [Ss][Ll][Uu][Rr] | [Ss][Ll][Uu][Rr][Mm])
                  APP_NAME="slurm"
                  f_find_NIC
                  APP_NAME="slurm -i $ANS"
@@ -5860,7 +5940,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Nn] | [Nn][Cc])
+                 15 | [Nn] | [Nn][Cc])
                  APP_NAME="nc"
                  f_application_run
                  ;;
@@ -5868,7 +5948,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
+                 16 | [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss] | [Nn][Ee][Tt][Ss][Tt] | [Nn][Ee][Tt][Ss][Tt][Aa] | [Nn][Ee][Tt][Ss][Tt][Aa][Tt])
                  APP_NAME="netstat -l"
                  clear # Blank the screen.
                  echo "netstat - Print network connections, routing tables, interface statistics,"
@@ -5901,7 +5981,7 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Ss] | [Ss][Ss])
+                 17 | [Ss] | [Ss][Ss])
                  APP_NAME="ss"
                  f_application_run
                  ;;
@@ -5910,23 +5990,23 @@ f_menu_app_network_monitors () {
                  clear # Blank the screen.
                  echo "ss - Display TCP/UDP Network and Socket Information."
                  echo
-                 echo "Usage:  ss [options] [ FILTER ]"
-                 echo
-                 echo "-h, --help      Show summary of options."
-                 echo "-a, --all       Display  both  listening  and  non-listening sockets."
-                 echo "-l, --listening Display only listening sockets."
-                 echo "-e, --extended  Show detailed socket information"
-                 echo "-m, --memory    Show socket memory usage."
-                 echo "-p, --processes Show process using socket."
-                 echo "-i, --info      Show internal TCP information."
-                 echo "-s, --summary   Print summary statistics."
-                 echo "-4, --ipv4      Display only IP version 4 sockets (alias for -f inet)."
-                 echo "-6, --ipv6      Display only IP version 6 sockets (alias for -f inet6)."
-                 echo "-0, --packet    Display PACKET sockets (alias for -f link)."
-                 echo "-t, --tcp       Display TCP sockets."
-                 echo "-u, --udp       Display UDP sockets."
-                 echo "-d, --dccp      Display DCCP sockets."
-                 echo "-w, --raw       Display RAW sockets."
+                 echo "Usage:"
+                 echo  "ss [options] [ FILTER ]"
+                 echo "    -h, --help      Show summary of options."
+                 echo "    -a, --all       Display  both  listening  and  non-listening sockets."
+                 echo "    -l, --listening Display only listening sockets."
+                 echo "    -e, --extended  Show detailed socket information"
+                 echo "    -m, --memory    Show socket memory usage."
+                 echo "    -p, --processes Show process using socket."
+                 echo "    -i, --info      Show internal TCP information."
+                 echo "    -s, --summary   Print summary statistics."
+                 echo "    -4, --ipv4      Display only IP version 4 sockets (alias for -f inet)."
+                 echo "    -6, --ipv6      Display only IP version 6 sockets (alias for -f inet6)."
+                 echo "    -0, --packet    Display PACKET sockets (alias for -f link)."
+                 echo "    -t, --tcp       Display TCP sockets."
+                 echo "    -u, --udp       Display UDP sockets."
+                 echo "    -d, --dccp      Display DCCP sockets."
+                 echo "    -w, --raw       Display RAW sockets."
                  echo
                  echo "*** For more help type: man ss" 
                  echo
@@ -6916,9 +6996,11 @@ f_menu_app_text_converters () {
                  clear # Blank the screen.
                  echo "txt2html - Convert plain text files to html." 
                  echo
-                 echo "Usage: txt2html [ --append_file filename ] [ --append_head filename ]"
-                 echo "       [ --body_deco string ] [ --bold_delimiter string ] [ --bullets string ]"
-                 echo "       [ --bullets_ordered string ] [ --caps_tag tag ]"
+                 echo "Usage:"
+                 echo "txt2html [ --append_file filename ] [ --append_head filename ]"
+                 echo "         [ --body_deco string ] [ --bold_delimiter string ]"
+                 echo "         [ --bullets string ] [ --bullets_ordered string ]"
+                 echo "         [ --caps_tag tag ]"
                  echo
                  echo "*** For more help type: txt2html --help"
                  echo "Now show help. Usage: man txt2html"
@@ -6934,8 +7016,9 @@ f_menu_app_text_converters () {
                  clear # Blank the screen.
                  echo "txt2man - Convert plain text files to man pages." 
                  echo
-                 echo "Usage: txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
-                 echo "       [-I txt] [-B txt] [-d date] [ifile]"
+                 echo "Usage:"
+                 echo "txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
+                 echo "        [-I txt] [-B txt] [-d date] [ifile]"
                  echo
                  echo "*** For more help type: txt2man --help"
                  echo "Now show help. Usage: man txt2man"
@@ -6970,7 +7053,8 @@ f_menu_app_text_converters () {
                  clear # Blank the screen.
                  echo "txt2regex - Convert human sentences to regex." 
                  echo
-                 echo "Usage: txt2regex --all|--prog <p1,p2,...,pN>"
+                 echo "Usage:"
+                 echo "txt2regex --all|--prog <p1,p2,...,pN>"
                  echo
                  echo "*** For more help type: txt2regex --help"
                  echo "Now show help. Usage: man txt2regex"
@@ -6988,7 +7072,8 @@ f_menu_app_text_converters () {
                  echo "           DokuWiki, Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page,"
                  echo "           MoinMoin, PageMaker, Plain Text, PmWiki, SGML, Wikipedia and XHTML."
                  echo 
-                 echo "Usage: txt2tags [options] [FILE...]"
+                 echo "Usage:"
+                 echo "txt2tags [options] [FILE...]"
                  echo
                  echo "*** For more help type: txt2tags --help"
                  echo "Now show help. Usage: man txt2tags"
@@ -7524,11 +7609,12 @@ f_menu_cat_system () {
       do    # Start of System Category until loop.
             #BSY Backup      - File Backup/archive to CD-ROM or compressed files.
             #BSY Disks       - Disk information.
-            #BSY Health      - Anti-virus scanners, root-kit detectors etc.
-            #BSY Information - Information on mainboard, peripherals etc.
+            #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
             #BSY Logs        - Log file viewers.
+            #BSY Mainboard   - Information on PC mainboard, memory, etc.
             #BSY Monitors    - Resources, and disk I/O monitors.
             #BSY Other       - Screen capture, file compression, DOS Emulators.
+            #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
             #BSY Process     - System process monitoring, killing.
             #BSY Screens     - Multiple screen sessions.
             #BSY Software    - (Un)Install and manage software packages (programs).
@@ -7557,12 +7643,12 @@ f_menu_cat_system () {
                  f_menu_app_sys_health        # System Health Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 4 | [Ii] | [Ii][Nn] | [Ii][Nn][Ff] | [Ii][Nn][Ff][Oo] | [Ii][Nn][Ff][Oo][Rr] | [Ii][Nn][Ff][Oo][Rr][Mm] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo] | [Ii][Nn][Ff][Oo][Rr][Mm][Aa][Tt][Ii][Oo][Nn)
-                 f_menu_app_sys_information   # System Information Applications Menu.
+                 4 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
+                 f_menu_app_sys_logs          # System Logs Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 5 | [Ll] | [Ll][Oo] | [Ll][Oo][Gg] | [Ll][Oo][Gg][Ss]) 
-                 f_menu_app_sys_logs          # System Logs Applications Menu.
+                 5 | [Mm] | [Mm][Aa] | [Mm][Aa][Ii] | [Mm][Aa][Ii][Nn] | [Mm][Aa][Ii][Nn][Bb] | [Mm][Aa][Ii][Nn][Bb][Oo] | [Mm][Aa][Ii][Nn][Bb][Oo][Aa] | [Mm][Aa][Ii][Nn][Bb][Oo][Aa][Rr] | [Mm][Aa][Ii][Nn][Bb][Oo][Aa][Rr][Dd])
+                 f_menu_app_sys_mainboard     # System Mainboard Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  6 | [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
@@ -7573,15 +7659,19 @@ f_menu_cat_system () {
                  f_menu_app_sys_other         # System Other Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 8 | [Pp] | [Pp][Rr] | [Pp][Rr][Oo] | [Pp][Rr][Oo][Cc] | [Pp][Rr][Oo][Cc][Ee] | [Pp][Rr][Oo][Cc][Ee][Ss] | [Pp][Rr][Oo][Cc][Ee][Ss][Ss])
+                 8 | [Pp] | [Pp][Ee] | [Pp][Ee][Rr] | [Pp][Ee][Rr][Ii] | [Pp][Ee][Rr][Ii][Pp] | [Pp][Ee][Rr][Ii][Pp][Hh] | [Pp][Ee][Rr][Ii][Pp][Hh][Ee] | [Pp][Ee][Rr][Ii][Pp][Hh][Ee][Rr] | [Pp][Ee][Rr][Ii][Pp][Hh][Ee][Rr][Aa] | [Pp][Ee][Rr][Ii][Pp][Hh][Ee][Rr][Aa][Ll] | [Pp][Ee][Rr][Ii][Pp][Hh][Ee][Rr][Aa][Ll][Ss])
+                 f_menu_app_sys_peripherals   # System Peripherals Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 9 | [Pp] | [Pp][Rr] | [Pp][Rr][Oo] | [Pp][Rr][Oo][Cc] | [Pp][Rr][Oo][Cc][Ee] | [Pp][Rr][Oo][Cc][Ee][Ss] | [Pp][Rr][Oo][Cc][Ee][Ss][Ss])
                  f_menu_app_sys_process       # System Process Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 9 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
+                 10 | [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ss]) 
                  f_menu_app_sys_screens       # System Screens Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 10 | [Ss] | [Ss][Oo] | [Ss][Oo][Ff] | [Ss][Oo][Ff][Tt] | [Ss][Oo][Ff][Tt][Ww] | [Ss][Oo][Ff][Tt][Ww][Aa] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr][Ee])
+                 11 | [Ss] | [Ss][Oo] | [Ss][Oo][Ff] | [Ss][Oo][Ff][Tt] | [Ss][Oo][Ff][Tt][Ww] | [Ss][Oo][Ff][Tt][Ww][Aa] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr] | [Ss][Oo][Ff][Tt][Ww][Aa][Rr][Ee])
                  f_menu_app_sys_software      # System Software Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -7931,7 +8021,8 @@ f_menu_app_sys_health () {
             #MSH arpon      - ArpON detects/blocks arp poisoning/spoofing attacks.
             #MSH arpalert   - Checks MAC addresses against list of known MACs, runs script.
             #MSH arpwatch   - Detects unknown MAC addresses and IP addresses, like ArpON.
-            #MSH arp-scan    - Discover, fingerprint hosts on LAN using MAC addresses.
+            #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
+            #MSH stress     - Stress test can simulate a heavy load on CPU.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Health Applications Menu"
@@ -7951,8 +8042,9 @@ f_menu_app_sys_health () {
                  clear # Blank the screen.
                  echo "clamscan -  Anti-virus scanner"
                  echo
-                 echo "Usage: clamscan [options] [file/directory/-]"
-                 echo "Usage: clamscan -r ~ will recursively scan your home directory."
+                 echo "Usage:" 
+                 echo "clamscan [options] [file/directory/-]"
+                 echo "         -r, --recursive will recursively scan your home directory."
                  echo
                  echo "*** For more help type: clamscan --help"
                  echo
@@ -8018,6 +8110,7 @@ f_menu_app_sys_health () {
                  echo "'tripwire --help all' for extended help"
                  echo
                  echo "Now run man tripwire. Usage: man tripwire"
+                 echo
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -8046,14 +8139,14 @@ f_menu_app_sys_health () {
                  clear # Blank the screen.
                  echo "arpwatch - keep track of ethernet/ip address pairings"
                  echo
-                 echo "DESCRIPTION"
-                 echo "       Arpwatch  keeps  track  for  ethernet/ip  address  pairings. It syslogs"
-                 echo "       activity and reports certain changes via email.  Arpwatch uses  pcap(3)"
-                 echo "       to listen for arp packets on a local ethernet interface."
+                 echo "Arpwatch  keeps  track  for  ethernet/ip  address  pairings. It syslogs"
+                 echo "activity and reports certain changes via email.  Arpwatch uses  pcap(3)"
+                 echo "to listen for arp packets on a local ethernet interface."
                  echo
-                 echo "Usage: arpwatch [-dN] [-f datafile] [-i interface] [-n net[/width]] [-r file]"
-                 echo "                [-s sendmail_path] [-p] [-a] [-m addr] [-u username]"
-                 echo "                [-R seconds ] [-Q] [-z ignorenet/ignoremask]"
+                 echo "Usage:"
+                 echo "arpwatch [-dN] [-f datafile] [-i interface] [-n net[/width]] [-r file]"
+                 echo "         [-s sendmail_path] [-p] [-a] [-m addr] [-u username]"
+                 echo "         [-R seconds ] [-Q] [-z ignorenet/ignoremask]"
                  echo
                  echo "Now run man arpwatch. Usage: man arpwatch"
                  echo
@@ -8069,7 +8162,8 @@ f_menu_app_sys_health () {
                  APP_NAME="arp-scan"
                  clear # Blank the screen.
                  echo "arp-scan - ARP Scanner."
-                 echo "Usage: arp-scan [options] [hosts...]"
+                 echo "Usage:"
+                 echo "arp-scan [options] [hosts...]"
                  echo
                  echo "       --localnet or -l"
                  echo "              Generate addresses from network  interface  configuration.   Use"
@@ -8098,6 +8192,31 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 10 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Ee] | [Ss][Tt][Rr][Ee][Ss] | [Ss][Tt][Rr][Ee][Ss][Ss])
+                 APP_NAME="stress"
+                 clear # Blank the screen.
+                 echo "stress - A tool to impose load on and stress test a computer system"
+                 echo
+                 echo "Description-en: A tool to impose load on and stress test a computer system"
+                 echo "'stress' is a tool that imposes a configurable amount of CPU, memory, I/O,"
+                 echo "or disk stress on a POSIX-compliant operating system and reports any errors"
+                 echo "it detects."
+                 echo
+                 echo "'stress' is not a benchmark.  It is a tool used by system administrators to"
+                 echo "evaluate how well their systems will scale, by kernel programmers to evaluate"
+                 echo "perceived performance characteristics, and by systems programmers to expose"
+                 echo "the classes of bugs which only or more frequently manifest themselves when"
+                 echo "the system is under heavy load."
+                 echo
+                 echo "*** For more help type: man lshw"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ss][Tt][Rr][Ee][Ss][Ss]' '* | 'sudo stress '* | 'sudo stress')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of System Health Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -8108,34 +8227,29 @@ f_menu_app_sys_health () {
 } # End of function f_menu_app_sys_health
 #
 # +----------------------------------------+
-# |   Function f_menu_app_sys_information  |
+# |   Function f_menu_app_sys_mainboard    |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
 #
-f_menu_app_sys_information () {
+f_menu_app_sys_mainboard () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Information until loop.
-            #MSI dmidecode   - Display Main board information.
-            #MSI lshw        - Display Main board information.
-            #MSI free        - Display memory usage RAM and swap.
-            #MSI vmstat      - Display memory usage RAM and swap, CPU information.
-            #MSI hdparm      - Display hard disk drive information.
-            #MSI lsb_release - Display Linux distro and LSB (Linux Standard Base).
-            #MSI uname       - Display linux kernel information.
-            #MSI lsmod       - Display linux kernel module information.
-            #MSI printenv    - Display environmental variables.
-            #MSI lsusb       - Display USB devices.
-            #MSI lspci       - Display PCI buses and connected devices.
-            #MSI acpitool    - Display ACPI power/battery settings.
-            #MSI lsof        - Display information about open files.
-            #MSI uptime      - Display how long PC has been running, # users, load average.
+            #MSI dmidecode   - Main board information.
+            #MSI lshw        - Main board information.
+            #MSI free        - Memory usage RAM and swap.
+            #MSI vmstat      - Memory usage RAM and swap, CPU information.
+            #MSI hdparm      - Hard disk drive information.
+            #MSI lsb_release - Linux distro and LSB (Linux Standard Base).
+            #MSI uname       - Linux kernel information.
+            #MSI lsmod       - Linux kernel module information.
+            #MSI slabtop     - Kernel slab cache information in real time.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="System Information Menu"
+            MENU_TITLE="Mainboard Information Menu"
             DELIMITER="#MSI" #MSI This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -8146,7 +8260,7 @@ f_menu_app_sys_information () {
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of System Information case statement.
+            case $CHOICE_APP in # Start of Mainboard System Information case statement.
                  1 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
                  APP_NAME="dmidecode"
                  f_application_run
@@ -8185,7 +8299,8 @@ f_menu_app_sys_information () {
                  clear # Blank the screen.
                  echo "free - Display the amount of free and used memory both RAM and swap"
                  echo
-                 echo "Usage: free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
+                 echo "Usage:"
+                 echo "free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
                  echo
                  echo "*** For more help type: man free"
                  echo
@@ -8212,7 +8327,8 @@ f_menu_app_sys_information () {
                  clear # Blank the screen.
                  echo "hdparm - Get SATA/IDE hard disk drive parameters."
                  echo
-                 echo "Usage: hdparm [options..] [device ...]"
+                 echo "Usage:"
+                 echo "hdparm [options..] [device ...]"
                  echo
                  echo "*** For more help type: man hdparm"
                  echo
@@ -8250,7 +8366,74 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
+                 9 | [Ss] | [Ss][Ll] | [Ss][Ll][Aa] | [Ss][Ll][Aa][Bb] | [Ss][Ll][Aa][Bb][Tt] | [Ss][Ll][Aa][Bb][Tt][Oo] | [Ss][Ll][Aa][Bb][Tt][Oo][Pp])
+                 APP_NAME="slabtop"
+                 clear # Blank the screen.
+                 echo "slabtop - display kernel slab cache information in real time."
+                 echo
+                 echo "slabtop displays a listing of the top caches sorted by  one  of  the  listed"
+                 echo "sort  criteria.   It also displays a statistics header filled with slab"
+                 echo "layer information."
+                 echo
+                 echo "Usage:"
+                 echo "slabtop [options]"
+                 echo
+                 echo "slabtop  displays  detailed kernel slab cache information in real time."
+                 echo
+                 echo "*** For more help type: man slabtop"
+                 echo
+                 f_how_to_quit_application "Q"
+                 f_application_run
+                 ;;
+                 [Ss][Ll][Aa][Bb][Tt][Oo][Pp]' '* | 'sudo slabtop '* | 'sudo slabtop')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Mainboard System Information case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of Mainboard System Information until loop.
+} # End of f_menu_app_sys_mainboard
+#
+# +----------------------------------------+
+# |   Function f_menu_app_sys_peripherals  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_sys_peripherals () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Peripheral System Information until loop.
+            #MSL printenv    - Environmental variables.
+            #MSL blkid       - Block devices.
+            #MSL lsusb       - USB devices.
+            #MSL lspci       - PCI buses and connected devices.
+            #MSL lspcmcia    - PCMCIA extended debugging information.
+            #MSL pccardctl   - PCMCIA card devices.
+            #MSL acpitool    - ACPI power/battery settings.
+            #MSL lsof        - Display information about open files.
+            #MSL uptime      - Display how long PC has been running, # users, load average.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Peripheral System Information Menu"
+            DELIMITER="#MSL" #MSL This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Peripheral System Information case statement.
+                 1 | [Pp] | [Pp][Rr] | [Pp][Rr][Ii] | [Pp][Rr][Ii][Nn] | [Pp][Rr][Ii][Nn][Tt] | [Pp][Rr][Ii][Nn][Tt][Ee] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn] | [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv])
                  APP_NAME="printenv"
                  f_application_run
                  ;;
@@ -8258,7 +8441,45 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
+                 2 | [Bb] | [Bb][Ll] | [Bb][Ll][Kk] | [Bb][Ll][Kk][Ii] | [Bb][Ll][Kk][Ii][Dd])
+                 APP_NAME="blkid"
+                 clear # Blank the screen.
+                 echo "blkid - locate/print block device attributes"
+                 echo
+                 echo
+                 echo "The blkid program is the command-line interface to working with the libblkid(3)"
+                 echo "library.  It can determine the type of content (e.g. filesystem or swap) that a"
+                 echo "block device holds, and also attributes (tokens, NAME=value pairs) from the"
+                 echo "content metadata (e.g. LABEL or UUID fields)."
+                 echo
+                 echo "blkid has two main forms of operation: either searching for a device with a"
+                 echo "specific NAME=value pair, or displaying NAME=value pairs  for  one  or more"
+                 echo "specified devices."
+                 echo
+                 echo "Usage:"
+                 echo "blkid -L label | -U uuid"
+                 echo "blkid [-dghlv] [-c file] [-w file] [-o format] [-s tag] [-t NAME=value][device]"
+                 echo "blkid -p [-O offset] [-S size] [-o format] [-s tag] [-n list] [-u list] device"
+                 echo "blkid -i [-o format] [-s tag] device ..."
+                 echo
+                 echo "*** For more help type: man blkid"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Bb][Ll][Kk][Ii][Dd]' '* | 'sudo blkid '* | 'sudo blkid')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Ll] | [Ll][Ss] | [Ll][Ss][Cc] | [Ll][Ss][Cc][Pp] | [Ll][Ss][Cc][Pp][Uu])
+                 APP_NAME="lscpu"
+                 f_application_run
+                 ;;
+                 [Ll][Ss][Cc][Pp][Uu]' '* | 'sudo lscpu '* | 'sudo lscpu')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Ll] | [Ll][Ss] | [Ll][Ss][Uu] | [Ll][Ss][Uu][Ss] | [Ll][Ss][Uu][Ss][Bb])
                  APP_NAME="lsusb"
                  f_application_run
                  ;;
@@ -8266,7 +8487,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ll] | [Ll][Ss] | [Ll][Ss][Pp] | [Ll][Ss][Pp][Cc] | [Ll][Ss][Pp][Cc][Ii])
+                 5 | [Ll] | [Ll][Ss] | [Ll][Ss][Pp] | [Ll][Ss][Pp][Cc] | [Ll][Ss][Pp][Cc][Ii])
                  APP_NAME="lspci"
                  f_application_run
                  ;;
@@ -8274,7 +8495,51 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt] | [Aa][Cc][Pp][Ii][Tt][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
+                 6 | [Ll][Ss][Pp][Cc][Mm][Cc][Ii][Aa])
+                 APP_NAME="lspcmcia"
+                 clear # Blank the screen.
+                 echo "lspcmcia - display extended PCMCIA debugging information."
+                 echo
+                 echo "lspcmcia is an alias for pccardctl ls, provided for convenience."
+                 echo
+                 echo "Usage:"
+                 echo "lspcmcia [-V] [-v ...] [socket]"
+                 echo
+                 echo "*** For more help type: man lspcmcia"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ll][Ss][Pp][Cc][Mm][Cc][Ii][Aa]' '* | 'sudo lspcmcia '* | 'sudo lspcmcia')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Pp] | [Pp][Cc] | [Pp][Cc][Cc] | [Pp][Cc][Cc][Aa] | [Pp][Cc][Cc][Aa][Rr] | [Pp][Cc][Cc][Aa][Rr][Dd] | [Pp][Cc][Cc][Aa][Rr][Dd][Cc] | [Pp][Cc][Cc][Aa][Rr][Dd][Cc][Tt] | [Pp][Cc][Cc][Aa][Rr][Dd][Cc][Tt][Ll])
+                 APP_NAME="pccardctl"
+                 clear # Blank the screen.
+                 echo "pccardctl - PCMCIA card control utility."
+                 echo
+                 echo "pccardctl  is  used  to monitor and control the state of PCMCIA sockets."
+                 echo "If a socket number is specified, the command will be applied to just one"
+                 echo "socket; otherwise, all sockets will be affected."
+                 echo
+                 echo "If pccardctl is executed by root, all commands are available."
+                 echo "If it is executed by an unpriviledged user, only the informational commands"
+                 echo "are accessible."
+                 echo
+                 echo "Usage:"
+                 echo "pccardctl [-V] [-v ...] command [socket]"
+                 echo
+                 echo "*** For more help type: man pccardctl"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Pp][Cc][Cc][Aa][Rr][Dd][Cc][Tt][Ll]' '* | 'sudo pccardctl '* | 'sudo pccardctl')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt] | [Aa][Cc][Pp][Ii][Tt][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
                  APP_NAME="acpitool"
                  f_application_run
                  ;;
@@ -8282,7 +8547,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
+                 9 | [Ll] | [Ll][Ss] | [Ll][Ss][Oo] | [Ll][Ss][Oo][Ff])
                  APP_NAME="lsof"
                  f_application_run
                  ;;
@@ -8290,7 +8555,7 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
+                 10 | [Uu] | [Uu][Pp] | [Uu][Pp][Tt] | [Uu][Pp][Tt][Ii] | [Uu][Pp][Tt][Ii][Mm] | [Uu][Pp][Tt][Ii][Mm][Ee])
                  APP_NAME="uptime"
                  f_application_run
                  ;;
@@ -8298,14 +8563,14 @@ f_menu_app_sys_information () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-            esac                # End of System Information case statement.
+            esac                # End of Peripheral System Information case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of System Information until loop.
-} # End of f_menu_app_sys_information
+      done # End of Peripheral System Information until loop.
+} # End of f_menu_app_sys_peripherals
 #
 # +----------------------------------------+
 # |      Function f_menu_app_sys_logs      |
@@ -8320,6 +8585,7 @@ f_menu_app_sys_logs () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Logs until loop.
             #MLO multitail - View multiple log files using multiple panes.
+            #MLO swatch    - Log file viewer with regexp matching, highlighting & hooks.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Logs Menu"
@@ -8339,6 +8605,14 @@ f_menu_app_sys_logs () {
                  f_application_run
                  ;;
                  [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll]' '* | 'sudo multitail '* | 'sudo multitail')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Ss] | [Ss][Ww] | [Ss][Ww][Aa] | [Ss][Ww][Aa][Tt] | [Ss][Ww][Aa][Tt][Cc] | [Ss][Ww][Aa][Tt][Cc][Hh])
+                 APP_NAME="swatch"
+                 f_application_run
+                 ;;
+                 [Ss][Ww][Aa][Tt][Cc][Hh]' '* | 'sudo swatch '* | 'sudo swatch')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8375,6 +8649,9 @@ f_menu_app_sys_monitors () {
             #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
             #MSM yacpi     - ACPI monitor, ncurses-based.
             #MSM last      - Users' login/logout times from /var/log/wtmp.
+            #MSM swatch    - Log file viewer with regexp matching, highlighting & hooks.
+            #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
+            #MSM rrdtool   - The Round Robin Database Tool stores/displays time-series data.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Monitors Menu"
@@ -8394,6 +8671,7 @@ f_menu_app_sys_monitors () {
                  clear # Blank the screen.
                  echo "chkconfig - Manipulate run-level services at boot time."
                  echo
+                 echo "Usage:"
                  echo "chkconfig -t|--terse [names]"
                  echo "chkconfig -s|--set [name state]"
                  echo "chkconfig -e|--edit [names]"
@@ -8402,6 +8680,7 @@ f_menu_app_sys_monitors () {
                  echo "chkconfig -A|--allservices"
                  echo "chkconfig -a|--add [names]"
                  echo "chkconfig -d|--del [names]"
+                 echo
                  echo "*** For more help type: man chkconfig"
                  echo
                  echo "Now run chkconfig. Usage: chkconfig -l"
@@ -8485,7 +8764,8 @@ f_menu_app_sys_monitors () {
                  clear # Blank the screen.
                  echo "dstat - Display system resource statistics."
                  echo
-                 echo "Usage: dstat [-afv] [options..] [delay [count]]"
+                 echo "Usage:"
+                 echo "dstat [-afv] [options..] [delay [count]]"
                  echo
                  echo "*** For more help type: man dstat"
                  echo
@@ -8573,6 +8853,63 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 13 | [Ss] | [Ss][Ww] | [Ss][Ww][Aa] | [Ss][Ww][Aa][Tt] | [Ss][Ww][Aa][Tt][Cc] | [Ss][Ww][Aa][Tt][Cc][Hh])
+                 APP_NAME="swatch"
+                 f_application_run
+                 ;;
+                 [Ss][Ww][Aa][Tt][Cc][Hh]' '* | 'sudo swatch '* | 'sudo swatch')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 14 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Tt] | [Cc][Aa][Cc][Tt][Ii])
+                 APP_NAME="cacti"
+                 clear # Blank the screen.
+                 echo "cacti - Frontend to rrdtool for monitoring systems and services."
+                 echo "Cacti is a complete frontend to rrdtool, it stores all of the necessary"
+                 echo "information to create graphs and populates them with data in a MySQL"
+                 echo "database.  The frontend is completely PHP driven.  Along with being able"
+                 echo "to maintain Graphs, Data Sources, and Round Robin Archives in a"
+                 echo "database, cacti handles the data gathering also.  There is also SNMP"
+                 echo "support for those used to creating traffic graphs with MRTG."
+                 echo
+                 echo "This package requires a functional MySQL database server on either the"
+                 echo "installation host or remotely accessible system.  If you do not already"
+                 echo "have a database server available, you should also install mysql-server."
+                 echo
+                 echo "Homepage: http://www.cacti.net/"
+                 echo
+                 echo "*** For more help type: man cacti"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Cc][Aa][Cc][Tt][Ii]' '* | 'sudo cacti '* | 'sudo cacti')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 15 | [Rr] | [Rr][Rr] | [Rr][Rr][Dd] | [Rr][Rr][Dd][Tt] | [Rr][Rr][Dd][Tt][Oo] | [Rr][Rr][Dd][Tt][Oo][Oo] | [Rr][Rr][Dd][Tt][Oo][Oo][Ll])
+                 APP_NAME="rrdtool"
+                 echo "rrdtool   - The Round Robin Database Tool stores/displays time-series data."
+                 echo "The Round Robin Database Tool (RRDtool) is a system to store and display"
+                 echo "time-series data (e.g. network bandwidth, machine-room temperature,"
+                 echo "server load average). It stores the data in Round Robin Databases (RRDs),"
+                 echo "a very compact way that will not expand over time. RRDtool processes the"
+                 echo "extracted data to enforce a certain data density, allowing for useful"
+                 echo "graphical representation of data values."
+                 echo
+                 echo "RRDtool is often used via various wrappers that can poll data from devices"
+                 echo "and feed data into RRDs, as well as provide a friendlier user interface and"
+                 echo "customized graphs."
+                 echo
+                 echo "*** For more help type: man rrdtool"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Rr][Rr][Dd][Tt][Oo][Oo][Ll]' '* | 'sudo rrdtool '* | 'sudo rrdtool')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of System Monitors case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -8657,17 +8994,20 @@ f_menu_app_sys_process () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Process Applications until loop.
-            #MSR atop    - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
-            #MSR htop    - View system processes/resources; bar graph of CPU/Mem/Swap.
-            #MSR pidstat - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
-            #MSR ps      - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
-            #MSR pstree  - Tree view system processes/resources, like "ps" command.
-            #MSR top     - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
-            #MSR pgrep   - Search ps output for full/partial name of process.
-            #MSR pmap    - View process memory usage.
-            #MSR strace  - Trace process system calls and signals.
-            #MSR killall - Kill processes based on full-name of process.
-            #MSR pkill   - Kill processes based on partial name of process.
+            #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
+            #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
+            #MSR pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
+            #MSR ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
+            #MSR pstree    - Tree view system processes/resources, like "ps" command.
+            #MSR pswatcher - Execute commands when certain processes are run.
+            #MSR pwdx      - Report current working directory of a process.
+            #MSR top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
+            #MSR pgrep     - Search ps output for full/partial name of process.
+            #MSR pmap      - View process memory usage.
+            #MSR strace    - Trace process system calls and signals.
+            #MSR sysctl    - Configure kernel parameters at runtime.
+            #MSR killall   - Kill processes based on full-name of process.
+            #MSR pkill     - Kill processes based on partial name of process.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Process Applications Menu"
@@ -8726,6 +9066,7 @@ f_menu_app_sys_process () {
                  clear # Blank the screen.
                  echo "ps - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd."
                  echo
+                 echo "Usage:"
                  echo "To see every process on the system using standard syntax:"
                  echo "[ps -e ] [ ps -ef ] [ ps -eF ] [ ps -ely ]"
                  echo
@@ -8737,10 +9078,6 @@ f_menu_app_sys_process () {
                  echo
                  echo "To get info about threads:"
                  echo "[ ps -eLf ] [ ps axms ]"
-                 echo
-                 echo "To get security info:"
-                 echo "[ ps -eo euser,ruser,suser,fuser,f,comm,label ]"
-                 echo "[ ps axZ] [ ps -eM ]"
                  echo
                  echo "To see every process running as root (real & effective ID) in user format:"
                  echo "[ ps -U root -u root u ]"
@@ -8763,7 +9100,37 @@ f_menu_app_sys_process () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
+                 6 | [Pp] | [Pp][Ss] | [Pp][Ss][Ww] | [Pp][Ss][Ww][Aa] | [Pp][Ss][Ww][Aa][Tt] | [Pp][Ss][Ww][Aa][Tt][Cc] | [Pp][Ss][Ww][Aa][Tt][Cc][Hh] | [Pp][Ss][Ww][Aa][Tt][Cc][Hh][Ee] | [Pp][Ss][Ww][Aa][Tt][Cc][Hh][Ee][Rr])
+                 APP_NAME="pswatcher"
+                 clear # Blank the screen.
+                 echo "pswatcher - monitoring a system via ps-like commands."
+                 echo
+                 echo "This program runs the ps command periodically and triggers commands on matches."
+                 echo "The match patterns are Perl regular expressions which can refer to the process"
+                 echo "information via variables."
+                 echo "For example it can be used to ensure that a daemon is running, or is not"
+                 echo "running too many times. It can also be used to determine when a process has"
+                 echo "consumed too many resources, perhaps due to a memory leak."
+                 echo "Homepage: http://ps-watcher.sourceforge.net/"
+                 echo
+                 echo "*** For more help type: man pswatcher"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+[Pp][Ss][Ww][Aa][Tt][Cc][Hh][Ee][Rr]' '* | 'sudo pswatcher '* | 'sudo pswatcher')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Pp] | [Pp][Ww] | [Pp][Ww][Dd] | [Pp][Ww][Dd][Xx])
+                 APP_NAME="pwdx"
+                 f_application_run
+                 ;;
+                 [Pp][Ww][Dd][Xx]' '* | 'sudo pwdx '* | 'sudo pwdx')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Tt] | [Tt][Oo] | [Tt][Oo][Pp])
                  APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -8774,7 +9141,7 @@ f_menu_app_sys_process () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 7 | [Pp] | [Pp][Gg] | [Pp][Gg][Rr] | [Pp][Gg][Rr][Ee] | [Pp][Gg][Rr][Ee][Pp])
+                 9 | [Pp] | [Pp][Gg] | [Pp][Gg][Rr] | [Pp][Gg][Rr][Ee] | [Pp][Gg][Rr][Ee][Pp])
                  APP_NAME="pgrep"
                  f_application_run
                  ;;
@@ -8782,7 +9149,7 @@ f_menu_app_sys_process () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Pp] | [Pp][Mm] | [Pp][Mm][Aa] | [Pp][Mm][Aa][Pp])
+                 10 | [Pp] | [Pp][Mm] | [Pp][Mm][Aa] | [Pp][Mm][Aa][Pp])
                  APP_NAME="pmap"
                  f_application_run
                  ;;
@@ -8790,7 +9157,7 @@ f_menu_app_sys_process () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Aa] | [Ss][Tt][Rr][Aa][Cc] | [Ss][Tt][Rr][Aa][Cc][Ee])
+                 11 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Aa] | [Ss][Tt][Rr][Aa][Cc] | [Ss][Tt][Rr][Aa][Cc][Ee])
                  APP_NAME="strace"
                  f_application_run
                  ;;
@@ -8798,7 +9165,38 @@ f_menu_app_sys_process () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Kk] | [Kk][Ii] | [Kk][Ii][Ll] | [Kk][Ii][Ll][Ll] | [Kk][Ii][Ll][Ll][Aa] | [Kk][Ii][Ll][Ll][Aa][Ll] | [Kk][Ii][Ll][Ll][Aa][Ll][Ll])
+                 12 | [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Cc] | [Ss][Yy][Ss][Cc][Tt] | [Ss][Yy][Ss][Cc][Tt][Ll])
+                 APP_NAME="sysctl"
+                 clear # Blank the screen.
+                 echo "sysctl - configure kernel parameters at runtime"
+                 echo
+                 echo "sysctl is used to modify kernel parameters at runtime."
+                 echo "The parameters available are those listed under /proc/sys/."
+                 echo "Procfs is required for sysctl support in Linux.  You can use sysctl to both"
+                 echo "read and write sysctl data."
+                 echo
+                 echo "Usage:"
+                 echo "       sysctl [-n] [-e] variable ..."
+                 echo "       sysctl [-n] [-e] [-q] -w variable=value ..."
+                 echo "       sysctl [-n] [-e] [-q] -p [filename]"
+                 echo "       sysctl [-n] [-e] -a"
+                 echo "       sysctl [-n] [-e] -A"
+                 echo
+                 echo "EXAMPLES"
+                 echo "       /sbin/sysctl -a"
+                 echo "       /sbin/sysctl -n kernel.hostname"
+                 echo "       /sbin/sysctl -w kernel.domainname='example.com'"
+                 echo "       /sbin/sysctl -p /etc/sysctl.conf"
+                 echo
+                 echo "*** For more help type: man sysctl"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 [Ss][Yy][Ss][Cc][Tt][Ll]' '* | 'sudo sysctl '* | 'sudo sysctl')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 13 | [Kk] | [Kk][Ii] | [Kk][Ii][Ll] | [Kk][Ii][Ll][Ll] | [Kk][Ii][Ll][Ll][Aa] | [Kk][Ii][Ll][Ll][Aa][Ll] | [Kk][Ii][Ll][Ll][Aa][Ll][Ll])
                  APP_NAME="killall"
                  f_application_run
                  ;;
@@ -8806,7 +9204,7 @@ f_menu_app_sys_process () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Pp] | [Pp][Kk] | [Pp][Kk][Ii] | [Pp][Kk][Ii][Ll] | [Pp][Kk][Ii][Ll][Ll])
+                 14 | [Pp] | [Pp][Kk] | [Pp][Kk][Ii] | [Pp][Kk][Ii][Ll] | [Pp][Kk][Ii][Ll][Ll])
                  APP_NAME="killall"
                  f_application_run
                  ;;
@@ -8865,6 +9263,7 @@ f_menu_app_sys_screens () {
                  clear # Blank the screen.
                  echo "screen - Multiple screen-window sessions."
                  echo 
+                 echo "Usage:"
                  echo "Ctrl-A <double-quote> List all windows."
                  echo "Ctrl-A N     Show window title."
                  echo "Ctrl-A a     Name title of the window."
@@ -8950,6 +9349,7 @@ f_menu_app_sys_software () {
                  clear # Blank the screen.
                  echo "apt - Debian package manager."
                  echo
+                 echo "Usage:"
                  echo "apt-cache showpkg <package name> Show package general information."
                  echo "apt-cache show <package name> Show package description and information."
                  echo "apt-cache depends <package name> Show package dependency information."
@@ -8993,10 +9393,12 @@ f_menu_app_sys_software () {
                  ;;
                  3 | [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Ii] | [Aa][Pp][Tt][Ii][Tt] | [Aa][Pp][Tt][Ii][Tt][Uu] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd] | [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee])
                  APP_NAME="aptitude"
+                 clear # Blank the screen.
                  echo "aptitude - Debian package manager."
                  echo 
-                 echo "Usage: aptitude [-S fname] [-u|-i]"
-                 echo "       aptitude [options] <action> ..."
+                 echo "Usage:"
+                 echo "aptitude [-S fname] [-u|-i]"
+                 echo "aptitude [options] <action> ..."
                  echo 
                  echo "Options:"
                  echo " -h    This help text."
@@ -9014,12 +9416,13 @@ f_menu_app_sys_software () {
                  echo "update    - Download lists of new/upgradable packages."
                  echo
                  echo "*** For more help type: man apt / man apt-cache / man apt-get"
-                 echo
                  f_press_enter_key_to_continue
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee]' '* | 'sudo aptitude '* | 'sudo aptitude')
                  APP_NAME=$CHOICE_APP
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  4 | [Dd] | [Dd][Pp] | [Dd][Pp][Kk] | [Dd][Pp][Kk][Gg])
@@ -9027,6 +9430,7 @@ f_menu_app_sys_software () {
                  clear # Blank the screen.
                  echo "dpkg - Debian package manager."
                  echo
+                 echo "Usage:"
                  echo "dpkg --get-selections List all installed packages."
                  echo "dpkg-query -l <package name> Show package installation status."
                  echo "dpkg-query -p <package name> Show package description and information."
@@ -9066,6 +9470,7 @@ f_menu_app_sys_software () {
                  clear # Blank the screen.
                  echo "rpm - RPM (Red Hat) package manager."
                  echo
+                 echo "Usage:"
                  echo "rpm -q <package name> Show package description and information."
                  echo "rpm --query <package name> Show package description and information."
                  echo "rpm -U <package name> Upgrade/Install a package."
@@ -9113,6 +9518,7 @@ f_menu_app_sys_software () {
                  clear # Blank the screen.
                  echo "yum - 'Yellow Dog Updated' package manager."
                  echo
+                 echo "Usage:"
                  echo "yum upgrade <package name> Upgrade/Install a package."
                  echo "yum -list <package name> Show package description and information."
                  echo "yum search <text> Searches package names, descriptions, summaries."
@@ -9136,6 +9542,7 @@ f_menu_app_sys_software () {
                  clear # Blank the screen.
                  echo "zypper - Zypper package manager."
                  echo
+                 echo "Usage:"
                  echo "zypper search -is List installed packages."
                  echo "zypper search -d <text> searches package names, descriptions, summaries."
                  echo "zypper update Upgrade packages to latest versions."
