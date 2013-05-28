@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-23-2013 22:50"
+REVDATE="May-28-2013 17:36"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -8197,18 +8197,19 @@ f_menu_app_sys_health () {
                  clear # Blank the screen.
                  echo "stress - A tool to impose load on and stress test a computer system"
                  echo
-                 echo "Description-en: A tool to impose load on and stress test a computer system"
-                 echo "'stress' is a tool that imposes a configurable amount of CPU, memory, I/O,"
-                 echo "or disk stress on a POSIX-compliant operating system and reports any errors"
-                 echo "it detects."
+                 echo "The application, 'stress' is a tool that imposes a configurable amount of CPU,"
+                 echo "memory, I/O, or disk stress on a POSIX-compliant operating system and reports"
+                 echo "any errors it detects."
                  echo
-                 echo "'stress' is not a benchmark.  It is a tool used by system administrators to"
-                 echo "evaluate how well their systems will scale, by kernel programmers to evaluate"
-                 echo "perceived performance characteristics, and by systems programmers to expose"
-                 echo "the classes of bugs which only or more frequently manifest themselves when"
-                 echo "the system is under heavy load."
+                 echo "The application 'stress' is not a benchmark."
                  echo
-                 echo "*** For more help type: man lshw"
+                 echo "It is a tool used by:"
+                 echo "System Administrators to evaluate how well their systems will scale,"
+                 echo "Kernel Programmers to evaluate perceived performance characteristics, and by"
+                 echo "Systems Programmers to expose the classes of bugs which only or more frequently"
+                 echo "manifest themselves when the system is under heavy load."
+                 echo
+                 echo "*** For more help type: man stress"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
