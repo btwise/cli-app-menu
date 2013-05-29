@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-28-2013 17:36"
+REVDATE="May-29-2013 10:54"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -47,7 +47,9 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-05-28 *f_menu_app_sys_health Fix stress help "man stress".
+## 2013-05-29 *f_menu_app_audio_editors fix avconv, sox case pattern matching.
+##
+## 2013-05-28 *f_menu_app_sys_health fix stress help "man stress".
 ##
 ## 2013-05-23 *f_menu_app_sys_information add blkid, pccardctl, lsblk, lscpu,
 ##             slabtop.
@@ -64,7 +66,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2013-05-20 *f_application_help added feature to install app automatically,
 ##             if needed.
 ##
-## 2013-05-18 *Optimize sudo pattern matching code.
+## 2013-05-18 *Optimize sudo case pattern matching code.
 ##            *f_menu_app_firewalls added arptables, arptables.
 ##            *f_menu_app_lanwan added arping, ss.
 ##            *f_menu_app_network_monitors added nethogs, ntop, pmacct,
@@ -74,16 +76,16 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_sys_monitors added sar, nmon, last.
 ##
 ## 2013-05-16 *f_menu_app_sys_software added aptoncd.
-##            *f_menu_app_sys_software added pattern matching for apt-*.
-##            *f_menu_app_sys_software added pattern matching for dpkg-*.
+##            *f_menu_app_sys_software added case pattern matching for apt-*.
+##            *f_menu_app_sys_software added case pattern matching for dpkg-*.
 ##            *f_menu_app_sys_software added help comments for aptitude, zypper.
 ##            *f_menu_app_sys_screens added help comments for screen.
 ##
 ## 2013-05-15 *f_menu_app_music_players added cdcd, cplay, mcdp, pytone, yauap.
 ##            *f_menu_app_sys_monitors improve menu descriptions.
 ##            *f_menu_app_sys_software apt, dpkg, rpm, yum, improve help.
-##            *f_menu_app_instant_messaging fix barnowl pattern matching.
-##            *f_menu_app_sys_software fix YaST pattern matching.
+##            *f_menu_app_instant_messaging fix barnowl case pattern matching.
+##            *f_menu_app_sys_software fix YaST case pattern matching.
 ##            *Consistent format for all application help comments.
 ##
 ## 2013-05-14 *Reorder functions so that the order matches the menus.
@@ -109,7 +111,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_radio added.
 ##            *f_menu_app_speech_synthesis added.
 ##
-## 2013-05-05 *f_menu_app_nic_tools bug fix case pattern matching nictools-pci.
+## 2013-05-05 *f_menu_app_nic_tools fix case pattern matching nictools-pci.
 ##
 ## 2013-05-03 *f_application_help set CHOICE_APP=-1.
 ##            *Sub-menus added comments.
