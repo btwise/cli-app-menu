@@ -21,7 +21,11 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
+<<<<<<< HEAD
 REVDATE="May-29-2013 11:15"
+=======
+REVDATE="May-20-2013 19:14"
+>>>>>>> 9be9368a8d622eee223756c2f5c2eb86fe295c11
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
