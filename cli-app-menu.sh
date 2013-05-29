@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-20-2013 19:14"
+REVDATE="May-29-2013 11:15"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -1472,7 +1472,7 @@ f_menu_app_audio_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Audio Editor Applications case statement.
-                 2 | [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
+                 1 | [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
                  APP_NAME="avconv"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1481,7 +1481,7 @@ f_menu_app_audio_editors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ss] | [Ss][Oo] | [Ss][Oo][Xx])
+                 2 | [Ss] | [Ss][Oo] | [Ss][Oo][Xx])
                  APP_NAME="sox"
                  f_application_run
                  ;;

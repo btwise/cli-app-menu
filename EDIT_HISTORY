@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-20-2013 19:14"
+REVDATE="May-29-2013 11:15"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -47,6 +47,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-05-29 *f_menu_app_audio_editors fix avconv, sox case pattern matching.
+##
 ## 2013-05-20 *f_application_help added feature to install app automatically,
 ##             if needed.
 ##
@@ -58,7 +60,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_sys_process added.
 ##            *f_menu_app_sys_health added arpon, arpalert, arpwatch, arp-scan.
 ##            *f_menu_app_sys_monitors added sar, nmon, last.
-##
+## 
 ## 2013-05-16 *f_menu_app_sys_software added aptoncd.
 ##            *f_menu_app_sys_software added pattern matching for apt-*.
 ##            *f_menu_app_sys_software added pattern matching for dpkg-*.
