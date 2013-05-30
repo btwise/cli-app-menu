@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-29-2013 10:54"
+REVDATE="May-30-2013 01:13"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -2518,8 +2518,7 @@ f_menu_app_file_recover () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll][Ii])
-                 APP_NAME="trash-cli"
+                 4 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Ss] | [Tt][Rr][Aa][Ss][Hh] | [Tt][Rr][Aa][Ss][Hh][-] | [Tt][Rr][Aa][Ss][Hh][-][Cc] | [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll] | [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll][Ii])                 APP_NAME="trash-cli"
                  f_application_run
                  ;;
                  [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll][Ii]' '*)

@@ -47,6 +47,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-05-30 *f_menu_app_file_recover fix trash-cli case pattern matching.
+##
 ## 2013-05-29 *f_menu_app_audio_editors fix avconv, sox case pattern matching.
 ##
 ## 2013-05-28 *f_menu_app_sys_health fix stress help "man stress".
