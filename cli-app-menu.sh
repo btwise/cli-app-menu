@@ -2518,7 +2518,8 @@ f_menu_app_file_recover () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Ss] | [Tt][Rr][Aa][Ss][Hh] | [Tt][Rr][Aa][Ss][Hh][-] | [Tt][Rr][Aa][Ss][Hh][-][Cc] | [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll] | [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll][Ii])                 APP_NAME="trash-cli"
+                 4 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Ss] | [Tt][Rr][Aa][Ss][Hh] | [Tt][Rr][Aa][Ss][Hh][-] | [Tt][Rr][Aa][Ss][Hh][-][Cc] | [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll] | [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll][Ii])
+                 APP_NAME="trash-cli"
                  f_application_run
                  ;;
                  [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll][Ii]' '*)
