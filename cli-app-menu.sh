@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="May-30-2013 01:13"
+REVDATE="June-1-2013 00:00"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -276,6 +276,7 @@ REVDATE="May-30-2013 01:13"
 #:MFF - File Search and find Applications Menu
 #:MFI - File Manager Applications Menu
 #:MFR - File Recovery/Deletion Applications Menu
+#:MFS - File Splitter Applications Menu
 #:MFT - File Transfer Applications Menu
 #:MFV - File Viewer Applications Menu
 #:MFX - FAX Applications Menu
@@ -1461,8 +1462,10 @@ f_menu_app_audio_editors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Audio Editor Applications until loop.
-            #MAU avconv - Audio/Video converter.
-            #MAU sox    - Audio file cut/paste and combine, speed playback.
+            #MAU avconv   - Audio/Video converter.
+            #MAU ecasound - Multitrack audio processing, record, convert, playback, mixing.
+            #MAU ffmpeg   - Multimedia Record, convert, stream and playback.
+            #MAU sox      - Audio file cut/paste and combine, speed playback.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Audio Editor Applications Menu"
@@ -1486,7 +1489,23 @@ f_menu_app_audio_editors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Ss] | [Ss][Oo] | [Ss][Oo][Xx])
+                 2 | [Ee] | [Ee][Cc] | [Ee][Cc][Aa] | [Ee][Cc][Aa][Ss] | [Ee][Cc][Aa][Ss][Oo] | [Ee][Cc][Aa][Ss][Oo][Uu] | [Ee][Cc][Aa][Ss][Oo][Uu][Nn] | [Ee][Cc][Aa][Ss][Oo][Uu][Nn][Dd])
+                 APP_NAME="ecasound"
+                 f_application_run
+                 ;;
+                  [Ee][Cc][Aa][Ss][Oo][Uu][Nn][Dd]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
+                 APP_NAME="ffmpeg"
+                 f_application_run
+                 ;;
+                 [Ff][Ff][Mm][Ee][Gg]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Ss] | [Ss][Oo] | [Ss][Oo][Xx])
                  APP_NAME="sox"
                  f_application_run
                  ;;
@@ -1525,7 +1544,6 @@ f_menu_app_music_players () {
             #MAP moc     - Music player.
             #MAP ncmpc   - Music player, ncurses-based.
             #MAP yauap   - Music player based on Gstreamer.
-            #MAP ffmpeg  - Multimedia Record, convert, stream and play. 
             #MAP mplayer - Multimedia player.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -1615,15 +1633,7 @@ f_menu_app_music_players () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
-                 APP_NAME="ffmpeg"
-                 f_application_run
-                 ;;
-                 [Ff][Ff][Mm][Ee][Gg]' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 11 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
+                 10 | [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
@@ -1933,9 +1943,12 @@ f_menu_cat_file_management () {
       until [ $CHOICE_SCAT -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Management Application Category until loop.
+            #BFM Backup     - File Backup/archive to CD-ROM or compressed files.
             #BFM Encryption - Encrypt/Decrypt files for privacy and security.
             #BFM Find       - File search.
+            #BFM FTP        - FTP clients (File Tranfer Protocol).
             #BFM Managers   - Directory tree views, rename, add/delete, files, folders.
+            #BFM Splitters  - File splitters.
             #BFM Viewers    - View files a page at a time.
             #BFM Delete     - Secure deletion of files without recovery.
             #BFM Undelete   - Recover deleted files.
@@ -1952,27 +1965,39 @@ f_menu_cat_file_management () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Application Category case statement.
-                 1 | [Ee] | [Ee][Nn] | [Ee][Nn][Cc] | [Ee][Nn][Cc][Rr] | [Ee][Nn][Cc][Rr][Yy] | [Ee][Nn][Cc][Rr][Yy][Pp] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo][Nn])
+                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Uu] | [Bb][Aa][Cc][Kk][Uu][Pp])
+                 f_menu_app_sys_backup        # System Backup Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 2 | [Ee] | [Ee][Nn] | [Ee][Nn][Cc] | [Ee][Nn][Cc][Rr] | [Ee][Nn][Cc][Rr][Yy] | [Ee][Nn][Cc][Rr][Yy][Pp] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo] | [Ee][Nn][Cc][Rr][Yy][Pp][Tt][Ii][Oo][Nn])
                  f_menu_app_file_encryption   # File Encryption Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 2 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
+                 3 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
                  f_menu_app_file_find         # File Find Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 3 | [Mm] | [Mm][Aa] | [Mm][Aa][Nn] | [Mm][Aa][Nn][Aa] | [Mm][Aa][Nn][Aa][Gg] | [Mm][Aa][Nn][Aa][Gg][Ee] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
+                 4 | [Ff] | [Ff][Tt] | [Ff][Tt][Pp])
+                 f_menu_app_file_transfer     # File Transfer Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 5 | [Mm] | [Mm][Aa] | [Mm][Aa][Nn] | [Mm][Aa][Nn][Aa] | [Mm][Aa][Nn][Aa][Gg] | [Mm][Aa][Nn][Aa][Gg][Ee] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr] | [Mm][Aa][Nn][Aa][Gg][Ee][Rr][Ss])
                  f_menu_app_file_managers     # File Manager Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 4 | [Vv] | [Vv][Ii] | [Vv][Ii][Ee] | [Vv][Ii][Ee][Ww] | [Vv][Ii][Ee][Ww][Ee] | [Vv][Ii][Ee][Ww][Ee][Rr] | [Vv][Ii][Ee][Ww][Ee][Rr][Ss]) 
+                 6 | [Ss] | [Ss][Pp] | [Ss][Pp][Ll] | [Ss][Pp][Ll][Ii] | [Ss][Pp][Ll][Ii][Tt] | [Ss][Pp][Ll][Ii][Tt][Tt] | [Ss][Pp][Ll][Ii][Tt][Tt][Ee] | [Ss][Pp][Ll][Ii][Tt][Tt][Ee][Rr] | [Ss][Pp][Ll][Ii][Tt][Tt][Ee][Rr][Ss]) 
+                 f_menu_app_file_splitters    # File Viewers Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 7 | [Vv] | [Vv][Ii] | [Vv][Ii][Ee] | [Vv][Ii][Ee][Ww] | [Vv][Ii][Ee][Ww][Ee] | [Vv][Ii][Ee][Ww][Ee][Rr] | [Vv][Ii][Ee][Ww][Ee][Rr][Ss]) 
                  f_menu_app_file_viewers      # File Viewers Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 5 | [Dd] | [Dd][Ee] | [Dd][Ee][Ll] | [Dd][Ee][Ll][Ee] | [Dd][Ee][Ll][Ee][Tt] | [Dd][Ee][Ll][Ee][Tt][Ee])
+                 8 | [Dd] | [Dd][Ee] | [Dd][Ee][Ll] | [Dd][Ee][Ll][Ee] | [Dd][Ee][Ll][Ee][Tt] | [Dd][Ee][Ll][Ee][Tt][Ee])
                  f_menu_app_file_deletion       # File Deletion Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 6 | [Uu] | [Uu][Nn] | [Uu][Nn][Dd] | [Uu][Nn][Dd][Ee] | [Uu][Nn][Dd][Ee][Ll] | [Uu][Nn][Dd][Ee][Ll][Ee] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt][Ee])
+                 9 | [Uu] | [Uu][Nn] | [Uu][Nn][Dd] | [Uu][Nn][Dd][Ee] | [Uu][Nn][Dd][Ee][Ll] | [Uu][Nn][Dd][Ee][Ll][Ee] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt] | [Uu][Nn][Dd][Ee][Ll][Ee][Tt][Ee])
                  f_menu_app_file_recover      # File Recovery Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -2305,6 +2330,61 @@ f_menu_app_file_managers () {
             f_option_press_enter_key
       done # End of File Manager Applications until loop.
 } # End of f_menu_app_file_managers
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_splitters   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_file_splitters () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of File Splitter Applications until loop.
+            #MFS lxsplit - Splits/Joins files even greater than 2GB.
+            #MFS split   - Splits/Joins files.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="File Splitter Applications Menu"
+            DELIMITER="#MFS" #MFS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of File Splitter Applications case statement.
+                 1 | [Ll] | [Ll][Xx] | [Ll][Xx][Ss] | [Ll][Xx][Ss][Pp] | [Ll][Xx][Ss][Pp][Ll] | [Ll][Xx][Ss][Pp][Ll][Ii] | [Ll][Xx][Ss][Pp][Ll][Ii][Tt])
+                 APP_NAME="lxsplit"
+                 f_application_run
+                 ;;
+                 [Ll][Xx][Ss][Pp][Ll][Ii][Tt]' '* | 'sudo lxsplit '* | 'sudo lxsplit')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Ss] | [Ss][Pp] | [Ss][Pp][Ll] | [Ss][Pp][Ll][Ii] | [Ss][Pp][Ll][Ii][Tt])
+                 APP_NAME="split"
+                 f_application_run
+                 ;;
+                 [Ss][Pp][Ll][Ii][Tt]' '* | 'sudo split '* | 'sudo split')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of File Splitter Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of File Splitter Applications until loop.
+} # End of function f_menu_app_file_splitters
 #
 # +----------------------------------------+
 # |    Function f_menu_app_file_viewers    |
@@ -3666,7 +3746,7 @@ f_menu_cat_internet () {
             #BIN Downloaders       - Download files and calculate file checksums. 
             #BIN Email             - Email clients.
             #BIN FAX               - FAX clients.
-            #BIN File Transfer     - FTP clients.
+            #BIN FTP               - FTP clients (File Tranfer Protocol).
             #BIN Instant Messaging - AIM/ICQ, Yahoo!, MSN, IRC, Jabber/XMPP/Google Talk...
             #BIN IRC Clients       - Internet Relay Chat clients.
             #BIN News Readers      - Read USEnet news.
@@ -3707,7 +3787,7 @@ f_menu_cat_internet () {
                  f_menu_app_fax               # FAX Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 6 | [Ff] | [Ff][Ii] | [Ff][Ii][Ll] | [Ff][Ii][Ll][Ee] | [Ff][Ii][Ll][Ee]' ' | [Ff][Ii][Ll][Ee]' '[Tt] | [Ff][Ii][Ll][Ee]' '[Tt][Rr] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn] |[Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee] | [Ff][Ii][Ll][Ee]' '[Tt][Rr][Aa][Nn][Ss][Ff][Ee][Rr])
+                 6 | [Ff] | [Ff][Tt] | [Ff][Tt][Pp])
                  f_menu_app_file_transfer     # File Transfer Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -3951,10 +4031,14 @@ f_menu_app_bittorrent () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Bittorrent Applications until loop.
-            #MBT bittornado - Torrent file transfer.
-            #MBT bittorrent - Bittorrent file transfer.
-            #MBT ctorrent   - Torrent file transfer.
-            #MBT rtorrent   - Torrent file transfer.
+            #MBT aria2        - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
+            #MBT bittornado   - Torrent file transfer.
+            #MBT bittorrent   - Torrent file transfer.
+            #MBT ctorrent     - Torrent file transfer.
+            #MBT deluge       - Torrent downloader, user-interfaces GTK+, web, console.
+            #MBT mldonkey     - Downloader supports BitTorrent/eDonkey/HTTP/FTP.
+            #MBT rtorrent     - Torrent file transfer.
+            #MBT transmission - Torrent client web, console, Mac, GTK+ and Qt GUI clients.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Bittorrent Applications Menu"
@@ -3969,7 +4053,15 @@ f_menu_app_bittorrent () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Bittorrent Applications case statement.
-                 1 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd][Oo])
+                 1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
+                 APP_NAME="aria2c"
+                 f_application_run
+                 ;;
+                 [Aa][Rr][Ii][Aa][2]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd][Oo])
                  APP_NAME="bittornado"
                  f_application_run
                  ;;
@@ -3977,7 +4069,7 @@ f_menu_app_bittorrent () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt])
+                 3 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt])
                  APP_NAME="bittorrent"
                  f_application_run
                  ;;
@@ -3985,7 +4077,7 @@ f_menu_app_bittorrent () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Cc] | [Cc][Tt] | [Cc][Tt][Oo] | [Cc][Tt][Oo][Rr] | [Cc][Tt][Oo][Rr][Rr] | [Cc][Tt][Oo][Rr][Rr][Ee] | [Cc][Tt][Oo][Rr][Rr][Ee][Nn] | [Cc][Tt][Oo][Rr][Rr][Ee][Nn][Tt])
+                 4 | [Cc] | [Cc][Tt] | [Cc][Tt][Oo] | [Cc][Tt][Oo][Rr] | [Cc][Tt][Oo][Rr][Rr] | [Cc][Tt][Oo][Rr][Rr][Ee] | [Cc][Tt][Oo][Rr][Rr][Ee][Nn] | [Cc][Tt][Oo][Rr][Rr][Ee][Nn][Tt])
                  APP_NAME="ctorrent"
                  f_application_run
                  ;;
@@ -3993,11 +4085,35 @@ f_menu_app_bittorrent () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Rr] | [Rr][Tt] | [Rr][Tt][Oo] | [Rr][Tt][Oo][Rr] | [Rr][Tt][Oo][Rr][Rr] | [Rr][Tt][Oo][Rr][Rr][Ee] | [Rr][Tt][Oo][Rr][Rr][Ee][Nn] | [Rr][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
+                 5 | [Dd] | [Dd][Ee] | [Dd][Ee][Ll] | [Dd][Ee][Ll][Uu] | [Dd][Ee][Ll][Uu][Gg] | [Dd][Ee][Ll][Uu][Gg][Ee])
+                 APP_NAME="deluge"
+                 f_application_run
+                 ;;
+                 [Dd][Ee][Ll][Uu][Gg][Ee]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Mm] | [Mm][Ll] | [Mm][Ll][Dd] | [Mm][Ll][Dd][Oo] | [Mm][Ll][Dd][Oo][Nn] | [Mm][Ll][Dd][Oo][Nn][Kk] | [Mm][Ll][Dd][Oo][Nn][Kk][Ee] | [Mm][Ll][Dd][Oo][Nn][Kk][Ee][Yy])
+                 APP_NAME="mldonkey"
+                 f_application_run
+                 ;;
+                 [Mm][Ll][Dd][Oo][Nn][Kk][Ee][Yy]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Rr] | [Rr][Tt] | [Rr][Tt][Oo] | [Rr][Tt][Oo][Rr] | [Rr][Tt][Oo][Rr][Rr] | [Rr][Tt][Oo][Rr][Rr][Ee] | [Rr][Tt][Oo][Rr][Rr][Ee][Nn] | [Rr][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
                  APP_NAME="rtorrent"
                  f_application_run
                  ;;
                  [Rr][Tt][Oo][Rr][Rr][Ee][Nn][Tt]' '*) 
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Tt] | [Tt][Rr] | [Tt][Rr][Aa] | [Tt][Rr][Aa][Nn] | [Tt][Rr][Aa][Nn][Ss] | [Tt][Rr][Aa][Nn][Ss][Mm] | [Tt][Rr][Aa][Nn][Ss][Mm][Ii] | [Tt][Rr][Aa][Nn][Ss][Mm][Ii][Ss] | [Tt][Rr][Aa][Nn][Ss][Mm][Ii][Ss][Ss] | [Tt][Rr][Aa][Nn][Ss][Mm][Ii][Ss][Ss][Ii] | [Tt][Rr][Aa][Nn][Ss][Mm][Ii][Ss][Ss][Ii][Oo] | [Tt][Rr][Aa][Nn][Ss][Mm][Ii][Ss][Ss][Ii][Oo][Nn]) 
+                 APP_NAME="transmission"
+                 f_application_run
+                 ;;
+                 [Tt][Rr][Aa][Nn][Ss][Mm][Ii][Ss][Ss][Ii][Oo][Nn]' '*) 
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4022,14 +4138,14 @@ f_menu_app_downloaders () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Downloaders Applications until loop.
-            #MDL aria2    - Downloader.
+            #MDL aria2    - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
             #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
             #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
             #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
             #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Dowloader-Checksum Applications Menu"
+            MENU_TITLE="Downloader-Checksum Applications Menu"
             DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -4311,6 +4427,7 @@ f_menu_app_file_transfer () {
             #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
             #MFT ncftp  - File transfer client.
             #MFT scp    - File transfer.
+            #MFT woof   - Woof (Web Offer One File) copies files through the HTTP protocol.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Transfer Applications Menu"
@@ -4381,6 +4498,14 @@ f_menu_app_file_transfer () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
+                 8 | [Ww] | [WW][Oo] | [Ww][Oo][Oo] | [Ww][Oo][Oo][Ff])
+                 APP_NAME="woof"
+                 f_application_run
+                 ;;
+                 [Ww][Oo][Oo][Ff]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
             esac                # End of File Transfer Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -4409,6 +4534,7 @@ f_menu_app_instant_messaging () {
             #MIM finch     - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster, etc.
             #MIM freetalk  - Jabber client.
             #MIM mcabber   - Jabber client.          	
+            #MIM naim      - Supports AIM, IRC, ICQ, Lily, CMC.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Instant Messaging Applications Menu"
@@ -4489,6 +4615,14 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  [Mm][Cc][Aa][Bb][Bb][Ee][Rr]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 8 | [Nn] | [Nn][Aa] | [Nn][Aa][Ii] | [Nn][Aa][Ii][Mm])
+                 APP_NAME="naim"
+                 f_application_run
+                 ;;
+                 [Nn][Aa][Ii][Mm]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5014,7 +5148,7 @@ f_menu_cat_network () {
             #BNE Firewalls    - Configure firewalls.
             #BNE LAN-WAN      - Test network connectivity, speed, routing.
             #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
-            #BNE Sharing      - Configure file sharing with Microsoft Windows PCs/networks.
+            #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
             #BNE Monitors     - LAN monitors, network mappers.
             #BNE Packet Tools - Packet sniffers, packet analyzers.
             #
@@ -5621,10 +5755,12 @@ f_menu_app_network_sharing () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Configuration Applications until loop.
+            #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
             #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.
             #MNS smbclient - Samba client (share folders with Microsoft Windows).
             #MNS smbstatus - Samba files lock status.
             #MNS testparm  - Samba configuration display.
+            #MNS woof      - Woof (Web Offer One File) copies files through the HTTP protocol.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Sharing Applications Menu"
@@ -5639,7 +5775,15 @@ f_menu_app_network_sharing () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Sharing Applications case statement.
-                 1 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 1 | [Nn] | [Nn][Cc] | [Nn][Cc][Pp] | [Nn][Cc][Pp][Ff] | [Nn][Cc][Pp][Ff][Ss])
+                 APP_NAME="ncpfs"
+                 f_application_run
+                 ;;
+                 [Nn][Cc][Pp][Ff][Ss]' '* | 'sudo ncpfs '* | 'sudo ncpfs')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="man smbc"
                  clear # Blank the screen.
                  echo "man smbc - Display help for smbc (Samba Commander)."
@@ -5654,7 +5798,7 @@ f_menu_app_network_sharing () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
+                 3 | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll] | [Ss][Mm][Bb][Cc][Ll][Ii] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn] | [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt])
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
@@ -5662,7 +5806,7 @@ f_menu_app_network_sharing () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
+                 4 | [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss] | [Ss][Mm][Bb][Ss][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu] | [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss])
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
@@ -5670,11 +5814,19 @@ f_menu_app_network_sharing () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
+                 5 | [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt] | [Tt][Ee][Ss][Tt][Pp] | [Tt][Ee][Ss][Tt][Pp][Aa] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr] | [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm])
                  APP_NAME="testparm"
                  f_application_run
                  ;;
                  [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm]' '* | 'sudo testparm '* | 'sudo testparm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 6 | [Ww] | [WW][Oo] | [Ww][Oo][Oo] | [Ww][Oo][Oo][Ff])
+                 APP_NAME="woof"
+                 f_application_run
+                 ;;
+                 [Ww][Oo][Oo][Ff]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6445,8 +6597,10 @@ f_menu_app_calendar () {
             #MCA cal      - Displays a monthly calendar.
             #MCA ccal     - Calendar color.
             #MCA calcurse - Calendar ncurses-based.
+            #MCA clcal    - Calendar and appointment reminders.
             #MCA gcal     - Calendar, almost the same as cal.
             #MCA gcalcli  - Google calendar.
+            #MCA mencal   - Calendar to track repeating periodic events every nn days.
             #MCA pal      - Calendar with events.
             #MCA pcal     - Generate PostScript or HTML Calendars.
             #MCA pom      - Display phase of moon on given date.
@@ -6488,13 +6642,44 @@ f_menu_app_calendar () {
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 f_application_run
                  ;;
                  [Cc][Aa][Ll][Cc][Uu][Rr][Ss][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll])
+                 4 | [Cc] | [Cc][Ll] | [Cc][Ll][Cc] | [Cc][Ll][Cc][Aa] | [Cc][Ll][Cc][Aa][Ll])
+                 APP_NAME="clcal"
+                 f_application_run
+                 echo
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://www.hyborian.demon.co.uk/clcal/download.html"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Cc][Ll][Cc][Aa][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://www.hyborian.demon.co.uk/clcal/download.html"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 5 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll])
                  APP_NAME="gcal"
                  f_application_run
                  ;;
@@ -6502,7 +6687,7 @@ f_menu_app_calendar () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll] | [Gg][Cc][Aa][Ll][Cc] | [Gg][Cc][Aa][Ll][Cc][Ll] | [Gg][Cc][Aa][Ll][Cc][Ll][Ii])
+                 6 | [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll] | [Gg][Cc][Aa][Ll][Cc] | [Gg][Cc][Aa][Ll][Cc][Ll] | [Gg][Cc][Aa][Ll][Cc][Ll][Ii])
                  APP_NAME="gcalcli"
                  f_application_run
                  ;;
@@ -6510,7 +6695,39 @@ f_menu_app_calendar () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Pp] | [Pp][Aa] | [Pp][Aa][Ll])
+                 7 | [Mm] | [Mm][Ee] | [Mm][Ee][Nn] | [Mm][Ee][Nn][Cc] | [Mm][Ee][Nn][Cc][Aa] | [Mm][Ee][Nn][Cc][Aa][Ll])
+                 APP_NAME="mencal"
+                 f_application_run
+                 echo
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://kyberdigi.cz/projects/mencal/index.php?l=en"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Mm][Ee][Nn][Cc][Aa][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://kyberdigi.cz/projects/mencal/index.php?l=en"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 8 | [Pp] | [Pp][Aa] | [Pp][Aa][Ll])
                  APP_NAME="pal"
                  f_application_run
                  ;;
@@ -6518,7 +6735,7 @@ f_menu_app_calendar () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Pp] | [Pp][Cc][Aa] | [Pp][Cc][Aa][Ll])
+                 9 | [Pp] | [Pp][Cc][Aa] | [Pp][Cc][Aa][Ll])
                  APP_NAME="pcal"
                  f_application_run
                  ;;
@@ -6526,7 +6743,7 @@ f_menu_app_calendar () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Pp] | [Pp][Oo] | [Pp][Oo][Mm])
+                 10 | [Pp] | [Pp][Oo] | [Pp][Oo][Mm])
                  APP_NAME="pom"
                  f_application_run
                  ;;
@@ -6534,7 +6751,7 @@ f_menu_app_calendar () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Ii] | [Rr][Ee][Mm][Ii][Nn] | [Rr][Ee][Mm][Ii][Nn][Dd)
+                 11 | [Rr] | [Rr][Ee] | [Rr][Ee][Mm] | [Rr][Ee][Mm][Ii] | [Rr][Ee][Mm][Ii][Nn] | [Rr][Ee][Mm][Ii][Nn][Dd)
                  APP_NAME="remind"
                  f_application_run
                  ;;
@@ -6542,7 +6759,7 @@ f_menu_app_calendar () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ww] | [Ww][Hh] | [Ww][Hh][Ee] | [Ww][Hh][Ee][Nn])
+                 12 | [Ww] | [Ww][Hh] | [Ww][Hh][Ee] | [Ww][Hh][Ee][Nn])
                  APP_NAME="when"
                  f_application_run
                  ;;
@@ -6550,7 +6767,7 @@ f_menu_app_calendar () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Ww] | [Ww][Yy] | [Ww][Yy][Rr] | [Ww][Yy][Rr][Dd])
+                 13 | [Ww] | [Ww][Yy] | [Ww][Yy][Rr] | [Ww][Yy][Rr][Dd])
                  APP_NAME="wyrd"
                  f_how_to_quit_application "Q"
                  f_application_run
@@ -7312,9 +7529,14 @@ f_menu_app_todo () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of ToDo Applications until loop.
+            #MTD doneyet          - To-Do List.
+            #MTD hnb              - To-Do List and note taker, ncurses-based application.
             #MTD todo             - To-Do List hierarchical. Install package 'devtodo'.
-            #MTD yaGTD            - To-Do List.
+            #MTD tudu             - To-Do List hierarchical tasks.
+            #MTD yaGTD            - To-Do List based on "Getting Things Done" methodology.
+            #MTD yokadi           - Project/task manager which uses SQLite.
             #MTD binary-clock     - Binary numbers 1/0 tells time.
+            #MTD cclock           - Digital clock with huge numbers fills entire screen.
             #MTD clockywock       - Analog clock, ncurses-based.
             #MTD grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
             #MTD saytime          - Audio clock.
@@ -7332,7 +7554,23 @@ f_menu_app_todo () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of ToDo Applications case statement.
-                 1 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
+                 1 | [Dd] | [Dd][Oo] | [Dd][Oo][Nn] | [Dd][Oo][Nn][Ee] | [Dd][Oo][Nn][Ee][Yy] | [Dd][Oo][Nn][Ee][Yy][Ee] | [Dd][Oo][Nn][Ee][Yy][Ee][Tt])
+                 APP_NAME="doneyet"
+                 f_application_run
+                 ;;
+                 [Dd][Oo][Nn][Ee][Yy][Ee][Tt]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Hh] | [Hh][Nn] | [Hh][Nn][Bb])
+                 APP_NAME="hnb"
+                 f_application_run
+                 ;;
+                 [Hh][Nn][Bb]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
                  APP_NAME="todo"
                  clear # Blank the screen.
                  echo "todo - Simple To-Do list using hidden file .todo as a database list."
@@ -7364,7 +7602,15 @@ f_menu_app_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Yy] | [Yy][Aa] | [Yy][Aa][Gg] | [Yy][Aa][Gg][Tt] | [Yy][Aa][Gg][Tt][Dd])
+                 4 | [Tt] | [Tt][Uu] | [Tt][Uu][Dd] | [Tt][Uu][Dd][Uu])
+                 APP_NAME="tudu"
+                 f_application_run
+                 ;;
+                 [Tt][Uu][Dd][Uu]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Yy] | [Yy][Aa] | [Yy][Aa][Gg] | [Yy][Aa][Gg][Tt] | [Yy][Aa][Gg][Tt][Dd])
                  APP_NAME="yagtd"
                  f_application_run
                  ;;
@@ -7372,7 +7618,15 @@ f_menu_app_todo () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
+                 6 | [Yy] | [Yy][Oo] | [Yy][Oo][Kk] | [Yy][Oo][Kk][Aa] | [Yy][Oo][Kk][Aa][Dd] | [Yy][Oo][Kk][Aa][Dd][Ii])
+                 APP_NAME="yokadi"
+                 f_application_run
+                 ;;
+                 [Yy][Oo][Kk][Aa][Dd][Ii]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 7 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="binary-clock"
                  f_application_run
                  echo
@@ -7406,7 +7660,41 @@ f_menu_app_todo () {
                       ;;
                  esac                # End of Install case statement.
                  ;;
-                 4 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
+                 8 | [Cc] | [Cc][Cc] | [Cc][Cc][Ll] | [Cc][Cc][Ll][Oo] | [Cc][Cc][Ll][Oo][Cc] | [Cc][Cc][Ll][Oo][Cc][Kk])
+                 APP_NAME="cclock"
+                 f_application_run
+                 echo
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://sourceforge.net/projects/cclock/files/latest/download"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 [Cc][Cc][Ll][Oo][Cc][Kk]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 echo 
+                 echo "If application did not install properly, do want to use the w3m web browser"
+                 echo -n "to visit the project's web site to download manually (y/N)? "
+                 read ANS
+                 case $ANS in        # Start of Install case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      APP_NAME="w3m http://sourceforge.net/projects/cclock/files/latest/download"
+                      f_how_to_quit_application "q"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      ;;
+                 esac                # End of Install case statement.
+                 ;;
+                 9 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
                  APP_NAME="clockywock"
                  f_application_run
                  echo 
@@ -7440,7 +7728,7 @@ f_menu_app_todo () {
                       ;;
                  esac                # End of Install case statement.
                  ;;
-                 5 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
+                 10 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="grandfatherclock"
                  f_application_run
                  echo 
@@ -7474,7 +7762,7 @@ f_menu_app_todo () {
                       ;;
                  esac                # End of Install case statement.
                  ;;
-                 6 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
+                 11 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
                  APP_NAME="saytime"
                  f_application_run
                  ;;
@@ -7695,12 +7983,14 @@ f_menu_app_sys_backup () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Backup Applications until loop.
-            #MSB rsync        - File Backup, mirror, directories and files.
-            #MSB tar          - File Backup, compress files.
-            #MSB gzip         - File Compress, to zip files.
-            #MSB gunzip       - File Uncompress zip files.
-            #MSB zip          - File Compress files to zip files. 
-            #MSB unzip        - File Uncompress zip files.
+            #MSB atool        - Manages file archives (tar, gzip, zip etc.).
+            #MSB rsync        - File backup, mirror, directories and files.
+            #MSB tar          - File backup, compress files.
+            #MSB p7zip        - File compress, to 7z files, 7z better than zip compression.
+            #MSB gzip         - File compress, to zip files.
+            #MSB gunzip       - File uncompress zip files.
+            #MSB zip          - File compress files to zip files. 
+            #MSB unzip        - File uncompress zip files.
             #MSB bashburn     - CD burning.
             #MSB burn         - CD burning.
             #MSB cdrecord     - CD burning.
@@ -7722,7 +8012,15 @@ f_menu_app_sys_backup () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Backup Applications case statement.
-                 1 | [Rr] | [Rr][Ss] | [Rr][Ss][Yy] | [Rr][Ss][Yy][Nn] | [Rr][Ss][Yy][Nn][Cc])
+                 1 | [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Oo] | [Aa][Tt][Oo][Oo][Ll])
+                 APP_NAME="atool"
+                 f_application_run
+                 ;;
+                 [Aa][Tt][Oo][Oo][Ll]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Rr] | [Rr][Ss] | [Rr][Ss][Yy] | [Rr][Ss][Yy][Nn] | [Rr][Ss][Yy][Nn][Cc])
                  APP_NAME="rsync"
                  f_application_run
                  ;;
@@ -7730,7 +8028,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 2 | [Tt] | [Tt][Aa] | [Tt][Aa][Rr])
+                 3 | [Tt] | [Tt][Aa] | [Tt][Aa][Rr])
                  APP_NAME="tar"
                  f_application_run
                  ;;
@@ -7738,7 +8036,15 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Gg] | [Gg][Zz] | [Gg][Zz][Ii] | [Gg][Zz][Ii][Pp])
+                 4 | [Pp] | [Pp][7] | [Pp][7][Zz] | [Pp][7][Zz][Ii] | [Pp][7][Zz][Ii][Pp])
+                 APP_NAME="p7zip"
+                 f_application_run
+                 ;;
+                 [Pp][7][Zz][Ii][Pp]' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Gg] | [Gg][Zz] | [Gg][Zz][Ii] | [Gg][Zz][Ii][Pp])
                  APP_NAME="gzip"
                  f_application_run
                  ;;
@@ -7746,7 +8052,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Gg] | [Gg][Uu] | [Gg][Uu][Nn] | [Gg][Uu][Nn][Zz] | [Gg][Uu][Nn][Zz][Ii] | [Gg][Uu][Nn][Zz][Ii][Pp])
+                 6 | [Gg] | [Gg][Uu] | [Gg][Uu][Nn] | [Gg][Uu][Nn][Zz] | [Gg][Uu][Nn][Zz][Ii] | [Gg][Uu][Nn][Zz][Ii][Pp])
                  APP_NAME="gunzip"
                  f_application_run
                  ;;
@@ -7754,7 +8060,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Zz] | [Zz][Ii] | [Zz][Ii][Pp])
+                 7 | [Zz] | [Zz][Ii] | [Zz][Ii][Pp])
                  APP_NAME="zip"
                  f_application_run
                  ;;
@@ -7762,7 +8068,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Uu] | [Uu][Nn] | [Uu][Nn][Zz] | [Uu][Nn][Zz][Ii] | [Uu][Nn][Zz][Ii][Pp])
+                 8 | [Uu] | [Uu][Nn] | [Uu][Nn][Zz] | [Uu][Nn][Zz][Ii] | [Uu][Nn][Zz][Ii][Pp])
                  APP_NAME="unzip"
                  f_application_run
                  ;;
@@ -7770,7 +8076,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Hh] | [Bb][Aa][Ss][Hh][Bb] | [Bb][Aa][Ss][Hh][Bb][Uu] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn])
+                 9 | [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Hh] | [Bb][Aa][Ss][Hh][Bb] | [Bb][Aa][Ss][Hh][Bb][Uu] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn])
                  APP_NAME="bashburn"
                  f_application_run
                  ;;
@@ -7778,7 +8084,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Bb] | [Bb][Uu] | [Bb][Uu][Rr] | [Bb][Uu][Rr][Nn])
+                 10 | [Bb] | [Bb][Uu] | [Bb][Uu][Rr] | [Bb][Uu][Rr][Nn])
                  APP_NAME="burn"
                  f_application_run
                  ;;
@@ -7786,7 +8092,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Cc] | [Cc][Dd] | [Cc][Dd][Rr] | [Cc][Dd][Rr][Ee] | [Cc][Dd][Rr][Ee][Cc] | [Cc][Dd][Rr][Ee][Cc][Oo] | [Cc][Dd][Rr][Ee][Cc][Oo][Rr] | [Cc][Dd][Rr][Ee][Cc][Oo][Rr][Dd])
+                 11 | [Cc] | [Cc][Dd] | [Cc][Dd][Rr] | [Cc][Dd][Rr][Ee] | [Cc][Dd][Rr][Ee][Cc] | [Cc][Dd][Rr][Ee][Cc][Oo] | [Cc][Dd][Rr][Ee][Cc][Oo][Rr] | [Cc][Dd][Rr][Ee][Cc][Oo][Rr][Dd])
                  APP_NAME="cdrecord"
                  f_application_run
                  ;;
@@ -7794,7 +8100,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Xx] | [Xx][Oo] | [Xx][Oo][Rr] | [Xx][Oo][Rr][Rr] | [Xx][Oo][Rr][Rr][Ii] | [Xx][Oo][Rr][Rr][Ii][Ss] | [Xx][Oo][Rr][Rr][Ii][Ss][Oo])
+                 12 | [Xx] | [Xx][Oo] | [Xx][Oo][Rr] | [Xx][Oo][Rr][Rr] | [Xx][Oo][Rr][Rr][Ii] | [Xx][Oo][Rr][Rr][Ii][Ss] | [Xx][Oo][Rr][Rr][Ii][Ss][Oo])
                  APP_NAME="xorriso"
                  f_application_run
                  ;;
@@ -7802,7 +8108,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 11 | [Mm] | [Mm][Kk] | [Mm][Kk][Cc] | [Mm][Kk][Cc][Dd])
+                 13 | [Mm] | [Mm][Kk] | [Mm][Kk][Cc] | [Mm][Kk][Cc][Dd])
                  APP_NAME="mkcd"
                  f_application_run
                  ;;
@@ -7810,7 +8116,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 12 | [Mm] | [Mm][Yy] | [Mm][Yy][Bb] | [Mm][Yy][Bb][Aa] | [Mm][Yy][Bb][Aa][Ss] | [Mm][Yy][Bb][Aa][Ss][Hh] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb][Uu] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb][Uu][Rr] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn])
+                 14 | [Mm] | [Mm][Yy] | [Mm][Yy][Bb] | [Mm][Yy][Bb][Aa] | [Mm][Yy][Bb][Aa][Ss] | [Mm][Yy][Bb][Aa][Ss][Hh] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb][Uu] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb][Uu][Rr] | [Mm][Yy][Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn])
                  APP_NAME="mybashburn"
                  f_application_run
                  ;;
@@ -7818,7 +8124,7 @@ f_menu_app_sys_backup () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 13 | [Ss] | [Ss][Ii] | [Ss][Ii][Mm] | [Ss][Ii][Mm][Pp] | [Ss][Ii][Mm][Pp][Ll] | [Ss][Ii][Mm][Pp][Ll][Ee] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr][Nn] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr][Nn][Ee] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr][Nn][Ee][Rr])
+                 15 | [Ss] | [Ss][Ii] | [Ss][Ii][Mm] | [Ss][Ii][Mm][Pp] | [Ss][Ii][Mm][Pp][Ll] | [Ss][Ii][Mm][Pp][Ll][Ee] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr][Nn] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr][Nn][Ee] | [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr][Nn][Ee][Rr])
                  APP_NAME="simpleburner"
                  f_application_run
                  ;;
@@ -8013,6 +8319,7 @@ f_menu_app_sys_health () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Health Applications until loop.
+            #MSH lynis      - security auditing tool that tests for security holes in a PC.
             #MSH clamscan   - Clam anti-virus program scans for viruses.
             #MSH freshclam  - Clam anti-virus database definition update.
             #MSH chkrootkit - Root Kit detector.
@@ -8037,7 +8344,15 @@ f_menu_app_sys_health () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Health Applications case statement.
-                 1 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
+                 1 | [Ll] | [Ll][Yy] | [Ll][Yy][Nn] | [Ll][Yy][Nn][Ii] | [Ll][Yy][Nn][Ii][Ss])
+                 APP_NAME="lynis"
+                 f_application_run
+                 ;;
+                 [Ll][Yy][Nn][Ii][Ss]' '* | 'sudo lynis '* | 'sudo lynis')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Cc] | [Cc][Ll] | [Cc][Ll][Aa] | [Cc][Ll][Aa][Mm] | [Cc][Ll][Aa][Mm][Ss] | [Cc][Ll][Aa][Mm][Ss][Cc] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa] | [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn])
                  APP_NAME="clamscan -r /home"
                  clear # Blank the screen.
                  echo "clamscan -  Anti-virus scanner"
@@ -8059,7 +8374,7 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 2 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
+                 3 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
                  APP_NAME="freshclam"
                  # f_how_to_quit_application "q"
                  f_application_run
@@ -8070,7 +8385,7 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 3 | [Cc] | [Cc][Hh] | [Cc][Hh][Kk | [Cc][Hh][Kk] | [Cc][Hh][Kk][Rr] | [Cc][Hh][Kk][Rr][Oo] | [Cc][Hh][Kk][Rr][Oo][Oo] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt])
+                 4 | [Cc] | [Cc][Hh] | [Cc][Hh][Kk | [Cc][Hh][Kk] | [Cc][Hh][Kk][Rr] | [Cc][Hh][Kk][Rr][Oo] | [Cc][Hh][Kk][Rr][Oo][Oo] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii] | [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt])
                  APP_NAME="chkrootkit"
                  f_application_run
                  ;;
@@ -8078,7 +8393,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4 | [Rr] | [Rr][Kk] | [Rr][Kk][Hh] | [Rr][Kk][Hh][Uu] | [Rr][Kk][Hh][Uu][Nn] | [Rr][Kk][Hh][Uu][Nn][Tt] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr])
+                 5 | [Rr] | [Rr][Kk] | [Rr][Kk][Hh] | [Rr][Kk][Hh][Uu] | [Rr][Kk][Hh][Uu][Nn] | [Rr][Kk][Hh][Uu][Nn][Tt] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee] | [Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr])
                  APP_NAME="rkhunter"
                  f_application_run
                  ;;
@@ -8086,7 +8401,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5 | [Tt] | [Tt][Rr] | [Tt][Rr][Ii] | [Tt][Rr][Ii][Pp] | [Tt][Rr][Ii][Pp][Ww] | [Tt][Rr][Ii][Pp][Ww][Ii] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee])
+                 6 | [Tt] | [Tt][Rr] | [Tt][Rr][Ii] | [Tt][Rr][Ii][Pp] | [Tt][Rr][Ii][Pp][Ww] | [Tt][Rr][Ii][Pp][Ww][Ii] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr] | [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee])
                  APP_NAME="man tripwire"
                  clear # Blank the screen.
                  echo "tripwire - Detects unauthorized file changes"
@@ -8118,7 +8433,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Oo] | [Aa][Rr][Pp][Oo][Nn])
+                 7 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Oo] | [Aa][Rr][Pp][Oo][Nn])
                  APP_NAME="arpon"
                  f_application_run
                  ;;
@@ -8126,7 +8441,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 7 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Aa] | [Aa][Rr][Pp][Aa][Ll] | [Aa][Rr][Pp][Aa][Ll][Ee] | [Aa][Rr][Pp][Aa][Ll][Ee][Rr] | [Aa][Rr][Pp][Aa][Ll][Ee][Rr][Tt])
+                 8| [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Aa] | [Aa][Rr][Pp][Aa][Ll] | [Aa][Rr][Pp][Aa][Ll][Ee] | [Aa][Rr][Pp][Aa][Ll][Ee][Rr] | [Aa][Rr][Pp][Aa][Ll][Ee][Rr][Tt])
                  APP_NAME="arpalert"
                  f_application_run
                  ;;
@@ -8134,7 +8449,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 8 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Ww] | [Aa][Rr][Pp][Ww][Aa] | [Aa][Rr][Pp][Ww][Aa][Tt] | [Aa][Rr][Pp][Ww][Aa][Tt][Cc] | [Aa][Rr][Pp][Ww][Aa][Tt][Cc][Hh])
+                 9 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Ww] | [Aa][Rr][Pp][Ww][Aa] | [Aa][Rr][Pp][Ww][Aa][Tt] | [Aa][Rr][Pp][Ww][Aa][Tt][Cc] | [Aa][Rr][Pp][Ww][Aa][Tt][Cc][Hh])
                  APP_NAME="arpwatch"
                  clear # Blank the screen.
                  echo "arpwatch - keep track of ethernet/ip address pairings"
@@ -8158,7 +8473,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 9 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][-] | [Aa][Rr][Pp][-][Ss] | [Aa][Rr][Pp][-][Ss][Cc] | [Aa][Rr][Pp][-][Ss][Cc][Aa] | [Aa][Rr][Pp][-][Ss][Cc][Aa][Nn])
+                 10 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][-] | [Aa][Rr][Pp][-][Ss] | [Aa][Rr][Pp][-][Ss][Cc] | [Aa][Rr][Pp][-][Ss][Cc][Aa] | [Aa][Rr][Pp][-][Ss][Cc][Aa][Nn])
                  APP_NAME="arp-scan"
                  clear # Blank the screen.
                  echo "arp-scan - ARP Scanner."
@@ -8192,7 +8507,7 @@ f_menu_app_sys_health () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 10 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Ee] | [Ss][Tt][Rr][Ee][Ss] | [Ss][Tt][Rr][Ee][Ss][Ss])
+                 11 | [Ss] | [Ss][Tt] | [Ss][Tt][Rr] | [Ss][Tt][Rr][Ee] | [Ss][Tt][Rr][Ee][Ss] | [Ss][Tt][Rr][Ee][Ss][Ss])
                  APP_NAME="stress"
                  clear # Blank the screen.
                  echo "stress - A tool to impose load on and stress test a computer system"

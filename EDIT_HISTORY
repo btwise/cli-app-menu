@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="May-29-2013 10:54"
+REVDATE="June-01-2013 00:00"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,20 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-06-01 *f_menu_cat_file_management add f_menu_app_file_transfer, f_menu_app_sys_backup, f_menu_app_file_splitters.
+##            *f_menu_cat_image rename "Image Tools" to "Tools" to avoid similarity to "ImageMagick".
+##            *f_menu_app_audio_editors add ecasound, ffmpeg.
+##            *f_menu_app_calendar add clcal, mencal.
+##            *f_menu_app_file_splitters - lxsplit, split.
+##            *f_menu_app_file_transfer add woof.
+##            *f_menu_app_music_players delete ffmpeg.
+##            *f_menu_app_network_sharing add ncpfs, woof.
+##            *f_menu_app_sys_backup add atool, p7zip.
+##            *f_menu_app_sys_health add lynis.
+##            *f_menu_app_todo add doneyet, hnb, tudu, yokadi, cclock.
+##            *f_menu_app_bittorrent add aria2, deluge, mldonkey,transmission.
+##            *f_menu_app_instant_messaging add naim.
 ##
 ## 2013-05-30 *f_menu_app_file_recover fix trash-cli case pattern matching.
 ##
