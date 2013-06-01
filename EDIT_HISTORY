@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-01-2013 00:00"
+REVDATE="June-02-2013 18:53"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -47,34 +47,60 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-06-01 *f_menu_cat_file_management add f_menu_app_file_transfer, f_menu_app_sys_backup, f_menu_app_file_splitters.
-##            *f_menu_cat_image rename "Image Tools" to "Tools" to avoid similarity to "ImageMagick".
-##            *f_menu_app_audio_editors add ecasound, ffmpeg.
-##            *f_menu_app_calendar add clcal, mencal.
-##            *f_menu_app_file_splitters - lxsplit, split.
-##            *f_menu_app_file_transfer add woof.
-##            *f_menu_app_music_players delete ffmpeg.
-##            *f_menu_app_network_sharing add ncpfs, woof.
-##            *f_menu_app_sys_backup add atool, p7zip.
-##            *f_menu_app_sys_health add lynis.
-##            *f_menu_app_todo add doneyet, hnb, tudu, yokadi, cclock.
-##            *f_menu_app_bittorrent add aria2, deluge, mldonkey,transmission.
-##            *f_menu_app_instant_messaging add naim.
+## 2013-06-02 *f_menu_cat_video added f_menu_app_video_editors,
+##             and f_menu_app_video_players.
+##            *f_menu_app_calendar added emacs-calfw.
+##            *f_menu_app_email added gnus, heirloom-mailx, mu4e.
+##            *f_menu_app_file_managers added dired.
+##            *f_menu_app_firewalls added PortBunny.
+##            *f_menu_app_image_graphics added fbv, fim, jfbview.
+##            *f_menu_app_instant_messaging added emacs-jabber.
+##            *f_menu_app_irc_clients added erc, scrollz.
+##            *f_menu_app_lan_chat added weechat.
+##            *f_menu_app_music_players added herrie, mpg123, mplayer2,
+##             pianobar, shell-fm, vlc.
+##            *f_menu_app_network_chat renamed to f_menu_app_lan_chat.
+##            *f_menu_app_pdfps added fbdjvu, fbpdf, jfbview.
+##            *f_menu_app_radio added pianobar, shell-fm.
+##            *f_menu_app_sys_disks added gt5.
+##            *f_menu_app_sys_other added DeSmuME.
+##            *f_menu_app_sys_screens added dtach, dvtm.
+##            *f_menu_app_text_editors added dex, JED.
+##            *f_menu_app_video deleted.
+##            *f_menu_app_video_editors added avidemux, handbrake-cli.
+##            *f_menu_app_video_players added mplayer2.
+##            *f_menu_app_web_browsers added retawq.
 ##
-## 2013-05-30 *f_menu_app_file_recover fix trash-cli case pattern matching.
+## 2013-06-01 *f_menu_cat_file_management added f_menu_app_file_transfer,
+##             and f_menu_app_sys_backup, f_menu_app_file_splitters.
+##            *f_menu_cat_image rename "Image Tools" to "Tools" to avoid
+##             similarity to "ImageMagick".
+##            *f_menu_app_audio_editors added ecasound, ffmpeg.
+##            *f_menu_app_bittorrent added aria2, deluge, mldonkey,transmission.
+##            *f_menu_app_calendar added clcal, mencal.
+##            *f_menu_app_file_splitters added lxsplit, split.
+##            *f_menu_app_file_transfer added woof.
+##            *f_menu_app_instant_messaging added naim.
+##            *f_menu_app_music_players deleted ffmpeg.
+##            *f_menu_app_network_sharing added ncpfs, woof.
+##            *f_menu_app_sys_backup added atool, p7zip.
+##            *f_menu_app_sys_health added lynis.
+##            *f_menu_app_todo added doneyet, hnb, tudu, yokadi, cclock.
 ##
-## 2013-05-29 *f_menu_app_audio_editors fix avconv, sox case pattern matching.
+## 2013-05-30 *f_menu_app_file_recover fixed trash-cli case pattern matching.
 ##
-## 2013-05-28 *f_menu_app_sys_health fix stress help "man stress".
+## 2013-05-29 *f_menu_app_audio_editors fixed avconv, sox case pattern matching.
 ##
-## 2013-05-23 *f_menu_app_sys_information add blkid, pccardctl, lsblk, lscpu,
+## 2013-05-28 *f_menu_app_sys_health fixed stress help "man stress".
+##
+## 2013-05-23 *f_menu_app_sys_information added blkid, pccardctl, lsblk, lscpu,
 ##             slabtop.
-##            *f_menu_app_file_managers add findmnt.
-##            *f_menu_app_sys_process add pswatcher, pwdx, sysctl.
-##            *f_menu_app_network_monitors add bmon, nagios3, OpenNMS.
-##            *f_menu_app_sys_monitors add cacti, rrdtool, swatch.
-##            *f_menu_app_sys_logs add swatch.
-##            *f_menu_app_sys_health add stress.
+##            *f_menu_app_file_managers added findmnt.
+##            *f_menu_app_sys_process added pswatcher, pwdx, sysctl.
+##            *f_menu_app_network_monitors added bmon, nagios3, OpenNMS.
+##            *f_menu_app_sys_monitors added cacti, rrdtool, swatch.
+##            *f_menu_app_sys_logs added swatch.
+##            *f_menu_app_sys_health added stress.
 ##            *f_menu_app_sys_information deleted.
 ##            *f_menu_app_sys_mainboard added.
 ##            *f_menu_app_sys_peripherals added.
@@ -100,13 +126,13 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2013-05-15 *f_menu_app_music_players added cdcd, cplay, mcdp, pytone, yauap.
 ##            *f_menu_app_sys_monitors improve menu descriptions.
 ##            *f_menu_app_sys_software apt, dpkg, rpm, yum, improve help.
-##            *f_menu_app_instant_messaging fix barnowl case pattern matching.
-##            *f_menu_app_sys_software fix YaST case pattern matching.
+##            *f_menu_app_instant_messaging fixed barnowl case pattern matching.
+##            *f_menu_app_sys_software fixed YaST case pattern matching.
 ##            *Consistent format for all application help comments.
 ##
 ## 2013-05-14 *Reorder functions so that the order matches the menus.
-##            *Fix comment line with #MXX so not printed in "List Applications".
-##            *f_menu_app_games_puzzle fix bastet displaying twice in menu.
+##            *fixed comment line with #MXX so not printed in "List Applications".
+##            *f_menu_app_games_puzzle fixed bastet displaying twice in menu.
 ##             This is due to a comment referring to bastet not having the
 ##             third field #MGF to prevent awk from printing it in a menu.
 ##            *f_menu_app_acconting added ledger, hledger, hledger plugins.
@@ -127,7 +153,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_radio added.
 ##            *f_menu_app_speech_synthesis added.
 ##
-## 2013-05-05 *f_menu_app_nic_tools fix case pattern matching nictools-pci.
+## 2013-05-05 *f_menu_app_nic_tools fixed case pattern matching nictools-pci.
 ##
 ## 2013-05-03 *f_application_help set CHOICE_APP=-1.
 ##            *Sub-menus added comments.
@@ -147,7 +173,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##                                  nictools-pci, ifplugstatus.
 ##            *f_menu_app_network_sharing added.
 ##            *f_menu_app_system_software added.
-##            *Fix bug typo "systat" to "sysstat".
+##            *fixed bug typo "systat" to "sysstat".
 ##
 ## 2013-04-26 *f_menu_app_education added typespeed.
 ##            *f_menu_app_file_find added updatedb and help comments for locate.
@@ -201,7 +227,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2013-04-04 *f_menu_app_network_config added speedometer.
 ##            *f_menu_app_network_monitor added jnettop, sntop.
 ##
-## 2013-04-02 *Fix bug with sudo which ran apps only w/o parameters.
+## 2013-04-02 *fixed bug with sudo which ran apps only w/o parameters.
 ##            *A few small bug fixes with "Press Enter Key" needed in some apps.
 ##            *f_find_NIC added to find NICs (Network Interface Cards).
 ##            *f_menu_app_network_monitors added ifstat.
@@ -224,11 +250,11 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_games_arcade added asciijump.
 ##            *f_menu_app_calendar_todo added binary-clock, clockywock,
 ##             grandfatherclock.
-##            *Fix pesky Press Enter Key to continue inconsistency in menus.
+##            *fixed pesky Press Enter Key to continue inconsistency in menus.
 ##            *Miscellaneous small fixes.
 ##            *Remove blank lines.
 ##
-## 2013-03-26 *f_quit_app_menu fix added PRESS_KEY=0 for case statement.
+## 2013-03-26 *f_quit_app_menu fixed added PRESS_KEY=0 for case statement.
 ##            *application menu case pattern matching, change from ' '[-]* and
 ##             change to ' '* to allow more than just OPTIONS but also [FILES].
 ##
@@ -250,7 +276,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *README, EDIT_HISTORY now can be read by sh <FILENAME> as a script.
 ##            *Main Menu added option "Update Edit History".
 ##
-## 2013-03-21 *Fix in all menus different response to f_menu_app_press_enter_key
+## 2013-03-21 *fixed in all menus different response to f_menu_app_press_enter_key
 ##             When CHOICE_* is alpha versus numeric. Force to be numeric before
 ##             calling f_menu_app_press_enter_key since it uses numeric tests.
 ##             Before, an alpha CHOICE_* would ignore f_menu_app_press_enter_key.
@@ -263,7 +289,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_text_editors added txt2html, txt2pdbdoc, txt2regex,
 ##             and txt2tags.
 ##
-## 2013-03-18 Fix typo on first line #!bin/bash which had an appended comment.
+## 2013-03-18 fixed typo on first line #!bin/bash which had an appended comment.
 ##            Thanks to D.J.J. Ringer.
 ##
 ## 2013-03-17 *f_how_to_quit_application added option to clear.
@@ -273,10 +299,10 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *Edit History update and clean up. 
 ##
 ## 2013-03-16 *f_menu_app_downloaders added md5sum, sha1sum, md5pass, sha1pass.
-##            *f_menu_app_downloaders fix aria2 install.
+##            *f_menu_app_downloaders fixed aria2 install.
 ##            *f_menu_app_sys_monitors added uuid, dmidecode, lsb, uname, lsmod,
 ##             printenv, lsusb.
-##            *f_menu_app_sys_monitors fix display for dmidecode, lsb, lsmod, 
+##            *f_menu_app_sys_monitors fixed display for dmidecode, lsb, lsmod, 
 ##             printenv, lsusb.
 ##            *f_menu_app_network_config added iptables, ufw.
 ##              
@@ -294,7 +320,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_text_editors added f_how_to_quit_application.
 ##            *f_menu_app_sys_monitors added saidar.
 ##            *f_application_error create installation routine for glances.
-##            *f_show_menu supress line-feed at options prompt, fix $MAX.
+##            *f_show_menu supress line-feed at options prompt, fixed $MAX.
 ##            *f_menu_app_audio_application added avconv.
 ##
 ## 2013-03-09 *f_application_error added case statement to install bsdgames
@@ -333,8 +359,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *Added function f_menu_app_press_enter.
 ##            *Added function f_menu_app_press_enter in application functions.
 ##            *Delete statements "read x" in application functions.
-##            *f_application_error fix bad syntax [ $ERROR <> 0 ].
-##            *f_application_help fix bad syntax [ $ERROR <> 0 ].
+##            *f_application_error fixed bad syntax [ $ERROR <> 0 ].
+##            *f_application_help fixed bad syntax [ $ERROR <> 0 ].
 ##            *f_application_help enhance and clarify error messages.
 ##
 ## 2013-02-26 *Added cbm, a system resource monitor, and smbc, file manager
@@ -364,7 +390,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##             nested until loops.
 ##            *Added functions f_menu_app_sample_template, f_initvars_menu_app,
 ##             f_menu_app_internet.
-##            *Bug fix f_application_error by adding f_initvars_menu_app to
+##            *Bug fixed f_application_error by adding f_initvars_menu_app to
 ##             prevent return to previous menu rather than return to the same
 ##             menu where the error occurred.
 ##
@@ -374,7 +400,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##
 ## 2013-01-29 Create function f_termcolor to set terminal properties.
 ##
-## 2013-01-28 Bug fix with option "exit" not working with CLI Menu and
+## 2013-01-28 Bug fixed with option "exit" not working with CLI Menu and
 ##            Application Category Menu.
 ##
 ## 2013-01-26 *Use grep to calculate the number of the last menu option.
