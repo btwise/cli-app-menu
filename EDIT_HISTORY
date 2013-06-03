@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-03-2013 00:59"
+REVDATE="June-03-2013 15:45"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -50,6 +50,11 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2013-06-03 *f_application_web_install added.
 ##            *Allow only lower-case app names when followed by options.
 ##            *f_application_install clean up messages.
+##            *f_menu_app_clocks added.
+##            *f_menu_app_music_players fix vlc case pattern matching. 
+##            *f_menu_app_video_players fix vlc case pattern matching.
+##            *f_menu_app_audio_editors fix ffmpeg case pattern matching.
+##            *f_menu_app_video_editors fix ffmpeg case pattern matching.
 ##
 ## 2013-06-02 *f_menu_cat_video added f_menu_app_video_editors,
 ##             and f_menu_app_video_players.
@@ -122,8 +127,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_sys_monitors added sar, nmon, last.
 ##
 ## 2013-05-16 *f_menu_app_sys_software added aptoncd.
-##            *f_menu_app_sys_software added case pattern matching for apt-*.
-##            *f_menu_app_sys_software added case pattern matching for dpkg-*.
+##            *f_menu_app_sys_software added apt-* case pattern matching.
+##            *f_menu_app_sys_software added dpkg-* case pattern matching.
 ##            *f_menu_app_sys_software added help comments for aptitude, zypper.
 ##            *f_menu_app_sys_screens added help comments for screen.
 ##
@@ -135,7 +140,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *Consistent format for all application help comments.
 ##
 ## 2013-05-14 *Reorder functions so that the order matches the menus.
-##            *fixed comment line with #MXX so not printed in "List Applications".
+##            *f_menu_app_sample_template fixed comment line with #MXX so it is
+##             not printed in "List Applications".
 ##            *f_menu_app_games_puzzle fixed bastet displaying twice in menu.
 ##             This is due to a comment referring to bastet not having the
 ##             third field #MGF to prevent awk from printing it in a menu.
@@ -157,7 +163,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_radio added.
 ##            *f_menu_app_speech_synthesis added.
 ##
-## 2013-05-05 *f_menu_app_nic_tools fixed case pattern matching nictools-pci.
+## 2013-05-05 *f_menu_app_nic_tools fixed nictools-pci case pattern matching.
 ##
 ## 2013-05-03 *f_application_help set CHOICE_APP=-1.
 ##            *Sub-menus added comments.
@@ -177,7 +183,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##                                  nictools-pci, ifplugstatus.
 ##            *f_menu_app_network_sharing added.
 ##            *f_menu_app_system_software added.
-##            *fixed bug typo "systat" to "sysstat".
+##            *f_application_install fixed typo "systat" to "sysstat".
 ##
 ## 2013-04-26 *f_menu_app_education added typespeed.
 ##            *f_menu_app_file_find added updatedb and help comments for locate.
@@ -231,7 +237,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2013-04-04 *f_menu_app_network_config added speedometer.
 ##            *f_menu_app_network_monitor added jnettop, sntop.
 ##
-## 2013-04-02 *fixed bug with sudo which ran apps only w/o parameters.
+## 2013-04-02 *Fixed bug with sudo which ran applications only w/o parameters.
 ##            *A few small bug fixes with "Press Enter Key" needed in some apps.
 ##            *f_find_NIC added to find NICs (Network Interface Cards).
 ##            *f_menu_app_network_monitors added ifstat.
@@ -254,7 +260,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_games_arcade added asciijump.
 ##            *f_menu_app_calendar_todo added binary-clock, clockywock,
 ##             grandfatherclock.
-##            *fixed pesky Press Enter Key to continue inconsistency in menus.
+##            *Fixed pesky Press Enter Key to continue inconsistency in menus.
 ##            *Miscellaneous small fixes.
 ##            *Remove blank lines.
 ##
@@ -280,7 +286,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *README, EDIT_HISTORY now can be read by sh <FILENAME> as a script.
 ##            *Main Menu added option "Update Edit History".
 ##
-## 2013-03-21 *fixed in all menus different response to f_menu_app_press_enter_key
+## 2013-03-21 *Fixed in all menus different response to f_menu_app_press_enter_key
 ##             When CHOICE_* is alpha versus numeric. Force to be numeric before
 ##             calling f_menu_app_press_enter_key since it uses numeric tests.
 ##             Before, an alpha CHOICE_* would ignore f_menu_app_press_enter_key.
@@ -293,7 +299,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_text_editors added txt2html, txt2pdbdoc, txt2regex,
 ##             and txt2tags.
 ##
-## 2013-03-18 fixed typo on first line #!bin/bash which had an appended comment.
+## 2013-03-18 Fixed typo on first line #!bin/bash which had an appended comment.
 ##            Thanks to D.J.J. Ringer.
 ##
 ## 2013-03-17 *f_how_to_quit_application added option to clear.
@@ -394,7 +400,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##             nested until loops.
 ##            *Added functions f_menu_app_sample_template, f_initvars_menu_app,
 ##             f_menu_app_internet.
-##            *Bug fixed f_application_error by adding f_initvars_menu_app to
+##            *Fixed f_application_error by adding f_initvars_menu_app to
 ##             prevent return to previous menu rather than return to the same
 ##             menu where the error occurred.
 ##
@@ -404,8 +410,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##
 ## 2013-01-29 Create function f_termcolor to set terminal properties.
 ##
-## 2013-01-28 Bug fixed with option "exit" not working with CLI Menu and
-##            Application Category Menu.
+## 2013-01-28 Main Menu and f_menu_cat_applications fixed option "exit" not working.
 ##
 ## 2013-01-26 *Use grep to calculate the number of the last menu option.
 ##            *Create functions show_menu, quit_app_menu, application_help to

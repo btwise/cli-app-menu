@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="June-3-2013 00:59"
+REVDATE="June-3-2013 15:45"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -269,6 +269,7 @@ REVDATE="June-3-2013 00:59"
 #:MBT - Bittorrent Applications Menu
 #:MCA - Calendar-ToDo Applications Menu
 #:MCC - Calculator Applications Menu
+#:MCL - Clock Applications Menu
 #:MDL - Dowloader Applications Menu
 #:MED - Education Applications Menu
 #:MEM - E-mail Applications Menu
@@ -1615,7 +1616,7 @@ f_menu_app_audio_editors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
+                 3 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Pp] | [Ff][Ff][Mm][Pp][Ee] | [Ff][Ff][Mm][Pp][Ee][Gg])
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
@@ -1789,7 +1790,7 @@ f_menu_app_music_players () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 14 | [Vv] | [Vv][Ll] | [Vv][Ll]Cc])
+                 14 | [Vv] | [Vv][Ll] | [Vv][Ll][Cc])
                  APP_NAME="vlc"
                  f_application_run
                  ;;
@@ -4244,7 +4245,7 @@ f_menu_app_bittorrent () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Bittorrent Applications until loop.
-            #MBT aria2        - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
+            #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
             #MBT bittornado   - Torrent file transfer.
             #MBT bittorrent   - Torrent file transfer.
             #MBT ctorrent     - Torrent file transfer.
@@ -4267,10 +4268,10 @@ f_menu_app_bittorrent () {
             #
             case $CHOICE_APP in # Start of Bittorrent Applications case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
-                 APP_NAME="aria2"
+                 APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
                  f_application_run
                  ;;
-                 aria2' '*)
+                 aria2c' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4351,7 +4352,7 @@ f_menu_app_downloaders () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Downloaders Applications until loop.
-            #MDL aria2    - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+            #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
             #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
             #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
             #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
@@ -4371,10 +4372,10 @@ f_menu_app_downloaders () {
             #
             case $CHOICE_APP in # Start of Dowloader Applications case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
-                 APP_NAME="aria2"
+                 APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
                  f_application_run
                  ;;
-                 aria2' '*)
+                 aria2c' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5003,7 +5004,7 @@ f_menu_app_news_readers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
-            #MNR gnus - News reader and E-mail client for Emacs..
+            #MNR gnus - News reader and E-mail client for Emacs.
             #MNR nn   - News reader.
             #MNR rn   - News reader.
             #MNR slrn - News reader.
@@ -6669,12 +6670,13 @@ f_menu_cat_office () {
             #BOF Accounting   - Accounting (with with double-entry).
             #BOF Calculators  - Simple "pocket" calculators.
             #BOF Calendar     - Calendars.
+            #BOF Clocks       - Alarm clocks, specialized clocks.
             #BOF Notebooks    - Write notes in a "notebook".
             #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
             #BOF Presenters   - Text slideshow presentation.
             #BOF Spreadsheets - Basic spreadsheet.
             #BOF Text         - Create/Edit text files, text format converters, etc.        
-            #BOF ToDo         - To-Do lists, alarm clocks.
+            #BOF ToDo         - To-Do lists.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Office Application Category Menu"
@@ -6698,6 +6700,10 @@ f_menu_cat_office () {
                  ;;
                  3 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee] | [Cc][Aa][Ll][Ee][Nn] | [Cc][Aa][Ll][Ee][Nn][Dd] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa] | [Cc][Aa][Ll][Ee][Nn][Dd][Aa][Rr])
                  f_menu_app_calendar          # Calendar Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 3 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Ss])
+                 f_menu_app_clocks            # Clock Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  4 | [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
@@ -6940,6 +6946,7 @@ f_menu_app_calendar () {
                  calcurse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  4 | [Cc] | [Cc][Ll] | [Cc][Ll][Cc] | [Cc][Ll][Cc][Aa] | [Cc][Ll][Cc][Aa][Ll])
                  APP_NAME="clcal"
@@ -7039,6 +7046,86 @@ f_menu_app_calendar () {
             f_option_press_enter_key
       done # End of Calendar Applications until loop.
 } # End of f_menu_app_calendar
+#
+# +----------------------------------------+
+# |       Function f_menu_app_clocks       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_clocks () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Clock Applications until loop.
+            #MCL binary-clock     - Binary numbers 1/0 tells time.
+            #MCL cclock           - Digital clock with huge numbers fills entire screen.
+            #MCL clockywock       - Analog clock, ncurses-based.
+            #MCL grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
+            #MCL saytime          - Audio clock.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Clock Applications Menu"
+            DELIMITER="#MCL" #MCL This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_quit_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Clock Applications case statement.
+                 1 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
+                 APP_NAME="binary-clock"
+                 f_application_run
+                 ;;
+                 binary-clock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 2 | [Cc] | [Cc][Cc] | [Cc][Cc][Ll] | [Cc][Cc][Ll][Oo] | [Cc][Cc][Ll][Oo][Cc] | [Cc][Cc][Ll][Oo][Cc][Kk])
+                 APP_NAME="cclock"
+                 f_application_run
+                 ;;
+                 cclock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 3 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
+                 APP_NAME="clockywock"
+                 f_application_run
+                 ;;
+                 clockywock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 4 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
+                 APP_NAME="grandfatherclock"
+                 f_application_run
+                 ;;
+                 grandfatherclock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 5 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
+                 APP_NAME="saytime"
+                 f_application_run
+                 ;;
+                 saytime' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+            esac                # End of Clock Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done # End of Clock Applications until loop.
+} # End of f_menu_app_clocks
 #
 # +----------------------------------------+
 # |         Function f_menu_app_note       |
@@ -7605,7 +7692,7 @@ f_menu_app_text_editors () {
       do    # Start of Text Editor Applications until loop.
             #MTE beav  - Binary editor and viewer.
             #MTE dav   - Text editor.
-            #MTE dex - Support for ctags and parsing compiler errors.
+            #MTE dex   - Support for ctags and parsing compiler errors.
             #MTE ed    - Classic CLI text editor.
             #MTE emacs - Full screen text editor with plugins.
             #MTE groff - Uses macros to format text, create man pages to PS printers.
@@ -7834,14 +7921,9 @@ f_menu_app_todo () {
             #MTD tudu             - To-Do List hierarchical tasks.
             #MTD yaGTD            - To-Do List based on "Getting Things Done" methodology.
             #MTD yokadi           - Project/task manager which uses SQLite.
-            #MTD binary-clock     - Binary numbers 1/0 tells time.
-            #MTD cclock           - Digital clock with huge numbers fills entire screen.
-            #MTD clockywock       - Analog clock, ncurses-based.
-            #MTD grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
-            #MTD saytime          - Audio clock.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="To-Do/Clock Applications Menu"
+            MENU_TITLE="To-Do Applications Menu"
             DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -7922,46 +8004,6 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  yokadi' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 7 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
-                 APP_NAME="binary-clock"
-                 f_application_run
-                 ;;
-                 binary-clock' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 8 | [Cc] | [Cc][Cc] | [Cc][Cc][Ll] | [Cc][Cc][Ll][Oo] | [Cc][Cc][Ll][Oo][Cc] | [Cc][Cc][Ll][Oo][Cc][Kk])
-                 APP_NAME="cclock"
-                 f_application_run
-                 ;;
-                 cclock' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 9 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
-                 APP_NAME="clockywock"
-                 f_application_run
-                 ;;
-                 clockywock' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 10 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
-                 APP_NAME="grandfatherclock"
-                 f_application_run
-                 ;;
-                 grandfatherclock' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 11 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
-                 APP_NAME="saytime"
-                 f_application_run
-                 ;;
-                 saytime' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10152,7 +10194,7 @@ f_menu_cat_video () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_video_editors () {
       f_initvars_menu_app
@@ -10197,7 +10239,7 @@ f_menu_app_video_editors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Ee] | [Ff][Ff][Mm][Ee][Gg])
+                 3 | [Ff] | [Ff][Ff] | [Ff][Ff][Mm] | [Ff][Ff][Mm][Pp] | [Ff][Ff][Mm][Pp][Ee] | [Ff][Ff][Mm][Pp][Ee][Gg])
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
