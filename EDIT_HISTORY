@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-03-2013 15:45"
+REVDATE="June-03-2013 16:21"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -55,6 +55,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_video_players fix vlc case pattern matching.
 ##            *f_menu_app_audio_editors fix ffmpeg case pattern matching.
 ##            *f_menu_app_video_editors fix ffmpeg case pattern matching.
+##            *f_menu_cat_office fix f_menu_app_clocks case pattern matching.
 ##
 ## 2013-06-02 *f_menu_cat_video added f_menu_app_video_editors,
 ##             and f_menu_app_video_players.
