@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="June-3-2013 16:21"
+REVDATE="June-3-2013 16:38"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -1179,7 +1179,7 @@ f_application_web_install () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_scat_sample_template () {
       f_initvars_menu_app
@@ -1221,7 +1221,7 @@ f_menu_scat_sample_template () {
 #
 #  Inputs: None
 #    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_TCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
 #
 f_menu_tcat_sample_template () {
       f_initvars_menu_app
@@ -1263,7 +1263,7 @@ f_menu_tcat_sample_template () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sample_template () {
       f_initvars_menu_app
@@ -1410,7 +1410,7 @@ f_menu_cat_applications () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_audio () {
       f_initvars_menu_app
@@ -1467,7 +1467,7 @@ f_menu_cat_audio () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_cdrippers () {
       f_initvars_menu_app
@@ -1575,7 +1575,7 @@ f_menu_app_cdrippers () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_audio_editors () {
       f_initvars_menu_app
@@ -1647,7 +1647,7 @@ f_menu_app_audio_editors () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_music_players () {
       f_initvars_menu_app
@@ -1829,7 +1829,7 @@ f_menu_app_music_players () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_radio () {
       f_initvars_menu_app
@@ -1903,7 +1903,7 @@ f_menu_app_radio () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_speech_synthesis () {
       f_initvars_menu_app
@@ -1976,7 +1976,7 @@ f_menu_app_speech_synthesis () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_education () {
       f_initvars_menu_app
@@ -2102,7 +2102,7 @@ f_menu_app_education () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_file_management () {
       f_initvars_menu_app
@@ -2180,7 +2180,7 @@ f_menu_cat_file_management () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_encryption () {
       f_initvars_menu_app
@@ -2288,7 +2288,7 @@ f_menu_app_file_encryption () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_find () {
       f_initvars_menu_app
@@ -2395,7 +2395,7 @@ f_menu_app_file_find () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_managers () {
       f_initvars_menu_app
@@ -2511,7 +2511,7 @@ f_menu_app_file_managers () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_splitters () {
       f_initvars_menu_app
@@ -2566,7 +2566,7 @@ f_menu_app_file_splitters () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_viewers () {
       f_initvars_menu_app
@@ -2629,7 +2629,7 @@ f_menu_app_file_viewers () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_deletion () {
       f_initvars_menu_app
@@ -2674,7 +2674,7 @@ f_menu_app_file_deletion () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_recover () {
       f_initvars_menu_app
@@ -2795,7 +2795,7 @@ f_menu_app_file_recover () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_games () {
       f_initvars_menu_app
@@ -2877,7 +2877,7 @@ f_menu_cat_games () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_arcade () {
       f_initvars_menu_app
@@ -2985,7 +2985,7 @@ f_menu_app_games_arcade () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_board () {
       f_initvars_menu_app
@@ -3047,7 +3047,7 @@ f_menu_app_games_board () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_card () {
       f_initvars_menu_app
@@ -3109,7 +3109,7 @@ f_menu_app_games_card () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_mud () {
       f_initvars_menu_app
@@ -3162,7 +3162,7 @@ f_menu_app_games_mud () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_puzzle () {
       f_initvars_menu_app
@@ -3251,7 +3251,7 @@ f_menu_app_games_puzzle () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_quiz () {
       f_initvars_menu_app
@@ -3324,7 +3324,7 @@ f_menu_app_games_quiz () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_rpg () {
       f_initvars_menu_app
@@ -3423,7 +3423,7 @@ f_menu_app_games_rpg () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_simulation () {
       f_initvars_menu_app
@@ -3486,7 +3486,7 @@ f_menu_app_games_simulation () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_strategy () {
       f_initvars_menu_app
@@ -3571,7 +3571,7 @@ f_menu_app_games_strategy () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_games_word () {
       f_initvars_menu_app
@@ -3633,7 +3633,7 @@ f_menu_app_games_word () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_image () {
       f_initvars_menu_app
@@ -3676,7 +3676,7 @@ f_menu_cat_image () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_image_graphics () {
       f_initvars_menu_app
@@ -3802,7 +3802,7 @@ f_menu_app_image_graphics () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_imagemagick () {
       f_initvars_menu_app
@@ -3936,7 +3936,7 @@ f_menu_app_imagemagick () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_internet () {
       f_initvars_menu_app
@@ -4033,7 +4033,7 @@ f_menu_cat_internet () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_web_browsers () {
       f_initvars_menu_app
@@ -4239,7 +4239,7 @@ esac # End of case statement.
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_bittorrent () {
       f_initvars_menu_app
@@ -4346,7 +4346,7 @@ f_menu_app_bittorrent () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_downloaders () {
       f_initvars_menu_app
@@ -4468,7 +4468,7 @@ f_menu_app_downloaders () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_email () {
       f_initvars_menu_app
@@ -4602,7 +4602,7 @@ f_menu_app_email () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_fax () {
       f_initvars_menu_app
@@ -4655,7 +4655,7 @@ f_menu_app_fax () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_file_transfer () {
       f_initvars_menu_app
@@ -4762,7 +4762,7 @@ f_menu_app_file_transfer () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_instant_messaging () {
       f_initvars_menu_app
@@ -4891,7 +4891,7 @@ f_menu_app_instant_messaging () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_irc_clients () {
       f_initvars_menu_app
@@ -4998,7 +4998,7 @@ f_menu_app_irc_clients () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_news_readers () {
       f_initvars_menu_app
@@ -5087,7 +5087,7 @@ f_menu_app_news_readers () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_lan_chat () {
       f_initvars_menu_app
@@ -5149,7 +5149,7 @@ f_menu_app_lan_chat () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_podcatchers () {
       f_initvars_menu_app
@@ -5238,7 +5238,7 @@ f_menu_app_podcatchers () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_remote_connection () {
       f_initvars_menu_app
@@ -5309,7 +5309,7 @@ f_menu_app_remote_connection () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_rssfeeders () {
       f_initvars_menu_app
@@ -5416,7 +5416,7 @@ f_menu_app_rssfeeders () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_network () {
       f_initvars_menu_app
@@ -5478,7 +5478,7 @@ f_menu_cat_network () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_firewalls () {
       f_initvars_menu_app
@@ -5616,7 +5616,7 @@ f_menu_app_firewalls () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_lanwan () {
       f_initvars_menu_app
@@ -5926,7 +5926,7 @@ f_menu_app_lanwan () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_nic_tools () {
       f_initvars_menu_app
@@ -6043,7 +6043,7 @@ f_menu_app_nic_tools () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_network_sharing () {
       f_initvars_menu_app
@@ -6139,7 +6139,7 @@ f_menu_app_network_sharing () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_network_monitors () {
       f_initvars_menu_app
@@ -6474,7 +6474,7 @@ f_menu_app_network_monitors () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_packet_tools () {
       f_initvars_menu_app
@@ -6660,7 +6660,7 @@ read ANS
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_office () {
       f_initvars_menu_app
@@ -6743,7 +6743,7 @@ f_menu_cat_office () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_accounting () {
       f_initvars_menu_app
@@ -6823,7 +6823,7 @@ f_menu_app_accounting () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_calculators () {
       f_initvars_menu_app
@@ -6887,7 +6887,7 @@ f_menu_app_calculators () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_calendar () {
       f_initvars_menu_app
@@ -7053,7 +7053,7 @@ f_menu_app_calendar () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_clocks () {
       f_initvars_menu_app
@@ -7133,7 +7133,7 @@ f_menu_app_clocks () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_note () {
       f_initvars_menu_app
@@ -7177,7 +7177,7 @@ f_menu_app_note () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_pdfps () {
       f_initvars_menu_app
@@ -7311,7 +7311,7 @@ f_menu_app_pdfps () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_presentation () {
       f_initvars_menu_app
@@ -7356,7 +7356,7 @@ f_menu_app_presentation () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_spreadsheets () {
       f_initvars_menu_app
@@ -7418,7 +7418,7 @@ f_menu_app_spreadsheets () {
 #
 #  Inputs: None
 #    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_TCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
 #
 f_menu_cat_text () {
       f_initvars_menu_app
@@ -7471,7 +7471,7 @@ f_menu_cat_text () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_text_compare () {
       f_initvars_menu_app
@@ -7551,7 +7551,7 @@ f_menu_app_text_compare () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_text_converters () {
       f_initvars_menu_app
@@ -7684,7 +7684,7 @@ f_menu_app_text_converters () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_text_editors () {
       f_initvars_menu_app
@@ -7856,7 +7856,7 @@ f_menu_app_text_editors () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_text_tools () {
       f_initvars_menu_app
@@ -7909,7 +7909,7 @@ f_menu_app_text_tools () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_todo () {
       f_initvars_menu_app
@@ -8022,7 +8022,7 @@ f_menu_app_todo () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_screen_savers () {
       f_initvars_menu_app
@@ -8102,7 +8102,7 @@ f_menu_app_screen_savers () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_system () {
       f_initvars_menu_app
@@ -8189,7 +8189,7 @@ f_menu_cat_system () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_backup () {
       f_initvars_menu_app
@@ -8360,7 +8360,7 @@ f_menu_app_sys_backup () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_disks () {
       f_initvars_menu_app
@@ -8537,7 +8537,7 @@ f_menu_app_sys_disks () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_health () {
       f_initvars_menu_app
@@ -8773,7 +8773,7 @@ f_menu_app_sys_health () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_mainboard () {
       f_initvars_menu_app
@@ -8951,7 +8951,7 @@ f_menu_app_sys_mainboard () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_peripherals () {
       f_initvars_menu_app
@@ -9126,7 +9126,7 @@ f_menu_app_sys_peripherals () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_logs () {
       f_initvars_menu_app
@@ -9179,7 +9179,7 @@ f_menu_app_sys_logs () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_monitors () {
       f_initvars_menu_app
@@ -9473,7 +9473,7 @@ f_menu_app_sys_monitors () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_other () {
       f_initvars_menu_app
@@ -9544,7 +9544,7 @@ f_menu_app_sys_other () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_process () {
       f_initvars_menu_app
@@ -9784,7 +9784,7 @@ f_menu_app_sys_process () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_screens () {
       f_initvars_menu_app
@@ -9887,7 +9887,7 @@ f_menu_app_sys_screens () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_sys_software () {
       f_initvars_menu_app
@@ -10152,7 +10152,7 @@ f_menu_app_sys_software () {
 #
 #  Inputs: None.
 #    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_SCAT
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
 #
 f_menu_cat_video () {
       f_initvars_menu_app
@@ -10294,7 +10294,7 @@ f_menu_app_video_editors () {
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMETER, PRESS_KEY, CHOICE_APP
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
 f_menu_app_video_players () {
       f_initvars_menu_app
