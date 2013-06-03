@@ -40,7 +40,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="June-2-2013 18:53"
+REVDATE="June-3-2013 00:59"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -464,7 +464,7 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
               # contain the special comment marker.
               echo
               echo "For help, type: '<application name> --help' or 'man <application name>'"
-              echo "Also accepts application options i.e. <application name> -version"
+              echo "Also accepts application options i.e. <application name> --version"
            ;; 
            "#M"* | "#B"*) # Only display help message in application menus.
               # Do not display in application category menus or main menu.
@@ -473,7 +473,7 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
               # contains the special comment marker.
               echo
               echo "For help, type: '<application name> --help' or 'man <application name>'"
-              echo "Also accepts application options i.e. <application name> -version"
+              echo "Also accepts application options i.e. <application name> --version"
            ;;
       esac
       echo
@@ -920,16 +920,7 @@ f_application_error () {
            echo
            echo "This $APP_NAME application is not installed."
            echo
-           echo "To install under Debian-based Linux use command:"
-           echo "                           sudo apt-get install <application package name>"
-           echo
-           echo "To install under Red Hat-based Linux use command:"
-           echo "                           sudo rpm -ivh <application package name>"
-           echo
-           echo "To install under Slackware-based Linux use command:"
-           echo "                           sudo installpkg <application package name>"
-           echo 
-           echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
+           echo -n "Do you want to install $APP_NAME (y/N)? "
            read ANS
            case $ANS in # Start of Install Application Option case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
@@ -1033,11 +1024,14 @@ f_application_install () {
                    if [ $ERROR -ne 0 ] ; then
                       # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
                       echo
-                      echo "Installation of $APP_NAME_INSTALL failed. Command sudo apt-get install $APP_NAME_INSTALL failed."
+                      echo "Installation of $APP_NAME_INSTALL failed."
+                      echo "Command sudo apt-get install $APP_NAME_INSTALL failed."
                       echo "May be a failure downloading package. Bad Internet connection?"
                       echo
+                      f_application_web_install
                    fi
-                fi 
+                fi
+                #
                 if [ -d /var/lib/rpm ] ; then 
                    # if /var/lib/rpm directory exists, then use rpm install
                    # for RPM-based packages.
@@ -1048,12 +1042,135 @@ f_application_install () {
                       # Error code 1 $?=1 means installation failed.
                       # Error code 0 (zero) where $?=0 means no error.
                       echo
-                      echo "Installation of $APP_NAME_INSTALL failed. Command sudo rpm -ivh $APP_NAME_INSTALL failed."
+                      echo "Installation of $APP_NAME_INSTALL failed."
+                      echo "Command sudo rpm -ivh $APP_NAME_INSTALL failed."
                       echo "May be a failure downloading package. Bad Internet connection"
                       echo
+                      f_application_web_install
                    fi
                 fi
+                #
+              # if [ -d <slackware installation directory> ] ; then
+                   # if <slackware installation directory> exists, then use installpkg
+                   # for slackware packages.
+                   # sudo installpkg <application package name>"
+                   # ERROR=$? # Save error flag condition.
+                   # if [ $ERROR -ne 0 ] ; then
+                        # Error code 1 $?=1 means installation failed.
+                        # Error code 0 (zero) where $?=0 means no error.
+                        # echo
+                        # echo "Installation of $APP_NAME_INSTALL failed."
+                        # echo "Command sudo installpkg $APP_NAME_INSTALL failed."
+                        # echo "May be a failure downloading package. Bad Internet connection"
+                        # echo
+                        # f_application_web_install
+                   # fi
+              # fi
+              #
+              # if [ -d <arch linux installation directory> ] ; then
+                   # if <arch linux installation directory> exists, then use installpkg
+                   # for arch linux packages.
+                   # sudo pacman -S <application package name>"
+                   # ERROR=$? # Save error flag condition.
+                   # if [ $ERROR -ne 0 ] ; then
+                        # Error code 1 $?=1 means installation failed.
+                        # Error code 0 (zero) where $?=0 means no error.
+                        # echo
+                        # echo "Installation of $APP_NAME_INSTALL failed."
+                        # echo "Command sudo pacman -S $APP_NAME_INSTALL failed."
+                        # echo "May be a failure downloading package. Bad Internet connection"
+                        # echo
+                        # f_application_web_install
+                   # fi
+              # fi
+
 } # End of function f_application_install
+#
+#
+# +----------------------------------------+
+# | Function f_application_web_install     |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL.
+#    Uses: WEB_SITE_INSTALL
+#
+f_application_web_install () {
+      WEB_SITE_INSTALL=""
+      case $APP_NAME_INSTALL in # Start of Web Site case statement.
+      herrie)
+      WEB_SITE_INSTALL="http://herrie.info/#obtaining"
+      ;;
+      edbrowse)
+      WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
+      ;;
+      fbv)
+      WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
+      ;;
+      jfbview)
+      WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
+      ;;
+      retawq)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
+      ;;
+      portbunny)
+      WEB_SITE_INSTALL="http://portbunny.recurity.com/"
+      ;;
+      clcal)
+      WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
+      ;;
+      mencal)
+      WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
+      ;;
+      jed)
+      WEB_SITE_INSTALL="http://www.jedsoft.org/jed/download.html"
+      ;;
+      binary-clock)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
+      ;;
+      cclock)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
+      ;;
+      clockywock)
+      WEB_SITE_INSTALL="http://soomka.com/"
+      ;;
+      grandfatherclock)
+      WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
+      ;;
+      asciiaquarium)
+      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/html/"
+      ;;
+      desmume)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
+      ;;
+      handbrake-cli)
+      WEB_SITE_INSTALL="http://handbrake.fr/downloads2.php"
+      ;;
+      yougrabber)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/yougrabber/files/"
+      ;;
+      esac                      # End of Web Site case statement.
+      #
+      case $WEB_SITE_INSTALL in # Start of Web Install case statement.
+      "")
+      ;;
+      *) # if web site is specified, then go there.
+         echo
+         echo "If application did not install properly, do want to use the w3m web browser"
+         echo -n "to visit the project's web site to download manually (y/N)? "
+         read ANS
+         case $ANS in        # Start of Install case statement.
+              [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+              APP_NAME="w3m $WEB_SITE_INSTALL"
+              f_how_to_quit_application "q"
+              f_application_run
+              ;;
+              [Nn] | [Nn][Oo])
+              ;;
+         esac                # End of Install case statement.
+      ;;
+      esac                         # End of Web Install case statement.
+} # End of function f_application_web_install
+#
 #
 # +----------------------------------------+
 # |  Function f_menu_scat_sample_template  |
@@ -1180,36 +1297,10 @@ f_menu_app_sample_template () {
                  2 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2][Nn] | [Aa][Pp][Pp][2][Nn][Aa] | [Aa][Pp][Pp][2][Nn][Aa][Mm] | [Aa][Pp][Pp][2][Nn][Aa][Mm][Ee])
                  APP_NAME="app2name"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m <web site url goes here>"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  [Aa][Pp][Pp][2][Nn][Aa][Mm][Ee]' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m <web site url goes here>"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
             esac                # End of <Sample Template> Applications case statement.
             #
@@ -1404,11 +1495,11 @@ f_menu_app_cdrippers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of CD Rippers Applications case statement.
-                 1 | [Aa] | [Aa][Bb] | [AA][Bb][Cc] | [Aa][Bb][Cc][Dd] | [Aa][Bb][Cc][Dd][Ee)
+                 1 | [Aa] | [Aa][Bb] | [AA][Bb][Cc] | [Aa][Bb][Cc][Dd] | [Aa][Bb][Cc][Dd][Ee])
                  APP_NAME="abcde"
                  f_application_run
                  ;;
-                 [Aa][Bb][Cc][Dd][Ee' '*)
+                 abcde' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1416,7 +1507,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="acripper"
                  f_application_run
                  ;;
-                 [Aa][Cc][Rr][Ii][Pp][P][Ee][Rr]' '*)
+                 acripper' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1424,7 +1515,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="cdparanoia"
                  f_application_run
                  ;;
-                 [Cc][Dd][Pp][Aa][Rr][Aa][Nn][Oo][Ii][Aa]' '*)
+                 cdparanoia' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1432,7 +1523,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="crip"
                  f_application_run
                  ;;
-                 [Cc][Rr][Ii][Pp]' '*)
+                 crip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1440,7 +1531,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="jack"
                  f_application_run
                  ;;
-                 [Jj][Aa][Cc][Kk]' '*)
+                 jack' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1448,7 +1539,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="lxdvdrip"
                  f_application_run
                  ;;
-                 [Ll][Xx][Dd][Vv][Dd][Rr][Ii][Pp]' '*)
+                 lxdvdrip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1456,7 +1547,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="ripit"
                  f_application_run
                  ;;
-                 [Rr][Ii][Pp][Ii][Tt]' '*)
+                 ripit' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1464,7 +1555,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="rubyripper"
                  f_application_run
                  ;;
-                 [Rr][Uu][Bb][Yy][Rr][Ii][Pp][Pp][Ee][Rr]' '*)
+                 rubyripper' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1512,7 +1603,7 @@ f_menu_app_audio_editors () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Aa][Vv][Cc][Oo][Nn][Vv]' '*)
+                 avconv' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1520,7 +1611,7 @@ f_menu_app_audio_editors () {
                  APP_NAME="ecasound"
                  f_application_run
                  ;;
-                  [Ee][Cc][Aa][Ss][Oo][Uu][Nn][Dd]' '*)
+                 ecasound' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1528,7 +1619,7 @@ f_menu_app_audio_editors () {
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
-                 [Ff][Ff][Mm][Ee][Gg]' '*)
+                 ffmpeg' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1536,7 +1627,7 @@ f_menu_app_audio_editors () {
                  APP_NAME="sox"
                  f_application_run
                  ;;
-                 [Ss][Oo][Xx]' '*)
+                 sox' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1596,7 +1687,7 @@ f_menu_app_music_players () {
                  APP_NAME="cdcd"
                  f_application_run
                  ;;
-                 [CC][Dd][Cc][Dd]' '*)
+                 cdcd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1604,7 +1695,7 @@ f_menu_app_music_players () {
                  APP_NAME="cplay"
                  f_application_run
                  ;;
-                 [Cc][Pp][Ll][Aa][Yy]' '*)
+                 cplay' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1612,7 +1703,7 @@ f_menu_app_music_players () {
                  APP_NAME="mcdp"
                  f_application_run
                  ;;
-                 [Mm][Cc][Dd][Pp]' '*)
+                 mcdp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1620,7 +1711,7 @@ f_menu_app_music_players () {
                  APP_NAME="juke"
                  f_application_run
                  ;;
-                 [Jj][Uu][Kk][Ee]' '*)
+                 juke' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1628,7 +1719,7 @@ f_menu_app_music_players () {
                  APP_NAME="pytone"
                  f_application_run
                  ;;
-                 [Pp][Yy][Tt][Oo][Nn][Ee]' '*)
+                 pytone' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1637,49 +1728,23 @@ f_menu_app_music_players () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Cc][Mm][Uu][Ss]' '*)
+                 cmus' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Hh] | [Hh][Ee] | [Hh][Ee][Rr] | [Hh][Ee][Rr][Rr] | [Hh][Ee][Rr][Rr][Ii] | [Hh][Ee][Rr][Rr][Ii][Ee])
                  APP_NAME="herrie"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://herrie.info/#obtaining"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Hh][Ee][Rr][Rr][Ii][Ee]' '*)
+                 herrie' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://herrie.info/#obtaining"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  8 | [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
                  APP_NAME="moc"
                  f_application_run
                  ;;
-                 [Mm][Oo][Cc]' '*)
+                 moc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1687,7 +1752,7 @@ f_menu_app_music_players () {
                  APP_NAME="mpg123"
                  f_application_run
                  ;;
-                 [Mm][Pp][Gg][1][2][3]' '*)
+                 mpg123' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1696,7 +1761,7 @@ f_menu_app_music_players () {
                  APP_NAME="ncmpc"
                  f_application_run
                  ;;
-                 [Nn][Cc][Mm][Pp][Cc]' '*)
+                 ncmpc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1704,7 +1769,7 @@ f_menu_app_music_players () {
                  APP_NAME="yauap"
                  f_application_run
                  ;;
-                 [Yy][Aa][Uu][Aa][Pp]' '*)
+                 yauap' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1712,7 +1777,7 @@ f_menu_app_music_players () {
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
-                 [Mm][Pp][Ll][Aa][Yy][Ee][Rr]' '*)
+                 mplayer' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1720,7 +1785,7 @@ f_menu_app_music_players () {
                  APP_NAME="mplayer2"
                  f_application_run
                  ;;
-                 [Mm][Pp][Ll][Aa][Yy][Ee][Rr][2]' '*)
+                 mplayer2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1728,7 +1793,7 @@ f_menu_app_music_players () {
                  APP_NAME="vlc"
                  f_application_run
                  ;;
-                 [Vv][Ll]Cc]' '*)
+                 vlc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1736,7 +1801,7 @@ f_menu_app_music_players () {
                  APP_NAME="pianobar"
                  f_application_run
                  ;;
-                 [Pp][Ii][Aa][Nn][Oo][Bb][Aa][Rr]' '*)
+                 pianobar' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1744,7 +1809,7 @@ f_menu_app_music_players () {
                  APP_NAME="shell-fm"
                  f_application_run
                  ;;
-                 [Ss][Hh][Ee][Ll][Ll][-][Ff][Mm]' '*)
+                 shell-fm' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1794,7 +1859,7 @@ f_menu_app_radio () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Dd][Rr][Aa][Dd][Ii][Oo]' '*)
+                 dradio' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1802,7 +1867,7 @@ f_menu_app_radio () {
                  APP_NAME="radio"
                  f_application_run
                  ;;
-                 [Rr][Aa][Dd][Ii][Oo]' '*)
+                 radio' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1810,7 +1875,7 @@ f_menu_app_radio () {
                  APP_NAME="pianobar"
                  f_application_run
                  ;;
-                 [Pp][Ii][Aa][Nn][Oo][Bb][Aa][Rr]' '*)
+                 pianobar' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1818,7 +1883,7 @@ f_menu_app_radio () {
                  APP_NAME="shell-fm"
                  f_application_run
                  ;;
-                 [Ss][Hh][Ee][Ll][Ll][-][Ff][Mm]' '*)
+                 shell-fm' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1866,50 +1931,24 @@ f_menu_app_speech_synthesis () {
                  APP_NAME="ebook-speaker"
                  f_application_run
                  ;;
-                 [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee][Rr]' '*)
+                 ebook-speaker' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  2 | [Ee] | [Ee][Dd] | [Ee][Dd][Bb] | [Ee][Dd][Bb][Rr] | [Ee][Dd][Bb][Rr][Oo] | [Ee][Dd][Bb][Rr][Oo][Ww] | [Ee][Dd][Bb][Rr][Oo][Ww][Ss] | [Ee][Dd][Bb][Rr][Oo][Ww][Ss][Ee])
                  APP_NAME="edbrowse"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://the-brannons.com/edbrowse/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Ee][Dd][Bb][Rr][Oo][Ww][Ss][Ee]' '*)
+                 edbrowse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://the-brannons.com/edbrowse/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  3 | [Ff] | [Ff][Ee] | [Ff][Ee][Ss] | [Ff][Ee][Ss][Tt] | [Ff][Ee][Ss][Tt][Ii] | [Ff][Ee][Ss][Tt][Ii][Vv] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll])
                  APP_NAME="festival"
                  f_how_to_quit_application "(quit)"
                  f_application_run
                  ;;
-                 [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll]' '*)
+                 festival' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1917,7 +1956,7 @@ f_menu_app_speech_synthesis () {
                  APP_NAME="screader"
                  f_application_run
                  ;;
-                 [Ss][Cc][Rr][Ee][Aa][Dd][Ee][Rr]' '*)
+                 screader' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1971,7 +2010,7 @@ f_menu_app_education () {
                  APP_NAME="lifelines"
                  f_application_run
                  ;;
-                 [Ll][Ii][Ff][Ee][Ll][Ii][Nn][Ee][Ss]' '*)
+                 lifelines' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1979,7 +2018,7 @@ f_menu_app_education () {
                  APP_NAME="grass"
                  f_application_run
                  ;;
-                 [Gg][Rr][Aa][Ss][Ss]' '*)
+                 grass' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1987,7 +2026,7 @@ f_menu_app_education () {
                  APP_NAME="diatheke"
                  f_application_run
                  ;;
-                 [Dd][Ii][Aa][Tt][Hh][Ee][Kk][Ee]' '*)
+                 diatheke' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1995,7 +2034,7 @@ f_menu_app_education () {
                  APP_NAME="aldo"
                  f_application_run
                  ;;
-                 [Aa][Ll][Dd][Oo]' '*)
+                 aldo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2003,7 +2042,7 @@ f_menu_app_education () {
                  APP_NAME="cw"
                  f_application_run
                  ;;
-                 [Cc][Ww]' '*)
+                 cw' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2011,7 +2050,7 @@ f_menu_app_education () {
                  APP_NAME="cwcp"
                  f_application_run
                  ;;
-                 [Cc][Ww][Cc][Pp]' '*)
+                 cwcp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2019,7 +2058,7 @@ f_menu_app_education () {
                  APP_NAME="morse"
                  f_application_run
                  ;;
-                 [Mm][Oo][Rr][Ss][Ee]' '*)
+                 morse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2027,7 +2066,7 @@ f_menu_app_education () {
                  APP_NAME="primes"
                  f_application_run
                  ;;
-                 [Pp][Rr][Ii][Mm][Ee][Ss]' '*)
+                 primes' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2035,7 +2074,7 @@ f_menu_app_education () {
                  APP_NAME="gtypist"
                  f_application_run
                  ;;
-                 [Gg][Tt][Yy][Pp][Ii][Ss][Tt]' '*)
+                 gtypist' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2043,7 +2082,7 @@ f_menu_app_education () {
                  APP_NAME="typespeed"
                  f_application_run
                  ;;
-                 [Tt][Yy][Pp][Ee][Ss][Pp][Ee][Ee][Dd]' '*)
+                 typespeed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2173,7 +2212,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="bcrypt"
                  f_application_run
                  ;;
-                 [Bb][Cc][Rr][Yy][Pp][Tt]' '*)
+                 bcrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2181,7 +2220,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="ccrypt"
                  f_application_run
                  ;;
-                 [Cc][Cc][Rr][Yy][Pp][Tt]' '*)
+                 ccrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2189,7 +2228,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="crypt"
                  f_application_run
                  ;;
-                 [Cc][Rr][Yy][Pp][Tt]' '*)
+                 crypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2197,7 +2236,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="mcrypt"
                  f_application_run
                  ;;
-                 [Mm][Cc][Rr][Yy][Pp][Tt]' '*)
+                 mcrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2205,7 +2244,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="pgp"
                  f_application_run
                  ;;
-                 [Pp][Gg][Pp]' '*)
+                 pgp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2213,7 +2252,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="scrypt"
                  f_application_run
                  ;;
-                 [Ss][Cc][Rr][Yy][Pp][Tt]' '*)
+                 scrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2221,7 +2260,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="truecrypt"
                  f_application_run
                  ;;
-                 [Tt][Rr][Uu][Ee][Cc][Rr][Yy][Pp][Tt]' '*)
+                 truecrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2229,7 +2268,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="zcrypt"
                  f_application_run
                  ;;
-                 [Zz][Cc][Rr][Yy][Pp][Tt]' '*)
+                 zcrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2292,7 +2331,7 @@ f_menu_app_file_find () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ff][Ii][Nn][Dd]' '*)
+                 find' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2328,7 +2367,7 @@ f_menu_app_file_find () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ll][Oo][Cc][Aa][Tt][Ee]' '*)
+                 locate' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2336,7 +2375,7 @@ f_menu_app_file_find () {
                  APP_NAME="updatedb"
                  f_application_run
                  ;;
-                 [Uu][Pp][Dd][Aa][Tt][Ee][Dd][Bb]' '*)
+                 updatedb' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2388,7 +2427,7 @@ f_menu_app_file_managers () {
                  APP_NAME="clex"
                  f_application_run
                  ;;
-                 [Cc][Ll][Ee][Xx]' '*)
+                 clex' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2396,7 +2435,7 @@ f_menu_app_file_managers () {
                  APP_NAME="dired"
                  f_application_run
                  ;;
-                 [Dd][Ii][Rr][Ee][Dd]' '*)
+                 dired' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2404,7 +2443,7 @@ f_menu_app_file_managers () {
                  APP_NAME="mc"
                  f_application_run
                  ;;
-                 [Mm][Cc]' '*)
+                 mc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2412,7 +2451,7 @@ f_menu_app_file_managers () {
                  APP_NAME="ranger"
                  f_application_run
                  ;;
-                 [Rr][Aa][Nn][Gg][Ee][Rr]' '*)
+                 ranger' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2420,7 +2459,7 @@ f_menu_app_file_managers () {
                  APP_NAME="smbc"
                  f_application_run
                  ;;
-                 [Ss][Mm][Bb][Cc]' '*)
+                 smbc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2428,7 +2467,7 @@ f_menu_app_file_managers () {
                  APP_NAME="vfu"
                  f_application_run
                  ;;
-                 [Vv][Ff][Uu]' '*)
+                 vfu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2436,7 +2475,7 @@ f_menu_app_file_managers () {
                  APP_NAME="vifm"
                  f_application_run
                  ;;
-                 [Vv][Ii][Ff][Mm]' '*)
+                 vifm' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2444,7 +2483,7 @@ f_menu_app_file_managers () {
                  APP_NAME="detox"
                  f_application_run
                  ;;
-                 [Dd][Ee][Tt][Oo][Xx]' '*)
+                 detox' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2452,7 +2491,7 @@ f_menu_app_file_managers () {
                  APP_NAME="findmnt"
                  f_application_run
                  ;;
-                 [Ff][Ii][Nn][Dd][Mm][Nn][Tt]' '*)
+                 findmnt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2498,7 +2537,7 @@ f_menu_app_file_splitters () {
                  APP_NAME="lxsplit"
                  f_application_run
                  ;;
-                 [Ll][Xx][Ss][Pp][Ll][Ii][Tt]' '* | 'sudo lxsplit '* | 'sudo lxsplit')
+                 lxsplit' '* | 'sudo lxsplit '* | 'sudo lxsplit')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2506,7 +2545,7 @@ f_menu_app_file_splitters () {
                  APP_NAME="split"
                  f_application_run
                  ;;
-                 [Ss][Pp][Ll][Ii][Tt]' '* | 'sudo split '* | 'sudo split')
+                 split' '* | 'sudo split '* | 'sudo split')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2554,7 +2593,7 @@ f_menu_app_file_viewers () {
                  APP_NAME="jless"
                  f_application_run
                  ;;
-                 [Jj][Ll][Ee][Ss][Ss]' '*)
+                 jless' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2562,7 +2601,7 @@ f_menu_app_file_viewers () {
                  APP_NAME="more"
                  f_application_run
                  ;;
-                 [Mm][Oo][Rr][Ee]' '*)
+                 more' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2570,7 +2609,7 @@ f_menu_app_file_viewers () {
                  APP_NAME="most"
                  f_application_run
                  ;;
-                 [Mm][Oo][Ss][Tt]' '*)
+                 most' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2615,7 +2654,7 @@ f_menu_app_file_deletion () {
                  APP_NAME="shred"
                  f_application_run
                  ;;
-                 [Ss][Hh][Rr][Ee][Dd]' '*)
+                 shred' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2688,7 +2727,7 @@ f_menu_app_file_recover () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt]' '*)
+                 foremost' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2710,7 +2749,7 @@ f_menu_app_file_recover () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Pp][Hh][Oo][Tt][Oo][Rr][Ee][Cc]' '*)
+                 photorec' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2728,7 +2767,7 @@ f_menu_app_file_recover () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ss][Aa][Ff][Ee][Cc][Oo][Pp][Yy]' '*)
+                 safecopy' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2736,7 +2775,7 @@ f_menu_app_file_recover () {
                  APP_NAME="trash-cli"
                  f_application_run
                  ;;
-                 [Tt][Rr][Aa][Ss][Hh][-][Cc][Ll][Ii]' '*)
+                 trash-cli' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2869,15 +2908,15 @@ f_menu_app_games_arcade () {
                  APP_NAME="asciijump"
                  f_application_run
                  ;;
-                 [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm][Pp]' '*)
+                 asciijump' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  2 | [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss] | [Ff][Rr][Ee][Ee][Ss][Ww] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee][Pp])
-                 APP_NAME="freeswap"
+                 APP_NAME="freesweep"
                  f_application_run
                  ;;
-                 [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee][Pp]' '*)
+                 freesweep' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2885,7 +2924,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="moon-buggy"
                  f_application_run
                  ;;
-                 [Mm][Oo][Oo][Nn][-][Bb][Uu][Gg][Gg][Yy]' '*)
+                 moon-buggy' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2894,7 +2933,7 @@ f_menu_app_games_arcade () {
                  f_how_to_quit_application "q" 
                  f_application_run
                  ;;
-                 [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr][Ss]' '*)
+                 ninvaders' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2902,7 +2941,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="pacman4console"
                  f_application_run
                  ;;
-                 [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll][Ee]' '*)
+                 pacman4console' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2910,7 +2949,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="robots"
                  f_application_run
                  ;;
-                 [Rr][Oo][Bb][Oo][Tt][Ss]' '*)
+                 robots' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2918,7 +2957,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="snake"
                  f_application_run
                  ;;
-                 [Ss][Nn][Aa][Kk][Ee]' '*)
+                 snake' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2926,7 +2965,7 @@ f_menu_app_games_arcade () {
                  APP_NAME="worm"
                  f_application_run
                  ;;
-                 [Ww][Oo][Rr][Mm]' '*)
+                 worm' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2972,7 +3011,7 @@ f_menu_app_games_board () {
                  APP_NAME="atom4"
                  f_application_run
                  ;;
-                 [Aa][Tt][Oo][Mm][4]' '*)
+                 atom4' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2980,7 +3019,7 @@ f_menu_app_games_board () {
                  APP_NAME="backgammon"
                  f_application_run
                  ;;
-                 [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm][Oo][Nn]' '*)
+                 backgammon' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2988,7 +3027,7 @@ f_menu_app_games_board () {
                  APP_NAME="monop"
                  f_application_run
                  ;;
-                 [Mm][Oo][Nn][Oo][Pp]' '*)
+                 monop' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3034,7 +3073,7 @@ f_menu_app_games_card () {
                  APP_NAME="canfield"
                  f_application_run
                  ;;
-                 [Cc][Aa][Nn][Ff][Ii][Ee][Ll][Dd' '*)
+                 canfield' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3042,7 +3081,7 @@ f_menu_app_games_card () {
                  APP_NAME="cribbage"
                  f_application_run
                  ;;
-                 [Cc][Rr][Ii][Bb][Bb][Aa][Gg][Ee]' '*)
+                 cribbage' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3050,7 +3089,7 @@ f_menu_app_games_card () {
                  APP_NAME="go-fish"
                  f_application_run
                  ;;
-                 [Gg][Oo][-][Ff][Ii][Ss][Hh]' '*)
+                 go-fish' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3095,7 +3134,7 @@ f_menu_app_games_mud () {
                  APP_NAME="crawl"
                  f_application_run
                  ;;
-                 [Cc][Rr][Aa][Ww][Ll]' '*)
+                 crawl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3103,7 +3142,7 @@ f_menu_app_games_mud () {
                  APP_NAME="tintin++"
                  f_application_run
                  ;;
-                 [Tt][Ii][Nn][Tt][Ii][Nn][+][+]' '*)
+                 tintin++' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3152,7 +3191,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="bastet"
                  f_application_run
                  ;;
-                 [Bb][Aa][Ss][Tt][Ee][Tt]' '*)
+                 bastet' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3160,7 +3199,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="bcd"
                  f_application_run
                  ;;
-                 [Bb][Cc][Dd]' '*)
+                 bcd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3168,7 +3207,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="dab"
                  f_application_run
                  ;;
-                 [Dd][Aa][Bb]' '*)
+                 dab' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3176,7 +3215,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="netris"
                  f_application_run
                  ;;
-                 [Nn][Ee][Tt][Rr][Ii][Ss]' '*)
+                 netris' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3184,7 +3223,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="petris"
                  f_application_run
                  ;;
-                 [Pp][Ee][Tt][Rr][Ii][Ss]' '*)
+                 petris' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3192,7 +3231,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="ppt"
                  f_application_run
                  ;;
-                 [Pp][Pp][Tt]' '*)
+                 ppt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3240,7 +3279,7 @@ f_menu_app_games_quiz () {
                  f_how_to_quit_application "Ctrl-Z"
                  f_application_run
                  ;;
-                 [Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt][Ii][Cc]' '*)
+                 arithmetic' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3248,7 +3287,7 @@ f_menu_app_games_quiz () {
                  APP_NAME="geekcode"
                  f_application_run
                  ;;
-                 [Gg][Ee][Ee][Kk][Cc][Oo][Dd][Ee]' '*)
+                 geekcode' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3256,7 +3295,7 @@ f_menu_app_games_quiz () {
                  APP_NAME="morse"
                  f_application_run
                  ;;
-                 [Mm][Oo][Rr][Ss][Ee]' '*)
+                 morse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3265,7 +3304,7 @@ f_menu_app_games_quiz () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Qq][Uu][Ii][Zz]' '*)
+                 quiz' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3316,7 +3355,7 @@ f_menu_app_games_rpg () {
                  f_how_to_quit_application "quit"
                  f_application_run
                  ;;
-                 [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr][Ee]' '*)
+                 adventure' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3324,7 +3363,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="battlestar"
                  f_application_run
                  ;;
-                 [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt][Aa][Rr]' '*)
+                 battlestar' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3332,7 +3371,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="hack"
                  f_application_run
                  ;;
-                 [hH][Aa][Cc][Kk]' '*)
+                 hack' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3340,7 +3379,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="nethack-console"
                  f_application_run
                  ;;
-                 [Nn][Ee][Tt][hH][Aa][Cc][Kk]' '*)
+                 nethack' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3348,7 +3387,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="phantasia"
                  f_application_run
                  ;;
-                 [Pp][Hh][Aa][Nn][Tt][Aa][Ss][Ii][Aa]' '*)
+                 phantasia' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3356,7 +3395,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="slashem"
                  f_application_run
                  ;;
-                 [Ss][Ll][Aa][Ss][Hh][Ee][Mm]' '*)
+                 slashem' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3364,7 +3403,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="wump"
                  f_application_run
                  ;;
-                 [Ww][Uu][Mm][Pp]' '*)
+                 wump' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3410,7 +3449,7 @@ f_menu_app_games_simulation () {
                  APP_NAME="atc"
                  f_application_run
                  ;;
-                 [Aa][Tt][Cc]' '*)
+                 atc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3418,7 +3457,7 @@ f_menu_app_games_simulation () {
                  APP_NAME="sail"
                  f_application_run
                  ;;
-                 [Ss][Aa][Ii][Ll]' '*)
+                 sail' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3427,7 +3466,7 @@ f_menu_app_games_simulation () {
                  f_how_to_quit_application "at the prompt Command: terminate"
                  f_application_run
                  ;;
-                 [Tt][Rr][Ee][Kk]' '*)
+                 trek' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3474,7 +3513,7 @@ f_menu_app_games_strategy () {
                  APP_NAME="gomoku"
                  f_application_run
                  ;;
-                 [Gg][Oo][Mm][Oo][Kk][Uu]' '*)
+                 gomoku' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3482,7 +3521,7 @@ f_menu_app_games_strategy () {
                  APP_NAME="hunt"
                  f_application_run
                  ;;
-                 [Hh][Uu][Nn][Tt]' '*)
+                 hunt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3490,7 +3529,7 @@ f_menu_app_games_strategy () {
                  APP_NAME="mille"
                  f_application_run
                  ;;
-                 [Mm][Ii][Ll][Ll][Ee]' '*)
+                 mille' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3512,7 +3551,7 @@ f_menu_app_games_strategy () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ww][Aa][Rr][Gg][Aa][Mm][Ee][Ss]' '*)
+                 wargames' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3558,7 +3597,7 @@ f_menu_app_games_word () {
                  APP_NAME="boggle"
                  f_application_run
                  ;;
-                 [Bb][Oo][Gg][Gg][Ll][Ee]' '*)
+                 boggle' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3566,7 +3605,7 @@ f_menu_app_games_word () {
                  APP_NAME="hangman"
                  f_application_run
                  ;;
-                 [Hh][Aa][Nn][Gg][Mm][Aa][Nn]' '*)
+                 hangman' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3574,7 +3613,7 @@ f_menu_app_games_word () {
                  APP_NAME="pig"
                  f_application_run
                  ;;
-                 [Pp][Ii][Gg]' '*)
+                 pig' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3669,7 +3708,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="aview"
                  f_application_run
                  ;;
-                 [Aa][Vv][Ii][Ee][Ww]' '*)
+                 aview' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3677,7 +3716,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="hasciicam"
                  f_application_run
                  ;;
-                 [Hh][Aa][Ss][Cc][Ii][Ii][Cc][Aa][Mm]' '*)
+                 hasciicam' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3685,7 +3724,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="caca-utils"
                  f_application_run
                  ;;
-                 [Cc][Aa][Cc][Aa][-][Uu][Tt][Ii][Ll][Ss]' '*)
+                 caca-utils' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3693,91 +3732,39 @@ f_menu_app_image_graphics () {
                  APP_NAME="fbi"
                  f_application_run
                  ;;
-                 [Ff][Bb][Ii]' '*)
+                 fbi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Ff] | [Ff][Bb] | [Ff][Bb][Vv])
                  APP_NAME="fbv"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://freecode.com/projects/fbv"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Ff][Bb][Vv]' '*)
+                 fbv' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://freecode.com/projects/fbv"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  6 | [Ff] | [Ff][Ii] | [Ff][Ii][Mm)
                  APP_NAME="fim"
                  f_application_run
                  ;;
-                 [Ff][Bb][Ii]' '*)
+                 fim' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Jj] | [Jj][Ff] | [Jj][Ff][Bb] | [Jj][Ff][Bb][Vv] | [Jj][Ff][Bb][Vv][Ii] | [Jj][Ff][Bb][Vv][Ii][Ee] | [Jj][Ff][Bb][Vv][Ii][Ee][Ww])
                  APP_NAME="jfbview"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m https://github.com/jichuan89/JFBView.git"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Jj][Ff][Bb][Vv][Ii][Ee][Ww]' '*)
+                 jfbview' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m https://github.com/jichuan89/JFBView.git"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  8 | [Jj] | [Jj][Pp] | [Jj][Pp][2] | [Jj][Pp][2][Aa])
                  APP_NAME="jp2a"
                  f_application_run
                  ;;
-                 [Jj][Pp][2][Aa]' '*)
+                 jp2a' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3795,7 +3782,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="linuxlogo -L "$ANS
                  f_application_run
                  ;;
-                 [Ll][Ii][Nn][Uu][Xx][Ll][Oo][Gg][Oo]' '*)
+                 linuxlogo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3849,7 +3836,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="animate"
                  f_application_run
                  ;;
-                 [Aa][Nn][Ii][Mm][Aa][Tt][Ee]' '*)
+                 animate' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3857,7 +3844,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="composite"
                  f_application_run
                  ;;
-                 [Cc][Oo][Mm][Pp][Oo][Ss][Ii][Tt][Ee]' '*)
+                 composite' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3865,7 +3852,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="compare"
                  f_application_run
                  ;;
-                 [Cc][Oo][Mm][Pp][Aa][Rr][Ee]' '*)
+                 compare' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3873,7 +3860,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="conjure"
                  f_application_run
                  ;;
-                 [Cc][Oo][Nn][Jj][Uu][Rr][Ee]' '*)
+                 conjure' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3881,7 +3868,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="convert"
                  f_application_run
                  ;;
-                 [Cc][Oo][Nn][Vv][Ee][Rr][Tt]' '*)
+                 convert' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3889,7 +3876,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="display"
                  f_application_run
                  ;;
-                 [Dd][Ii][Ss][Pp][Ll][Aa][Yy]' '*)
+                 display' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3897,7 +3884,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="identify"
                  f_application_run
                  ;;
-                 [Ii][Dd][Ee][Nn][Tt][Ii][Ff][Yy]' '*)
+                 identify' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3905,7 +3892,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="import"
                  f_application_run
                  ;;
-                 [Ii][Mm][Pp][Oo][Rr][Tt]' '*)
+                 import' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3913,7 +3900,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="mogrify"
                  f_application_run
                  ;;
-                 [Mm][Oo][Gg][Rr][Ii][Ff][Yy]' '*)
+                 mogrify' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3921,7 +3908,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="montage"
                  f_application_run
                  ;;
-                 [Mm][Oo][Nn][Tt][Aa][Gg][Ee]' '*)
+                 montage' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3929,7 +3916,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="stream"
                  f_application_run
                  ;;
-                 [Ss][Tt][Rr][Ee][Aa][Mm]' '*)
+                 stream' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4077,7 +4064,7 @@ f_menu_app_web_browsers () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Ee][Ll][Ii][Nn][Kk][Ss]' '*)
+                 elinks' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_how_to_quit_application "q"
@@ -4088,7 +4075,7 @@ f_menu_app_web_browsers () {
                  f_web_site
                  f_application_run
                  ;;
-                 [Ll][Yy][Nn][Xx]' '*)
+                 lynx' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_application_run
@@ -4099,7 +4086,7 @@ f_menu_app_web_browsers () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Ll][Ii][Nn][Kk][Ss]' '*)
+                 links' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_how_to_quit_application "q"
@@ -4111,7 +4098,7 @@ f_menu_app_web_browsers () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Ll][Ii][Nn][Kk][Ss][2]' '*)
+                 links2' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_how_to_quit_application "q"
@@ -4122,38 +4109,12 @@ f_menu_app_web_browsers () {
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Rr][Ee][Tt][Aa][Ww][Qq]' '*)
+                 retawq' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  6 | [Ww] | [Ww][3] | [Ww][3][Mm] | [Ww][3][Mm])
                  APP_NAME="w3m"
@@ -4161,7 +4122,7 @@ f_menu_app_web_browsers () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Ww][3][Mm]' '*)
+                 w3m' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_how_to_quit_application "q"
@@ -4306,10 +4267,10 @@ f_menu_app_bittorrent () {
             #
             case $CHOICE_APP in # Start of Bittorrent Applications case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
-                 APP_NAME="aria2c"
+                 APP_NAME="aria2"
                  f_application_run
                  ;;
-                 [Aa][Rr][Ii][Aa][2]' '*)
+                 aria2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4317,7 +4278,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="bittornado"
                  f_application_run
                  ;;
-                 [Bb][Ii][Tt][Tt][Oo][Rr][Nn][Aa][Dd][Oo]' '*)
+                 bittornado' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4325,7 +4286,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="bittorrent"
                  f_application_run
                  ;;
-                 [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt]' '*)
+                 bittorrent' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4333,7 +4294,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="ctorrent"
                  f_application_run
                  ;;
-                 [Cc][Tt][Oo][Rr][Rr][Ee][Nn][Tt]' '*)
+                 ctorrent' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4341,7 +4302,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="deluge"
                  f_application_run
                  ;;
-                 [Dd][Ee][Ll][Uu][Gg][Ee]' '*)
+                 deluge' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4349,7 +4310,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="mldonkey"
                  f_application_run
                  ;;
-                 [Mm][Ll][Dd][Oo][Nn][Kk][Ee][Yy]' '*)
+                 mldonkey' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4357,7 +4318,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="rtorrent"
                  f_application_run
                  ;;
-                 [Rr][Tt][Oo][Rr][Rr][Ee][Nn][Tt]' '*) 
+                 rtorrent' '*) 
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4365,7 +4326,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="transmission"
                  f_application_run
                  ;;
-                 [Tt][Rr][Aa][Nn][Ss][Mm][Ii][Ss][Ss][Ii][Oo][Nn]' '*) 
+                 transmission' '*) 
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4410,10 +4371,10 @@ f_menu_app_downloaders () {
             #
             case $CHOICE_APP in # Start of Dowloader Applications case statement.
                  1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
-                 APP_NAME="aria2c"
+                 APP_NAME="aria2"
                  f_application_run
                  ;;
-                 [Aa][Rr][Ii][Aa][2]' '*)
+                 aria2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4430,7 +4391,7 @@ f_menu_app_downloaders () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Mm][Dd][5][Ss][Uu][Mm]' '*)
+                 md5sum' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4450,7 +4411,7 @@ f_menu_app_downloaders () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Mm][Dd][5][Pp][Aa][Ss][Ss]' '*)
+                 md5pass' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4468,7 +4429,7 @@ f_menu_app_downloaders () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ss][Hh][Aa][1][Ss][Uu][Mm]' '*)
+                 sha1sum' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4487,7 +4448,7 @@ f_menu_app_downloaders () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ss][Hh][Aa][1][Pp][Aa][Ss][Ss]' '*)
+                 sha1pass' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4541,7 +4502,7 @@ f_menu_app_email () {
                  APP_NAME="alpine"
                  f_application_run
                  ;;
-                 [Aa][Ll][Pp][Ii][Nn][Ee]' '*)
+                 alpine' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4549,7 +4510,7 @@ f_menu_app_email () {
                  APP_NAME="cone"
                  f_application_run
                  ;;
-                 [Cc][Oo][Nn][Ee]' '*)
+                 cone' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4557,7 +4518,7 @@ f_menu_app_email () {
                  APP_NAME="elmo"
                  f_application_run
                  ;;
-                 [Ee][Ll][Mm][Oo]' '*)
+                 elmo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4565,7 +4526,7 @@ f_menu_app_email () {
                  APP_NAME="fetchyahoo"
                  f_application_run
                  ;;
-                 [Ff][Ee][Tt][Cc][Hh][Yy][Aa][Hh][Oo][Oo]' '*)
+                 fetchyahoo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4573,7 +4534,7 @@ f_menu_app_email () {
                  APP_NAME="gnus"
                  f_application_run
                  ;;
-                 [Gg][Nn][Uu][Ss]' '*)
+                 gnus' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4581,7 +4542,7 @@ f_menu_app_email () {
                  APP_NAME="heirloom-mailx"
                  f_application_run
                  ;;
-                 [Hh][Ee][Ii][Rr][Ll][Oo][Oo][Mm][-][Mm][Aa][Ii][Ll][Xx]' '*)
+                 heirloom-mailx' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4589,7 +4550,7 @@ f_menu_app_email () {
                  APP_NAME="mu4e"
                  f_application_run
                  ;;
-                 [Mm][Uu][4][Ee]' '*)
+                 mu4e' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4597,7 +4558,7 @@ f_menu_app_email () {
                  APP_NAME="mutt"
                  f_application_run
                  ;;
-                 [Mm][Uu][Tt][Tt]' '*)
+                 mutt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4605,7 +4566,7 @@ f_menu_app_email () {
                  APP_NAME="nedmail"
                  f_application_run
                  ;;
-                 [Nn][Ee][Dd][Mm][Aa][Ii][Ll]' '*)
+                 nedmail' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4613,7 +4574,7 @@ f_menu_app_email () {
                  APP_NAME="pine"
                  f_application_run
                  ;;
-                 [Pp][Ii][Nn][Ee]' '*)
+                 pine' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4621,7 +4582,7 @@ f_menu_app_email () {
                  APP_NAME="supp"
                  f_application_run
                  ;;
-                 [Ss][Uu][Pp][Pp]' '*)
+                 supp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4666,7 +4627,7 @@ f_menu_app_fax () {
                  APP_NAME="efax"
                  f_application_run
                  ;;
-                 [Ee][Ff][Aa][Xx]' '*)
+                 efax' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4674,7 +4635,7 @@ f_menu_app_fax () {
                  APP_NAME="hylafax-client"
                  f_application_run
                  ;;
-                 [Hh][Yy][Ll][Aa][Ff][Aa][Xx][-][Cc][Ll][Ii][Ee][Nn][Tt]' '*)
+                 hylafax-client' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4725,7 +4686,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="cmdftp"
                  f_application_run
                  ;;
-                 [Cc][Mm][Dd][Ff][Tt][Pp]' '*)
+                 cmdftp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4733,7 +4694,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="curl"
                  f_application_run
                  ;;
-                 [Cc][Uu][Rr][Ll]' '*)
+                 curl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4741,7 +4702,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="ftp"
                  f_application_run
                  ;;
-                 [Ff][Tt][Pp]' '*)
+                 ftp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4749,7 +4710,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="ftpfs"
                  f_application_run
                  ;;
-                 [Ff][Tt][Pp][Ff][Ss]' '*)
+                 ftpfs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4757,7 +4718,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="lftp"
                  f_application_run
                  ;;
-                 [Ll][Ff][Tt][Pp]' '*)
+                 lftp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4765,7 +4726,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="ncftp"
                  f_application_run
                  ;;
-                 [Nn][Cc][Ff][Tt][Pp]' '*)
+                 ncftp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4773,7 +4734,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="scp"
                  f_application_run
                  ;;
-                 [Ss][Cc][Pp]' '*)
+                 scp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4781,7 +4742,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="woof"
                  f_application_run
                  ;;
-                 [Ww][Oo][Oo][Ff]' '*)
+                 woof' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4846,7 +4807,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Bb][Aa][Rr][Nn][Oo][Ww][Ll]' '*)
+                 barnowl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4854,7 +4815,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="bitlbee"
                  f_application_run
                  ;;
-                 [Bb][Ii][Tt][Ll][Bb][Ee][Ee]' '*)
+                 bitlbee' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4862,7 +4823,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="centericq"
                  f_application_run
                  ;;
-                 [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc][Qq]' '*)
+                 centericq' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4870,7 +4831,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="centerim"
                  f_application_run
                  ;;
-                 [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm]' '*)
+                 centerim' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4878,7 +4839,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="emacs-jabber"
                  f_application_run
                  ;;
-                 [Ee][Mm][Aa][Cc][Ss][-][Jj][Aa][Bb][Bb][Ee][Rr]' '*)
+                 emacs-jabber' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4886,7 +4847,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="finch"
                  f_application_run
                  ;;
-                 [Ff][Ii][Nn][Cc][Hh]' '*)
+                 finch' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4894,7 +4855,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="freetalk"
                  f_application_run
                  ;;
-                 [Ff][Rr][Ee][Ee][Tt][Aa][Ll][Kk]' '*)
+                 freetalk' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4902,7 +4863,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="mcabber"
                  f_application_run
                  ;;
-                 [Mm][Cc][Aa][Bb][Bb][Ee][Rr]' '*)
+                 mcabber' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4910,7 +4871,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="naim"
                  f_application_run
                  ;;
-                 [Nn][Aa][Ii][Mm]' '*)
+                 naim' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4961,7 +4922,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="epic"
                  f_application_run
                  ;;
-                 [Ee][Pp][Ii][Cc]' '*)
+                 epic' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4969,7 +4930,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="erc"
                  f_application_run
                  ;;
-                 [Ee][Rr][Cc]' '*)
+                 erc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4977,7 +4938,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="ii"
                  f_application_run
                  ;;
-                 [Ii][Ii]' '*)
+                 ii' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4985,7 +4946,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="ircii"
                  f_application_run
                  ;;
-                 [Ii][Rr][Cc][Ii][Ii]' '*)
+                 ircii' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4993,7 +4954,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="irssi"
                  f_application_run
                  ;;
-                 [Ii][Rr][Ss][Ss][Ii]' '*)
+                 irssi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5001,7 +4962,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="pork"
                  f_application_run
                  ;;
-                 [Pp][Oo][Rr][Kk]' '*)
+                 pork' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5009,7 +4970,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="scrollz"
                  f_application_run
                  ;;
-                 [Ss][Cc][Rr][Oo][Ll][Ll][Zz]' '*)
+                 scrollz' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5017,7 +4978,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="sic"
                  f_application_run
                  ;;
-                 [Ss][Ii][Cc]' '*)
+                 sic' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5066,7 +5027,7 @@ f_menu_app_news_readers () {
                  APP_NAME="gnus"
                  f_application_run
                  ;;
-                 [Gg][Nn][Uu][Ss]' '*)
+                 gnus' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5074,7 +5035,7 @@ f_menu_app_news_readers () {
                  APP_NAME="nn"
                  f_application_run
                  ;;
-                 [Nn][Nn]' '*)
+                 nn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5082,7 +5043,7 @@ f_menu_app_news_readers () {
                  APP_NAME="rn"
                  f_application_run
                  ;;
-                 [Rr][Nn]' '*)
+                 rn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5090,7 +5051,7 @@ f_menu_app_news_readers () {
                  APP_NAME="slrn"
                  f_application_run
                  ;;
-                 [Ss][Ll][Rr][Nn]' '*)
+                 slrn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5098,7 +5059,7 @@ f_menu_app_news_readers () {
                  APP_NAME="tin"
                  f_application_run
                  ;;
-                 [Tt][Ii][Nn]' '*)
+                 tin' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5106,7 +5067,7 @@ f_menu_app_news_readers () {
                  APP_NAME="trn"
                  f_application_run
                  ;;
-                 [Tt][Rr][Nn]' '*)
+                 trn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5152,7 +5113,7 @@ f_menu_app_lan_chat () {
                  APP_NAME="talk"
                  f_application_run
                  ;;
-                 [Tt][Aa][Ll][Kk]' '*)
+                 talk' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5160,7 +5121,7 @@ f_menu_app_lan_chat () {
                  APP_NAME="weechat"
                  f_application_run
                  ;;
-                 [Ww][Ee][Ee][Cc][Hh][Aa][Tt]' '*)
+                 weechat' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5168,7 +5129,7 @@ f_menu_app_lan_chat () {
                  APP_NAME="ytalk"
                  f_application_run
                  ;;
-                 [Yy][Tt][Aa][Ll][Kk]' '*)
+                 ytalk' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5217,7 +5178,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="bashpodder"
                  f_application_run
                  ;;
-                 [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee][Rr]' '*)
+                 bashpodder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5225,7 +5186,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="goldenpod"
                  f_application_run
                  ;;
-                 [Gg][Oo][Ll][Dd][Ee][Nn][Pp][Oo][Dd]' '*)
+                 goldenpod' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5233,7 +5194,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="hpodder"
                  f_application_run
                  ;;
-                 [Hh][Pp][Oo][Dd][Dd][Ee][Rr]' '*)
+                 hpodder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5241,7 +5202,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="podget"
                  f_application_run
                  ;;
-                 [Pp][Oo][Dd][Gg][Ee][Tt]' '*)
+                 podget' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5249,7 +5210,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="podracer"
                  f_application_run
                  ;;
-                 [Pp][Oo][Dd][Rr][Aa][Cc][Ee][Rr]' '*)
+                 podracer' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5257,7 +5218,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="uraniacast"
                  f_application_run
                  ;;
-                 [Uu][Rr][Aa][Nn][Ii][Aa][Cc][Aa][Ss][Tt]' '*)
+                 uraniacast' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5304,7 +5265,7 @@ f_menu_app_remote_connection () {
                  APP_NAME="cpu"
                  f_application_run
                  ;;
-                 [Cc][Pp][Uu]' '*)
+                 cpu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5312,7 +5273,7 @@ f_menu_app_remote_connection () {
                  APP_NAME="openssh"
                  f_application_run
                  ;;
-                 [Oo][Pp][Ee][Nn][Ss][Ss][Hh]' '*)
+                 openssh' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5320,7 +5281,7 @@ f_menu_app_remote_connection () {
                  APP_NAME="ssh"
                  f_application_run
                  ;;
-                 [Ss][Ss][Hh]' '*)
+                 ssh' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5328,7 +5289,7 @@ f_menu_app_remote_connection () {
                  APP_NAME="sslh"
                  f_application_run
                  ;;
-                 [Ss][Ss][Ll][Hh]' '*)
+                 sslh' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5379,7 +5340,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="canto"
                  f_application_run
                  ;;
-                 [Cc][Aa][Nn][Tt][Oo]' '*)
+                 canto' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5387,7 +5348,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="newsbeuter"
                  f_application_run
                  ;;
-                 [Nn][Ee][Ww][Ss][Bb][Ee][Uu][Tt][Ee][Rr]' '*)
+                 newsbeuter' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5395,7 +5356,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="nrss"
                  f_application_run
                  ;;
-                 [Nn][Rr][Ss][Ss]' '*)
+                 nrss' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5403,7 +5364,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="olive"
                  f_application_run
                  ;;
-                 [Oo][Ll][Ii][Vv][Ee]' '*)
+                 olive' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5411,7 +5372,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="raggle"
                  f_application_run
                  ;;
-                 [Rr][Aa][Gg][Gg][Ll][Ee]' '*)
+                 raggle' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5419,7 +5380,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="rawdog"
                  f_application_run
                  ;;
-                 [Rr][Aa][Ww][Dd][Oo][Gg]' '*)
+                 rawdog' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5427,7 +5388,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="rsstail"
                  f_application_run
                  ;;
-                 [Rr][Ss][Ss][Tt][Aa][Ii][Ll]' '*)
+                 rsstail' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5435,7 +5396,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="snownews"
                  f_application_run
                  ;;
-                 [Ss][Nn][Oo][Ww][Nn][Ee][Ww][Ss]' '*)
+                 snownews' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5556,7 +5517,7 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss]' '* | 'sudo iptables '* | 'sudo iptables')
+                 iptables' '* | 'sudo iptables '* | 'sudo iptables')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5588,7 +5549,7 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Aa][Rr][Pp][Tt][Aa][Bb][Ll][Ee][Ss]' '* | 'sudo arptables '* | 'sudo arptables')
+                 arptables' '* | 'sudo arptables '* | 'sudo arptables')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5618,7 +5579,7 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Uu][Ff][Ww]' '* | 'sudo ufw '* | 'sudo ufw')
+                 ufw' '* | 'sudo ufw '* | 'sudo ufw')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5634,36 +5595,10 @@ f_menu_app_firewalls () {
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://portbunny.recurity.com/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Pp][Oo][Rr][Tt][Bb][Uu][Nn][Nn][Yy]' '* | 'sudo portbunny '* | 'sudo portbunny')
+                 portbunny' '* | 'sudo portbunny '* | 'sudo portbunny')
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://portbunny.recurity.com/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
             esac                # End of Firewall Applications case statement.
             #
@@ -5743,7 +5678,7 @@ f_menu_app_lanwan () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ii][Pp]' '* | 'sudo ip '* | 'sudo ip')
+                 ip' '* | 'sudo ip '* | 'sudo ip')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5751,7 +5686,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip addr"
                  f_application_run
                  ;;
-                 [Ii][Pp]' '[Aa][Dd][Dd][Rr]' '* | 'sudo ip addr '* | 'sudo ip addr')
+                 'ip addr '* | 'sudo ip addr '* | 'sudo ip addr')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5759,7 +5694,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip link"
                  f_application_run
                  ;;
-                 [Ii][Pp]' '[Ll][Ii][Nn][Kk]' '* | 'sudo ip link '* | 'sudo ip link')
+                 'ip link '* | 'sudo ip link '* | 'sudo ip link')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5767,7 +5702,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip neighbor"
                  f_application_run
                  ;;
-                 [Ii][Pp]' '][Nn][Ee][Ii][Gg][Hh][Bb][Oo][Rr]' '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
+                 'ip neighbor '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5775,7 +5710,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip route"
                  f_application_run
                  ;;
-                 [Ii][Pp]' '[Rr][Oo][Uu][Tt][Ee]' '* | 'sudo ip route '* | 'sudo ip route')
+                 'ip route '* | 'sudo ip route '* | 'sudo ip route')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5783,7 +5718,7 @@ f_menu_app_lanwan () {
                  APP_NAME="route"
                  f_application_run
                  ;;
-                 [Rr][Oo][Uu][Tt][Ee]' '* | 'sudo route '* | 'sudo route')
+                 route' '* | 'sudo route '* | 'sudo route')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5815,7 +5750,7 @@ f_menu_app_lanwan () {
                  APP_NAME="sudo ping localhost -c 5"
                  f_application_run
                  ;;
-                 [Pp][Ii][Nn][Gg]' '* | 'sudo ping '*)
+                 ping' '* | 'sudo ping '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5853,7 +5788,7 @@ f_menu_app_lanwan () {
                  APP_NAME="sudo arping localhost -c 5"
                  f_application_run
                  ;;
-                 [Aa][Rr][Pp][Ii][Nn][Gg]' '* | 'sudo arping '*)
+                 arping' '* | 'sudo arping '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5861,7 +5796,7 @@ f_menu_app_lanwan () {
                  APP_NAME="speedometer"
                  f_application_run
                  ;;
-                 [Ss][Pp][Ee][Ee][Dd][Oo][Mm][Ee][Tt][Ee][Rr]' '* | 'sudo speedometer '* | 'sudo speedometer')
+                 speedometer' '* | 'sudo speedometer '* | 'sudo speedometer')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5884,7 +5819,7 @@ f_menu_app_lanwan () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Mm][Tt][Rr]' '* | 'sudo mtr '* | 'sudo mtr')
+                 mtr' '* | 'sudo mtr '* | 'sudo mtr')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5914,7 +5849,7 @@ f_menu_app_lanwan () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 [Tt][Rr][Aa][Cc][Ee][Rr][Oo][Uu][Tt][Ee]' '* | 'sudo traceroute '* )
+                 traceroute' '* | 'sudo traceroute '* )
                  APP_NAME=$CHOICE_APP
                  # f_web_site # Don't use f_web_site since web site may have already been entered.
                  f_application_run
@@ -5931,7 +5866,7 @@ f_menu_app_lanwan () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 [Nn][Ss][Ll][Oo][Oo][Kk][Uu][Pp]' '* |  'sudo nslookup '*)
+                 nslookup' '* |  'sudo nslookup '*)
                  APP_NAME=$CHOICE_APP
                  # f_web_site # Don't use f_web_site since web site may have already been entered.
                  f_application_run
@@ -5947,7 +5882,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ss"
                  f_application_run
                  ;;
-                 [Ss][Ss]' '* | 'sudo ss '* | 'sudo ss')
+                 ss' '* | 'sudo ss '* | 'sudo ss')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "ss - Display TCP/UDP Network and Socket Information."
@@ -6024,7 +5959,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="ifconfig"
                  f_application_run
                  ;;
-                 [Ii][Ff][Cc][Oo][Nn][Ff][Ii][Gg]' '* | 'sudo ifconfig '* | 'sudo ifconfig')
+                 ifconfig' '* | 'sudo ifconfig '* | 'sudo ifconfig')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6032,7 +5967,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="ethtool"
                  f_application_run
                  ;;
-                 [Ee][Tt][Hh][Tt][Oo][Oo][Ll]' '* | 'sudo ethtool '* | 'sudo ethtool')
+                 ethtool' '* | 'sudo ethtool '* | 'sudo ethtool')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6040,7 +5975,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="mii-tool"
                  f_application_run
                  ;;
-                 [Mm][Ii][Ii][-][Tt][Oo][Oo][Ll]' '* | 'sudo mii-tool '* | 'sudo mii-tool')
+                 mii-tool' '* | 'sudo mii-tool '* | 'sudo mii-tool')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6048,7 +5983,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="mii-diag"
                  f_application_run
                  ;;
-                 [Mm][Ii][Ii][-][Dd][Ii][Aa][Gg]' '* | 'sudo mii-diag '* | 'sudo mii-diag')
+                 mii-diag' '* | 'sudo mii-diag '* | 'sudo mii-diag')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6056,7 +5991,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="nictools-pci"
                  f_application_run
                  ;;
-                 [NN][Ii][Cc][Tt][Oo][Oo][Ll][Ss][-][Pp][Cc][Ii]' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
+                 nictools-pci' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6064,7 +5999,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="wicd-curses"
                  f_application_run
                  ;;
-                 [Ww][Ii][Cc][Dd][-][Cc][Uu][Rr][Ss][Ee][Ss]' '* | 'sudo wicd-curses '* | 'sudo wicd-curses')
+                 wicd-curses' '* | 'sudo wicd-curses '* | 'sudo wicd-curses')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6072,7 +6007,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="iwconfig"
                  f_application_run
                  ;;
-                 [Ii][Ww][Cc][Oo][Nn][Ff][Ii][Gg]' '* | 'sudo iwconfig '* | 'sudo iwconfig')
+                 iwconfig' '* | 'sudo iwconfig '* | 'sudo iwconfig')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6080,7 +6015,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="ifplugstatus"
                  f_application_run
                  ;;
-                 [Ii][Ff][Pp][Ll][Uu][Gg][Ss][Tt][Aa][Tt][Uu][Ss]' '* | 'sudo ifplugstatus '* | 'sudo ifplugstatus')
+                 ifplugstatus' '* | 'sudo ifplugstatus '* | 'sudo ifplugstatus')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6088,7 +6023,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="iwlist"
                  f_application_run
                  ;;
-                 [Ii][Ww][Ll][Ii][Ss][Tt]' '* | 'sudo iwlist '* | 'sudo iwlist')
+                 iwlist' '* | 'sudo iwlist '* | 'sudo iwlist')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6137,7 +6072,7 @@ f_menu_app_network_sharing () {
                  APP_NAME="ncpfs"
                  f_application_run
                  ;;
-                 [Nn][Cc][Pp][Ff][Ss]' '* | 'sudo ncpfs '* | 'sudo ncpfs')
+                 ncpfs' '* | 'sudo ncpfs '* | 'sudo ncpfs')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6152,7 +6087,7 @@ f_menu_app_network_sharing () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ss][Mm][Bb][Cc]' '* | 'sudo smbc '* | 'sudo smbc')
+                 smbc' '* | 'sudo smbc '* | 'sudo smbc')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6160,7 +6095,7 @@ f_menu_app_network_sharing () {
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
-                 [Ss][Mm][Bb][Cc][Ll][Ii][Ee][Nn][Tt]' '* | 'sudo smbclient '* | 'sudo smbclient')
+                 smbclient' '* | 'sudo smbclient '* | 'sudo smbclient')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6168,7 +6103,7 @@ f_menu_app_network_sharing () {
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
-                 [Ss][Mm][Bb][Ss][Tt][Aa][Tt][Uu][Ss]' '* | 'sudo smbstatus '* | 'sudo smbstatus')
+                 smbstatus' '* | 'sudo smbstatus '* | 'sudo smbstatus')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6176,7 +6111,7 @@ f_menu_app_network_sharing () {
                  APP_NAME="testparm"
                  f_application_run
                  ;;
-                 [Tt][Ee][Ss][Tt][Pp][Aa][Rr][Mm]' '* | 'sudo testparm '* | 'sudo testparm')
+                 testparm' '* | 'sudo testparm '* | 'sudo testparm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6184,7 +6119,7 @@ f_menu_app_network_sharing () {
                  APP_NAME="woof"
                  f_application_run
                  ;;
-                 [Ww][Oo][Oo][Ff]' '*)
+                 woof' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6245,7 +6180,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Bb][Mm][Oo][Nn]' '* | 'sudo bmon '* | 'sudo bmon')
+                 bmon' '* | 'sudo bmon '* | 'sudo bmon')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6255,7 +6190,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Cc][Bb][Mm]' '* | 'sudo cbm '* | 'sudo cbm')
+                 cbm' '* | 'sudo cbm '* | 'sudo cbm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6271,7 +6206,7 @@ f_menu_app_network_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ii][Ff][Ss][Tt][Aa][Tt]' '* | 'sudo ifstat '* | 'sudo ifstat')
+                 ifstat' '* | 'sudo ifstat '* | 'sudo ifstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6283,7 +6218,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ii][Ff][Tt][Oo][Pp]' '* | 'sudo iftop '* | 'sudo iftop')
+                 iftop' '* | 'sudo iftop '* | 'sudo iftop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6296,7 +6231,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Jj][Nn][Ee][Tt][Tt][Oo][Pp]' '* | 'sudo jnettop '* | 'sudo jnettop')
+                 jnettop' '* | 'sudo jnettop '* | 'sudo jnettop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6305,7 +6240,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="nethogs"
                  f_application_run
                  ;;
-                 [Nn][Ee][Tt][Hh][Oo][Gg][Ss]' '* | 'sudo nethogs '* | 'sudo nethogs')
+                 nethogs' '* | 'sudo nethogs '* | 'sudo nethogs')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6332,7 +6267,7 @@ f_menu_app_network_monitors () {
                       ;;
                  esac
                  ;;
-                 [Nn][Tt][Oo][Pp]' '* | 'sudo ntop '* | 'sudo ntop')
+                 ntop' '* | 'sudo ntop '* | 'sudo ntop')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "ntop - Traffic probe with network usage."
@@ -6360,7 +6295,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ii][Pp][Tt][Rr][Aa][Ff]' '* | 'sudo iptraf '* | 'sudo iptraf')
+                 iptraf' '* | 'sudo iptraf '* | 'sudo iptraf')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6370,7 +6305,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Pp][MM][Aa][Cc][Cc][Tt]' '* | 'sudo pmacct '* | 'sudo pmacct')
+                 pmacct' '* | 'sudo pmacct '* | 'sudo pmacct')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6379,7 +6314,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="vnstat"
                  f_application_run
                  ;;
-                 [Vv][Nn][Ss][Tt][Aa][Tt]' '* | 'sudo vnstat '* | 'sudo vnstat')
+                 vnstat' '* | 'sudo vnstat '* | 'sudo vnstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6401,7 +6336,7 @@ f_menu_app_network_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Nn][Aa][Gg][Ii][Oo][Ss][3]' '* | 'sudo nagios3 '* | 'sudo nagios3')
+                 nagios3' '* | 'sudo nagios3 '* | 'sudo nagios3')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6416,7 +6351,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ss][Nn][Tt][Oo][Pp]' '* | 'sudo sntop '* | 'sudo sntop')
+                 sntop' '* | 'sudo sntop '* | 'sudo sntop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6445,7 +6380,7 @@ f_menu_app_network_monitors () {
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
-                 [Ss][Ll][Uu][Rr][Mm]' '* | 'sudo slurm '* | 'sudo slurm')
+                 slurm' '* | 'sudo slurm '* | 'sudo slurm')
                  f_how_to_quit_application "q" "no-clear"
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -6454,7 +6389,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="nc"
                  f_application_run
                  ;;
-                 [Nn][Cc]' '* | 'sudo nc '* | 'sudo nc')
+                 nc' '* | 'sudo nc '* | 'sudo nc')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6487,16 +6422,12 @@ f_menu_app_network_monitors () {
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
-                 [Nn][Ee][Tt][Ss][Tt][Aa][Tt]' '* | 'sudo netstat '* | 'sudo netstat')
+                 netstat' '* | 'sudo netstat '* | 'sudo netstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  17 | [Ss] | [Ss][Ss])
                  APP_NAME="ss"
-                 f_application_run
-                 ;;
-                 [Ss][Ss]' '* | 'sudo ss '* | 'sudo ss')
-                 APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "ss - Display TCP/UDP Network and Socket Information."
                  echo
@@ -6521,6 +6452,10 @@ f_menu_app_network_monitors () {
                  echo "*** For more help type: man ss" 
                  echo
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 ss' '* | 'sudo ss '* | 'sudo ss')
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Network Monitor Applications case statement.
@@ -6588,7 +6523,7 @@ f_menu_app_packet_tools () {
                       ;;
                  esac
                  ;;
-                 [Nn][Gg][Rr][Ee][Pp]' '* | 'sudo ngrep '* | 'sudo ngrep')
+                 ngrep' '* | 'sudo ngrep '* | 'sudo ngrep')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "ngrep - Network packet analyzer."
@@ -6615,7 +6550,7 @@ f_menu_app_packet_tools () {
                  APP_NAME="nmap"
                  f_application_run
                  ;;
-                 [Nn][Mm][Aa][Pp]' '* | 'sudo nmap '* | 'sudo nmap')
+                 nmap' '* | 'sudo nmap '* | 'sudo nmap')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6623,7 +6558,7 @@ f_menu_app_packet_tools () {
                  APP_NAME="kismet"
                  f_application_run
                  ;;
-                 [Kk][Ii][Ss][Mm][Ee][Tt]' '* | 'sudo kismet '* | 'sudo kismet')
+                 kismet' '* | 'sudo kismet '* | 'sudo kismet')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6649,7 +6584,7 @@ f_menu_app_packet_tools () {
                       ;;
                  esac
                  ;;
-                 [Ss][Nn][Oo][Rr][Tt]' '* | 'sudo snort '* | 'sudo snort')
+                 snort' '* | 'sudo snort '* | 'sudo snort')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
@@ -6682,7 +6617,7 @@ f_menu_app_packet_tools () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Cc][Pp][Dd][Uu][Mm][Pp]' '* | 'sudo tcpdump '* | 'sudo tcpdump')
+                 tcpdump' '* | 'sudo tcpdump '* | 'sudo tcpdump')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6690,7 +6625,7 @@ f_menu_app_packet_tools () {
                  APP_NAME="wireshark"
                  f_application_run
                  ;;
-                 [Ww][Ii][Rr][Ee][Ss][Hh][Aa][Rr][Kk]' '* | 'sudo wireshark '* | 'sudo wireshark')
+                 wireshark' '* | 'sudo wireshark '* | 'sudo wireshark')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6831,7 +6766,7 @@ f_menu_app_accounting () {
                  APP_NAME="ledger"
                  f_application_run
                  ;;
-                 [Ll][Ee][Dd][Gg][Ee][Rr]' '*)
+                 ledger' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6839,7 +6774,7 @@ f_menu_app_accounting () {
                  APP_NAME="hledger"
                  f_application_run
                  ;;
-                 [Hh][Ll][Ee][Dd][Gg][Ee][Rr]' '*)
+                 hledger' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6847,7 +6782,7 @@ f_menu_app_accounting () {
                  APP_NAME="hledger-chart"
                  f_application_run
                  ;;
-                 [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc][Hh][Aa][Rr][Tt]' '*)
+                 hledger-chart' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6855,7 +6790,7 @@ f_menu_app_accounting () {
                  APP_NAME="hledger-vty"
                  f_application_run
                  ;;
-                 [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Vv][Tt][Yy]' '*)
+                 hledger-vty' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6863,7 +6798,7 @@ f_menu_app_accounting () {
                  APP_NAME="hledger-web"
                  f_application_run
                  ;;
-                 [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Ww][Ee][Bb]' '*)
+                 hledger-web' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6910,7 +6845,7 @@ f_menu_app_calculators () {
                  f_how_to_quit_application "quit"
                  f_application_run
                  ;;
-                 [Bb][Cc]' '*)
+                 bc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6918,7 +6853,7 @@ f_menu_app_calculators () {
                  APP_NAME="orpie"
                  f_application_run
                  ;;
-                 [Oo][Rr][Pp][Ii][Ee]' '*)
+                 orpie' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6927,7 +6862,7 @@ f_menu_app_calculators () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Tt][Aa][Pp][Ee][Cc][Aa][Ll][Cc]' '*)
+                 tapecalc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6984,7 +6919,7 @@ f_menu_app_calendar () {
                  APP_NAME="cal"
                  f_application_run
                  ;;
-                 [Cc][Aa][Ll]' '*)
+                 cal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6992,7 +6927,7 @@ f_menu_app_calendar () {
                  APP_NAME="ccal"
                  f_application_run
                  ;;
-                 [Cc][Cc][Aa][Ll]' '*)
+                 ccal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7002,49 +6937,23 @@ f_menu_app_calendar () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Cc][Aa][Ll][Cc][Uu][Rr][Ss][Ee]' '*)
+                 calcurse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Cc] | [Cc][Ll] | [Cc][Ll][Cc] | [Cc][Ll][Cc][Aa] | [Cc][Ll][Cc][Aa][Ll])
                  APP_NAME="clcal"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://www.hyborian.demon.co.uk/clcal/download.html"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Cc][Ll][Cc][Aa][Ll]' '*)
+                 clcal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://www.hyborian.demon.co.uk/clcal/download.html"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  5 | [Ee][Mm][Aa][Cc][Ss][-][Cc][Aa][Ll][Ff][Ww])
                  APP_NAME="emacs-calfw"
                  f_application_run
                  ;;
-                 [Ee][Mm][Aa][Cc][Ss][-][Cc][Aa][Ll][Ff][Ww]' '*)
+                 emacs-calfw' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7052,7 +6961,7 @@ f_menu_app_calendar () {
                  APP_NAME="gcal"
                  f_application_run
                  ;;
-                 [Gg][Cc][Aa][Ll]' '*)
+                 gcal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7060,49 +6969,23 @@ f_menu_app_calendar () {
                  APP_NAME="gcalcli"
                  f_application_run
                  ;;
-                 [Gg][Cc][Aa][Ll][Cc][Ll][Ii]' '*)
+                 gcalcli' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  8 | [Mm] | [Mm][Ee] | [Mm][Ee][Nn] | [Mm][Ee][Nn][Cc] | [Mm][Ee][Nn][Cc][Aa] | [Mm][Ee][Nn][Cc][Aa][Ll])
                  APP_NAME="mencal"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://kyberdigi.cz/projects/mencal/index.php?l=en"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Mm][Ee][Nn][Cc][Aa][Ll]' '*)
+                 mencal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://kyberdigi.cz/projects/mencal/index.php?l=en"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  9 | [Pp] | [Pp][Aa] | [Pp][Aa][Ll])
                  APP_NAME="pal"
                  f_application_run
                  ;;
-                 [Pp][Aa][Ll]' '*)
+                 pal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7110,7 +6993,7 @@ f_menu_app_calendar () {
                  APP_NAME="pcal"
                  f_application_run
                  ;;
-                 [Pp][Cc][Aa][Ll]' '*)
+                 pcal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7118,7 +7001,7 @@ f_menu_app_calendar () {
                  APP_NAME="pom"
                  f_application_run
                  ;;
-                 [Pp][Oo][Mm]' '*)
+                 pom' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7126,7 +7009,7 @@ f_menu_app_calendar () {
                  APP_NAME="remind"
                  f_application_run
                  ;;
-                 [Rr][Ee][Mm][Ii][Nn][Dd' '*)
+                 remind' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7134,7 +7017,7 @@ f_menu_app_calendar () {
                  APP_NAME="when"
                  f_application_run
                  ;;
-                 [Ww][Hh][Ee][Nn]' '*)
+                 when' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7144,7 +7027,7 @@ f_menu_app_calendar () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ww][Yy][Rr][Dd]' '*)
+                 wyrd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7188,7 +7071,7 @@ f_menu_app_note () {
                  APP_NAME="hnb"
                  f_application_run
                  ;;
-                 [Hh][Nn][Bb]' '*)
+                 hnb' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7242,7 +7125,7 @@ f_menu_app_pdfps () {
                  APP_NAME="diffpdf"
                  f_application_run
                  ;;
-                 [Dd][Ii][Ff][Ff][Pp][Dd][Ff]' '*)
+                 diffpdf' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7250,7 +7133,7 @@ f_menu_app_pdfps () {
                  APP_NAME="gs"
                  f_application_run
                  ;;
-                 [Gg][Ss]' '*)
+                 gs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7258,7 +7141,7 @@ f_menu_app_pdfps () {
                  APP_NAME="fbgs"
                  f_application_run
                  ;;
-                 [Ff][Bb][Gg][Ss]' '*)
+                 fbgs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7266,7 +7149,7 @@ f_menu_app_pdfps () {
                  APP_NAME="fbdjvu"
                  f_application_run
                  ;;
-                 [Ff][Bb][DD][Jj][Vv][Uu]' '*)
+                 fbdjvu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7274,49 +7157,23 @@ f_menu_app_pdfps () {
                  APP_NAME="fbpdf"
                  f_application_run
                  ;;
-                 [Ff][Bb][Pp][DD][Ff]' '*)
+                 fbpdf' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  6 | [Jj] | [Jj][Ff] | [Jj][Ff][Bb] | [Jj][Ff][Bb][Vv] | [Jj][Ff][Bb][Vv][Ii] | [Jj][Ff][Bb][Vv][Ii][Ee] | [Jj][Ff][Bb][Vv][Ii][Ee][Ww])
                  APP_NAME="jfbview"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m https://github.com/jichuan89/JFBView.git"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Jj][Ff][Bb][Vv][Ii][Ee][Ww]' '*)
+                 jfbview' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m https://github.com/jichuan89/JFBView.git"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  7 | [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Jj] | [Pp][Dd][Ff][Jj][Aa] | [Pp][Dd][Ff][Jj][Aa][Mm])
                  APP_NAME="pdfjam"
                  f_application_run
                  ;;
-                 [Pp][Dd][Ff][Jj][Aa][Mm]' '*)
+                 pdfjam' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7324,7 +7181,7 @@ f_menu_app_pdfps () {
                  APP_NAME="pdftex"
                  f_application_run
                  ;;
-                 [Pp][Dd][Ff][Tt][Ee][Xx]' '*)
+                 pdftex' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7332,7 +7189,7 @@ f_menu_app_pdfps () {
                  APP_NAME="pdftops"
                  f_application_run
                  ;;
-                 [Pp][Dd][Ff][Tt][Oo][Pp][Ss]' '*)
+                 pdftops' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7340,7 +7197,7 @@ f_menu_app_pdfps () {
                  APP_NAME="ps2ascii"
                  f_application_run
                  ;;
-                 [Pp][Ss][2][Aa][Ss][Cc][Ii][Ii]' '*)
+                 ps2ascii' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7348,7 +7205,7 @@ f_menu_app_pdfps () {
                  APP_NAME="ps2pdf"
                  f_application_run
                  ;;
-                 [Pp][Ss][2][Pp][Dd][Ff]' '*)
+                 ps2pdf' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7393,7 +7250,7 @@ f_menu_app_presentation () {
                  APP_NAME="tpp"
                  f_application_run
                  ;;
-                 [Tt][Pp][Pp]]' '*)
+                 tpp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7439,7 +7296,7 @@ f_menu_app_spreadsheets () {
                  APP_NAME="oleo"
                  f_application_run
                  ;;
-                 [Oo][Ll][Ee][Oo]' '*)
+                 oleo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7447,7 +7304,7 @@ f_menu_app_spreadsheets () {
                  APP_NAME="sc"
                  f_application_run
                  ;;
-                 [Ss][Cc]' '*)
+                 sc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7455,7 +7312,7 @@ f_menu_app_spreadsheets () {
                  APP_NAME="slsc"
                  f_application_run
                  ;;
-                 [Ss][Ll][Ss][Cc]' '*)
+                 slsc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7556,7 +7413,7 @@ f_menu_app_text_compare () {
                  APP_NAME="imediff2"
                  f_application_run
                  ;;
-                 [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2]' '*)
+                 imediff2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7564,7 +7421,7 @@ f_menu_app_text_compare () {
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
-                 [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff]' '*)
+                 colordiff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7572,7 +7429,7 @@ f_menu_app_text_compare () {
                  APP_NAME="diff"
                  f_application_run
                  ;;
-                 [Dd][Ii][Ff][Ff]' '*)
+                 diff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7580,7 +7437,7 @@ f_menu_app_text_compare () {
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
-                 [Vv][Ii][Mm][Dd][Ii][Ff][Ff]' '*)
+                 vimdiff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7588,7 +7445,7 @@ f_menu_app_text_compare () {
                  APP_NAME="wdiff"
                  f_application_run
                  ;;
-                 [Ww][Dd][Ii][Ff][Ff]' '*)
+                 wdiff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7648,7 +7505,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll]' '*)
+                 txt2html' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7666,7 +7523,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Xx][Tt][2][Mm][Aa][Nn]' '*)
+                 txt2man' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7685,7 +7542,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Xx][Tt][2][Pp][Dd][Bb][Dd][Oo][Cc]' '*)
+                 txt2pdbdoc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7702,7 +7559,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Xx][Tt][2][Rr][Ee][Gg][Ee][Xx]' '*)
+                 txt2regex' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7721,7 +7578,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Xx][Tt][2][Tt][Aa][Gg][Ss]' '*)
+                 txt2tags' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7777,7 +7634,7 @@ f_menu_app_text_editors () {
                  APP_NAME="beav"
                  f_application_run
                  ;;
-                 [Bb][Ee][Aa][Vv][Ee]' '*)
+                 beav' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7786,7 +7643,7 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<F5>"
                  f_application_run
                  ;;
-                 [Dd][Aa][Vv]' '*)
+                 dav' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7794,7 +7651,7 @@ f_menu_app_text_editors () {
                  APP_NAME="dex"
                  f_application_run
                  ;;
-                 [Dd][Ee][Xx]' '*)
+                 dex' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7802,7 +7659,7 @@ f_menu_app_text_editors () {
                  APP_NAME="ed"
                  f_application_run
                  ;;
-                 [Ee][Dd]' '*)
+                 ed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7810,7 +7667,7 @@ f_menu_app_text_editors () {
                  APP_NAME="emacs"
                  f_application_run
                  ;;
-                 [Ee][Mm][Aa][Cc][Ss]' '*)
+                 emacs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7833,50 +7690,24 @@ f_menu_app_text_editors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Gg][Rr][Oo][Ff][Ff]' '*)
+                 groff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  5 | [Jj] | [Jj][Ee] | [Jj][Ee][Dd])
                  APP_NAME="jed"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://www.jedsoft.org/jed/download.html"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Jj][Ee][Dd]' '*)
+                 jed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://www.jedsoft.org/jed/download.html"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  5 | [Jj] | [Jj][Oo] | [Jj][Oo][Ee])
                  APP_NAME="joe"
                  f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  ;;
-                 [Jj][Oo][Ee]' '*)
+                 joe' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "Ctrl-k x"
                  f_application_run
@@ -7885,7 +7716,7 @@ f_menu_app_text_editors () {
                  APP_NAME="nano"
                  f_application_run
                  ;;
-                 [Nn][Aa][Nn][Oo]' '*)
+                 nano' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7893,7 +7724,7 @@ f_menu_app_text_editors () {
                  APP_NAME="pico"
                  f_application_run
                  ;;
-                 [Pp][Ii][Cc][Oo]' '*)
+                 pico' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7902,7 +7733,7 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
-                 [Vv][Ii]' '*)
+                 vi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7911,7 +7742,7 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
-                 [Vv][Ii][Mm]' '*)
+                 vim' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7919,7 +7750,7 @@ f_menu_app_text_editors () {
                  APP_NAME="zile"
                  f_application_run
                  ;;
-                 [Zz][Ii][Ll][Ee]' '*)
+                 zile' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7964,7 +7795,7 @@ f_menu_app_text_tools () {
                  APP_NAME="antiword"
                  f_application_run
                  ;;
-                 [Aa][Nn][Tt][Ii][Ww][Oo][Rr][Dd]' '*)
+                 antiword' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7972,7 +7803,7 @@ f_menu_app_text_tools () {
                  APP_NAME="doconce"
                  f_application_run
                  ;;
-                 [Dd][Oo][Cc][Oo][Nn][Cc][Ee]' '*)
+                 doconce' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8026,7 +7857,7 @@ f_menu_app_todo () {
                  APP_NAME="doneyet"
                  f_application_run
                  ;;
-                 [Dd][Oo][Nn][Ee][Yy][Ee][Tt]' '*)
+                 doneyet' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8034,7 +7865,7 @@ f_menu_app_todo () {
                  APP_NAME="hnb"
                  f_application_run
                  ;;
-                 [Hh][Nn][Bb]' '*)
+                 hnb' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8066,7 +7897,7 @@ f_menu_app_todo () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Oo][Dd][Oo]' '*)
+                 todo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8074,7 +7905,7 @@ f_menu_app_todo () {
                  APP_NAME="tudu"
                  f_application_run
                  ;;
-                 [Tt][Uu][Dd][Uu]' '*)
+                 tudu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8082,7 +7913,7 @@ f_menu_app_todo () {
                  APP_NAME="yagtd"
                  f_application_run
                  ;;
-                 [Yy][Aa][Gg][Tt][Dd]' '*)
+                 yagtd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8090,151 +7921,47 @@ f_menu_app_todo () {
                  APP_NAME="yokadi"
                  f_application_run
                  ;;
-                 [Yy][Oo][Kk][Aa][Dd][Ii]' '*)
+                 yokadi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  7 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="binary-clock"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk]' '*)
+                 binary-clock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  8 | [Cc] | [Cc][Cc] | [Cc][Cc][Ll] | [Cc][Cc][Ll][Oo] | [Cc][Cc][Ll][Oo][Cc] | [Cc][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="cclock"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/cclock/files/latest/download"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Cc][Cc][Ll][Oo][Cc][Kk]' '*)
+                 cclock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/cclock/files/latest/download"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  9 | [Cc] | [Cc][Ll] | [Cc][Ll][Oo] | [Cc][Ll][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk] | [Cc][Ll][Oo][Cc][Kk][Yy] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc] | [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk])
                  APP_NAME="clockywock"
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://soomka.com/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Cc][Ll][Oo][Cc][Kk][Yy][Ww][Oo][Cc][Kk]' '*)
+                 clockywock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://soomka.com/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  10 | [Gg] | [Gg][Rr] | [Gg][Rr][Aa] | [Gg][Rr][Aa][Nn] | [Gg][Rr][Aa][Nn][Dd] | [Gg][Rr][Aa][Nn][Dd][Ff] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc] | [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="grandfatherclock"
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://freecode.com/projects/grandfatherclock"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Gg][Rr][Aa][Nn][Dd][Ff][Aa][Tt][Hh][Ee][Rr][Cc][Ll][Oo][Cc][Kk]' '*)
+                 grandfatherclock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://freecode.com/projects/grandfatherclock"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  11 | [Ss] | [Ss][Aa] | [Ss][Aa][Yy] | [Ss][Aa][Yy][Tt] | [Ss][Aa][Yy][Tt][Ii] | [Ss][Aa][Yy][Tt][Ii][Mm] | [Ss][Aa][Yy][Tt][Ii][Mm][Ee])
                  APP_NAME="saytime"
                  f_application_run
                  ;;
-                 [Ss][Aa][Yy][Tt][Ii][Mm][Ee]' '*)
+                 saytime' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8281,42 +8008,16 @@ f_menu_app_screen_savers () {
                  1 | [Aa] | [Aa][Ss] | [Aa][Ss][Cc] | [Aa][Ss][Cc][Ii] | [Aa][Ss][Cc][Ii][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu][Mm])
                  APP_NAME="asciiaquarium"
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://www.robobunny.com/projects/asciiquarium/html/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu][Mm]' '*)
+                 asciiaquarium' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://www.robobunny.com/projects/asciiquarium/html/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  2 | [Cc] | [Cc][Mm] | [Cc][Mm][Aa] | [Cc][Mm][Aa][Tt] | [Cc][Mm][Aa][Tt][Rr] | [Cc][Mm][Aa][Tt][Rr][Ii] | [Cc][Mm][Aa][Tt][Rr][Ii][Xx])
                  APP_NAME="cmatrix"
                  f_application_run
                  ;;
-                 [Cc][Mm][Aa][Tt][Rr][Ii][Xx]' '*)
+                 cmatrix' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8324,7 +8025,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="rain"
                  f_application_run
                  ;;
-                 [Rr][Aa][Ii][Nn]' '*)
+                 rain' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8332,7 +8033,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="tty-clock"
                  f_application_run
                  ;;
-                 [Tt][Tt][Yy][–][Cc][Ll][Oo][Cc][Kk]' '*)
+                 tty-clock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8340,7 +8041,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="worms"
                  f_application_run
                  ;;
-                 [Ww][Oo][Rr][Mm][Ss]' '*)
+                 worms' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8486,7 +8187,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="atool"
                  f_application_run
                  ;;
-                 [Aa][Tt][Oo][Oo][Ll]' '*)
+                 atool' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8494,7 +8195,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="rsync"
                  f_application_run
                  ;;
-                 [Rr][Ss][Yy][Nn][Cc]' '*)
+                 rsync' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8502,7 +8203,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="tar"
                  f_application_run
                  ;;
-                 [Tt][Aa][Rr]' '*)
+                 tar' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8510,7 +8211,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="p7zip"
                  f_application_run
                  ;;
-                 [Pp][7][Zz][Ii][Pp]' '*)
+                 p7zip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8518,7 +8219,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="gzip"
                  f_application_run
                  ;;
-                 [Gg][Zz][Ii][Pp]' '*)
+                 gzip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8526,7 +8227,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="gunzip"
                  f_application_run
                  ;;
-                 [Gg][Uu][Nn][Zz][Ii][Pp]' '*)
+                 gunzip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8534,7 +8235,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="zip"
                  f_application_run
                  ;;
-                 [Zz][Ii][Pp]' '*)
+                 zip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8542,7 +8243,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="unzip"
                  f_application_run
                  ;;
-                 [Uu][Nn][Zz][Ii][Pp]' '*)
+                 unzip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8550,7 +8251,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="bashburn"
                  f_application_run
                  ;;
-                 [Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn]' '*)
+                 bashburn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8558,7 +8259,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="burn"
                  f_application_run
                  ;;
-                 [Bb][Uu][Rr][Nn]' '*)
+                 burn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8566,7 +8267,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="cdrecord"
                  f_application_run
                  ;;
-                 [Cc][Dd][Rr][Ee][Cc][Oo][Rr][Dd]' '*)
+                 cdrecord' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8574,7 +8275,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="xorriso"
                  f_application_run
                  ;;
-                 [Xx][Oo][Rr][Rr][Ii][Ss][Oo]' '*)
+                 xorriso' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8582,7 +8283,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="mkcd"
                  f_application_run
                  ;;
-                 [Mm][Kk][Cc][Dd]' '*)
+                 mkcd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8590,7 +8291,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="mybashburn"
                  f_application_run
                  ;;
-                 [Mm][Yy][Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn]' '*)
+                 mybashburn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8598,7 +8299,7 @@ f_menu_app_sys_backup () {
                  APP_NAME="simpleburner"
                  f_application_run
                  ;;
-                 [Ss][Ii][Mm][Pp][Ll][Ee][Bb][Uu][Rr][Nn][Ee][Rr]' '*)
+                 simpleburner' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8636,7 +8337,7 @@ f_menu_app_sys_disks () {
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="System Disks Information Menu"
             DELIMITER="#MSD" #MSD This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
+            f_show_menu $MENU_TITLE $DELIMITER
             #
             read CHOICE_APP
             #
@@ -8668,7 +8369,7 @@ f_menu_app_sys_disks () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Dd][Ff]' '* | 'sudo df '* | 'sudo df')
+                 df' '* | 'sudo df '* | 'sudo df')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8694,7 +8395,7 @@ f_menu_app_sys_disks () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Pp][Yy][Dd][Ff]' '* | 'sudo pydf '* | 'sudo pydf')
+                 pydf' '* | 'sudo pydf '* | 'sudo pydf')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8721,7 +8422,7 @@ f_menu_app_sys_disks () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Dd][Uu]' '* | 'sudo du '* | 'sudo du')
+                 du' '* | 'sudo du '* | 'sudo du')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8731,7 +8432,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Gg][Tt][5]' '* | 'sudo gt5 '* | 'sudo gt5')
+                 gt5' '* | 'sudo gt5 '* | 'sudo gt5')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -8742,7 +8443,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Nn][Cc][Dd][Uu]' '* | 'sudo ncdu '* | 'sudo ncdu')
+                 ncdu' '* | 'sudo ncdu '* | 'sudo ncdu')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -8753,7 +8454,7 @@ f_menu_app_sys_disks () {
                  APP_NAME="ls -l /dev/disk/by-uuid"
                  f_application_run             
                  ;;
-                 [Uu][Uu][Ii][Dd]' '* | 'sudo uuid '* | 'sudo uuid')
+                 uuid' '* | 'sudo uuid '* | 'sudo uuid')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8763,7 +8464,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Cc][Ff][Dd][Ii][Ss][Kk]' '* | 'sudo cfdisk '* | 'sudo cfdisk')
+                 cfdisk' '* | 'sudo cfdisk '* | 'sudo cfdisk')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -8774,7 +8475,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Pp][Aa][Rr][Tt][Ee][Dd]' '* | 'sudo parted '* | 'sudo parted')
+                 parted' '* | 'sudo parted '* | 'sudo parted')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -8830,7 +8531,7 @@ f_menu_app_sys_health () {
                  APP_NAME="lynis"
                  f_application_run
                  ;;
-                 [Ll][Yy][Nn][Ii][Ss]' '* | 'sudo lynis '* | 'sudo lynis')
+                 lynis' '* | 'sudo lynis '* | 'sudo lynis')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8851,7 +8552,7 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 [Cc][Ll][Aa][Mm][Ss][Cc][Aa][Nn]' '* | 'sudo clamscan '* | 'sudo clamscan')
+                 clamscan' '* | 'sudo clamscan '* | 'sudo clamscan')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -8862,7 +8563,7 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm]' '* | 'sudo freshclam '* | 'sudo freshclam')
+                 freshclam' '* | 'sudo freshclam '* | 'sudo freshclam')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -8871,7 +8572,7 @@ f_menu_app_sys_health () {
                  APP_NAME="chkrootkit"
                  f_application_run
                  ;;
-                 [Cc][Hh][Kk][Rr][Oo][Oo][Tt][Kk][Ii][Tt]' '* | 'sudo chkrootkit '* | 'sudo chkrootkit')
+                 chkrootkit' '* | 'sudo chkrootkit '* | 'sudo chkrootkit')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8879,7 +8580,7 @@ f_menu_app_sys_health () {
                  APP_NAME="rkhunter"
                  f_application_run
                  ;;
-                 [Rr][Kk][Hh][Uu][Nn][Tt][Ee][Rr]' '* | 'sudo rkhunter '* | 'sudo rkhunter')
+                 rkhunter' '* | 'sudo rkhunter '* | 'sudo rkhunter')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8911,7 +8612,7 @@ f_menu_app_sys_health () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Tt][Rr][Ii][Pp][Ww][Ii][Rr][Ee]' '* | 'sudo tripwire '* | 'sudo tripwire')
+                 tripwire' '* | 'sudo tripwire '* | 'sudo tripwire')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8919,7 +8620,7 @@ f_menu_app_sys_health () {
                  APP_NAME="arpon"
                  f_application_run
                  ;;
-                 [Aa][Rr][Pp][Oo][Nn]' '* | 'sudo arpon '* | 'sudo arpon')
+                 arpon' '* | 'sudo arpon '* | 'sudo arpon')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8927,7 +8628,7 @@ f_menu_app_sys_health () {
                  APP_NAME="arpalert"
                  f_application_run
                  ;;
-                 [Aa][Rr][Pp][Aa][Ll][Ee][Rr][Tt]' '* | 'sudo arpalert '* | 'sudo arpalert')
+                 arpalert' '* | 'sudo arpalert '* | 'sudo arpalert')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8951,7 +8652,7 @@ f_menu_app_sys_health () {
                  APP_NAME="man arpwatch"
                  f_application_run
                  ;;
-                 [Aa][Rr][Pp][Ww][Aa][Tt][Cc][Hh]' '* | 'sudo arpwatch '* | 'sudo arpwatch')
+                 arpwatch' '* | 'sudo arpwatch '* | 'sudo arpwatch')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8985,7 +8686,7 @@ f_menu_app_sys_health () {
                  APP_NAME="arp-scan -l -I $ANS"
                  f_application_run
                  ;;
-                 [Aa][Rr][Pp][-][Ss][Cc][Aa][Nn]' '* | 'sudo arp-scan '* | 'sudo arp-scan')
+                 arp-scan' '* | 'sudo arp-scan '* | 'sudo arp-scan')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9011,7 +8712,7 @@ f_menu_app_sys_health () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ss][Tt][Rr][Ee][Ss][Ss]' '* | 'sudo stress '* | 'sudo stress')
+                 stress' '* | 'sudo stress '* | 'sudo stress')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9063,7 +8764,7 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="dmidecode"
                  f_application_run
                  ;;
-                 [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee]' '* | 'sudo dmidecode '* | 'sudo dmidecode')
+                 dmidecode' '* | 'sudo dmidecode '* | 'sudo dmidecode')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9088,7 +8789,7 @@ f_menu_app_sys_mainboard () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ll][Ss][Hh][Ww]' '* | 'sudo lshw '* | 'sudo lshw')
+                 lshw' '* | 'sudo lshw '* | 'sudo lshw')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9108,7 +8809,7 @@ f_menu_app_sys_mainboard () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ff][Rr][Ee][Ee]' '* | 'sudo free '* | 'sudo free')
+                 free' '* | 'sudo free '* | 'sudo free')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9116,7 +8817,7 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="vmstat"
                  f_application_run
                  ;;
-                 [Vv][Mm][Ss][Tt][Aa][Tt]' '* | 'sudo vmstat '* | 'sudo vmstat')
+                 vmstat' '* | 'sudo vmstat '* | 'sudo vmstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9136,7 +8837,7 @@ f_menu_app_sys_mainboard () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Hh][Dd][Pp][Aa][Rr][Mm]' '* | 'sudo hdparm '* | 'sudo hdparm')
+                 hdparm' '* | 'sudo hdparm '* | 'sudo hdparm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9144,7 +8845,7 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="lsb_release -a"
                  f_application_run
                  ;;
-                 [Ll][Ss][Bb][_][Rr][Ee][Ll][Ee][Aa][Ss][Ee]' '* | 'sudo lsb_release '* | 'sudo lsb_release')
+                 lsb_release' '* | 'sudo lsb_release '* | 'sudo lsb_release')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9152,7 +8853,7 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="uname -a"
                  f_application_run
                  ;;
-                 [Uu][Nn][Aa][Mm][Ee]' '* | 'sudo uname '* | 'sudo uname')
+                 uname' '* | 'sudo uname '* | 'sudo uname')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9160,7 +8861,7 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="lsmod "
                  f_application_run
                  ;;
-                 [Ll][Ss][Mm][Oo][Dd]' '* | 'sudo lsmod '* | 'sudo lsmod')
+                 lsmod' '* | 'sudo lsmod '* | 'sudo lsmod')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9188,7 +8889,7 @@ f_menu_app_sys_mainboard () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ss][Ll][Aa][Bb][Tt][Oo][Pp]' '* | 'sudo slabtop '* | 'sudo slabtop')
+                 slabtop' '* | 'sudo slabtop '* | 'sudo slabtop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9241,7 +8942,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="printenv"
                  f_application_run
                  ;;
-                 [Pp][Rr][Ii][Nn][Tt][Ee][Nn][Vv]' '* | 'sudo printenv '* | 'sudo printenv')
+                 printenv' '* | 'sudo printenv '* | 'sudo printenv')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9272,7 +8973,7 @@ f_menu_app_sys_peripherals () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Bb][Ll][Kk][Ii][Dd]' '* | 'sudo blkid '* | 'sudo blkid')
+                 blkid' '* | 'sudo blkid '* | 'sudo blkid')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9280,7 +8981,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="lscpu"
                  f_application_run
                  ;;
-                 [Ll][Ss][Cc][Pp][Uu]' '* | 'sudo lscpu '* | 'sudo lscpu')
+                 lscpu' '* | 'sudo lscpu '* | 'sudo lscpu')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9288,7 +8989,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="lsusb"
                  f_application_run
                  ;;
-                 [Ll][Ss][Uu][Ss][Bb]' '* | 'sudo lsusb '* | 'sudo lsusb')
+                 lsusb' '* | 'sudo lsusb '* | 'sudo lsusb')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9296,7 +8997,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="lspci"
                  f_application_run
                  ;;
-                 [Ll][Ss][Pp][Cc][Ii]' '* | 'sudo lspci '* | 'sudo lspci')
+                 lspci' '* | 'sudo lspci '* | 'sudo lspci')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9315,7 +9016,7 @@ f_menu_app_sys_peripherals () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ll][Ss][Pp][Cc][Mm][Cc][Ii][Aa]' '* | 'sudo lspcmcia '* | 'sudo lspcmcia')
+                 lspcmcia' '* | 'sudo lspcmcia '* | 'sudo lspcmcia')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9340,7 +9041,7 @@ f_menu_app_sys_peripherals () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Pp][Cc][Cc][Aa][Rr][Dd][Cc][Tt][Ll]' '* | 'sudo pccardctl '* | 'sudo pccardctl')
+                 pccardctl' '* | 'sudo pccardctl '* | 'sudo pccardctl')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9348,7 +9049,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="acpitool"
                  f_application_run
                  ;;
-                 [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll]' '* | 'sudo acpitool '* | 'sudo acpitool')
+                 acpitool' '* | 'sudo acpitool '* | 'sudo acpitool')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9356,7 +9057,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="lsof"
                  f_application_run
                  ;;
-                 [Ll][Ss][Oo][Ff]' '* | 'sudo lsof '* | 'sudo lsof')
+                 lsof' '* | 'sudo lsof '* | 'sudo lsof')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9364,7 +9065,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="uptime"
                  f_application_run
                  ;;
-                 [Uu][Pp][Tt][Ii][Mm][Ee]' '* | 'sudo uptime '* | 'sudo uptime')
+                 uptime' '* | 'sudo uptime '* | 'sudo uptime')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9409,7 +9110,7 @@ f_menu_app_sys_logs () {
                  APP_NAME="multitail"
                  f_application_run
                  ;;
-                 [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll]' '* | 'sudo multitail '* | 'sudo multitail')
+                 multitail' '* | 'sudo multitail '* | 'sudo multitail')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9417,7 +9118,7 @@ f_menu_app_sys_logs () {
                  APP_NAME="swatch"
                  f_application_run
                  ;;
-                 [Ss][Ww][Aa][Tt][Cc][Hh]' '* | 'sudo swatch '* | 'sudo swatch')
+                 swatch' '* | 'sudo swatch '* | 'sudo swatch')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9492,7 +9193,7 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Cc][Hh][Kk][Cc][Oo][Nn][Ff][Ii][Gg]' '* | 'sudo chkconfig '* | 'sudo chkconfig')
+                 chkconfig' '* | 'sudo chkconfig '* | 'sudo chkconfig')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9502,7 +9203,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Gg][Ll][Aa][Nn][Cc][Ee][Ss]' '* | 'sudo glances '* | 'sudo glances')
+                 glances' '* | 'sudo glances '* | 'sudo glances')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9525,7 +9226,7 @@ f_menu_app_sys_monitors () {
                       ;;
                  esac
                  ;;
-                 [Tt][Ll][Oo][Aa][Dd]' '* | 'sudo tload '* | 'sudo tload')
+                 tload' '* | 'sudo tload '* | 'sudo tload')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
@@ -9560,7 +9261,7 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Mm][Pp][Ss][Tt][Aa][Tt]' '* | 'sudo mpstat '* | 'sudo mpstat')
+                 mpstat' '* | 'sudo mpstat '* | 'sudo mpstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9581,7 +9282,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Dd][Ss][Tt][Aa][Tt]' '* | 'sudo dstat '* | 'sudo dstat')
+                 dstat' '* | 'sudo dstat '* | 'sudo dstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9590,7 +9291,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="iostat"
                  f_application_run
                  ;;
-                 [Ii][Oo][Ss][Tt][Aa][Tt]' '* | 'sudo iostat '* | 'sudo iostat')
+                 iostat' '* | 'sudo iostat '* | 'sudo iostat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9598,7 +9299,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="sar"
                  f_application_run
                  ;;
-                 [Ss][Aa][Rr]' '* | 'sudo sar '* | 'sudo sar')
+                 sar' '* | 'sudo sar '* | 'sudo sar')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9608,7 +9309,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ii][Oo][Tt][Oo][Pp]' '* | 'sudo iotop '* | 'sudo iotop')
+                 iotop' '* | 'sudo iotop '* | 'sudo iotop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9618,12 +9319,12 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Nn][Mm][Oo][Nn]' '-h* | 'sudo nmon '-h*)
+                 nmon' '-h* | 'sudo nmon '-h*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 [Nn][Mm][Oo][Nn]' '* | 'sudo nmon '* | 'sudo nmon')
+                 nmon' '* | 'sudo nmon '* | 'sudo nmon')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9634,7 +9335,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ss][Aa][Ii][Dd][Aa][Rr]' '* | 'sudo saidar '* | 'sudo saidar')
+                 saidar' '* | 'sudo saidar '* | 'sudo saidar')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9645,7 +9346,7 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Yy][Aa][Cc][Pp][Ii]' '* | 'sudo yacpi '* | 'sudo yacpi')
+                 yacpi' '* | 'sudo yacpi '* | 'sudo yacpi')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9654,7 +9355,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="last"
                  f_application_run
                  ;;
-                 [Ll][Aa][Ss][Tt]' '* | 'sudo last '* | 'sudo last')
+                 last' '* | 'sudo last '* | 'sudo last')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9662,7 +9363,7 @@ f_menu_app_sys_monitors () {
                  APP_NAME="swatch"
                  f_application_run
                  ;;
-                 [Ss][Ww][Aa][Tt][Cc][Hh]' '* | 'sudo swatch '* | 'sudo swatch')
+                 swatch' '* | 'sudo swatch '* | 'sudo swatch')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9688,7 +9389,7 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Cc][Aa][Cc][Tt][Ii]' '* | 'sudo cacti '* | 'sudo cacti')
+                 cacti' '* | 'sudo cacti '* | 'sudo cacti')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9711,7 +9412,7 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Rr][Rr][Dd][Tt][Oo][Oo][Ll]' '* | 'sudo rrdtool '* | 'sudo rrdtool')
+                 rrdtool' '* | 'sudo rrdtool '* | 'sudo rrdtool')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9757,42 +9458,16 @@ f_menu_app_sys_other () {
                  1 | [Dd] | [Dd][Ee] | [Dd][Ee][Ss] | [Dd][Ee][Ss][Mm] | [Dd][Ee][Ss][Mm][Uu] | [Dd][Ee][Ss][Mm][Uu][Mm] | [Dd][Ee][Ss][Mm][Uu][Mm][Ee])
                  APP_NAME="desmume"
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/desmume/files/desmume/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Dd][Ee][Ss][Mm][Uu][Mm][Ee]' '*)
+                 desmume' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/desmume/files/desmume/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  2 | [Dd] | [Dd][Oo] | [Dd][Oo][Ss] | [Dd][Oo][Ss][Ee] | [Dd][Oo][Ss][Ee][Mm] | [Dd][Oo][Ss][Ee][Mm][Uu])
                  APP_NAME="dosemu"
                  f_application_run
                  ;;
-                 [Dd][Oo][Ss][Ee][Mm][Uu]' '*)
+                 dosemu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9800,7 +9475,7 @@ f_menu_app_sys_other () {
                  APP_NAME="dtrx"
                  f_application_run
                  ;;
-                 [Dd][Tt][Rr][Xx]' '*)
+                 dtrx' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9808,7 +9483,7 @@ f_menu_app_sys_other () {
                  APP_NAME="scrot"
                  f_application_run
                  ;;
-                 [Ss][Cc][Rr][Oo][Tt]' '*)
+                 scrot' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9868,7 +9543,7 @@ f_menu_app_sys_process () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Aa][Tt][Oo][Pp]' '* | 'sudo atop '* | 'sudo atop')
+                 atop' '* | 'sudo atop '* | 'sudo atop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9879,7 +9554,7 @@ f_menu_app_sys_process () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Hh][Tt][Oo][Pp]' '* | 'sudo htop '* | 'sudo htop')
+                 htop' '* | 'sudo htop '* | 'sudo htop')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9897,7 +9572,7 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Pp][Ii][Dd][Ss][Tt][Aa][Tt]' '* | 'sudo pidstat '* | 'sudo pidstat')
+                 pidstat' '* | 'sudo pidstat '* | 'sudo pidstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9928,7 +9603,7 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Pp][Ss]' '* | 'sudo ps '* | 'sudo ps')
+                 ps' '* | 'sudo ps '* | 'sudo ps')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9936,7 +9611,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pstree"
                  f_application_run
                  ;;
-                 [Pp][Ss][Tt][Rr][Ee][Ee]' '* | 'sudo pstree '* | 'sudo pstree')
+                 pstree' '* | 'sudo pstree '* | 'sudo pstree')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9958,7 +9633,7 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-[Pp][Ss][Ww][Aa][Tt][Cc][Hh][Ee][Rr]' '* | 'sudo pswatcher '* | 'sudo pswatcher')
+                 pswatcher' '* | 'sudo pswatcher '* | 'sudo pswatcher')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9966,7 +9641,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pwdx"
                  f_application_run
                  ;;
-                 [Pp][Ww][Dd][Xx]' '* | 'sudo pwdx '* | 'sudo pwdx')
+                 pwdx' '* | 'sudo pwdx '* | 'sudo pwdx')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9976,7 +9651,7 @@ f_menu_app_sys_process () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Tt][Oo][Pp]' '* | 'sudo top '* | 'sudo top')
+                 top' '* | 'sudo top '* | 'sudo top')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9985,7 +9660,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pgrep"
                  f_application_run
                  ;;
-                 [Pp][Gg][Rr][Ee][Pp]' '* | 'sudo pgrep '* | 'sudo pgrep')
+                 pgrep' '* | 'sudo pgrep '* | 'sudo pgrep')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9993,7 +9668,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pmap"
                  f_application_run
                  ;;
-                 [Pp][Mm][Aa][Pp]' '* | 'sudo pmap '* | 'sudo pmap')
+                 pmap' '* | 'sudo pmap '* | 'sudo pmap')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10001,7 +9676,7 @@ f_menu_app_sys_process () {
                  APP_NAME="strace"
                  f_application_run
                  ;;
-                 [Ss][Tt][Rr][Aa][Cc][Ee]' '* | 'sudo strace '* | 'sudo strace')
+                 strace' '* | 'sudo strace '* | 'sudo strace')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10032,7 +9707,7 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ss][Yy][Ss][Cc][Tt][Ll]' '* | 'sudo sysctl '* | 'sudo sysctl')
+                 sysctl' '* | 'sudo sysctl '* | 'sudo sysctl')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10040,15 +9715,15 @@ f_menu_app_sys_process () {
                  APP_NAME="killall"
                  f_application_run
                  ;;
-                 [Kk][Ii][Ll][Ll][Aa][Ll][Ll]' '* | 'sudo killall '* | 'sudo killall')
+                 killall' '* | 'sudo killall '* | 'sudo killall')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  14 | [Pp] | [Pp][Kk] | [Pp][Kk][Ii] | [Pp][Kk][Ii][Ll] | [Pp][Kk][Ii][Ll][Ll])
-                 APP_NAME="killall"
+                 APP_NAME="pkill"
                  f_application_run
                  ;;
-                 [Pp][Kk][Ii][Ll][Ll]' '* | 'sudo pkill '* | 'sudo pkill')
+                 pkill' '* | 'sudo pkill '* | 'sudo pkill')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10096,7 +9771,7 @@ f_menu_app_sys_screens () {
                  APP_NAME="byobu"
                  f_application_run
                  ;;
-                 [Bb][Yy][Oo][Bb][Uu]' '* | 'sudo byobu '* | 'sudo byobu')
+                 byobu' '* | 'sudo byobu '* | 'sudo byobu')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10104,7 +9779,7 @@ f_menu_app_sys_screens () {
                  APP_NAME="dtach"
                  f_application_run
                  ;;
-                 [Dd][Tt][Aa][Cc][Hh]' '* | 'sudo dtach '* | 'sudo dtach')
+                 dtach' '* | 'sudo dtach '* | 'sudo dtach')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10112,7 +9787,7 @@ f_menu_app_sys_screens () {
                  APP_NAME="dvtm"
                  f_application_run
                  ;;
-                 [Dd][Vv][Tt][Mm]' '* | 'sudo dvtm '* | 'sudo dvtm')
+                 dvtm' '* | 'sudo dvtm '* | 'sudo dvtm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10143,7 +9818,7 @@ f_menu_app_sys_screens () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Ss][Cc][Rr][Ee][Ee][Nn]' '* | 'sudo screen '* | 'sudo screen')
+                 screen' '* | 'sudo screen '* | 'sudo screen')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10151,7 +9826,7 @@ f_menu_app_sys_screens () {
                  APP_NAME="tmux"
                  f_application_run
                  ;;
-                 [Tt][Mm][Uu][Xx]' '* | 'sudo tmux '* | 'sudo tmux')
+                 tmux' '* | 'sudo tmux '* | 'sudo tmux')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10228,7 +9903,7 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Aa][Pp][Tt]' '* | 'apt-'* | 'sudo apt' | 'sudo apt '* | 'sudo apt-'*)
+                 apt' '* | 'apt-'* | 'sudo apt' | 'sudo apt '* | 'sudo apt-'*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10278,7 +9953,7 @@ f_menu_app_sys_software () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
-                 [Aa][Pp][Tt][Ii][Tt][Uu][Dd][Ee]' '* | 'sudo aptitude '* | 'sudo aptitude')
+                 aptitude' '* | 'sudo aptitude '* | 'sudo aptitude')
                  APP_NAME=$CHOICE_APP
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
@@ -10301,7 +9976,7 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Dd][Pp][Kk][Gg]' '* | 'dpkg-'* | 'sudo dpkg '* | 'sudo dpkg' | 'sudo dpkg-'*)
+                 dpkg' '* | 'dpkg-'* | 'sudo dpkg '* | 'sudo dpkg' | 'sudo dpkg-'*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10319,7 +9994,7 @@ f_menu_app_sys_software () {
                  APP_NAME="alien"
                  f_application_run
                  ;;
-                 [Aa][Ll][Ii][Ee][Nn]' '* | 'sudo alien '* | 'sudo alien')
+                 alien' '* | 'sudo alien '* | 'sudo alien')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10349,7 +10024,7 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Rr][Pp][Mm]' '* | 'sudo rpm '* | 'sudo rpm')
+                 rpm' '* | 'sudo rpm '* | 'sudo rpm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10357,7 +10032,7 @@ f_menu_app_sys_software () {
                  APP_NAME="urpmi"
                  f_application_run
                  ;;
-                 [Uu][Rr][Pp][Mm][Ii]' '* |  'sudo urpmi '* | 'sudo urpmi')
+                 urpmi' '* |  'sudo urpmi '* | 'sudo urpmi')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10391,7 +10066,7 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Yy][Uu][Mm]' '* | 'sudo yum '* | 'sudo yum')
+                 yum' '* | 'sudo yum '* | 'sudo yum')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10416,7 +10091,7 @@ f_menu_app_sys_software () {
 
                  f_application_run
                  ;;
-                 [Zz][Yy][Pp][Pp][Ee][Rr]' '* | 'sudo zypper '* | 'sudo zypper')
+                 zypper' '* | 'sudo zypper '* | 'sudo zypper')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10510,7 +10185,7 @@ f_menu_app_video_editors () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Aa][Vv][Cc][Oo][Nn][Vv]' '*)
+                 avconv' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10518,7 +10193,7 @@ f_menu_app_video_editors () {
                  APP_NAME="avidemux"
                  f_application_run
                  ;;
-                 [Aa][Vv][Ii][Dd][Ee][Mm][Uu][Xx]' '*)
+                 avidemux' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10526,49 +10201,23 @@ f_menu_app_video_editors () {
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
-                 [Ff][Ff][Mm][Ee][Gg]' '*)
+                 ffmpeg' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  4 | [Hh] | [Hh][Aa] | [Hh][Aa][Nn] | [Hh][Aa][Nn][Dd] | [Hh][Aa][Nn][Dd][Bb] | [Hh][Aa][Nn][Dd][Bb][Rr] | [Hh][Aa][Nn][Dd][Bb][Rr][Aa] | [Hh][Aa][Nn][Dd][Bb][Rr][Aa][Kk] | [Hh][Aa][Nn][Dd][Bb][Rr][Aa][Kk][Ee] | [Hh][Aa][Nn][Dd][Bb][Rr][Aa][Kk][Ee][-] | [Hh][Aa][Nn][Dd][Bb][Rr][Aa][Kk][Ee][-][Cc] | [Hh][Aa][Nn][Dd][Bb][Rr][Aa][Kk][Ee][-][Cc][Ll] | [Hh][Aa][Nn][Dd][Bb][Rr][Aa][Kk][Ee][-][Cc][Ll][Ii])
                  APP_NAME="handbrake-cli"
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://handbrake.fr/downloads2.php"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Hh][Aa][Nn][Dd][Bb][Rr][Aa][Kk][Ee][-][Cc][Ll][Ii]' '*)
+                 handbrake-cli' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://handbrake.fr/downloads2.php"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  5 | [Mm] | [Mm][Ee] | [Mm][Ee][Nn] | [Mm][Ee][Nn][Cc] | [Mm][Ee][Nn][Cc][Oo] | [Mm][Ee][Nn][Cc][Oo][Dd] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee] | [Mm][Ee][Nn][Cc][Oo][Dd][Ee][Rr])
                  APP_NAME="mencoder"
                  f_application_run
                  ;;
-                 [Mm][Ee][Nn][Cc][Oo][Dd][Ee][Rr]' '*)
+                 mencoder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10576,7 +10225,7 @@ f_menu_app_video_editors () {
                  APP_NAME="mjpegtools"
                  f_application_run
                  ;;
-                 [Mm][Jj][Pp][Ee][Gg][Tt][Oo][Oo][Ll][Ss]' '*)
+                 mjpegtools' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10584,7 +10233,7 @@ f_menu_app_video_editors () {
                  APP_NAME="mpgtx"
                  f_application_run
                  ;;
-                 [Mm][Pp][Gg][Tt][Xx]' '*)
+                 mpgtx' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10640,7 +10289,7 @@ f_menu_app_video_players () {
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
-                 [Mm][Pp][Ll][Aa][Yy][Ee][Rr]' '*)
+                 mplayer' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10648,7 +10297,7 @@ f_menu_app_video_players () {
                  APP_NAME="mplayer2"
                  f_application_run
                  ;;
-                 [Mm][Pp][Ll][Aa][Yy][Ee][Rr][2]' '*)
+                 mplayer2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10656,7 +10305,7 @@ f_menu_app_video_players () {
                  APP_NAME="xine-console"
                  f_application_run
                  ;;
-                 [Xx][Ii][Nn][Ee][-][Cc][Oo][Nn][Ss][Oo][Ll][Ee]' '*)
+                 xine-console' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10664,7 +10313,7 @@ f_menu_app_video_players () {
                  APP_NAME="aaxine"
                  f_application_run
                  ;;
-                 [Aa][Aa][Xx][Ii][Nn][Ee]' '*)
+                 aaxine' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10672,7 +10321,7 @@ f_menu_app_video_players () {
                  APP_NAME="cacaxine"
                  f_application_run
                  ;;
-                 [Cc][Aa][Cc][Aa][Xx][Ii][Nn][Ee]'*')
+                 cacaxine'*')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10680,7 +10329,7 @@ f_menu_app_video_players () {
                  APP_NAME="fbxine"
                  f_application_run
                  ;;
-                 [Ff][Bb][Xx][Ii][Nn][Ee]' '*)
+                 fbxine' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10688,7 +10337,7 @@ f_menu_app_video_players () {
                  APP_NAME="vlc"
                  f_application_run
                  ;;
-                 [Vv][Ll]Cc]' '*)
+                 vlc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10696,7 +10345,7 @@ f_menu_app_video_players () {
                  APP_NAME="mencoder"
                  f_application_run
                  ;;
-                 [Mm][Ee][Nn][Cc][Oo][Dd][Ee][Rr]' '*)
+                 mencoder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10704,7 +10353,7 @@ f_menu_app_video_players () {
                  APP_NAME="episoder"
                  f_application_run
                  ;;
-                 [Ee][Pp][Ii][Ss][Oo][Dd][Ee][Rr]' '*)
+                 episoder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10712,49 +10361,23 @@ f_menu_app_video_players () {
                  APP_NAME="cclive"
                  f_application_run
                  ;;
-                 [Cc][Cc][Ll][Ii][Vv][Ee]' '*)
+                 cclive' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  11 | [Yy] | [Yy][Oo] | [Yy][Oo][Uu] | [Yy][Oo][Uu][Gg] | [Yy][Oo][Uu][Gg][Rr] | [Yy][Oo][Uu][Gg][Rr][Aa] | [Yy][Oo][Uu][Gg][Rr][Aa][Bb] | [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb | [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb][Ee] | [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb][Ee][Rr])
                  APP_NAME="yougrabber"
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/yougrabber/files/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
-                 [Yy][Oo][Uu][Gg][Rr][Aa][Bb][Bb][Ee][Rr]' '*)
+                 yougrabber' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 echo 
-                 echo "If application did not install properly, do want to use the w3m web browser"
-                 echo -n "to visit the project's web site to download manually (y/N)? "
-                 read ANS
-                 case $ANS in        # Start of Install case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      APP_NAME="w3m http://sourceforge.net/projects/yougrabber/files/"
-                      f_how_to_quit_application "q"
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo])
-                      ;;
-                 esac                # End of Install case statement.
                  ;;
                  12 | [Yy] | [Yy][Oo] | [Yy][Oo][Uu] | [Yy][Oo][Uu][Tt] | [Yy][Oo][Uu][Tt][Uu] | [Yy][Oo][Uu][Tt][Uu][Bb] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee][-] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee][-][Dd] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee][-][Dd] | [Yy][Oo][Uu][Tt][Uu][Bb][Ee][-][Dd][Ll])
                  APP_NAME="youtube-dl"
                  f_application_run
                  ;;
-                 [Yy][Oo][Uu][Tt][Uu][Bb][Ee][-][Dd][Ll]' '*)
+                 youtube-dl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
