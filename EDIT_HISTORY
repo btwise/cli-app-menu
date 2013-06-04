@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-03-2013 16:38"
+REVDATE="June-03-2013 23:12"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -47,16 +47,29 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-06-03 *f_application_web_install added.
-##            *Allow only lower-case app names when followed by options.
-##            *f_application_install clean up messages.
+## 2013-06-03 *Allow only lower-case app names when followed by options.
+##            *Fix typo "DELIMETER" changed to "DELIMITER".
+##            *f_menu_cat_* and f_menu_app_* sort in alphabetic order.
+##            *f_menu_cat_office fixed f_menu_app_clocks case pattern matching.
+##            *f_menu_cat_video fixed delimiter.
+##            *f_application_install cleaned up messages.
+##            *f_application_web_install added.
+##            *f_menu_app_audio_editors fixed ffmpeg case pattern matching.
 ##            *f_menu_app_clocks added.
-##            *f_menu_app_music_players fix vlc case pattern matching. 
-##            *f_menu_app_video_players fix vlc case pattern matching.
-##            *f_menu_app_audio_editors fix ffmpeg case pattern matching.
-##            *f_menu_app_video_editors fix ffmpeg case pattern matching.
-##            *f_menu_cat_office fix f_menu_app_clocks case pattern matching.
-##            *Fix typo "DELIMETER" change to "DELIMITER".
+##            *f_menu_app_file_burn added.
+##            *f_menu_app_file_compression added.
+##            *f_menu_app_file_transfer shortened woof description.
+##            *f_menu_app_firewalls fixed arptables case pattern matching.
+##            *f_menu_app_music_players fixed vlc case pattern matching. 
+##            *f_menu_app_network_monitors deleted ss from network monitor
+##            *f_menu_app_network_sharing shortened woof description.
+##            *f_menu_app_sys_peripherals fixed menu spacing.
+##            *f_menu_app_todo fixed menu spacing.
+##            *f_menu_app_video_editors fixed ffmpeg case pattern matching.
+##            *f_menu_app_video_editors fixed delimiter.
+##            *f_menu_app_video_editors shortened mpgtx description.
+##            *f_menu_app_video_players fixed vlc case pattern matching.
+##            *f_menu_app_video_players fixed delimiter.
 ##
 ## 2013-06-02 *f_menu_cat_video added f_menu_app_video_editors,
 ##             and f_menu_app_video_players.
