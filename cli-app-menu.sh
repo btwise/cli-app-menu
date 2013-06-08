@@ -2,6 +2,7 @@
 #
 # ©2013 Copyright 2013 Robert D. Chin
 #
+#
 # +----------------------------------------+
 # |            Brief Description           |
 # +----------------------------------------+
@@ -14,6 +15,7 @@ THIS_FILE="cli-app-menu.sh"
 # File naming convention for archiving:
 # $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
 #
+#
 # +----------------------------------------+
 # | FILE LOCATIONS of cli-app-menu project |
 # +----------------------------------------+
@@ -23,6 +25,7 @@ THIS_FILE="cli-app-menu.sh"
 # as this file/script so the Main Menu options to view/edit 'Edit History' or
 # to view 'License' can work.
 #
+#
 # +----------------------------------------+
 # |        HOW-TO Update this script       |
 # +----------------------------------------+
@@ -30,6 +33,7 @@ THIS_FILE="cli-app-menu.sh"
 # After each edit made, update the version (date stamp string) of this script
 # in both the EDIT_HISTORY file and this file.
 # Also update the edit history in the EDIT_HISTORY file.
+#
 #
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
@@ -40,7 +44,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="June-08-2013 11:23"
+REVDATE="June-08-2013 17:04"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -73,117 +77,6 @@ REVDATE="June-08-2013 11:23"
 #:
 #: Please enjoy . . . bob chin (2013).
 #:                    rdchin at yahoo.com.
-#:
-#:
-#: +----------------------------------------+
-#: |      Why is this menu so complex?      |
-#: +----------------------------------------+
-#:
-#: Why not use the select command? Why not be a lazier pattern matcher?
-#:
-#: *I used to be a MUMPS programmer and QA analyst.
-#:
-#: *I used to create menus in this style in MUMPS and being a QA person, my job
-#:  was to try to break programs. So that's why I tried to make pattern matching
-#:  so robust rather than use wild-cards.
-#:
-#: *My QA background also explains this crazy documentation of everything along
-#:  with the fact that I am just learning bash scripting.
-#:
-#:
-#: +----------------------------------------+
-#: |             Script features            |
-#: +----------------------------------------+
-#:
-#: *Optimized for 80x24 display or 640x480 pixel displays.
-#:  Run-time displayed text is no wider than 80-columns across.
-#:  Run-time menus are no longer than 17 items for 24 row displays.
-#:  Although the game, "Pacman for Console" needs 32 rows minimum to play.
-#:
-#: *Limited to 4 menu levels below the Main Menu to run any application.
-#:
-#: *You can get application help by 'man' or '--help' from the menu prompt.
-#:
-#: *If an application is not installed, script will automatically install it.
-#:
-#: *Designed for ease of extensibility and menu editing.
-#:
-#: *If an application needs sudo, script will automatically give a sudo option.
-#: *Option numbers in menu display are automatically generated.
-#:  (However, case pattern matching including option numbers are hand-written).
-#:
-#: *More fun than just a list of CLI applications!!!
-#:
-#:
-#: +----------------------------------------+
-#: |       HOW-TO Add a new menu item       |
-#: +----------------------------------------+
-#:
-#: The template to add a new category menu is:     f_menu_cat_sample_template
-#: The template to add a new sub-category menu is: f_menu_scat_sample_template
-#: The template to add a new application menu is:  f_menu_app_sample_template
-#:
-#: In brief:
-#
-#: 1. The menu code is contained in functions before the main program code.
-#:    The main program code, "Main Menu" is at the bottom of this listing.
-#:
-#: 2. If you are adding a new application within an application menu, 
-#:    a) decide what row in the menu that you want to place the new menu item.
-#:    b) Add the item string: <Special Menu Option Marker beginning with #> 
-#:       <name of item> <space><dash><space> <description>
-#:    c) Each Special Menu Option Marker MUST be unique for each menu.
-#:
-#:    Note: Please see bottom of this document
-#:          for a list of Special Menu Option Markers.
-#:
-#:    d) Create a new case statement for the new item.
-#:    e) Adjust the case statement patterns of menu items below the new item.
-#:       If you added the item in the middle of the menu, all case patterns for
-#:       the items below it need to be adjusted.
-#:
-#:    i.e. The number in the case pattern would need to be incremented by 1 
-#:         for the items below the new item.
-#:
-#:    The case patterns will accept both the menu option number, or all or part
-#:    of the menu item name in upper or lower case or any mixture of case.
-#:
-#: 3. If you are adding a new category or sub-category menu, please use the
-#:    templates for this very purpose.
-#:    f_menu_cat_sample_template or f_menu_scat_sample_template.
-#:
-#: 4. If you are adding a new application menu, please use the template for
-#:    this very purpose, f_menu_app_sample_template.
-#:
-#:
-#: +----------------------------------------+
-#: |   Trouble-shooting a new menu item     |
-#: +----------------------------------------+
-#:
-#: 1. Some or all of the menu items are missing.
-#:
-#:    If you copied from a template or another menu, check the Special Menu
-#:    Option Markers for consistency.
-#:    In the example below, #MXX is before each menu item and in DELIMITER. #MXX This 3rd field prevents awk from printing this line into "List Applications".
-#:
-#:            #MXX appname  - Description Application1 name.
-#:            #MXX app2name - Description Application2 name.
-#:            #
-#:            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-#:            MENU_TITLE="<Sample Template> Applications Menu"
-#:            DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options.
-#:
-#: 2. Menu items only display when the number is selected, not letters.
-#:
-#:    Check the case patterns of the letters.
-#:    Wrong! 1 | [Aa][Pp][Pp][Nn][Aa][Mm][Ee])
-#:    Right! 1 | [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][Nn] | [Aa][Pp][Pp][Nn][Aa] | [Aa][Pp][Pp][Nn][Aa][Mm] | [Aa][Pp][Pp][Nn][Aa][Mm][Ee])
-#:
-#: 3. Menu items only display when the letters are selected, not the number.
-#:    Or Wrong application is run when I select the number.
-#:
-#:    Check to see that you do not have duplicate numbers or out of sequence
-#:    numbers in the case patterns.
 #:
 #:
 #: +----------------------------------------+

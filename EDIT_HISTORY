@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-08-2013 14:52"
+REVDATE="June-08-2013 17:04"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -52,6 +52,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_common_scat_menu, f_common_tcat_menu, f_common_app_menu added.
 ##            *f_quit_scat_menu,  f_quit_tcat_menu, f_quit_app_menu deleted.
 ##            *Main Menu fixed "License" option case pattern matching.
+##            *cli-app-menu.sh deletted program comments.
+##            *README added program comments.
 ##
 ## 2013-06-08 *cli_app_menu_dash added file to accomodate DASH environment
 ##             used by Ubuntu-based linux distributions. DASH does not handle
