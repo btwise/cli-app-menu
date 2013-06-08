@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-03-2013 23:12"
+REVDATE="June-08-2013 14:52"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,19 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-06-08 *f_choice_array added to handle numeric input for menu choices.
+##             Numeric input is handled by an array CHOICE[XNUM].
+##            *f_common_scat_menu, f_common_tcat_menu, f_common_app_menu added.
+##            *f_quit_scat_menu,  f_quit_tcat_menu, f_quit_app_menu deleted.
+##            *Main Menu fixed "License" option case pattern matching.
+##
+## 2013-06-08 *cli_app_menu_dash added file to accomodate DASH environment
+##             used by Ubuntu-based linux distributions. DASH does not handle
+##             arrays without errors so this version does not use arrays.
+##
+## 2013-06-04 *f_menu_app_sys_backup fixed rsync, tar case pattern matching.
+##            *f_menu_app_file_compression fixed function name.
 ##
 ## 2013-06-03 *Allow only lower-case app names when followed by options.
 ##            *Fix typo "DELIMETER" changed to "DELIMITER".
