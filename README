@@ -10,6 +10,22 @@ sed -n 's/^#://'p README |more -d
 #
 # The "#:" at the beginning of lines below are used 
 # to delineate the Help Instructions.
+#
+#: +----------------------------------------+
+#: |            Table of contents           |
+#: +----------------------------------------+
+#:
+#:   Brief Description
+#:   FILE LOCATIONS of cli-app-menu project
+#:   HOW-TO Update this script
+#:   Revision number and Revision Date
+#:   Why did I write this script?
+#:   Why is this menu so complex?
+#:   Script features
+#:   HOW-TO Add a new menu item
+#:   Trouble-shooting a new menu item
+#:   Known problems
+#:
 #:
 #: +----------------------------------------+
 #: |            Brief Description           |
@@ -47,7 +63,7 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="June-08-2013 17:04"
+#:REVDATE="June-08-2013 22:22"
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -66,6 +82,12 @@ sed -n 's/^#://'p README |more -d
 #: +----------------------------------------+
 #: |      Why is this menu so complex?      |
 #: +----------------------------------------+
+#:
+#: *The menus are designed to be quite extensible and are easily edited.
+#: *Menu item choices are added with a simple comment line.
+#: *The case pattern statements do not need a manually edited numeric pattern
+#:  because menu item choices are numerically matched automatically
+#:  by the use of an array generated from the menu item comment lines.
 #:
 #: Why not use the select command? Why not be a lazier pattern matcher?
 #:
@@ -150,7 +172,8 @@ sed -n 's/^#://'p README |more -d
 #:
 #:    If you copied from a template or another menu, check the Special Menu
 #:    Option Markers for consistency.
-#:    In the example below, #MXX is before each menu item and in DELIMITER. #MXX This 3rd field prevents awk from printing this line into "List Applications".
+#:    In the example below, #MXX is before each menu item and in DELIMITER.
+#:    Note: DELIMITER has #MXX twice, separating it into 3 fields for awk.
 #:
 #:            #MXX appname  - Description Application1 name.
 #:            #MXX app2name - Description Application2 name.
@@ -162,7 +185,7 @@ sed -n 's/^#://'p README |more -d
 #: 2. Menu items only display when the number is selected, not letters.
 #:
 #:    Check the case patterns of the letters.
-#:    Wrong! [Tt][Ee][Ss][Tt])
+#:    Wrong! [Tt][Ee][Ss][Tt]) or [Tt][Ee][Ss][[Tt]) 
 #:    Right! [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt])
 #:
 #: 3. Menu items only display when the letters are selected, not the number.
@@ -170,6 +193,22 @@ sed -n 's/^#://'p README |more -d
 #:
 #:    Check to see that you do not have duplicate numbers or out of sequence
 #:    numbers in the case patterns.
+#:
+#:
+#: +----------------------------------------+
+#: |            Known problems              |
+#: +----------------------------------------+
+#:
+#: Running the script using DASH used in Ubuntu, Linux Mint and other
+#: distributions will cause these errors.
+#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[1]=Applications: not found
+#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[2]=Help: not found
+#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[3]=About: not found
+#:
+#: Reason: DASH does not handle arrays properly.
+#:
+#: Work-around: Use BASH instead of DASH. 
+#: Use BASH, "bash cli-app-menu.sh" instead of "sh cli-app-menu.sh".
 #:
 #:
 #: +----------------------------------------+
@@ -185,4 +224,3 @@ sed -n 's/^#://'p README |more -d
 #: *There are also example templates to create additional category and app menus
 #:  within the script.
 #:
- 

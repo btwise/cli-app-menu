@@ -44,7 +44,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="June-08-2013 17:04"
+REVDATE="June-08-2013 22:22"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -668,7 +668,7 @@ case $ERROR in
                             # If so, display appropriate error message.
      fi
      ;;
-     1 | 13 | 6[!0])
+     1 | 13 | 62 | [!0])
      f_application_error # Display appropriate error message.
      ;;
 esac
@@ -794,7 +794,7 @@ f_application_error () {
       fi
       #
       case $ERROR in # Start of Error Number case statement.
-           1 | 13 | 6[!0]) 
+           1 | 13 | 62 | [!0]) 
            #  1-general
            # 13-some unknown app?
            # 62-"command not found" freshclam log folders not set up.
@@ -1361,7 +1361,7 @@ f_menu_cat_audio () {
             ERROR=0 # Reset error flag.
             #
             case $CHOICE_SCAT in # Start of Audio Application Category case statement.
-                 1 | [Cc] | [Cc][Dd] | [Cc][Dd]' ' | [CC][Dd]' '[Rr] | [CC][Dd]' '[Rr][Ii] | [CC][Dd]' '[Rr][Ii][Pp] | [CC][Dd]' '[Rr][Ii][Pp][Pp] | [CC][Dd]' '[Rr][Ii][Pp][Pp][Ee] | [CC][Dd]' '[Rr][Ii][Pp][Pp][Ee][Rr] | [CC][Dd]' '[Rr][Ii][Pp][Pp][Ee][Rr][Ss])
+                 [Cc] | [Cc][Dd] | [Cc][Dd]' ' | [CC][Dd]' '[Rr] | [CC][Dd]' '[Rr][Ii] | [CC][Dd]' '[Rr][Ii][Pp] | [CC][Dd]' '[Rr][Ii][Pp][Pp] | [CC][Dd]' '[Rr][Ii][Pp][Pp][Ee] | [CC][Dd]' '[Rr][Ii][Pp][Pp][Ee][Rr] | [CC][Dd]' '[Rr][Ii][Pp][Pp][Ee][Rr][Ss])
                  f_menu_app_cdrippers         # Application Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -1423,7 +1423,7 @@ f_menu_app_cdrippers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of CD Rippers Applications case statement.
-                 1 | [Aa] | [Aa][Bb] | [AA][Bb][Cc] | [Aa][Bb][Cc][Dd] | [Aa][Bb][Cc][Dd][Ee])
+                 [Aa] | [Aa][Bb] | [AA][Bb][Cc] | [Aa][Bb][Cc][Dd] | [Aa][Bb][Cc][Dd][Ee])
                  APP_NAME="abcde"
                  f_application_run
                  ;;
@@ -1526,7 +1526,7 @@ f_menu_app_audio_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Audio Editor Applications case statement.
-                 1 | [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
+                 [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
                  APP_NAME="avconv"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1609,7 +1609,7 @@ f_menu_app_music_players () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Music Player Applications case statement.
-                 1 | [Cc] | [Cc][DD] | [Cc][Dd][Cc] | [CC][Dd][Cc][Dd])
+                 [Cc] | [Cc][DD] | [Cc][Dd][Cc] | [CC][Dd][Cc][Dd])
                  APP_NAME="cdcd"
                  f_application_run
                  ;;
@@ -1772,7 +1772,7 @@ f_menu_app_radio () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Radio Applications case statement.
-                 1 | [Dd] | [Dd][Rr] | [Dd][Rr][Aa] | [Dd][Rr][Aa][Dd] | [Dd][Rr][Aa][Dd][Ii] | [Dd][Rr][Aa][Dd][Ii][Oo])
+                 [Dd] | [Dd][Rr] | [Dd][Rr][Aa] | [Dd][Rr][Aa][Dd] | [Dd][Rr][Aa][Dd][Ii] | [Dd][Rr][Aa][Dd][Ii][Oo])
                  APP_NAME="dradio"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1848,7 +1848,7 @@ f_menu_app_speech_synthesis () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Speech Synthesis Applications case statement.
-                 1 | [Ee] | [Ee][Bb] | [Ee][Bb][Oo] | [Ee][Bb][Oo][Oo] | [Ee][Bb][Oo][Oo][Kk] | [Ee][Bb][Oo][Oo][Kk][–] | [Ee][Bb][Oo][Oo][Kk][–][Ss] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee][Rr])
+                 [Ee] | [Ee][Bb] | [Ee][Bb][Oo] | [Ee][Bb][Oo][Oo] | [Ee][Bb][Oo][Oo][Kk] | [Ee][Bb][Oo][Oo][Kk][–] | [Ee][Bb][Oo][Oo][Kk][–][Ss] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee] | [Ee][Bb][Oo][Oo][Kk][–][Ss][Pp][Ee][Aa][Kk][Ee][Rr])
                  APP_NAME="ebook-speaker"
                  f_application_run
                  ;;
@@ -1927,7 +1927,7 @@ f_menu_app_education () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Education Applications case statement.
-                 1 | [Aa] | [Aa][Ll] | [Aa][Ll][Dd] | [Aa][Ll][Dd][Oo])
+                 [Aa] | [Aa][Ll] | [Aa][Ll][Dd] | [Aa][Ll][Dd][Oo])
                  APP_NAME="aldo"
                  f_application_run
                  ;;
@@ -2054,7 +2054,7 @@ f_menu_cat_file_management () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Application Category case statement.
-                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Uu] | [Bb][Aa][Cc][Kk][Uu][Pp])
+                 [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Uu] | [Bb][Aa][Cc][Kk][Uu][Pp])
                  f_menu_app_sys_backup        # System Backup Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -2078,7 +2078,7 @@ f_menu_cat_file_management () {
                  f_menu_app_file_find         # File Find Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Ff] | [Ff][Tt] | [Ff][Tt][Pp])
+                 [Ff] | [Ff][Tt] | [Ff][Tt][Pp] | [Ff][Tt][Pp][/] | [Ff][Tt][Pp][/][Hh] | [Ff][Tt][Pp][/][Hh][Tt] | [Ff][Tt][Pp][/][Hh][Tt][Tt] | [Ff][Tt][Pp][/][Hh][Tt][Tt][Pp])
                  f_menu_app_file_transfer     # File Transfer Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -2139,7 +2139,7 @@ f_menu_app_file_burn () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of CD/DVD File Burning Applications case statement.
-                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Hh] | [Bb][Aa][Ss][Hh][Bb] | [Bb][Aa][Ss][Hh][Bb][Uu] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn])
+                 [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Hh] | [Bb][Aa][Ss][Hh][Bb] | [Bb][Aa][Ss][Hh][Bb][Uu] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr] | [Bb][Aa][Ss][Hh][Bb][Uu][Rr][Nn])
                  APP_NAME="bashburn"
                  f_application_run
                  ;;
@@ -2238,7 +2238,7 @@ f_menu_app_file_compression () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Compression Applications case statement.
-                 1 | [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Oo] | [Aa][Tt][Oo][Oo][Ll])
+                 [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Oo] | [Aa][Tt][Oo][Oo][Ll])
                  APP_NAME="atool"
                  f_application_run
                  ;;
@@ -2338,7 +2338,7 @@ f_menu_app_file_encryption () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Encryption Applications case statement.
-                 1 | [Bb] | [Bb][Cc] | [Bb][Cc][Rr] | [Bb][Cc][Rr][Yy] | [Bb][Cc][Rr][Yy][Pp] | [Bb][Cc][Rr][Yy][Pp][Tt])
+                 [Bb] | [Bb][Cc] | [Bb][Cc][Rr] | [Bb][Cc][Rr][Yy] | [Bb][Cc][Rr][Yy][Pp] | [Bb][Cc][Rr][Yy][Pp][Tt])
                  APP_NAME="bcrypt"
                  f_application_run
                  ;;
@@ -2443,7 +2443,7 @@ f_menu_app_file_find () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Find File Applications case statement.
-                 1 | [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
+                 [Ff] | [Ff][Ii] | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
                  APP_NAME="find --help"
                  clear # Blank the screen.
                  echo "find - Find and search for files."
@@ -2555,7 +2555,7 @@ f_menu_app_file_managers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Manager Applications case statement.
-                 1 | [Cc] | [Cc][Ll] | [Cc][Ll][Ee] | [Cc][Ll][Ee][Xx])
+                 [Cc] | [Cc][Ll] | [Cc][Ll][Ee] | [Cc][Ll][Ee][Xx])
                  APP_NAME="clex"
                  f_application_run
                  ;;
@@ -2667,7 +2667,7 @@ f_menu_app_file_splitters () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Splitter Applications case statement.
-                 1 | [Ll] | [Ll][Xx] | [Ll][Xx][Ss] | [Ll][Xx][Ss][Pp] | [Ll][Xx][Ss][Pp][Ll] | [Ll][Xx][Ss][Pp][Ll][Ii] | [Ll][Xx][Ss][Pp][Ll][Ii][Tt])
+                 [Ll] | [Ll][Xx] | [Ll][Xx][Ss] | [Ll][Xx][Ss][Pp] | [Ll][Xx][Ss][Pp][Ll] | [Ll][Xx][Ss][Pp][Ll][Ii] | [Ll][Xx][Ss][Pp][Ll][Ii][Tt])
                  APP_NAME="lxsplit"
                  f_application_run
                  ;;
@@ -2738,7 +2738,7 @@ f_menu_app_file_viewers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Viewer Applications case statement.
-                 1 | [Jj] | [Jj][Ll] | [Jj][Ll][Ee] | [Jj][Ll][Ee][Ss] | [Jj][Ll][Ee][Ss][Ss])
+                 [Jj] | [Jj][Ll] | [Jj][Ll][Ee] | [Jj][Ll][Ee][Ss] | [Jj][Ll][Ee][Ss][Ss])
                  APP_NAME="jless"
                  f_application_run
                  ;;
@@ -2799,7 +2799,7 @@ f_menu_app_file_deletion () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Deletion Applications case statement.
-                 1 | [Ss] | [Ss][Hh] | [Ss][Hh][Rr] | [Ss][Hh][Rr][Ee] | [Ss][Hh][Rr][Ee][Dd])
+                 [Ss] | [Ss][Hh] | [Ss][Hh][Rr] | [Ss][Hh][Rr][Ee] | [Ss][Hh][Rr][Ee][Dd])
                  APP_NAME="shred"
                  f_application_run
                  ;;
@@ -2847,7 +2847,7 @@ f_menu_app_file_recover () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Recovery Applications case statement.
-                 1 | [Ff] | [Ff][Oo] | [Ff][Oo][Rr] | [Ff][Oo][Rr][Ee] | [Ff][Oo][Rr][Ee][Mm] | [Ff][Oo][Rr][Ee][Mm][Oo] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt])
+                 [Ff] | [Ff][Oo] | [Ff][Oo][Rr] | [Ff][Oo][Rr][Ee] | [Ff][Oo][Rr][Ee][Mm] | [Ff][Oo][Rr][Ee][Mm][Oo] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss] | [Ff][Oo][Rr][Ee][Mm][Oo][Ss][Tt])
                  APP_NAME="foremost --help"
                  clear # Blank the screen.
                  echo "foremost - Recover deleted files."
@@ -2972,7 +2972,7 @@ f_menu_cat_games () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Game Category case statement.
-                 1 | [Aa] | [Aa][Rr] | [Aa][Rr][Cc] | [Aa][Rr][Cc][Aa] | [Aa][Rr][Cc][Aa][Dd] | [Aa][Rr][Cc][Aa][Dd][Ee]) 
+                 [Aa] | [Aa][Rr] | [Aa][Rr][Cc] | [Aa][Rr][Cc][Aa] | [Aa][Rr][Cc][Aa][Dd] | [Aa][Rr][Cc][Aa][Dd][Ee]) 
                  f_menu_app_games_arcade      # Arcade Games Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -3053,7 +3053,7 @@ f_menu_app_games_arcade () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Arcade Games case statement.
-                 1 | [Aa] | [Aa][Ss] | [Aa][Ss][Cc] | [Aa][Ss][Cc][Ii] | [Aa][Ss][Cc][Ii][Ii] | [Aa][Ss][Cc][Ii][Ii][Jj] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm][Pp])
+                 [Aa] | [Aa][Ss] | [Aa][Ss][Cc] | [Aa][Ss][Cc][Ii] | [Aa][Ss][Cc][Ii][Ii] | [Aa][Ss][Cc][Ii][Ii][Jj] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm] | [Aa][Ss][Cc][Ii][Ii][Jj][Uu][Mm][Pp])
                  APP_NAME="asciijump"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -3166,7 +3166,7 @@ f_menu_app_games_board () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Board Games case statement.
-                 1 | [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Mm] | [Aa][Tt][Oo][Mm][4])
+                 [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Mm] | [Aa][Tt][Oo][Mm][4])
                  APP_NAME="atom4"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -3230,7 +3230,7 @@ f_menu_app_games_card () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Card Games case statement.
-                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Ff] | [Cc][Aa][Nn][Ff][Ii] | [Cc][Aa][Nn][Ff][Ii][Ee] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll][Dd)
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Ff] | [Cc][Aa][Nn][Ff][Ii] | [Cc][Aa][Nn][Ff][Ii][Ee] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll][Dd)
                  APP_NAME="canfield"
                  f_application_run
                  ;;
@@ -3348,7 +3348,7 @@ f_menu_app_games_puzzle () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Puzzle Games case statement.
-                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Tt] | [Bb][Aa][Ss][Tt][Ee] | [Bb][Aa][Ss][Tt][Ee][Tt])
+                 [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Tt] | [Bb][Aa][Ss][Tt][Ee] | [Bb][Aa][Ss][Tt][Ee][Tt])
                  APP_NAME="bastet"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -3513,7 +3513,7 @@ f_menu_app_games_rpg () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of RPG Games case statement.
-                 1 | [Aa] | [Aa][Dd] | [Aa][Dd][Vv] | [Aa][Dd][Vv][Ee] | [Aa][Dd][Vv][Ee][Nn] | [Aa][Dd][Vv][Ee][Nn][Tt] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr][Ee])
+                 [Aa] | [Aa][Dd] | [Aa][Dd][Vv] | [Aa][Dd][Vv][Ee] | [Aa][Dd][Vv][Ee][Nn] | [Aa][Dd][Vv][Ee][Nn][Tt] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr] | [Aa][Dd][Vv][Ee][Nn][Tt][Uu][Rr][Ee])
                  APP_NAME="adventure"
                  f_how_to_quit_application "quit"
                  f_application_run
@@ -3608,7 +3608,7 @@ f_menu_app_games_simulation () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Simulation Games case statement.
-                 1 | [Aa] | [Aa][Tt] | [Aa][Tt][Cc])
+                 [Aa] | [Aa][Tt] | [Aa][Tt][Cc])
                  APP_NAME="atc"
                  f_application_run
                  ;;
@@ -3676,7 +3676,7 @@ f_menu_app_games_strategy () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Strategy Games case statement.
-                 1 | [Gg] | [Gg][Oo] | [Gg][Oo][Mm] | [Gg][Oo][Mm][Oo] | [Gg][Oo][Mm][Oo][Kk] | [Gg][Oo][Mm][Oo][Kk][Uu])
+                 [Gg] | [Gg][Oo] | [Gg][Oo][Mm] | [Gg][Oo][Mm][Oo] | [Gg][Oo][Mm][Oo][Kk] | [Gg][Oo][Mm][Oo][Kk][Uu])
                  APP_NAME="gomoku"
                  f_application_run
                  ;;
@@ -3760,7 +3760,7 @@ f_menu_app_games_word () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Word Games case statement.
-                 1 | [Bb] | [Bb][Oo] | [Bb][Oo][Gg] | [Bb][Oo][Gg][Gg] | [Bb][Oo][Gg][Gg][Ll] | [Bb][Oo][Gg][Gg][Ll][Ee])
+                 [Bb] | [Bb][Oo] | [Bb][Oo][Gg] | [Bb][Oo][Gg][Gg] | [Bb][Oo][Gg][Gg][Ll] | [Bb][Oo][Gg][Gg][Ll][Ee])
                  APP_NAME="boggle"
                  f_application_run
                  ;;
@@ -3821,7 +3821,7 @@ f_menu_cat_image () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Image Application Category case statement.
-                 1 | [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Mm] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc][Kk]) 
+                 [Ii] | [Ii][Mm] | [Ii][Mm][Aa] | [Ii][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee] | [Ii][Mm][Aa][Gg][Ee][Mm] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc] | [Ii][Mm][Aa][Gg][Ee][Mm][Aa][Gg][Ii][Cc][Kk]) 
                  f_menu_app_imagemagick       # ImageMagic Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -3871,7 +3871,7 @@ f_menu_app_image_graphics () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Image-Graphics Applications case statement.
-                 1 | [Aa] | [Aa][Vv] | [Aa][Vv][Ii] | [Aa][Vv][Ii][Ee] | [Aa][Vv][Ii][Ee][Ww])
+                 [Aa] | [Aa][Vv] | [Aa][Vv][Ii] | [Aa][Vv][Ii][Ee] | [Aa][Vv][Ii][Ee][Ww])
                  APP_NAME="aview"
                  f_application_run
                  ;;
@@ -4134,7 +4134,7 @@ f_menu_cat_internet () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Internet Category case statement.
-                 1 | [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
+                 [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr][Ee][Nn][Tt]) 
                  f_menu_app_bittorrent        # Bittorrent Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -4225,7 +4225,7 @@ f_menu_app_web_browsers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Web Browser Applications case statement.
-                 1 | [Ee] | [Ee][Ll] | [Ee][Ll][Ii] | [Ee][Ll][Ii][Nn] | [Ee][Ll][Ii][Nn][Kk] | [Ee][Ll][Ii][Nn][Kk][Ss] | [Ee][Ll][Ii][Nn][Kk][Ss])
+                 [Ee] | [Ee][Ll] | [Ee][Ll][Ii] | [Ee][Ll][Ii][Nn] | [Ee][Ll][Ii][Nn][Kk] | [Ee][Ll][Ii][Nn][Kk][Ss] | [Ee][Ll][Ii][Nn][Kk][Ss])
                  APP_NAME="elinks"
                  f_web_site
                  f_how_to_quit_application "q"
@@ -4433,7 +4433,7 @@ f_menu_app_bittorrent () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Bittorrent Applications case statement.
-                 1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
+                 [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
                  APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
                  f_application_run
                  ;;
@@ -4537,7 +4537,7 @@ f_menu_app_downloaders () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Dowloader Applications case statement.
-                 1 | [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
+                 [Aa] | [Aa][Rr] | [Aa][Rr][Ii] | [Aa][Rr][Ii][Aa] | [Aa][Rr][Ii][Aa][2])
                  APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
                  f_application_run
                  ;;
@@ -4665,7 +4665,7 @@ f_menu_app_email () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of E-mail Applications case statement.
-                 1 | [Aa] | [Aa][Ll] | [Aa][Ll][Pp] | [Aa][Ll][Pp][Ii] | [Aa][Ll][Pp][Ii][Nn] | [Aa][Ll][Pp][Ii][Nn][Ee])
+                 [Aa] | [Aa][Ll] | [Aa][Ll][Pp] | [Aa][Ll][Pp][Ii] | [Aa][Ll][Pp][Ii][Nn] | [Aa][Ll][Pp][Ii][Nn][Ee])
                  APP_NAME="alpine"
                  f_application_run
                  ;;
@@ -4849,7 +4849,7 @@ f_menu_app_file_transfer () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Transfer Applications case statement.
-                 1 | [Cc] | [Cc][Mm] | [Cc][Mm][Dd] | [Cc][Mm][Dd][Ff] | [Cc][Mm][Dd][Ff][Tt] | [Cc][Mm][Dd][Ff][Tt][Pp])
+                 [Cc] | [Cc][Mm] | [Cc][Mm][Dd] | [Cc][Mm][Dd][Ff] | [Cc][Mm][Dd][Ff][Tt] | [Cc][Mm][Dd][Ff][Tt][Pp])
                  APP_NAME="cmdftp"
                  f_application_run
                  ;;
@@ -4957,7 +4957,7 @@ f_menu_app_instant_messaging () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Instant Messaging Applications case statement.
-                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Rr] | [Bb][Aa][Rr][Nn] | [Bb][Aa][Rr][Nn][Oo] | [Bb][Aa][Rr][Nn][Oo][Ww] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll])
+                 [Bb] | [Bb][Aa] | [Bb][Aa][Rr] | [Bb][Aa][Rr][Nn] | [Bb][Aa][Rr][Nn][Oo] | [Bb][Aa][Rr][Nn][Oo][Ww] | [Bb][Aa][Rr][Nn][Oo][Ww][Ll])
                  APP_NAME="barnowl"
                  clear # Blank the screen.
                  echo "BarnOwl - Internet Messenger."
@@ -5085,7 +5085,7 @@ f_menu_app_irc_clients () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of IRC Clients Applications case statement.
-                 1 | [Ee] | [Ee][Pp] | [Ee][Pp][Ii] | [Ee][Pp][Ii][Cc])
+                 [Ee] | [Ee][Pp] | [Ee][Pp][Ii] | [Ee][Pp][Ii][Cc])
                  APP_NAME="epic"
                  f_application_run
                  ;;
@@ -5192,7 +5192,7 @@ f_menu_app_news_readers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of News Reader Applications case statement.
-                 1 | [Gg] | [Gg][Nn] | [Gg][Nn][Uu] | [Gg][Nn][Uu][Ss])
+                 [Gg] | [Gg][Nn] | [Gg][Nn][Uu] | [Gg][Nn][Uu][Ss])
                  APP_NAME="gnus"
                  f_application_run
                  ;;
@@ -5278,7 +5278,7 @@ f_menu_app_lan_chat () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of LAN Chat Applications case statement.
-                 1 | [Tt] | [Tt][Aa] | [Tt][Aa][Ll] | [Tt][Aa][Ll][Kk])
+                 [Tt] | [Tt][Aa] | [Tt][Aa][Ll] | [Tt][Aa][Ll][Kk])
                  APP_NAME="talk"
                  f_application_run
                  ;;
@@ -5343,7 +5343,7 @@ f_menu_app_podcatchers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Podcatcher Applications case statement.
-                 1 | [Bb] | [Bb][Aa]| [Bb][Aa][Ss] | [Bb][Aa][Ss][Hh] | [Bb][Aa][Ss][Hh][Pp] | [Bb][Aa][Ss][Hh][Pp[Oo]  | [Bb][Aa][Ss][Hh][Pp[Oo][Dd] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee][Rr])
+                 [Bb] | [Bb][Aa]| [Bb][Aa][Ss] | [Bb][Aa][Ss][Hh] | [Bb][Aa][Ss][Hh][Pp] | [Bb][Aa][Ss][Hh][Pp[Oo]  | [Bb][Aa][Ss][Hh][Pp[Oo][Dd] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee] | [Bb][Aa][Ss][Hh][Pp[Oo][Dd][Dd][Ee][Rr])
                  APP_NAME="bashpodder"
                  f_application_run
                  ;;
@@ -5430,7 +5430,7 @@ f_menu_app_remote_connection () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Remote Connection Applications case statement.
-                 1 | [Cc] | [Cc][Pp] | [Cc][Pp][Uu])
+                 [Cc] | [Cc][Pp] | [Cc][Pp][Uu])
                  APP_NAME="cpu"
                  f_application_run
                  ;;
@@ -5505,7 +5505,7 @@ f_menu_app_rssfeeders () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of RSS Feeder Applications case statement.
-                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Tt] | [Cc][Aa][Nn][Tt][Oo])
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Tt] | [Cc][Aa][Nn][Tt][Oo])
                  APP_NAME="canto"
                  f_application_run
                  ;;
@@ -5609,7 +5609,7 @@ f_menu_cat_network () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Network Application Category case statement.
-                 1 | [Ff] | [Ff][Ii] | [Ff][Ii][Rr] | [Ff][Ii][Rr][Ee] | [Ff][Ii][Rr][Ee][Ww] | [Ff][Ii][Rr][Ee][Ww][Aa] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll][Ss])
+                 [Ff] | [Ff][Ii] | [Ff][Ii][Rr] | [Ff][Ii][Rr][Ee] | [Ff][Ii][Rr][Ee][Ww] | [Ff][Ii][Rr][Ee][Ww][Aa] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll] | [Ff][Ii][Rr][Ee][Ww][Aa][Ll][Ll][Ss])
                  f_menu_app_firewalls         # Firewall Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -5670,7 +5670,7 @@ f_menu_app_firewalls () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Firewall Applications case statement.
-                 1 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Tt] | [Aa][Rr][Pp][Tt][Aa] | [Aa][Rr][Pp][Tt][Aa][Bb] | [Aa][Rr][Pp][Tt][Aa][Bb][Ll] | [Aa][Rr][Pp][Tt][Aa][Bb][Ll][Ee] | [Aa][Rr][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
+                 [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Tt] | [Aa][Rr][Pp][Tt][Aa] | [Aa][Rr][Pp][Tt][Aa][Bb] | [Aa][Rr][Pp][Tt][Aa][Bb][Ll] | [Aa][Rr][Pp][Tt][Aa][Bb][Ll][Ee] | [Aa][Rr][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
                  APP_NAME="sudo arptables --list"
                  clear # Blank the screen.
                  echo "arptables - Administration tool for ARP tables."
@@ -5705,7 +5705,7 @@ f_menu_app_firewalls () {
                  [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa] | [Ii][Pp][Tt][Aa][Bb] | [Ii][Pp][Tt][Aa][Bb][Ll] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee] | [Ii][Pp][Tt][Aa][Bb][Ll][Ee][Ss])
                  APP_NAME="iptables --list"
                  clear # Blank the screen.
-                 echo "Administration tool for IPv4 packet filtering and NAT."
+                 echo "iptables - Administration tool for IPv4 packet filtering and NAT."
                  echo
                  echo "Usage:"
                  echo "iptables [-t table] {-A|-C|-D} chain rule-specification"
@@ -5818,7 +5818,7 @@ f_menu_app_lanwan () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of LAN/WAN Applications case statement.
-                 1 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Ii] | [Aa][Rr][Pp][Ii][Nn] | [Aa][Rr][Pp][Ii][Nn][Gg])
+                 [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Ii] | [Aa][Rr][Pp][Ii][Nn] | [Aa][Rr][Pp][Ii][Nn][Gg])
                  APP_NAME="arping localhost -c 5"
                  clear # Blank the screen.
                  echo "arping - Send ICMP ECHO_REQUEST to network hosts."
@@ -6124,7 +6124,7 @@ f_menu_app_nic_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of NIC Tools Applications case statement.
-                 1 | [Ee] | [Ee][Tt] | [Ee][Tt][Hh] | [Ee][Tt][Hh][Tt] | [Ee][Tt][Hh][Tt][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo][Ll])
+                 [Ee] | [Ee][Tt] | [Ee][Tt][Hh] | [Ee][Tt][Hh][Tt] | [Ee][Tt][Hh][Tt][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo] | [Ee][Tt][Hh][Tt][Oo][Oo][Ll])
                  APP_NAME="ethtool"
                  f_application_run
                  ;;
@@ -6239,7 +6239,7 @@ f_menu_app_network_sharing () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Sharing Applications case statement.
-                 1 | [Nn] | [Nn][Cc] | [Nn][Cc][Pp] | [Nn][Cc][Pp][Ff] | [Nn][Cc][Pp][Ff][Ss])
+                 [Nn] | [Nn][Cc] | [Nn][Cc][Pp] | [Nn][Cc][Pp][Ff] | [Nn][Cc][Pp][Ff][Ss])
                  APP_NAME="ncpfs"
                  f_application_run
                  ;;
@@ -6345,7 +6345,7 @@ f_menu_app_network_monitors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Monitor Applications case statement.
-                 1 | [Bb] | [Bb][Mm] | [Bb][Mm][Oo] | [Bb][Mm][Oo][Nn])
+                 [Bb] | [Bb][Mm] | [Bb][Mm][Oo] | [Bb][Mm][Oo][Nn])
                  APP_NAME="bmon"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6458,7 +6458,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="netstat -l"
                  clear # Blank the screen.
                  echo "netstat - Print network connections, routing tables, interface statistics,"
-                 echo "masquerade connections, and multicast memberships."
+                 echo "          masquerade connections, and multicast memberships."
                  echo
                  echo "Usage:"
                  echo "netstat [address_family_options]  [--tcp|-t] [--udp|-u] [--raw|-w]"
@@ -6536,8 +6536,8 @@ f_menu_app_network_monitors () {
                  [Oo] | [Oo][Pp] | [Oo][Pp][Ee] | [Oo][Pp][Ee][Nn] | [Oo][Pp][Ee][Nn][Nn] | [Oo][Pp][Ee][Nn][Nn][Mm] | [Oo][Pp][Ee][Nn][Nn][Mm][Ss])
                  APP_NAME="opennms"
                  clear # Blank the screen.
-                 echo "OpenNMS is a commercial open source application and is in the menu for"
-                 echo "reference only."
+                 echo "OpenNMS - A commercial open source application and is in the menu for"
+                 echo "          reference only."
                  echo
                  echo "Description from the OpenNMS website:"
                  echo "OpenNMS is an award winning network management application platform with a long"
@@ -6575,6 +6575,8 @@ f_menu_app_network_monitors () {
                  [Ss] | [Ss][Nn] | [Ss][Nn][Tt] | [Ss][Nn][Tt][Oo] | [Ss][Nn][Tt][Oo][Pp])
                  APP_NAME="sntop --refresh=3"
                  clear # Blank the screen.
+                 echo "sntop - Network status display polls a list of hosts every few seconds."
+                 echo
                  echo "sntop for every 3 seconds as an example."
                  echo
                  echo "Now run sntop. Usage: sntop --refresh=3"
@@ -6638,7 +6640,7 @@ f_menu_app_packet_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Packet Tools Applications case statement.
-                 1 | [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
+                 [Kk] | [Kk][Ii] | [Kk][Ii][Ss] | [Kk][Ii][Ss][Mm] | [Kk][Ii][Ss][Mm][Ee] | [Kk][Ii][Ss][Mm][Ee][Tt])
                  APP_NAME="kismet"
                  f_application_run
                  ;;
@@ -6827,11 +6829,11 @@ f_menu_cat_office () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of Office Application Category case statement.
-                 1 | [Aa] | [Aa][Cc] | [Aa][Cc][Cc] | [Aa][Cc][Cc][Oo] | [Aa][Cc][Cc][Oo][Nn] | [Aa][Cc][Cc][Oo][Nn][Tt] | [Aa][Cc][Cc][Oo][Nn][Tt][Ii] | [Aa][Cc][Cc][Oo][Nn][Tt][Ii][Nn] | [Aa][Cc][Cc][Oo][Nn][Tt][Ii][Nn][Gg])
+                 [Aa] | [Aa][Cc] | [Aa][Cc][Cc] | [Aa][Cc][Cc][Oo] | [Aa][Cc][Cc][Oo][Uu] | [Aa][Cc][Cc][Oo][Uu][Nn] | [Aa][Cc][Cc][Oo][Uu][Nn][Tt] | [Aa][Cc][Cc][Oo][Uu][Nn][Tt][Ii] | [Aa][Cc][Cc][Oo][Uu][Nn][Tt][Ii][Nn] | [Aa][Cc][Cc][Oo][Uu][Nn][Tt][Ii][Nn][Gg])
                  f_menu_app_accounting        # Accounting Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr])
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc] | [Cc][Aa][Ll][Cc][Uu] | [Cc][Aa][Ll][Cc][Uu][Ll] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr] | [Cc][Aa][Ll][Cc][Uu][Ll][Aa][Tt][Oo][Rr][Ss])
                  f_menu_app_calculators       # Calculator Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -6843,7 +6845,7 @@ f_menu_cat_office () {
                  f_menu_app_clocks            # Clock Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk])
+                 [Nn] | [Nn][Oo] | [Nn][Oo][Tt] | [Nn][Oo][Tt][Ee] | [Nn][Oo][Tt][Ee][Bb] | [Nn][Oo][Tt][Ee][Bb][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk] | [Nn][Oo][Tt][Ee][Bb][Oo][Oo][Kk][Ss])
                  f_menu_app_note              # Note Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -6851,11 +6853,11 @@ f_menu_cat_office () {
                  f_menu_app_pdfps             # PDF-PS Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Pp] | [Pp][Rr] | [Pp][Rr][Ee] | [Pp][Rr][Ee][Nn] | [Pp][Rr][Ee][Nn][Tt] | [Pp][Rr][Ee][Nn][Tt][Ee] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr] | [Pp][Rr][Ee][Nn][Tt][Ee][Rr][Ss])
+                 [Pp] | [Pp][Rr] | [Pp][Rr][Ee] | [Pp][Rr][Ee][Ss] | [Pp][Rr][Ee][Ss][Ee] | [Pp][Rr][Ee][Ss][Ee][Nn] | [Pp][Rr][Ee][Ss][Ee][Nn][Tt] | [Pp][Rr][Ee][Ss][Ee][Nn][Tt][Ee] | [Pp][Rr][Ee][Ss][Ee][Nn][Tt][Ee][Rr] | [Pp][Rr][Ee][Ss][Ee][Nn][Tt][Ee][Rr][Ss])
                  f_menu_app_presentation      # Presentation Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt])
+                 [Ss] | [Ss][Pp] | [Ss][Pp][Rr] | [Ss][Pp][Rr][Ee] | [Ss][Pp][Rr][Ee][Aa] | [Ss][Pp][Rr][Ee][Aa][Dd] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt] | [Ss][Pp][Rr][Ee][Aa][Dd][Ss][Hh][Ee][Ee][Tt][Ss])
                  f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -6905,7 +6907,7 @@ f_menu_app_accounting () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calculator Applications case statement.
-                 1 | [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr])
+                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr])
                  APP_NAME="hledger"
                  f_application_run
                  ;;
@@ -6983,7 +6985,7 @@ f_menu_app_calculators () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calculator Applications case statement.
-                 1 | [Bb] | [Bb][Cc])
+                 [Bb] | [Bb][Cc])
                  APP_NAME="bc"
                  f_how_to_quit_application "quit"
                  f_application_run
@@ -7062,7 +7064,7 @@ f_menu_app_calendar () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calendar Applications case statement.
-                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
                  APP_NAME="cal"
                  f_application_run
                  ;;
@@ -7220,7 +7222,7 @@ f_menu_app_clocks () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Clock Applications case statement.
-                 1 | [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
+                 [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa] | [Bb][Ii][Nn][Aa][Rr] | [Bb][Ii][Nn][Aa][Rr][Yy] | [Bb][Ii][Nn][Aa][Rr][Yy][-] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc] | [Bb][Ii][Nn][Aa][Rr][Yy][-][Cc][Ll][Oo][Cc][Kk])
                  APP_NAME="binary-clock"
                  f_application_run
                  ;;
@@ -7298,7 +7300,7 @@ f_menu_app_note () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Note Applications case statement.
-                 1 | [Hh] | [Hh][Nn] | [Hh][Nn][Bb])
+                 [Hh] | [Hh][Nn] | [Hh][Nn][Bb])
                  APP_NAME="hnb"
                  f_application_run
                  ;;
@@ -7352,7 +7354,7 @@ f_menu_app_pdfps () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of PDF and PS Applications case statement.
-                 1 | [Dd] | [Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff] | [Dd][Ii][Ff][Ff][Pp] | [Dd][Ii][Ff][Ff][Pp][Dd] | [Dd][Ii][Ff][Ff][Pp][Dd][Ff])
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Ff] | [Dd][Ii][Ff][Ff] | [Dd][Ii][Ff][Ff][Pp] | [Dd][Ii][Ff][Ff][Pp][Dd] | [Dd][Ii][Ff][Ff][Pp][Dd][Ff])
                  APP_NAME="diffpdf"
                  f_application_run
                  ;;
@@ -7477,7 +7479,7 @@ f_menu_app_presentation () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Presentation Applications case statement.
-                 1 | [Tt] | [Tt][Pp] | [Tt][Pp][Pp])
+                 [Tt] | [Tt][Pp] | [Tt][Pp][Pp])
                  APP_NAME="tpp"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -7525,7 +7527,7 @@ f_menu_app_spreadsheets () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Spreadsheet Applications case statement.
-                 1 | [Oo] | [Oo][Ll] | [Oo][Ll][Ee] | [Oo][Ll][Ee][Oo])
+                 [Oo] | [Oo][Ll] | [Oo][Ll][Ee] | [Oo][Ll][Ee][Oo])
                  APP_NAME="oleo"
                  f_application_run
                  ;;
@@ -7588,7 +7590,7 @@ f_menu_cat_text () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_TCAT in # Start of Text Application Category case statement.
-                 1 | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa] | [Cc][Oo][Mm][Pp][Aa][Rr] | [Cc][Oo][Mm][Pp][Aa][Rr][Ee])
+                 [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa] | [Cc][Oo][Mm][Pp][Aa][Rr] | [Cc][Oo][Mm][Pp][Aa][Rr][Ee])
                  f_menu_app_text_compare      # Text Compare Application Menu.
                  CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;               
@@ -7642,7 +7644,7 @@ f_menu_app_text_compare () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Compare Applications case statement.
-                 1 | [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Ll] | [Cc][Oo][Ll][Oo] | [Cc][Oo][Ll][Oo][Rr] | [Cc][Oo][Ll][Oo][Rr][Dd] | [Cc][Oo][Ll][Oo][Rr][[Dd][Ii] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff] | [Cc][Oo][Ll][Oo][Rr][Dd][Ii][Ff][Ff])
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
@@ -7722,7 +7724,7 @@ f_menu_app_text_converters () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Converter Applications case statement.
-                 1 | [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
+                 [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh] | [Tt][Xx][Tt][2][Hh][Tt] | [Tt][Xx][Tt][2][Hh][Tt][Mm][Ll])
                  APP_NAME="man txt2html"
                  clear # Blank the screen.
                  echo "txt2html - Convert plain text files to html." 
@@ -7764,7 +7766,7 @@ f_menu_app_text_converters () {
                  APP_NAME="man txt2pdbdoc"
                  clear # Blank the screen.
                  echo "txt2pdbdoc - Convert plain text files to (Palm Pilot Database) Doc file *.pdb."
-                 echo "for PalmPilots and DocReaders. (Does anyone still have a PalmPilot?)"
+                 echo "             for PalmPilots & DocReaders. (Does anyone still have a PalmPilot?)"
                  echo
                  echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
                  echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
@@ -7863,7 +7865,7 @@ f_menu_app_text_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
-                 1 | [Bb] | [Bb][Ee] | [Bb][Ee][Aa] | [Bb][Ee][Aa][Vv] | [Bb][Ee][Aa][Vv][Ee])
+                 [Bb] | [Bb][Ee] | [Bb][Ee][Aa] | [Bb][Ee][Aa][Vv] | [Bb][Ee][Aa][Vv][Ee])
                  APP_NAME="beav"
                  f_application_run
                  ;;
@@ -8024,7 +8026,7 @@ f_menu_app_text_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
-                 1 | [Aa] | [Aa][Nn] | [Aa][Nn][Tt] | [Aa][Nn][Tt][Ii] | [Aa][Nn][Tt][Ii][Ww] | [Aa][Nn][Tt][Ii][Ww][Oo] | [Aa][Nn][Tt][Ii][Ww][Oo][Rr] | [Aa][Nn][Tt][Ii][Ww][Oo][Rr][Dd])
+                 [Aa] | [Aa][Nn] | [Aa][Nn][Tt] | [Aa][Nn][Tt][Ii] | [Aa][Nn][Tt][Ii][Ww] | [Aa][Nn][Tt][Ii][Ww][Oo] | [Aa][Nn][Tt][Ii][Ww][Oo][Rr] | [Aa][Nn][Tt][Ii][Ww][Oo][Rr][Dd])
                  APP_NAME="antiword"
                  f_application_run
                  ;;
@@ -8081,7 +8083,7 @@ f_menu_app_todo () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of ToDo Applications case statement.
-                 1 | [Dd] | [Dd][Oo] | [Dd][Oo][Nn] | [Dd][Oo][Nn][Ee] | [Dd][Oo][Nn][Ee][Yy] | [Dd][Oo][Nn][Ee][Yy][Ee] | [Dd][Oo][Nn][Ee][Yy][Ee][Tt])
+                 [Dd] | [Dd][Oo] | [Dd][Oo][Nn] | [Dd][Oo][Nn][Ee] | [Dd][Oo][Nn][Ee][Yy] | [Dd][Oo][Nn][Ee][Yy][Ee] | [Dd][Oo][Nn][Ee][Yy][Ee][Tt])
                  APP_NAME="doneyet"
                  f_application_run
                  ;;
@@ -8195,7 +8197,7 @@ f_menu_app_screen_savers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Screen-saver Applications case statement.
-                 1 | [Aa] | [Aa][Ss] | [Aa][Ss][Cc] | [Aa][Ss][Cc][Ii] | [Aa][Ss][Cc][Ii][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu][Mm])
+                 [Aa] | [Aa][Ss] | [Aa][Ss][Cc] | [Aa][Ss][Cc][Ii] | [Aa][Ss][Cc][Ii][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu] | [Aa][Ss][Cc][Ii][Ii][Aa][Qq][Uu][Aa][Rr][Ii][Uu][Mm])
                  APP_NAME="asciiaquarium"
                  f_application_run
                  ;;
@@ -8280,7 +8282,7 @@ f_menu_cat_system () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_SCAT in # Start of System Category case statement.
-                 1 | [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Uu] | [Bb][Aa][Cc][Kk][Uu][Pp])
+                 [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Uu] | [Bb][Aa][Cc][Kk][Uu][Pp])
                  f_menu_app_sys_backup        # System Backup Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -8300,7 +8302,7 @@ f_menu_cat_system () {
                  f_menu_app_sys_mainboard     # System Mainboard Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt]][Oo] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt]][Oo][Rr][Ss])
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Ii] | [Mm][Oo][Nn][Ii][Tt]] | [Mm][Oo][Nn][Ii][Tt][Oo] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr] | [Mm][Oo][Nn][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_sys_monitors      # System Monitors Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -8360,7 +8362,7 @@ f_menu_app_sys_backup () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Backup Applications case statement.
-                 1 | [Rr] | [Rr][Ss] | [Rr][Ss][Yy] | [Rr][Ss][Yy][Nn] | [Rr][Ss][Yy][Nn][Cc])
+                 [Rr] | [Rr][Ss] | [Rr][Ss][Yy] | [Rr][Ss][Yy][Nn] | [Rr][Ss][Yy][Nn][Cc])
                  APP_NAME="rsync"
                  f_application_run
                  ;;
@@ -8420,7 +8422,7 @@ f_menu_app_sys_disks () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Disks Information Applications case statement.
-                 1 | [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
+                 [Cc] | [Cc][Ff] | [Cc][Ff][Dd] | [Cc][Ff][Dd][Ii] | [Cc][Ff][Dd][Ii][Ss] | [Cc][Ff][Dd][Ii][Ss][Kk])
                  APP_NAME="cfdisk"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -8600,10 +8602,11 @@ f_menu_app_sys_health () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Health Applications case statement.
-                 1 | [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][-] | [Aa][Rr][Pp][-][Ss] | [Aa][Rr][Pp][-][Ss][Cc] | [Aa][Rr][Pp][-][Ss][Cc][Aa] | [Aa][Rr][Pp][-][Ss][Cc][Aa][Nn])
+                 [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][-] | [Aa][Rr][Pp][-][Ss] | [Aa][Rr][Pp][-][Ss][Cc] | [Aa][Rr][Pp][-][Ss][Cc][Aa] | [Aa][Rr][Pp][-][Ss][Cc][Aa][Nn])
                  APP_NAME="arp-scan"
                  clear # Blank the screen.
                  echo "arp-scan - ARP Scanner."
+                 echo
                  echo "Usage:"
                  echo "arp-scan [options] [hosts...]"
                  echo
@@ -8613,11 +8616,7 @@ f_menu_app_sys_health () {
                  echo "              the list of target host addresses.  The list  will  include  the"
                  echo "              network  and  broadcast  addresses,  so  an interface address of"
                  echo "              10.0.0.1 with netmask 255.255.255.0 would  generate  256  target"
-                 echo "              hosts  from  10.0.0.0  to 10.0.0.255 inclusive.  If you use this"
-                 echo "              option, you cannot specify the --file option or specify any tar‐"
-                 echo "              get hosts on the command line.  The interface specifications are"
-                 echo "              taken from the interface that arp-scan will use,  which  can  be"
-                 echo "              changed with the --interface option."
+                 echo "              hosts  from  10.0.0.0  to 10.0.0.255 inclusive."
                  echo
                  echo "       --interface=<s> or -I <s>"
                  echo "              Use  network  interface  <s>."
@@ -8653,7 +8652,7 @@ f_menu_app_sys_health () {
                  [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Ww] | [Aa][Rr][Pp][Ww][Aa] | [Aa][Rr][Pp][Ww][Aa][Tt] | [Aa][Rr][Pp][Ww][Aa][Tt][Cc] | [Aa][Rr][Pp][Ww][Aa][Tt][Cc][Hh])
                  APP_NAME="arpwatch"
                  clear # Blank the screen.
-                 echo "arpwatch - keep track of ethernet/ip address pairings"
+                 echo "arpwatch - Keep track of ethernet/ip address pairings"
                  echo
                  echo "Arpwatch  keeps  track  for  ethernet/ip  address  pairings. It syslogs"
                  echo "activity and reports certain changes via email.  Arpwatch uses  pcap(3)"
@@ -8834,7 +8833,7 @@ f_menu_app_sys_mainboard () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Mainboard System Information case statement.
-                 1 | [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
+                 [Dd] | [Dd][Mm] | [Dd][Mm][Ii] | [Dd][Mm][Ii][Dd] | [Dd][Mm][Ii][Dd][Ee] | [Dd][Mm][Ii][Dd][Ee][Cc | [Dd][Mm][Ii][Dd][Ee][Cc][Oo] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd] | [Dd][Mm][Ii][Dd][Ee][Cc][Oo][Dd][Ee])
                  APP_NAME="dmidecode"
                  f_application_run
                  ;;
@@ -8899,8 +8898,8 @@ f_menu_app_sys_mainboard () {
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ss] | [Ll][Ss][Hh] | [Ll][Ss][Hh][Ww])
-                 clear # Blank the screen.
                  APP_NAME="lshw -short"
+                 clear # Blank the screen.
                  echo "lshw - Displays main board information"
                  echo
                  echo "Usage:"
@@ -8934,7 +8933,7 @@ f_menu_app_sys_mainboard () {
                  [Ss] | [Ss][Ll] | [Ss][Ll][Aa] | [Ss][Ll][Aa][Bb] | [Ss][Ll][Aa][Bb][Tt] | [Ss][Ll][Aa][Bb][Tt][Oo] | [Ss][Ll][Aa][Bb][Tt][Oo][Pp])
                  APP_NAME="slabtop"
                  clear # Blank the screen.
-                 echo "slabtop - display kernel slab cache information in real time."
+                 echo "slabtop - Display kernel slab cache information in real time."
                  echo
                  echo "slabtop displays a listing of the top caches sorted by  one  of  the  listed"
                  echo "sort  criteria.   It also displays a statistics header filled with slab"
@@ -9020,7 +9019,7 @@ f_menu_app_sys_peripherals () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Peripheral System Information case statement.
-                 1 | [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt] | [Aa][Cc][Pp][Ii][Tt][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
+                 [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt] | [Aa][Cc][Pp][Ii][Tt][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo] | [Aa][Cc][Pp][Ii][Tt][Oo][Oo][Ll])
                  APP_NAME="acpitool"
                  f_application_run
                  ;;
@@ -9031,8 +9030,7 @@ f_menu_app_sys_peripherals () {
                  [Bb] | [Bb][Ll] | [Bb][Ll][Kk] | [Bb][Ll][Kk][Ii] | [Bb][Ll][Kk][Ii][Dd])
                  APP_NAME="blkid"
                  clear # Blank the screen.
-                 echo "blkid - locate/print block device attributes"
-                 echo
+                 echo "blkid - Locate/print block device attributes"
                  echo
                  echo "The blkid program is the command-line interface to working with the libblkid(3)"
                  echo "library.  It can determine the type of content (e.g. filesystem or swap) that a"
@@ -9078,7 +9076,7 @@ f_menu_app_sys_peripherals () {
                  [Ll][Ss][Pp][Cc][Mm][Cc][Ii][Aa])
                  APP_NAME="lspcmcia"
                  clear # Blank the screen.
-                 echo "lspcmcia - display extended PCMCIA debugging information."
+                 echo "lspcmcia - Display extended PCMCIA debugging information."
                  echo
                  echo "lspcmcia is an alias for pccardctl ls, provided for convenience."
                  echo
@@ -9180,7 +9178,7 @@ f_menu_app_sys_logs () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Logs case statement.
-                 1 | [Mm] | [Mm][Uu] | [Mm][Uu][Ll] | [Mm][Uu][Ll][Tt] | [Mm][Uu][Ll][Tt][Ii] | [Mm][Uu][Ll][Tt][Ii][Tt] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll])
+                 [Mm] | [Mm][Uu] | [Mm][Uu][Ll] | [Mm][Uu][Ll][Tt] | [Mm][Uu][Ll][Tt][Ii] | [Mm][Uu][Ll][Tt][Ii][Tt] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii] | [Mm][Uu][Ll][Tt][Ii][Tt][Aa][Ii][Ll])
                  APP_NAME="multitail"
                  f_application_run
                  ;;
@@ -9246,10 +9244,11 @@ f_menu_app_sys_monitors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Monitors case statement.
-                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Tt] | [Cc][Aa][Cc][Tt][Ii])
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Cc] | [Cc][Aa][Cc][Tt] | [Cc][Aa][Cc][Tt][Ii])
                  APP_NAME="cacti"
                  clear # Blank the screen.
                  echo "cacti - Frontend to rrdtool for monitoring systems and services."
+                 echo
                  echo "Cacti is a complete frontend to rrdtool, it stores all of the necessary"
                  echo "information to create graphs and populates them with data in a MySQL"
                  echo "database.  The frontend is completely PHP driven.  Along with being able"
@@ -9395,7 +9394,9 @@ f_menu_app_sys_monitors () {
                  ;;
                  [Rr] | [Rr][Rr] | [Rr][Rr][Dd] | [Rr][Rr][Dd][Tt] | [Rr][Rr][Dd][Tt][Oo] | [Rr][Rr][Dd][Tt][Oo][Oo] | [Rr][Rr][Dd][Tt][Oo][Oo][Ll])
                  APP_NAME="rrdtool"
+                 clear # Blank the screen.
                  echo "rrdtool   - The Round Robin Database Tool stores/displays time-series data."
+                 echo
                  echo "The Round Robin Database Tool (RRDtool) is a system to store and display"
                  echo "time-series data (e.g. network bandwidth, machine-room temperature,"
                  echo "server load average). It stores the data in Round Robin Databases (RRDs),"
@@ -9528,7 +9529,7 @@ f_menu_app_sys_other () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Other System Applications case statement.
-                 1 | [Dd] | [Dd][Ee] | [Dd][Ee][Ss] | [Dd][Ee][Ss][Mm] | [Dd][Ee][Ss][Mm][Uu] | [Dd][Ee][Ss][Mm][Uu][Mm] | [Dd][Ee][Ss][Mm][Uu][Mm][Ee])
+                 [Dd] | [Dd][Ee] | [Dd][Ee][Ss] | [Dd][Ee][Ss][Mm] | [Dd][Ee][Ss][Mm][Uu] | [Dd][Ee][Ss][Mm][Uu][Mm] | [Dd][Ee][Ss][Mm][Uu][Mm][Ee])
                  APP_NAME="desmume"
                  f_application_run
                  ;;
@@ -9602,7 +9603,7 @@ f_menu_app_sys_process () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Process Applications case statement.
-                 1 | [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Pp])
+                 [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Pp])
                  APP_NAME="atop"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -9715,7 +9716,7 @@ f_menu_app_sys_process () {
                  [Pp] | [Pp][Ss] | [Pp][Ss][Ww] | [Pp][Ss][Ww][Aa] | [Pp][Ss][Ww][Aa][Tt] | [Pp][Ss][Ww][Aa][Tt][Cc] | [Pp][Ss][Ww][Aa][Tt][Cc][Hh] | [Pp][Ss][Ww][Aa][Tt][Cc][Hh][Ee] | [Pp][Ss][Ww][Aa][Tt][Cc][Hh][Ee][Rr])
                  APP_NAME="pswatcher"
                  clear # Blank the screen.
-                 echo "pswatcher - monitoring a system via ps-like commands."
+                 echo "pswatcher - Monitor a system via ps-like commands."
                  echo
                  echo "This program runs the ps command periodically and triggers commands on matches."
                  echo "The match patterns are Perl regular expressions which can refer to the process"
@@ -9753,7 +9754,7 @@ f_menu_app_sys_process () {
                  [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Cc] | [Ss][Yy][Ss][Cc][Tt] | [Ss][Yy][Ss][Cc][Tt][Ll])
                  APP_NAME="sysctl"
                  clear # Blank the screen.
-                 echo "sysctl - configure kernel parameters at runtime"
+                 echo "sysctl - Configure kernel parameters at runtime."
                  echo
                  echo "sysctl is used to modify kernel parameters at runtime."
                  echo "The parameters available are those listed under /proc/sys/."
@@ -9832,7 +9833,7 @@ f_menu_app_sys_screens () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Screens case statement.
-                 1 | [Bb] | [Bb][Yy] | [Bb][Yy][Oo] | [Bb][Yy][Oo][Bb] | [Bb][Yy][Oo][Bb][Uu])
+                 [Bb] | [Bb][Yy] | [Bb][Yy][Oo] | [Bb][Yy][Oo][Bb] | [Bb][Yy][Oo][Bb][Uu])
                  APP_NAME="byobu"
                  f_application_run
                  ;;
@@ -9920,7 +9921,7 @@ f_menu_app_sys_software () {
             #MSF alien    - Converts rpm to deb packages.
             #MSF apt      - Debian package manager.
             #MSF aptitude - Debian package manager.
-            #MSF aptoncd  - Make a CD of Debian packages, install via APT package manager.
+            #MSF aptoncd  - GUI makes a CD of Debian packages, install via APT package manager.
             #MSF dpkg     - Debian package manager.
             #MSF rpm      - RPM (Red Hat) package manager.
             #MSF synaptic - GUI Debian package manager.
@@ -9942,7 +9943,7 @@ f_menu_app_sys_software () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Synstem Software Applications case statement.
-                 1 | [Aa] | [Aa][Ll] | [Aa][Ll][Ii] | [Aa][Ll][Ii][Ee] | [Aa][Ll][Ii][Ee][Nn])
+                 [Aa] | [Aa][Ll] | [Aa][Ll][Ii] | [Aa][Ll][Ii][Ee] | [Aa][Ll][Ii][Ee][Nn])
                  APP_NAME="alien"
                  f_application_run
                  ;;
@@ -10017,7 +10018,7 @@ f_menu_app_sys_software () {
                  [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Oo] | [Aa][Pp][Tt][Oo][Nn] | [Aa][Pp][Tt][Oo][Nn][Cc] | [Aa][Pp][Tt][Oo][Nn][Cc][Dd])
                  APP_NAME="aptoncd"
                  clear # Blank the screen.
-                 echo "APTonCD is a GUI application and is in the menu for reference only."
+                 echo "APTonCD - A GUI application and is in the menu for reference only."
                  echo
                  echo "However, like many GUI applications, it can be launched by from the CLI."
                  echo "APTonCD can be launched from the command line with the 'aptoncd' command."
@@ -10086,7 +10087,7 @@ f_menu_app_sys_software () {
                  [Ss] | [Ss][Yy] | [Ss][Yy][Nn] | [Ss][Yy][Nn][Aa] | [Ss][Yy][Nn][Aa][Pp] | [Ss][Yy][Nn][Aa][Pp][Tt] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii] | [Ss][Yy][Nn][Aa][Pp][Tt][Ii][Cc])
                  APP_NAME="synaptic"
                  clear # Blank the screen.
-                 echo "Synaptic is a GUI package manager and is in the menu for reference only."
+                 echo "Synaptic - A GUI package manager and is in the menu for reference only."
                  echo
                  echo "However, like many GUI applications, it can be launched by from the CLI."
                  echo "Synaptic can be launched from the command line with the 'synaptic' command."
@@ -10104,7 +10105,7 @@ f_menu_app_sys_software () {
                  [Yy] | [Yy][Aa] | [Yy][Aa][Ss] | [Yy][Aa][Ss][Tt])
                  APP_NAME="yast"
                  clear # Blank the screen.
-                 echo "YaST is a GUI package manager and is in the menu for reference only."
+                 echo "YaST - A GUI package manager and is in the menu for reference only."
                  echo
                  echo "However, like many GUI applications, it can be launched by from the CLI."
                  echo "YaST can be launched from the command line with the 'yast' command."
@@ -10196,7 +10197,7 @@ f_menu_cat_video () {
             ERROR=0 # Reset error flag.
             #
             case $CHOICE_SCAT in # Start of Video Application Category case statement.
-                 1 | [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]) 
+                 [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]) 
                  f_menu_app_video_editors     # Application Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -10245,7 +10246,7 @@ f_menu_app_video_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Video Editor Applications case statement.
-                 1 | [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
+                 [Aa] | [Aa][Vv] | [Aa][Vv][Cc] | [Aa][Vv][Cc][Oo] | [Aa][Vv][Cc][Oo][Nn] | [Aa][Vv][Cc][Oo][Nn][Vv])
                  APP_NAME="avconv"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -10350,7 +10351,7 @@ f_menu_app_video_players () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Video Player/Downloader Applications case statement.
-                 1 | [Aa] | [Aa][Aa] | [Aa][Aa][Xx] | [Aa][Aa][Xx][Ii] | [Aa][Aa][Xx][Ii][Nn] | [Aa][Aa][Xx][Ii][Nn][Ee])
+                 [Aa] | [Aa][Aa] | [Aa][Aa][Xx] | [Aa][Aa][Xx][Ii] | [Aa][Aa][Xx][Ii][Nn] | [Aa][Aa][Xx][Ii][Nn][Ee])
                  APP_NAME="aaxine"
                  f_application_run
                  ;;
@@ -10472,7 +10473,7 @@ do    # Start of CLI Menu util loop.
       #AAA Help and Features   - How to use and what can it do.
       #AAA About CLI Menu      - What version am I using.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
-      #AAA Download            - Download latest released version of this script.
+      #AAA Download            - Download the STABLE released version of this script.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA License             - Licensing, GPL.
       #AAA List Applications   - List of all CLI applications in this menu.

@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-08-2013 17:04"
+REVDATE="June-08-2013 22:22"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -47,13 +47,24 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-06-08 *f_choice_array added to handle numeric input for menu choices.
+## 2013-06-08 *cli-app-menu.sh deleted program comments.
+##            *Main Menu fixed "License" option case pattern matching.
+##            *README added program comments.
+##            *f_application_error fixed case pattern matching of error numbers.
+##            *f_application_run fixed case pattern matching of error numbers.
+##            *f_choice_array added to handle numeric input for menu choices.
 ##             Numeric input is handled by an array CHOICE[XNUM].
 ##            *f_common_scat_menu, f_common_tcat_menu, f_common_app_menu added.
+##            *f_menu_app_firewalls fixed iptables help comment.
+##            *f_menu_app_network_monitors fixed netstat, opennms, sntop
+##             help comments.
+##            *f_menu_app_sys_health arp-scan fixed help comment.
+##            *f_menu_app_text_converters fixed txt2pdbdoc help comment.
+##            *f_menu_cat_file_management fixed FTP/HTTP case pattern matching.
+##            *f_menu_cat_office fixed calculators, notebooks, presenters,
+##             spreadsheets case pattern matching.
+##            *f_menu_cat_system monitors fixed case pattern matching.
 ##            *f_quit_scat_menu,  f_quit_tcat_menu, f_quit_app_menu deleted.
-##            *Main Menu fixed "License" option case pattern matching.
-##            *cli-app-menu.sh deletted program comments.
-##            *README added program comments.
 ##
 ## 2013-06-08 *cli_app_menu_dash added file to accomodate DASH environment
 ##             used by Ubuntu-based linux distributions. DASH does not handle
