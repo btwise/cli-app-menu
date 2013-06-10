@@ -6582,7 +6582,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="iftop"
                  f_find_NIC
                  APP_NAME="iftop -i $ANS"
-                 f_how_to_quit_application "q""no-clear"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6605,7 +6605,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="jnettop"
                  f_find_NIC
                  APP_NAME="jnettop -i $ANS"
-                 f_how_to_quit_application "q""no-clear"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6678,7 +6678,7 @@ f_menu_app_network_monitors () {
                  echo "traceroute of this PC (localhost) as an example."
                  echo
                  echo "Now run netstat. Usage: netstat -l"
-                 f_how_to_quit_application "q""no-clear"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  netstat' '* | 'sudo netstat '* | 'sudo netstat')
@@ -6762,11 +6762,11 @@ f_menu_app_network_monitors () {
                  APP_NAME="slurm"
                  f_find_NIC
                  APP_NAME="slurm -i $ANS"
-                 f_how_to_quit_application "q""no-clear"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  slurm' '* | 'sudo slurm '* | 'sudo slurm')
-                 f_how_to_quit_application "q""no-clear"
+                 f_how_to_quit_application "q" "no-clear"
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6779,7 +6779,7 @@ f_menu_app_network_monitors () {
                  echo
                  echo "Now run sntop. Usage: sntop --refresh=3"
                  echo
-                 f_how_to_quit_application "q""no-clear"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
