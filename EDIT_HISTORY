@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-08-2013 22:22"
+REVDATE="June-10-2013 01:22"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,13 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-06-10 *cli-app-menu.sh added help messages, added PRESS_KEY statements.
+##            *f_menu_app_education morse added warning message.
+##            *f_menu_app_games_quiz morse added warning message.
+##            *f_menu_app_games_puzzle bcd, ppt added warning message.
+##            *f_menu_app_file_viewers deleted jless, added less.
+##            *Main Menu Documentation changed to display README file.
 ##
 ## 2013-06-08 *cli-app-menu.sh deleted program comments.
 ##            *Main Menu fixed "License" option case pattern matching.

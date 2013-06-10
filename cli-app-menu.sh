@@ -44,7 +44,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="June-08-2013 22:22"
+REVDATE="June-10-2013 01:22"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -342,7 +342,7 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
               # Subtract 3 total since 3 lines of code not part of menu display,
               # contain the special comment marker.
               echo
-              echo "'0', Q/quit, or E/exit to quit this script, $THIS_FILE."
+              echo "'0', Q/quit, to quit this script, $THIS_FILE."
            ;; 
            "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
               MAX=$((MAX=$MAX-2))
@@ -993,14 +993,14 @@ f_application_install () {
               # if [ -d <arch linux installation directory> ] ; then
                    # if <arch linux installation directory> exists, then use installpkg
                    # for arch linux packages.
-                   # sudo pacman -S <application package name>"
+                   # sudo -S <application package name>"
                    # ERROR=$? # Save error flag condition.
                    # if [ $ERROR -ne 0 ] ; then
                         # Error code 1 $?=1 means installation failed.
                         # Error code 0 (zero) where $?=0 means no error.
                         # echo
                         # echo "Installation of $APP_NAME_INSTALL failed."
-                        # echo "Command sudo pacman -S $APP_NAME_INSTALL failed."
+                        # echo "Command sudo -S $APP_NAME_INSTALL failed."
                         # echo "May be a failure downloading package. Bad Internet connection"
                         # echo
                         # f_application_web_install
@@ -1986,7 +1986,23 @@ f_menu_app_education () {
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "morse - text to morse code."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  morse' '*)
                  APP_NAME=$CHOICE_APP
@@ -2557,11 +2573,15 @@ f_menu_app_file_managers () {
             case $CHOICE_APP in # Start of File Manager Applications case statement.
                  [Cc] | [Cc][Ll] | [Cc][Ll][Ee] | [Cc][Ll][Ee][Xx])
                  APP_NAME="clex"
+                 f_how_to_quit_application "Alt-q" 
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  clex' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Alt-q" 
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Dd] | [Dd][Ee] | [Dd][Ee][Tt] | [Dd][Ee][Tt][Oo] | [Dd][Ee][Tt][Oo][Xx])
                  APP_NAME="detox"
@@ -2590,18 +2610,24 @@ f_menu_app_file_managers () {
                  [Mm] | [Mm][Cc])
                  APP_NAME="mc"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Rr] | [Rr][Aa] | [Rr][Aa][Nn] | [Rr][Aa][Nn][Gg] | [Rr][Aa][Nn][Gg][Ee] | [Rr][Aa][Nn][Gg][Ee][Rr])
                  APP_NAME="ranger"
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ranger' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
                  APP_NAME="smbc"
@@ -2623,11 +2649,15 @@ f_menu_app_file_managers () {
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Ff] | [Vv][Ii][Ff][Mm])
                  APP_NAME="vifm"
+                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q." 
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vifm' '*)
+                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q." 
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac               # End of File Manager Applications case statement.
             #
@@ -2721,9 +2751,9 @@ f_menu_app_file_viewers () {
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Viewer Applications until loop.
-            #MFV jless - File viewer pager.
-            #MFV more  - File viewer pager.
-            #MFV most  - File viewer pager.
+            #MFV less - File viewer and bi-directional pager.
+            #MFV more - File viewer pager.
+            #MFV most - File viewer pager.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Viewer Applications Menu"
@@ -2738,29 +2768,35 @@ f_menu_app_file_viewers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Viewer Applications case statement.
-                 [Jj] | [Jj][Ll] | [Jj][Ll][Ee] | [Jj][Ll][Ee][Ss] | [Jj][Ll][Ee][Ss][Ss])
-                 APP_NAME="jless"
+                 [Ll] | [Ll][Ee] | [Ll][Ee][Ss] | [Ll][Ee][Ss][Ss])
+                 APP_NAME="less"
                  f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 jless' '*)
+                 less' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee])
                  APP_NAME="more"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  more' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Ss] | [Mm][Oo][Ss][Tt])
                  APP_NAME="most"
                  f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
                  most' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of File Viewer Applications case statement.
             #
@@ -3032,10 +3068,13 @@ f_menu_app_games_arcade () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Arcade Games until loop.
             #MGB asciijump      - Ski jump game.
+            #MGB bastet         - Tetris-like game.
             #MGB freesweep      - Minesweeper game.
             #MGB moon-buggy     - Drive a moon buggy on the moon.
+            #MGB netris         - Tetris-like game.
             #MGB ninvaders      - Space invaders-like game ncurses-based.
             #MGB pacman4console - Pacman-like game ncurses-based.
+            #MGB petris         - Tetris-like game.
             #MGB robots         - Be chased by killer robots.
             #MGB snake          - Be chased by a snake while collecting money.
             #MGB worm           - Be a growing worm, don't crash into yourself.
@@ -3063,6 +3102,16 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Bb] | [Bb][Aa] | [Bb][Aa][Ss] | [Bb][Aa][Ss][Tt] | [Bb][Aa][Ss][Tt][Ee] | [Bb][Aa][Ss][Tt][Ee][Tt])
+                 APP_NAME="bastet"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 bastet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss] | [Ff][Rr][Ee][Ee][Ss][Ww] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee] | [Ff][Rr][Ee][Ee][Ss][Ww][Ee][Ee][Pp])
                  APP_NAME="freesweep"
                  f_application_run
@@ -3081,9 +3130,33 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Rr] | [Nn][Ee][Tt][Rr][Ii] | [Nn][Ee][Tt][Rr][Ii][Ss])
+                 APP_NAME="netris"
+                 clear # Blank the screen.
+                 echo "netris - Tetris-like game."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 netris' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Nn] | [Nn][Ii] | [Nn][Ii][Nn] | [Nn][Ii][Nn][Vv] | [Nn][Ii][Nn][Vv][Aa] | [Nn][Ii][Nn][Vv][Aa][Dd] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr] | [Nn][Ii][Nn][Vv][Aa][Dd][Ee][Rr][Ss])
                  APP_NAME="ninvaders"
-                 f_how_to_quit_application "q" 
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
@@ -3095,10 +3168,23 @@ f_menu_app_games_arcade () {
                  [Pp] | [Pp][Aa] | [Pp][Aa][Cc] | [Pp][Aa][Cc][Mm] | [Pp][Aa][Cc][Mm][Aa] | [Pp][Aa][Cc][Mm][Aa][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll] | [Pp][Aa][Cc][Mm][Aa][Nn][4][Cc][Oo][Nn][Ss][Oo][Ll][Ee])
                  APP_NAME="pacman4console"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 # Allows display of error message "Console window must be at least 32x29".
                  ;;
                  pacman4console' '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Ee] | [Pp][Ee][Tt] | [Pp][Ee][Tt][Rr] | [Pp][Ee][Tt][Rr][Ii] | [Pp][Ee][Tt][Rr][Ii][Ss])
+                 APP_NAME="petris"
+                 f_how_to_quit_application "(lose game and then) type 'q'."
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 petris' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "(lose game and then) type 'q'."
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -3122,11 +3208,15 @@ f_menu_app_games_arcade () {
                  ;;
                  [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm])
                  APP_NAME="worm"
+                 f_how_to_quit_application "Ctrl-C or crash into wall."
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  worm' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-C or crash into wall."
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac # End of Arcade Games case statement.
             #
@@ -3167,29 +3257,37 @@ f_menu_app_games_board () {
             #
             case $CHOICE_APP in # Start of Board Games case statement.
                  [Aa] | [Aa][Tt] | [Aa][Tt][Oo] | [Aa][Tt][Oo][Mm] | [Aa][Tt][Oo][Mm][4])
-                 APP_NAME="atom4"
+                 APP_NAME="atom4 -mt"
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  atom4' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Bb] | [Bb][Aa] | [Bb][Aa][Cc] | [Bb][Aa][Cc][Kk] | [Bb][Aa][Cc][Kk][Gg] | [Bb][Aa][Cc][Kk][Gg][Aa] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm][Oo] | [Bb][Aa][Cc][Kk][Gg][Aa][Mm][Mm][Oo][Nn])
                  APP_NAME="backgammon"
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  backgammon' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Nn] | [Mm][Oo][Nn][Oo] | [Mm][Oo][Nn][Oo][Pp])
                  APP_NAME="monop"
+                 f_how_to_quit_application "q or quit" 
                  f_application_run
                  ;;
                  monop' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q or quit"
                  f_application_run
                  ;;
             esac # End of Board Games case statement.
@@ -3240,11 +3338,43 @@ f_menu_app_games_card () {
                  ;;
                  [Cc] | [Cc][Rr] | [Cc][Rr][Ii] | [Cc][Rr][Ii][Bb] | [Cc][Rr][Ii][Bb][Bb] | [Cc][Rr][Ii][Bb][Bb][Aa] | [Cc][Rr][Ii][Bb][Bb][Aa][Gg] | [Cc][Rr][Ii][Bb][Bb][Aa][Gg][Ee])
                  APP_NAME="cribbage"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "cribbage - Classic card game for one player vs. the computer."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  cribbage' '*)
                  APP_NAME=$CHOICE_APP
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "cribbage - Classic card game for one player vs. the computer."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  [Gg] | [Gg][Oo] | [Gg][Oo][-] | [Gg][Oo][-][Ff] | [Gg][Oo][-][Ff][Ii] | [Gg][Oo][-][Ff][Ii][Ss] | [Gg][Oo][-][Ff][Ii][Ss][Hh])
                  APP_NAME="go-fish"
@@ -3360,7 +3490,23 @@ f_menu_app_games_puzzle () {
                  ;;
                  [Bb] | [Bb][Cc] | [Bb][Cc][Dd])
                  APP_NAME="bcd"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "bcd - Text to computer punch card simulation."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  bcd' '*)
                  APP_NAME=$CHOICE_APP
@@ -3376,7 +3522,23 @@ f_menu_app_games_puzzle () {
                  ;;
                  [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Rr] | [Nn][Ee][Tt][Rr][Ii] | [Nn][Ee][Tt][Rr][Ii][Ss])
                  APP_NAME="netris"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "netris - Tetris-like game."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  netris' '*)
                  APP_NAME=$CHOICE_APP
@@ -3384,15 +3546,35 @@ f_menu_app_games_puzzle () {
                  ;;
                  [Pp] | [Pp][Ee] | [Pp][Ee][Tt] | [Pp][Ee][Tt][Rr] | [Pp][Ee][Tt][Rr][Ii] | [Pp][Ee][Tt][Rr][Ii][Ss])
                  APP_NAME="petris"
+                 f_how_to_quit_application "(lose game and then) type 'q'."
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  petris' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "(lose game and then) type 'q'."
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Pp] | [Pp][Pp][Tt])
                  APP_NAME="ppt"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "ppt - Text to teletype paper tape simulation."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  ppt' '*)
                  APP_NAME=$CHOICE_APP
@@ -3456,7 +3638,23 @@ f_menu_app_games_quiz () {
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "morse - text to morse code."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  morse' '*)
                  APP_NAME=$CHOICE_APP
@@ -6384,7 +6582,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="iftop"
                  f_find_NIC
                  APP_NAME="iftop -i $ANS"
-                 f_how_to_quit_application "q" "no-clear"
+                 f_how_to_quit_application "q""no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6407,7 +6605,7 @@ f_menu_app_network_monitors () {
                  APP_NAME="jnettop"
                  f_find_NIC
                  APP_NAME="jnettop -i $ANS"
-                 f_how_to_quit_application "q" "no-clear"
+                 f_how_to_quit_application "q""no-clear"
                  f_application_run
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6480,7 +6678,7 @@ f_menu_app_network_monitors () {
                  echo "traceroute of this PC (localhost) as an example."
                  echo
                  echo "Now run netstat. Usage: netstat -l"
-                 f_how_to_quit_application "q" "no-clear"
+                 f_how_to_quit_application "q""no-clear"
                  f_application_run
                  ;;
                  netstat' '* | 'sudo netstat '* | 'sudo netstat')
@@ -6564,11 +6762,11 @@ f_menu_app_network_monitors () {
                  APP_NAME="slurm"
                  f_find_NIC
                  APP_NAME="slurm -i $ANS"
-                 f_how_to_quit_application "q" "no-clear"
+                 f_how_to_quit_application "q""no-clear"
                  f_application_run
                  ;;
                  slurm' '* | 'sudo slurm '* | 'sudo slurm')
-                 f_how_to_quit_application "q" "no-clear"
+                 f_how_to_quit_application "q""no-clear"
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6581,7 +6779,7 @@ f_menu_app_network_monitors () {
                  echo
                  echo "Now run sntop. Usage: sntop --refresh=3"
                  echo
-                 f_how_to_quit_application "q" "no-clear"
+                 f_how_to_quit_application "q""no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -10495,10 +10693,6 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=0
            PRESS_KEY=0
            ;;
-           [Ee] | [Ee][Xx] |[Ee][Xx][Ii] | [Ee][Xx][Ii][Tt])
-           CHOICE_MAIN=0
-           PRESS_KEY=0
-           ;;
            [1-9] | [1-9][0-9])
            if [  $CHOICE_MAIN -ge 1 -a $CHOICE_MAIN -le $MAX ] ; then
               CHOICE_MAIN=${CHOICE[$CHOICE_MAIN]}
@@ -10529,10 +10723,17 @@ do    # Start of CLI Menu util loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Cc] | [Dd][Oo][Cc][Uu] | [Dd][Oo][Cc][Uu][Mm] | [Dd][Oo][Cc][Uu][Mm][Ee] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo] | [Dd][Oo][Cc][Uu][Mm][Ee][Nn][Tt][Aa][Tt][Ii][Oo][Nn])
            clear # Blank the screen.
-           sed -n 's/^#://'p $THIS_FILE | more -d 
+           if [ -r README ] ; then
            # display Documentation (all lines beginning with #: but
            # substitute "" for "#:" so "#:" is not printed).
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              sed -n 's/^#://'p README | more -d
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           else
+              echo
+              echo "The file README is either missing or cannot be read."
+              echo
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Ww] | [Dd][Oo][Ww][Nn] | [Dd][Oo][Ww][Nn][Ll] | [Dd][Oo][Ww][Nn][Ll][Oo] |  [Dd][Oo][Ww][Nn][Ll][Oo][Aa] | [Dd][Oo][Ww][Nn][Ll][Oo][Aa][Dd])

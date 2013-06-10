@@ -25,7 +25,7 @@ sed -n 's/^#://'p README |more -d
 #:   HOW-TO Add a new menu item
 #:   Trouble-shooting a new menu item
 #:   Known problems
-#:
+#:   For more help
 #:
 #: +----------------------------------------+
 #: |            Brief Description           |
