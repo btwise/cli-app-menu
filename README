@@ -3,9 +3,6 @@
 # This program, README is under copyright.
 # ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
 #
-# File naming convention for archiving:
-# $THIS_FILE_<YYYY-MM-DD_HHMM>
-#
 # Usage: sh README
 #
 clear
@@ -13,6 +10,60 @@ sed -n 's/^#://'p README |more -d
 #
 # The "#:" at the beginning of lines below are used 
 # to delineate the Help Instructions.
+#
+#: +----------------------------------------+
+#: |            Table of contents           |
+#: +----------------------------------------+
+#:
+#:   Brief Description
+#:   FILE LOCATIONS of cli-app-menu project
+#:   HOW-TO Update this script
+#:   Revision number and Revision Date
+#:   Why did I write this script?
+#:   Why is this menu so complex?
+#:   Script features
+#:   HOW-TO Add a new menu item
+#:   Trouble-shooting a new menu item
+#:   Known problems
+#:   For more help
+#:
+#: +----------------------------------------+
+#: |            Brief Description           |
+#: +----------------------------------------+
+#:
+#: Script cli-app-menu.sh is a menu of CLI applications and commands
+#: to help CLI newbies to discover what a command line can do.
+#:
+#: File naming convention for archiving:
+#: $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
+#:
+#: +----------------------------------------+
+#: | FILE LOCATIONS of cli-app-menu project |
+#: +----------------------------------------+
+#:
+#: Edit history is now documented in a separate file/script 'EDIT_HISTORY'.
+#: The files EDIT_HISTORY, COPYING, README must be in the same folder/directory
+#: as this file/script so the Main Menu options to view/edit 'Edit History' or
+#: to view 'License' can work.
+#:
+#: +----------------------------------------+
+#: |        HOW-TO Update this script       |
+#: +----------------------------------------+
+#:
+#: After each edit made, update the version (date stamp string) of this script
+#: in both the EDIT_HISTORY file and this file.
+#: Also update the edit history in the EDIT_HISTORY file.
+#:
+#: +----------------------------------------+
+#: |    Revision number and Revision Date   |
+#: +----------------------------------------+
+#:
+#: Calculate revision number by counting all lines starting with "## 2013".
+#: grep ^ (carot sign) means grep any lines beginning with "##2013".
+#: grep -c means count the lines that match the pattern.
+#:
+#:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
+#:REVDATE="June-08-2013 22:22"
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -31,6 +82,12 @@ sed -n 's/^#://'p README |more -d
 #: +----------------------------------------+
 #: |      Why is this menu so complex?      |
 #: +----------------------------------------+
+#:
+#: *The menus are designed to be quite extensible and are easily edited.
+#: *Menu item choices are added with a simple comment line.
+#: *The case pattern statements do not need a manually edited numeric pattern
+#:  because menu item choices are numerically matched automatically
+#:  by the use of an array generated from the menu item comment lines.
 #:
 #: Why not use the select command? Why not be a lazier pattern matcher?
 #:
@@ -53,7 +110,7 @@ sed -n 's/^#://'p README |more -d
 #:  Run-time menus are no longer than 17 items for 24 row displays.
 #:  Although the game, "Pacman for Console" needs 32 rows minimum to play.
 #:
-#: *Limited to 3 menu levels below the Main Menu to run any application.
+#: *Limited to 4 menu levels below the Main Menu to run any application.
 #:
 #: *You can get application help by 'man' or '--help' from the menu prompt.
 #:
@@ -64,9 +121,94 @@ sed -n 's/^#://'p README |more -d
 #: *Designed for ease of extensibility and menu editing.
 #:
 #: *Option numbers in menu display are automatically generated.
-#:  (However, case pattern matching including option numbers are hand-written).
+#:  (However, case pattern matching are hand-written).
 #:
 #: *More fun than just a list of CLI applications!!!
+#:
+#:
+#: +----------------------------------------+
+#: |       HOW-TO Add a new menu item       |
+#: +----------------------------------------+
+#:
+#: The template to add a new category menu is:     f_menu_cat_sample_template
+#: The template to add a new sub-category menu is: f_menu_scat_sample_template
+#: The template to add a new application menu is:  f_menu_app_sample_template
+#:
+#: In brief:
+#
+#: 1. The menu code is contained in functions before the main program code.
+#:    The main program code, "Main Menu" is at the bottom of this listing.
+#:
+#: 2. If you are adding a new application within an application menu, 
+#:    a) decide what row in the menu that you want to place the new menu item.
+#:    b) Add the item string: <Special Menu Option Marker beginning with #> 
+#:       <name of item> <space><dash><space> <description>
+#:    c) Each Special Menu Option Marker MUST be unique for each menu.
+#:
+#:    Note: Please see bottom of this document
+#:          for a list of Special Menu Option Markers.
+#:
+#:    d) Create a new case statement for the new item.
+#:    e) Adjust the case statement patterns of menu items below the new item.
+#:       If you added the item in the middle of the menu, all case patterns for
+#:       the items below it need to be adjusted.
+#:
+#:    The case patterns will accept both the menu option number, or all or part
+#:    of the menu item name in upper or lower case or any mixture of case.
+#:
+#: 3. If you are adding a new category or sub-category menu, please use the
+#:    templates for this very purpose.
+#:    f_menu_cat_sample_template or f_menu_scat_sample_template.
+#:
+#: 4. If you are adding a new application menu, please use the template for
+#:    this very purpose, f_menu_app_sample_template.
+#:
+#:
+#: +----------------------------------------+
+#: |   Trouble-shooting a new menu item     |
+#: +----------------------------------------+
+#:
+#: 1. Some or all of the menu items are missing.
+#:
+#:    If you copied from a template or another menu, check the Special Menu
+#:    Option Markers for consistency.
+#:    In the example below, #MXX is before each menu item and in DELIMITER.
+#:    Note: DELIMITER has #MXX twice, separating it into 3 fields for awk.
+#:
+#:            #MXX appname  - Description Application1 name.
+#:            #MXX app2name - Description Application2 name.
+#:            #
+#:            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+#:            MENU_TITLE="<Sample Template> Applications Menu"
+#:            DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options.
+#:
+#: 2. Menu items only display when the number is selected, not letters.
+#:
+#:    Check the case patterns of the letters.
+#:    Wrong! [Tt][Ee][Ss][Tt]) or [Tt][Ee][Ss][[Tt]) 
+#:    Right! [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt])
+#:
+#: 3. Menu items only display when the letters are selected, not the number.
+#:    Or Wrong application is run when I select the number.
+#:
+#:    Check to see that you do not have duplicate numbers or out of sequence
+#:    numbers in the case patterns.
+#:
+#:
+#: +----------------------------------------+
+#: |            Known problems              |
+#: +----------------------------------------+
+#:
+#: Running the script using DASH used in Ubuntu, Linux Mint and other
+#: distributions will cause these errors.
+#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[1]=Applications: not found
+#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[2]=Help: not found
+#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[3]=About: not found
+#:
+#: Reason: DASH does not handle arrays properly.
+#:
+#: Work-around: Use BASH instead of DASH. 
+#: Use BASH, "bash cli-app-menu.sh" instead of "sh cli-app-menu.sh".
 #:
 #:
 #: +----------------------------------------+
@@ -82,4 +224,3 @@ sed -n 's/^#://'p README |more -d
 #: *There are also example templates to create additional category and app menus
 #:  within the script.
 #:
- 
