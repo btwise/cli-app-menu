@@ -44,7 +44,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="June-10-2013 01:22"
+REVDATE="June-10-2013 12:30"
 #
 #LIC This program, cli-app-menu.sh is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -1533,6 +1533,7 @@ f_menu_app_audio_editors () {
                  ;;
                  avconv' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Ee] | [Ee][Cc] | [Ee][Cc][Aa] | [Ee][Cc][Aa][Ss] | [Ee][Cc][Aa][Ss][Oo] | [Ee][Cc][Aa][Ss][Oo][Uu] | [Ee][Cc][Aa][Ss][Oo][Uu][Nn] | [Ee][Cc][Aa][Ss][Oo][Uu][Nn][Dd])
@@ -1625,6 +1626,7 @@ f_menu_app_music_players () {
                  ;;
                  cmus' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1702,6 +1704,7 @@ f_menu_app_music_players () {
                  ;;
                  ncmpc' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1779,6 +1782,7 @@ f_menu_app_radio () {
                  ;;
                  dradio' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1866,10 +1870,11 @@ f_menu_app_speech_synthesis () {
                  ;;
                  [Ff] | [Ff][Ee] | [Ff][Ee][Ss] | [Ff][Ee][Ss][Tt] | [Ff][Ee][Ss][Tt][Ii] | [Ff][Ee][Ss][Tt][Ii][Vv] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa] | [Ff][Ee][Ss][Tt][Ii][Vv][Aa][Ll])
                  APP_NAME="festival"
-                 f_how_to_quit_application "(quit) including the parenthesis."
+                 f_how_to_quit_application "(quit) including the parenthesis"
                  f_application_run
                  ;;
                  festival' '*)
+                 f_how_to_quit_application "(quit) including the parenthesis"
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2649,12 +2654,12 @@ f_menu_app_file_managers () {
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Ff] | [Vv][Ii][Ff][Mm])
                  APP_NAME="vifm"
-                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q." 
+                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vifm' '*)
-                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q." 
+                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q"
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2753,7 +2758,7 @@ f_menu_app_file_viewers () {
       do    # Start of File Viewer Applications until loop.
             #MFV less - File viewer and bi-directional pager.
             #MFV more - File viewer pager.
-            #MFV most - File viewer pager.
+            #MFV most - File viewer and bi-directional pager.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="File Viewer Applications Menu"
@@ -3162,6 +3167,7 @@ f_menu_app_games_arcade () {
                  ;;
                  ninvaders' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
@@ -3178,19 +3184,20 @@ f_menu_app_games_arcade () {
                  ;;
                  [Pp] | [Pp][Ee] | [Pp][Ee][Tt] | [Pp][Ee][Tt][Rr] | [Pp][Ee][Tt][Rr][Ii] | [Pp][Ee][Tt][Rr][Ii][Ss])
                  APP_NAME="petris"
-                 f_how_to_quit_application "(lose game and then) type 'q'."
+                 f_how_to_quit_application "(lose game and then) type 'q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  petris' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "(lose game and then) type 'q'."
+                 f_how_to_quit_application "(lose game and then) type 'q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Rr] | [Rr][Oo] | [Rr][Oo][Bb] | [Rr][Oo][Bb][Oo] | [Rr][Oo][Bb][Oo][Tt] | [Rr][Oo][Bb][Oo][Tt][Ss])
                  APP_NAME="robots"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  robots' '*)
                  APP_NAME=$CHOICE_APP
@@ -3199,22 +3206,25 @@ f_menu_app_games_arcade () {
                  ;;
                  [Ss] | [Ss][Nn] | [Ss][Nn][Aa] | [Ss][Nn][Aa][Kk] | [Ss][Nn][Aa][Kk][Ee])
                  APP_NAME="snake"
+                 f_how_to_quit_application "x"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  snake' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "x"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ww] | [Ww][Oo] | [Ww][Oo][Rr] | [Ww][Oo][Rr][Mm])
                  APP_NAME="worm"
-                 f_how_to_quit_application "Ctrl-C or crash into wall."
+                 f_how_to_quit_application "Ctrl-C or crash into wall"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  worm' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "Ctrl-C or crash into wall."
+                 f_how_to_quit_application "Ctrl-C or crash into wall"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -3546,13 +3556,13 @@ f_menu_app_games_puzzle () {
                  ;;
                  [Pp] | [Pp][Ee] | [Pp][Ee][Tt] | [Pp][Ee][Tt][Rr] | [Pp][Ee][Tt][Rr][Ii] | [Pp][Ee][Tt][Rr][Ii][Ss])
                  APP_NAME="petris"
-                 f_how_to_quit_application "(lose game and then) type 'q'."
+                 f_how_to_quit_application "(lose game and then) type 'q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  petris' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "(lose game and then) type 'q'."
+                 f_how_to_quit_application "(lose game and then) type 'q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -3626,6 +3636,7 @@ f_menu_app_games_quiz () {
                  ;;
                  arithmetic' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-Z"
                  f_application_run
                  ;;
                  [Gg] | [Gg][Ee] | [Gg][Ee][Ee] | [Gg][Ee][Ee][Kk] | [Gg][Ee][Ee][Kk][Cc] | [Gg][Ee][Ee][Kk][Cc][Oo] | [Gg][Ee][Ee][Kk][Cc][Oo][Dd] | [Gg][Ee][Ee][Kk][Cc][Oo][Dd][Ee])
@@ -3667,6 +3678,7 @@ f_menu_app_games_quiz () {
                  ;;
                  quiz' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
             esac # End of Quiz Games case statement.
@@ -3718,6 +3730,7 @@ f_menu_app_games_rpg () {
                  ;;
                  adventure' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "quit"
                  f_application_run
                  ;;
                  [Bb] | [Bb][Aa] | [Bb][Aa][Tt] | [Bb][Aa][Tt][Tt] | [Bb][Aa][Tt][Tt][Ll] | [Bb][Aa][Tt][Tt][Ll][Ee] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt][Aa] | [Bb][Aa][Tt][Tt][Ll][Ee][Ss][Tt][Aa][Rr])
@@ -3832,6 +3845,7 @@ f_menu_app_games_simulation () {
                  ;;
                  trek' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "at the prompt Command: terminate"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -5174,6 +5188,7 @@ f_menu_app_instant_messaging () {
                  ;;
                  barnowl' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application ":q (colon q)" "no-clear"
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Ll] | [Bb][Ii][Tt][Ll][Bb] | [Bb][Ii][Tt][Ll][Bb][Ee] | [Bb][Ii][Tt][Ll][Bb][Ee][Ee])
@@ -6588,6 +6603,7 @@ f_menu_app_network_monitors () {
                  ;;
                  iftop' '* | 'sudo iftop '* | 'sudo iftop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6611,6 +6627,7 @@ f_menu_app_network_monitors () {
                  ;;
                  jnettop' '* | 'sudo jnettop '* | 'sudo jnettop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6683,6 +6700,7 @@ f_menu_app_network_monitors () {
                  ;;
                  netstat' '* | 'sudo netstat '* | 'sudo netstat')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  [Nn] | [Nn][Tt] | [Nn][Tt][Oo] | [Nn][Tt][Oo][Pp])
@@ -6785,6 +6803,7 @@ f_menu_app_network_monitors () {
                  ;;
                  sntop' '* | 'sudo sntop '* | 'sudo sntop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -7191,6 +7210,7 @@ f_menu_app_calculators () {
                  ;;
                  bc' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "quit"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -7210,6 +7230,7 @@ f_menu_app_calculators () {
                  ;;
                  tapecalc' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -7278,6 +7299,7 @@ f_menu_app_calendar () {
                  ;;
                  calcurse' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -7377,6 +7399,7 @@ f_menu_app_calendar () {
                  ;;
                  wyrd' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -8078,6 +8101,7 @@ f_menu_app_text_editors () {
                  ;;
                  dav' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<F5>"
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ee] | [Dd][Ee][Xx])
@@ -8168,6 +8192,7 @@ f_menu_app_text_editors () {
                  ;;
                  vi' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm])
@@ -8177,6 +8202,7 @@ f_menu_app_text_editors () {
                  ;;
                  vim' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
                  [Zz] | [Zz][Ii] | [Zz][Ii][Ll] | [Zz][Ii][Ll][Ee])
@@ -8628,6 +8654,7 @@ f_menu_app_sys_disks () {
                  ;;
                  cfdisk' '* | 'sudo cfdisk '* | 'sudo cfdisk')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -8692,6 +8719,7 @@ f_menu_app_sys_disks () {
                  ;;
                  gt5' '* | 'sudo gt5 '* | 'sudo gt5')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -8703,6 +8731,7 @@ f_menu_app_sys_disks () {
                  ;;
                  ncdu' '* | 'sudo ncdu '* | 'sudo ncdu')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -8714,6 +8743,7 @@ f_menu_app_sys_disks () {
                  ;;
                  parted' '* | 'sudo parted '* | 'sudo parted')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -8903,12 +8933,12 @@ f_menu_app_sys_health () {
                  ;;
                  [Ff] | [Ff][Rr] | [Ff][Rr][Ee] | [Ff][Rr][Ee][Ss] | [Ff][Rr][Ee][Ss][Hh] | [Ff][Rr][Ee][Ss][Hh][Cc] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa] | [Ff][Rr][Ee][Ss][Hh][Cc][Ll][Aa][Mm])
                  APP_NAME="freshclam"
-                 # f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  freshclam' '* | 'sudo freshclam '* | 'sudo freshclam')
                  APP_NAME=$CHOICE_APP
+                 # f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
@@ -9154,6 +9184,7 @@ f_menu_app_sys_mainboard () {
                  ;;
                  slabtop' '* | 'sudo slabtop '* | 'sudo slabtop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9524,6 +9555,7 @@ f_menu_app_sys_monitors () {
                  ;;
                  glances' '* | 'sudo glances '* | 'sudo glances')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9543,6 +9575,7 @@ f_menu_app_sys_monitors () {
                  ;;
                  iotop' '* | 'sudo iotop '* | 'sudo iotop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9623,6 +9656,7 @@ f_menu_app_sys_monitors () {
                  ;;
                  saidar' '* | 'sudo saidar '* | 'sudo saidar')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9686,6 +9720,7 @@ f_menu_app_sys_monitors () {
                  ;;
                  yacpi' '* | 'sudo yacpi '* | 'sudo yacpi')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9809,6 +9844,7 @@ f_menu_app_sys_process () {
                  ;;
                  atop' '* | 'sudo atop '* | 'sudo atop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9820,6 +9856,7 @@ f_menu_app_sys_process () {
                  ;;
                  htop' '* | 'sudo htop '* | 'sudo htop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q or <F10>"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9988,6 +10025,7 @@ f_menu_app_sys_process () {
                  ;;
                  top' '* | 'sudo top '* | 'sudo top')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -10451,6 +10489,7 @@ f_menu_app_video_editors () {
                  ;;
                  avconv' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Aa] | [Aa][Vv] | [Aa][Vv][Ii] | [Aa][Vv][Ii][Dd] | [Aa][Vv][Ii][Dd][Ee] | [Aa][Vv][Ii][Dd][Ee][Mm] | [Aa][Vv][Ii][Dd][Ee][Mm][Uu] | [Aa][Vv][Ii][Dd][Ee][Mm][Uu][Xx])
