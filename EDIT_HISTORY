@@ -47,6 +47,12 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-06-11 *f_menu_app_games_card fixed canfield case pattern matching.
+##            *f_menu_app_games_card deleted cribbage warning message.
+##            *f_menu_app_games_quiz arithmetic added warning message.
+##            *f_menu_app_games_simulation atc added warning message.
+##            *f_menu_app_games_word pig added warning message.
+##
 ## 2013-06-10 *cli-app-menu.sh added help messages, added PRESS_KEY statements.
 ##            *cli-app-menu_dash.sh had fixes back-ported for STABLE branch.
 ##            *f_menu_app_education morse added warning message.

@@ -3307,17 +3307,35 @@ f_menu_app_games_card () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Card Games case statement.
-                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Ff] | [Cc][Aa][Nn][Ff][Ii] | [Cc][Aa][Nn][Ff][Ii][Ee] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll][Dd)
+                 1 | [Cc] | [Cc][Aa] | [Cc][Aa][Nn] | [Cc][Aa][Nn][Ff] | [Cc][Aa][Nn][Ff][Ii] | [Cc][Aa][Nn][Ff][Ii][Ee] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll] | [Cc][Aa][Nn][Ff][Ii][Ee][Ll][Dd])
                  APP_NAME="canfield"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  canfield' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  2 | [Cc] | [Cc][Rr] | [Cc][Rr][Ii] | [Cc][Rr][Ii][Bb] | [Cc][Rr][Ii][Bb][Bb] | [Cc][Rr][Ii][Bb][Bb][Aa] | [Cc][Rr][Ii][Bb][Bb][Aa][Gg] | [Cc][Rr][Ii][Bb][Bb][Aa][Gg][Ee])
                  APP_NAME="cribbage"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo "cribbage - Classic card game for one player vs. the computer."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  cribbage' '*)
                  APP_NAME=$CHOICE_APP
@@ -3568,8 +3586,22 @@ f_menu_app_games_quiz () {
             case $CHOICE_APP in # Start of Quiz Games case statement.
                  1 |[Aa] |[Aa][Rr] |[Aa][Rr][Ii] |[Aa][Rr][Ii][Tt] |[Aa][Rr][Ii][Tt][Hh] |[Aa][Rr][Ii][Tt][Hh][Mm] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt][Ii] |[Aa][Rr][Ii][Tt][Hh][Mm][Ee][Tt][Ii][Cc])
                  APP_NAME="arithmetic"
-                 f_how_to_quit_application "Ctrl-Z"
-                 f_application_run
+                 echo "arithmetic - Quiz on basic arithmetic."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  arithmetic' '*)
                  APP_NAME=$CHOICE_APP
@@ -3579,10 +3611,12 @@ f_menu_app_games_quiz () {
                  2 | [Gg] | [Gg][Ee] | [Gg][Ee][Ee] | [Gg][Ee][Ee][Kk] | [Gg][Ee][Ee][Kk][Cc] | [Gg][Ee][Ee][Kk][Cc][Oo] | [Gg][Ee][Ee][Kk][Cc][Oo][Dd] | [Gg][Ee][Ee][Kk][Cc][Oo][Dd][Ee])
                  APP_NAME="geekcode"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  geekcode' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  3 | [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
@@ -3759,7 +3793,22 @@ f_menu_app_games_simulation () {
             case $CHOICE_APP in # Start of Simulation Games case statement.
                  1 | [Aa] | [Aa][Tt] | [Aa][Tt][Cc])
                  APP_NAME="atc"
-                 f_application_run
+                 echo "atc - Air Traffic Controller Game"
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  atc' '*)
                  APP_NAME=$CHOICE_APP
@@ -3767,11 +3816,13 @@ f_menu_app_games_simulation () {
                  ;;
                  2 |[Ss] |[Ss][Aa] |[Ss][Aa][Ii] |[Ss][Aa][Ii][Ll])
                  APP_NAME="sail"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  sail' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -3829,26 +3880,32 @@ f_menu_app_games_strategy () {
                  1 | [Gg] | [Gg][Oo] | [Gg][Oo][Mm] | [Gg][Oo][Mm][Oo] | [Gg][Oo][Mm][Oo][Kk] | [Gg][Oo][Mm][Oo][Kk][Uu])
                  APP_NAME="gomoku"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  gomoku' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  2 | [Hh] | [Hh][Uu] | [Hh][Uu][Nn] | [Hh][Uu][Nn][Tt])
                  APP_NAME="hunt"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  hunt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  3 | [Mm] | [Mm][Ii] | [Mm][Ii][Ll] | [Mm][Ii][Ll][Ll] | [Mm][Ii][Ll][Ll][Ee])
                  APP_NAME="mille"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mille' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  4 | [Ww] | [Ww][Aa] | [Ww][Aa][Rr] | [Ww][Aa][Rr][Gg] | [Ww][Aa][Rr][Gg][Aa] | [Ww][Aa][Rr][Gg][Aa][Mm] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee] | [Ww][Aa][Rr][Gg][Aa][Mm][Ee][Ss])
                  APP_NAME="wargames"
@@ -3928,7 +3985,22 @@ f_menu_app_games_word () {
                  ;;
                  3 | [Pp] | [Pp][Ii] | [Pp][Ii][Gg])
                  APP_NAME="pig"
-                 f_application_run
+                 echo "pig - Converts text to Pig Latin"
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  pig' '*)
                  APP_NAME=$CHOICE_APP
@@ -9614,6 +9686,8 @@ f_menu_app_sys_monitors () {
                  14 | [Tt] | [Tt][Ll] | [Tt][Ll][Oo] | [Tt][Ll][Oo][Aa] | [Tt][Ll][Oo][Aa][Dd])
                  APP_NAME="tload"
                  clear # Blank the screen.
+                 echo tload - System load average graphical monitor.
+                 echo
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
@@ -9632,6 +9706,8 @@ f_menu_app_sys_monitors () {
                  tload' '* | 'sudo tload '* | 'sudo tload')
                  APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
+                 echo tload - System load average graphical monitor.
+                 echo
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
