@@ -3242,7 +3242,7 @@ f_menu_app_games_card () {
       done # End of Card Games until loop.
 } # End of f_menu_app_games_card
 #
-# +----------------------------------------+	
+# +----------------------------------------+      
 # |      Function f_menu_app_games_mud     |
 # +----------------------------------------+
 #
@@ -10703,7 +10703,7 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Ll] | [Ll][Ii]*)
+           [Ll] | [Ll][Ii] | [Ll][Ii][Cc]*)
            clear # Blank the screen.
            # display License (all lines beginning with #LIC but
            # substitute "" for "#LIC" so "#LIC" is not printed).
