@@ -24,7 +24,7 @@ sed -n 's/^#://'p README |more -d
 #:   Script features
 #:   HOW-TO Add a new menu item
 #:   Trouble-shooting a new menu item
-#:   Known problems
+#:   Known problems and limitations
 #:   For more help
 #:   List of variables
 #:   List of Special Menu Option Markers
@@ -65,7 +65,7 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="July-03-2013 16:11"
+#:REVDATE="July-11-2013 19:11"
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -86,7 +86,9 @@ sed -n 's/^#://'p README |more -d
 #: +----------------------------------------+
 #:
 #: *The menus are designed to be quite extensible and are easily edited.
+#:
 #: *Menu item choices are added with a simple comment line.
+#:
 #: *The case pattern statements do not need a manually edited numeric pattern
 #:  because menu item choices are numerically matched automatically
 #:  by the use of an array generated from the menu item comment lines.
@@ -98,6 +100,8 @@ sed -n 's/^#://'p README |more -d
 #: *I used to create menus in this style in MUMPS and being a QA person, my job
 #:  was to try to break programs. So that's why I tried to make pattern matching
 #:  so robust rather than use wild-cards.
+#:
+#:       Update: Wildcards are now used to help reduce the size of the script.
 #:
 #: *My QA background also explains this crazy documentation of everything along
 #:  with the fact that I am just learning bash scripting.
@@ -198,20 +202,28 @@ sed -n 's/^#://'p README |more -d
 #:
 #:
 #: +----------------------------------------+
-#: |            Known problems              |
+#: |     Known problems and limitations     |
 #: +----------------------------------------+
 #:
-#: Running the script using DASH used in Ubuntu, Linux Mint and other
-#: distributions will cause these errors.
-#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[1]=Applications: not found
-#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[2]=Help: not found
-#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[3]=About: not found
+#: 1. Running the script using DASH used in Ubuntu, Linux Mint and other
+#:    distributions will cause these errors.
+#:    cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[1]=Applications: not found
+#:    cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[2]=Help: not found
+#:    cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[3]=About: not found
 #:
-#: Reason: DASH does not handle arrays properly.
+#:    Reason: DASH does not handle arrays properly.
 #:
-#: Work-around: Use BASH instead of DASH. 
-#: Use BASH, "bash cli-app-menu.sh" instead of "sh cli-app-menu.sh".
+#:    Work-around: Use BASH instead of DASH. 
+#:    Use BASH, "bash cli-app-menu.sh" instead of "sh cli-app-menu.sh".
 #:
+#: 2. f_choice_array needs all menu items to have 1 or 2 unique words in a name
+#:    within the same menu.
+#:
+#:    i.e. Acceptable names for a menu    Unacceptable names for a menu 
+#:
+#:      LAN/WAN Applications Menu      LAN/WAN Applications Menu
+#:      ip link                        ip route list
+#:      ip route                       ip route flush
 #:
 #: +----------------------------------------+
 #: |               For more help            |

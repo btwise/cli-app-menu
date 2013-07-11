@@ -1,4 +1,4 @@
-#!/bin/bash 
+#! /bin/bash 
 #
 # ©2013 Copyright 2013 Robert D. Chin
 #
@@ -20,7 +20,7 @@
 #:   Script features
 #:   HOW-TO Add a new menu item
 #:   Trouble-shooting a new menu item
-#:   Known problems
+#:   Known problems and limitations
 #:   For more help
 #:   List of variables
 #:   List of Special Menu Option Markers
@@ -29,6 +29,7 @@ THIS_FILE="cli-app-menu.sh"
 #
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
+
 # +----------------------------------------+
 #
 # Calculate revision number by counting all lines starting with "## 2013".
@@ -36,7 +37,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-3-2013 16:11"
+REVDATE="July-11-2013 19:11"
 #
 #
 # +----------------------------------------+
@@ -236,13 +237,19 @@ f_choice_array () {
 # declare -A CHOICE  # Commented out; do not need to declare the array.
 unset CHOICE
 XNUM=1 # Initialize XNUM.
-for XSTR in `awk -F $DELIMITER  '{if ($2&&!$3){print $2;}}' $THIS_FILE | awk '{print $1; }'`
+X=" "
+# Code below rewritten to allow menu choice names consisting of 2 words. i.e. "ip addr", "ip route".
+#
+for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
+# Set XSTR to first two words (delimited by "%" of menu choice name. 
+# Example: Main menu option, "About CLI Menu" then XSTR="About%CLI" 
 do
-   CHOICE[$XNUM]=$XSTR  # If Ubuntu or Ubuntu derived distro errors here,
-                        # cause is Ubuntu uses DASH instead of BASH shell.
-                        # Use "bash cli-menu-app.sh" 
-                        # instead of "sh cli-menu-app.sh".
-   XNUM=`expr $XNUM + 1`
+      XSTR=${XSTR/[%]/ }   # Substitute <space> for "%".
+      CHOICE[$XNUM]=$XSTR  # If Ubuntu or Ubuntu derived distro errors here,
+                           # cause is Ubuntu uses DASH instead of BASH shell.
+                           # Use "bash cli-menu-app.sh" 
+                           # instead of "sh cli-menu-app.sh".
+      XNUM=`expr $XNUM + 1`
 done
 } # End of f_choice_array
 #
@@ -947,6 +954,28 @@ f_application_web_install () {
       esac                         # End of Web Install case statement.
 } # End of function f_application_web_install
 #
+# +----------------------------------------+
+# |          Function f_test_dash          |
+# +----------------------------------------+
+#
+#  Inputs: $BASH_VERSION (System variable)
+#    Uses: None
+# Outputs: None
+#
+f_test_dash () {
+if [ "$BASH_VERSION" = '' ]; then
+   echo
+   echo "You are using the DASH environment."
+   echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
+   echo
+   echo "*** This script cannot be run in the DASH environment. ***"
+   echo
+   echo "You can invoke the BASH environment by typing"
+   echo "'bash cli-app-menu.sh' at the command line."
+   echo
+   f_press_enter_key_to_continue
+fi
+} # End of function f_test_dash
 #
 # +----------------------------------------+
 # |  Function f_menu_scat_sample_template  |
@@ -10593,6 +10622,9 @@ f_menu_app_video_players () {
 # **************************************
 # ***     Start of Main Program      ***
 # **************************************
+#
+# Test the environment for DASH.
+f_test_dash
 #
 # **************************************
 # ***           Main Menu            ***
