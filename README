@@ -24,8 +24,10 @@ sed -n 's/^#://'p README |more -d
 #:   Script features
 #:   HOW-TO Add a new menu item
 #:   Trouble-shooting a new menu item
-#:   Known problems
+#:   Known problems and limitations
 #:   For more help
+#:   List of variables
+#:   List of Special Menu Option Markers
 #:
 #: +----------------------------------------+
 #: |            Brief Description           |
@@ -63,7 +65,7 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="June-08-2013 22:22"
+#:REVDATE="July-11-2013 19:11"
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -84,7 +86,9 @@ sed -n 's/^#://'p README |more -d
 #: +----------------------------------------+
 #:
 #: *The menus are designed to be quite extensible and are easily edited.
+#:
 #: *Menu item choices are added with a simple comment line.
+#:
 #: *The case pattern statements do not need a manually edited numeric pattern
 #:  because menu item choices are numerically matched automatically
 #:  by the use of an array generated from the menu item comment lines.
@@ -96,6 +100,8 @@ sed -n 's/^#://'p README |more -d
 #: *I used to create menus in this style in MUMPS and being a QA person, my job
 #:  was to try to break programs. So that's why I tried to make pattern matching
 #:  so robust rather than use wild-cards.
+#:
+#:       Update: Wildcards are now used to help reduce the size of the script.
 #:
 #: *My QA background also explains this crazy documentation of everything along
 #:  with the fact that I am just learning bash scripting.
@@ -196,20 +202,28 @@ sed -n 's/^#://'p README |more -d
 #:
 #:
 #: +----------------------------------------+
-#: |            Known problems              |
+#: |     Known problems and limitations     |
 #: +----------------------------------------+
 #:
-#: Running the script using DASH used in Ubuntu, Linux Mint and other
-#: distributions will cause these errors.
-#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[1]=Applications: not found
-#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[2]=Help: not found
-#: cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[3]=About: not found
+#: 1. Running the script using DASH used in Ubuntu, Linux Mint and other
+#:    distributions will cause these errors.
+#:    cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[1]=Applications: not found
+#:    cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[2]=Help: not found
+#:    cli-app-menu.sh: 388: cli-app-menu.sh: CHOICE[3]=About: not found
 #:
-#: Reason: DASH does not handle arrays properly.
+#:    Reason: DASH does not handle arrays properly.
 #:
-#: Work-around: Use BASH instead of DASH. 
-#: Use BASH, "bash cli-app-menu.sh" instead of "sh cli-app-menu.sh".
+#:    Work-around: Use BASH instead of DASH. 
+#:    Use BASH, "bash cli-app-menu.sh" instead of "sh cli-app-menu.sh".
 #:
+#: 2. f_choice_array needs all menu items to have 1 or 2 unique words in a name
+#:    within the same menu.
+#:
+#:    i.e. Acceptable names for a menu    Unacceptable names for a menu 
+#:
+#:      LAN/WAN Applications Menu      LAN/WAN Applications Menu
+#:      ip link                        ip route list
+#:      ip route                       ip route flush
 #:
 #: +----------------------------------------+
 #: |               For more help            |
@@ -224,3 +238,145 @@ sed -n 's/^#://'p README |more -d
 #: *There are also example templates to create additional category and app menus
 #:  within the script.
 #:
+#: +----------------------------------------+
+#: |            List of variables           |
+#: +----------------------------------------+
+#:
+#: ANS         - String; Answer to question.
+#: APP_NAME    - String; application name also command to run.
+#: APP_NAME_INSTALL - String; used when APP_NAME does not match actual package
+#:               name to be installed. i.e. APP_NAME="trek" but package name is
+#:               actually "bsdgames". So to install "trek" game, you must
+#:               instead install package "bsdgames", a collection of games.
+#: APP_RUN     - String; Command to run when application is a web browser,
+#:               actually also includes name of web site to browse.
+#: CHOICE[XNUM] - Array of string elements. User choice in Applications and
+#:               Category Menus where XNUM is a number.
+#: CHOICE_APP  - String; User choice in Applications Menu (alpha-numeric).
+#:               First few letters of user choice from menu.
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, display "Press enter key to continue."
+#: CHOICE_CAT  - String; User choice in Applications Category Menu (alpha-
+#:                    numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
+#: CHOICE_MAIN - String; User choice in Main Menu (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
+#: CHOICE_SCAT - String; User choice in Sub-Category Menu (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
+#: CHOICE_TCAT - String; User choice in 3rd-level Category Menu (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
+#: DELIMITER   - String; Delimiter prefix of menu option string.
+#: ERROR       - Number; Save error code number from $? function.
+#: MAX         - Number; Maximum option choice number in menu.
+#: MENU_TITLE  - String; Title of menu.
+#: PRESSKEY    - Number: Ask "Press Enter key to continue".
+#:               '0' Do not ask "Press Enter key to continue".
+#:               '1' Ask "Press Enter key to continue".
+#: REVDATE     - String; Revision date of shell script.
+#: REVISION    - String; Revision number of shell script.
+#: TCOLOR      - String; Background color of display terminal; Black or White.
+#: THIS_FILE   - String; name of shell script.
+#: WEB_SITE    - String; name of web site used when application is a web browser.
+#: WEB_SITE_INSTALL - String; name of web site used to install software.
+#: XNUM        - Number; Scratch variable used in awk statement in f_show_menu
+#:               and in CHOICE[XNUM] array.
+#: XSTR        - String; Scratch variable.
+#:
+#:
+#: +----------------------------------------+
+#: |   List of Special Menu Option Markers  |
+#: +----------------------------------------+
+#:
+#:AAA - Main Menu
+#:AAB - Application Categories Menu
+#:
+#:BAU - Audio Categories Menu
+#:BFM - File Management Categories Menu
+#:BGA - Game Categories Menu
+#:BIG - Image Categories Menu
+#:BIN - Internet Categories Menu
+#:BNE - Network Categories Menu
+#:BOF - Office Categories Menu
+#:BSY - System Categories Menu
+#:BTX - Text Categories Menu
+#:BVI - Video Categories Menu
+#:BXC - Sample Template Categories Menu
+#:
+#:MAA - Accounting Applications Menu
+#:MAC - Audio CD Ripper Applications Menu
+#:MAP - Audio Player Applications Menu
+#:MAR - Audio Radio Applications Menu
+#:MAS - Audio Speech Synthesis Applications Menu
+#:MAU - Audio Editor Applications Menu
+#:MBT - Bittorrent Applications Menu
+#:MCA - Calendar-ToDo Applications Menu
+#:MCC - Calculator Applications Menu
+#:MCL - Clock Applications Menu
+#:MDL - Dowloader Applications Menu
+#:MED - Education Applications Menu
+#:MEM - E-mail Applications Menu
+#:MFB - File Burn CD/DVD Applications Menu
+#:MFC - File Compression Applications Menu
+#:MFD - File Deletion Applications Menu
+#:MFE - File Encryption Applications Menu
+#:MFF - File Search and find Applications Menu
+#:MFI - File Manager Applications Menu
+#:MFR - File Recovery/Deletion Applications Menu
+#:MFS - File Splitter Applications Menu
+#:MFT - File Transfer Applications Menu
+#:MFV - File Viewer Applications Menu
+#:MFX - FAX Applications Menu
+#:MGB - Arcade Games
+#:MGC - Board Games
+#:MGD - Card Games
+#:MGE - MUD (Multi-user Dungeons)
+#:MGF - Puzzles
+#:MGG - Quiz
+#:MGH - RPG (Role-Playing Games)
+#:MGI - Simulation Games
+#:MGJ - Strategy Games
+#:MGK - Word Games
+#:MIG - Image-Graphics Applications Menu
+#:MIK - ImageMagick Applications Menu
+#:MIM - Instant Messaging Applications Menu
+#:MIR - Internet Relay Chat (IRC) Applications Menu
+#:MNC - LAN Chat Applications Menu
+#:MNF - Firewalls Applications Menu
+#:MNL - LAN/WAN Applications Menu
+#:MNM - Network Monitor Applications Menu
+#:MNN - NIC Diagnostic Tools Applications Menu
+#:MNO - Note Applications Menu
+#:MNP - Network Packet Applications Menu
+#:MNR - News Reader Applications Menu
+#:MNS - Network Sharing Applications Menu
+#:MPO - Podcatcher Applications Menu
+#:MPR - Presentation Applications Menu
+#:MPS - PDF-PS Applications Menu
+#:MRC - Remote Connection Applications Menu
+#:MRS - RSS News Feeder Applications Menu
+# MSB - System Backup Applications Menu
+#:MSC - System Screen Applications Menu
+#:MSD - System Disk Information Applications Menu
+#:MSF - System Software Package Applications Menu
+#:MSH - System Health Applications Menu
+#:MSI - System Mainboard Information Applications Menu
+#:MSL - System Peripherals Information Applications Menu
+#:MSM - System Monitor Applications Menu
+#:MSP - Spreadsheet Applications Menu
+#:MSR - System Process Applications Menu
+#:MSS - Screen-saver Applications Menu
+#:MLO - System Log Applications Menu
+#:MSO - System Other Applications Menu
+#:MTC - Text Compare Applications Menu
+#:MTD - To-Do Applications Menu
+#:MTE - Text Editor Applications Menu
+#:MTT - Text Tool Applications Menu
+#:MTV - Text Converter Applications Menu
+#:MVE - Video Editor Applications Menu
+#:MVI - Video Player/Downloader Applications Menu
+#:MWB - Web Browser Applications Menu
+#:MXX - Sample Template Applications Menu
