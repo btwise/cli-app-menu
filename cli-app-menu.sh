@@ -36,7 +36,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-11-2013 19:11"
+REVDATE="July-12-2013 13:28"
 #
 #
 # +----------------------------------------+
@@ -1209,7 +1209,7 @@ f_menu_cat_applications () {
                  ;;
             esac # End of Application Category case statement.
             #
-      done # End of Application Category until loop.
+      done  # End of Application Category until loop.
 } # End of function f_menu_cat_applications
 #
 # +----------------------------------------+
@@ -1447,7 +1447,7 @@ f_menu_app_audio_editors () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Audio Editor Applications until loop.
+      done  # End of Audio Editor Applications until loop.
 } # End of f_menu_app_audio_editors
 #
 # +----------------------------------------+
@@ -1916,7 +1916,7 @@ f_menu_app_education () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Education Applications until loop.
+      done  # End of Education Applications until loop.
 } # End of f_menu_app_education
 #
 # +----------------------------------------+
@@ -2551,7 +2551,7 @@ f_menu_app_file_managers () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of File Manager Applications until loop.
+      done  # End of File Manager Applications until loop.
 } # End of f_menu_app_file_managers
 #
 # +----------------------------------------+
@@ -3115,7 +3115,7 @@ f_menu_app_games_arcade () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Arcade Games until loop.
+      done  # End of Arcade Games until loop.
 } # End of f_menu_app_games_arcade
 #
 # +----------------------------------------+
@@ -3187,7 +3187,7 @@ f_menu_app_games_board () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Board Games until loop.
+      done  # End of Board Games until loop.
 } # End of f_menu_app_games_board
 #
 # +----------------------------------------+
@@ -3267,7 +3267,7 @@ f_menu_app_games_card () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Card Games until loop.
+      done  # End of Card Games until loop.
 } # End of f_menu_app_games_card
 #
 # +----------------------------------------+      
@@ -3320,7 +3320,7 @@ f_menu_app_games_mud () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of MUD Games until loop.
+      done  # End of MUD Games until loop.
 } # End of f_menu_app_games_mud
 #
 # +----------------------------------------+
@@ -3463,7 +3463,7 @@ f_menu_app_games_puzzle () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Puzzle Games until loop.
+      done  # End of Puzzle Games until loop.
 } # End of f_menu_app_games_puzzle
 #
 # +----------------------------------------+
@@ -3570,7 +3570,7 @@ f_menu_app_games_quiz () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Quiz Games until loop.
+      done  # End of Quiz Games until loop.
 } # End of f_menu_app_games_quiz
 #
 # +----------------------------------------+
@@ -3670,7 +3670,7 @@ f_menu_app_games_rpg () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of RPG Games until loop.
+      done  # End of RPG Games until loop.
 } # End of f_menu_app_games_rpg
 #
 # +----------------------------------------+
@@ -3755,7 +3755,7 @@ f_menu_app_games_simulation () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Simulation Games until loop.
+      done  # End of Simulation Games until loop.
 } # End of f_menu_app_games_simulation
 #
 # +----------------------------------------+
@@ -3846,7 +3846,7 @@ f_menu_app_games_strategy () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Strategy Games until loop.
+      done  # End of Strategy Games until loop.
 } # End of f_menu_app_games_strategy
 #
 # +----------------------------------------+
@@ -3923,7 +3923,7 @@ f_menu_app_games_word () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Word Games until loop.
+      done  # End of Word Games until loop.
 } # End of f_menu_app_games_word
 #
 # +----------------------------------------+
@@ -4092,7 +4092,7 @@ f_menu_app_image_graphics () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Image-Graphics Applications until loop.
+      done  # End of Image-Graphics Applications until loop.
 } # End of f_menu_app_image_graphics
 #
 # +----------------------------------------+
@@ -4226,7 +4226,7 @@ f_menu_app_imagemagick () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of ImageMagick Applications until loop.
+      done  # End of ImageMagick Applications until loop.
 } # End of f_menu_app_imagemagick
 #
 # +----------------------------------------+
@@ -5752,7 +5752,7 @@ f_menu_cat_network () {
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Oo]*)
-                 f_menu_app_network_monitors  # Network Monitors Applications Menu.
+                 f_menu_tcat_network_monitors # Network Monitors Category Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Nn] | [Nn][Ii]*)
@@ -5786,9 +5786,10 @@ f_menu_app_firewalls () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
-      do    # Start of <Sample Template> Applications until loop.
+      do    # Start of Firewall Applications until loop.
             #MNF arptables - Firewall configuration rules for an ARP chain.
             #MNF iptables  - Firewall configuration rules for an IP chain.
+            #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
             #MNF portbunny - Port scanner created by Recurity Labs.
             #MNF ufw       - Firewall configuration and status.
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -5836,7 +5837,7 @@ f_menu_app_firewalls () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Ii] | [Ii][Pp]*)
+                 [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa]*)
                  APP_NAME="iptables --list"
                  clear # Blank the screen.
                  echo "iptables - Administration tool for IPv4 packet filtering and NAT."
@@ -5854,6 +5855,16 @@ f_menu_app_firewalls () {
                  ;;
                  iptables' '* | 'sudo iptables '* | 'sudo iptables')
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Ss]*)
+                 APP_NAME="iptstate"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 iptstate' '* | 'sudo iptstate '* | 'sudo iptstate')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo]*)
@@ -6234,7 +6245,7 @@ f_menu_app_nic_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
             # Only way to exit menu is to enter "0" or "[R]eturn".
-      do    # Start of <Sample Template> Applications until loop.
+      do    # Start of NIC Tools Applications until loop.
             #MNN ethtool      - NIC configuration.
             #MNN ifconfig     - NIC configuration.
             #MNN ifplugstatus - Wireless USB NIC status.
@@ -6434,11 +6445,53 @@ f_menu_app_network_sharing () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Network Sharing Applications until loop.
+      done  # End of Network Sharing Applications until loop.
 } # End of function f_menu_app_network_sharing
 #
 # +----------------------------------------+
-# |Function f_menu_app_network_monitors    |
+# |  Function f_menu_tcat_network_monitors |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: CHOICE_TCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
+#
+f_menu_tcat_network_monitors () {
+      f_initvars_menu_app
+      until [ $CHOICE_TCAT -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Network Monitor Application Category until loop.
+            #BNM Bandwidth - Bandwidth monitors.
+            #BNM Structure - Management, status, connections, devices, hosts.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Network Monitor Application Category Menu"
+            DELIMITER="#BNM" #BNM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_TCAT
+            #
+            f_common_tcat_menu
+            ERROR=0 # Reset error flag.
+            #
+            case $CHOICE_TCAT in # Start of Network Monitor Application Category case statement.
+                 [Bb] | [Bb][Aa]*) 
+                 f_menu_app_network_bandwidth # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ss] | [Ss][Tt]*) 
+                 f_menu_app_network_monitors  # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Network Monitor Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_tcat_bad_menu_choice
+      done  # End of Network Monitor Application Category until loop.
+} # End of function f_menu_tcat_network_monitors
+#
+# +----------------------------------------+
+# |   Function f_menu_app_network_monitors |
 # +----------------------------------------+
 #
 #  Inputs: None. 
@@ -6447,29 +6500,24 @@ f_menu_app_network_sharing () {
 #
 f_menu_app_network_monitors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $CHOICE_APP -eq 0 ] 
+            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Network Monitor Applications until loop.
-            #MNM bmon    - Bandwidth monitor and rate estimator.
-            #MNM cbm     - Color Bandwidth Meter, ncurses based display.
-            #MNM ifstat  - Bandwidth statistics. (See also dstat, System Monitors Menu).
-            #MNM iftop   - Bandwidth statistics.
-            #MNM iptraf  - IP LAN monitor, ncurses based display.
-            #MNM jnettop - Bandwidth statistics across streams.
-            #MNM nagios3 - IP LAN monitor. Display network hosts, devices, connections.
-            #MNM nc      - Netcat reads/writes data across network.
-            #MNM nethogs - Bandwidth statistics by process.
-            #MNM netstat - Print network connections, routing tables, interface stats, etc.
-            #MNM ntop    - Display network usage and status information in a web browser.
-            #MNM opennms - Network management application. Discovery, reports, statistics.
-            #MNM pmacct  - Traffic information monitor.
-            #MNM slurm   - Network interface I/O load monitor.
-            #MNM sntop   - IP LAN monitor. Display network hosts and connections.
-            #MNM vnstat  - Traffic information monitor.
+            #MNM iptraf    - IP LAN monitor, ncurses based display.
+            #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
+            #MNM nc        - Netcat reads/writes data across network.
+            #MNM netstat   - Print network connections, routing tables, interface stats, etc.
+            #MNM ntop      - Display network usage and status information in a web browser.
+            #MNM opennms   - Network management application. Discovery, reports, statistics.
+            #MNM pmacct    - Traffic information monitor.
+            #MNM slurm     - Network interface I/O load monitor.
+            #MNM sntop     - IP LAN monitor. Display network hosts and connections.
+            #MNM vnstat    - Traffic information monitor.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Monitor Applications Menu"
             DELIMITER="#MNM" #MNM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER
+            f_show_menu $MENU_TITLE $DELIMITER 
             #
             read CHOICE_APP
             #
@@ -6479,55 +6527,6 @@ f_menu_app_network_monitors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Monitor Applications case statement.
-                 [Bb] | [Bb][Mm]*)
-                 APP_NAME="bmon"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 bmon' '* | 'sudo bmon '* | 'sudo bmon')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Bb]*)
-                 APP_NAME="cbm"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cbm' '* | 'sudo cbm '* | 'sudo cbm')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ii] | [Ii][Ff] | [Ii][Ff][Ss]*)
-                 APP_NAME="ifstat 2 5"
-                 clear # Blank the screen.
-                 echo "ifstat - Display bandwidth statistics."
-                 echo
-                 echo "ifstat this PC's NIC (localhost) for 5 times every 2 seconds as an example."
-                 echo
-                 echo "Now run ifstat. Usage: ifstat 2 5"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 ifstat' '* | 'sudo ifstat '* | 'sudo ifstat')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ii] | [Ii][Ff] | [Ii][Ff][Tt]*)
-                 APP_NAME="iftop"
-                 f_find_NIC
-                 APP_NAME="iftop -i $ANS"
-                 f_how_to_quit_application "q" "no-clear"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 iftop' '* | 'sudo iftop '* | 'sudo iftop')
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q" "no-clear"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  [Ii] | [Ii][Pp]*)
                  APP_NAME="iptraf"
                  f_application_run
@@ -6535,20 +6534,6 @@ f_menu_app_network_monitors () {
                  ;;
                  iptraf' '* | 'sudo iptraf '* | 'sudo iptraf')
                  APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Jj] | [Jj][Nn]*)
-                 APP_NAME="jnettop"
-                 f_find_NIC
-                 APP_NAME="jnettop -i $ANS"
-                 f_how_to_quit_application "q" "no-clear"
-                 f_application_run
-                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 jnettop' '* | 'sudo jnettop '* | 'sudo jnettop')
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6579,14 +6564,6 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
                  nc' '* | 'sudo nc '* | 'sudo nc')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh]*)
-                 APP_NAME="nethogs"
-                 f_application_run
-                 ;;
-                 nethogs' '* | 'sudo nethogs '* | 'sudo nethogs')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6690,12 +6667,12 @@ f_menu_app_network_monitors () {
                  [Pp] | [Pp][Mm]*)
                  APP_NAME="pmacct"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  pmacct' '* | 'sudo pmacct '* | 'sudo pmacct')
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Ll]*)
                  APP_NAME="slurm"
@@ -6742,8 +6719,143 @@ f_menu_app_network_monitors () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Network Monitor Applications until loop.
+      done  # End of Network Monitor Applications until loop.
 } # End of function f_menu_app_network_monitors
+#
+# +----------------------------------------+
+# |Function f_menu_app_network_bandwidth   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_network_bandwidth () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+            # Only way to exit menu is to enter "0" or "[R]eturn".
+      do    # Start of Network Bandwidth Applications until loop.
+            #MNB bmon    - Bandwidth monitor and rate estimator.
+            #MNB cbm     - Color Bandwidth Meter, ncurses based display.
+            #MNB ifstat  - Bandwidth statistics. (See also dstat, System Monitors Menu).
+            #MNB iftop   - Bandwidth statistics.
+            #MNB jnettop - Bandwidth statistics across streams.
+            #MNB nethogs - Bandwidth statistics by process.
+            #MNB nload   - Bandwidth monitor in real-time with graphs; ncurses based display.
+            #MNB pktstat - Display active connections and bandwidth in real-time.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Network Bandwidth Applications Menu"
+            DELIMITER="#MNB" #MNB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Network Bandwidth Applications case statement.
+                 [Bb] | [Bb][Mm]*)
+                 APP_NAME="bmon"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 bmon' '* | 'sudo bmon '* | 'sudo bmon')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Bb]*)
+                 APP_NAME="cbm"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 cbm' '* | 'sudo cbm '* | 'sudo cbm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ii] | [Ii][Ff] | [Ii][Ff][Ss]*)
+                 APP_NAME="ifstat 2 5"
+                 clear # Blank the screen.
+                 echo "ifstat - Display bandwidth statistics."
+                 echo
+                 echo "ifstat this PC's NIC (localhost) for 5 times every 2 seconds as an example."
+                 echo
+                 echo "Now run ifstat. Usage: ifstat 2 5"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 ifstat' '* | 'sudo ifstat '* | 'sudo ifstat')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Ff] | [Ii][Ff][Tt]*)
+                 APP_NAME="iftop"
+                 f_find_NIC
+                 APP_NAME="iftop -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 iftop' '* | 'sudo iftop '* | 'sudo iftop')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj] | [Jj][Nn]*)
+                 APP_NAME="jnettop"
+                 f_find_NIC
+                 APP_NAME="jnettop -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 jnettop' '* | 'sudo jnettop '* | 'sudo jnettop')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh]*)
+                 APP_NAME="nethogs"
+                 f_application_run
+                 ;;
+                 nethogs' '* | 'sudo nethogs '* | 'sudo nethogs')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ll]*)
+                 APP_NAME="nload"
+                 f_application_run
+                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 nload' '* | 'sudo nload '* | 'sudo nload')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Kk]*)
+                 APP_NAME="pktstat"
+                 f_application_run
+                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 pktstat' '* | 'sudo pktstat '* | 'sudo pkstat')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Network Bandwidth Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Network Bandwidth Applications until loop.
+} # End of function f_menu_app_network_bandwidth
 #
 # +----------------------------------------+
 # |    Function f_menu_app_packet_tools    |
@@ -7091,7 +7203,7 @@ f_menu_app_accounting () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Accounting Applications until loop.
+      done  # End of Accounting Applications until loop.
 } # End of f_menu_app_accounting
 #
 # +----------------------------------------+
@@ -7161,7 +7273,7 @@ f_menu_app_calculators () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Calculator Applications until loop.
+      done  # End of Calculator Applications until loop.
 } # End of f_menu_app_calculators
 #
 # +----------------------------------------+
@@ -7330,7 +7442,7 @@ f_menu_app_calendar () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Calendar Applications until loop.
+      done  # End of Calendar Applications until loop.
 } # End of f_menu_app_calendar
 #
 # +----------------------------------------+
@@ -7412,7 +7524,7 @@ f_menu_app_clocks () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Clock Applications until loop.
+      done  # End of Clock Applications until loop.
 } # End of f_menu_app_clocks
 #
 # +----------------------------------------+
@@ -7456,7 +7568,7 @@ f_menu_app_note () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Note Applications until loop.
+      done  # End of Note Applications until loop.
 } # End of f_menu_app_note
 #
 # +----------------------------------------+
@@ -7590,7 +7702,7 @@ f_menu_app_pdfps () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of pdf-ps Applications until loop.
+      done  # End of pdf-ps Applications until loop.
 } # End of f_menu_app_pdfps
 #
 # +----------------------------------------+
@@ -7699,7 +7811,7 @@ f_menu_app_spreadsheets () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Spreadsheet Applications until loop.} # End of menu_app_spreadsheets
+      done  # End of Spreadsheet Applications until loop.} # End of menu_app_spreadsheets
 } # End of f_menu_app_spreadsheets
 #
 # +----------------------------------------+
@@ -7832,7 +7944,7 @@ f_menu_app_text_compare () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Text Compare Applications until loop.
+      done  # End of Text Compare Applications until loop.
 } # End of f_menu_app_text_compare
 #
 # +----------------------------------------+
@@ -7965,7 +8077,7 @@ f_menu_app_text_converters () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Text Converter Applications until loop.
+      done  # End of Text Converter Applications until loop.
 } # End of f_menu_app_text_converters
 #
 # +----------------------------------------+
@@ -8140,7 +8252,7 @@ f_menu_app_text_editors () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Text Editor Applications until loop.
+      done  # End of Text Editor Applications until loop.
 } # End of f_menu_app_text_editors
 #
 # +----------------------------------------+
@@ -8193,7 +8305,7 @@ f_menu_app_text_tools () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Text Tool Applications until loop.
+      done  # End of Text Tool Applications until loop.
 } # End of f_menu_app_text_tools
 #
 # +----------------------------------------+
@@ -8308,7 +8420,7 @@ f_menu_app_todo () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of ToDo Applications until loop.
+      done  # End of ToDo Applications until loop.
 } # End of f_menu_app_todo
 #
 # +----------------------------------------+
@@ -8388,7 +8500,7 @@ f_menu_app_screen_savers () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Screen-saver Applications until loop.
+      done  # End of Screen-saver Applications until loop.
 } # End of f_menu_app_screen_savers
 #
 # +----------------------------------------+
@@ -9131,7 +9243,7 @@ f_menu_app_sys_mainboard () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Mainboard System Information until loop.
+      done  # End of Mainboard System Information until loop.
 } # End of f_menu_app_sys_mainboard
 #
 # +----------------------------------------+
@@ -9297,7 +9409,7 @@ f_menu_app_sys_peripherals () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Peripheral System Information until loop.
+      done  # End of Peripheral System Information until loop.
 } # End of f_menu_app_sys_peripherals
 #
 # +----------------------------------------+
@@ -9350,7 +9462,7 @@ f_menu_app_sys_logs () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of System Logs until loop.
+      done  # End of System Logs until loop.
 } # End of f_menu_app_sys_logs
 #
 # +----------------------------------------+
@@ -9655,7 +9767,7 @@ f_menu_app_sys_monitors () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of System Monitors until loop.
+      done  # End of System Monitors until loop.
 } # End of f_menu_app_sys_monitors
 #
 # +----------------------------------------+
@@ -9717,7 +9829,7 @@ f_menu_app_sys_other () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of Other System Applications until loop.
+      done  # End of Other System Applications until loop.
 } # End of f_menu_app_sys_other
 #
 # +----------------------------------------+
@@ -10063,7 +10175,7 @@ f_menu_app_sys_screens () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done # End of System Screens until loop.
+      done  # End of System Screens until loop.
 } # End of f_menu_app_sys_screens
 #
 # +----------------------------------------+
@@ -10855,12 +10967,12 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
                           # Specifically for alpha nonsense responses.
            ;;
-     esac
-     if [ $CHOICE_MAIN -le -3 -o $CHOICE_MAIN -gt $MAX ] ; then
-        CHOICE_MAIN=-1  # Convert string to integer -1. Stay in until loop.
-        PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
-                        # Specifically for out-of-bounds numeric response.
-     fi
-     f_option_press_enter_key
-done # End of CLI Menu until loop.
+      esac
+      if [ $CHOICE_MAIN -le -3 -o $CHOICE_MAIN -gt $MAX ] ; then
+         CHOICE_MAIN=-1  # Convert string to integer -1. Stay in until loop.
+         PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
+                         # Specifically for out-of-bounds numeric response.
+      fi
+      f_option_press_enter_key
+done  # End of CLI Menu until loop.
 # all dun dun noodles.

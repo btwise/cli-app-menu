@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="July-11-2013 19:11"
+REVDATE="July-12-2013 13:28"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,10 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-07-12 *f_menu_tcat_network_monitors, f_menu_app_network_bandwidth added.
+##            *f_menu_app_network_bandwidth added nload, pktstat.
+##            *f_menu_app_firewalls added iptstate.
 ##
 ## 2013-07-11 *f_choice_array rewrote awk statement so CHOICE array now works
 ##             with menu choice names with 2 words, as long as second word is
