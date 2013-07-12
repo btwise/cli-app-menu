@@ -65,7 +65,7 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="July-11-2013 19:11"
+#:REVDATE="July-12-2013 13:18"
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -300,6 +300,7 @@ sed -n 's/^#://'p README |more -d
 #:BIG - Image Categories Menu
 #:BIN - Internet Categories Menu
 #:BNE - Network Categories Menu
+#:BNM - Network Monitor Categories Menu
 #:BOF - Office Categories Menu
 #:BSY - System Categories Menu
 #:BTX - Text Categories Menu
@@ -347,6 +348,7 @@ sed -n 's/^#://'p README |more -d
 #:MNC - LAN Chat Applications Menu
 #:MNF - Firewalls Applications Menu
 #:MNL - LAN/WAN Applications Menu
+#:MNB - Network Bandwidth Applications Menu
 #:MNM - Network Monitor Applications Menu
 #:MNN - NIC Diagnostic Tools Applications Menu
 #:MNO - Note Applications Menu
