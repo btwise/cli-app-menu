@@ -29,7 +29,6 @@ THIS_FILE="cli-app-menu.sh"
 #
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
-
 # +----------------------------------------+
 #
 # Calculate revision number by counting all lines starting with "## 2013".
