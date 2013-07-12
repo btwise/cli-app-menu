@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="June-11-2013 00:17"
+REVDATE="July-11-2013 19:11"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,22 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-07-11 *f_choice_array rewrote awk statement so CHOICE array now works
+##             with menu choice names with 2 words, as long as second word is
+##             unique. i.e. "ip", "ip addr", "ip link" names now all work.
+##            *f_test_dash added to warn user to switch environment to BASH.
+##
+## 2013-07-03 *README Added List of variables and Special Menu Option Markers.
+##            *cli-app-menu.sh deleted the two lists mentioned above and
+##             all case pattern matching simplified using * wildcards reducing
+##             file size by 52KB.
+##            *f_menu_app_instant_messaging fixed case pattern matching
+##             emacs-jabber.
+##            *f_menu_app_calendar fixed case pattern matching emacs-calfw.
+##            *f_menu_app_calendar fixed case pattern matching pcal.
+##            *f_menu_cat_text fixed case pattern matching compare.
+##            *f_menu_app_sys_peripherals fixed case pattern matching lspcmcia.
 ##
 ## 2013-06-11 *f_menu_app_games_card fixed canfield case pattern matching.
 ##            *f_menu_app_games_card deleted cribbage warning message.
