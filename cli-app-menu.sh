@@ -36,7 +36,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-12-2013 13:28"
+REVDATE="July-13-2013 11:53"
 #
 #
 # +----------------------------------------+
@@ -987,7 +987,6 @@ fi
 f_menu_scat_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Application Category until loop.
             #BXC App Cat1
             #BXC App Cat2
@@ -1029,7 +1028,6 @@ f_menu_scat_sample_template () {
 f_menu_tcat_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_TCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Application Category until loop.
             #BXC App Cat1
             #BXC App Cat2
@@ -1071,7 +1069,6 @@ f_menu_tcat_sample_template () {
 f_menu_app_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Applications until loop.
             #MXX appname  - Description Application1 name.
             #MXX app2name - Description Application2 name.
@@ -1223,7 +1220,6 @@ f_menu_cat_applications () {
 f_menu_cat_audio () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Audio Application Category until loop.
             #BAU CD Rippers         - Copy music off CD-ROM to files.
             #BAU Editors/Converters - Edit music files and convert to different file formats.
@@ -1280,7 +1276,6 @@ f_menu_cat_audio () {
 f_menu_app_cdrippers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of CD Rippers Applications until loop.
             #MAC abcde      - Audio CD ripper.
             #MAC acripper   - Audio CD ripper.
@@ -1461,7 +1456,6 @@ f_menu_app_audio_editors () {
 f_menu_app_music_players () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Music Player Applications until loop.
             #MAP cdcd     - CD player.
             #MAP cmus     - Music player.
@@ -1635,7 +1629,6 @@ f_menu_app_music_players () {
 f_menu_app_radio () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Radio Applications until loop.
             #MAR dradio   - Streaming radio on world-wide web.
             #MAR radio    - Streaming radio, ncurses-based.
@@ -1713,7 +1706,6 @@ f_menu_app_radio () {
 f_menu_app_speech_synthesis () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Speech Synthesis Applications until loop.
             #MAS ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
             #MAS edbrowse      - Audio web browser, editor, and reads aloud email.
@@ -1930,7 +1922,6 @@ f_menu_app_education () {
 f_menu_cat_file_management () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Management Application Category until loop.
             #BFM Backup      - File Backup/archive.
             #BFM CD/DVD Burn - Write files to CD/DVD.
@@ -2018,7 +2009,6 @@ f_menu_cat_file_management () {
 f_menu_app_file_burn () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Backup Applications until loop.
             #MFB bashburn     - CD burning.
             #MFB burn         - CD burning.
@@ -2117,7 +2107,6 @@ f_menu_app_file_burn () {
 f_menu_app_file_compression () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Backup Applications until loop.
             #MFC atool  - Manages file archives (tar, gzip, zip etc.).
             #MFC dtrx   - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
@@ -2216,7 +2205,6 @@ f_menu_app_file_compression () {
 f_menu_app_file_encryption () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Encryption Applications until loop.
             #MFE bcrypt    - Uses the blowfish encryption algorithm.
             #MFE ccrypt    - Uses the Rijndael cipher algorithm.
@@ -2326,7 +2314,6 @@ f_menu_app_file_encryption () {
 f_menu_app_file_find () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Find File Applications until loop.
             #MFF find     - Find files using pattern matching.
             #MFF locate   - Find files using an internal database, mlocate.
@@ -2565,7 +2552,6 @@ f_menu_app_file_managers () {
 f_menu_app_file_splitters () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Splitter Applications until loop.
             #MFS lxsplit - Splits/Joins files even greater than 2GB.
             #MFS split   - Splits/Joins files.
@@ -2635,7 +2621,6 @@ f_menu_app_file_splitters () {
 f_menu_app_file_viewers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Viewer Applications until loop.
             #MFV less - File viewer and bi-directional pager.
             #MFV more - File viewer pager.
@@ -2704,7 +2689,6 @@ f_menu_app_file_viewers () {
 f_menu_app_file_deletion () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Recovery Applications until loop.
             #MFD shred - Delete files securely without recovery.
             #
@@ -2749,7 +2733,6 @@ f_menu_app_file_deletion () {
 f_menu_app_file_recover () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Recovery Applications until loop.
             #MFR foremost  - File recovery from within a *.img disk image file.
             #MFR photorec  - File recovery.
@@ -3937,7 +3920,6 @@ f_menu_app_games_word () {
 f_menu_cat_image () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Image Application Category until loop.
             #BIG ImageMagick - Tools to manipulate images.
             #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
@@ -5477,7 +5459,7 @@ f_menu_app_podcatchers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Podcatcher Applications case statement.
-                 [Bb] | [Bb][Aa]|*)
+                 [Bb] | [Bb][Aa]*)
                  APP_NAME="bashpodder"
                  f_application_run
                  ;;
@@ -5785,7 +5767,6 @@ f_menu_cat_network () {
 f_menu_app_firewalls () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Firewall Applications until loop.
             #MNF arptables - Firewall configuration rules for an ARP chain.
             #MNF iptables  - Firewall configuration rules for an IP chain.
@@ -5934,7 +5915,6 @@ f_menu_app_firewalls () {
 f_menu_app_lanwan () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of LAN/WAN Applications until loop.
             #MNL arping      - Check LAN connectivity by pinging MAC, IP address or hostname.
             #MNL ip          - Shows routing, devices, policy routing and tunnels.
@@ -6244,7 +6224,6 @@ f_menu_app_lanwan () {
 f_menu_app_nic_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of NIC Tools Applications until loop.
             #MNN ethtool      - NIC configuration.
             #MNN ifconfig     - NIC configuration.
@@ -6459,7 +6438,6 @@ f_menu_app_network_sharing () {
 f_menu_tcat_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_TCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Network Monitor Application Category until loop.
             #BNM Bandwidth - Bandwidth monitors.
             #BNM Structure - Management, status, connections, devices, hosts.
@@ -6501,7 +6479,6 @@ f_menu_tcat_network_monitors () {
 f_menu_app_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Network Monitor Applications until loop.
             #MNM iptraf    - IP LAN monitor, ncurses based display.
             #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
@@ -6733,7 +6710,6 @@ f_menu_app_network_monitors () {
 f_menu_app_network_bandwidth () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Network Bandwidth Applications until loop.
             #MNB bmon    - Bandwidth monitor and rate estimator.
             #MNB cbm     - Color Bandwidth Meter, ncurses based display.
@@ -6868,7 +6844,6 @@ f_menu_app_network_bandwidth () {
 f_menu_app_packet_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Packet Tools Applications until loop.
             #MNP kismet    - Wireless network detector, packet sniffer, auditor.
             #MNP ngrep     - Network packet analyzer.
@@ -7054,7 +7029,6 @@ read ANS
 f_menu_cat_office () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Office Application Category until loop.
             #BOF Accounting   - Accounting (with with double-entry).
             #BOF Calculators  - Simple "pocket" calculators.
@@ -7716,7 +7690,6 @@ f_menu_app_pdfps () {
 f_menu_app_presentation () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Presentation Applications until loop.
             #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
             #
@@ -7825,7 +7798,6 @@ f_menu_app_spreadsheets () {
 f_menu_cat_text () {
       f_initvars_menu_app
       until [ $CHOICE_TCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Text Application Category until loop.
             #BTX Compare    - Show differences between text files.
             #BTX Converters - Convert between text document/file formats.
@@ -8575,7 +8547,7 @@ f_menu_cat_system () {
                  f_menu_app_sys_process       # System Process Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Ss] | [Ss][Cc])
+                 [Ss] | [Ss][Cc]*)
                  f_menu_app_sys_screens       # System Screens Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -8601,7 +8573,6 @@ f_menu_cat_system () {
 f_menu_app_sys_backup () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Backup Applications until loop.
             #MSB rsync - File backup, mirror, directories and files.
             #MSB tar   - File backup, compress files.
@@ -8655,7 +8626,6 @@ f_menu_app_sys_backup () {
 f_menu_app_sys_disks () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Disks Information Applications until loop.
             #MSD cfdisk - Disk partition tool.
             #MSD df     - Disk usage and mount points, usage: -hT.
@@ -8836,7 +8806,6 @@ f_menu_app_sys_disks () {
 f_menu_app_sys_health () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Health Applications until loop.
             #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
             #MSH arpalert   - Checks MAC addresses against list of known MACs, runs script.
@@ -9843,7 +9812,6 @@ f_menu_app_sys_other () {
 f_menu_app_sys_process () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Process Applications until loop.
             #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
             #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
@@ -10189,12 +10157,11 @@ f_menu_app_sys_screens () {
 f_menu_app_sys_software () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Softare Applications until loop.
             #MSF alien    - Converts rpm to deb packages.
             #MSF apt      - Debian package manager.
             #MSF aptitude - Debian package manager.
-            #MSF aptoncd  - GUI makes a CD of Debian packages, install via APT package manager.
+            #MSF aptoncd  - GUI makes a CD of Debian packages for installation w/o Internet.
             #MSF dpkg     - Debian package manager.
             #MSF rpm      - RPM (Red Hat) package manager.
             #MSF synaptic - GUI Debian package manager.
@@ -10454,7 +10421,6 @@ f_menu_app_sys_software () {
 f_menu_cat_video () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Video Application Category until loop.
             #BVI Editors - Video editors, transcoders, converters.
             #BVI Players - Video players/downloaders.
@@ -10496,7 +10462,6 @@ f_menu_cat_video () {
 f_menu_app_video_editors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Video Applications until loop.
             #MVE avconv        - Audio/Video converter.
             #MVE avidemux      - Editor for simple cutting, filtering, encoding.
@@ -10597,7 +10562,6 @@ f_menu_app_video_editors () {
 f_menu_app_video_players () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Video Applications until loop.
             #MVI aaxine       - xine video player.
             #MVI cacaxine     - xine video player.
