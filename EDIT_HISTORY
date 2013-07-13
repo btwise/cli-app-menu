@@ -99,7 +99,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_network_monitors fixed netstat, opennms, sntop
 ##             help comments.
 ##            *f_menu_app_sys_health arp-scan fixed help comment.
-##            *f_menu_app_text_converters fixed txt2pdbdoc help comment[C.
+##            *f_menu_app_text_converters fixed txt2pdbdoc help comment.
 ##            *f_menu_cat_file_management fixed FTP/HTTP case pattern matching.
 ##            *f_menu_cat_office fixed calculators, notebooks, presenters,
 ##             spreadsheets case pattern matching.
