@@ -36,7 +36,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-13-2013 11:53"
+REVDATE="July-14-2013 23:09"
 #
 #
 # +----------------------------------------+
@@ -6249,7 +6249,19 @@ f_menu_app_nic_tools () {
             #
             case $CHOICE_APP in # Start of NIC Tools Applications case statement.
                  [Ee] | [Ee][Tt]*)
-                 APP_NAME="ethtool"
+                  clear # Blank the screen.
+                  echo "ethtool - Query and control network driver and hardware settings."
+                  echo
+                  echo "Usage:" 
+                  echo "ethtool <options> <NIC device name>"
+                  echo
+                  echo "*** For more help type: man ethtool" 
+                  echo
+                  echo "Now run ethtool. Usage: ethtool -i <NIC device name>"
+                  echo "Option -i shows network driver information for <NIC device name>"
+                  f_press_enter_key_to_continue
+                  f_find_NIC
+                  APP_NAME="ethtool -i $ANS"
                  f_application_run
                  ;;
                  ethtool' '* | 'sudo ethtool '* | 'sudo ethtool')
@@ -6652,7 +6664,6 @@ f_menu_app_network_monitors () {
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Ll]*)
-                 APP_NAME="slurm"
                  f_find_NIC
                  APP_NAME="slurm -i $ANS"
                  f_how_to_quit_application "q" "no-clear"
@@ -6769,7 +6780,6 @@ f_menu_app_network_bandwidth () {
                  f_application_run
                  ;;
                  [Ii] | [Ii][Ff] | [Ii][Ff][Tt]*)
-                 APP_NAME="iftop"
                  f_find_NIC
                  APP_NAME="iftop -i $ANS"
                  f_how_to_quit_application "q" "no-clear"
@@ -6783,7 +6793,6 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Jj] | [Jj][Nn]*)
-                 APP_NAME="jnettop"
                  f_find_NIC
                  APP_NAME="jnettop -i $ANS"
                  f_how_to_quit_application "q" "no-clear"
@@ -6928,7 +6937,6 @@ f_menu_app_packet_tools () {
                  f_application_run
                  ;;
                  [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
-                 APP_NAME="snort"
                  clear # Blank the screen.
                  echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
                  echo
@@ -6970,7 +6978,6 @@ f_menu_app_packet_tools () {
                  esac
                  ;;
                  [Tt] | [Tt][Cc]*)
-                 APP_NAME="tcpdump"
                  f_find_NIC
                  APP_NAME="tcpdump -i $ANS -c 5"
                  clear # Blank the screen.
@@ -8833,7 +8840,6 @@ f_menu_app_sys_health () {
             #
             case $CHOICE_APP in # Start of System Health Applications case statement.
                  [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][-]*)
-                 APP_NAME="arp-scan"
                  clear # Blank the screen.
                  echo "arp-scan - ARP Scanner."
                  echo
