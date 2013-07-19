@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿# !/bin/bash
 #
 # ©2013 Copyright 2013 Robert D. Chin
 #
@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="July-12-2013 13:28"
+REVDATE="July-18-2013 19:40"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -47,6 +47,18 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-07-18 *Case pattern matching re-ordered to allow <application> <options>.
+##            *f_menu_app_sys_disks added lsblk.
+##            *f_menu_app_file_encryption added lspgpot.
+##            *f_menu_app_sys_disks added dfc.
+##            *f_menu_app_lanwan added dig.
+##
+## 2013-07-14 *f_menu_app_nic_tools ethtool add help message and call to f_find_nic.
+##
+## 2013-07-13 *f_menu_cat_system fixed "Screens" case pattern matching.
+##            *f_menu_app_podcatchers fixed bashpodder case pattern matching.
+##            *f_menu_app_sys_software shorten description of aptoncd to fit.
+##
 ## 2013-07-12 *f_menu_tcat_network_monitors, f_menu_app_network_bandwidth added.
 ##            *f_menu_app_network_bandwidth added nload, pktstat.
 ##            *f_menu_app_firewalls added iptstate.
@@ -60,12 +72,12 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *cli-app-menu.sh deleted the two lists mentioned above and
 ##             all case pattern matching simplified using * wildcards reducing
 ##             file size by 52KB.
-##            *f_menu_app_instant_messaging fixed case pattern matching
-##             emacs-jabber.
-##            *f_menu_app_calendar fixed case pattern matching emacs-calfw.
-##            *f_menu_app_calendar fixed case pattern matching pcal.
-##            *f_menu_cat_text fixed case pattern matching compare.
-##            *f_menu_app_sys_peripherals fixed case pattern matching lspcmcia.
+##            *f_menu_app_instant_messaging fixed emacs-jabber case pattern
+##             matching.
+##            *f_menu_app_calendar fixed  emacs-calfw case pattern matching.
+##            *f_menu_app_calendar fixed pcal case pattern matching.
+##            *f_menu_cat_text fixed compare case pattern matching.
+##            *f_menu_app_sys_peripherals fixed lspcmcia case pattern matching.
 ##
 ## 2013-06-11 *f_menu_app_games_card fixed canfield case pattern matching.
 ##            *f_menu_app_games_card deleted cribbage warning message.
@@ -99,7 +111,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_cat_file_management fixed FTP/HTTP case pattern matching.
 ##            *f_menu_cat_office fixed calculators, notebooks, presenters,
 ##             spreadsheets case pattern matching.
-##            *f_menu_cat_system monitors fixed case pattern matching.
+##            *f_menu_cat_system fixed monitors case pattern matching.
 ##            *f_quit_scat_menu,  f_quit_tcat_menu, f_quit_app_menu deleted.
 ##
 ## 2013-06-08 *cli_app_menu_dash added file to accomodate DASH environment

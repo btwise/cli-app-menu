@@ -1,4 +1,4 @@
-#! /bin/bash 
+﻿#! /bin/bash 
 #
 # ©2013 Copyright 2013 Robert D. Chin
 #
@@ -36,7 +36,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-12-2013 13:28"
+REVDATE="July-18-2013 19:40"
 #
 #
 # +----------------------------------------+
@@ -987,7 +987,6 @@ fi
 f_menu_scat_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Application Category until loop.
             #BXC App Cat1
             #BXC App Cat2
@@ -1029,7 +1028,6 @@ f_menu_scat_sample_template () {
 f_menu_tcat_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_TCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Application Category until loop.
             #BXC App Cat1
             #BXC App Cat2
@@ -1071,7 +1069,6 @@ f_menu_tcat_sample_template () {
 f_menu_app_sample_template () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of <Sample Template> Applications until loop.
             #MXX appname  - Description Application1 name.
             #MXX app2name - Description Application2 name.
@@ -1089,21 +1086,21 @@ f_menu_app_sample_template () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of <Sample Template> Applications case statement.
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][Nn] | [Aa][Pp][Pp][Nn][Aa] | [Aa][Pp][Pp][Nn][Aa][Mm] | [Aa][Pp][Pp][Nn][Aa][Mm][Ee])
-                 APP_NAME="appname"
-                 f_application_run
-                 ;;
-                 [Aa][Pp][Pp][Nn][Aa][Mm][Ee]' '* | 'sudo appname '* | 'sudo appname')
+                 'appname '* | 'sudo appname '* | 'sudo appname')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2][Nn] | [Aa][Pp][Pp][2][Nn][Aa] | [Aa][Pp][Pp][2][Nn][Aa][Mm] | [Aa][Pp][Pp][2][Nn][Aa][Mm][Ee])
-                 APP_NAME="app2name"
+                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][Nn]*)
+                 APP_NAME="appname"
                  f_application_run
                  ;;
-                 [Aa][Pp][Pp][2][Nn][Aa][Mm][Ee]' '*)
+                 'app2name '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp][2] | [Aa][Pp][Pp][2][Nn]*)
+                 APP_NAME="app2name"
                  f_application_run
                  ;;
             esac                # End of <Sample Template> Applications case statement.
@@ -1223,7 +1220,6 @@ f_menu_cat_applications () {
 f_menu_cat_audio () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Audio Application Category until loop.
             #BAU CD Rippers         - Copy music off CD-ROM to files.
             #BAU Editors/Converters - Edit music files and convert to different file formats.
@@ -1280,7 +1276,6 @@ f_menu_cat_audio () {
 f_menu_app_cdrippers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of CD Rippers Applications until loop.
             #MAC abcde      - Audio CD ripper.
             #MAC acripper   - Audio CD ripper.
@@ -1304,11 +1299,15 @@ f_menu_app_cdrippers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of CD Rippers Applications case statement.
+                 abcde' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Bb]*)
                  APP_NAME="abcde"
                  f_application_run
                  ;;
-                 abcde' '*)
+                 acripper' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1316,7 +1315,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="acripper"
                  f_application_run
                  ;;
-                 acripper' '*)
+                 cdparanoia' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1324,7 +1323,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="cdparanoia"
                  f_application_run
                  ;;
-                 cdparanoia' '*)
+                 crip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1332,7 +1331,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="crip"
                  f_application_run
                  ;;
-                 crip' '*)
+                 jack' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1340,7 +1339,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="jack"
                  f_application_run
                  ;;
-                 jack' '*)
+                 lxdvdrip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1348,7 +1347,7 @@ f_menu_app_cdrippers () {
                  APP_NAME="lxdvdrip"
                  f_application_run
                  ;;
-                 lxdvdrip' '*)
+                 ripit' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1356,16 +1355,12 @@ f_menu_app_cdrippers () {
                  APP_NAME="ripit"
                  f_application_run
                  ;;
-                 ripit' '*)
+                 rubyripper' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Rr] | [Rr][Uu]*)
                  APP_NAME="rubyripper"
-                 f_application_run
-                 ;;
-                 rubyripper' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of CD Rippers Applications case statement.
@@ -1407,21 +1402,25 @@ f_menu_app_audio_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Audio Editor Applications case statement.
+                 avconv' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Vv]*)
                  APP_NAME="avconv"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 avconv' '*)
+                 ecasound' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Ee] | [Ee][Cc]*)
                  APP_NAME="ecasound"
                  f_application_run
                  ;;
-                 ecasound' '*)
+                 ffmpeg' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1429,16 +1428,12 @@ f_menu_app_audio_editors () {
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
-                 ffmpeg' '*)
+                 sox' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Oo]*)
                  APP_NAME="sox"
-                 f_application_run
-                 ;;
-                 sox' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Audio Editor Applications case statement.
@@ -1461,7 +1456,6 @@ f_menu_app_audio_editors () {
 f_menu_app_music_players () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Music Player Applications until loop.
             #MAP cdcd     - CD player.
             #MAP cmus     - Music player.
@@ -1491,19 +1485,13 @@ f_menu_app_music_players () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Music Player Applications case statement.
-                 [Cc] | [Cc][Dd]*)
-                 APP_NAME="cdcd"
-                 f_application_run
-                 ;;
                  cdcd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Cc] | [Cc][Mm]*)
-                 APP_NAME="cmus"
-                 f_how_to_quit_application "q"
+                 [Cc] | [Cc][Dd]*)
+                 APP_NAME="cdcd"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  cmus' '*)
                  APP_NAME=$CHOICE_APP
@@ -1511,11 +1499,21 @@ f_menu_app_music_players () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Cc] | [Cc][Mm]*)
+                 APP_NAME="cmus"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 cplay' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Cc] | [Cc][Pp]*)
                  APP_NAME="cplay"
                  f_application_run
                  ;;
-                 cplay' '*)
+                 herrie' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1523,7 +1521,7 @@ f_menu_app_music_players () {
                  APP_NAME="herrie"
                  f_application_run
                  ;;
-                 herrie' '*)
+                 juke' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1531,25 +1529,25 @@ f_menu_app_music_players () {
                  APP_NAME="juke"
                  f_application_run
                  ;;
-                 juke' '*)
+                 mcdp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Cc]*)
                  APP_NAME="mcdp"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 mcdp' '*)
+                 moc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Oo]*)
                  APP_NAME="moc"
                  f_application_run
                  ;;
-                 moc' '*)
+                 mpg123' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1557,7 +1555,7 @@ f_menu_app_music_players () {
                  APP_NAME="mpg123"
                  f_application_run
                  ;;
-                 mpg123' '*)
+                 mplayer' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1565,7 +1563,7 @@ f_menu_app_music_players () {
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
-                 mplayer' '*)
+                 mplayer2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1573,24 +1571,15 @@ f_menu_app_music_players () {
                  APP_NAME="mplayer2"
                  f_application_run
                  ;;
-                 mplayer2' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Cc]*)
-                 f_how_to_quit_application "q"
-                 APP_NAME="ncmpc"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  ncmpc' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Pp] | [Pp][Yy]*)
-                 APP_NAME="pytone"
+                 [Nn] | [Nn][Cc]*)
+                 f_how_to_quit_application "q"
+                 APP_NAME="ncmpc"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1599,20 +1588,25 @@ f_menu_app_music_players () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Vv] | [Vv][Ll]*)
-                 APP_NAME="vlc"
+                 [Pp] | [Pp][Yy]*)
+                 APP_NAME="pytone"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vlc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Yy] | [Yy][Aa]*)
-                 APP_NAME="yauap"
+                 [Vv] | [Vv][Ll]*)
+                 APP_NAME="vlc"
                  f_application_run
                  ;;
                  yauap' '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Yy] | [Yy][Aa]*)
+                 APP_NAME="yauap"
                  f_application_run
                  ;;
             esac                # End of Music Player Applications case statement.
@@ -1635,7 +1629,6 @@ f_menu_app_music_players () {
 f_menu_app_radio () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Radio Applications until loop.
             #MAR dradio   - Streaming radio on world-wide web.
             #MAR radio    - Streaming radio, ncurses-based.
@@ -1656,14 +1649,19 @@ f_menu_app_radio () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Radio Applications case statement.
+                 dradio' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Dd] | [Dd][Rr]*)
                  APP_NAME="dradio"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 dradio' '*)
+                 radio' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1672,25 +1670,20 @@ f_menu_app_radio () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 radio' '*)
+                 pianobar' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Ii]*)
                  APP_NAME="pianobar"
                  f_application_run
                  ;;
-                 pianobar' '*)
+                 shell-fm' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Hh]*)
                  APP_NAME="shell-fm"
-                 f_application_run
-                 ;;
-                 shell-fm' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Radio Applications case statement.
@@ -1713,7 +1706,6 @@ f_menu_app_radio () {
 f_menu_app_speech_synthesis () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Speech Synthesis Applications until loop.
             #MAS ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
             #MAS edbrowse      - Audio web browser, editor, and reads aloud email.
@@ -1733,11 +1725,15 @@ f_menu_app_speech_synthesis () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Speech Synthesis Applications case statement.
+                 ebook-speaker' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Ee] | [Ee][Bb]*)
                  APP_NAME="ebook-speaker"
                  f_application_run
                  ;;
-                 ebook-speaker' '*)
+                 edbrowse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1745,7 +1741,8 @@ f_menu_app_speech_synthesis () {
                  APP_NAME="edbrowse"
                  f_application_run
                  ;;
-                 edbrowse' '*)
+                 festival' '*)
+                 f_how_to_quit_application "(quit) including the parenthesis"
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1754,17 +1751,12 @@ f_menu_app_speech_synthesis () {
                  f_how_to_quit_application "(quit) including the parenthesis"
                  f_application_run
                  ;;
-                 festival' '*)
-                 f_how_to_quit_application "(quit) including the parenthesis"
+                 screader' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc]*)
                  APP_NAME="screader"
-                 f_application_run
-                 ;;
-                 screader' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Speech Synthesis Applications case statement.
@@ -1813,11 +1805,15 @@ f_menu_app_education () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Education Applications case statement.
+                 aldo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Ll]*)
                  APP_NAME="aldo"
                  f_application_run
                  ;;
-                 aldo' '*)
+                 cw' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1825,7 +1821,7 @@ f_menu_app_education () {
                  APP_NAME="cw"
                  f_application_run
                  ;;
-                 cw' '*)
+                 cwcp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1833,7 +1829,7 @@ f_menu_app_education () {
                  APP_NAME="cwcp"
                  f_application_run
                  ;;
-                 cwcp' '*)
+                 diatheke' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1841,7 +1837,7 @@ f_menu_app_education () {
                  APP_NAME="diatheke"
                  f_application_run
                  ;;
-                 diatheke' '*)
+                 grass' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1849,24 +1845,24 @@ f_menu_app_education () {
                  APP_NAME="grass"
                  f_application_run
                  ;;
-                 grass' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Gg] | [Gg][Tt]*)
-                 APP_NAME="gtypist"
-                 f_application_run
-                 ;;
                  gtypist' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Gg] | [Gg][Tt]*)
+                 APP_NAME="gtypist"
+                 f_application_run
+                 ;;
+                 lifelines' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Ll] | [Ll][Ii]*)
                  APP_NAME="lifelines"
                  f_application_run
                  ;;
-                 lifelines' '*)
+                 morse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1890,7 +1886,7 @@ f_menu_app_education () {
                       ;;
                  esac
                  ;;
-                 morse' '*)
+                 primes' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -1898,16 +1894,12 @@ f_menu_app_education () {
                  APP_NAME="primes"
                  f_application_run
                  ;;
-                 primes' '*)
+                 typespeed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Tt] | [Tt][Yy]*)
                  APP_NAME="typespeed"
-                 f_application_run
-                 ;;
-                 typespeed' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Education Applications case statement.
@@ -1930,7 +1922,6 @@ f_menu_app_education () {
 f_menu_cat_file_management () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Management Application Category until loop.
             #BFM Backup      - File Backup/archive.
             #BFM CD/DVD Burn - Write files to CD/DVD.
@@ -2018,7 +2009,6 @@ f_menu_cat_file_management () {
 f_menu_app_file_burn () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Backup Applications until loop.
             #MFB bashburn     - CD burning.
             #MFB burn         - CD burning.
@@ -2041,11 +2031,15 @@ f_menu_app_file_burn () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of CD/DVD File Burning Applications case statement.
+                 bashburn' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Bb] | [Bb][Aa]*)
                  APP_NAME="bashburn"
                  f_application_run
                  ;;
-                 bashburn' '*)
+                 burn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2053,7 +2047,7 @@ f_menu_app_file_burn () {
                  APP_NAME="burn"
                  f_application_run
                  ;;
-                 burn' '*)
+                 cdrecord' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2061,7 +2055,7 @@ f_menu_app_file_burn () {
                  APP_NAME="cdrecord"
                  f_application_run
                  ;;
-                 cdrecord' '*)
+                 mkcd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2069,7 +2063,7 @@ f_menu_app_file_burn () {
                  APP_NAME="mkcd"
                  f_application_run
                  ;;
-                 mkcd' '*)
+                 mybashburn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2077,7 +2071,7 @@ f_menu_app_file_burn () {
                  APP_NAME="mybashburn"
                  f_application_run
                  ;;
-                 mybashburn' '*)
+                 simpleburner' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2085,16 +2079,12 @@ f_menu_app_file_burn () {
                  APP_NAME="simpleburner"
                  f_application_run
                  ;;
-                 simpleburner' '*)
+                 xorriso' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Xx] | [Xx][Oo]*)
                  APP_NAME="xorriso"
-                 f_application_run
-                 ;;
-                 xorriso' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of CD/DVD File Burning Applications case statement.
@@ -2117,7 +2107,6 @@ f_menu_app_file_burn () {
 f_menu_app_file_compression () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Backup Applications until loop.
             #MFC atool  - Manages file archives (tar, gzip, zip etc.).
             #MFC dtrx   - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
@@ -2140,11 +2129,15 @@ f_menu_app_file_compression () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Compression Applications case statement.
+                 atool' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Tt]*)
                  APP_NAME="atool"
                  f_application_run
                  ;;
-                 atool' '*)
+                 dtrx' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2152,7 +2145,7 @@ f_menu_app_file_compression () {
                  APP_NAME="dtrx"
                  f_application_run
                  ;;
-                 dtrx' '*)
+                 gunzip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2160,7 +2153,7 @@ f_menu_app_file_compression () {
                  APP_NAME="gunzip"
                  f_application_run
                  ;;
-                 gunzip' '*)
+                 gzip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2168,7 +2161,7 @@ f_menu_app_file_compression () {
                  APP_NAME="gzip"
                  f_application_run
                  ;;
-                 gzip' '*)
+                 p7zip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2176,7 +2169,7 @@ f_menu_app_file_compression () {
                  APP_NAME="p7zip"
                  f_application_run
                  ;;
-                 p7zip' '*)
+                 unzip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2184,16 +2177,12 @@ f_menu_app_file_compression () {
                  APP_NAME="unzip"
                  f_application_run
                  ;;
-                 unzip' '*)
+                 zip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Zz] | [Zz][Ii]*)
                  APP_NAME="zip"
-                 f_application_run
-                 ;;
-                 zip' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of File Compression Applications case statement.
@@ -2216,11 +2205,11 @@ f_menu_app_file_compression () {
 f_menu_app_file_encryption () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Encryption Applications until loop.
             #MFE bcrypt    - Uses the blowfish encryption algorithm.
             #MFE ccrypt    - Uses the Rijndael cipher algorithm.
             #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
+            #MFE lspgpot   - Extracts ownertrust values from PGP keyrings.
             #MFE mcrypt    - a simple crypting program, a replacement for the old Unix crypt.
             #MFE pgp       - Pretty Good Privacy (pgp).
             #MFE scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
@@ -2240,11 +2229,15 @@ f_menu_app_file_encryption () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Encryption Applications case statement.
+                 bcrypt' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Bb] | [Bb][Cc]*)
                  APP_NAME="bcrypt"
                  f_application_run
                  ;;
-                 bcrypt' '*)
+                 ccrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2252,7 +2245,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="ccrypt"
                  f_application_run
                  ;;
-                 ccrypt' '*)
+                 crypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2260,7 +2253,15 @@ f_menu_app_file_encryption () {
                  APP_NAME="crypt"
                  f_application_run
                  ;;
-                 crypt' '*)
+                 lspgpot' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ss]*)
+                 APP_NAME="lspgpot"
+                 f_application_run
+                 ;;
+                 mcrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2268,7 +2269,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="mcrypt"
                  f_application_run
                  ;;
-                 mcrypt' '*)
+                 pgp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2276,7 +2277,7 @@ f_menu_app_file_encryption () {
                  APP_NAME="pgp"
                  f_application_run
                  ;;
-                 pgp' '*)
+                 scrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2284,26 +2285,22 @@ f_menu_app_file_encryption () {
                  APP_NAME="scrypt"
                  f_application_run
                  ;;
-                 scrypt' '*)
+                 truecrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Tt] | [Tt][Rr]*)
                  APP_NAME="truecrypt"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 truecrypt' '*)
+                 zcrypt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Zz] | [Zz][Cc]*)
                  APP_NAME="zcrypt"
-                 f_application_run
-                 ;;
-                 zcrypt' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of File Encryption Applications case statement.
@@ -2326,7 +2323,6 @@ f_menu_app_file_encryption () {
 f_menu_app_file_find () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Find File Applications until loop.
             #MFF find     - Find files using pattern matching.
             #MFF locate   - Find files using an internal database, mlocate.
@@ -2345,6 +2341,10 @@ f_menu_app_file_find () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Find File Applications case statement.
+                 find' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Ff] | [Ff][Ii]*)
                  APP_NAME="find --help"
                  clear # Blank the screen.
@@ -2365,7 +2365,7 @@ f_menu_app_file_find () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 find' '*)
+                 locate' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2401,16 +2401,12 @@ f_menu_app_file_find () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 locate' '*)
+                 updatedb' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Uu] | [Uu][Pp]*)
                  APP_NAME="updatedb"
-                 f_application_run
-                 ;;
-                 updatedb' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Find File Applications case statement.
@@ -2457,23 +2453,27 @@ f_menu_app_file_managers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Manager Applications case statement.
-                 [Cc] | [Cc][Ll]*)
-                 APP_NAME="clex"
-                 f_how_to_quit_application "Alt-q" 
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  clex' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "Alt-q" 
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Cc] | [Cc][Ll]*)
+                 APP_NAME="clex"
+                 f_how_to_quit_application "Alt-q" 
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 detox' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Dd] | [Dd][Ee]*)
                  APP_NAME="detox"
                  f_application_run
                  ;;
-                 detox' '*)
+                 dired' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2481,7 +2481,7 @@ f_menu_app_file_managers () {
                  APP_NAME="dired"
                  f_application_run
                  ;;
-                 dired' '*)
+                 findmnt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2489,23 +2489,13 @@ f_menu_app_file_managers () {
                  APP_NAME="findmnt"
                  f_application_run
                  ;;
-                 findmnt' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Cc])
-                 APP_NAME="mc"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  mc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Rr] | [Rr][Aa]*)
-                 APP_NAME="ranger"
-                 f_how_to_quit_application "q"
+                 [Mm] | [Mm][Cc])
+                 APP_NAME="mc"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2515,20 +2505,32 @@ f_menu_app_file_managers () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ss] | [Ss][Mm]*)
-                 APP_NAME="smbc"
+                 [Rr] | [Rr][Aa]*)
+                 APP_NAME="ranger"
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  smbc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 ;;
+                 [Ss] | [Ss][Mm]*)
+                 APP_NAME="smbc"
+                 f_application_run
+                 ;;
+                 vfu' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ff]*)
                  APP_NAME="vfu"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 vfu' '*)
+                 vifm' '*)
+                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q"
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2536,12 +2538,6 @@ f_menu_app_file_managers () {
                  [Vv] | [Vv][Ii]*)
                  APP_NAME="vifm"
                  f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 vifm' '*)
-                 f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q"
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2565,7 +2561,6 @@ f_menu_app_file_managers () {
 f_menu_app_file_splitters () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Splitter Applications until loop.
             #MFS lxsplit - Splits/Joins files even greater than 2GB.
             #MFS split   - Splits/Joins files.
@@ -2583,13 +2578,18 @@ f_menu_app_file_splitters () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Splitter Applications case statement.
+                 lxsplit' '* | 'sudo lxsplit '* | 'sudo lxsplit')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Ll] | [Ll][Xx]*)
                  APP_NAME="lxsplit"
                  f_application_run
                  ;;
-                 lxsplit' '* | 'sudo lxsplit '* | 'sudo lxsplit')
+                 split' '* | 'sudo split '* | 'sudo split')
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Pp]*)
                  APP_NAME="split --help"
@@ -2609,11 +2609,6 @@ f_menu_app_file_splitters () {
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
-                 ;;
-                 split' '* | 'sudo split '* | 'sudo split')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of File Splitter Applications case statement.
             #
@@ -2635,7 +2630,6 @@ f_menu_app_file_splitters () {
 f_menu_app_file_viewers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Viewer Applications until loop.
             #MFV less - File viewer and bi-directional pager.
             #MFV more - File viewer pager.
@@ -2654,33 +2648,33 @@ f_menu_app_file_viewers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Viewer Applications case statement.
-                 [Ll] | [Ll][Ee]*)
-                 APP_NAME="less"
-                 f_application_run
-                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  less' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr]*)
-                 APP_NAME="more"
+                 [Ll] | [Ll][Ee]*)
+                 APP_NAME="less"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
                  more' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Mm] | [Mm][Oo] | [Mm][Oo][Ss]*)
-                 APP_NAME="most"
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr]*)
+                 APP_NAME="more"
                  f_application_run
-                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  most' '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Ss]*)
+                 APP_NAME="most"
                  f_application_run
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2704,7 +2698,6 @@ f_menu_app_file_viewers () {
 f_menu_app_file_deletion () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Recovery Applications until loop.
             #MFD shred - Delete files securely without recovery.
             #
@@ -2721,12 +2714,12 @@ f_menu_app_file_deletion () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Deletion Applications case statement.
-                 [Ss] | [Ss][Hh]*)
-                 APP_NAME="shred"
-                 f_application_run
-                 ;;
                  shred' '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Hh]*)
+                 APP_NAME="shred"
                  f_application_run
                  ;;
             esac                # End of File Deletion Applications case statement.
@@ -2749,7 +2742,6 @@ f_menu_app_file_deletion () {
 f_menu_app_file_recover () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of File Recovery Applications until loop.
             #MFR foremost  - File recovery from within a *.img disk image file.
             #MFR photorec  - File recovery.
@@ -2769,6 +2761,10 @@ f_menu_app_file_recover () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Recovery Applications case statement.
+                 foremost' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Ff] | [Ff][Oo]*)
                  APP_NAME="foremost --help"
                  clear # Blank the screen.
@@ -2798,7 +2794,7 @@ f_menu_app_file_recover () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 foremost' '*)
+                 photorec' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2820,7 +2816,7 @@ f_menu_app_file_recover () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 photorec' '*)
+                 safecopy' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -2838,16 +2834,12 @@ f_menu_app_file_recover () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 safecopy' '*)
+                 trash-cli' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Tt] | [Tt][Rr]*)
                  APP_NAME="trash-cli"
-                 f_application_run
-                 ;;
-                 trash-cli' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of File Recovery Applications case statement.
@@ -2978,12 +2970,17 @@ f_menu_app_games_arcade () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Arcade Games case statement.
+                 asciijump' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Aa] | [Aa][Ss]*)
                  APP_NAME="asciijump"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 asciijump' '*)
+                 bastet' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2993,28 +2990,27 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 bastet' '*)
+                 freesweep' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ff] | [Ff][Rr]*)
                  APP_NAME="freesweep"
                  f_application_run
                  ;;
-                 freesweep' '*)
+                 moon-buggy' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Oo]*)
                  APP_NAME="moon-buggy"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 moon-buggy' '*)
+                 netris' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Ee]*)
                  APP_NAME="netris"
@@ -3036,9 +3032,11 @@ f_menu_app_games_arcade () {
                       ;;
                  esac
                  ;;
-                 netris' '*)
+                 ninvaders' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Ii]*)
                  APP_NAME="ninvaders"
@@ -3046,11 +3044,10 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 ninvaders' '*)
+                 pacman4console' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Aa]*)
                  APP_NAME="pacman4console"
@@ -3058,8 +3055,9 @@ f_menu_app_games_arcade () {
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  # Allows display of error message "Console window must be at least 32x29".
                  ;;
-                 pacman4console' '*)
+                 petris' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "(lose game and then) type 'q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -3069,25 +3067,13 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 petris' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "(lose game and then) type 'q'"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Rr] | [Rr][Oo]*)
-                 APP_NAME="robots"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  robots' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ss] | [Ss][Nn]*)
-                 APP_NAME="snake"
-                 f_how_to_quit_application "x"
+                 [Rr] | [Rr][Oo]*)
+                 APP_NAME="robots"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -3097,14 +3083,20 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ww] | [Ww][Oo]*)
-                 APP_NAME="worm"
-                 f_how_to_quit_application "Ctrl-C or crash into wall"
+                 [Ss] | [Ss][Nn]*)
+                 APP_NAME="snake"
+                 f_how_to_quit_application "x"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  worm' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-C or crash into wall"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ww] | [Ww][Oo]*)
+                 APP_NAME="worm"
                  f_how_to_quit_application "Ctrl-C or crash into wall"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -3147,13 +3139,19 @@ f_menu_app_games_board () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Board Games case statement.
+                 atom4' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Aa] | [Aa][Tt]*)
                  APP_NAME="atom4 -mt"
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 atom4' '*)
+                 backgammon' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
@@ -3165,20 +3163,14 @@ f_menu_app_games_board () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 backgammon' '*)
+                 monop' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "q or quit"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Oo]*)
                  APP_NAME="monop"
                  f_how_to_quit_application "q or quit" 
-                 f_application_run
-                 ;;
-                 monop' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q or quit"
                  f_application_run
                  ;;
             esac # End of Board Games case statement.
@@ -3219,15 +3211,19 @@ f_menu_app_games_card () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Card Games case statement.
+                 canfield' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Cc] | [Cc][Aa]*)
                  APP_NAME="canfield"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 canfield' '*)
+                 cribbage' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Cc] | [Cc][Rr]*)
                  APP_NAME="cribbage"
@@ -3249,16 +3245,12 @@ f_menu_app_games_card () {
                       ;;
                  esac
                  ;;
-                 cribbage' '*)
+                 go-fish' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Gg] | [Gg][Oo]*)
                  APP_NAME="go-fish"
-                 f_application_run
-                 ;;
-                 go-fish' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac # End of Card Games case statement.
@@ -3298,20 +3290,20 @@ f_menu_app_games_mud () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of MUD Games case statement.
-                 1 |[Cc] |[Cc][Rr]*)
+                 crawl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] |[Cc][Rr]*)
                  APP_NAME="crawl"
                  f_application_run
                  ;;
-                 crawl' '*)
+                 tintin++' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Tt] | [Tt][Ii]*)
                  APP_NAME="tintin++"
-                 f_application_run
-                 ;;
-                 tintin++' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac # End of MUD Games case statement.
@@ -3355,15 +3347,19 @@ f_menu_app_games_puzzle () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Puzzle Games case statement.
+                 bastet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Bb] | [Bb][Aa]*)
                  APP_NAME="bastet"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 bastet' '*)
+                 bcd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Bb] | [Bb][Cc]*)
                  APP_NAME="bcd"
@@ -3385,7 +3381,7 @@ f_menu_app_games_puzzle () {
                       ;;
                  esac
                  ;;
-                 bcd' '*)
+                 dab' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3393,7 +3389,7 @@ f_menu_app_games_puzzle () {
                  APP_NAME="dab"
                  f_application_run
                  ;;
-                 dab' '*)
+                 netris' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3417,9 +3413,11 @@ f_menu_app_games_puzzle () {
                       ;;
                  esac
                  ;;
-                 netris' '*)
+                 petris' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "(lose game and then) type 'q'"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Ee]*)
                  APP_NAME="petris"
@@ -3427,11 +3425,9 @@ f_menu_app_games_puzzle () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 petris' '*)
+                 ppt' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "(lose game and then) type 'q'"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Pp]*)
                  APP_NAME="ppt"
@@ -3452,10 +3448,6 @@ f_menu_app_games_puzzle () {
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac
-                 ;;
-                 ppt' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
             esac # End of Puzzle Games case statement.
             #
@@ -3496,7 +3488,12 @@ f_menu_app_games_quiz () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Quiz Games case statement.
-                 1 |[Aa] |[Aa][Rr]*)
+                 arithmetic' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-Z"
+                 f_application_run
+                 ;;
+                 [Aa] |[Aa][Rr]*)
                  APP_NAME="arithmetic"
                  echo "arithmetic - Quiz on basic arithmetic."
                  echo
@@ -3515,20 +3512,19 @@ f_menu_app_games_quiz () {
                       ;;
                  esac
                  ;;
-                 arithmetic' '*)
+                 geekcode' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "Ctrl-Z"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Gg] | [Gg][Ee]*)
                  APP_NAME="geekcode"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 geekcode' '*)
+                 morse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Mm] | [Mm][Oo]*)
                  APP_NAME="morse"
@@ -3550,17 +3546,13 @@ f_menu_app_games_quiz () {
                       ;;
                  esac
                  ;;
-                 morse' '*)
+                 quiz' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Qq] | [Qq][Uu]*)
                  APP_NAME="quiz"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 ;;
-                 quiz' '*)
-                 APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
@@ -3606,21 +3598,25 @@ f_menu_app_games_rpg () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of RPG Games case statement.
+                 adventure' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "quit"
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Dd]*)
                  APP_NAME="adventure"
                  f_how_to_quit_application "quit"
                  f_application_run
                  ;;
-                 adventure' '*)
+                 battlestar' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "quit"
                  f_application_run
                  ;;
                  [Bb] | [Bb][Aa]*)
                  APP_NAME="battlestar"
                  f_application_run
                  ;;
-                 battlestar' '*)
+                 hack' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3628,7 +3624,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="hack"
                  f_application_run
                  ;;
-                 hack' '*)
+                 nethack' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3636,7 +3632,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="nethack-console"
                  f_application_run
                  ;;
-                 nethack' '*)
+                 phantasia' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3644,7 +3640,7 @@ f_menu_app_games_rpg () {
                  APP_NAME="phantasia"
                  f_application_run
                  ;;
-                 phantasia' '*)
+                 slashem' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3652,16 +3648,12 @@ f_menu_app_games_rpg () {
                  APP_NAME="slashem"
                  f_application_run
                  ;;
-                 slashem' '*)
+                 wump' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ww] | [Ww][Uu]*)
                  APP_NAME="wump"
-                 f_application_run
-                 ;;
-                 wump' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac # End of RPG Games case statement.
@@ -3702,6 +3694,10 @@ f_menu_app_games_simulation () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Simulation Games case statement.
+                 atc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Tt]*)
                  APP_NAME="atc"
                  echo "atc - Air Traffic Controller Game"
@@ -3721,30 +3717,26 @@ f_menu_app_games_simulation () {
                       ;;
                  esac
                  ;;
-                 atc' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 2 |[Ss] |[Ss][Aa]*)
-                 APP_NAME="sail"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  sail' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Tt] | [Tt][Rr]*)
-                 APP_NAME="trek"
-                 f_how_to_quit_application "at the prompt Command: terminate"
+                 [Ss] |[Ss][Aa]*)
+                 APP_NAME="sail"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  trek' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "at the prompt Command: terminate"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Rr]*)
+                 APP_NAME="trek"
                  f_how_to_quit_application "at the prompt Command: terminate"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -3788,12 +3780,17 @@ f_menu_app_games_strategy () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Strategy Games case statement.
+                 gomoku' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Gg] | [Gg][Oo]*)
                  APP_NAME="gomoku"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 gomoku' '*)
+                 hunt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -3803,7 +3800,7 @@ f_menu_app_games_strategy () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 hunt' '*)
+                 mille' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -3813,10 +3810,9 @@ f_menu_app_games_strategy () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 mille' '*)
+                 wargames' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ww] | [Ww][Aa]*)
                  APP_NAME="wargames"
@@ -3834,10 +3830,6 @@ f_menu_app_games_strategy () {
                  echo "that it is simply a recreational program."
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 wargames' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac # End of Strategy Games case statement
@@ -3878,11 +3870,15 @@ f_menu_app_games_word () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Word Games case statement.
+                 boggle' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Bb] | [Bb][Oo]*)
                  APP_NAME="boggle"
                  f_application_run
                  ;;
-                 boggle' '*)
+                 hangman' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3890,7 +3886,7 @@ f_menu_app_games_word () {
                  APP_NAME="hangman"
                  f_application_run
                  ;;
-                 hangman' '*)
+                 pig' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -3913,10 +3909,6 @@ f_menu_app_games_word () {
                       ;;
                  esac
                  ;;
-                 pig' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
             esac # End of Word Games case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -3937,7 +3929,6 @@ f_menu_app_games_word () {
 f_menu_cat_image () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Image Application Category until loop.
             #BIG ImageMagick - Tools to manipulate images.
             #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
@@ -4004,11 +3995,15 @@ f_menu_app_image_graphics () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Image-Graphics Applications case statement.
+                 aview' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Vv]*)
                  APP_NAME="aview"
                  f_application_run
                  ;;
-                 aview' '*)
+                 caca-utils' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4016,7 +4011,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="caca-utils"
                  f_application_run
                  ;;
-                 caca-utils' '*)
+                 fbi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4024,7 +4019,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="fbi"
                  f_application_run
                  ;;
-                 fbi' '*)
+                 fbv' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4032,7 +4027,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="fbv"
                  f_application_run
                  ;;
-                 fbv' '*)
+                 fim' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4040,7 +4035,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="fim"
                  f_application_run
                  ;;
-                 fim' '*)
+                 hasciicam' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4048,7 +4043,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="hasciicam"
                  f_application_run
                  ;;
-                 hasciicam' '*)
+                 jfbview' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4056,7 +4051,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="jfbview"
                  f_application_run
                  ;;
-                 jfbview' '*)
+                 jp2a' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4064,7 +4059,7 @@ f_menu_app_image_graphics () {
                  APP_NAME="jp2a"
                  f_application_run
                  ;;
-                 jp2a' '*)
+                 linuxlogo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4080,10 +4075,6 @@ f_menu_app_image_graphics () {
                  done
                  #
                  APP_NAME="linuxlogo -L "$ANS
-                 f_application_run
-                 ;;
-                 linuxlogo' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Image-Graphics Applications case statement.
@@ -4132,11 +4123,15 @@ f_menu_app_imagemagick () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of ImageMagick Applications case statement.
+                 animate' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Nn]*)
                  APP_NAME="animate"
                  f_application_run
                  ;;
-                 animate' '*)
+                 composite' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4144,7 +4139,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="composite"
                  f_application_run
                  ;;
-                 composite' '*)
+                 compare' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4152,7 +4147,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="compare"
                  f_application_run
                  ;;
-                 compare' '*)
+                 conjure' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4160,7 +4155,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="conjure"
                  f_application_run
                  ;;
-                 conjure' '*)
+                 convert' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4168,7 +4163,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="convert"
                  f_application_run
                  ;;
-                 convert' '*)
+                 display' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4176,7 +4171,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="display"
                  f_application_run
                  ;;
-                 display' '*)
+                 identify' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4184,7 +4179,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="identify"
                  f_application_run
                  ;;
-                 identify' '*)
+                 import' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4192,7 +4187,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="import"
                  f_application_run
                  ;;
-                 import' '*)
+                 mogrify' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4200,7 +4195,7 @@ f_menu_app_imagemagick () {
                  APP_NAME="mogrify"
                  f_application_run
                  ;;
-                 mogrify' '*)
+                 montage' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4208,16 +4203,12 @@ f_menu_app_imagemagick () {
                  APP_NAME="montage"
                  f_application_run
                  ;;
-                 montage' '*)
+                 stream' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Tt]*)
                  APP_NAME="stream"
-                 f_application_run
-                 ;;
-                 stream' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of ImageMagick Applications case statement.
@@ -4358,13 +4349,19 @@ f_menu_app_web_browsers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Web Browser Applications case statement.
+                 elinks' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
                  [Ee] | [Ee][Ll]*)
                  APP_NAME="elinks"
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 elinks' '*)
+                 links' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_how_to_quit_application "q"
@@ -4376,27 +4373,16 @@ f_menu_app_web_browsers () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 links' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_web_site
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 ;;
-                 3 |[Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss][2] | [Ll][Ii][Nn][Kk][Ss][2])
-                 APP_NAME="links2"
-                 f_web_site
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 ;;
                  links2' '*)
                  APP_NAME=$CHOICE_APP
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Ll] | [Ll][Yy]*)
-                 APP_NAME="lynx"
+                 [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss][2] | [Ll][Ii][Nn][Kk][Ss][2])
+                 APP_NAME="links2"
                  f_web_site
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  lynx' '*)
@@ -4404,10 +4390,9 @@ f_menu_app_web_browsers () {
                  f_web_site
                  f_application_run
                  ;;
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Aa]*)
-                 APP_NAME="retawq"
+                 [Ll] | [Ll][Yy]*)
+                 APP_NAME="lynx"
                  f_web_site
-                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  retawq' '*)
@@ -4416,14 +4401,20 @@ f_menu_app_web_browsers () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Ww] | [Ww][3]*)
-                 APP_NAME="w3m"
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Aa]*)
+                 APP_NAME="retawq"
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  w3m' '*)
                  APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][3]*)
+                 APP_NAME="w3m"
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
@@ -4566,11 +4557,15 @@ f_menu_app_bittorrent () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Bittorrent Applications case statement.
+                 aria2c' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Rr]*)
                  APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
                  f_application_run
                  ;;
-                 aria2c' '*)
+                 bittornado' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4578,7 +4573,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="bittornado"
                  f_application_run
                  ;;
-                 bittornado' '*)
+                 bittorrent' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4586,7 +4581,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="bittorrent"
                  f_application_run
                  ;;
-                 bittorrent' '*)
+                 ctorrent' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4594,7 +4589,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="ctorrent"
                  f_application_run
                  ;;
-                 ctorrent' '*)
+                 deluge' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4602,7 +4597,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="deluge"
                  f_application_run
                  ;;
-                 deluge' '*)
+                 mldonkey' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4610,7 +4605,7 @@ f_menu_app_bittorrent () {
                  APP_NAME="mldonkey"
                  f_application_run
                  ;;
-                 mldonkey' '*)
+                 rtorrent' '*) 
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4618,16 +4613,12 @@ f_menu_app_bittorrent () {
                  APP_NAME="rtorrent"
                  f_application_run
                  ;;
-                 rtorrent' '*) 
+                 transmission' '*) 
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Tt] | [Tt][Rr]*)
                  APP_NAME="transmission"
-                 f_application_run
-                 ;;
-                 transmission' '*) 
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Bittorrent Applications case statement.
@@ -4670,11 +4661,15 @@ f_menu_app_downloaders () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Dowloader Applications case statement.
+                 aria2c' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Rr]*)
                  APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
                  f_application_run
                  ;;
-                 aria2c' '*)
+                 md5pass' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4694,7 +4689,7 @@ f_menu_app_downloaders () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 md5pass' '*)
+                 md5sum' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4711,7 +4706,7 @@ f_menu_app_downloaders () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 md5sum' '*)
+                 sha1pass' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4730,7 +4725,7 @@ f_menu_app_downloaders () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 sha1pass' '*)
+                 sha1sum' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4746,10 +4741,6 @@ f_menu_app_downloaders () {
                  echo "Now show help. Usage: man sha1sum"
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 sha1sum' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Downloader Applications case statement.
@@ -4798,11 +4789,15 @@ f_menu_app_email () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of E-mail Applications case statement.
+                 alpine' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Ll]*)
                  APP_NAME="alpine"
                  f_application_run
                  ;;
-                 alpine' '*)
+                 cone' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4810,15 +4805,15 @@ f_menu_app_email () {
                  APP_NAME="cone"
                  f_application_run
                  ;;
-                 cone' '*)
+                 elmo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 3  | [Ee] | [Ee][Ll]*)
+                 [Ee] | [Ee][Ll]*)
                  APP_NAME="elmo"
                  f_application_run
                  ;;
-                 elmo' '*)
+                 fetchyahoo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4826,15 +4821,15 @@ f_menu_app_email () {
                  APP_NAME="fetchyahoo"
                  f_application_run
                  ;;
-                 fetchyahoo' '*)
+                 gnus' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 5  | [Gg]  | [Gg][Nn]*)
+                 [Gg]  | [Gg][Nn]*)
                  APP_NAME="gnus"
                  f_application_run
                  ;;
-                 gnus' '*)
+                 heirloom-mailx' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4842,7 +4837,7 @@ f_menu_app_email () {
                  APP_NAME="heirloom-mailx"
                  f_application_run
                  ;;
-                 heirloom-mailx' '*)
+                 mu4e' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4850,7 +4845,7 @@ f_menu_app_email () {
                  APP_NAME="mu4e"
                  f_application_run
                  ;;
-                 mu4e' '*)
+                 mutt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4858,7 +4853,7 @@ f_menu_app_email () {
                  APP_NAME="mutt"
                  f_application_run
                  ;;
-                 mutt' '*)
+                 nedmail' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4866,7 +4861,7 @@ f_menu_app_email () {
                  APP_NAME="nedmail"
                  f_application_run
                  ;;
-                 nedmail' '*)
+                 pine' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4874,16 +4869,12 @@ f_menu_app_email () {
                  APP_NAME="pine"
                  f_application_run
                  ;;
-                 pine' '*)
+                 supp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Uu]*)
                  APP_NAME="supp"
-                 f_application_run
-                 ;;
-                 supp' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of E-mail Applications case statement.
@@ -4923,20 +4914,20 @@ f_menu_app_fax () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of FAX Applications case statement.
-                 1  | [Ee] | [Ee][Ff]*)
+                 efax' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Ff]*)
                  APP_NAME="efax"
                  f_application_run
                  ;;
-                 efax' '*)
+                 hylafax-client' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Hh] | [Hh][Yy]*)
                  APP_NAME="hylafax-client"
-                 f_application_run
-                 ;;
-                 hylafax-client' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of FAX Applications case statement.
@@ -4982,11 +4973,15 @@ f_menu_app_file_transfer () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Transfer Applications case statement.
+                 cmdftp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Cc] | [Cc][Mm]*)
                  APP_NAME="cmdftp"
                  f_application_run
                  ;;
-                 cmdftp' '*)
+                 curl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -4994,7 +4989,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="curl"
                  f_application_run
                  ;;
-                 curl' '*)
+                 ftp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5002,7 +4997,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="ftp"
                  f_application_run
                  ;;
-                 ftp' '*)
+                 ftpfs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5010,7 +5005,7 @@ f_menu_app_file_transfer () {
                  APP_NAME="ftpfs"
                  f_application_run
                  ;;
-                 ftpfs' '*)
+                 lftp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5018,15 +5013,15 @@ f_menu_app_file_transfer () {
                  APP_NAME="lftp"
                  f_application_run
                  ;;
-                 lftp' '*)
+                 ncftp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 6  | [Nn] | [Nn][Cc]*)
+                 [Nn] | [Nn][Cc]*)
                  APP_NAME="ncftp"
                  f_application_run
                  ;;
-                 ncftp' '*)
+                 scp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5034,16 +5029,12 @@ f_menu_app_file_transfer () {
                  APP_NAME="scp"
                  f_application_run
                  ;;
-                 scp' '*)
+                 woof' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ww] | [WW][Oo]*)
                  APP_NAME="woof"
-                 f_application_run
-                 ;;
-                 woof' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of File Transfer Applications case statement.
@@ -5090,6 +5081,11 @@ f_menu_app_instant_messaging () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Instant Messaging Applications case statement.
+                 barnowl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application ":q (colon q)" "no-clear"
+                 f_application_run
+                 ;;
                  [Bb] | [Bb][Aa]*)
                  APP_NAME="barnowl"
                  clear # Blank the screen.
@@ -5107,16 +5103,15 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 barnowl' '*)
+                 bitlbee' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application ":q (colon q)" "no-clear"
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ii]*)
                  APP_NAME="bitlbee"
                  f_application_run
                  ;;
-                 bitlbee' '*)
+                 centericq' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5124,7 +5119,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="centericq"
                  f_application_run
                  ;;
-                 centericq' '*)
+                 centerim' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5132,7 +5127,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="centerim"
                  f_application_run
                  ;;
-                 centerim' '*)
+                 emacs-jabber' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5140,7 +5135,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="emacs-jabber"
                  f_application_run
                  ;;
-                 emacs-jabber' '*)
+                 finch' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5148,7 +5143,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="finch"
                  f_application_run
                  ;;
-                 finch' '*)
+                 freetalk' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5156,7 +5151,7 @@ f_menu_app_instant_messaging () {
                  APP_NAME="freetalk"
                  f_application_run
                  ;;
-                 freetalk' '*)
+                 mcabber' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5164,16 +5159,12 @@ f_menu_app_instant_messaging () {
                  APP_NAME="mcabber"
                  f_application_run
                  ;;
-                 mcabber' '*)
+                 naim' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Nn] | [Nn][Aa]*)
                  APP_NAME="naim"
-                 f_application_run
-                 ;;
-                 naim' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Instant Messaging Applications case statement.
@@ -5219,11 +5210,15 @@ f_menu_app_irc_clients () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of IRC Clients Applications case statement.
+                 epic' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Ee] | [Ee][Pp]*)
                  APP_NAME="epic"
                  f_application_run
                  ;;
-                 epic' '*)
+                 erc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5231,7 +5226,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="erc"
                  f_application_run
                  ;;
-                 erc' '*)
+                 ii' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5239,7 +5234,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="ii"
                  f_application_run
                  ;;
-                 ii' '*)
+                 ircii' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5247,7 +5242,7 @@ f_menu_app_irc_clients () {
                  APP_NAME="ircii"
                  f_application_run
                  ;;
-                 ircii' '*)
+                 irssi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5255,34 +5250,30 @@ f_menu_app_irc_clients () {
                  APP_NAME="irssi"
                  f_application_run
                  ;;
-                 irssi' '*)
+                 pork' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Oo]*)
                  APP_NAME="pork"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 pork' '*)
+                 scrollz' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Cc]*)
                  APP_NAME="scrollz"
                  f_application_run
                  ;;
-                 scrollz' '*)
+                 sic' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ii]*)
                  APP_NAME="sic"
-                 f_application_run
-                 ;;
-                 sic' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of IRC Clients Applications case statement.
@@ -5326,11 +5317,15 @@ f_menu_app_news_readers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of News Reader Applications case statement.
+                 gnus' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Gg] | [Gg][Nn]*)
                  APP_NAME="gnus"
                  f_application_run
                  ;;
-                 gnus' '*)
+                 nn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5338,7 +5333,7 @@ f_menu_app_news_readers () {
                  APP_NAME="nn"
                  f_application_run
                  ;;
-                 nn' '*)
+                 rn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5346,15 +5341,15 @@ f_menu_app_news_readers () {
                  APP_NAME="rn"
                  f_application_run
                  ;;
-                 rn' '*)
+                 slrn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 4  | [Ss] | [Ss][Ll]*)
+                 [Ss] | [Ss][Ll]*)
                  APP_NAME="slrn"
                  f_application_run
                  ;;
-                 slrn' '*)
+                 tin' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5362,16 +5357,12 @@ f_menu_app_news_readers () {
                  APP_NAME="tin"
                  f_application_run
                  ;;
-                 tin' '*)
+                 trn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Tt] | [Tt][Rr]*)
                  APP_NAME="trn"
-                 f_application_run
-                 ;;
-                 trn' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of News Reader Applications case statement.
@@ -5412,11 +5403,15 @@ f_menu_app_lan_chat () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of LAN Chat Applications case statement.
+                 talk' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Tt] | [Tt][Aa]*)
                  APP_NAME="talk"
                  f_application_run
                  ;;
-                 talk' '*)
+                 weechat' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5424,16 +5419,12 @@ f_menu_app_lan_chat () {
                  APP_NAME="weechat"
                  f_application_run
                  ;;
-                 weechat' '*)
+                 ytalk' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Yy] | [Yy][Tt]*)
                  APP_NAME="ytalk"
-                 f_application_run
-                 ;;
-                 ytalk' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of LAN Chat Applications case statement.
@@ -5477,11 +5468,15 @@ f_menu_app_podcatchers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Podcatcher Applications case statement.
-                 [Bb] | [Bb][Aa]|*)
+                 bashpodder' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Aa]*)
                  APP_NAME="bashpodder"
                  f_application_run
                  ;;
-                 bashpodder' '*)
+                 goldenpod' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5489,7 +5484,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="goldenpod"
                  f_application_run
                  ;;
-                 goldenpod' '*)
+                 hpodder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5497,7 +5492,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="hpodder"
                  f_application_run
                  ;;
-                 hpodder' '*)
+                 podget' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5505,7 +5500,7 @@ f_menu_app_podcatchers () {
                  APP_NAME="podget"
                  f_application_run
                  ;;
-                 podget' '*)
+                 podracer' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5513,16 +5508,12 @@ f_menu_app_podcatchers () {
                  APP_NAME="podracer"
                  f_application_run
                  ;;
-                 podracer' '*)
+                 uraniacast' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Uu] | [Uu][Rr]*)
                  APP_NAME="uraniacast"
-                 f_application_run
-                 ;;
-                 uraniacast' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Podcatcher Applications case statement.
@@ -5564,11 +5555,15 @@ f_menu_app_remote_connection () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Remote Connection Applications case statement.
+                 cpu' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Cc] | [Cc][Pp]*)
                  APP_NAME="cpu"
                  f_application_run
                  ;;
-                 cpu' '*)
+                 openssh' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5576,7 +5571,7 @@ f_menu_app_remote_connection () {
                  APP_NAME="openssh"
                  f_application_run
                  ;;
-                 openssh' '*)
+                 ssh' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5584,16 +5579,12 @@ f_menu_app_remote_connection () {
                  APP_NAME="ssh"
                  f_application_run
                  ;;
-                 ssh' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ss] | [Ss][Ss][Ll] | [Ss][Ss][Ll][Hh])
-                 APP_NAME="sslh"
-                 f_application_run
-                 ;;
                  sslh' '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ss] | [Ss][Ss][Ll] | [Ss][Ss][Ll]*)
+                 APP_NAME="sslh"
                  f_application_run
                  ;;
             esac                # End of Remote Connection Applications case statement.
@@ -5639,11 +5630,15 @@ f_menu_app_rssfeeders () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of RSS Feeder Applications case statement.
+                 canto' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Cc] | [Cc][Aa]*)
                  APP_NAME="canto"
                  f_application_run
                  ;;
-                 canto' '*)
+                 newsbeuter' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5651,7 +5646,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="newsbeuter"
                  f_application_run
                  ;;
-                 newsbeuter' '*)
+                 nrss' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5659,7 +5654,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="nrss"
                  f_application_run
                  ;;
-                 nrss' '*)
+                 olive' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5667,7 +5662,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="olive"
                  f_application_run
                  ;;
-                 olive' '*)
+                 raggle' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5675,7 +5670,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="raggle"
                  f_application_run
                  ;;
-                 raggle' '*)
+                 rawdog' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5683,7 +5678,7 @@ f_menu_app_rssfeeders () {
                  APP_NAME="rawdog"
                  f_application_run
                  ;;
-                 rawdog' '*)
+                 rsstail' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5691,16 +5686,12 @@ f_menu_app_rssfeeders () {
                  APP_NAME="rsstail"
                  f_application_run
                  ;;
-                 rsstail' '*)
+                 snownews' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Nn]*)
                  APP_NAME="snownews"
-                 f_application_run
-                 ;;
-                 snownews' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of RSS Feeder Applications case statement.
@@ -5785,7 +5776,6 @@ f_menu_cat_network () {
 f_menu_app_firewalls () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Firewall Applications until loop.
             #MNF arptables - Firewall configuration rules for an ARP chain.
             #MNF iptables  - Firewall configuration rules for an IP chain.
@@ -5805,6 +5795,10 @@ f_menu_app_firewalls () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Firewall Applications case statement.
+                 arptables' '* | 'sudo arptables '* | 'sudo arptables')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Rr]*)
                  APP_NAME="sudo arptables --list"
                  clear # Blank the screen.
@@ -5833,7 +5827,7 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 arptables' '* | 'sudo arptables '* | 'sudo arptables')
+                 iptables' '* | 'sudo iptables '* | 'sudo iptables')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5853,8 +5847,9 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 iptables' '* | 'sudo iptables '* | 'sudo iptables')
+                 iptstate' '* | 'sudo iptstate '* | 'sudo iptstate')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Ss]*)
@@ -5862,9 +5857,8 @@ f_menu_app_firewalls () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 iptstate' '* | 'sudo iptstate '* | 'sudo iptstate')
+                 portbunny' '* | 'sudo portbunny '* | 'sudo portbunny')
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo]*)
@@ -5880,7 +5874,7 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 portbunny' '* | 'sudo portbunny '* | 'sudo portbunny')
+                 ufw' '* | 'sudo ufw '* | 'sudo ufw')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -5910,10 +5904,6 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 ufw' '* | 'sudo ufw '* | 'sudo ufw')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
             esac                # End of Firewall Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -5934,16 +5924,16 @@ f_menu_app_firewalls () {
 f_menu_app_lanwan () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of LAN/WAN Applications until loop.
             #MNL arping      - Check LAN connectivity by pinging MAC, IP address or hostname.
+            #MNL dig         - Query Internet domain name servers.
             #MNL ip          - Shows routing, devices, policy routing and tunnels.
             #MNL ip addr     - protocol (IP or IPv6) address on a device.
             #MNL ip link     - Shows network device.
             #MNL ip neighbor - ARP or NDISC cache entry.
             #MNL ip route    - Shows routing.
             #MNL mtr         - Traceroute tool, has features of ping and traceroute.
-            #MNL nslookup    - Query Internet domain servers.
+            #MNL nslookup    - Query Internet domain name servers.
             #MNL ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
             #MNL route       - Shows routing table.
             #MNL speedometer - Check LAN/WAN connectivity speed.
@@ -5963,6 +5953,14 @@ f_menu_app_lanwan () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of LAN/WAN Applications case statement.
+                 'sudo arping')
+                 APP_NAME="sudo arping localhost -c 5"
+                 f_application_run
+                 ;;
+                 arping' '* | 'sudo arping '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Rr]*)
                  APP_NAME="arping localhost -c 5"
                  clear # Blank the screen.
@@ -5985,25 +5983,27 @@ f_menu_app_lanwan () {
                  echo
                  echo "*** For more help type: man arping" 
                  echo
-                 echo "Pinging this PC (localhost) for 5 times as an example."
+                 echo "Arpinging this PC (localhost) for 5 times as an example."
                  echo
-                 echo "Now run ping. Usage: ping localhost -c 5"
+                 echo "Now run arping. Usage: arping localhost -c 5"
                  echo
-                 echo "Many web sites block pings resulting in a message: '100% packet loss'."
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 'sudo arping')
-                 APP_NAME="sudo arping localhost -c 5"
+                 dig' '* | 'sudo dig '* | 'sudo dig')
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 arping' '* | 'sudo arping '*)
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Gg])
+                 APP_NAME="dig"
+                 f_application_run
+                 ;;
+                 ip' '* | 'sudo ip '* | 'sudo ip')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp])
                  APP_NAME="ip"
-                 f_application_run
                  clear # Blank the screen.
                  echo "IP - manipulate routing, devices, policy routing and tunnels."
                  echo
@@ -6030,7 +6030,7 @@ f_menu_app_lanwan () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 ip' '* | 'sudo ip '* | 'sudo ip')
+                 'ip addr '* | 'sudo ip addr '* | 'sudo ip addr')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6038,7 +6038,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip addr"
                  f_application_run
                  ;;
-                 'ip addr '* | 'sudo ip addr '* | 'sudo ip addr')
+                 'ip link '* | 'sudo ip link '* | 'sudo ip link')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6046,7 +6046,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip link"
                  f_application_run
                  ;;
-                 'ip link '* | 'sudo ip link '* | 'sudo ip link')
+                 'ip neighbor '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6054,7 +6054,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip neighbor"
                  f_application_run
                  ;;
-                 'ip neighbor '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
+                 'ip route '* | 'sudo ip route '* | 'sudo ip route')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6062,7 +6062,7 @@ f_menu_app_lanwan () {
                  APP_NAME="ip route"
                  f_application_run
                  ;;
-                 'ip route '* | 'sudo ip route '* | 'sudo ip route')
+                 mtr' '* | 'sudo mtr '* | 'sudo mtr')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6085,16 +6085,6 @@ f_menu_app_lanwan () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 mtr' '* | 'sudo mtr '* | 'sudo mtr')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Ss]*)
-                 APP_NAME="nslookup"
-                 f_web_site
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
                  nslookup' '* |  'sudo nslookup '*)
                  APP_NAME=$CHOICE_APP
                  # f_web_site # Don't use f_web_site since web site may have already been entered.
@@ -6106,6 +6096,20 @@ f_menu_app_lanwan () {
                  f_web_site
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ss]*)
+                 APP_NAME="nslookup"
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 ping' '* | 'sudo ping '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ping')
+                 APP_NAME="sudo ping localhost -c 5"
+                 f_application_run
                  ;;
                  [Pp] | [Pp][Ii]*)
                  APP_NAME="ping localhost -c 5"
@@ -6131,11 +6135,7 @@ f_menu_app_lanwan () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 'sudo ping')
-                 APP_NAME="sudo ping localhost -c 5"
-                 f_application_run
-                 ;;
-                 ping' '* | 'sudo ping '*)
+                 route' '* | 'sudo route '* | 'sudo route')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6143,7 +6143,7 @@ f_menu_app_lanwan () {
                  APP_NAME="route"
                  f_application_run
                  ;;
-                 route' '* | 'sudo route '* | 'sudo route')
+                 speedometer' '* | 'sudo speedometer '* | 'sudo speedometer')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6151,16 +6151,12 @@ f_menu_app_lanwan () {
                  APP_NAME="speedometer"
                  f_application_run
                  ;;
-                 speedometer' '* | 'sudo speedometer '* | 'sudo speedometer')
+                 ss' '* | 'sudo ss '* | 'sudo ss')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ss])
                  APP_NAME="ss"
-                 f_application_run
-                 ;;
-                 ss' '* | 'sudo ss '* | 'sudo ss')
-                 APP_NAME=$CHOICE_APP
                  clear # Blank the screen.
                  echo "ss - Display TCP/UDP Network and Socket Information."
                  echo
@@ -6186,6 +6182,17 @@ f_menu_app_lanwan () {
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
+                 ;;
+                 traceroute' '* | 'sudo traceroute '* )
+                 APP_NAME=$CHOICE_APP
+                 # f_web_site # Don't use f_web_site since web site may have already been entered.
+                 f_application_run
+                 ;;
+                 'sudo traceroute')
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Tt] | [Tt][Rr]*)
                  APP_NAME="traceroute"
@@ -6213,17 +6220,6 @@ f_menu_app_lanwan () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 traceroute' '* | 'sudo traceroute '* )
-                 APP_NAME=$CHOICE_APP
-                 # f_web_site # Don't use f_web_site since web site may have already been entered.
-                 f_application_run
-                 ;;
-                 'sudo traceroute')
-                 APP_NAME=$CHOICE_APP
-                 f_web_site
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
             esac                # End of LAN/WAN Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -6244,7 +6240,6 @@ f_menu_app_lanwan () {
 f_menu_app_nic_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of NIC Tools Applications until loop.
             #MNN ethtool      - NIC configuration.
             #MNN ifconfig     - NIC configuration.
@@ -6269,11 +6264,27 @@ f_menu_app_nic_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of NIC Tools Applications case statement.
-                 [Ee] | [Ee][Tt]*)
-                 APP_NAME="ethtool"
+                 ethtool' '* | 'sudo ethtool '* | 'sudo ethtool')
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 ethtool' '* | 'sudo ethtool '* | 'sudo ethtool')
+                 [Ee] | [Ee][Tt]*)
+                  clear # Blank the screen.
+                  echo "ethtool - Query and control network driver and hardware settings."
+                  echo
+                  echo "Usage:" 
+                  echo "ethtool <options> <NIC device name>"
+                  echo
+                  echo "*** For more help type: man ethtool" 
+                  echo
+                  echo "Now run ethtool. Usage: ethtool -i <NIC device name>"
+                  echo "Option -i shows network driver information for <NIC device name>"
+                  f_press_enter_key_to_continue
+                  f_find_NIC
+                  APP_NAME="ethtool -i $ANS"
+                 f_application_run
+                 ;;
+                 ifconfig' '* | 'sudo ifconfig '* | 'sudo ifconfig')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6281,7 +6292,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="ifconfig"
                  f_application_run
                  ;;
-                 ifconfig' '* | 'sudo ifconfig '* | 'sudo ifconfig')
+                 ifplugstatus' '* | 'sudo ifplugstatus '* | 'sudo ifplugstatus')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6289,7 +6300,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="ifplugstatus"
                  f_application_run
                  ;;
-                 ifplugstatus' '* | 'sudo ifplugstatus '* | 'sudo ifplugstatus')
+                 iwconfig' '* | 'sudo iwconfig '* | 'sudo iwconfig')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6297,7 +6308,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="iwconfig"
                  f_application_run
                  ;;
-                 iwconfig' '* | 'sudo iwconfig '* | 'sudo iwconfig')
+                 iwlist' '* | 'sudo iwlist '* | 'sudo iwlist')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6305,7 +6316,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="iwlist"
                  f_application_run
                  ;;
-                 iwlist' '* | 'sudo iwlist '* | 'sudo iwlist')
+                 mii-diag' '* | 'sudo mii-diag '* | 'sudo mii-diag')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6313,7 +6324,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="mii-diag"
                  f_application_run
                  ;;
-                 mii-diag' '* | 'sudo mii-diag '* | 'sudo mii-diag')
+                 mii-tool' '* | 'sudo mii-tool '* | 'sudo mii-tool')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6321,7 +6332,7 @@ f_menu_app_nic_tools () {
                  APP_NAME="mii-tool"
                  f_application_run
                  ;;
-                 mii-tool' '* | 'sudo mii-tool '* | 'sudo mii-tool')
+                 nictools-pci' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6329,17 +6340,13 @@ f_menu_app_nic_tools () {
                  APP_NAME="nictools-pci"
                  f_application_run
                  ;;
-                 nictools-pci' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
+                 wicd-curses' '* | 'sudo wicd-curses '* | 'sudo wicd-curses')
                  APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ww] | [Ww][Ii]*)
-                 APP_NAME="wicd-curses"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 wicd-curses' '* | 'sudo wicd-curses '* | 'sudo wicd-curses')
-                 APP_NAME=$CHOICE_APP
+                 [Ww] | [Ww][Ii]*)
+                 APP_NAME="wicd-curses"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6384,11 +6391,15 @@ f_menu_app_network_sharing () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Sharing Applications case statement.
+                 ncpfs' '* | 'sudo ncpfs '* | 'sudo ncpfs')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Nn] | [Nn][Cc]*)
                  APP_NAME="ncpfs"
                  f_application_run
                  ;;
-                 ncpfs' '* | 'sudo ncpfs '* | 'sudo ncpfs')
+                 smbc' '* | 'sudo smbc '* | 'sudo smbc')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6403,7 +6414,7 @@ f_menu_app_network_sharing () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 smbc' '* | 'sudo smbc '* | 'sudo smbc')
+                 smbclient' '* | 'sudo smbclient '* | 'sudo smbclient')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6411,7 +6422,7 @@ f_menu_app_network_sharing () {
                  APP_NAME="smbclient"
                  f_application_run
                  ;;
-                 smbclient' '* | 'sudo smbclient '* | 'sudo smbclient')
+                 smbstatus' '* | 'sudo smbstatus '* | 'sudo smbstatus')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6419,7 +6430,7 @@ f_menu_app_network_sharing () {
                  APP_NAME="smbstatus"
                  f_application_run
                  ;;
-                 smbstatus' '* | 'sudo smbstatus '* | 'sudo smbstatus')
+                 testparm' '* | 'sudo testparm '* | 'sudo testparm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6427,16 +6438,12 @@ f_menu_app_network_sharing () {
                  APP_NAME="testparm"
                  f_application_run
                  ;;
-                 testparm' '* | 'sudo testparm '* | 'sudo testparm')
+                 woof' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ww] | [WW][Oo]*)
                  APP_NAME="woof"
-                 f_application_run
-                 ;;
-                 woof' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Network Sharing Applications case statement.
@@ -6459,7 +6466,6 @@ f_menu_app_network_sharing () {
 f_menu_tcat_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_TCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Network Monitor Application Category until loop.
             #BNM Bandwidth - Bandwidth monitors.
             #BNM Structure - Management, status, connections, devices, hosts.
@@ -6501,7 +6507,6 @@ f_menu_tcat_network_monitors () {
 f_menu_app_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Network Monitor Applications until loop.
             #MNM iptraf    - IP LAN monitor, ncurses based display.
             #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
@@ -6527,15 +6532,19 @@ f_menu_app_network_monitors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Monitor Applications case statement.
+                 iptraf' '* | 'sudo iptraf '* | 'sudo iptraf')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Ii] | [Ii][Pp]*)
                  APP_NAME="iptraf"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 iptraf' '* | 'sudo iptraf '* | 'sudo iptraf')
+                 nagios3' '* | 'sudo nagios3 '* | 'sudo nagios3')
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Aa]*)
                  APP_NAME="nagios3"
@@ -6555,7 +6564,7 @@ f_menu_app_network_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 nagios3' '* | 'sudo nagios3 '* | 'sudo nagios3')
+                 nc' '* | 'sudo nc '* | 'sudo nc')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -6563,8 +6572,9 @@ f_menu_app_network_monitors () {
                  APP_NAME="nc"
                  f_application_run
                  ;;
-                 nc' '* | 'sudo nc '* | 'sudo nc')
+                 netstat' '* | 'sudo netstat '* | 'sudo netstat')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
                  [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss]*)
@@ -6590,39 +6600,11 @@ f_menu_app_network_monitors () {
                  echo
                  echo "*** For more help type: man traceroute" 
                  echo
-                 echo "traceroute of this PC (localhost) as an example."
+                 echo "netstat of this PC (localhost) as an example."
                  echo
                  echo "Now run netstat. Usage: netstat -l"
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
-                 ;;
-                 netstat' '* | 'sudo netstat '* | 'sudo netstat')
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q" "no-clear"
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Tt]*)
-                 APP_NAME="sudo ntop"
-                 clear # Blank the screen.
-                 echo "ntop - Traffic probe with network usage."
-                 echo
-                 echo "This command starts the ntop process."
-                 echo "To use ntop, open a web browser to URL localhost:3000 or 127.0.0.1:3000"
-                 echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
                  ;;
                  ntop' '* | 'sudo ntop '* | 'sudo ntop')
                  APP_NAME=$CHOICE_APP
@@ -6647,6 +6629,34 @@ f_menu_app_network_monitors () {
                       ;;
                  esac
                  ;;
+                 [Nn] | [Nn][Tt]*)
+                 APP_NAME="sudo ntop"
+                 clear # Blank the screen.
+                 echo "ntop - Traffic probe with network usage."
+                 echo
+                 echo "This command starts the ntop process."
+                 echo "To use ntop, open a web browser to URL localhost:3000 or 127.0.0.1:3000"
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 opennms' '* | 'sudo opennms '* | 'sudo opennms')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+
+                 ;;
                  [Oo] | [Oo][Pp]*)
                  APP_NAME="opennms"
                  clear # Blank the screen.
@@ -6664,27 +6674,32 @@ f_menu_app_network_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 [Pp] | [Pp][Mm]*)
-                 APP_NAME="pmacct"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
                  pmacct' '* | 'sudo pmacct '* | 'sudo pmacct')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 [Ss] | [Ss][Ll]*)
-                 APP_NAME="slurm"
-                 f_find_NIC
-                 APP_NAME="slurm -i $ANS"
-                 f_how_to_quit_application "q" "no-clear"
+                 [Pp] | [Pp][Mm]*)
+                 APP_NAME="pmacct"
                  f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  slurm' '* | 'sudo slurm '* | 'sudo slurm')
                  f_how_to_quit_application "q" "no-clear"
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 ;;
+                 [Ss] | [Ss][Ll]*)
+                 f_find_NIC
+                 APP_NAME="slurm -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 ;;
+                 sntop' '* | 'sudo sntop '* | 'sudo sntop')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Nn]*)
                  APP_NAME="sntop --refresh=3"
@@ -6699,18 +6714,12 @@ f_menu_app_network_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 sntop' '* | 'sudo sntop '* | 'sudo sntop')
+                 vnstat' '* | 'sudo vnstat '* | 'sudo vnstat')
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Nn]*)
                  APP_NAME="vnstat"
-                 f_application_run
-                 ;;
-                 vnstat' '* | 'sudo vnstat '* | 'sudo vnstat')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Network Monitor Applications case statement.
@@ -6733,7 +6742,6 @@ f_menu_app_network_monitors () {
 f_menu_app_network_bandwidth () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Network Bandwidth Applications until loop.
             #MNB bmon    - Bandwidth monitor and rate estimator.
             #MNB cbm     - Color Bandwidth Meter, ncurses based display.
@@ -6757,12 +6765,17 @@ f_menu_app_network_bandwidth () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Network Bandwidth Applications case statement.
+                 bmon' '* | 'sudo bmon '* | 'sudo bmon')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Bb] | [Bb][Mm]*)
                  APP_NAME="bmon"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 bmon' '* | 'sudo bmon '* | 'sudo bmon')
+                 cbm' '* | 'sudo cbm '* | 'sudo cbm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -6772,10 +6785,9 @@ f_menu_app_network_bandwidth () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 cbm' '* | 'sudo cbm '* | 'sudo cbm')
+                 ifstat' '* | 'sudo ifstat '* | 'sudo ifstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ii] | [Ii][Ff] | [Ii][Ff][Ss]*)
                  APP_NAME="ifstat 2 5"
@@ -6788,31 +6800,18 @@ f_menu_app_network_bandwidth () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 ifstat' '* | 'sudo ifstat '* | 'sudo ifstat')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ii] | [Ii][Ff] | [Ii][Ff][Tt]*)
-                 APP_NAME="iftop"
-                 f_find_NIC
-                 APP_NAME="iftop -i $ANS"
-                 f_how_to_quit_application "q" "no-clear"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  iftop' '* | 'sudo iftop '* | 'sudo iftop')
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Jj] | [Jj][Nn]*)
-                 APP_NAME="jnettop"
+                 [Ii] | [Ii][Ff] | [Ii][Ff][Tt]*)
                  f_find_NIC
-                 APP_NAME="jnettop -i $ANS"
+                 APP_NAME="iftop -i $ANS"
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
-                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  jnettop' '* | 'sudo jnettop '* | 'sudo jnettop')
                  APP_NAME=$CHOICE_APP
@@ -6820,31 +6819,38 @@ f_menu_app_network_bandwidth () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh]*)
-                 APP_NAME="nethogs"
+                 [Jj] | [Jj][Nn]*)
+                 f_find_NIC
+                 APP_NAME="jnettop -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nethogs' '* | 'sudo nethogs '* | 'sudo nethogs')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Nn] | [Nn][Ll]*)
-                 APP_NAME="nload"
+                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh]*)
+                 APP_NAME="nethogs"
                  f_application_run
-                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nload' '* | 'sudo nload '* | 'sudo nload')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Pp] | [Pp][Kk]*)
-                 APP_NAME="pktstat"
+                 [Nn] | [Nn][Ll]*)
+                 APP_NAME="nload"
                  f_application_run
                  #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pktstat' '* | 'sudo pktstat '* | 'sudo pkstat')
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Kk]*)
+                 APP_NAME="pktstat"
                  f_application_run
                  #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -6868,7 +6874,6 @@ f_menu_app_network_bandwidth () {
 f_menu_app_packet_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Packet Tools Applications until loop.
             #MNP kismet    - Wireless network detector, packet sniffer, auditor.
             #MNP ngrep     - Network packet analyzer.
@@ -6890,36 +6895,13 @@ f_menu_app_packet_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Packet Tools Applications case statement.
-                 [Kk] | [Kk][Ii]*)
-                 APP_NAME="kismet"
-                 f_application_run
-                 ;;
                  kismet' '* | 'sudo kismet '* | 'sudo kismet')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Nn] | [Nn][Gg]*)
-                 APP_NAME="ngrep"
-                 clear # Blank the screen.
-                 echo "ngrep - Network packet analyzer."
-                 echo
-                 echo "Note: ngrep needs root permissions."
-                 echo "      You need to use 'sudo ngrep'."
-                 echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
+                 [Kk] | [Kk][Ii]*)
+                 APP_NAME="kismet"
+                 f_application_run
                  ;;
                  ngrep' '* | 'sudo ngrep '* | 'sudo ngrep')
                  APP_NAME=$CHOICE_APP
@@ -6944,18 +6926,13 @@ f_menu_app_packet_tools () {
                       ;;
                  esac
                  ;;
-                 [Nn] | [Nn][Mm]*)
-                 APP_NAME="nmap"
-                 f_application_run
-                 ;;
-                 nmap' '* | 'sudo nmap '* | 'sudo nmap')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
-                 APP_NAME="snort"
+                 [Nn] | [Nn][Gg]*)
+                 APP_NAME="ngrep"
                  clear # Blank the screen.
-                 echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
+                 echo "ngrep - Network packet analyzer."
+                 echo
+                 echo "Note: ngrep needs root permissions."
+                 echo "      You need to use 'sudo ngrep'."
                  echo
                  echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
                  echo "(There is no way to cleanly return to the menu)."
@@ -6965,14 +6942,20 @@ f_menu_app_packet_tools () {
                  read ANS
                  case $ANS in
                       [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_find_NIC
-                      APP_NAME="snort -i $ANS"
                       f_application_run
                       ;;
                       [Nn] | [Nn][Oo] | *)
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac
+                 ;;
+                 nmap' '* | 'sudo nmap '* | 'sudo nmap')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Mm]*)
+                 APP_NAME="nmap"
+                 f_application_run
                  ;;
                  snort' '* | 'sudo snort '* | 'sudo snort')
                  APP_NAME=$CHOICE_APP
@@ -6994,8 +6977,32 @@ f_menu_app_packet_tools () {
                       ;;
                  esac
                  ;;
+                 [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
+                 clear # Blank the screen.
+                 echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_find_NIC
+                      APP_NAME="snort -i $ANS"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 tcpdump' '* | 'sudo tcpdump '* | 'sudo tcpdump')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Tt] | [Tt][Cc]*)
-                 APP_NAME="tcpdump"
                  f_find_NIC
                  APP_NAME="tcpdump -i $ANS -c 5"
                  clear # Blank the screen.
@@ -7007,16 +7014,12 @@ f_menu_app_packet_tools () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 tcpdump' '* | 'sudo tcpdump '* | 'sudo tcpdump')
+                 wireshark' '* | 'sudo wireshark '* | 'sudo wireshark')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ww] | [Ww][Ii]*)
                  APP_NAME="wireshark"
-                 f_application_run
-                 ;;
-                 wireshark' '* | 'sudo wireshark '* | 'sudo wireshark')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Packet Tools Applications case statement.
@@ -7054,7 +7057,6 @@ read ANS
 f_menu_cat_office () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Office Application Category until loop.
             #BOF Accounting   - Accounting (with with double-entry).
             #BOF Calculators  - Simple "pocket" calculators.
@@ -7157,11 +7159,15 @@ f_menu_app_accounting () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calculator Applications case statement.
+                 hledger' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr])
                  APP_NAME="hledger"
                  f_application_run
                  ;;
-                 hledger' '*)
+                 hledger-chart' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7169,7 +7175,7 @@ f_menu_app_accounting () {
                  APP_NAME="hledger-chart"
                  f_application_run
                  ;;
-                 hledger-chart' '*)
+                 hledger-vty' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7177,7 +7183,7 @@ f_menu_app_accounting () {
                  APP_NAME="hledger-vty"
                  f_application_run
                  ;;
-                 hledger-vty' '*)
+                 hledger-web' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7185,16 +7191,12 @@ f_menu_app_accounting () {
                  APP_NAME="hledger-web"
                  f_application_run
                  ;;
-                 hledger-web' '*)
+                 ledger' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ee]*)
                  APP_NAME="ledger"
-                 f_application_run
-                 ;;
-                 ledger' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Accounting Applications case statement.
@@ -7235,34 +7237,34 @@ f_menu_app_calculators () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calculator Applications case statement.
-                 [Bb] | [Bb][Cc])
-                 APP_NAME="bc"
-                 f_how_to_quit_application "quit"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  bc' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "quit"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Oo] | [Oo][Rr]*)
-                 APP_NAME="orpie"
+                 [Bb] | [Bb][Cc])
+                 APP_NAME="bc"
+                 f_how_to_quit_application "quit"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  orpie' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Tt] | [Tt][Aa]*)
-                 APP_NAME="tapecalc"
+                 [Oo] | [Oo][Rr]*)
+                 APP_NAME="orpie"
+                 f_application_run
+                 ;;
+                 tapecalc' '*)
+                 APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 tapecalc' '*)
-                 APP_NAME=$CHOICE_APP
+                 [Tt] | [Tt][Aa]*)
+                 APP_NAME="tapecalc"
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -7296,6 +7298,7 @@ f_menu_app_calendar () {
             #MCA gcal        - Calendar, almost the same as cal.
             #MCA gcalcli     - Google calendar.
             #MCA mencal      - Calendar to track repeating periodic events every nn days.
+            #MCA ncal        - Calendar with vertical days.
             #MCA pal         - Calendar with events.
             #MCA pcal        - Generate PostScript or HTML Calendars.
             #MCA pom         - Display phase of moon on given date.
@@ -7316,19 +7319,13 @@ f_menu_app_calendar () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calendar Applications case statement.
-                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
-                 APP_NAME="cal"
-                 f_application_run
-                 ;;
                  cal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc]*)
-                 APP_NAME="calcurse"
-                 f_how_to_quit_application "q"
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
+                 APP_NAME="cal"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  calcurse' '*)
                  APP_NAME=$CHOICE_APP
@@ -7336,11 +7333,21 @@ f_menu_app_calendar () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc]*)
+                 APP_NAME="calcurse"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ccal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Cc] | [Cc][Cc]*)
                  APP_NAME="ccal"
                  f_application_run
                  ;;
-                 ccal' '*)
+                 clcal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7348,7 +7355,7 @@ f_menu_app_calendar () {
                  APP_NAME="clcal"
                  f_application_run
                  ;;
-                 clcal' '*)
+                 emacs-calfw' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7356,7 +7363,7 @@ f_menu_app_calendar () {
                  APP_NAME="emacs-calfw"
                  f_application_run
                  ;;
-                 emacs-calfw' '*)
+                 gcal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7364,7 +7371,7 @@ f_menu_app_calendar () {
                  APP_NAME="gcal"
                  f_application_run
                  ;;
-                 gcal' '*)
+                 gcalcli' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7372,7 +7379,7 @@ f_menu_app_calendar () {
                  APP_NAME="gcalcli"
                  f_application_run
                  ;;
-                 gcalcli' '*)
+                 mencal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7380,7 +7387,15 @@ f_menu_app_calendar () {
                  APP_NAME="mencal"
                  f_application_run
                  ;;
-                 mencal' '*)
+                 ncal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Cc]*)
+                 APP_NAME="ncal"
+                 f_application_run
+                 ;;
+                 pal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7388,7 +7403,7 @@ f_menu_app_calendar () {
                  APP_NAME="pal"
                  f_application_run
                  ;;
-                 pal' '*)
+                 pcal' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7396,7 +7411,7 @@ f_menu_app_calendar () {
                  APP_NAME="pcal"
                  f_application_run
                  ;;
-                 pcal' '*)
+                 pom' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7404,7 +7419,7 @@ f_menu_app_calendar () {
                  APP_NAME="pom"
                  f_application_run
                  ;;
-                 pom' '*)
+                 remind' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7412,7 +7427,7 @@ f_menu_app_calendar () {
                  APP_NAME="remind"
                  f_application_run
                  ;;
-                 remind' '*)
+                 when' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7420,18 +7435,14 @@ f_menu_app_calendar () {
                  APP_NAME="when"
                  f_application_run
                  ;;
-                 when' '*)
+                 wyrd' '*)
                  APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ww] | [Ww][Yy]*)
-                 APP_NAME="wyrd"
                  f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 wyrd' '*)
-                 APP_NAME=$CHOICE_APP
+                 [Ww] | [Ww][Yy]*)
+                 APP_NAME="wyrd"
                  f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -7476,11 +7487,15 @@ f_menu_app_clocks () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Clock Applications case statement.
+                 binary-clock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Bb] | [Bb][Ii]*)
                  APP_NAME="binary-clock"
                  f_application_run
                  ;;
-                 binary-clock' '*)
+                 cclock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7488,34 +7503,30 @@ f_menu_app_clocks () {
                  APP_NAME="cclock"
                  f_application_run
                  ;;
-                 cclock' '*)
+                 clockywock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Cc] | [Cc][Ll]*)
                  APP_NAME="clockywock"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 clockywock' '*)
+                 grandfatherclock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Gg] | [Gg][Rr]*)
                  APP_NAME="grandfatherclock"
                  f_application_run
                  ;;
-                 grandfatherclock' '*)
+                 saytime' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Aa]*)
                  APP_NAME="saytime"
-                 f_application_run
-                 ;;
-                 saytime' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Clock Applications case statement.
@@ -7554,12 +7565,12 @@ f_menu_app_note () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Note Applications case statement.
-                 [Hh] | [Hh][Nn]*)
-                 APP_NAME="hnb"
-                 f_application_run
-                 ;;
                  hnb' '*)
                  APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Nn]*)
+                 APP_NAME="hnb"
                  f_application_run
                  ;;
             esac                # End of Note Applications case statement.
@@ -7608,11 +7619,15 @@ f_menu_app_pdfps () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of PDF and PS Applications case statement.
+                 diffpdf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Dd] | [Dd][Ii]*)
                  APP_NAME="diffpdf"
                  f_application_run
                  ;;
-                 diffpdf' '*)
+                 fbdjvu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7620,7 +7635,7 @@ f_menu_app_pdfps () {
                  APP_NAME="fbdjvu"
                  f_application_run
                  ;;
-                 fbdjvu' '*)
+                 fbgs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7628,7 +7643,7 @@ f_menu_app_pdfps () {
                  APP_NAME="fbgs"
                  f_application_run
                  ;;
-                 fbgs' '*)
+                 fbpdf' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7636,7 +7651,7 @@ f_menu_app_pdfps () {
                  APP_NAME="fbpdf"
                  f_application_run
                  ;;
-                 fbpdf' '*)
+                 gs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7644,7 +7659,7 @@ f_menu_app_pdfps () {
                  APP_NAME="gs"
                  f_application_run
                  ;;
-                 gs' '*)
+                 jfbview' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7652,7 +7667,7 @@ f_menu_app_pdfps () {
                  APP_NAME="jfbview"
                  f_application_run
                  ;;
-                 jfbview' '*)
+                 pdfjam' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7660,7 +7675,7 @@ f_menu_app_pdfps () {
                  APP_NAME="pdfjam"
                  f_application_run
                  ;;
-                 pdfjam' '*)
+                 pdftex' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7668,7 +7683,7 @@ f_menu_app_pdfps () {
                  APP_NAME="pdftex"
                  f_application_run
                  ;;
-                 pdftex' '*)
+                 pdftops' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7676,7 +7691,7 @@ f_menu_app_pdfps () {
                  APP_NAME="pdftops"
                  f_application_run
                  ;;
-                 pdftops' '*)
+                 ps2ascii' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7684,16 +7699,12 @@ f_menu_app_pdfps () {
                  APP_NAME="ps2ascii"
                  f_application_run
                  ;;
-                 ps2ascii' '*)
+                 ps2pdf' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp]*)
                  APP_NAME="ps2pdf"
-                 f_application_run
-                 ;;
-                 ps2pdf' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of PDF and PS Applications case statement.
@@ -7716,7 +7727,6 @@ f_menu_app_pdfps () {
 f_menu_app_presentation () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Presentation Applications until loop.
             #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
             #
@@ -7733,13 +7743,13 @@ f_menu_app_presentation () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Presentation Applications case statement.
-                 [Tt] | [Tt][Pp]*)
-                 APP_NAME="tpp"
+                 tpp' '*)
+                 APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 tpp' '*)
-                 APP_NAME=$CHOICE_APP
+                 [Tt] | [Tt][Pp]*)
+                 APP_NAME="tpp"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -7781,11 +7791,15 @@ f_menu_app_spreadsheets () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Spreadsheet Applications case statement.
+                 oleo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Oo] | [Oo][Ll]*)
                  APP_NAME="oleo"
                  f_application_run
                  ;;
-                 oleo' '*)
+                 sc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7793,16 +7807,12 @@ f_menu_app_spreadsheets () {
                  APP_NAME="sc"
                  f_application_run
                  ;;
-                 sc' '*)
+                 slsc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ll]*)
                  APP_NAME="slsc"
-                 f_application_run
-                 ;;
-                 slsc' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Spreadsheet Applications case statement.
@@ -7825,7 +7835,6 @@ f_menu_app_spreadsheets () {
 f_menu_cat_text () {
       f_initvars_menu_app
       until [ $CHOICE_TCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Text Application Category until loop.
             #BTX Compare    - Show differences between text files.
             #BTX Converters - Convert between text document/file formats.
@@ -7898,11 +7907,15 @@ f_menu_app_text_compare () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Compare Applications case statement.
+                 colordiff' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Cc] | [Cc][Oo]*)
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
-                 colordiff' '*)
+                 diff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7910,7 +7923,7 @@ f_menu_app_text_compare () {
                  APP_NAME="diff"
                  f_application_run
                  ;;
-                 diff' '*)
+                 imediff2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7918,7 +7931,7 @@ f_menu_app_text_compare () {
                  APP_NAME="imediff2"
                  f_application_run
                  ;;
-                 imediff2' '*)
+                 vimdiff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -7926,16 +7939,12 @@ f_menu_app_text_compare () {
                  APP_NAME="vimdiff"
                  f_application_run
                  ;;
-                 vimdiff' '*)
+                 wdiff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ww] | [Ww][Dd]*)
                  APP_NAME="wdiff"
-                 f_application_run
-                 ;;
-                 wdiff' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Text Compare Applications case statement.
@@ -7978,6 +7987,10 @@ f_menu_app_text_converters () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Converter Applications case statement.
+                 txt2html' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh]*)
                  APP_NAME="man txt2html"
                  clear # Blank the screen.
@@ -7994,7 +8007,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 txt2html' '*)
+                 txt2man' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8012,7 +8025,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 txt2man' '*)
+                 txt2pdbdoc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8031,7 +8044,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 txt2pdbdoc' '*)
+                 txt2regex' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8048,7 +8061,7 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 txt2regex' '*)
+                 txt2tags' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8065,10 +8078,6 @@ f_menu_app_text_converters () {
                  echo "*** For more help type: txt2tags --help"
                  echo "Now show help. Usage: man txt2tags"
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 txt2tags' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Text Converter Applications case statement.
@@ -8119,17 +8128,12 @@ f_menu_app_text_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
-                 [Bb] | [Bb][Ee]*)
-                 APP_NAME="beav"
-                 f_application_run
-                 ;;
                  beav' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Dd] | [Dd][Aa]*)
-                 APP_NAME="dav"
-                 f_how_to_quit_application "<F5>"
+                 [Bb] | [Bb][Ee]*)
+                 APP_NAME="beav"
                  f_application_run
                  ;;
                  dav' '*)
@@ -8137,11 +8141,20 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<F5>"
                  f_application_run
                  ;;
+                 [Dd] | [Dd][Aa]*)
+                 APP_NAME="dav"
+                 f_how_to_quit_application "<F5>"
+                 f_application_run
+                 ;;
+                 dex' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Dd] | [Dd][Ee]*)
                  APP_NAME="dex"
                  f_application_run
                  ;;
-                 dex' '*)
+                 ed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8149,7 +8162,7 @@ f_menu_app_text_editors () {
                  APP_NAME="ed"
                  f_application_run
                  ;;
-                 ed' '*)
+                 emacs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8157,7 +8170,7 @@ f_menu_app_text_editors () {
                  APP_NAME="emacs"
                  f_application_run
                  ;;
-                 emacs' '*)
+                 groff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8180,7 +8193,7 @@ f_menu_app_text_editors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 groff' '*)
+                 jed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8188,8 +8201,9 @@ f_menu_app_text_editors () {
                  APP_NAME="jed"
                  f_application_run
                  ;;
-                 jed' '*)
+                 joe' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  ;;
                  [Jj] | [Jj][Oo]*)
@@ -8197,16 +8211,15 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  ;;
-                 joe' '*)
+                 nano' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  ;;
                  [Nn] | [Nn][Aa]*)
                  APP_NAME="nano"
                  f_application_run
                  ;;
-                 nano' '*)
+                 pico' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8214,8 +8227,9 @@ f_menu_app_text_editors () {
                  APP_NAME="pico"
                  f_application_run
                  ;;
-                 pico' '*)
+                 vi' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
                  [Vv] | [Vv][Ii])
@@ -8223,7 +8237,7 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
-                 vi' '*)
+                 vim' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
@@ -8233,17 +8247,12 @@ f_menu_app_text_editors () {
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
-                 vim' '*)
+                 zile' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  ;;
                  [Zz] | [Zz][Ii]*)
                  APP_NAME="zile"
-                 f_application_run
-                 ;;
-                 zile' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Text Editor Applications case statement.
@@ -8283,20 +8292,20 @@ f_menu_app_text_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
+                 antiword' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Nn]*)
                  APP_NAME="antiword"
                  f_application_run
                  ;;
-                 antiword' '*)
+                 doconce' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Dd] | [Dd][Oo]*)
                  APP_NAME="doconce"
-                 f_application_run
-                 ;;
-                 doconce' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Text Editor Applications case statement.
@@ -8340,23 +8349,27 @@ f_menu_app_todo () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of ToDo Applications case statement.
+                 doneyet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Dd] | [Dd][Oo]*)
                  APP_NAME="doneyet"
                  f_application_run
                  ;;
-                 doneyet' '*)
+                 hnb' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Hh] | [Hh][Nn]*)
                  APP_NAME="hnb"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 hnb' '*)
+                 todo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Tt] | [Tt][Oo]*)
                  APP_NAME="todo"
@@ -8386,7 +8399,7 @@ f_menu_app_todo () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 todo' '*)
+                 tudu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8394,7 +8407,7 @@ f_menu_app_todo () {
                  APP_NAME="tudu"
                  f_application_run
                  ;;
-                 tudu' '*)
+                 yagtd' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8402,16 +8415,12 @@ f_menu_app_todo () {
                  APP_NAME="yagtd"
                  f_application_run
                  ;;
-                 yagtd' '*)
+                 yokadi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Yy] | [Yy][Oo]*)
                  APP_NAME="yokadi"
-                 f_application_run
-                 ;;
-                 yokadi' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of ToDo Applications case statement.
@@ -8454,11 +8463,15 @@ f_menu_app_screen_savers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Screen-saver Applications case statement.
+                 asciiaquarium' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Ss]*)
                  APP_NAME="asciiaquarium"
                  f_application_run
                  ;;
-                 asciiaquarium' '*)
+                 cmatrix' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8466,7 +8479,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="cmatrix"
                  f_application_run
                  ;;
-                 cmatrix' '*)
+                 rain' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8474,7 +8487,7 @@ f_menu_app_screen_savers () {
                  APP_NAME="rain"
                  f_application_run
                  ;;
-                 rain' '*)
+                 tty-clock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8482,16 +8495,12 @@ f_menu_app_screen_savers () {
                  APP_NAME="tty-clock"
                  f_application_run
                  ;;
-                 tty-clock' '*)
+                 worms' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ww] | [Ww][Oo]*)
                  APP_NAME="worms"
-                 f_application_run
-                 ;;
-                 worms' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Screen-saver Applications case statement.
@@ -8575,7 +8584,7 @@ f_menu_cat_system () {
                  f_menu_app_sys_process       # System Process Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Ss] | [Ss][Cc])
+                 [Ss] | [Ss][Cc]*)
                  f_menu_app_sys_screens       # System Screens Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -8601,7 +8610,6 @@ f_menu_cat_system () {
 f_menu_app_sys_backup () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Backup Applications until loop.
             #MSB rsync - File backup, mirror, directories and files.
             #MSB tar   - File backup, compress files.
@@ -8619,20 +8627,20 @@ f_menu_app_sys_backup () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Backup Applications case statement.
+                 rsync' '* | 'sudo rsync' | 'sudo rsync '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Rr] | [Rr][Ss]*)
                  APP_NAME="rsync"
                  f_application_run
                  ;;
-                 rsync' '*)
+                 tar' '* | 'sudo tar' | 'sudo tar '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Tt] | [Tt][Aa]*)
                  APP_NAME="tar"
-                 f_application_run
-                 ;;
-                 tar' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Backup Applications case statement.
@@ -8655,12 +8663,13 @@ f_menu_app_sys_backup () {
 f_menu_app_sys_disks () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Disks Information Applications until loop.
             #MSD cfdisk - Disk partition tool.
             #MSD df     - Disk usage and mount points, usage: -hT.
+            #MSD dfc    - Disk usage and mount points, graphical display.
             #MSD du     - Disk usage monitor by directory.
             #MSD gt5    - A diff-capable du-browser.
+            #MSD lsblk  - List block devices (disks).
             #MSD ncdu   - Disk usage monitor, ncurses-based.
             #MSD parted - Disk partition tool.
             #MSD pydf   - Disk usage df clone written in python.
@@ -8679,17 +8688,21 @@ f_menu_app_sys_disks () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Disks Information Applications case statement.
+                 cfdisk' '* | 'sudo cfdisk '* | 'sudo cfdisk')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  [Cc] | [Cc][Ff]*)
                  APP_NAME="cfdisk"
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 cfdisk' '* | 'sudo cfdisk '* | 'sudo cfdisk')
+                 df' '* | 'sudo df '* | 'sudo df')
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Dd] | [Dd][Ff])
                  APP_NAME="df -hT"
@@ -8713,7 +8726,15 @@ f_menu_app_sys_disks () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 df' '* | 'sudo df '* | 'sudo df')
+                 dfc' '* | 'sudo dfc '* | 'sudo dfc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ff]| [Dd][Ff][Cc])
+                 APP_NAME="dfc"
+                 f_application_run
+                 ;;
+                 du' '* | 'sudo du '* | 'sudo du')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8740,9 +8761,11 @@ f_menu_app_sys_disks () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 du' '* | 'sudo du '* | 'sudo du')
+                 gt5' '* | 'sudo gt5 '* | 'sudo gt5')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Gg] | [Gg][Tt]*)
                  APP_NAME="gt5"
@@ -8750,7 +8773,15 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 gt5' '* | 'sudo gt5 '* | 'sudo gt5')
+                 lsblk' '* | 'sudo lsblk '* | 'sudo lsblk')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ss]*)
+                 APP_NAME="lsblk"
+                 f_application_run
+                 ;;
+                 ncdu' '* | 'sudo ncdu '* | 'sudo ncdu')
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
@@ -8762,7 +8793,7 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 ncdu' '* | 'sudo ncdu '* | 'sudo ncdu')
+                 parted' '* | 'sudo parted '* | 'sudo parted')
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
@@ -8774,11 +8805,9 @@ f_menu_app_sys_disks () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 parted' '* | 'sudo parted '* | 'sudo parted')
+                 pydf' '* | 'sudo pydf '* | 'sudo pydf')
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Yy]*)
                  APP_NAME="pydf -hT"
@@ -8802,7 +8831,7 @@ f_menu_app_sys_disks () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 pydf' '* | 'sudo pydf '* | 'sudo pydf')
+                 uuid' '* | 'sudo uuid '* | 'sudo uuid')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8811,10 +8840,6 @@ f_menu_app_sys_disks () {
                  echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
                  APP_NAME="ls -l /dev/disk/by-uuid"
                  f_application_run             
-                 ;;
-                 uuid' '* | 'sudo uuid '* | 'sudo uuid')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
                  ;;
             esac                # End of System Disks Information> Applications case statement.
             #
@@ -8836,7 +8861,6 @@ f_menu_app_sys_disks () {
 f_menu_app_sys_health () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Health Applications until loop.
             #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
             #MSH arpalert   - Checks MAC addresses against list of known MACs, runs script.
@@ -8863,8 +8887,11 @@ f_menu_app_sys_health () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Health Applications case statement.
+                 arp-scan' '* | 'sudo arp-scan '* | 'sudo arp-scan')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][-]*)
-                 APP_NAME="arp-scan"
                  clear # Blank the screen.
                  echo "arp-scan - ARP Scanner."
                  echo
@@ -8890,7 +8917,7 @@ f_menu_app_sys_health () {
                  APP_NAME="arp-scan -l -I $ANS"
                  f_application_run
                  ;;
-                 arp-scan' '* | 'sudo arp-scan '* | 'sudo arp-scan')
+                 arpalert' '* | 'sudo arpalert '* | 'sudo arpalert')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8898,7 +8925,7 @@ f_menu_app_sys_health () {
                  APP_NAME="arpalert"
                  f_application_run
                  ;;
-                 arpalert' '* | 'sudo arpalert '* | 'sudo arpalert')
+                 arpon' '* | 'sudo arpon '* | 'sudo arpon')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8906,7 +8933,7 @@ f_menu_app_sys_health () {
                  APP_NAME="arpon"
                  f_application_run
                  ;;
-                 arpon' '* | 'sudo arpon '* | 'sudo arpon')
+                 arpwatch' '* | 'sudo arpwatch '* | 'sudo arpwatch')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8930,7 +8957,7 @@ f_menu_app_sys_health () {
                  APP_NAME="man arpwatch"
                  f_application_run
                  ;;
-                 arpwatch' '* | 'sudo arpwatch '* | 'sudo arpwatch')
+                 chkrootkit' '* | 'sudo chkrootkit '* | 'sudo chkrootkit')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8938,9 +8965,10 @@ f_menu_app_sys_health () {
                  APP_NAME="chkrootkit"
                  f_application_run
                  ;;
-                 chkrootkit' '* | 'sudo chkrootkit '* | 'sudo chkrootkit')
+                 clamscan' '* | 'sudo clamscan '* | 'sudo clamscan')
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Cc] | [Cc][Ll]*)
                  APP_NAME="clamscan -r /home"
@@ -8959,8 +8987,9 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 clamscan' '* | 'sudo clamscan '* | 'sudo clamscan')
+                 freshclam' '* | 'sudo freshclam '* | 'sudo freshclam')
                  APP_NAME=$CHOICE_APP
+                 # f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
@@ -8969,17 +8998,15 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-                 freshclam' '* | 'sudo freshclam '* | 'sudo freshclam')
+                 lynis' '* | 'sudo lynis '* | 'sudo lynis')
                  APP_NAME=$CHOICE_APP
-                 # f_how_to_quit_application "q"
                  f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Ll] | [Ll][Yy]*)
                  APP_NAME="lynis"
                  f_application_run
                  ;;
-                 lynis' '* | 'sudo lynis '* | 'sudo lynis')
+                 rkhunter' '* | 'sudo rkhunter '* | 'sudo rkhunter')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -8987,7 +9014,7 @@ f_menu_app_sys_health () {
                  APP_NAME="rkhunter"
                  f_application_run
                  ;;
-                 rkhunter' '* | 'sudo rkhunter '* | 'sudo rkhunter')
+                 stress' '* | 'sudo stress '* | 'sudo stress')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9013,7 +9040,7 @@ f_menu_app_sys_health () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 stress' '* | 'sudo stress '* | 'sudo stress')
+                 tripwire' '* | 'sudo tripwire '* | 'sudo tripwire')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9043,10 +9070,6 @@ f_menu_app_sys_health () {
                  echo "Now run man tripwire. Usage: man tripwire"
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 tripwire' '* | 'sudo tripwire '* | 'sudo tripwire')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of System Health Applications case statement.
@@ -9094,11 +9117,15 @@ f_menu_app_sys_mainboard () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Mainboard System Information case statement.
+                 dmidecode' '* | 'sudo dmidecode '* | 'sudo dmidecode')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Dd] | [Dd][Mm]*)
                  APP_NAME="dmidecode"
                  f_application_run
                  ;;
-                 dmidecode' '* | 'sudo dmidecode '* | 'sudo dmidecode')
+                 free' '* | 'sudo free '* | 'sudo free')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9118,7 +9145,7 @@ f_menu_app_sys_mainboard () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 free' '* | 'sudo free '* | 'sudo free')
+                 hdparm' '* | 'sudo hdparm '* | 'sudo hdparm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9138,7 +9165,7 @@ f_menu_app_sys_mainboard () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 hdparm' '* | 'sudo hdparm '* | 'sudo hdparm')
+                 lsb_release' '* | 'sudo lsb_release '* | 'sudo lsb_release')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9146,7 +9173,7 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="lsb_release -a"
                  f_application_run
                  ;;
-                 lsb_release' '* | 'sudo lsb_release '* | 'sudo lsb_release')
+                 lscpu' '* | 'sudo lscpu '* | 'sudo lscpu')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9154,7 +9181,7 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="lscpu"
                  f_application_run
                  ;;
-                 lscpu' '* | 'sudo lscpu '* | 'sudo lscpu')
+                 lshw' '* | 'sudo lshw '* | 'sudo lshw')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9179,7 +9206,7 @@ f_menu_app_sys_mainboard () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 lshw' '* | 'sudo lshw '* | 'sudo lshw')
+                 lsmod' '* | 'sudo lsmod '* | 'sudo lsmod')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9187,9 +9214,11 @@ f_menu_app_sys_mainboard () {
                  APP_NAME="lsmod "
                  f_application_run
                  ;;
-                 lsmod' '* | 'sudo lsmod '* | 'sudo lsmod')
+                 slabtop' '* | 'sudo slabtop '* | 'sudo slabtop')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Ll]*)
                  APP_NAME="slabtop"
@@ -9215,26 +9244,20 @@ f_menu_app_sys_mainboard () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 slabtop' '* | 'sudo slabtop '* | 'sudo slabtop')
+                 uname' '* | 'sudo uname '* | 'sudo uname')
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "Q"
                  f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Uu] | [Uu][Nn]*)
                  APP_NAME="uname -a"
                  f_application_run
                  ;;
-                 uname' '* | 'sudo uname '* | 'sudo uname')
+                 vmstat' '* | 'sudo vmstat '* | 'sudo vmstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Vv] | [Vv][Mm]*)
                  APP_NAME="vmstat"
-                 f_application_run
-                 ;;
-                 vmstat' '* | 'sudo vmstat '* | 'sudo vmstat')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Mainboard System Information case statement.
@@ -9281,11 +9304,15 @@ f_menu_app_sys_peripherals () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Peripheral System Information case statement.
+                 acpitool' '* | 'sudo acpitool '* | 'sudo acpitool')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Cc]*)
                  APP_NAME="acpitool"
                  f_application_run
                  ;;
-                 acpitool' '* | 'sudo acpitool '* | 'sudo acpitool')
+                 blkid' '* | 'sudo blkid '* | 'sudo blkid')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9315,7 +9342,7 @@ f_menu_app_sys_peripherals () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 blkid' '* | 'sudo blkid '* | 'sudo blkid')
+                 lsof' '* | 'sudo lsof '* | 'sudo lsof')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9323,7 +9350,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="lsof"
                  f_application_run
                  ;;
-                 lsof' '* | 'sudo lsof '* | 'sudo lsof')
+                 lspci' '* | 'sudo lspci '* | 'sudo lspci')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9331,7 +9358,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="lspci"
                  f_application_run
                  ;;
-                 lspci' '* | 'sudo lspci '* | 'sudo lspci')
+                 lspcmcia' '* | 'sudo lspcmcia '* | 'sudo lspcmcia')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9350,7 +9377,7 @@ f_menu_app_sys_peripherals () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 lspcmcia' '* | 'sudo lspcmcia '* | 'sudo lspcmcia')
+                 lsusb' '* | 'sudo lsusb '* | 'sudo lsusb')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9358,7 +9385,7 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="lsusb"
                  f_application_run
                  ;;
-                 lsusb' '* | 'sudo lsusb '* | 'sudo lsusb')
+                 pccardctl' '* | 'sudo pccardctl '* | 'sudo pccardctl')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9383,7 +9410,7 @@ f_menu_app_sys_peripherals () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 pccardctl' '* | 'sudo pccardctl '* | 'sudo pccardctl')
+                 printenv' '* | 'sudo printenv '* | 'sudo printenv')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9391,16 +9418,12 @@ f_menu_app_sys_peripherals () {
                  APP_NAME="printenv"
                  f_application_run
                  ;;
-                 printenv' '* | 'sudo printenv '* | 'sudo printenv')
+                 uptime' '* | 'sudo uptime '* | 'sudo uptime')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Uu] | [Uu][Pp]*)
                  APP_NAME="uptime"
-                 f_application_run
-                 ;;
-                 uptime' '* | 'sudo uptime '* | 'sudo uptime')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Peripheral System Information case statement.
@@ -9440,20 +9463,20 @@ f_menu_app_sys_logs () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Logs case statement.
+                 multitail' '* | 'sudo multitail '* | 'sudo multitail')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Mm] | [Mm][Uu]*)
                  APP_NAME="multitail"
                  f_application_run
                  ;;
-                 multitail' '* | 'sudo multitail '* | 'sudo multitail')
+                 swatch' '* | 'sudo swatch '* | 'sudo swatch')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ww]*)
                  APP_NAME="swatch"
-                 f_application_run
-                 ;;
-                 swatch' '* | 'sudo swatch '* | 'sudo swatch')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of System Logs case statement.
@@ -9506,6 +9529,10 @@ f_menu_app_sys_monitors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Monitors case statement.
+                 cacti' '* | 'sudo cacti '* | 'sudo cacti')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Cc] | [Cc][Aa]*)
                  APP_NAME="cacti"
                  clear # Blank the screen.
@@ -9529,7 +9556,7 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 cacti' '* | 'sudo cacti '* | 'sudo cacti')
+                 chkconfig' '* | 'sudo chkconfig '* | 'sudo chkconfig')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9554,9 +9581,10 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 chkconfig' '* | 'sudo chkconfig '* | 'sudo chkconfig')
+                 dstat' '* | 'sudo dstat '* | 'sudo dstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Dd] | [Dd][Ss]*)
                  APP_NAME="dstat 1 10"
@@ -9575,33 +9603,14 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 dstat' '* | 'sudo dstat '* | 'sudo dstat')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Gg] | [Gg][Ll]*)
-                 APP_NAME="glances"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  glances' '* | 'sudo glances '* | 'sudo glances')
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Ii]| [Ii][Oo] | [Ii][Oo][Ss]*)
-                 APP_NAME="iostat"
-                 f_application_run
-                 ;;
-                 iostat' '* | 'sudo iostat '* | 'sudo iostat')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ii]| [Ii][Oo] | [Ii][Oo][Tt]*)
-                 APP_NAME="iotop"
+                 [Gg] | [Gg][Ll]*)
+                 APP_NAME="glances"
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9612,11 +9621,29 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Ii]| [Ii][Oo] | [Ii][Oo][Tt]*)
+                 APP_NAME="iotop"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 iostat' '* | 'sudo iostat '* | 'sudo iostat')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii]| [Ii][Oo] | [Ii][Oo][Ss]*)
+                 APP_NAME="iostat"
+                 f_application_run
+                 ;;
+                 last' '* | 'sudo last '* | 'sudo last')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Ll]| [Ll][Aa]*)
                  APP_NAME="last"
                  f_application_run
                  ;;
-                 last' '* | 'sudo last '* | 'sudo last')
+                 mpstat' '* | 'sudo mpstat '* | 'sudo mpstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9637,15 +9664,6 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 mpstat' '* | 'sudo mpstat '* | 'sudo mpstat')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Mm]*)
-                 APP_NAME="nmon"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  nmon' '-h* | 'sudo nmon '-h*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -9655,6 +9673,15 @@ f_menu_app_sys_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Mm]*)
+                 APP_NAME="nmon"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 rrdtool' '* | 'sudo rrdtool '* | 'sudo rrdtool')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  [Rr] | [Rr][Rr]*)
                  APP_NAME="rrdtool"
@@ -9677,9 +9704,11 @@ f_menu_app_sys_monitors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 rrdtool' '* | 'sudo rrdtool '* | 'sudo rrdtool')
+                 saidar' '* | 'sudo saidar '* | 'sudo saidar')
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Aa] | [Ss][Aa][Ii]*)
                  APP_NAME="saidar"
@@ -9687,47 +9716,21 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 saidar' '* | 'sudo saidar '* | 'sudo saidar')
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] | [Ss][Aa] | [Ss][Aa][Rr])
-                 APP_NAME="sar"
-                 f_application_run
-                 ;;
                  sar' '* | 'sudo sar '* | 'sudo sar')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Ss] | [Ss][Ww]*)
-                 APP_NAME="swatch"
+                 [Ss] | [Ss][Aa] | [Ss][Aa][Rr])
+                 APP_NAME="sar"
                  f_application_run
                  ;;
                  swatch' '* | 'sudo swatch '* | 'sudo swatch')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Tt] | [Tt][Ll]*)
-                 APP_NAME="tload"
-                 clear # Blank the screen.
-                 echo tload - System load average graphical monitor.
-                 echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
+                 [Ss] | [Ss][Ww]*)
+                 APP_NAME="swatch"
+                 f_application_run
                  ;;
                  tload' '* | 'sudo tload '* | 'sudo tload')
                  APP_NAME=$CHOICE_APP
@@ -9749,14 +9752,34 @@ f_menu_app_sys_monitors () {
                       ;;
                  esac
                  ;;
-                 [Yy] | [Yy][Aa]*)
-                 APP_NAME="yacpi"
+                 [Tt] | [Tt][Ll]*)
+                 APP_NAME="tload"
+                 clear # Blank the screen.
+                 echo tload - System load average graphical monitor.
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 yacpi' '* | 'sudo yacpi '* | 'sudo yacpi')
+                 APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 yacpi' '* | 'sudo yacpi '* | 'sudo yacpi')
-                 APP_NAME=$CHOICE_APP
+                 [Yy] | [Yy][Aa]*)
+                 APP_NAME="yacpi"
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -9799,11 +9822,15 @@ f_menu_app_sys_other () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Other System Applications case statement.
+                 desmume' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Dd] | [Dd][Ee]*)
                  APP_NAME="desmume"
                  f_application_run
                  ;;
-                 desmume' '*)
+                 dosemu' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9811,16 +9838,12 @@ f_menu_app_sys_other () {
                  APP_NAME="dosemu"
                  f_application_run
                  ;;
-                 dosemu' '*)
+                 scrot' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc]*)
                  APP_NAME="scrot"
-                 f_application_run
-                 ;;
-                 scrot' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Other System Applications case statement.
@@ -9843,7 +9866,6 @@ f_menu_app_sys_other () {
 f_menu_app_sys_process () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Process Applications until loop.
             #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
             #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
@@ -9873,21 +9895,15 @@ f_menu_app_sys_process () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Process Applications case statement.
-                 [Aa] | [Aa][Tt]*)
-                 APP_NAME="atop"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  atop' '* | 'sudo atop '* | 'sudo atop')
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Hh] | [Hh][Tt]*)
-                 APP_NAME="htop"
-                 f_how_to_quit_application "q or <F10>"
+                 [Aa] | [Aa][Tt]*)
+                 APP_NAME="atop"
+                 f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -9897,11 +9913,21 @@ f_menu_app_sys_process () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Hh] | [Hh][Tt]*)
+                 APP_NAME="htop"
+                 f_how_to_quit_application "q or <F10>"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 killall' '* | 'sudo killall '* | 'sudo killall')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Kk] | [Kk][Ii]*)
                  APP_NAME="killall"
                  f_application_run
                  ;;
-                 killall' '* | 'sudo killall '* | 'sudo killall')
+                 pgrep' '* | 'sudo pgrep '* | 'sudo pgrep')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9909,7 +9935,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pgrep"
                  f_application_run
                  ;;
-                 pgrep' '* | 'sudo pgrep '* | 'sudo pgrep')
+                 pidstat' '* | 'sudo pidstat '* | 'sudo pidstat')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9926,7 +9952,7 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 pidstat' '* | 'sudo pidstat '* | 'sudo pidstat')
+                 pkill' '* | 'sudo pkill '* | 'sudo pkill')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9934,7 +9960,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pkill"
                  f_application_run
                  ;;
-                 pkill' '* | 'sudo pkill '* | 'sudo pkill')
+                 pmap' '* | 'sudo pmap '* | 'sudo pmap')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9942,7 +9968,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pmap"
                  f_application_run
                  ;;
-                 pmap' '* | 'sudo pmap '* | 'sudo pmap')
+                 ps' '* | 'sudo ps '* | 'sudo ps')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9973,7 +9999,7 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 ps' '* | 'sudo ps '* | 'sudo ps')
+                 pstree' '* | 'sudo pstree '* | 'sudo pstree')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -9981,7 +10007,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pstree"
                  f_application_run
                  ;;
-                 pstree' '* | 'sudo pstree '* | 'sudo pstree')
+                 pswatcher' '* | 'sudo pswatcher '* | 'sudo pswatcher')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10003,7 +10029,7 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 pswatcher' '* | 'sudo pswatcher '* | 'sudo pswatcher')
+                 pwdx' '* | 'sudo pwdx '* | 'sudo pwdx')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10011,7 +10037,7 @@ f_menu_app_sys_process () {
                  APP_NAME="pwdx"
                  f_application_run
                  ;;
-                 pwdx' '* | 'sudo pwdx '* | 'sudo pwdx')
+                 strace' '* | 'sudo strace '* | 'sudo strace')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10019,11 +10045,11 @@ f_menu_app_sys_process () {
                  APP_NAME="strace"
                  f_application_run
                  ;;
-                 strace' '* | 'sudo strace '* | 'sudo strace')
+                 sysctl' '* | 'sudo sysctl '* | 'sudo sysctl')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Ss] | [Ss][Yy] | [Ss][Yy][Ss] | [Ss][Yy][Ss][Cc] | [Ss][Yy][Ss][Cc][Tt] | [Ss][Yy][Ss][Cc][Tt][Ll])
+                 [Ss] | [Ss][Yy]*)
                  APP_NAME="sysctl"
                  clear # Blank the screen.
                  echo "sysctl - Configure kernel parameters at runtime."
@@ -10050,18 +10076,14 @@ f_menu_app_sys_process () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 sysctl' '* | 'sudo sysctl '* | 'sudo sysctl')
+                 top' '* | 'sudo top '* | 'sudo top')
                  APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Oo]*)
-                 APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 top' '* | 'sudo top '* | 'sudo top')
-                 APP_NAME=$CHOICE_APP
+                 [Tt] | [Tt][Oo]*)
+                 APP_NAME="top"
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -10106,11 +10128,15 @@ f_menu_app_sys_screens () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Screens case statement.
+                 byobu' '* | 'sudo byobu '* | 'sudo byobu')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Bb] | [Bb][Yy]*)
                  APP_NAME="byobu"
                  f_application_run
                  ;;
-                 byobu' '* | 'sudo byobu '* | 'sudo byobu')
+                 dtach' '* | 'sudo dtach '* | 'sudo dtach')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10118,7 +10144,7 @@ f_menu_app_sys_screens () {
                  APP_NAME="dtach"
                  f_application_run
                  ;;
-                 dtach' '* | 'sudo dtach '* | 'sudo dtach')
+                 dvtm' '* | 'sudo dvtm '* | 'sudo dvtm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10126,7 +10152,7 @@ f_menu_app_sys_screens () {
                  APP_NAME="dvtm"
                  f_application_run
                  ;;
-                 dvtm' '* | 'sudo dvtm '* | 'sudo dvtm')
+                 screen' '* | 'sudo screen '* | 'sudo screen')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10157,16 +10183,12 @@ f_menu_app_sys_screens () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 screen' '* | 'sudo screen '* | 'sudo screen')
+                 tmux' '* | 'sudo tmux '* | 'sudo tmux')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Tt] | [Tt][Mm]*)
                  APP_NAME="tmux"
-                 f_application_run
-                 ;;
-                 tmux' '* | 'sudo tmux '* | 'sudo tmux')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of System Screens case statement.
@@ -10189,12 +10211,11 @@ f_menu_app_sys_screens () {
 f_menu_app_sys_software () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of System Softare Applications until loop.
             #MSF alien    - Converts rpm to deb packages.
             #MSF apt      - Debian package manager.
             #MSF aptitude - Debian package manager.
-            #MSF aptoncd  - GUI makes a CD of Debian packages, install via APT package manager.
+            #MSF aptoncd  - GUI makes a CD of Debian packages for installation w/o Internet.
             #MSF dpkg     - Debian package manager.
             #MSF rpm      - RPM (Red Hat) package manager.
             #MSF synaptic - GUI Debian package manager.
@@ -10215,12 +10236,16 @@ f_menu_app_sys_software () {
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Synstem Software Applications case statement.
+            case $CHOICE_APP in # Start of System Software Applications case statement.
+                 alien' '* | 'sudo alien '* | 'sudo alien')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Ll]*)
                  APP_NAME="alien"
                  f_application_run
                  ;;
-                 alien' '* | 'sudo alien '* | 'sudo alien')
+                 apt' '* | 'apt-'* | 'sudo apt' | 'sudo apt '* | 'sudo apt-'*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10250,8 +10275,9 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 apt' '* | 'apt-'* | 'sudo apt' | 'sudo apt '* | 'sudo apt-'*)
+                 aptitude' '* | 'sudo aptitude '* | 'sudo aptitude')
                  APP_NAME=$CHOICE_APP
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Ii]*)
@@ -10283,9 +10309,8 @@ f_menu_app_sys_software () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
-                 aptitude' '* | 'sudo aptitude '* | 'sudo aptitude')
+                 'aptoncd '* | 'sudo aptoncd '* | 'sudo aptoncd')
                  APP_NAME=$CHOICE_APP
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Oo]*)
@@ -10305,6 +10330,10 @@ f_menu_app_sys_software () {
                  echo
                  f_press_enter_key_to_continue
                  ;;
+                 dpkg' '* | 'dpkg-'* | 'sudo dpkg '* | 'sudo dpkg' | 'sudo dpkg-'*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Dd] | [Dd][Pp]*)
                  APP_NAME="dpkg"
                  clear # Blank the screen.
@@ -10323,7 +10352,7 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 dpkg' '* | 'dpkg-'* | 'sudo dpkg '* | 'sudo dpkg' | 'sudo dpkg-'*)
+                 rpm' '* | 'sudo rpm '* | 'sudo rpm')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10353,7 +10382,7 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 rpm' '* | 'sudo rpm '* | 'sudo rpm')
+                 synaptic' '* | 'sudo synaptic '* | 'sudo synaptic')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10367,11 +10396,15 @@ f_menu_app_sys_software () {
                  echo
                  f_press_enter_key_to_continue
                  ;;
+                 urpmi' '* |  'sudo urpmi '* | 'sudo urpmi')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Uu] | [Uu][Rr]*)
                  APP_NAME="urpmi"
                  f_application_run
                  ;;
-                 urpmi' '* |  'sudo urpmi '* | 'sudo urpmi')
+                 yast' '* | 'sudo yast '* | 'sudo yast')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10384,6 +10417,10 @@ f_menu_app_sys_software () {
                  echo "YaST can be launched from the command line with the 'yast' command."
                  echo
                  f_press_enter_key_to_continue
+                 ;;
+                 yum' '* | 'sudo yum '* | 'sudo yum')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
                  ;;
                  [Yy] | [Yy][Uu]*)
                  APP_NAME="yum"
@@ -10405,7 +10442,7 @@ f_menu_app_sys_software () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 yum' '* | 'sudo yum '* | 'sudo yum')
+                 zypper' '* | 'sudo zypper '* | 'sudo zypper')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10427,11 +10464,6 @@ f_menu_app_sys_software () {
                  echo "*** For more help type: man zypper"
                  echo
                  f_press_enter_key_to_continue
-
-                 f_application_run
-                 ;;
-                 zypper' '* | 'sudo zypper '* | 'sudo zypper')
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Synstem Software Applications case statement.
@@ -10454,7 +10486,6 @@ f_menu_app_sys_software () {
 f_menu_cat_video () {
       f_initvars_menu_app
       until [ $CHOICE_SCAT -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Video Application Category until loop.
             #BVI Editors - Video editors, transcoders, converters.
             #BVI Players - Video players/downloaders.
@@ -10496,7 +10527,6 @@ f_menu_cat_video () {
 f_menu_app_video_editors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Video Applications until loop.
             #MVE avconv        - Audio/Video converter.
             #MVE avidemux      - Editor for simple cutting, filtering, encoding.
@@ -10519,21 +10549,25 @@ f_menu_app_video_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Video Editor Applications case statement.
+                 avconv' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Vv] | [Aa][Vv][Cc]*)
                  APP_NAME="avconv"
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 avconv' '*)
+                 avidemux' '*)
                  APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  [Aa] | [Aa][Vv] | [Aa][Vv][Ii]*)
                  APP_NAME="avidemux"
                  f_application_run
                  ;;
-                 avidemux' '*)
+                 ffmpeg' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10541,7 +10575,7 @@ f_menu_app_video_editors () {
                  APP_NAME="ffmpeg"
                  f_application_run
                  ;;
-                 ffmpeg' '*)
+                 handbrake-cli' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10549,7 +10583,7 @@ f_menu_app_video_editors () {
                  APP_NAME="handbrake-cli"
                  f_application_run
                  ;;
-                 handbrake-cli' '*)
+                 mencoder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10557,7 +10591,7 @@ f_menu_app_video_editors () {
                  APP_NAME="mencoder"
                  f_application_run
                  ;;
-                 mencoder' '*)
+                 mjpegtools' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10565,16 +10599,12 @@ f_menu_app_video_editors () {
                  APP_NAME="mjpegtools"
                  f_application_run
                  ;;
-                 mjpegtools' '*)
+                 mpgtx' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Mm] | [Mm][Pp]*)
                  APP_NAME="mpgtx"
-                 f_application_run
-                 ;;
-                 mpgtx' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Video Editor Applications case statement.
@@ -10597,7 +10627,6 @@ f_menu_app_video_editors () {
 f_menu_app_video_players () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-            # Only way to exit menu is to enter "0" or "[R]eturn".
       do    # Start of Video Applications until loop.
             #MVI aaxine       - xine video player.
             #MVI cacaxine     - xine video player.
@@ -10625,11 +10654,15 @@ f_menu_app_video_players () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Video Player/Downloader Applications case statement.
+                 aaxine' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
                  [Aa] | [Aa][Aa]*)
                  APP_NAME="aaxine"
                  f_application_run
                  ;;
-                 aaxine' '*)
+                 cacaxine'*')
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10637,7 +10670,7 @@ f_menu_app_video_players () {
                  APP_NAME="cacaxine"
                  f_application_run
                  ;;
-                 cacaxine'*')
+                 cclive' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10645,7 +10678,7 @@ f_menu_app_video_players () {
                  APP_NAME="cclive"
                  f_application_run
                  ;;
-                 cclive' '*)
+                 episoder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10653,7 +10686,7 @@ f_menu_app_video_players () {
                  APP_NAME="episoder"
                  f_application_run
                  ;;
-                 episoder' '*)
+                 fbxine' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10661,7 +10694,7 @@ f_menu_app_video_players () {
                  APP_NAME="fbxine"
                  f_application_run
                  ;;
-                 fbxine' '*)
+                 mencoder' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10669,7 +10702,7 @@ f_menu_app_video_players () {
                  APP_NAME="mencoder"
                  f_application_run
                  ;;
-                 mencoder' '*)
+                 mplayer' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10677,7 +10710,7 @@ f_menu_app_video_players () {
                  APP_NAME="mplayer"
                  f_application_run
                  ;;
-                 mplayer' '*)
+                 mplayer2' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10685,7 +10718,7 @@ f_menu_app_video_players () {
                  APP_NAME="mplayer2"
                  f_application_run
                  ;;
-                 mplayer2' '*)
+                 vlc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10693,7 +10726,7 @@ f_menu_app_video_players () {
                  APP_NAME="vlc"
                  f_application_run
                  ;;
-                 vlc' '*)
+                 xine-console' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10701,7 +10734,7 @@ f_menu_app_video_players () {
                  APP_NAME="xine-console"
                  f_application_run
                  ;;
-                 xine-console' '*)
+                 yougrabber' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -10709,16 +10742,12 @@ f_menu_app_video_players () {
                  APP_NAME="yougrabber"
                  f_application_run
                  ;;
-                 yougrabber' '*)
+                 youtube-dl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Yy] | [Yy][Oo] | [Yy][Oo][Uu] | [Yy][Oo][Uu][Tt]*)
                  APP_NAME="youtube-dl"
-                 f_application_run
-                 ;;
-                 youtube-dl' '*)
-                 APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
             esac                # End of Video Player/Downloader Applications case statement.
