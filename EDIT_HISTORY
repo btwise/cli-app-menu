@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="July-18-2013 19:40"
+REVDATE="July-21-2013 11:30"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,21 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-07-21 *f_application_error edited message to note app error messages.
+##            *f_menu_app_calculators added dc.
+##            *f_menu_app_file_compression added xz, unxz, xzcat, xzgrep.
+##            *f_menu_app_firewalls added strobe.
+##            *f_menu_app_network_bandwidth added statnet, trafshow.
+##            *f_menu_app_network_bandwidth tweaked pktstat messages.
+##            *f_menu_app_network_monitors added netwatch.
+##            *f_menu_app_nic_tools added netload.
+##            *f_menu_app_pdfps added pdftk.
+##            *f_menu_app_sys_disks added hdparm.
+##            *f_menu_app_sys_backup added dtrx.
+##            *f_menu_app_sys_logs added ccze.
+##            *f_menu_app_sys_screens added dvtm, fbterm, vlock.
+##            *f_menu_app_web_browsers added surfraw.
 ##
 ## 2013-07-18 *Case pattern matching re-ordered to allow <application> <options>.
 ##            *f_menu_app_sys_disks added lsblk.

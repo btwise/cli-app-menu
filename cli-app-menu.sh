@@ -1,5 +1,3 @@
-﻿#! /bin/bash 
-#
 # ©2013 Copyright 2013 Robert D. Chin
 #
 #
@@ -36,7 +34,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-18-2013 19:40"
+REVDATE="July-21-2013 11:30"
 #
 #
 # +----------------------------------------+
@@ -632,6 +630,10 @@ fi
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
          echo
+         echo "**********************************************************************"
+         echo ">>>>>>>>>> SEE ABOVE for application error messages, if any <<<<<<<<<<"
+         echo "**********************************************************************"
+         echo
          echo $THIS_FILE" says:"
          echo "              ***********"
          echo "An error code >>> $ERROR <<< has occurred" 
@@ -750,20 +752,20 @@ f_application_install () {
                 # 'bsdgames'.
                 #
                 case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
-                     adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
-                     APP_NAME_INSTALL="bsdgames"
-                     ;;
-                     animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
-                     APP_NAME_INSTALL="imagemagick"
-                     ;;
                      aria2c)
                      APP_NAME_INSTALL="aria2"
                      ;;
                      barnowl | zcrypt)
                      APP_NAME_INSTALL="barnowl"
                      ;;
+                     adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
+                     APP_NAME_INSTALL="bsdgames"
+                     ;;
                      clamscan)
                      APP_NAME_INSTALL="clamav"
+                     ;;
+                     todo)
+                     APP_NAME_INSTALL="devtodo"
                      ;;
                      fbgs)
                      APP_NAME_INSTALL="fbi"
@@ -775,26 +777,32 @@ f_application_install () {
                      ifplugstatus)
                      APP_NAME_INSTALL="ifplugd"
                      ;;
-                     lynx)
-                     APP_NAME_INSTALL="lynx-cur"
+                     animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
+                     APP_NAME_INSTALL="imagemagick"
                      ;;
                      moc)
                      APP_NAME_INSTALL="libqt4-dev"
                      ;;
-                     mpstat | iostat | pidstat | sadf | sar)
-                     APP_NAME_INSTALL="sysstat"
+                     lynx)
+                     APP_NAME_INSTALL="lynx-cur"
                      ;;
                      nagios3)
                      APP_NAME_INSTALL="nagios3-core"
                      ;;
+                     tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
+                     APP_NAME_INSTALL="netdiag"
+                     ;; 
+                     mpstat | iostat | pidstat | sadf | sar)
+                     APP_NAME_INSTALL="sysstat"
+                     ;;
                      photorec)
                      APP_NAME_INSTALL="testdisk"
                      ;;
-                     todo)
-                     APP_NAME_INSTALL="devtodo"
-                     ;;
                      aaxine | cacaxine | fbxine)
                      APP_NAME_INSTALL="xine-console"
+                     ;;
+                     xz | unxz | xzcat | xzgrep)
+                     APP_NAME_INSTALL="xz-utils"
                      ;;
                      esac # End of Install Package Name case statement.
                 #
@@ -2113,7 +2121,11 @@ f_menu_app_file_compression () {
             #MFC gunzip - File uncompress gzip files.
             #MFC gzip   - File compress, to gzip files.
             #MFC p7zip  - File compress, to 7z files, 7z better than zip compression.
+            #MFC unxc   - File uncompress xz files.
             #MFC unzip  - File uncompress zip files.
+            #MFC xz     - File compress xz files.
+            #MFC xzcat  - File cat xz files.
+            #MFC xzgrep - File grep xz files.
             #MFC zip    - File compress files to zip files. 
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -2169,12 +2181,44 @@ f_menu_app_file_compression () {
                  APP_NAME="p7zip"
                  f_application_run
                  ;;
+                 unxz' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu] | [Uu][Nn][Xx][Zz])
+                 APP_NAME="unxz"
+                 f_application_run
+                 ;;
                  unzip' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Uu] | [Uu][Nn]*)
                  APP_NAME="unzip"
+                 f_application_run
+                 ;;
+                 xz' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Xx] | [Xx][Zz])
+                 APP_NAME="xz"
+                 f_application_run
+                 ;;
+                 xzcat' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Xx] | [Xx][Zz] | [Xx][Zz][Cc]*)
+                 APP_NAME="xzcat"
+                 f_application_run
+                 ;;
+                 xzgrep' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Xx] | [Xx][Zz] | [Xx][Zz][Gg]*)
+                 APP_NAME="xzgrep"
                  f_application_run
                  ;;
                  zip' '*)
@@ -4329,12 +4373,13 @@ f_menu_app_web_browsers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Web Browsers Applications until loop.
-            #MWB elinks - Web browser, tables, frames, forms support, tabbed browsing.
-            #MWB links  - Web browser, no graphics mode.
-            #MWB links2 - Web browser, has graphics mode.
-            #MWB lynx   - Web browser, NLS support.
-            #MWB retawq - Web browser, multi-threaded.
-            #MWB w3m    - Web browser, tables, frames support, IPv6 support.
+            #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
+            #MWB links   - Web browser, no graphics mode.
+            #MWB links2  - Web browser, has graphics mode.
+            #MWB lynx    - Web browser, NLS support.
+            #MWB retawq  - Web browser, multi-threaded.
+            #MWB surfraw - Search the web using a web search site.
+            #MWB w3m     - Web browser, tables, frames support, IPv6 support.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Web Browser Applications Menu"
@@ -4405,6 +4450,14 @@ f_menu_app_web_browsers () {
                  APP_NAME="retawq"
                  f_web_site
                  f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 surfraw' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Uu]*)
+                 APP_NAME="surfraw"
                  f_application_run
                  ;;
                  w3m' '*)
@@ -5781,6 +5834,7 @@ f_menu_app_firewalls () {
             #MNF iptables  - Firewall configuration rules for an IP chain.
             #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
             #MNF portbunny - Port scanner created by Recurity Labs.
+            #MNF strobe    - Port scanner.
             #MNF ufw       - Firewall configuration and status.
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Firewall Applications Menu"
@@ -5874,6 +5928,14 @@ f_menu_app_firewalls () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 strobe' '* | 'sudo strobe '* | 'sudo strobe')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Tt]*)
+                 APP_NAME="strobe"
+                 f_application_run
+                 ;;
                  ufw' '* | 'sudo ufw '* | 'sudo ufw')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -5910,7 +5972,7 @@ f_menu_app_firewalls () {
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Firewall Applications until loop.
+      done  # End of Firewall Applications until loop.	
 } # End of function f_menu_app_firewalls
 #
 # +----------------------------------------+
@@ -6248,6 +6310,7 @@ f_menu_app_nic_tools () {
             #MNN iwlist       - Get detailed information from wired/wireless interface.
             #MNN mii-tool     - NIC configuration of Media Independent Interface Unit.
             #MNN mii-diag     - NIC configuration of network cards.
+            #MNN netload      - NIC network load; ncurses based.
             #MNN nictools-pci - NIC configuration of specific oem network cards.
             #MNN wicd-curses  - Wireless scan and connect to wired/wireless networks.
             #
@@ -6330,6 +6393,15 @@ f_menu_app_nic_tools () {
                  ;;
                  [Mm] | [Mm][Ii] | [Mm][Ii][Ii] | [Mm][Ii][Ii][-] | [Mm][Ii][Ii][-][Tt]*)
                  APP_NAME="mii-tool"
+                 f_application_run
+                 ;;
+                 netload' '* | 'sudo netload '* | 'sudo netload')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ee]*)
+                  f_find_NIC
+                  APP_NAME="netload $ANS"
                  f_application_run
                  ;;
                  nictools-pci' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
@@ -6508,16 +6580,17 @@ f_menu_app_network_monitors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Network Monitor Applications until loop.
-            #MNM iptraf    - IP LAN monitor, ncurses based display.
-            #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
-            #MNM nc        - Netcat reads/writes data across network.
-            #MNM netstat   - Print network connections, routing tables, interface stats, etc.
-            #MNM ntop      - Display network usage and status information in a web browser.
-            #MNM opennms   - Network management application. Discovery, reports, statistics.
-            #MNM pmacct    - Traffic information monitor.
-            #MNM slurm     - Network interface I/O load monitor.
-            #MNM sntop     - IP LAN monitor. Display network hosts and connections.
-            #MNM vnstat    - Traffic information monitor.
+            #MNM iptraf   - IP LAN monitor, ncurses based display.
+            #MNM nagios3  - IP LAN monitor. Display network hosts, devices, connections.
+            #MNM nc       - Netcat reads/writes data across network.
+            #MNM netstat  - Print network connections, routing tables, interface stats, etc.
+            #MNM netwatch - Protocol monitor; ncurses based.
+            #MNM ntop     - Display network usage and status information in a web browser.
+            #MNM opennms  - Network management application. Discovery, reports, statistics.
+            #MNM pmacct   - Traffic information monitor.
+            #MNM slurm    - Network interface I/O load monitor.
+            #MNM sntop    - IP LAN monitor. Display network hosts and connections.
+            #MNM vnstat   - Traffic information monitor.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Monitor Applications Menu"
@@ -6604,6 +6677,17 @@ f_menu_app_network_monitors () {
                  echo
                  echo "Now run netstat. Usage: netstat -l"
                  f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 ;;
+                 netwatch' '* | 'sudo netwatch '* | 'sudo netwatch')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww]*)
+                 f_find_NIC
+                 APP_NAME="netwatch -e $ANS"
+                 f_how_to_quit_application "q"
                  f_application_run
                  ;;
                  ntop' '* | 'sudo ntop '* | 'sudo ntop')
@@ -6743,14 +6827,16 @@ f_menu_app_network_bandwidth () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Network Bandwidth Applications until loop.
-            #MNB bmon    - Bandwidth monitor and rate estimator.
-            #MNB cbm     - Color Bandwidth Meter, ncurses based display.
-            #MNB ifstat  - Bandwidth statistics. (See also dstat, System Monitors Menu).
-            #MNB iftop   - Bandwidth statistics.
-            #MNB jnettop - Bandwidth statistics across streams.
-            #MNB nethogs - Bandwidth statistics by process.
-            #MNB nload   - Bandwidth monitor in real-time with graphs; ncurses based display.
-            #MNB pktstat - Display active connections and bandwidth in real-time.
+            #MNB bmon     - Bandwidth monitor and rate estimator.
+            #MNB cbm      - Color Bandwidth Meter, ncurses based display.
+            #MNB ifstat   - Bandwidth statistics. (See also dstat, System Monitors Menu).
+            #MNB iftop    - Bandwidth statistics.
+            #MNB jnettop  - Bandwidth statistics across streams.
+            #MNB nethogs  - Bandwidth statistics by process.
+            #MNB nload    - Bandwidth graphical monitor in real-time; ncurses based display.
+            #MNB pktstat  - Display active connections and bandwidth in real-time.
+            #MNB statnet  - Bandwidth statistics.
+            #MNB trafshow - Bandwidth statistics; ncurses based.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Network Bandwidth Applications Menu"
@@ -6837,22 +6923,52 @@ f_menu_app_network_bandwidth () {
                  nload' '* | 'sudo nload '* | 'sudo nload')
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Ll]*)
                  APP_NAME="nload"
+                 f_find_NIC
+                 APP_NAME="nload $ANS"                  
                  f_application_run
-                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pktstat' '* | 'sudo pktstat '* | 'sudo pkstat')
                  APP_NAME=$CHOICE_APP
+                 echo
+                 echo "It may take a while to quit; wait while pktstat resolves addresses."
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
-                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Kk]*)
                  APP_NAME="pktstat"
+                 echo
+                 echo "It may take a while to quit; wait while pktstat resolves addresses."
+                 f_how_to_quit_application "q" "no-clear"
                  f_application_run
-                 #PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 statnet' '* | 'sudo statnet '* | 'sudo statnet')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Tt]*)
+                 APP_NAME="statnet"
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 trafshow' '* | 'sudo trafshow '* | 'sudo trafshow')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Rr]*)
+                 APP_NAME="trafshow"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of Network Bandwidth Applications case statement.
             #
@@ -7221,6 +7337,7 @@ f_menu_app_calculators () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Calculator Applications until loop.
             #MCC bc       - Calculator.
+            #MCC dc       - RPN arbitrary precision reverse-polish calculator.
             #MCC orpie    - RPN Reverse Polish Notation calculator.
             #MCC tapecalc - Tape-like calculator.
             #
@@ -7248,6 +7365,14 @@ f_menu_app_calculators () {
                  f_how_to_quit_application "quit"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 dc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Cc])
+                 APP_NAME="dc"
+                 f_application_run
                  ;;
                  orpie' '*)
                  APP_NAME=$CHOICE_APP
@@ -7602,6 +7727,7 @@ f_menu_app_pdfps () {
             #MPS jfbview  - Image viewer and framebuffer PDF viewer based on Imlib2.
             #MPS pdfjam   - Merge pdf files into a single file.
             #MPS pdftex   - Typesetter creates pdf files.
+            #MPS pdftk    - Merge/split, rotate, watermark, bookmarks/metadata attach files.
             #MPS pdftops  - Converts PDF to PS (PostScript) format.
             #MPS ps2ascii - Converts PS (PostScript) to text format.
             #MPS ps2pdf   - Converts PS (PostScript) to PDF format.
@@ -7681,6 +7807,14 @@ f_menu_app_pdfps () {
                  ;;
                  [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Ee]*)
                  APP_NAME="pdftex"
+                 f_application_run
+                 ;;
+                 pdftk' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Kk])
+                 APP_NAME="pdftk"
                  f_application_run
                  ;;
                  pdftops' '*)
@@ -8533,7 +8667,7 @@ f_menu_cat_system () {
             #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
             #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
             #BSY Process     - System process monitoring, killing.
-            #BSY Screens     - Multiple screen sessions.
+            #BSY Screens     - Multiple screen sessions and terminal emulators.
             #BSY Software    - (Un)Install and manage software packages (programs).
             #
             MENU_TITLE="System Category Menu"
@@ -8611,6 +8745,7 @@ f_menu_app_sys_backup () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Backup Applications until loop.
+            #MSB dtrx - Use tar without remembering which flags for each file to use.
             #MSB rsync - File backup, mirror, directories and files.
             #MSB tar   - File backup, compress files.
             #
@@ -8627,6 +8762,14 @@ f_menu_app_sys_backup () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Backup Applications case statement.
+                 dtrx' '* | 'sudo dtrx' | 'sudo dtrx '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Tt]*)
+                 APP_NAME="dtrx"
+                 f_application_run
+                 ;;
                  rsync' '* | 'sudo rsync' | 'sudo rsync '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -8664,11 +8807,13 @@ f_menu_app_sys_disks () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of System Disks Information Applications until loop.
+            #MSD blkid  - Block devices.
             #MSD cfdisk - Disk partition tool.
             #MSD df     - Disk usage and mount points, usage: -hT.
             #MSD dfc    - Disk usage and mount points, graphical display.
             #MSD du     - Disk usage monitor by directory.
             #MSD gt5    - A diff-capable du-browser.
+            #MSD hdparm - Show/set disk parameters, settings. 
             #MSD lsblk  - List block devices (disks).
             #MSD ncdu   - Disk usage monitor, ncurses-based.
             #MSD parted - Disk partition tool.
@@ -8688,6 +8833,14 @@ f_menu_app_sys_disks () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Disks Information Applications case statement.
+                 blkid' '* | 'sudo blkid '* | 'sudo blkid')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ll]*)
+                 APP_NAME="blkid"
+                 f_application_run
+                 ;;
                  cfdisk' '* | 'sudo cfdisk '* | 'sudo cfdisk')
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
@@ -8772,6 +8925,14 @@ f_menu_app_sys_disks () {
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 hdparm' '* | 'sudo hdparm '* | 'sudo hdparm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Dd]*)
+                 APP_NAME="hdparm"
+                 f_application_run
                  ;;
                  lsblk' '* | 'sudo lsblk '* | 'sudo lsblk')
                  APP_NAME=$CHOICE_APP
@@ -9282,7 +9443,8 @@ f_menu_app_sys_peripherals () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Peripheral System Information until loop.
             #MSL acpitool  - ACPI power/battery settings.
-            #MSL blkid     - Block devices.
+            #MSL blkid     - Block devices information.
+            #MSL lsblk     - List block devices (disks).
             #MSL lsof      - Display information about open files.
             #MSL lspci     - PCI buses and connected devices.
             #MSL lspcmcia  - PCMCIA extended debugging information.
@@ -9341,6 +9503,14 @@ f_menu_app_sys_peripherals () {
                  f_press_enter_key_to_continue
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 lsblk' '* | 'sudo lsblk '* | 'sudo lsblk')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ss] | [Ll][Ss][Bb]*)
+                 APP_NAME="lsblk"
+                 f_application_run
                  ;;
                  lsof' '* | 'sudo lsof '* | 'sudo lsof')
                  APP_NAME=$CHOICE_APP
@@ -9447,6 +9617,7 @@ f_menu_app_sys_logs () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Logs until loop.
+            #MLO ccze      - A robust and modular log coloriser, with plugins. 
             #MLO multitail - View multiple log files using multiple panes.
             #MLO swatch    - Log file viewer with regexp matching, highlighting & hooks.
             #
@@ -9463,6 +9634,14 @@ f_menu_app_sys_logs () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Logs case statement.
+                 ccze' '* | 'sudo ccze '* | 'sudo ccze')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Cc]*)
+                 APP_NAME="ccze"
+                 f_application_run
+                 ;;
                  multitail' '* | 'sudo multitail '* | 'sudo multitail')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -10112,7 +10291,9 @@ f_menu_app_sys_screens () {
             #MSC byobu  - Multiple sessions.
             #MSC dtach  - Emulates detach feature of screen.
             #MSC dvtm   - dwm-style (tiling) window manager.
+            #MSC fbterm - Fast terminal emulator, multiple fonts, multiple windows.
             #MSC screen - Multiple sessions via split or pager screens.
+            #MSC vlock  - Locks virtual console or current terminal.
             #MSC tmux   - Multiple sessions with multiplexing.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -10150,6 +10331,14 @@ f_menu_app_sys_screens () {
                  ;;
                  [Dd] | [Dd][Vv]*)
                  APP_NAME="dvtm"
+                 f_application_run
+                 ;;
+                 fbterm' '* | 'sudo fbterm '* | 'sudo fbterm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Bb]*)
+                 APP_NAME="fbterm"
                  f_application_run
                  ;;
                  screen' '* | 'sudo screen '* | 'sudo screen')
@@ -10191,6 +10380,14 @@ f_menu_app_sys_screens () {
                  APP_NAME="tmux"
                  f_application_run
                  ;;
+                 vlock' '* | 'sudo vlock '* | 'sudo vlock')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Vv] | [Vv][Ll]*)
+                 APP_NAME="vlock"
+                 f_application_run
+                 ;;
             esac                # End of System Screens case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -10219,6 +10416,7 @@ f_menu_app_sys_software () {
             #MSF dpkg     - Debian package manager.
             #MSF rpm      - RPM (Red Hat) package manager.
             #MSF synaptic - GUI Debian package manager.
+            #MSF unshield - Extracts CAB files from InstallShield installers for MS Windows.
             #MSF urpmi    - Mandriva, Mageia package manager.
             #MSF YaST     - GUI OpenSUSE package manager.
             #MSF yum      - "Yellow Dog Updated" package manager.
@@ -10395,6 +10593,14 @@ f_menu_app_sys_software () {
                  echo "Synaptic can be launched from the command line with the 'synaptic' command."
                  echo
                  f_press_enter_key_to_continue
+                 ;;
+                 unshield' '* | 'sudo unshield '* | 'sudo unshield')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu] | Uu][Nn]*)
+                 APP_NAME="unshield"
+                 f_application_run
                  ;;
                  urpmi' '* |  'sudo urpmi '* | 'sudo urpmi')
                  APP_NAME=$CHOICE_APP
