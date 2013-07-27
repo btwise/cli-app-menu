@@ -34,7 +34,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-21-2013 11:30"
+REVDATE="July-27-2013 12:03"
 #
 #
 # +----------------------------------------+
@@ -11051,19 +11051,54 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
-           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/cli-app-menu.sh"
-           wget $WEB_SITE
-           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/README"
-           wget $WEB_SITE
-           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/COPYING"
-           wget $WEB_SITE
-           WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/EDIT_HISTORY"
-           wget $WEB_SITE
-           echo
-           echo "Downloaded files are in the same folder as this script."
-           echo "The file names will be appended with a '.1'"
-           echo "and you will have to manually copy them to the original names."
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           echo -n "Download from which branch? (STABLE/testing/quit): "
+           read ANS
+           case $ANS in
+                [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                ;;
+                [Tt] | [Tt][Ee] | [Tt][Ee][Ss]| [Tt][Ee][Ss][Tt]*)
+                
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/cli-app-menu.sh"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-common.lib"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-menu-apps.lib"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-menu-cat.lib"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/README"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/COPYING"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/EDIT_HISTORY"
+                wget $WEB_SITE
+                ANS="TESTING"
+                echo "Downloaded files from github $ANS branch." 
+                echo "Downloaded files are in the same folder as this script."
+                echo
+                echo "The file names will be appended with a '.1'"
+                echo "and you will have to MANUALLY COPY THEM to the original names."
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                ;;                  
+                "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa] | [Ss][Tt][Aa][Bb]*)  
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/cli-app-menu.sh"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/README"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/COPYING"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/EDIT_HISTORY"
+                wget $WEB_SITE
+                ANS="STABLE"
+                echo "Downloaded files from github $ANS branch." 
+                echo "Downloaded files are in the same folder as this script."
+                echo
+                echo "The file names will be appended with a '.1'"
+                echo "and you will have to MANUALLY COPY THEM to the original names."
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                ;;
+           esac
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ee] | [Ee][Dd]*)
