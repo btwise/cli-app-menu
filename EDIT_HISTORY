@@ -1,4 +1,4 @@
-﻿# !/bin/bash
+﻿#!/bin/bash
 #
 # ©2013 Copyright 2013 Robert D. Chin
 #
@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="July-26-2013 21:51"
+REVDATE="July-26-2013 23:41"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -51,10 +51,14 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##              files: lib_cli-common.lib, lib_cli-menu-cat.lib,
 ##                     lib_cli-menu-apps.lib
 ##
+## 2013-07-21 *f_application_error edited message to note app error messages.
+##            *f_menu_app_calculators added dc. 
+##
 ## 2013-07-19 *f_menu_app_calculators added dc.
 ##            *f_menu_app_file_compression added xz, unxz, xzcat, xzgrep.
 ##            *f_menu_app_firewalls added strobe.
 ##            *f_menu_app_network_bandwidth added statnet, trafshow.
+##            *f_menu_app_network_bandwidth tweaked pktstat messages. 
 ##            *f_menu_app_network_monitors added netwatch.
 ##            *f_menu_app_nic_tools added netload.
 ##            *f_menu_app_pdfps added pdftk.
