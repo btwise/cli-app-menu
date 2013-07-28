@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="July-26-2013 23:41"
+REVDATE="July-27-2013 12:03"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-07-27 *Main Menu added Download from Stable or Testing repositories.
 ##
 ## 2013-07-26 *Split functionality of cli-app-menu.sh into several library
 ##              files: lib_cli-common.lib, lib_cli-menu-cat.lib,
