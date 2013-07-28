@@ -224,21 +224,6 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
-           clear # Blank the screen.
-           if [ -r README ] ; then
-           # display Documentation (all lines beginning with #: but
-           # substitute "" for "#:" so "#:" is not printed).
-              sed -n 's/^#://'p README | more -d
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           else
-              echo
-              echo "The file README is either missing or cannot be read."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-           fi
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
            echo -n "Download from which branch? (STABLE/testing/quit): "
            read ANS
            case $ANS in
