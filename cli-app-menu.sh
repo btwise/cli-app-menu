@@ -34,7 +34,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-27-2013 12:03"
+REVDATE="July-29-2013 23:26"
 #
 #
 # +----------------------------------------+
@@ -3721,9 +3721,10 @@ f_menu_app_games_simulation () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Simulation Games until loop.
-            #MGI atc  - Air traffic controller.
-            #MGI sail - Command a Man O'War fighting ship.
-            #MGI trek - Star Trek blast Klingons.
+            #MGI atc       - Air traffic controller.
+            #MGI sail      - Command a Man O'War fighting ship.
+            #MGI star wars - Star Wars movie in ASCII.
+            #MGI trek      - Star Trek blast Klingons.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Simulation Games Menu"
@@ -3772,6 +3773,32 @@ f_menu_app_games_simulation () {
                  f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] |[Ss][Tt] | [Ss][Tt][Aa]*)
+                 APP_NAME="telnet towel.blinkenlights.nl"
+                 clear # Blank the screen.
+                 echo "Star Wars ASCII Movie"
+                 echo
+                 echo The movie is played by running command:
+                 echo telnet towel.blinkenlights.nl
+                 echo
+                 echo If telnet hangs while trying the ip-address,
+                 echo then re-run this program and try again.
+                 echo
+                 echo "To quit Star Wars ASCII Movie, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running Star Wars ASCII Movie will exit this menu script."
+                 echo
+                 echo -n "Run Star Wars ASCII Movie and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  trek' '*)
                  APP_NAME=$CHOICE_APP
