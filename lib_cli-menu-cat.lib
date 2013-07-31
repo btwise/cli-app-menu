@@ -550,6 +550,111 @@ f_menu_cat_internet () {
 } # End of function f_menu_cat_internet
 #
 # +----------------------------------------+
+# |       Function f_menu_cat_network      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: CHOICE_SCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#
+f_menu_cat_network () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ]
+      do    # Start of Network Application Category until loop.
+            #BNE Firewalls    - Configure firewalls.
+            #BNE LAN-WAN      - Test network connectivity, speed, routing.
+            #BNE Monitors     - LAN monitors, network mappers.
+            #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
+            #BNE Packet Tools - Packet sniffers, packet analyzers.
+            #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
+            #
+            THIS_FILE="lib_cli-menu-cat.lib"
+            MENU_TITLE="Network Application Category Menu"
+            DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_common_scat_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Network Application Category case statement.
+                 [Ff] | [Ff][Ii]*)
+                 f_menu_app_firewalls         # Firewall Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ll] | [Ll][Aa]*)
+                 f_menu_app_lanwan            # LANWAN Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Mm] | [Mm][Oo]*)
+                 f_menu_tcat_network_monitors # Network Monitors Category Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Nn] | [Nn][Ii]*)
+                 f_menu_app_nic_tools         # NIC Tools Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Pp] | [Pp][Aa]*)
+                 f_menu_app_packet_tools      # Packet Tools Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ss] | [Ss][Hh]*)
+                 f_menu_app_network_sharing   # Network Sharing Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                # End of Network Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_scat_bad_menu_choice
+      done  # End of Network Application Category until loop.
+} # End of function f_menu_cat_network
+#
+# +----------------------------------------+
+# |  Function f_menu_tcat_network_monitors |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: CHOICE_TCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
+#
+f_menu_tcat_network_monitors () {
+      f_initvars_menu_app
+      until [ $CHOICE_TCAT -eq 0 ] 
+      do    # Start of Network Monitor Application Category until loop.
+            #BNM Bandwidth - Bandwidth monitors.
+            #BNM Structure - Management, status, connections, devices, hosts.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="lib_cli-menu-cat.lib"
+            MENU_TITLE="Network Monitor Application Category Menu"
+            DELIMITER="#BNM" #BNM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_TCAT
+            #
+            f_common_tcat_menu
+            ERROR=0 # Reset error flag.
+            #
+            case $CHOICE_TCAT in # Start of Network Monitor Application Category case statement.
+                 [Bb] | [Bb][Aa]*) 
+                 f_menu_app_network_bandwidth # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ss] | [Ss][Tt]*) 
+                 f_menu_app_network_monitors  # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Network Monitor Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_tcat_bad_menu_choice
+      done  # End of Network Monitor Application Category until loop.
+} # End of function f_menu_tcat_network_monitors
+#
+# +----------------------------------------+
 # |       Function f_menu_cat_office       |
 # +----------------------------------------+
 #
@@ -631,59 +736,6 @@ f_menu_cat_office () {
             f_scat_bad_menu_choice
       done  # End of Office Application Category until loop.
 } # End of function f_menu_cat_office
-#
-# +----------------------------------------+
-# |         Function f_menu_cat_text       |
-# +----------------------------------------+
-#
-#  Inputs: None
-#    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
-#
-f_menu_cat_text () {
-      f_initvars_menu_app
-      until [ $CHOICE_TCAT -eq 0 ] 
-      do    # Start of Text Application Category until loop.
-            #BTX Compare    - Show differences between text files.
-            #BTX Converters - Convert between text document/file formats.
-            #BTX Editors    - Create/Edit text documents/files.
-            #BTX Tools      - Viewers,text markup language.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Text Application Category Menu"
-            DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_TCAT
-            #
-            f_common_tcat_menu
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_TCAT in # Start of Text Application Category case statement.
-                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
-                 f_menu_app_text_compare      # Text Compare Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;               
-                 [Cc] | [Cc][Oo] | [Cc][Oo][Nn]*)
-                 f_menu_app_text_converters   # Text Converter Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ee] | [Ee][Dd]*)
-                 f_menu_app_text_editors      # Text Editor Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Tt] | [Tt][Oo]*)
-                 f_menu_app_text_tools        # Text Tool Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Text Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_tcat_bad_menu_choice
-      done  # End of Text Application Category until loop.
-} # End of function f_menu_cat_text
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -774,6 +826,59 @@ f_menu_cat_system () {
 } # End of function f_menu_cat_system
 #
 # +----------------------------------------+
+# |         Function f_menu_cat_text       |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: CHOICE_TCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
+#
+f_menu_cat_text () {
+      f_initvars_menu_app
+      until [ $CHOICE_TCAT -eq 0 ] 
+      do    # Start of Text Application Category until loop.
+            #BTX Compare    - Show differences between text files.
+            #BTX Converters - Convert between text document/file formats.
+            #BTX Editors    - Create/Edit text documents/files.
+            #BTX Tools      - Viewers,text markup language.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="lib_cli-menu-cat.lib"
+            MENU_TITLE="Text Application Category Menu"
+            DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_TCAT
+            #
+            f_common_tcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_TCAT in # Start of Text Application Category case statement.
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
+                 f_menu_app_text_compare      # Text Compare Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;               
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Nn]*)
+                 f_menu_app_text_converters   # Text Converter Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Dd]*)
+                 f_menu_app_text_editors      # Text Editor Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Tt] | [Tt][Oo]*)
+                 f_menu_app_text_tools        # Text Tool Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Text Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_tcat_bad_menu_choice
+      done  # End of Text Application Category until loop.
+} # End of function f_menu_cat_text
+#
+# +----------------------------------------+
 # |        Function f_menu_cat_video       |
 # +----------------------------------------+
 #
@@ -814,4 +919,3 @@ f_menu_cat_video () {
             f_scat_bad_menu_choice
       done  # End of Video Application Category until loop.
 } # End of function f_menu_cat_video
-#
