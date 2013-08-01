@@ -11257,7 +11257,6 @@ do    # Start of CLI Menu util loop.
            f_press_enter_key_to_continue
            #
            clear # Blank the screen.
-           THIS_FILE="lib_cli-menu-apps.lib"
            grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | grep -i $XSTR | more -d
            f_press_enter_key_to_continue
            ;;
