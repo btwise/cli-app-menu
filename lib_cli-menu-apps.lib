@@ -4691,7 +4691,28 @@ f_menu_app_lanwan () {
                  ;;
                  [Ss] | [Ss][Pp]*)
                  APP_NAME="speedometer"
+                 clear # Blank the screen.
+                 echo "speedometer - Display speed of transmitted/received data."
+                 echo
+                 echo "Usage:"
+                 echo  "speedometer [options] tap [[-c] tap]..."
+                 echo
+                 echo "Taps:"
+                 echo "  -f filename [size]          display download speed [with progress bar]"
+                 echo "  -r network-interface        display bytes received on network-interface"
+                 echo "  -t network-interface        display bytes transmitted on network-interface"
+                 echo "  -c                          start a new column for following tap arguments"
+                 echo
+                 echo "*** For more help type: man speedometer" 
+                 echo
+                 echo "i.e. speedometer -s -r eth0 -t eth0"
+                 echo "Now run speedometer. Usage: speedometer -s -r <NIC device name> -t <NIC device name>"
+                 echo
+                 f_how_to_quit_application "q" "no-clear"
+                 f_find_NIC
+                 APP_NAME="speedometer -s -r $ANS -t $ANS"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ss' '* | 'sudo ss '* | 'sudo ss')
                  APP_NAME=$CHOICE_APP
@@ -5600,9 +5621,12 @@ f_menu_app_packet_tools () {
 #
 f_find_NIC () {
 # Search for "Link" in ifconfig output and parse first word (network interface).
+echo "Finding all network interfaces..."
 ifconfig |  grep Link | awk '{print $1;}'
 echo -n "Enter FULL-NAME of network interface to monitor with $APP_NAME: "
 read ANS
+echo The network interface you chose is: $ANS
+echo
 # There is not yet any error checking on $ANS.
 } # End of function f_find_NIC
 #

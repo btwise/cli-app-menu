@@ -33,7 +33,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-31-2013 01:20"
+REVDATE="August-01-2013 01:54"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
