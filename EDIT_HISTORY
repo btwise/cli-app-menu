@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="July-29-2013 23:26"
+REVDATE="August-01-2013 11:42"
 clear
 echo "Edit History version: $REVISION"
 echo "       Edited on: $REVDATE"
@@ -46,6 +46,9 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-08-01 *lib_cli-menu-apps.lib added help, detect NIC for speedometer.
+##            *Main menu added ability to search for an application.
 ##
 ## 2013-07-29 *f_menu_app_games_simulation added Star Wars ASCII movie.
 ##
