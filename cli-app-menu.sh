@@ -34,7 +34,7 @@ THIS_FILE="cli-app-menu.sh"
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="July-29-2013 23:26"
+REVDATE="August-01-2013 11:42"
 #
 #
 # +----------------------------------------+
@@ -6238,7 +6238,28 @@ f_menu_app_lanwan () {
                  ;;
                  [Ss] | [Ss][Pp]*)
                  APP_NAME="speedometer"
+                 clear # Blank the screen.
+                 echo "speedometer - Display speed of transmitted/received data."
+                 echo
+                 echo "Usage:"
+                 echo  "speedometer [options] tap [[-c] tap]..."
+                 echo
+                 echo "Taps:"
+                 echo "  -f filename [size]          display download speed [with progress bar]"
+                 echo "  -r network-interface        display bytes received on network-interface"
+                 echo "  -t network-interface        display bytes transmitted on network-interface"
+                 echo "  -c                          start a new column for following tap arguments"
+                 echo
+                 echo "*** For more help type: man speedometer" 
+                 echo
+                 echo "i.e. speedometer -s -r eth0 -t eth0"
+                 echo "Now run speedometer. Usage: speedometer -s -r <NIC device name> -t <NIC device name>"
+                 echo
+                 f_how_to_quit_application "q" "no-clear"
+                 f_find_NIC
+                 APP_NAME="speedometer -s -r $ANS -t $ANS"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ss' '* | 'sudo ss '* | 'sudo ss')
                  APP_NAME=$CHOICE_APP
@@ -11016,6 +11037,7 @@ do    # Start of CLI Menu util loop.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA License             - Licensing, GPL.
       #AAA List Applications   - List of all CLI applications in this menu.
+      #AAA Search Applications - Is an application featured in this menu script?
       #AAA Update Edit History - Make changes to the Edit History.
       #AAA Black               - Set display white on black (works in X-terminals).
       #AAA White               - Set display black on white (except in X-terminals).
@@ -11223,6 +11245,21 @@ do    # Start of CLI Menu util loop.
            #
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           ;;
+           [Ss] | [Ss][Ee]*)
+           clear # Blank the screen.
+           echo -n "Enter name of software package or search string: "
+           read XSTR
+           echo "If it is found, it will be listed below."
+           echo "No listing means that it is not featured in this menu."
+           echo
+           echo "For list of results of search for '$XSTR':"
+           f_press_enter_key_to_continue
+           #
+           clear # Blank the screen.
+           THIS_FILE="lib_cli-menu-apps.lib"
+           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | grep -i $XSTR | more -d
+           f_press_enter_key_to_continue
            ;;
            [Uu] | [Uu][Pp]*)
            clear # Blank the screen.
