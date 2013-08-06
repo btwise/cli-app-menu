@@ -20,11 +20,12 @@ THIS_FILE="EDIT_HISTORY"
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="August-01-2013 11:42"
+PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
+PROJECT_REVDATE="August-06-2013 16:20"
 clear
-echo "Edit History version: $REVISION"
-echo "       Edited on: $REVDATE"
+echo "Project version: $PROJECT_REVISION"
+echo " Last Edited on: $PROJECT_REVDATE"
+echo
 echo "Bash script name: $THIS_FILE"
 echo
 echo -n "Press '"Enter"' key to continue."
@@ -46,6 +47,9 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-08-06 *All script files now have a separate revision date.
+##            *A few small bug fixes with "Press Enter Key" needed in some apps.
 ##
 ## 2013-08-01 *lib_cli-menu-apps.lib added help, detect NIC for speedometer.
 ##            *Main menu added ability to search for an application.
@@ -585,4 +589,3 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2012-12-31 *Create menu driven CLI application launcher.
 ##            *Case statements drove me crazy, learning pattern matching.
 ##
-

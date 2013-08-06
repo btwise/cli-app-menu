@@ -22,18 +22,12 @@
 #:   List of variables
 #:   List of Special Menu Option Markers
 #
-THIS_FILE="cli-app-menu.sh"
-#
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
 # +----------------------------------------+
 #
-# Calculate revision number by counting all lines starting with "## 2013".
-# grep ^ (carot sign) means grep any lines beginning with "##2013".
-# grep -c means count the lines that match the pattern.
-#
-REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="August-01-2013 11:42"
+THIS_FILE="cli-app-menu.sh"
+REVDATE="August-06-2013 16:20"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -201,10 +195,21 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Aa] | [Aa][Bb]*)
-           clear # Blank the screen.
-           echo "CLI Menu version: $REVISION"
-           echo "       Edited on: $REVDATE"
-           echo "Bash script name: $THIS_FILE"
+           # Calculate project revision number by counting all lines starting with "## 2013".
+           # grep ^ (carot sign) means grep any lines beginning with "##2013".
+           # grep -c means count the lines that match the pattern.
+           #
+           PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
+           PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= EDIT_HISTORY | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+           # grep finds line beginning with "PROJECT_REVDATE=" in file EDIT_HISTORY
+           # The first awk results in the date in quotes as a string.
+           # The second awk strips the quotation marks from the date string.
+           #
+           clear
+           echo "Project version: $PROJECT_REVISION"
+           echo " Last edited on: $PROJECT_REVDATE"
+           echo
+           echo "Project file '"'cli-app-menu.sh'"' last edited on: $REVDATE"
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;

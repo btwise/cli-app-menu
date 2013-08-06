@@ -1,6 +1,11 @@
 # ©2013 Copyright 2013 Robert D. Chin
 #
 # +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-06-2013 16:20"
+#
+# +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
 # +----------------------------------------+
 #
@@ -580,7 +585,7 @@ f_menu_app_education () {
             #MED diatheke  - Holy Bible research tool.
             #MED grass     - GIS Map utility (Geographic Information System).
             #MED gtypist   - Typing tutor displays a sentence for practice.
-            #MED lifelines - geneology.
+            #MED lifelines - Geneology.
             #MED morse     - Morse code training.
             #MED primes    - Prime number calculator. 
             #MED typespeed - Typing tutor displays flying words arcade-style across screen.
@@ -956,7 +961,7 @@ f_menu_app_file_encryption () {
             #MFE ccrypt    - Uses the Rijndael cipher algorithm.
             #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
             #MFE lspgpot   - Extracts ownertrust values from PGP keyrings.
-            #MFE mcrypt    - a simple crypting program, a replacement for the old Unix crypt.
+            #MFE mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
             #MFE pgp       - Pretty Good Privacy (pgp).
             #MFE scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
             #MFE truecrypt - Program released under TrueCrypt License (not Open-source).
@@ -4384,11 +4389,13 @@ f_menu_app_firewalls () {
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Ss]*)
                  APP_NAME="iptstate"
                  f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  portbunny' '* | 'sudo portbunny '* | 'sudo portbunny')
                  APP_NAME=$CHOICE_APP
@@ -4469,7 +4476,7 @@ f_menu_app_lanwan () {
             #MNL arping      - Check LAN connectivity by pinging MAC, IP address or hostname.
             #MNL dig         - Query Internet domain name servers.
             #MNL ip          - Shows routing, devices, policy routing and tunnels.
-            #MNL ip addr     - protocol (IP or IPv6) address on a device.
+            #MNL ip addr     - Protocol (IP or IPv6) address on a device.
             #MNL ip link     - Shows network device.
             #MNL ip neighbor - ARP or NDISC cache entry.
             #MNL ip route    - Shows routing.
@@ -4900,11 +4907,13 @@ f_menu_app_nic_tools () {
                  netload' '* | 'sudo netload '* | 'sudo netload')
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Ee]*)
                   f_find_NIC
                   APP_NAME="netload $ANS"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nictools-pci' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
                  APP_NAME=$CHOICE_APP
@@ -5050,7 +5059,7 @@ f_menu_app_network_monitors () {
             #MNM ntop     - Display network usage and status information in a web browser.
             #MNM opennms  - Network management application. Discovery, reports, statistics.
             #MNM pmacct   - Traffic information monitor.
-            #MNM slurm    - Network interface I/O load monitor.
+            #MNM slurm    - Simple Linux Utility for Resource Managment. I/O load monitor.
             #MNM sntop    - IP LAN monitor. Display network hosts and connections.
             #MNM vnstat   - Traffic information monitor.
             #
@@ -5146,12 +5155,14 @@ f_menu_app_network_monitors () {
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww]*)
                  f_find_NIC
                  APP_NAME="netwatch -e $ANS"
                  f_how_to_quit_application "q"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ntop' '* | 'sudo ntop '* | 'sudo ntop')
                  APP_NAME=$CHOICE_APP
@@ -5202,7 +5213,6 @@ f_menu_app_network_monitors () {
                  opennms' '* | 'sudo opennms '* | 'sudo opennms')
                  APP_NAME=$CHOICE_APP
                  f_application_run
-
                  ;;
                  [Oo] | [Oo][Pp]*)
                  APP_NAME="opennms"
@@ -5643,9 +5653,9 @@ f_menu_app_accounting () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Accounting Applications until loop.
             #MAA hledger       - Same as "ledger" but using the Haskell Programming Language.
-            #MAA hledger-chart - hledger pie chart generator.
-            #MAA hledger-vty   - hledger n-curses style interface.
-            #MAA hledger-web   - hledger web interface.
+            #MAA hledger-chart - Hledger pie chart generator.
+            #MAA hledger-vty   - Hledger n-curses style interface.
+            #MAA hledger-web   - Hledger web interface.
             #MAA ledger        - Ledger using double-entry.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -9066,16 +9076,16 @@ f_menu_app_video_players () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Video Applications until loop.
-            #MVI aaxine       - xine video player.
-            #MVI cacaxine     - xine video player.
+            #MVI aaxine       - Xine video player.
+            #MVI cacaxine     - Xine video player.
             #MVI cclive       - Download/Play Youtube videos.
             #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
-            #MVI fbxine       - xine video player.
+            #MVI fbxine       - Xine video player.
             #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
             #MVI mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
             #MVI mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
             #MVI vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
-            #MVI xine-console - xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
+            #MVI xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
             #MVI yougrabber   - Download/Play Youtube videos.
             #MVI youtube-dl   - Download/Play Youtube videos.
             #
