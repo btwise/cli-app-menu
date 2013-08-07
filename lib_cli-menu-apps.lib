@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-06-2013 16:20"
+# REVDATE="August-07-2013 00:15"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -2361,13 +2361,15 @@ f_menu_app_games_simulation () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Simulation Games until loop.
             #MGI atc       - Air traffic controller.
+            #MGI bb        - ASCII-art movie demo based on AAlib.
             #MGI sail      - Command a Man O'War fighting ship.
+            #MIG sl        - Steam locomotive (when you mis-type 'ls' command).
             #MGI star wars - Star Wars movie in ASCII.
             #MGI trek      - Star Trek blast Klingons.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
-            MENU_TITLE="Simulation Games Menu"
+            MENU_TITLE="Simulation Games and Animation Menu"
             DELIMITER="#MGI" #MGI This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -2402,6 +2404,18 @@ f_menu_app_games_simulation () {
                       ;;
                  esac
                  ;;
+                 bb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Bb] | [Bb][Bb]*)
+                 APP_NAME="bb"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  sail' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "Q"
@@ -2413,6 +2427,14 @@ f_menu_app_games_simulation () {
                  f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 sl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ll])
+                 APP_NAME=sl
+                 f_application_run
                  ;;
                  [Ss] |[Ss][Tt] | [Ss][Tt][Aa]*)
                  APP_NAME="telnet towel.blinkenlights.nl"
@@ -2566,8 +2588,10 @@ f_menu_app_games_word () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Word Games until loop.
             #MGK boggle  - Word search game.
+            #MGK figlet  - Creates banner with outline font.
             #MGK hangman - Classic hangman word game.
             #MGK pig     - Converts text into pig-latin.
+            #MGK toilet  - Creates banner with bold font.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -2586,10 +2610,38 @@ f_menu_app_games_word () {
                  boggle' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Bb] | [Bb][Oo]*)
+                 f_how_to_quit_application "Ctrl + C (Control-C)"
                  APP_NAME="boggle"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ff] | [Ff][Ii] | [Ff][Ii][Gg]*)
+                 APP_NAME="figlet"
+                 clear # Blank the screen.
+                 echo "figlet - Banner creator"
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 figlet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  hangman' '*)
                  APP_NAME=$CHOICE_APP
@@ -2622,6 +2674,31 @@ f_menu_app_games_word () {
                       ;;
                  esac
                  ;;
+                 [Tt] | [Tt][Oo] | [Tt][Oo][Ii]*)
+                 APP_NAME="toilet"
+                 clear # Blank the screen.
+                 echo "figlet - Banner creator"
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 toilet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
             esac # End of Word Games case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -2644,6 +2721,7 @@ f_menu_app_image_graphics () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
             #MIG aview      - Image and ascii art image viewer.
+            #MIG bb         - ASCII-art movie demo based on AAlib.
             #MIG caca-utils - Image viewer and converter jpg to ascii images.
             #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png, etc.
             #MIG fbv        - Image viewer framebuffer console.
@@ -2652,6 +2730,8 @@ f_menu_app_image_graphics () {
             #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
             #MIG jp2a       - Convert jpg images to ascii images.
             #MIG linuxlogo  - Color ANSI system logo
+            #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
+            #MIG star wars  - Star Wars movie in ASCII.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -2674,6 +2754,18 @@ f_menu_app_image_graphics () {
                  [Aa] | [Aa][Vv]*)
                  APP_NAME="aview"
                  f_application_run
+                 ;;
+                 bb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Bb] | [Bb][Bb])
+                 APP_NAME="bb"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  caca-utils' '*)
                  APP_NAME=$CHOICE_APP
@@ -2748,6 +2840,40 @@ f_menu_app_image_graphics () {
                  #
                  APP_NAME="linuxlogo -L "$ANS
                  f_application_run
+                 ;;
+                 sl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ll])
+                 APP_NAME=sl
+                 f_application_run
+                 ;;
+                 [Ss] |[Ss][Tt] | [Ss][Tt][Aa]*)
+                 APP_NAME="telnet towel.blinkenlights.nl"
+                 clear # Blank the screen.
+                 echo "Star Wars ASCII Movie"
+                 echo
+                 echo The movie is played by running command:
+                 echo telnet towel.blinkenlights.nl
+                 echo
+                 echo If telnet hangs while trying the ip-address,
+                 echo then re-run this program and try again.
+                 echo
+                 echo "To quit Star Wars ASCII Movie, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running Star Wars ASCII Movie will exit this menu script."
+                 echo
+                 echo -n "Run Star Wars ASCII Movie and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
             esac                # End of Image-Graphics Applications case statement.
             #
