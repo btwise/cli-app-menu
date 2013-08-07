@@ -1,0 +1,883 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-07-2013 12:56"
+#
+# +----------------------------------------+
+# |      Function f_initvars_menu_app      |
+# +----------------------------------------+
+#
+f_initvars_menu_app () {
+      TCOLOR="black"
+      ERROR=0        # Initialize to 0 to indicate success at running last
+                     # command.
+      APP_NAME=""    # Initialize to null. String variable contains
+                     # application name.
+      CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting
+                     # Main Menu.
+      CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting
+                     # Category Menu.
+      CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting 
+                     # Sub-Category Menu.
+      CHOICE_TCAT=-1 # Initialize to -1 to force until loop without exiting 
+                     # 3rd-level Category Menu.
+      CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting 
+                     # Applications Menu.
+      PRESS_KEY=1    # Display "Press 'Enter' key to continue."
+} # End of f_initvars_menu_app
+#
+# +----------------------------------------+
+# |          Function f_show_menu          |
+# +----------------------------------------+
+#
+#  Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
+# Outputs: MAX, XNUM.
+#
+f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
+#
+      clear # Blank the screen.
+      f_term_color # Set terminal color.
+      echo "--- $MENU_TITLE ---"
+      echo
+      if [ $DELIMITER = "#AAA" ] ; then #AAA This 3rd field prevents awk from  printing this line into menu options.
+         echo "0 - Quit to command line prompt." # Option for Main Menu only.
+      else
+         echo "0 - Return to previous menu." # Option for all other sub-menus.
+      fi
+      #
+      # The following command grep <pattern> <filename> | awk '{<if condition>{print field}}
+      # will print the menu items. The command automatically calculates the
+      # menu option numbers for you.
+      #
+      # Search (grep) for all lines in this file containing the special comment
+      # marker string.
+      # Pass (pipe) results to awk which prints the second field delimited by
+      # the special comment string.
+      # awk will not print the second field if there is a third field (lines
+      # containing 2 special comment strings).
+      # The if statement conditional "($2&&!$3)" means if 2nd field exists and
+      # not a 3rd field, then print.
+      # This prevents the lines of code which set the $ DELIMITER variable from
+      # being printed as part of the menu.
+      #
+      # The menu option numbers are incremented by using any unset variable name
+      # (such as "XNUM") followed by "++",
+      # However, because XNUM is unset, it will increment from zero, whereas we
+      # want it to increment from one.
+      # To do this, we add one before XNUM so the expression is now "1+XNUM++".
+      # so numbering will always start at one. Interestingly the "++" increment
+      # command is only valid from within awk.
+      #
+      MAX=$(grep $DELIMITER -c $THIS_FILE)
+      # Count number of lines containing special comment marker string to get
+      # maximum item number.
+      awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
+      f_choice_array  # Create array to handle numeric answer to menu choices.
+      #
+      case $DELIMITER in
+           # Application Menu?
+           "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
+              MAX=$((MAX=$MAX-3)) 
+              # Subtract 3 total since 3 lines of code not part of menu display,
+              # contain the special comment marker.
+              echo
+              echo "'0', Q/quit, to quit this script, $THIS_FILE."
+           ;; 
+           "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
+              MAX=$((MAX=$MAX-2))
+              # Subtract 2 total since 2 lines of code not part of menu display,
+              # contain the special comment marker.
+           ;;
+           "#MWB") #MWB This 3rd field prevents awk from printing this line into menu options.
+              MAX=$((MAX=$MAX-3))
+              # Subtract 3 total since 3 lines of code not part of menu display,
+              # contain the special comment marker.
+              echo
+              echo "For help, type: '<application name> --help' or 'man <application name>'"
+              echo "Also accepts application options i.e. <application name> --version"
+           ;; 
+           "#M"* | "#B"*) # Only display help message in application menus.
+              # Do not display in application category menus or main menu.
+              MAX=$((MAX=$MAX-1))
+              # Subtract 1 total since 1 line of code to set $DELIMITER where
+              # contains the special comment marker.
+              echo
+              echo "For help, type: '<application name> --help' or 'man <application name>'"
+              echo "Also accepts application options i.e. <application name> --version"
+           ;;
+      esac
+      echo
+      echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
+} # End of function f_show_menu
+#
+# +----------------------------------------+
+# |         Function f_choice_array        |
+# +----------------------------------------+
+#
+#  Inputs: DELIMITER, THIS_FILE.
+#    Uses: XNUM, XSTR
+# Outputs: CHOICE[$XNUM]
+#
+f_choice_array () {
+# declare -A CHOICE  # Commented out; do not need to declare the array.
+unset CHOICE
+XNUM=1 # Initialize XNUM.
+X=" "
+# Code below rewritten to allow menu choice names consisting of 2 words. i.e. "ip addr", "ip route".
+#
+for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
+# Set XSTR to first two words (delimited by "%" of menu choice name. 
+# Example: Main menu option, "About CLI Menu" then XSTR="About%CLI" 
+do
+      XSTR=${XSTR/[%]/ }   # Substitute <space> for "%".
+      CHOICE[$XNUM]=$XSTR  # If Ubuntu or Ubuntu derived distro errors here,
+                           # cause is Ubuntu uses DASH instead of BASH shell.
+                           # Use "bash cli-menu-app.sh" 
+                           # instead of "sh cli-menu-app.sh".
+      XNUM=`expr $XNUM + 1`
+done
+} # End of f_choice_array
+#
+# +----------------------------------------+
+# |       Function f_common_scat_menu      |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_SCAT.
+# Outputs: CHOICE_SCAT.
+#
+f_common_scat_menu () {
+#
+      case $CHOICE_SCAT in
+           # Quit?
+           0)
+           CHOICE_SCAT=0
+           PRESS_KEY=0
+           ;;
+           [1-9] | [1-9] | [0-9])
+           if [  $CHOICE_SCAT -ge 1 -a $CHOICE_SCAT -le $MAX ] ; then
+              CHOICE_SCAT=${CHOICE[$CHOICE_SCAT]}
+           fi
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+           CHOICE_SCAT=0
+           PRESS_KEY=0
+           ;;
+      esac
+} # End of function f_common_scat_menu
+#
+# +----------------------------------------+
+# |       Function f_common_tcat_menu      |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_TCAT, MAX, CHOICE[XNUM].
+# Outputs: CHOICE_TCAT.
+#
+f_common_tcat_menu () {
+#
+      case $CHOICE_TCAT in
+           # Quit?
+           0)
+           CHOICE_TCAT=0
+           PRESS_KEY=0
+           ;;
+           [1-9] | [1-9][0-9])
+           if [  $CHOICE_TCAT -ge 1 -a $CHOICE_TCAT -le $MAX ] ; then
+              CHOICE_TCAT=${CHOICE[$CHOICE_TCAT]}
+           fi
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+           CHOICE_TCAT=0
+           PRESS_KEY=0
+           ;;
+      esac
+} # End of function f_common_tcat_menu
+#
+# +----------------------------------------+
+# |       Function f_common_app_menu       |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_APP, MAX, CHOICE[XNUM].
+# Outputs: CHOICE_APP.
+f_common_app_menu () {
+      case $CHOICE_APP in
+           # Quit?
+           0)
+           CHOICE_APP=0
+           PRESS_KEY=0
+           ;;
+           [1-9] | [1-9][0-9])
+           if [  $CHOICE_APP -ge 1 -a $CHOICE_APP -le $MAX ] ; then
+              CHOICE_APP=${CHOICE[$CHOICE_APP]}
+           fi
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+           CHOICE_APP=0
+           PRESS_KEY=0
+           ;;
+      esac
+} # End of function f_common_app_menu
+#
+# +----------------------------------------+
+# |   Function f_how_to_quit_application   |
+# +----------------------------------------+
+#
+# Inputs: $1, $2, APP_NAME.
+#
+f_how_to_quit_application () { 
+      # $1 typed key to quit. 
+      # $2 string "no-clear" if screen should not be cleared.
+      #
+      if [ -z $2 ] ; then
+      # if [ $2 != "no-clear" ] ; then
+         clear # Blank the screen.
+      fi
+      echo
+      echo "To quit $APP_NAME, type $1."
+      f_press_enter_key_to_continue
+} # End of function how_to_quit_application
+#
+# +----------------------------------------+
+# |          Function f_term_color         |
+# +----------------------------------------+
+#
+# Inputs: TCOLOR.
+#
+f_term_color () { # Set terminal display properties.
+      case $TCOLOR in
+           [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
+              setterm -reset -bold on
+           ;;
+           [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
+              setterm -reset
+              setterm -foreground white -background black -inverse
+           ;;  
+      esac
+} # End of function f_term_color
+#
+# +----------------------------------------+
+# | Function f_press_enter_key_to_continue |
+# +----------------------------------------+
+#
+# Inputs: None.
+#
+f_press_enter_key_to_continue () { # Display message and wait for user input.
+      . lib_cli-common.lib
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read ANS
+} # End of function f_press_enter_key_to_continue
+#
+# +----------------------------------------+
+# |   Function f_option_press_enter_key    |
+# +----------------------------------------+
+#
+# Inputs: PRESS_KEY.
+#
+f_option_press_enter_key () { # Display message and wait for user input.
+      # $PRESS_KEY = 0 means Do not display "Press 'Enter' key to continue."
+      # $PRESS_KEY = 1 means Display "Press 'Enter' key to continue."
+      #
+      if [ $PRESS_KEY -eq 1 ] ; then
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_option_press_enter_key
+#
+# +----------------------------------------+
+# |       Function f_application_help      |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_APP, ERROR.
+# Outputs: PRESS_KEY, CHOICE_APP=-1, APP_NAME
+#
+f_application_help () { # function where $CHOICE_APP="<Application name> --help"
+                        # or "man <Application name>"
+      case $CHOICE_APP in
+           *--help)
+              clear # Blank screen
+              # $CHOICE_APP | more -d # <Application name> --help | more -d
+              $CHOICE_APP
+              ERROR=$? # Save error flag condition.
+              if [ $ERROR -ne 0 ] ; then
+                 # Error code 1 $?=1 means no --help available.
+                 # Error code 0 (zero) where $?=0 means no error.
+                 echo "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}'
+                 # $CHOICE_APP = "<Application name> --help" so need awk to grab
+                 # only the name.
+                 # The echo -e \c option supresses the line feed after the first
+                 # echo command so that the message is on a single line.
+                 echo
+                 echo
+                 echo "This $APP_NAME application is not installed."
+                 echo
+                 echo "To install under Debian-based Linux use command:"
+                 echo "                           sudo apt-get install <application package name>"
+                 echo
+                 echo "To install under Red Hat-based Linux use command:"
+                 echo "                           sudo rpm -ivh <application package name>"
+                 echo
+                 echo "To install under Slackware-based Linux use command:"
+                 echo "                           sudo installpkg <application package name>"
+                 echo 
+                 echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
+                 read ANS
+                 case $ANS in # Start of Install Application Option case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                      f_application_install
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;              
+                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                      ERROR=0
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac # End of Install Application Option case statement.
+
+              fi
+              CHOICE_APP=-1 # Force stay in menu until loop.
+              # Convert string to integer -1. Also indicates valid menu choice.
+              # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+           ;;
+           man' '*)
+              clear # Blank screen
+              $CHOICE_APP # CHOICE_APP = man <Application name>.
+              ERROR=$? # Save error flag condition.
+              # If there are no man pages, ask user if wants to install app.
+              # Function f_application_install needs APP_NAME as input
+              # so use awk to grab only the application's name to use for APP_NAME.
+              APP_NAME=$(echo $CHOICE_APP | awk '{print $2;}')
+              #
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              #
+              if [ $ERROR -ne 0 ] ; then
+                 # Error code 16 where $?=16 means no man(ual) entry.
+                 # Error code 0 (zero) where $?=0 means no error.
+                 # Message "No manual entry for <Application name>" 
+                 echo "No manual pages available for \c"; echo $APP_NAME 
+                 # The echo -e \c option supresses the line feed after the first
+                 # echo command so that the message is on a single line.
+                 echo
+                 echo
+                 echo "This application may either not be installed or is installed but man pages"
+                 echo "were never written for it."
+                 echo
+                 echo "To install under Debian-based Linux use command:"
+                 echo "                           sudo apt-get install <application package name>"
+                 echo
+                 echo "To install under Red Hat-based Linux use command:"
+                 echo "                           sudo rpm -ivh <application package name>"
+                 echo
+                 echo "To install under Slackware-based Linux use command:"
+                 echo "                           sudo installpkg <application package name>"
+                 echo 
+                 echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
+                 read ANS
+                 case $ANS in # Start of Install Application Option case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                      f_application_install
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;              
+                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                      ERROR=0
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac # End of Install Application Option case statement.
+              fi
+              CHOICE_APP=-1 # Force stay in menu until loop.
+              # Convert string to integer -1. Also indicates valid menu choice.
+              # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+           ;;
+      esac
+#
+} # End of function f_application_help
+#
+# +----------------------------------------+
+# |       Function f_application_run       |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME.
+# Outputs: CHOICE_APP=-1.
+#
+f_application_run () {
+CHOICE_APP=-1 # Force stay in menu until loop.
+# Convert string to integer -1. Also indicates valid menu choice.
+# If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+#
+clear # Blank the screen.
+#
+$APP_NAME # Run application.
+#
+ERROR=$? # Save error flag condition.
+case $ERROR in
+     127)  # Error code 127 means application is not installed.
+     f_application_error # installs application.
+     # If user decided to install application.
+     if [ $ERROR=127 -a $ANS="Y" ] ; then 
+        $APP_NAME           # Run application.
+        f_application_error # Check for errors.
+                            # If so, display appropriate error message.
+     fi
+     ;;
+     1 | 13 | 62 | [!0])
+     f_application_error # Display appropriate error message.
+     ;;
+esac
+#
+} # End of function f_application_run
+#
+# +----------------------------------------+
+# | Function f_application_bad_menu_choice |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_APP, APP_NAME.
+# Outputs: CHOICE_APP, PRESS_KEY.
+#
+# Always set CHOICE_APP from string to an integer because menu until loop
+# tests until [ CHOICE_APP -eq 0 ] and will error if CHOICE_APP is a string.
+#
+# Function f_application_run is always called before this function.
+# If valid menu choice, f_application_run sets CHOICE_APP=-1 then leave alone.
+# If CHOICE_APP=0 to quit menu, then leave alone.
+# If invalid menu choice, CHOICE_APP is bad string or bad integer,
+#    then set CHOICE_APP=-1 and do not display "Press 'Enter' key to continue."
+#
+f_application_bad_menu_choice () {
+case $CHOICE_APP in
+     "")
+     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+     ;;
+     [A-Za-z]*)
+     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+                   # Specifically for alpha nonsense responses.
+     ;;
+esac
+if [ $CHOICE_APP -le -2 -o $CHOICE_APP -gt $MAX ] ; then
+   CHOICE_APP=-1   # Convert string to integer -1 forcing stay in until loop.
+   PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
+                   # Specifically for out-of-bounds numeric response.
+fi
+} # End of function f_application_bad_menu_choice
+#
+# +----------------------------------------+
+# |    Function f_scat_bad_menu_choice     |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_SCAT.
+# Outputs: CHOICE_SCAT, PRESS_KEY.
+#
+f_scat_bad_menu_choice () {
+case $CHOICE_SCAT in
+     "")
+     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+     ;;
+     [A-Za-z]*)
+     CHOICE_SCAT=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                    # Specifically for alpha nonsense responses.
+     ;;
+esac
+if [ $CHOICE_SCAT -le -2 -o $CHOICE_SCAT -gt $MAX ] ; then
+   CHOICE_SCAT=-1   # Convert string to integer -1 forcing stay in until loop.
+   PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
+                    # Specifically for out-of-bounds numeric response.
+fi
+} # End of function f_scat_bad_menu_choice
+#
+# +----------------------------------------+
+# |    Function f_tcat_bad_menu_choice     |
+# +----------------------------------------+
+#
+#  Inputs: CHOICE_TCAT.
+# Outputs: CHOICE_TCAT, PRESS_KEY.
+#
+f_tcat_bad_menu_choice () {
+case $CHOICE_TCAT in
+     "")
+     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+     ;;
+     [A-Za-z]*)
+     CHOICE_TCAT=-1 # Convert string to integer -1 forcing stay in until loop.
+     PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                    # Specifically for alpha nonsense responses.
+     ;;
+esac
+if [ $CHOICE_TCAT -le -2 -o $CHOICE_TCAT -gt $MAX ] ; then
+   CHOICE_TCAT=-1   # Convert string to integer -1 forcing stay in until loop.
+   PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
+                    # Specifically for out-of-bounds numeric response.
+fi
+} # End of function f_tcat_bad_menu_choice
+#
+# +----------------------------------------+
+# |       Function f_application_error     |
+# +----------------------------------------+
+#
+#  Inputs: ERROR, APP_NAME. 
+# Outputs: CHOICE_MAIN, CHOICE_CAT, CHOICE_SCAT, CHOICE_APP,
+#          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL.
+#
+f_application_error () {
+      if [ $ERROR -ne 0 ] ; then
+         echo
+         echo "**********************************************************************"
+         echo ">>>>>>>>>> SEE ABOVE for application error messages, if any <<<<<<<<<<"
+         echo "**********************************************************************"
+         echo
+         echo $THIS_FILE" says:"
+         echo "              ***********"
+         echo "An error code >>> $ERROR <<< has occurred" 
+         echo "              ***********"
+         echo "while launching this $APP_NAME application."
+         # f_press_enter_key_to_continue
+         #
+         # Be sure variable is set to redisplay current menu afterwards.
+         CHOICE_MAIN=-1 # Initialize to -1 to force until loop
+                        # without exiting Main Menu.
+         CHOICE_CAT=-1  # Initialize to -1 to force until loop
+                        # without exiting Category Menu.
+         CHOICE_SCAT=-1 # Initialize to -1 to force until loop 
+                        # without exiting Sub-Category Menu.
+         CHOICE_TCAT=-1 # Initialize to -1 to force until loop 
+                        # without exiting 3rd-level Category Menu.
+         CHOICE_APP=-1  # Initialize to -1 to force until loop
+                        # without exiting Applications Menu.
+      fi
+      #
+      case $ERROR in # Start of Error Number case statement.
+           1 | 13 | 62 | [!0]) 
+           #  1-general
+           # 13-some unknown app?
+           # 62-"command not found" freshclam log folders not set up.
+           # [!0]-not zero, any non-zero error number.
+           case $APP_NAME in  # Start of sudo-error case statement
+                sudo' '*)
+                APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
+                APP_NAME_SUDO=$(echo $APP_NAME | awk '{print $2;}')
+                echo
+                echo "Try running $APP_NAME_SUDO without the sudo command."
+                echo "There is a possibility that the application is not installed."
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                ;;
+                *)
+                echo
+                echo "Run $APP_NAME again this time using sudo?"
+                echo -n "Use sudo (temporary root permissions) (y/N)? "
+                read ANS
+                case $ANS in  # Start of Use SUDO case statement.
+                     [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                     APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
+                     sudo $APP_NAME_SUDO
+                     ERROR=$? # Save error flag condition.
+                     #
+                     if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
+                        # Error code 1 $?=1 means sudo failed.
+                        # Error code 0 (zero) where $?=0 means no error.
+                        echo
+                        echo "Running sudo $APP_NAME_SUDO failed."
+                        echo "May be caused by bad sudo password, or user has no permission to use sudo,"
+                        echo "or bad $APP_NAME_SUDO syntax."
+                        echo "consult help using man $APP_NAME_SUDO."
+                        echo
+                     fi
+                     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                     ;;              
+                     [Nn] | [Nn][Oo] | *)
+                     ERROR=0
+                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                     ;;
+                esac     # End of Use SUDO case statement.
+                ;;
+           esac   # End of sudo-error case statement
+           ;;
+           127) # Error code 127 means application is not installed.
+           echo
+           echo "This $APP_NAME application is not installed."
+           echo
+           echo -n "Do you want to install $APP_NAME (y/N)? "
+           read ANS
+           case $ANS in # Start of Install Application Option case statement.
+                [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                f_application_install
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                ;;              
+                [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                ERROR=0
+                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                ;;
+           esac # End of Install Application Option case statement.
+           ;;
+      esac # End of Error Number case statement.
+      # This function needs to be followed by a f_press_enter_key_to_continue 
+      # or by a f_option_press_enter_key so that messages are displayed.
+} # End of function f_application_error
+#
+# +----------------------------------------+
+# |     Function f_application_install     |
+# +----------------------------------------+
+#
+#  Inputs: ERROR, APP_NAME. 
+# Outputs: APP_NAME_INSTALL.
+#
+f_application_install () {
+                APP_NAME_INSTALL=$APP_NAME 
+                # Default of APP_NAME_INSTALL is simply APP_NAME. 
+                # This may be modified below in the Installation Package Name
+                # case statement.
+                #
+                case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
+                     *' '*)  
+                     # If string APP_NAME/APP_NAME_INSTALL includes spaces for
+                     # run-time parameters, then just extract package name. 
+                     # i.e. "dstat 1 10", then just grab "dstat" as package name.
+                     # i.e. "dstat --version", then just grab "dstat" as package name.
+                     #
+                     APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
+                     ;;
+                esac                      # End of APP_NAME_INSTALL case statement.
+                #
+                # Below are cases where the APP_NAME is not the same as the
+                # package name used to install the application.
+                # i.e. The game 'trek' is installed using the package called
+                # 'bsdgames'.
+                #
+                case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+                     acat| als | apack | atool | aunpack)
+                     APP_NAME_INSTALL="atool"
+                     ;;
+                     aria2c)
+                     APP_NAME_INSTALL="aria2"
+                     ;;
+                     barnowl | zcrypt)
+                     APP_NAME_INSTALL="barnowl"
+                     ;;
+                     adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
+                     APP_NAME_INSTALL="bsdgames"
+                     ;;
+                     clamscan)
+                     APP_NAME_INSTALL="clamav"
+                     ;;
+                     todo)
+                     APP_NAME_INSTALL="devtodo"
+                     ;;
+                     fbgs)
+                     APP_NAME_INSTALL="fbi"
+                     ;;
+                     glances) # Add repository for glances application.
+                     sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
+                     sudo apt-get update
+                     ;;
+                     ifplugstatus)
+                     APP_NAME_INSTALL="ifplugd"
+                     ;;
+                     animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
+                     APP_NAME_INSTALL="imagemagick"
+                     ;;
+                     moc)
+                     APP_NAME_INSTALL="libqt4-dev"
+                     ;;
+                     lynx)
+                     APP_NAME_INSTALL="lynx-cur"
+                     ;;
+                     nagios3)
+                     APP_NAME_INSTALL="nagios3-core"
+                     ;;
+                     tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
+                     APP_NAME_INSTALL="netdiag"
+                     ;; 
+                     mpstat | iostat | pidstat | sadf | sar)
+                     APP_NAME_INSTALL="sysstat"
+                     ;;
+                     photorec)
+                     APP_NAME_INSTALL="testdisk"
+                     ;;
+                     aaxine | cacaxine | fbxine)
+                     APP_NAME_INSTALL="xine-console"
+                     ;;
+                     xz | unxz | xzcat | xzgrep)
+                     APP_NAME_INSTALL="xz-utils"
+                     ;;
+                     esac # End of Install Package Name case statement.
+                #
+                if [ -d /etc/apt ] ; then 
+                   # if /etc/apt directory exists, then use apt-get install
+                   # for Debian-based packages.
+                   sudo apt-get install $APP_NAME_INSTALL
+                   ERROR=$? # Save error flag condition.
+                   if [ $ERROR -ne 0 ] ; then
+                      # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+                      echo
+                      echo "Installation of $APP_NAME_INSTALL failed."
+                      echo "Command sudo apt-get install $APP_NAME_INSTALL failed."
+                      echo "May be a failure downloading package. Bad Internet connection?"
+                      echo
+                      f_application_web_install
+                   fi
+                fi
+                #
+                if [ -d /var/lib/rpm ] ; then 
+                   # if /var/lib/rpm directory exists, then use rpm install
+                   # for RPM-based packages.
+                   sudo rpm -ivh $APP_NAME_INSTALL 
+                   # Assume if not Debian, then Red Hat distro packages.
+                   ERROR=$? # Save error flag condition.
+                   if [ $ERROR -ne 0 ] ; then
+                      # Error code 1 $?=1 means installation failed.
+                      # Error code 0 (zero) where $?=0 means no error.
+                      echo
+                      echo "Installation of $APP_NAME_INSTALL failed."
+                      echo "Command sudo rpm -ivh $APP_NAME_INSTALL failed."
+                      echo "May be a failure downloading package. Bad Internet connection"
+                      echo
+                      f_application_web_install
+                   fi
+                fi
+                #
+              # if [ -d <slackware installation directory> ] ; then
+                   # if <slackware installation directory> exists, then use installpkg
+                   # for slackware packages.
+                   # sudo installpkg <application package name>"
+                   # ERROR=$? # Save error flag condition.
+                   # if [ $ERROR -ne 0 ] ; then
+                        # Error code 1 $?=1 means installation failed.
+                        # Error code 0 (zero) where $?=0 means no error.
+                        # echo
+                        # echo "Installation of $APP_NAME_INSTALL failed."
+                        # echo "Command sudo installpkg $APP_NAME_INSTALL failed."
+                        # echo "May be a failure downloading package. Bad Internet connection"
+                        # echo
+                        # f_application_web_install
+                   # fi
+              # fi
+              #
+              # if [ -d <arch linux installation directory> ] ; then
+                   # if <arch linux installation directory> exists, then use installpkg
+                   # for arch linux packages.
+                   # sudo -S <application package name>"
+                   # ERROR=$? # Save error flag condition.
+                   # if [ $ERROR -ne 0 ] ; then
+                        # Error code 1 $?=1 means installation failed.
+                        # Error code 0 (zero) where $?=0 means no error.
+                        # echo
+                        # echo "Installation of $APP_NAME_INSTALL failed."
+                        # echo "Command sudo -S $APP_NAME_INSTALL failed."
+                        # echo "May be a failure downloading package. Bad Internet connection"
+                        # echo
+                        # f_application_web_install
+                   # fi
+              # fi
+
+} # End of function f_application_install
+#
+#
+# +----------------------------------------+
+# | Function f_application_web_install     |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL.
+#    Uses: WEB_SITE_INSTALL
+#
+f_application_web_install () {
+      WEB_SITE_INSTALL=""
+      case $APP_NAME_INSTALL in # Start of Web Site case statement.
+      herrie)
+      WEB_SITE_INSTALL="http://herrie.info/#obtaining"
+      ;;
+      edbrowse)
+      WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
+      ;;
+      fbv)
+      WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
+      ;;
+      jfbview)
+      WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
+      ;;
+      retawq)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
+      ;;
+      portbunny)
+      WEB_SITE_INSTALL="http://portbunny.recurity.com/"
+      ;;
+      clcal)
+      WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
+      ;;
+      mencal)
+      WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
+      ;;
+      jed)
+      WEB_SITE_INSTALL="http://www.jedsoft.org/jed/download.html"
+      ;;
+      binary-clock)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
+      ;;
+      cclock)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
+      ;;
+      clockywock)
+      WEB_SITE_INSTALL="http://soomka.com/"
+      ;;
+      grandfatherclock)
+      WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
+      ;;
+      asciiaquarium)
+      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/html/"
+      ;;
+      desmume)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
+      ;;
+      handbrake-cli)
+      WEB_SITE_INSTALL="http://handbrake.fr/downloads2.php"
+      ;;
+      yougrabber)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/yougrabber/files/"
+      ;;
+      esac                      # End of Web Site case statement.
+      #
+      case $WEB_SITE_INSTALL in # Start of Web Install case statement.
+      "")
+      ;;
+      *) # if web site is specified, then go there.
+         echo
+         echo "If application did not install properly, do want to use the w3m web browser"
+         echo -n "to visit the project's web site to download manually (y/N)? "
+         read ANS
+         case $ANS in        # Start of Install case statement.
+              [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+              APP_NAME="w3m $WEB_SITE_INSTALL"
+              f_how_to_quit_application "q"
+              f_application_run
+              ;;
+              [Nn] | [Nn][Oo])
+              ;;
+         esac                # End of Install case statement.
+      ;;
+      esac                         # End of Web Install case statement.
+} # End of function f_application_web_install
+#
+# +----------------------------------------+
+# |          Function f_test_dash          |
+# +----------------------------------------+
+#
+#  Inputs: $BASH_VERSION (System variable)
+#    Uses: None
+# Outputs: None
+#
+f_test_dash () {
+#
+if [ "$BASH_VERSION" = '' ]; then
+   echo
+   echo "You are using the DASH environment."
+   echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
+   echo
+   echo "*** This script cannot be run in the DASH environment. ***"
+   echo
+   echo "You can invoke the BASH environment by typing"
+   echo "'bash cli-app-menu.sh' at the command line."
+   echo
+   f_press_enter_key_to_continue
+fi
+} # End of function f_test_dash
+#

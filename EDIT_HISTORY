@@ -1,4 +1,4 @@
-﻿# !/bin/bash
+﻿#!/bin/bash
 #
 # ©2013 Copyright 2013 Robert D. Chin
 #
@@ -20,11 +20,12 @@ THIS_FILE="EDIT_HISTORY"
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-REVISION=$(grep ^"## 2013" -c $THIS_FILE) ; REVISION="2013.$REVISION"
-REVDATE="August-01-2013 11:42"
+PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
+PROJECT_REVDATE="August-07-2013 12:56"
 clear
-echo "Edit History version: $REVISION"
-echo "       Edited on: $REVDATE"
+echo "Project version: $PROJECT_REVISION"
+echo " Last Edited on: $PROJECT_REVDATE"
+echo
 echo "Bash script name: $THIS_FILE"
 echo
 echo -n "Press '"Enter"' key to continue."
@@ -47,19 +48,45 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-08-07 *f_application_install add pattern matching for atool apps.
+##            *f_menu_cat_file_management added options Compress, Edit.
+##            *f_menu_cat_games changed menu to include descriptions.
+##            *f_menu_cat_games changed option name
+##             from "Simulation Games"
+##               to "Sims/Anims".
+##            *f_menu_app_file_compression added acat, als, apack, aunpack,
+##             and unace.
+##            *f_menu_app_games_simulation added bb, sl, .
+##            *f_menu_app_games_word added figlet, rev, toilet.
+##            *f_menu_app_image_graphics added bb, sl, Star Wars ASCII movies.
+##            *f_menu_app_text_editors added zile help, "Press Enter Key" fixes.
+##            *f_menu_app_text_tools added spell.
+## 
+## 2013-08-06 *All script files now have a separate revision date.
+##            *A few small bug fixes with "Press Enter Key" needed in some apps.
+##
 ## 2013-08-01 *lib_cli-menu-apps.lib added help, detect NIC for speedometer.
 ##            *Main menu added ability to search for an application.
+##
+## 2013-07-31 *lib_cli-menu-cat.lib added f_menu_cat_network and 
+##             f_menu_tcat_network_monitors as a bug fix.
 ##
 ## 2013-07-29 *f_menu_app_games_simulation added Star Wars ASCII movie.
 ##
 ## 2013-07-27 *Main Menu added Download from Stable or Testing repositories.
 ##
+## 2013-07-26 *Split functionality of cli-app-menu.sh into several library
+##              files: lib_cli-common.lib, lib_cli-menu-cat.lib,
+##                     lib_cli-menu-apps.lib
+##
 ## 2013-07-21 *f_application_error edited message to note app error messages.
-##            *f_menu_app_calculators added dc.
+##            *f_menu_app_calculators added dc. 
+##
+## 2013-07-19 *f_menu_app_calculators added dc.
 ##            *f_menu_app_file_compression added xz, unxz, xzcat, xzgrep.
 ##            *f_menu_app_firewalls added strobe.
 ##            *f_menu_app_network_bandwidth added statnet, trafshow.
-##            *f_menu_app_network_bandwidth tweaked pktstat messages.
+##            *f_menu_app_network_bandwidth tweaked pktstat messages. 
 ##            *f_menu_app_network_monitors added netwatch.
 ##            *f_menu_app_nic_tools added netload.
 ##            *f_menu_app_pdfps added pdftk.
@@ -576,4 +603,3 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2012-12-31 *Create menu driven CLI application launcher.
 ##            *Case statements drove me crazy, learning pattern matching.
 ##
-
