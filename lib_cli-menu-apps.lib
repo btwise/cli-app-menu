@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-07-2013 01:52"
+# REVDATE="August-07-2013 12:56"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -822,13 +822,18 @@ f_menu_app_file_compression () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Backup Applications until loop.
+            #MFC acat   - Exract files in archives to standard output (tar, gzip, zip etc.).
+            #MFC als    - List files in archives (tar, gzip, zip etc.).
+            #MFC apack  - File compress create archives (tar, gzip, zip etc.).
             #MFC atool  - Manages file archives (tar, gzip, zip etc.).
+            #MFC aunpack - File decompress extract from archives (tar, gzip, zip etc.).
             #MFC dtrx   - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
-            #MFC gunzip - File uncompress gzip files.
+            #MFC gunzip - File decompress gzip files.
             #MFC gzip   - File compress, to gzip files.
             #MFC p7zip  - File compress, to 7z files, 7z better than zip compression.
-            #MFC unxc   - File uncompress xz files.
-            #MFC unzip  - File uncompress zip files.
+            #MFC unace  - File decompress ACE 1.x archives. (ACE is a proprietary format).
+            #MFC unxc   - File decompress xz files.
+            #MFC unzip  - File decompress zip files.
             #MFC xz     - File compress xz files.
             #MFC xzcat  - File cat xz files.
             #MFC xzgrep - File grep xz files.
@@ -848,12 +853,45 @@ f_menu_app_file_compression () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of File Compression Applications case statement.
+
+                 acat' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Cc]*)
+                 APP_NAME="acat"
+                 f_application_run
+                 ;;
+                 als' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Ll]*)
+                 APP_NAME="als"
+                 f_application_run
+                 ;;
+                 apack' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Pp]*)
+                 APP_NAME="apack"
+                 f_application_run
+                 ;;
                  atool' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Aa] | [Aa][Tt]*)
                  APP_NAME="atool"
+                 f_application_run
+                 ;;
+                 aunpack' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Uu]*)
+                 APP_NAME="aunpack"
                  f_application_run
                  ;;
                  dtrx' '*)
@@ -888,11 +926,19 @@ f_menu_app_file_compression () {
                  APP_NAME="p7zip"
                  f_application_run
                  ;;
+                 unace' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu]| [Uu][Nn] | [Uu][Nn][Aa]*)
+                 APP_NAME="unace"
+                 f_application_run
+                 ;;
                  unxz' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Uu] | [Uu][Nn][Xx][Zz])
+                 [Uu]| [Uu][Nn] | [Uu][Nn][Xx]*)
                  APP_NAME="unxz"
                  f_application_run
                  ;;
@@ -900,7 +946,7 @@ f_menu_app_file_compression () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Uu] | [Uu][Nn]*)
+                 [Uu] | [Uu][Nn] | [Uu][Nn][Zz]*)
                  APP_NAME="unzip"
                  f_application_run
                  ;;
@@ -2593,6 +2639,7 @@ f_menu_app_games_word () {
             #MGK figlet  - Creates banner with outline font.
             #MGK hangman - Classic hangman word game.
             #MGK pig     - Converts text into pig-latin.
+            #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
             #MGK toilet  - Creates banner with bold font.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -2676,6 +2723,39 @@ f_menu_app_games_word () {
                       ;;
                  esac
                  ;;
+                 rev' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Vv])
+                 clear # Blank the screen.
+                 echo "rev - takes a text file or standard input (keyboard) and reverses the words."
+                 echo
+                 echo "Usage:" 
+                 echo "rev [-V] [-h] file ..."
+                 echo
+                 echo "*** For more help type: $APP_NAME --help"
+                 echo
+                 echo -n "Enter name of text file to reverse: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    echo
+                    echo "Missing filename."
+                    echo "Usage: rev <filename>"
+                    f_press_enter_key_to_continue
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="rev $ANS"
+                    f_application_run
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+                 toilet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
                  [Tt] | [Tt][Oo] | [Tt][Oo][Ii]*)
                  APP_NAME="toilet"
                  clear # Blank the screen.
@@ -2695,11 +2775,6 @@ f_menu_app_games_word () {
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac
-                 ;;
-                 toilet' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
             esac # End of Word Games case statement.
             #
@@ -6759,19 +6834,23 @@ f_menu_app_text_editors () {
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "<F5>"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Dd] | [Dd][Aa]*)
                  APP_NAME="dav"
                  f_how_to_quit_application "<F5>"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  dex' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Dd] | [Dd][Ee]*)
                  APP_NAME="dex"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ed' '*)
                  APP_NAME=$CHOICE_APP
@@ -6784,10 +6863,12 @@ f_menu_app_text_editors () {
                  emacs' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ee] | [Ee][Mm]*)
                  APP_NAME="emacs"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  groff' '*)
                  APP_NAME=$CHOICE_APP
@@ -6815,64 +6896,108 @@ f_menu_app_text_editors () {
                  jed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Jj] | [Jj][Ee]*)
                  APP_NAME="jed"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  joe' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "Ctrl-k x"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Jj] | [Jj][Oo]*)
                  APP_NAME="joe"
                  f_how_to_quit_application "Ctrl-k x"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nano' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Aa]*)
                  APP_NAME="nano"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pico' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Ii]*)
                  APP_NAME="pico"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vi' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii])
                  APP_NAME="vi"
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm])
                  APP_NAME="vim"
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  zile' '*)
                  APP_NAME=$CHOICE_APP
-                 f_application_run
+                 clear # Blank the screen.
+                 echo zile - Small Emacs editor.
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-x followed by Ctrl-z and Ctrl-z again."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
                  [Zz] | [Zz][Ii]*)
                  APP_NAME="zile"
-                 f_application_run
+                 clear # Blank the screen.
+                 echo zile - Small Emacs editor.
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-x followed by Ctrl-z and Ctrl-z again."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
                  ;;
             esac                # End of Text Editor Applications case statement.
             #

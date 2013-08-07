@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-06-2013 16:20"
+# REVDATE="August-07-2013 12:56"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -645,6 +645,9 @@ f_application_install () {
                 # 'bsdgames'.
                 #
                 case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+                     acat| als | apack | atool | aunpack)
+                     APP_NAME_INSTALL="atool"
+                     ;;
                      aria2c)
                      APP_NAME_INSTALL="aria2"
                      ;;

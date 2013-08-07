@@ -3,9 +3,8 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-07-2013 00:15"
+# REVDATE="August-07-2013 12:56"
 #
-
 # +----------------------------------------+
 # |  Function f_menu_scat_sample_template  |
 # +----------------------------------------+
@@ -100,7 +99,7 @@ f_menu_cat_applications () {
       do    # Start of Application Category until loop.
             #AAB Audio        - Music players, editors, utilities.
             #AAB Education    - Learn something.
-            #AAB File/Dir     - copy/move/rename, encrypt, view, find, files/directories.
+            #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
             #AAB Games        - Fun time!
             #AAB Image        - View images and graphics files.
             #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
@@ -257,8 +256,10 @@ f_menu_cat_file_management () {
       do    # Start of File Management Application Category until loop.
             #BFM Backup      - File Backup/archive.
             #BFM CD/DVD Burn - Write files to CD/DVD.
-            #BFM Compress    - Compress files.
+            #BFM Compare     - Show differences between text files.
+            #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
             #BFM Delete      - Secure deletion of files without recovery.
+            #BFM Edit        - Create/Edit text files.
             #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
             #BFM Find        - File search.
             #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
@@ -288,12 +289,20 @@ f_menu_cat_file_management () {
                  f_menu_app_file_burn         # File Burn Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Cc] | [Cc][Oo]*)
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa]*)
+                 f_menu_app_text_compare      # Text Compare Application Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;               
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Rr]*)
                  f_menu_app_file_compression  # File Burn Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Dd] | [Dd][Ee]*)
                  f_menu_app_file_deletion     # File Deletion Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Dd]*)
+                 f_menu_app_text_editors      # Text Editor Application Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Nn]*)

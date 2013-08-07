@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-07-2013 01:52"
+PROJECT_REVDATE="August-07-2013 12:56"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -48,15 +48,20 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-08-07 *f_menu_cat_games changed menu to include descriptions.
+## 2013-08-07 *f_application_install add pattern matching for atool apps.
+##            *f_menu_cat_file_management added options Compress, Edit.
+##            *f_menu_cat_games changed menu to include descriptions.
 ##            *f_menu_cat_games changed option name
 ##             from "Simulation Games"
 ##               to "Sims/Anims".
+##            *f_menu_app_file_compression added acat, als, apack, aunpack,
+##             and unace.
 ##            *f_menu_app_games_simulation added bb, sl, .
+##            *f_menu_app_games_word added figlet, rev, toilet.
 ##            *f_menu_app_image_graphics added bb, sl, Star Wars ASCII movies.
-##            *f_menu_app_games_word added figlet, toilet.
+##            *f_menu_app_text_editors added zile help, "Press Enter Key" fixes.
 ##            *f_menu_app_text_tools added spell.
-##
+## 
 ## 2013-08-06 *All script files now have a separate revision date.
 ##            *A few small bug fixes with "Press Enter Key" needed in some apps.
 ##
