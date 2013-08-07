@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-07-2013 00:15"
+# REVDATE="August-07-2013 00:50"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -2363,7 +2363,7 @@ f_menu_app_games_simulation () {
             #MGI atc       - Air traffic controller.
             #MGI bb        - ASCII-art movie demo based on AAlib.
             #MGI sail      - Command a Man O'War fighting ship.
-            #MIG sl        - Steam locomotive (when you mis-type 'ls' command).
+            #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
             #MGI star wars - Star Wars movie in ASCII.
             #MGI trek      - Star Trek blast Klingons.
             #
@@ -2410,7 +2410,7 @@ f_menu_app_games_simulation () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 [Bb] | [Bb][Bb]*)
+                 [Bb] | [Bb][Bb])
                  APP_NAME="bb"
                  f_how_to_quit_application "q"
                  f_application_run
@@ -2431,10 +2431,12 @@ f_menu_app_games_simulation () {
                  sl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Ll])
                  APP_NAME=sl
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] |[Ss][Tt] | [Ss][Tt][Aa]*)
                  APP_NAME="telnet towel.blinkenlights.nl"
@@ -2610,7 +2612,7 @@ f_menu_app_games_word () {
                  boggle' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Bb] | [Bb][Oo]*)
                  f_how_to_quit_application "Ctrl + C (Control-C)"
@@ -2844,10 +2846,12 @@ f_menu_app_image_graphics () {
                  sl' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Ll])
                  APP_NAME=sl
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] |[Ss][Tt] | [Ss][Tt][Aa]*)
                  APP_NAME="telnet towel.blinkenlights.nl"
