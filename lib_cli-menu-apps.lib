@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-07-2013 00:50"
+# REVDATE="August-07-2013 01:52"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -6897,6 +6897,7 @@ f_menu_app_text_tools () {
       do    # Start of Text Tool Applications until loop.
             #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
             #MTT doconce  - Text markup language to manipulate, transform, and convert text.
+            #MTT spell    - Spell checker uses a file as input.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -6927,6 +6928,37 @@ f_menu_app_text_tools () {
                  [Dd] | [Dd][Oo]*)
                  APP_NAME="doconce"
                  f_application_run
+                 ;;
+                 spell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Pp]*)
+                 APP_NAME="spell"
+                 clear # Blank the screen.
+                 echo "spell - Spell checker"
+                 echo
+                 echo "Usage:" 
+                 echo "spell [options] files ..."
+                 echo
+                 echo "*** For more help type: $APP_NAME --help"
+                 echo
+                 echo "Spell application lists all words that are mis-spelled."
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    echo
+                    echo "Missing filename."
+                    echo "Usage: spell <filename>"
+                    f_press_enter_key_to_continue
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="spell $ANS"
+                    f_application_run
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
                  ;;
             esac                # End of Text Editor Applications case statement.
             #

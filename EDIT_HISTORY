@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-07-2013 00:15"
+PROJECT_REVDATE="August-07-2013 01:52"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -55,6 +55,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_games_simulation added bb, sl, .
 ##            *f_menu_app_image_graphics added bb, sl, Star Wars ASCII movies.
 ##            *f_menu_app_games_word added figlet, toilet.
+##            *f_menu_app_text_tools added spell.
 ##
 ## 2013-08-06 *All script files now have a separate revision date.
 ##            *A few small bug fixes with "Press Enter Key" needed in some apps.
