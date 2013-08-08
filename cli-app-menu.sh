@@ -27,7 +27,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-06-2013 16:20"
+REVDATE="August-08-2013 12:00"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -261,6 +261,12 @@ do    # Start of CLI Menu util loop.
                 ;;                  
                 "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa] | [Ss][Tt][Aa][Bb]*)  
                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/cli-app-menu.sh"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-common.lib"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-menu-apps.lib"
+                wget $WEB_SITE
+                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-menu-cat.lib"
                 wget $WEB_SITE
                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/README"
                 wget $WEB_SITE
