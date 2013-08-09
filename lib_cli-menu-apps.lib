@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-07-2013 12:56"
+# REVDATE="August-08-2013 19:55"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -1158,7 +1158,8 @@ f_menu_app_file_find () {
                  echo "Example: find file and then delete it."
                  echo "find  -iname /home/user/ *\"test-file\"* -exec rm '{}' +"
                  echo
-                 echo "*** For more help type: man find" 
+                 echo "*** For more help type: 'man find'"
+                 echo "                        'find --help'"
                  echo
                  echo "Now run find. Usage: find --help"
                  f_press_enter_key_to_continue
@@ -1177,16 +1178,7 @@ f_menu_app_file_find () {
                  echo "To update the mlocate database, run the command, 'updatedb'."
                  echo
                  echo "Usage: locate [OPTION]... [PATTERN]..."
-                 echo "Search for entries in a mlocate database."
-
-                 echo "  -b, --basename         match only the base name of path names"
-                 echo "  -c, --count            only print number of found entries"
-                 echo "  -d, --database DBPATH  use DBPATH instead of default database (which is"
-                 echo "                         /var/lib/mlocate/mlocate.db)"
-                 echo "  -e, --existing         only print entries for currently existing files"
-                 echo "  -L, --follow           follow trailing symbolic links when checking file"
-                 echo "                         existence (default)"
-                 echo "  -i, --ignore-case      ignore case distinctions when matching patterns"
+                 echo "Search for entries in a mlocate database (/var/lib/mlocate/mlocate.db)"
                  echo
                  echo "Example: find all text files in the /usr directory."
                  echo "locate /usr/*.txt"
@@ -1194,7 +1186,8 @@ f_menu_app_file_find () {
                  echo "Example: find file with name *test-file* in directory /home/user/."
                  echo "locate /home/user/*test-file*"
                  echo
-                 echo "*** For more help type: man locate" 
+                 echo "*** For more help type: 'man locate'" 
+                 echo "                        'locate --help'"
                  echo
                  echo "Now run find. Usage: locate --help"
                  f_press_enter_key_to_continue
@@ -1404,7 +1397,8 @@ f_menu_app_file_splitters () {
                  echo "size is 1000 lines, and default PREFIX is 'x'.  With no INPUT, or  when"
                  echo "INPUT is -, read standard input."
                  echo
-                 echo "*** For more help type: man split" 
+                 echo "*** For more help type: 'man split'" 
+                 echo "                        'split --help'"
                  echo
                  echo "Now run find. Usage: split --help"
                  echo
@@ -1581,8 +1575,6 @@ f_menu_app_file_recover () {
                  echo "Recovers these file-types: jpg, gif, png, bmp, avi, exe, mpg, wav, riff," 
                  echo "wmv, mov, pdf, ole, doc, zip, rar, htm, cpp."
                  echo
-                 echo "Examples"
-                 echo
                  echo "Run the default case"
                  echo "foremost image.dd"
                  echo
@@ -1592,7 +1584,8 @@ f_menu_app_file_recover () {
                  echo "Search for gif and pdf's"
                  echo "foremost -t gif,pdf -i image.dd"
                  echo
-                 echo "*** For more help type: man foremost" 
+                 echo "*** For more help type: 'man foremost'"
+                 echo "                        'foremost --help'"
                  echo
                  echo "Now run find. Usage: foremost --help"
                  f_press_enter_key_to_continue
@@ -1614,7 +1607,8 @@ f_menu_app_file_recover () {
                  echo "         /log   create a photorec.log file"
                  echo "         /debug add debug information"
                  echo
-                 echo "*** For more help type: man photorec" 
+                 echo "*** For more help type: 'man photorec'"
+                 echo "                        'photorec --help'"
                  echo
                  echo "Now run photorec. Usage: photorec --help"
                  f_press_enter_key_to_continue
@@ -1632,7 +1626,8 @@ f_menu_app_file_recover () {
                  echo "Usage:"
                  echo "safecopy [options] <source> <target>"
                  echo
-                 echo "*** For more help type: man safecopy" 
+                 echo "*** For more help type: 'man safecopy'" 
+                 echo "                        'safecopy --help'"
                  echo
                  echo "Now run safecopy. Usage: safecopy --help"
                  f_press_enter_key_to_continue
@@ -2728,27 +2723,44 @@ f_menu_app_games_word () {
                  f_application_run
                  ;;
                  [Rr] | [Rr][Ee] | [Rr][Ee][Vv])
+                 APP_NAME="rev"
                  clear # Blank the screen.
                  echo "rev - takes a text file or standard input (keyboard) and reverses the words."
                  echo
                  echo "Usage:" 
                  echo "rev [-V] [-h] file ..."
                  echo
-                 echo "*** For more help type: $APP_NAME --help"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  echo -n "Enter name of text file to reverse: "
                  read ANS
+
                  if [ -z $ANS ] ; then   #String has zero length.
-                    echo
+                    clear # Blank the screen.
                     echo "Missing filename."
                     echo "Usage: rev <filename>"
-                    f_press_enter_key_to_continue
+                    echo
+                    echo "Since no filename, now run 'rev' in interactive mode."
+                    echo
+                    echo "Interactive usage:"
+                    echo "Now type the word(s) or sentence to reverse."
+                    echo
+                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    APP_NAME="rev"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  elif [ -r $ANS ] ; then   #Filename exists and is readable.
                     APP_NAME="rev $ANS"
                     f_application_run
                  else
                     echo "The file $ANS is either missing or cannot be read."
-                    f_press_enter_key_to_continue
+                    APP_NAME=-1 # Usually f_application_run sets APP_NAME=-1
+                                # for valid menu choices but it's not run here.
+                                # If not -1, then f_application_bad_menu_choice
+                                # below will consider it a bad choice and will
+                                # set PRESS_KEY=0 whereas we need it set to 1.
+                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  fi
                  ;;
                  toilet' '*)
@@ -3474,7 +3486,7 @@ f_menu_app_downloaders () {
                  echo "Usage:"
                  echo "md5pass [PASSWORD] [SALT]"
                  echo
-                 echo "*** For more help type: man md5pass"
+                 echo "*** For more help type: 'man md5pass'"
                  echo
                  echo "md5pass without any SALT value causes a random salt value to be generated."
                  echo "Now run md5pass. Usage: 'md5pass'."
@@ -3494,7 +3506,9 @@ f_menu_app_downloaders () {
                  echo "Usage:"
                  echo "md5sum [OPTION]... [FILE]..."
                  echo
-                 echo "*** For more help type: md5sum --hep"
+                 echo "*** For more help type: 'man md5sum'"
+                 echo "                        'md5sum --help'"
+                 echo
                  echo "Now show help. Usage: man md5sum"
                  f_press_enter_key_to_continue
                  f_application_run
@@ -3510,7 +3524,7 @@ f_menu_app_downloaders () {
                  echo
                  echo "Usage:"
                  echo "sha1pass [PASSWORD] [SALT]"
-                 echo "*** For more help type: man sha1pass"
+                 echo "*** For more help type: 'man sha1pass'"
                  echo
                  echo "sha1pass without any SALT value causes a random salt value to be generated."
                  echo "Now run sha1pass. Usage: 'sha1pass'."
@@ -3530,7 +3544,9 @@ f_menu_app_downloaders () {
                  echo "Usage:"
                  echo "sha1sum [OPTION]... [FILE]..."
                  echo
-                 echo "*** For more help type: sha1sum --help"
+                 echo "*** For more help type: 'man sha1sum'"
+                 echo "                        'sha1sum --help'"
+                 echo
                  echo "Now show help. Usage: man sha1sum"
                  echo
                  f_press_enter_key_to_continue
@@ -3892,7 +3908,8 @@ f_menu_app_instant_messaging () {
                  echo "barnowl"
                  echo "Inside barnowl type ':help' (colon help) for built-in help page."
                  echo
-                 echo "*** For more help type: man barnowl"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  echo "Now run barnowl. Usage: barnowl"
                  echo
@@ -4561,12 +4578,11 @@ f_menu_app_firewalls () {
                  echo "frames  which  they  see.   arptables is analogous to the iptables user"
                  echo "space tool, but arptables is less complicated."
                  echo
-                 echo "*** For more help type: man arptables"
+                 echo "*** For more help type: 'man arptables'"
+                 echo "                        'arptables --help"
                  echo
                  echo "List all ARP chains on this PC (localhost)."
-                 echo
                  echo "Now run arptables. Usage: sudo arptables --list"
-                 echo
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -4582,7 +4598,8 @@ f_menu_app_firewalls () {
                  echo "Usage:"
                  echo "iptables [-t table] {-A|-C|-D} chain rule-specification"
                  echo
-                 echo "*** For more help type: man iptables"
+                 echo "*** For more help type: 'man iptables'"
+                 echo "                        'iptables --help'"
                  echo
                  echo "List all chains of the IPv4 packet filter (firewall) on this PC (localhost)."
                  echo
@@ -4614,7 +4631,8 @@ f_menu_app_firewalls () {
                  echo "Usage:"
                  echo "portbunny <HOST>"
                  echo
-                 echo "*** For more help type: man portbunny"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -4735,12 +4753,11 @@ f_menu_app_lanwan () {
                  echo "       -s source : source ip address"
                  echo "       destination : ask for what ip address"
                  echo
-                 echo "*** For more help type: man arping" 
+                 echo "*** For more help type: 'man arping'"
+                 echo "                        'arping --help'"
                  echo
                  echo "Arpinging this PC (localhost) for 5 times as an example."
-                 echo
                  echo "Now run arping. Usage: arping localhost -c 5"
-                 echo
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -4763,7 +4780,6 @@ f_menu_app_lanwan () {
                  echo
                  echo "Usage:"
                  echo "ip [ OPTIONS ] OBJECT { COMMAND | help }"
-                 echo
                  echo "OBJECT := { link | addr | addrlabel | route | rule | neigh | tunnel | maddr |"
                  echo " mroute }"
                  echo "link      - network device."
@@ -4779,8 +4795,8 @@ f_menu_app_lanwan () {
                  echo "OPTIONS := { -V[ersion] | -s[tatistics] | -r[esolve] | -f[amily] { inet | inet6"
                  echo "             | ipx | dnet | link } | -o   OBJECT"
                  echo
-                 echo "*** For more help type: man ip" 
-                 echo
+                 echo "*** For more help type: 'man ip'"
+                 echo "                        'ip --help'"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -4831,7 +4847,8 @@ f_menu_app_lanwan () {
                  echo "    [--address IP.ADD.RE.SS] [--interval SECONDS] [--psize BYTES | -s BYTES]"
                  echo "    HOSTNAME [PACKETSIZE]"
                  echo
-                 echo "*** For more help type: man mtr" 
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  echo "mtr of this PC (localhost) as an example."
                  echo
@@ -4879,7 +4896,8 @@ f_menu_app_lanwan () {
                  echo "Usage: ping destination where destination may be an IP-address or url."
                  echo "       i.e. ping 192.168.1.1 or ping www.sourceforge.net"
                  echo
-                 echo "*** For more help type: man ping" 
+                 echo "*** For more help type: 'man ping'"
+                 echo "                        'ping --help'"
                  echo
                  echo "Pinging this PC (localhost) for 5 times as an example."
                  echo
@@ -4915,7 +4933,8 @@ f_menu_app_lanwan () {
                  echo "  -t network-interface        display bytes transmitted on network-interface"
                  echo "  -c                          start a new column for following tap arguments"
                  echo
-                 echo "*** For more help type: man speedometer" 
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  echo "i.e. speedometer -s -r eth0 -t eth0"
                  echo "Now run speedometer. Usage: speedometer -s -r <NIC device name> -t <NIC device name>"
@@ -4953,8 +4972,8 @@ f_menu_app_lanwan () {
                  echo "    -d, --dccp      Display DCCP sockets."
                  echo "    -w, --raw       Display RAW sockets."
                  echo
-                 echo "*** For more help type: man ss" 
-                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -4985,7 +5004,8 @@ f_menu_app_lanwan () {
                  echo "tcptraceroute  [options]"
                  echo "lft  [options]"
                  echo
-                 echo "*** For more help type: man traceroute" 
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  echo "traceroute of this PC (localhost) as an example."
                  echo
@@ -5046,19 +5066,21 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  [Ee] | [Ee][Tt]*)
-                  clear # Blank the screen.
-                  echo "ethtool - Query and control network driver and hardware settings."
-                  echo
-                  echo "Usage:" 
-                  echo "ethtool <options> <NIC device name>"
-                  echo
-                  echo "*** For more help type: man ethtool" 
-                  echo
-                  echo "Now run ethtool. Usage: ethtool -i <NIC device name>"
-                  echo "Option -i shows network driver information for <NIC device name>"
-                  f_press_enter_key_to_continue
-                  f_find_NIC
-                  APP_NAME="ethtool -i $ANS"
+                 APP_NAME="ethtool"
+                 clear # Blank the screen.
+                 echo "ethtool - Query and control network driver and hardware settings."
+                 echo
+                 echo "Usage:" 
+                 echo "ethtool <options> <NIC device name>"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Now run ethtool. Usage: ethtool -i <NIC device name>"
+                 echo "Option -i shows network driver information for <NIC device name>"
+                 f_press_enter_key_to_continue
+                 f_find_NIC
+                 APP_NAME="ethtool -i $ANS"
                  f_application_run
                  ;;
                  ifconfig' '* | 'sudo ifconfig '* | 'sudo ifconfig')
@@ -5309,7 +5331,8 @@ f_menu_app_network_monitors () {
                  echo "Usage:"
                  echo "nagios3 [-h] [-v] [-s] [-d] <main_config_file>"
                  echo
-                 echo "*** For more help type: man nagios3" 
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -5344,14 +5367,10 @@ f_menu_app_network_monitors () {
                  echo
                  echo "netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] ..etc."
                  echo
-                 echo "netstat {--masquerade|-M} [--extend|-e] [--numeric|-n] [--numeric-hosts] ..etc."
-                 echo
-                 echo "netstat {--statistics|-s} [--tcp|-t] [--udp|-u] [--raw|-w]"
-                 echo
-                 echo "*** For more help type: man traceroute" 
+                 echo "*** For more help type: 'man netstat'"
+                 echo "                        'netstat --help'"
                  echo
                  echo "netstat of this PC (localhost) as an example."
-                 echo
                  echo "Now run netstat. Usage: netstat -l"
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
@@ -6695,7 +6714,9 @@ f_menu_app_text_converters () {
                  echo "         [ --bullets string ] [ --bullets_ordered string ]"
                  echo "         [ --caps_tag tag ]"
                  echo
-                 echo "*** For more help type: txt2html --help"
+                 echo "*** For more help type: 'man txt2html'"
+                 echo "                        'txt2html --help'"
+                 echo
                  echo "Now show help. Usage: man txt2html"
                  f_press_enter_key_to_continue
                  f_application_run
@@ -6713,7 +6734,9 @@ f_menu_app_text_converters () {
                  echo "txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
                  echo "        [-I txt] [-B txt] [-d date] [ifile]"
                  echo
-                 echo "*** For more help type: txt2man --help"
+                 echo "*** For more help type: 'man txt2man'"
+                 echo "                        'txt2man --help'"
+                 echo
                  echo "Now show help. Usage: man txt2man"
                  f_press_enter_key_to_continue
                  f_application_run
@@ -6732,7 +6755,9 @@ f_menu_app_text_converters () {
                  echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
                  echo "       txt2pdbdoc -V"
                  echo
-                 echo "*** For more help type: txt2pdbdoc --help"
+                 echo "*** For more help type: 'man txt2pdbdoc'"
+                 echo "                        'txt2pdbdoc --help'"
+                 echo
                  echo "Now show help. Usage: man txt2pdbdoc"
                  f_press_enter_key_to_continue
                  f_application_run
@@ -6749,7 +6774,9 @@ f_menu_app_text_converters () {
                  echo "Usage:"
                  echo "txt2regex --all|--prog <p1,p2,...,pN>"
                  echo
-                 echo "*** For more help type: txt2regex --help"
+                 echo "*** For more help type: 'man txt2regex'"
+                 echo "                        'txt2regex --help'"
+                 echo
                  echo "Now show help. Usage: man txt2regex"
                  f_press_enter_key_to_continue
                  f_application_run
@@ -6768,7 +6795,9 @@ f_menu_app_text_converters () {
                  echo "Usage:"
                  echo "txt2tags [options] [FILE...]"
                  echo
-                 echo "*** For more help type: txt2tags --help"
+                 echo "*** For more help type: 'man txt2tags'"
+                 echo "                        'txt2tags --help'"
+                 echo
                  echo "Now show help. Usage: man txt2tags"
                  f_press_enter_key_to_continue
                  f_application_run
@@ -6887,7 +6916,9 @@ f_menu_app_text_editors () {
                  echo "groff -h | --help"
                  echo "groff -v | --version [option ...]"
                  echo
-                 echo "*** For more help type: $APP_NAME --help"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
                  echo "Now show help. Usage: man $APP_NAME"
                  APP_NAME="groff --help"
                  f_press_enter_key_to_continue
@@ -7021,8 +7052,11 @@ f_menu_app_text_tools () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Tool Applications until loop.
             #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
+            #MTT aspell   - Spell check allows text files as input with user dictionary.
             #MTT doconce  - Text markup language to manipulate, transform, and convert text.
-            #MTT spell    - Spell checker uses a file as input.
+            #MTT hunspell - Spell check allows keyboard or files as input w/user dictionary.
+            #MTT ispell   - Spell check allows text files as input with user dictionary.
+            #MTT spell    - Spell check allows keyboard or text files as input.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -7046,6 +7080,41 @@ f_menu_app_text_tools () {
                  APP_NAME="antiword"
                  f_application_run
                  ;;
+                 aspell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Ss] | [Aa][Ss][Pp]*)
+                 APP_NAME="aspell"
+                 clear # Blank the screen.
+                 echo "aspell - Spell checker"
+                 echo
+                 echo "Usage:" 
+                 echo "aspell [options] <command> ..."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Aspell application lists all words that are misspelled."
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    echo
+                    echo "Missing filename."
+                    echo "Usage: aspell <filename>"
+                    echo
+                    f_press_enter_key_to_continue
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="aspell -c $ANS"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
                  doconce' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -7053,6 +7122,108 @@ f_menu_app_text_tools () {
                  [Dd] | [Dd][Oo]*)
                  APP_NAME="doconce"
                  f_application_run
+                 ;;
+                 hunspell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Hh] | [Hh][Uu]*)
+                 APP_NAME="hunspell"
+                 clear # Blank the screen.
+                 echo "hunspell - Spell checker"
+                 echo
+                 echo "Usage:"
+                 echo "hunspell [options] files ..."
+                 echo
+                 echo "Spell check file interactively."
+                 echo "hunspell -d en_US filename.txt"
+                 echo
+                 echo "Spell check file in batch mode."
+                 echo "cat myFile.txt | hunspell"
+                 echo "hunspell -l myFile.txt"
+                 echo
+                 echo "Prevent showing an '*' asterick for each line."
+                 echo "cat myFile.txt | hunspell -i utf-8 | grep -v \* | uniq"
+                 echo
+                 echo "List only misspelled words."
+                 echo "cat myFile.txt | hunspell -l -i utf-8"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    clear # Blank the screen.
+                    echo "Missing filename."
+                    echo "Usage: hunspell <filename>"
+                    echo
+                    echo "Since no filename, now run 'hunspell' in interactive mode."
+                    echo
+                    echo "Interactive usage:"
+                    echo
+                    echo "Example: Type the sentence below"
+                    echo "The wrong spelling is recieve, while the correct spelling is receive."
+                    echo
+                    echo "& recieve 8 22: receive, relieve, reprieve, retrieve, reverie, recitative,"
+                    echo "Recife, receivable"
+                    echo
+                    echo "The word 'recieve' is repeated on the screen because it is mis-spelled."
+                    echo "8=number of possible correct words."
+                    echo "22+1=number of characters in line until misspelled word."
+                    echo
+                    echo "Now type the word(s) or sentence to spell check."
+                    echo "If the word has the wrong spelling, it will be repeated on the screen."
+                    echo "If the word has the correct spelling, an asterick '*' will appear."
+                    echo
+                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    APP_NAME="hunspell"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="hunspell $ANS"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+                 ispell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ii] | [Ii][Ss] | [Ii][Ss][Pp]*)
+                 APP_NAME="ispell"
+                 clear # Blank the screen.
+                 echo "ispell - Spell checker"
+                 echo
+                 echo "Usage:" 
+                 echo "ispell [options] <command> ..."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Ispell application lists all words that are misspelled."
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    echo
+                    echo "Missing filename."
+                    echo "Usage: ispell <filename>"
+                    echo
+                    f_press_enter_key_to_continue
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="ispell $ANS"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
                  ;;
                  spell' '*)
                  APP_NAME=$CHOICE_APP
@@ -7063,23 +7234,45 @@ f_menu_app_text_tools () {
                  clear # Blank the screen.
                  echo "spell - Spell checker"
                  echo
-                 echo "Usage:" 
+                 echo "Usage:"
                  echo "spell [options] files ..."
                  echo
-                 echo "*** For more help type: $APP_NAME --help"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
-                 echo "Spell application lists all words that are mis-spelled."
+                 echo "Spell application lists all words that are misspelled."
                  echo
                  echo -n "Enter name of text file to check spelling: "
                  read ANS
                  if [ -z $ANS ] ; then   #String has zero length.
-                    echo
+                    clear # Blank the screen.
                     echo "Missing filename."
                     echo "Usage: spell <filename>"
-                    f_press_enter_key_to_continue
+                    echo
+                    echo "Since no filename, now run 'spell' in interactive mode."
+                    echo
+                    echo "Interactive usage:"
+                    echo
+                    echo "Example: Type the sentence below"
+                    echo "The wrong spelling is recieve, while the correct spelling is receive"
+                    echo
+                    echo "recieve <<--spell responds with this word."
+                    echo
+                    echo "The word 'recieve' is repeated on the screen because it is mis-spelled."
+                    echo
+                    echo "Now type the word(s) or sentence to spell check."
+                    echo
+                    echo "If the word has the wrong spelling, it will be repeated on the screen."
+                    echo "If the word has the correct spelling, it will not be repeated."
+                    echo
+                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    APP_NAME="spell"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  elif [ -r $ANS ] ; then   #Filename exists and is readable.
                     APP_NAME="spell $ANS"
                     f_application_run
+                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  else
                     echo "The file $ANS is either missing or cannot be read."
                     f_press_enter_key_to_continue
@@ -7159,17 +7352,15 @@ f_menu_app_todo () {
                  echo
                  echo "tda [-p <priority>] [-g <index>] [<text>]"
                  echo "      Add a new item, optionally grafting it as a child of the given item."
-                 echo
                  echo "tde <index>"
                  echo "     Edit the given item."
-                 echo
                  echo "tdr <indices>"
                  echo "     Remove the given items."
-                 echo
                  echo "tdd <indices>"
                  echo "     Mark the specified items as being done."
                  echo
-                 echo "*** For more help type: man todo"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  echo "todo -a to add a new note, todo -A -all to show all notes."
                  echo 
@@ -7431,7 +7622,8 @@ f_menu_app_sys_disks () {
                  echo "   -T, --print-type        print file system type"
                  echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
                  echo
-                 echo "*** For more help type: man df"
+                 echo "*** For more help type: 'man df'"
+                 echo "                        'df --help'"
                  echo
                  echo "Display total disk usage in human-readable format."
                  echo
@@ -7466,7 +7658,8 @@ f_menu_app_sys_disks () {
                  echo "   --exclude=PATTERN     exclude files matching PATTERN"
                  echo "   -d, --max-depth=N     N  or  fewer  levels  below"
                  echo
-                 echo "*** For more help type: man du"
+                 echo "*** For more help type: 'man du'"
+                 echo "                        'du --help'"
                  echo
                  echo "Display total disk usage in human-readable format."
                  echo
@@ -7544,7 +7737,8 @@ f_menu_app_sys_disks () {
                  echo "   -T, --print-type        print file system type"
                  echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
                  echo
-                 echo "*** For more help type: man df"
+                 echo "*** For more help type: 'man df'"
+                 echo "                        'df --help'"
                  echo
                  echo "Display total disk usage in human-readable format."
                  echo
@@ -7701,7 +7895,8 @@ f_menu_app_sys_health () {
                  echo "clamscan [options] [file/directory/-]"
                  echo "         -r, --recursive will recursively scan your home directory."
                  echo
-                 echo "*** For more help type: clamscan --help"
+                 echo "*** For more help type: 'man clamscan'"
+                 echo "                        'clamscan --help'"
                  echo
                  echo "Clam anti-virus will now scan the folder, please be patient"
                  echo "since Clam anti-virus is slow to scan, but thorough."
@@ -7757,7 +7952,8 @@ f_menu_app_sys_health () {
                  echo "Systems Programmers to expose the classes of bugs which only or more frequently"
                  echo "manifest themselves when the system is under heavy load."
                  echo
-                 echo "*** For more help type: man stress"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -7771,13 +7967,13 @@ f_menu_app_sys_health () {
                  clear # Blank the screen.
                  echo "tripwire - Detects unauthorized file changes"
                  echo
-                 echo "*** For more help type: man tripwire for use and operation."
-                 echo "*** For more help type: man twadmin - create, encode policy, config files."
-                 echo "*** For more help type: man twprint - print database."
-                 echo "*** For more help type: man siggen - display hash values for files."
-                 echo "*** For more help type: man twconfig - explanation of config files."
-                 echo "*** For more help type: man twpolicy - explanation of policy files."
-                 echo "*** For more help type: man twfiles - overview of files, settings."
+                 echo "*** For more help type: 'man tripwire' for use and operation."
+                 echo "*** For more help type: 'man twadmin' - create, encode policy, config files."
+                 echo "*** For more help type: 'man twprint' - print database."
+                 echo "*** For more help type: 'man siggen' - display hash values for files."
+                 echo "*** For more help type: 'man twconfig' - explanation of config files."
+                 echo "*** For more help type: 'man twpolicy' - explanation of policy files."
+                 echo "*** For more help type: 'man twfiles' - overview of files, settings."
                  echo
                  echo "Usage:"
                  echo "Database Initialization:  tripwire [-m i|--init] [options]"
@@ -7860,7 +8056,9 @@ f_menu_app_sys_mainboard () {
                  echo "Usage:"
                  echo "free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
                  echo
-                 echo "*** For more help type: man free"
+                 echo "*** For more help type: 'man free'"
+                 echo "                        'free --help'"
+
                  echo
                  echo "Display in MB Megabytes with column totals, for 5 times every 2 seconds."
                  echo
@@ -7880,7 +8078,8 @@ f_menu_app_sys_mainboard () {
                  echo "Usage:"
                  echo "hdparm [options..] [device ...]"
                  echo
-                 echo "*** For more help type: man hdparm"
+                 echo "*** For more help type: 'man hdparm'"
+                 echo "                        'hdparm --help'"
                  echo
                  echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
                  echo
@@ -7921,7 +8120,8 @@ f_menu_app_sys_mainboard () {
                  echo "[ -class class... ] [ -disable test... ] [ -enable test... ] [ -sanitize ]"
                  echo "[ -numeric ] [ -quiet ]"
                  echo
-                 echo "*** For more help type: man lshw"
+                 echo "*** For more help type: 'man lshw'"
+                 echo "                        'lshw --help'"
                  echo
                  echo "Display short report."
                  echo
@@ -7957,7 +8157,8 @@ f_menu_app_sys_mainboard () {
                  echo
                  echo "slabtop  displays  detailed kernel slab cache information in real time."
                  echo
-                 echo "*** For more help type: man slabtop"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  echo "If you get error message: 'fopen /proc/slabinfo: Permission denied'"
                  echo "Then try running with sudo command i.e. 'sudo slabtop'."
@@ -8061,7 +8262,8 @@ f_menu_app_sys_peripherals () {
                  echo "blkid -p [-O offset] [-S size] [-o format] [-s tag] [-n list] [-u list] device"
                  echo "blkid -i [-o format] [-s tag] device ..."
                  echo
-                 echo "*** For more help type: man blkid"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8105,7 +8307,8 @@ f_menu_app_sys_peripherals () {
                  echo "Usage:"
                  echo "lspcmcia [-V] [-v ...] [socket]"
                  echo
-                 echo "*** For more help type: man lspcmcia"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8138,7 +8341,8 @@ f_menu_app_sys_peripherals () {
                  echo "Usage:"
                  echo "pccardctl [-V] [-v ...] command [socket]"
                  echo
-                 echo "*** For more help type: man pccardctl"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8295,7 +8499,8 @@ f_menu_app_sys_monitors () {
                  echo
                  echo "Homepage: http://www.cacti.net/"
                  echo
-                 echo "*** For more help type: man cacti"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8319,7 +8524,8 @@ f_menu_app_sys_monitors () {
                  echo "chkconfig -a|--add [names]"
                  echo "chkconfig -d|--del [names]"
                  echo
-                 echo "*** For more help type: man chkconfig"
+                 echo "*** For more help type: 'man chkconfig'"
+                 echo "                        'chkconfig --help'"
                  echo
                  echo "Now run chkconfig. Usage: chkconfig -l"
                  f_press_enter_key_to_continue
@@ -8338,7 +8544,8 @@ f_menu_app_sys_monitors () {
                  echo "Usage:"
                  echo "dstat [-afv] [options..] [delay [count]]"
                  echo
-                 echo "*** For more help type: man dstat"
+                 echo "*** For more help type: 'man dstat'"
+                 echo "                        'dstat --help'"
                  echo
                  echo "dstat this PC (localhost) for 10 times as an example."
                  echo
@@ -8400,7 +8607,8 @@ f_menu_app_sys_monitors () {
                  echo "mpstat [ -A ] [ -I { SUM | CPU | SCPU | ALL } ] [ -u ]"
                  echo "[ -P { cpu [,...] | ON | ALL } ] [ -V ] [ interval [ count ] ]"
                  echo
-                 echo "*** For more help type: man mpstat"
+                 echo "*** For more help type: 'man mpstat'"
+                 echo "                        'mpstat --help'"
                  echo
                  echo "mpstat this PC's CPU (localhost) for 5 times every 2 seconds as an example."
                  echo
@@ -8443,7 +8651,8 @@ f_menu_app_sys_monitors () {
                  echo "and feed data into RRDs, as well as provide a friendlier user interface and"
                  echo "customized graphs."
                  echo
-                 echo "*** For more help type: man rrdtool"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8692,7 +8901,8 @@ f_menu_app_sys_process () {
                  echo
                  echo "pidstat this PC's CPU (localhost) for 3 times every 2 seconds as an example."
                  echo
-                 echo "*** For more help type: man pidstat"
+                 echo "*** For more help type: 'man pidstat'"
+                 echo "                        'pidstat --help'"
                  echo
                  echo "Now run pidstat. Usage: pidstat 2 3"
                  f_press_enter_key_to_continue
@@ -8739,7 +8949,8 @@ f_menu_app_sys_process () {
                  echo "To see every process running as root (real & effective ID) in user format:"
                  echo "[ ps -U root -u root u ]"
                  echo
-                 echo "*** For more help type: man ps"
+                 echo "*** For more help type: 'man ps'"
+                 echo "                        'ps --help'"
                  echo
                  echo "Now run ps. Usage: ps -ejH"
                  f_press_enter_key_to_continue
@@ -8770,7 +8981,8 @@ f_menu_app_sys_process () {
                  echo "consumed too many resources, perhaps due to a memory leak."
                  echo "Homepage: http://ps-watcher.sourceforge.net/"
                  echo
-                 echo "*** For more help type: man pswatcher"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8818,7 +9030,8 @@ f_menu_app_sys_process () {
                  echo "       /sbin/sysctl -w kernel.domainname='example.com'"
                  echo "       /sbin/sysctl -p /etc/sysctl.conf"
                  echo
-                 echo "*** For more help type: man sysctl"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -8935,8 +9148,8 @@ f_menu_app_sys_screens () {
                  echo "Ctrl-A <tab> Toggle between split window areas."
                  echo "Ctrl-A x     Kill split window area."
                  echo
-                 echo "*** For more help type: man screen"
-                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
@@ -9144,7 +9357,8 @@ f_menu_app_sys_software () {
                  echo "rpm --initdb Initialize package database."
                  echo "rpm --rebuilddb Rebuild package database."
                  echo
-                 echo "*** For more help type: man rpm"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -9212,7 +9426,8 @@ f_menu_app_sys_software () {
                  echo "yum groupinstall <application name> Installs new software packages."
                  echo "yum remove <package name> Uninstalls software packages."
                  echo
-                 echo "*** For more help type: man yum"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -9236,7 +9451,8 @@ f_menu_app_sys_software () {
                  echo "zypper list-updates List updates available for installed packages."
                  echo "zypper dist-upgrade Upgrade kernel to next version."
                  echo
-                 echo "*** For more help type: man zypper"
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
