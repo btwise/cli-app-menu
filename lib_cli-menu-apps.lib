@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-08-2013 19:55"
+# REVDATE="August-09-2013 15:55"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -608,26 +608,34 @@ f_menu_app_education () {
                  aldo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Aa] | [Aa][Ll]*)
                  APP_NAME="aldo"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  cw' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-d"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  [Cc] | [Cc][Ww])
                  APP_NAME="cw"
+                 f_how_to_quit_application "Ctrl-d"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  cwcp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Cc] | [Cc][Ww] | [Cc][Ww][Cc]*)
                  APP_NAME="cwcp"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  diatheke' '*)
                  APP_NAME=$CHOICE_APP
@@ -653,6 +661,7 @@ f_menu_app_education () {
                  [Gg] | [Gg][Tt]*)
                  APP_NAME="gtypist"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  lifelines' '*)
                  APP_NAME=$CHOICE_APP

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-07-2013 12:56"
+# REVDATE="August-09-2013 15:55"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -296,23 +296,28 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
       case $CHOICE_APP in
            *--help)
               clear # Blank screen
-              # $CHOICE_APP | more -d # <Application name> --help | more -d
-              $CHOICE_APP
+              # Use awk to grab only the application's name to use for APP_NAME.
+              APP_NAME=$(echo $CHOICE_APP | awk '{print $1;}')
+              #
+              # Test to see if the application is installed.
+              command -v $APP_NAME
               ERROR=$? # Save error flag condition.
+              # If there are no --help pages, ask user if wants to install app.
+              # Function f_application_install needs APP_NAME as input
+              #
               if [ $ERROR -ne 0 ] ; then
                  # Error code 1 $?=1 means no --help available.
                  # Error code 0 (zero) where $?=0 means no error.
-                 echo "No --help option available for \c"; echo $CHOICE_APP | awk '{print $1;}'
-                 # $CHOICE_APP = "<Application name> --help" so need awk to grab
-                 # only the name.
-                 # The echo -e \c option supresses the line feed after the first
-                 # echo command so that the message is on a single line.
+                 echo "No '--help' option available for $APP_NAME."
                  echo
+                 echo "This $APP_NAME application is either not installed"
+                 echo "or is installed but help pages were never written for it."
                  echo
-                 echo "This $APP_NAME application is not installed."
-                 echo
+                 #
+                 # Note: the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
+                 #
                  echo "To install under Debian-based Linux use command:"
-                 echo "                           sudo apt-get install <application package name>"
+                 echo "                           sudo apt-get install <application package name>" 
                  echo
                  echo "To install under Red Hat-based Linux use command:"
                  echo "                           sudo rpm -ivh <application package name>"
@@ -332,7 +337,9 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac # End of Install Application Option case statement.
-
+              else
+                 $CHOICE_APP # Run <Application name> --help
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
               fi
               CHOICE_APP=-1 # Force stay in menu until loop.
               # Convert string to integer -1. Also indicates valid menu choice.
@@ -352,15 +359,14 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
               if [ $ERROR -ne 0 ] ; then
                  # Error code 16 where $?=16 means no man(ual) entry.
                  # Error code 0 (zero) where $?=0 means no error.
-                 # Message "No manual entry for <Application name>" 
-                 echo "No manual pages available for \c"; echo $APP_NAME 
-                 # The echo -e \c option supresses the line feed after the first
-                 # echo command so that the message is on a single line.
+                 echo "No manual pages available for $APP_NAME."
                  echo
+                 echo "This $APP_NAME application is either not installed"
+                 echo "or is installed but man pages were never written for it."
                  echo
-                 echo "This application may either not be installed or is installed but man pages"
-                 echo "were never written for it."
-                 echo
+                 #
+                 # Note the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
+                 #
                  echo "To install under Debian-based Linux use command:"
                  echo "                           sudo apt-get install <application package name>"
                  echo
@@ -418,7 +424,7 @@ case $ERROR in
                             # If so, display appropriate error message.
      fi
      ;;
-     1 | 13 | 62 | [!0])
+     1 | 13 | 62 | [!0]) # If any error [!0] occurs (error code is not zero).
      f_application_error # Display appropriate error message.
      ;;
 esac
@@ -518,21 +524,23 @@ fi
 #
 #  Inputs: ERROR, APP_NAME. 
 # Outputs: CHOICE_MAIN, CHOICE_CAT, CHOICE_SCAT, CHOICE_APP,
-#          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL.
+#          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL, APP_NAME_TMP.
 #
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
-         echo
-         echo "**********************************************************************"
-         echo ">>>>>>>>>> SEE ABOVE for application error messages, if any <<<<<<<<<<"
-         echo "**********************************************************************"
-         echo
-         echo $THIS_FILE" says:"
-         echo "              ***********"
-         echo "An error code >>> $ERROR <<< has occurred" 
-         echo "              ***********"
-         echo "while launching this $APP_NAME application."
-         # f_press_enter_key_to_continue
+         case $APPNAME in # Start of AppName case statement.
+              sudo' '*)
+              # Strip 'sudo', options and parameters from APP_NAME by using awk command.
+              APP_NAME_TMP=$(echo $APP_NAME | awk '{print $2;}')
+              ;;
+              *)
+              # If string APP_NAME/APP_NAME_INSTALL includes spaces for
+              # run-time parameters, then just extract package name. 
+              # i.e. "dstat 1 10", then just grab "dstat" as package name.
+              # i.e. "dstat --version", then just grab "dstat" as package name.
+              APP_NAME_TMP=$(echo $APP_NAME | awk '{print $1;}')
+              ;;
+         esac             # End of AppName case statement.
          #
          # Be sure variable is set to redisplay current menu afterwards.
          CHOICE_MAIN=-1 # Initialize to -1 to force until loop
@@ -548,21 +556,106 @@ f_application_error () {
       fi
       #
       case $ERROR in # Start of Error Number case statement.
-           1 | 13 | 62 | [!0]) 
-           #  1-general
+           2) # Error code 2 means operand or files is missing.
+           # Display error message.
+           f_display_error_code
+           echo "Missing operand (file name(s) or names)."
+           echo "Try running $APP_NAME_TMP again this time using operands."
+           echo
+           echo "Operands may be filenames as in the examples below."
+           echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
+           echo "Example: locate test1.txt     or diff test1.txt test2.txt"
+           echo
+           echo "Or operands may be a combination of parameters, options, and filenames."
+           echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
+           echo "Example: find /home -iname test1.txt -print"
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           ;;
+           127) # Error code 127 means application is not installed.
+           # Display error message.
+           f_display_error_code
+           echo "This $APP_NAME_TMP application is not installed."
+           echo
+           echo -n "Do you want to install $APP_NAME_TMP (y/N)? "
+           read ANS
+           case $ANS in # Start of Install Application Option case statement.
+                [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                f_application_install
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                ;;              
+                [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                ERROR=0
+                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                ;;
+           esac # End of Install Application Option case statement.
+           ;;
+           1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
+              # Some applications exit with error code 1 even if successfully run.
+              # The Error Code 1 Number Exceptions case statement, takes care of those weird applications.
+           case $APP_NAME in # Start of Error Code Number 1 Exceptions case statement.
+                *diff*)
+                # Do not display error message if error code 1
+                # and apps colordiff, diff, imediff2, vimdiff, wdiff.
+                # For diff apps, error code 1 means compared files are different, not a real error.
+                ;;
+                sudo' '*)
+                # Display error message.
+                f_display_error_code
+                echo
+                echo "Try running $APP_NAME_TMP without the sudo command."
+                echo "There is a possibility that the application is not installed."
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                ;;
+                *)
+                # Display error message.
+                f_display_error_code
+                echo "Run $APP_NAME again this time using sudo?"
+                echo -n "Use sudo (temporary root permissions) (y/N)? "
+                read ANS
+                case $ANS in  # Start of Use SUDO case statement.
+                     [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                     APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
+                     sudo $APP_NAME_SUDO
+                     ERROR=$? # Save error flag condition.
+                     #
+                     if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
+                        # Error code 1 $?=1 means sudo failed.
+                        # Error code 0 (zero) where $?=0 means no error.
+                        #
+                        # Display error message.
+                        f_display_error_code
+                        echo "Running sudo $APP_NAME_SUDO failed."
+                        echo "May be caused by bad sudo password, or user has no permission to use sudo,"
+                        echo "or bad $APP_NAME_TMP syntax."
+                        echo "Consult help using man $APP_NAME_TMP."
+                        echo
+                     fi
+                     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                     ;;
+                     [Nn] | [Nn][Oo] | *)
+                     ERROR=0
+                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                     ;;
+                esac     # End of Use SUDO case statement.
+                ;;
+           esac              # End of Error Code Number 1 Exceptions case statement.
+           ;;
+           13 | 62 | [!0]) 
            # 13-some unknown app?
            # 62-"command not found" freshclam log folders not set up.
            # [!0]-not zero, any non-zero error number.
            case $APP_NAME in  # Start of sudo-error case statement
                 sudo' '*)
-                APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
-                APP_NAME_SUDO=$(echo $APP_NAME | awk '{print $2;}')
+                # Display error message.
+                f_display_error_code
                 echo
-                echo "Try running $APP_NAME_SUDO without the sudo command."
+                echo "Try running $APP_NAME_TMP without the sudo command."
                 echo "There is a possibility that the application is not installed."
                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                 ;;
                 *)
+                # Display error message.
+                f_display_error_code
                 echo
                 echo "Run $APP_NAME again this time using sudo?"
                 echo -n "Use sudo (temporary root permissions) (y/N)? "
@@ -576,15 +669,17 @@ f_application_error () {
                      if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
                         # Error code 1 $?=1 means sudo failed.
                         # Error code 0 (zero) where $?=0 means no error.
-                        echo
+                        #
+                        # Display error message.
+                        f_display_error_code
                         echo "Running sudo $APP_NAME_SUDO failed."
                         echo "May be caused by bad sudo password, or user has no permission to use sudo,"
-                        echo "or bad $APP_NAME_SUDO syntax."
-                        echo "consult help using man $APP_NAME_SUDO."
+                        echo "or bad $APP_NAME_TMP syntax."
+                        echo "Consult help using man $APP_NAME_TMP."
                         echo
                      fi
                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                     ;;              
+                     ;;
                      [Nn] | [Nn][Oo] | *)
                      ERROR=0
                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -593,27 +688,30 @@ f_application_error () {
                 ;;
            esac   # End of sudo-error case statement
            ;;
-           127) # Error code 127 means application is not installed.
-           echo
-           echo "This $APP_NAME application is not installed."
-           echo
-           echo -n "Do you want to install $APP_NAME (y/N)? "
-           read ANS
-           case $ANS in # Start of Install Application Option case statement.
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                f_application_install
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;              
-                [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                ERROR=0
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-           esac # End of Install Application Option case statement.
-           ;;
       esac # End of Error Number case statement.
       # This function needs to be followed by a f_press_enter_key_to_continue 
       # or by a f_option_press_enter_key so that messages are displayed.
 } # End of function f_application_error
+
+#
+# +----------------------------------------+
+# |     Function f_display_error_code      |
+# +----------------------------------------+
+#
+#  Inputs: ERROR, APP_NAME_TMP. 
+# Outputs: None.
+#
+f_display_error_code () {
+      echo
+      echo "**********************************************************************"
+      echo ">>>>>>>>>> SEE ABOVE for application error messages, if any <<<<<<<<<<"
+      echo "**********************************************************************"
+      echo
+      echo "          ***********"
+      echo "Error code >>> $ERROR <<<  from $APP_NAME_TMP application."
+      echo "          ***********"
+      echo
+} # End of function f_display_error_code
 #
 # +----------------------------------------+
 # |     Function f_application_install     |
@@ -623,20 +721,20 @@ f_application_error () {
 # Outputs: APP_NAME_INSTALL.
 #
 f_application_install () {
-                APP_NAME_INSTALL=$APP_NAME 
-                # Default of APP_NAME_INSTALL is simply APP_NAME. 
-                # This may be modified below in the Installation Package Name
-                # case statement.
-                #
-                case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
-                     *' '*)  
-                     # If string APP_NAME/APP_NAME_INSTALL includes spaces for
-                     # run-time parameters, then just extract package name. 
-                     # i.e. "dstat 1 10", then just grab "dstat" as package name.
-                     # i.e. "dstat --version", then just grab "dstat" as package name.
-                     #
-                     APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
-                     ;;
+      APP_NAME_INSTALL=$APP_NAME 
+      # Default of APP_NAME_INSTALL is simply APP_NAME. 
+      # This may be modified below in the Installation Package Name
+      # case statement.
+      #
+      case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
+           *' '*)  
+           # If string APP_NAME/APP_NAME_INSTALL includes spaces for
+           # run-time parameters, then just extract package name. 
+           # i.e. "dstat 1 10", then just grab "dstat" as package name.
+           # i.e. "dstat --version", then just grab "dstat" as package name.
+           #
+           APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
+           ;;
                 esac                      # End of APP_NAME_INSTALL case statement.
                 #
                 # Below are cases where the APP_NAME is not the same as the
