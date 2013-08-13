@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-08-2013 19:55"
+# REVDATE="August-13-2013 00:42"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -608,26 +608,34 @@ f_menu_app_education () {
                  aldo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Aa] | [Aa][Ll]*)
                  APP_NAME="aldo"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  cw' '*)
                  APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-d"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  [Cc] | [Cc][Ww])
                  APP_NAME="cw"
+                 f_how_to_quit_application "Ctrl-d"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  f_application_run
                  ;;
                  cwcp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Cc] | [Cc][Ww] | [Cc][Ww][Cc]*)
                  APP_NAME="cwcp"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  diatheke' '*)
                  APP_NAME=$CHOICE_APP
@@ -653,6 +661,7 @@ f_menu_app_education () {
                  [Gg] | [Gg][Tt]*)
                  APP_NAME="gtypist"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  lifelines' '*)
                  APP_NAME=$CHOICE_APP
@@ -723,13 +732,14 @@ f_menu_app_file_burn () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Backup Applications until loop.
-            #MFB bashburn     - CD burning.
-            #MFB burn         - CD burning.
-            #MFB cdrecord     - CD burning.
+            #MFB bashburn     - Write audio/data/iso image CD/DVD; features ASCII menus.
+            #MFB burn         - Write audio/data/iso image or copy CDs.
+            #MFB cdrecord     - CD burning. Obsoleted by 'wodim'. May simply be a hard-link to wodim.
             #MFB mkcd         - CD burning.
             #MFB mybashburn   - CD burning.
             #MFB simpleburner - CD burning.
-            #MFB xorriso      - CD burning.
+            #MFB wodim        - CD burning.
+            #MFB xorriso      - Write iso images to CD/DVD Rock Ridge ISO 9660 filesystems.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -766,7 +776,30 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  [Cc] | [Cc][Dd]*)
-                 APP_NAME="cdrecord"
+                 APP_NAME="cdrecord --help"
+                 clear # Blank the screen.
+                 echo "cdrecord - Write files/iso image to CD-R."
+                 echo "***OBSOLETED by wodim***"
+                 echo
+                 echo "Example: Find cdrom designation."
+                 echo
+                 echo "$ cdrecord --devices"
+                 echo "wodim: Overview of accessible drives (2 found) :"
+                 echo "-------------------------------------------------------------------------"
+                 echo " 0  dev='/dev/sg0'	rwrw-- : 'SONY' 'DVD-ROM DDU1615'"
+                 echo " 1  dev='/dev/sg1'	rwrw-- : 'HL-DT-ST' 'DVD+-RW GSA-H21N'"
+                 echo "-------------------------------------------------------------------------"
+                 echo
+                 echo "Example: Burn an iso image file to a CD-R disk."
+                 echo "In some modern linux distributions, cdrecord really runs wodim."
+                 echo
+                 echo "$ sudo cdrecord dev=/dev/sg1 -pad -v -eject /home/public/iso/<insert name of iso-file>.iso "
+                 echo
+                 echo "*** For more help type: 'man wodim'"
+                 echo "                        'wodim --help'"
+                 echo
+                 echo "Now run cdrecord. Usage: cdrecord --help"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  mkcd' '*)
@@ -791,6 +824,38 @@ f_menu_app_file_burn () {
                  ;;
                  [Ss] | [Ss][Ii]*)
                  APP_NAME="simpleburner"
+                 f_application_run
+                 ;;
+                 wodim' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Oo]*)
+                 APP_NAME="wodim"
+                 clear # Blank the screen.
+                 echo "wodim - Write files/iso image to an optical disk."
+                 echo
+                 echo "Example: Find cdrom designation."
+                 echo
+                 echo "$ wodim --devices"
+                 echo "wodim: Overview of accessible drives (2 found) :"
+                 echo "-------------------------------------------------------------------------"
+                 echo " 0  dev='/dev/sg0'	rwrw-- : 'SONY' 'DVD-ROM DDU1615'"
+                 echo " 1  dev='/dev/sg1'	rwrw-- : 'HL-DT-ST' 'DVD+-RW GSA-H21N'"
+                 echo "-------------------------------------------------------------------------"
+                 echo
+                 echo "Example: Burn an iso image file to a CD-R disk."
+                 echo
+                 echo "$ sudo wodim -v dev=/dev/sg1 -eject -data /home/public/iso/<iso-file>.iso"
+                 echo "      -v     Verbose."
+                 echo "      -eject Eject CD/DVD media after burning."
+                 echo "      -speed Integer of speed factor x16 x32 x50, if none, then maximum."
+                 echo
+                 echo "*** For more help type: 'man wodim'"
+                 echo "                        'wodim --help'"
+                 echo
+                 echo "Now run wodim. Usage: wodim --help"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  xorriso' '*)
@@ -1624,7 +1689,7 @@ f_menu_app_file_recover () {
                  echo "safecopy - Recover lost data."
                  echo
                  echo "Usage:"
-                 echo "safecopy [options] <source> <target>"
+                 echo "safecopy [OPTIONS] <SOURCE> <TARGET>"
                  echo
                  echo "*** For more help type: 'man safecopy'" 
                  echo "                        'safecopy --help'"
@@ -4565,13 +4630,13 @@ f_menu_app_firewalls () {
                  echo "arptables - Administration tool for ARP tables."
                  echo
                  echo "Usage:"
-                 echo "arptables [-t table] -[AD] chain rule-specification [options]"
-                 echo "arptables [-t table] -[RI] chain rulenum rule-specification [options]"
-                 echo "arptables [-t table] -D chain rulenum [options]"
-                 echo "arptables [-t table] -[LFZ] [chain] [options]"
+                 echo "arptables [-t table] -[AD] chain rule-specification [OPTIONS]"
+                 echo "arptables [-t table] -[RI] chain rulenum rule-specification [OPTIONS]"
+                 echo "arptables [-t table] -D chain rulenum [OPTIONS]"
+                 echo "arptables [-t table] -[LFZ] [CHAIN] [OPTIONS]"
                  echo "arptables [-t table] -[NX] chain"
                  echo "arptables [-t table] -E old-chain-name new-chain-name"
-                 echo "arptables [-t table] -P chain target [options]"
+                 echo "arptables [-t table] -P chain target [OPTIONS]"
                  echo
                  echo "arptables  is  a user space tool, it is used to set up and maintain the"
                  echo "tables of ARP rules in the Linux kernel. These rules  inspect  the  ARP"
@@ -4925,7 +4990,7 @@ f_menu_app_lanwan () {
                  echo "speedometer - Display speed of transmitted/received data."
                  echo
                  echo "Usage:"
-                 echo  "speedometer [options] tap [[-c] tap]..."
+                 echo  "speedometer [OPTIONS] tap [[-c] tap]..."
                  echo
                  echo "Taps:"
                  echo "  -f filename [size]          display download speed [with progress bar]"
@@ -5000,9 +5065,9 @@ f_menu_app_lanwan () {
                  echo "           [-w waittime] [-z sendwait] [-UL] [-P proto] [--sport=port]"
                  echo "           [-M method] [-O mod_options] [--mtu] [--back]"
                  echo "host [packet_len]"
-                 echo "traceroute6  [options]"
-                 echo "tcptraceroute  [options]"
-                 echo "lft  [options]"
+                 echo "traceroute6  [OPTIONS]"
+                 echo "tcptraceroute  [OPTIONS]"
+                 echo "lft  [OPTIONS]"
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
@@ -5071,13 +5136,13 @@ f_menu_app_nic_tools () {
                  echo "ethtool - Query and control network driver and hardware settings."
                  echo
                  echo "Usage:" 
-                 echo "ethtool <options> <NIC device name>"
+                 echo "ethtool <OPTIONS> <NIC device name>"
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
                  echo
                  echo "Now run ethtool. Usage: ethtool -i <NIC device name>"
-                 echo "Option -i shows network driver information for <NIC device name>"
+                 echo "The option -i shows network driver information for <NIC device name>"
                  f_press_enter_key_to_continue
                  f_find_NIC
                  APP_NAME="ethtool -i $ANS"
@@ -6599,6 +6664,7 @@ f_menu_app_text_compare () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Compare Applications until loop.
             #MTC colordiff - Differences between two text files shown in color.
+            #MTC cmp       - Compares two text files.
             #MTC diff      - Differences between two text files shown using <> signs.
             #MTC imediff2  - Interactive 2-way file merge.
             #MTC vimdiff   - Differences between two text files shown in color highlights.
@@ -6626,6 +6692,14 @@ f_menu_app_text_compare () {
                  APP_NAME="colordiff"
                  f_application_run
                  ;;
+                 cmp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Mm] | [Cc][Mm][Pp])
+                 APP_NAME="cmp"
+                 f_application_run
+                 ;;
                  diff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -6638,7 +6712,7 @@ f_menu_app_text_compare () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Ii] | [Ii][Mm] | [Ii][Mm][Ee] | [Ii][Mm][Ee][Dd] | [Ii][Mm][Ee][Dd][Ii] | [Ii][Mm][Ee][Dd][Ii][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff] | [Ii][Mm][Ee][Dd][Ii][Ff][Ff][2])
+                 [Ii] | [Ii][Mm]*)
                  APP_NAME="imediff2"
                  f_application_run
                  ;;
@@ -6793,7 +6867,7 @@ f_menu_app_text_converters () {
                  echo "           MoinMoin, PageMaker, Plain Text, PmWiki, SGML, Wikipedia and XHTML."
                  echo 
                  echo "Usage:"
-                 echo "txt2tags [options] [FILE...]"
+                 echo "txt2tags [OPTIONS] [FILE]... "
                  echo
                  echo "*** For more help type: 'man txt2tags'"
                  echo "                        'txt2tags --help'"
@@ -6914,7 +6988,7 @@ f_menu_app_text_editors () {
                  echo "      [-K arg] [-L arg] [-m name] [-M dir] [-n num] [-o list] [-P arg]"
                  echo "      [-r cn] [-T dev] [-w name] [-W name] [file ...]"
                  echo "groff -h | --help"
-                 echo "groff -v | --version [option ...]"
+                 echo "groff -v | --version [OPTION ...]"
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
@@ -7057,6 +7131,7 @@ f_menu_app_text_tools () {
             #MTT hunspell - Spell check allows keyboard or files as input w/user dictionary.
             #MTT ispell   - Spell check allows text files as input with user dictionary.
             #MTT spell    - Spell check allows keyboard or text files as input.
+            #MTT wc       - Word count, also counts lines, characters, bytes of a text file.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -7068,7 +7143,7 @@ f_menu_app_text_tools () {
             #
             f_common_app_menu
             f_application_help
-            ERROR=0 # Reset error flag.
+            ERROR=0 # Reset error wc flag.
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
@@ -7091,7 +7166,7 @@ f_menu_app_text_tools () {
                  echo "aspell - Spell checker"
                  echo
                  echo "Usage:" 
-                 echo "aspell [options] <command> ..."
+                 echo "aspell [OPTIONS] <COMMAND> ..."
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
@@ -7134,7 +7209,7 @@ f_menu_app_text_tools () {
                  echo "hunspell - Spell checker"
                  echo
                  echo "Usage:"
-                 echo "hunspell [options] files ..."
+                 echo "hunspell [OPTIONS] [FILES]..."
                  echo
                  echo "Spell check file interactively."
                  echo "hunspell -d en_US filename.txt"
@@ -7151,7 +7226,7 @@ f_menu_app_text_tools () {
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
-                 echo
+                 echowc 
                  echo -n "Enter name of text file to check spelling: "
                  read ANS
                  if [ -z $ANS ] ; then   #String has zero length.
@@ -7201,7 +7276,7 @@ f_menu_app_text_tools () {
                  echo "ispell - Spell checker"
                  echo
                  echo "Usage:" 
-                 echo "ispell [options] <command> ..."
+                 echo "ispell [OPTIONS] <COMMAND> ..."
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
@@ -7235,7 +7310,7 @@ f_menu_app_text_tools () {
                  echo "spell - Spell checker"
                  echo
                  echo "Usage:"
-                 echo "spell [options] files ..."
+                 echo "spell [OPTIONS] [FILE] ..."
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
@@ -7278,6 +7353,64 @@ f_menu_app_text_tools () {
                     f_press_enter_key_to_continue
                  fi
                  ;;
+                 wc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Cc])
+                 APP_NAME="wc"
+                 clear # Blank the screen.
+                 echo "wc - Word Count"
+                 echo
+                 echo "Usage:"
+                 echo "wc [OPTIONS] [FILE]..."
+                 echo
+                 echo "-c, --bytes      prints the byte counts."
+                 echo "-m, --chars      prints the character counts."
+                 echo "-l  --lines      prints the new line counts."
+                 echo "-w  --words      prints the word counts."
+                 echo
+                 echo "Example: Type the sentences below"
+                 echo "Line 1 This is the first line."
+                 echo "Line 2 This is the second Line."
+                 echo "      2      14      63"
+                 echo "    Lines   Words   Characters"
+                 echo
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    clear # Blank the screen.
+                    echo "Missing filename."
+                    echo "Usage: wc <filename>"
+                    echo
+                    echo "Since no filename, now run '' in interactive mode."
+                    echo
+                    echo "Interactive usage:"
+                    echo
+                    echo "Example: Type the sentences below"
+                    echo "Line 1 This is the first line."
+                    echo "Line 2 This is the second Line."
+                    echo "      2      14      63"
+                    echo "    Lines   Words   Characters"
+                    echo
+                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    APP_NAME="wc"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="wc $ANS"
+                    f_application_run
+                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+
             esac                # End of Text Editor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -7347,7 +7480,7 @@ f_menu_app_todo () {
                  clear # Blank the screen.
                  echo "todo - Simple To-Do list using hidden file .todo as a database list."
                  echo
-                 echo "todo [<options>]"
+                 echo "todo [OPTIONS]"
                  echo "       With no options, displays the items in the current directory."
                  echo
                  echo "tda [-p <priority>] [-g <index>] [<text>]"
@@ -7730,12 +7863,10 @@ f_menu_app_sys_disks () {
                  echo
                  echo "Usage:"
                  echo "pydf [OPTION]... [FILE]..."
-                 echo "pydf [OPTION]... --files0-from=F"
                  echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
-                 echo "   --total                 produce a grand total"
-                 echo "   -t, --type=TYPE         limit listing to specific file systems"
-                 echo "   -T, --print-type        print file system type"
-                 echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
+                 echo "   -k, --kilobytes"
+                 echo "   -m, --megabytes"
+                 echo "   -g, --gigabytes"
                  echo
                  echo "*** For more help type: 'man df'"
                  echo "                        'df --help'"
@@ -7752,7 +7883,7 @@ f_menu_app_sys_disks () {
                  ;;
                  [Uu] | [Uu][Uu]*)
                  clear # Blank the screen.
-                 echo To find the UUID of a disk, type: ls -l /dev/disk/by-uuid.
+                 echo "To find the UUID of a disk, type: ls -l /dev/disk/by-uuid."
                  APP_NAME="ls -l /dev/disk/by-uuid"
                  f_application_run             
                  ;;
@@ -7812,7 +7943,7 @@ f_menu_app_sys_health () {
                  echo "arp-scan - ARP Scanner."
                  echo
                  echo "Usage:"
-                 echo "arp-scan [options] [hosts...]"
+                 echo "arp-scan [OPTIONS] [HOSTS]..."
                  echo
                  echo "       --localnet or -l"
                  echo "              Generate addresses from network  interface  configuration.   Use"
@@ -7892,7 +8023,7 @@ f_menu_app_sys_health () {
                  echo "clamscan -  Anti-virus scanner"
                  echo
                  echo "Usage:" 
-                 echo "clamscan [options] [file/directory/-]"
+                 echo "clamscan [OPTIONS] [FILE/DIRECTORY/-]"
                  echo "         -r, --recursive will recursively scan your home directory."
                  echo
                  echo "*** For more help type: 'man clamscan'"
@@ -7976,7 +8107,7 @@ f_menu_app_sys_health () {
                  echo "*** For more help type: 'man twfiles' - overview of files, settings."
                  echo
                  echo "Usage:"
-                 echo "Database Initialization:  tripwire [-m i|--init] [options]"
+                 echo "Database Initialization:  tripwire [-m i|--init] [OPTIONS]"
                  echo "Integrity Checking:  tripwire [-m c|--check] [object1 [object2...]]"
                  echo "Database Update:  tripwire [-m u|--update]"
                  echo "Policy Update:  tripwire [-m p|--update-policy] policyfile.txt"
@@ -8076,7 +8207,7 @@ f_menu_app_sys_mainboard () {
                  echo "hdparm - Get SATA/IDE hard disk drive parameters."
                  echo
                  echo "Usage:"
-                 echo "hdparm [options..] [device ...]"
+                 echo "hdparm [OPTIONS..] [DEVICE ...]"
                  echo
                  echo "*** For more help type: 'man hdparm'"
                  echo "                        'hdparm --help'"
@@ -8153,7 +8284,7 @@ f_menu_app_sys_mainboard () {
                  echo "layer information."
                  echo
                  echo "Usage:"
-                 echo "slabtop [options]"
+                 echo "slabtop [OPTIONS]"
                  echo
                  echo "slabtop  displays  detailed kernel slab cache information in real time."
                  echo
@@ -8215,6 +8346,7 @@ f_menu_app_sys_peripherals () {
             #MSL pccardctl - PCMCIA card devices.
             #MSL printenv  - Environmental variables.
             #MSL uptime    - Display how long PC has been running, # users, load average.
+            #MSL w         - A combination of uptime and who commands.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -8342,7 +8474,7 @@ f_menu_app_sys_peripherals () {
                  echo "pccardctl [-V] [-v ...] command [socket]"
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
+                 echo "            a combination of uptime and who commands.            '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
@@ -8361,6 +8493,14 @@ f_menu_app_sys_peripherals () {
                  ;;
                  [Uu] | [Uu][Pp]*)
                  APP_NAME="uptime"
+                 f_application_run
+                 ;;
+                 w' '* | 'sudo w '* | 'sudo w')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww])
+                 APP_NAME="w"
                  f_application_run
                  ;;
             esac                # End of Peripheral System Information case statement.
@@ -8542,7 +8682,7 @@ f_menu_app_sys_monitors () {
                  echo "dstat - Display system resource statistics."
                  echo
                  echo "Usage:"
-                 echo "dstat [-afv] [options..] [delay [count]]"
+                 echo "dstat [-afv] [OPTIONS..] [DELAY [COUNT]]"
                  echo
                  echo "*** For more help type: 'man dstat'"
                  echo "                        'dstat --help'"
@@ -9267,7 +9407,7 @@ f_menu_app_sys_software () {
                  echo 
                  echo "Usage:"
                  echo "aptitude [-S fname] [-u|-i]"
-                 echo "aptitude [options] <action> ..."
+                 echo "aptitude [OPTIONS] <ACTION> ..."
                  echo 
                  echo "Options:"
                  echo " -h    This help text."
