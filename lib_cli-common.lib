@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-09-2013 15:55"
+# REVDATE="August-13-2013 00:42"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -121,23 +121,23 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
 # Outputs: CHOICE[$XNUM]
 #
 f_choice_array () {
-# declare -A CHOICE  # Commented out; do not need to declare the array.
-unset CHOICE
-XNUM=1 # Initialize XNUM.
-X=" "
-# Code below rewritten to allow menu choice names consisting of 2 words. i.e. "ip addr", "ip route".
-#
-for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
-# Set XSTR to first two words (delimited by "%" of menu choice name. 
-# Example: Main menu option, "About CLI Menu" then XSTR="About%CLI" 
-do
-      XSTR=${XSTR/[%]/ }   # Substitute <space> for "%".
-      CHOICE[$XNUM]=$XSTR  # If Ubuntu or Ubuntu derived distro errors here,
-                           # cause is Ubuntu uses DASH instead of BASH shell.
-                           # Use "bash cli-menu-app.sh" 
-                           # instead of "sh cli-menu-app.sh".
-      XNUM=`expr $XNUM + 1`
-done
+      # declare -A CHOICE  # Commented out; do not need to declare the array.
+      unset CHOICE
+      XNUM=1 # Initialize XNUM.
+      X=" "
+      # Code below rewritten to allow menu choice names consisting of 2 words. i.e. "ip addr", "ip route".
+      #
+      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
+      # Set XSTR to first two words (delimited by "%" of menu choice name. 
+      # Example: Main menu option, "About CLI Menu" then XSTR="About%CLI" 
+      do
+           XSTR=${XSTR/[%]/ }   # Substitute <space> for "%".
+           CHOICE[$XNUM]=$XSTR  # If Ubuntu or Ubuntu derived distro errors here,
+                                # cause is Ubuntu uses DASH instead of BASH shell.
+                                # Use "bash cli-menu-app.sh" 
+                                # instead of "sh cli-menu-app.sh".
+           XNUM=`expr $XNUM + 1`
+      done
 } # End of f_choice_array
 #
 # +----------------------------------------+
@@ -322,10 +322,14 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  echo "To install under Red Hat-based Linux use command:"
                  echo "                           sudo rpm -ivh <application package name>"
                  echo
+                 echo "To install under Arch-bashed Linux use command:"
+                 echo "                           sudo pacman -S <application package name>"
+                 echo
                  echo "To install under Slackware-based Linux use command:"
                  echo "                           sudo installpkg <application package name>"
+                 echo "                           sudo slackpkg <application package name>"
                  echo 
-                 echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
+                 echo -n "Do you want to install $APP_NAME (y/N)? "
                  read ANS
                  case $ANS in # Start of Install Application Option case statement.
                       [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
@@ -373,10 +377,14 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                  echo "To install under Red Hat-based Linux use command:"
                  echo "                           sudo rpm -ivh <application package name>"
                  echo
+                 echo "To install under Arch-based Linux use command:"
+                 echo "                           sudo pacman -S <application package name>"
+                 echo
                  echo "To install under Slackware-based Linux use command:"
                  echo "                           sudo installpkg <application package name>"
+                 echo "                           sudo slackpkg <application package name>"
                  echo 
-                 echo -n "Do you want to install $APP_NAME using 'apt-get' or 'rpm' (y/N)? "
+                 echo -n "Do you want to install $APP_NAME (y/N)? "
                  read ANS
                  case $ANS in # Start of Install Application Option case statement.
                       [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
@@ -401,34 +409,34 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
 # |       Function f_application_run       |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME.
+#  Inputs: APP_NAME, INSTALL_ANS.
 # Outputs: CHOICE_APP=-1.
 #
 f_application_run () {
-CHOICE_APP=-1 # Force stay in menu until loop.
-# Convert string to integer -1. Also indicates valid menu choice.
-# If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
-#
-clear # Blank the screen.
-#
-$APP_NAME # Run application.
-#
-ERROR=$? # Save error flag condition.
-case $ERROR in
-     127)  # Error code 127 means application is not installed.
-     f_application_error # installs application.
-     # If user decided to install application.
-     if [ $ERROR=127 -a $ANS="Y" ] ; then 
-        $APP_NAME           # Run application.
-        f_application_error # Check for errors.
-                            # If so, display appropriate error message.
-     fi
-     ;;
-     1 | 13 | 62 | [!0]) # If any error [!0] occurs (error code is not zero).
-     f_application_error # Display appropriate error message.
-     ;;
-esac
-#
+      CHOICE_APP=-1 # Force stay in menu until loop.
+      # Convert string to integer -1. Also indicates valid menu choice.
+      # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+      #
+      clear # Blank the screen.
+      #
+      $APP_NAME # Run application.
+      #
+      ERROR=$? # Save error flag condition.
+      case $ERROR in
+           127)  # Error code 127 means application is not installed.
+           f_application_error # installs application.
+           # If user decided to install application.
+           if [ $ERROR=127 -a $INSTALL_ANS="YES" ] ; then 
+              $APP_NAME           # Run application.
+              f_application_error # Check for errors.
+                                  # If so, display appropriate error message.
+           fi
+           ;;
+           1 | 13 | 62 | [!0]) # If any error [!0] occurs (error code is not zero).
+           f_application_error # Display appropriate error message.
+           ;;
+      esac
+     #
 } # End of function f_application_run
 #
 # +----------------------------------------+
@@ -448,22 +456,22 @@ esac
 #    then set CHOICE_APP=-1 and do not display "Press 'Enter' key to continue."
 #
 f_application_bad_menu_choice () {
-case $CHOICE_APP in
-     "")
-     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
-     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-     ;;
-     [A-Za-z]*)
-     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
-     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-                   # Specifically for alpha nonsense responses.
-     ;;
-esac
-if [ $CHOICE_APP -le -2 -o $CHOICE_APP -gt $MAX ] ; then
-   CHOICE_APP=-1   # Convert string to integer -1 forcing stay in until loop.
-   PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
-                   # Specifically for out-of-bounds numeric response.
-fi
+      case $CHOICE_APP in
+           "")
+           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+           ;;
+           [A-Za-z]*)
+           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+                         # Specifically for alpha nonsense responses.
+           ;;
+      esac
+      if [ $CHOICE_APP -le -2 -o $CHOICE_APP -gt $MAX ] ; then
+         CHOICE_APP=-1   # Convert string to integer -1 forcing stay in until loop.
+         PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
+                         # Specifically for out-of-bounds numeric response.
+      fi
 } # End of function f_application_bad_menu_choice
 #
 # +----------------------------------------+
@@ -474,22 +482,22 @@ fi
 # Outputs: CHOICE_SCAT, PRESS_KEY.
 #
 f_scat_bad_menu_choice () {
-case $CHOICE_SCAT in
-     "")
-     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
-     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-     ;;
-     [A-Za-z]*)
-     CHOICE_SCAT=-1 # Convert string to integer -1 forcing stay in until loop.
-     PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
-                    # Specifically for alpha nonsense responses.
-     ;;
-esac
-if [ $CHOICE_SCAT -le -2 -o $CHOICE_SCAT -gt $MAX ] ; then
-   CHOICE_SCAT=-1   # Convert string to integer -1 forcing stay in until loop.
-   PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
-                    # Specifically for out-of-bounds numeric response.
-fi
+      case $CHOICE_SCAT in
+           "")
+           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+           ;;
+           [A-Za-z]*)
+           CHOICE_SCAT=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                          # Specifically for alpha nonsense responses.
+           ;;
+      esac
+      if [ $CHOICE_SCAT -le -2 -o $CHOICE_SCAT -gt $MAX ] ; then
+         CHOICE_SCAT=-1   # Convert string to integer -1 forcing stay in until loop.
+         PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
+                          # Specifically for out-of-bounds numeric response.
+      fi
 } # End of function f_scat_bad_menu_choice
 #
 # +----------------------------------------+
@@ -500,22 +508,22 @@ fi
 # Outputs: CHOICE_TCAT, PRESS_KEY.
 #
 f_tcat_bad_menu_choice () {
-case $CHOICE_TCAT in
-     "")
-     CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
-     PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-     ;;
-     [A-Za-z]*)
-     CHOICE_TCAT=-1 # Convert string to integer -1 forcing stay in until loop.
-     PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
-                    # Specifically for alpha nonsense responses.
-     ;;
-esac
-if [ $CHOICE_TCAT -le -2 -o $CHOICE_TCAT -gt $MAX ] ; then
-   CHOICE_TCAT=-1   # Convert string to integer -1 forcing stay in until loop.
-   PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
-                    # Specifically for out-of-bounds numeric response.
-fi
+      case $CHOICE_TCAT in
+           "")
+           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+           ;;
+           [A-Za-z]*)
+           CHOICE_TCAT=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                          # Specifically for alpha nonsense responses.
+           ;;
+      esac
+      if [ $CHOICE_TCAT -le -2 -o $CHOICE_TCAT -gt $MAX ] ; then
+         CHOICE_TCAT=-1   # Convert string to integer -1 forcing stay in until loop.
+         PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
+                          # Specifically for out-of-bounds numeric response.
+      fi
 } # End of function f_tcat_bad_menu_choice
 #
 # +----------------------------------------+
@@ -523,7 +531,7 @@ fi
 # +----------------------------------------+
 #
 #  Inputs: ERROR, APP_NAME. 
-# Outputs: CHOICE_MAIN, CHOICE_CAT, CHOICE_SCAT, CHOICE_APP,
+# Outputs: CHOICE_MAIN, CHOICE_CAT, CHOICE_SCAT, CHOICE_APP, INSTALL_ANS
 #          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL, APP_NAME_TMP.
 #
 f_application_error () {
@@ -577,13 +585,15 @@ f_application_error () {
            echo "This $APP_NAME_TMP application is not installed."
            echo
            echo -n "Do you want to install $APP_NAME_TMP (y/N)? "
-           read ANS
-           case $ANS in # Start of Install Application Option case statement.
+           read INSTALL_ANS
+           case $INSTALL_ANS in # Start of Install Application Option case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                INSTALL_ANS="YES"
                 f_application_install
                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                 ;;              
                 [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                INSTALL_ANS="NO"
                 ERROR=0
                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
@@ -735,139 +745,144 @@ f_application_install () {
            #
            APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
            ;;
-                esac                      # End of APP_NAME_INSTALL case statement.
-                #
-                # Below are cases where the APP_NAME is not the same as the
-                # package name used to install the application.
-                # i.e. The game 'trek' is installed using the package called
-                # 'bsdgames'.
-                #
-                case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
-                     acat| als | apack | atool | aunpack)
-                     APP_NAME_INSTALL="atool"
-                     ;;
-                     aria2c)
-                     APP_NAME_INSTALL="aria2"
-                     ;;
-                     barnowl | zcrypt)
-                     APP_NAME_INSTALL="barnowl"
-                     ;;
-                     adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
-                     APP_NAME_INSTALL="bsdgames"
-                     ;;
-                     clamscan)
-                     APP_NAME_INSTALL="clamav"
-                     ;;
-                     todo)
-                     APP_NAME_INSTALL="devtodo"
-                     ;;
-                     fbgs)
-                     APP_NAME_INSTALL="fbi"
-                     ;;
-                     glances) # Add repository for glances application.
-                     sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
-                     sudo apt-get update
-                     ;;
-                     ifplugstatus)
-                     APP_NAME_INSTALL="ifplugd"
-                     ;;
-                     animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
-                     APP_NAME_INSTALL="imagemagick"
-                     ;;
-                     moc)
-                     APP_NAME_INSTALL="libqt4-dev"
-                     ;;
-                     lynx)
-                     APP_NAME_INSTALL="lynx-cur"
-                     ;;
-                     nagios3)
-                     APP_NAME_INSTALL="nagios3-core"
-                     ;;
-                     tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
-                     APP_NAME_INSTALL="netdiag"
-                     ;; 
-                     mpstat | iostat | pidstat | sadf | sar)
-                     APP_NAME_INSTALL="sysstat"
-                     ;;
-                     photorec)
-                     APP_NAME_INSTALL="testdisk"
-                     ;;
-                     aaxine | cacaxine | fbxine)
-                     APP_NAME_INSTALL="xine-console"
-                     ;;
-                     xz | unxz | xzcat | xzgrep)
-                     APP_NAME_INSTALL="xz-utils"
-                     ;;
-                     esac # End of Install Package Name case statement.
-                #
-                if [ -d /etc/apt ] ; then 
-                   # if /etc/apt directory exists, then use apt-get install
-                   # for Debian-based packages.
-                   sudo apt-get install $APP_NAME_INSTALL
-                   ERROR=$? # Save error flag condition.
-                   if [ $ERROR -ne 0 ] ; then
-                      # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
-                      echo
-                      echo "Installation of $APP_NAME_INSTALL failed."
-                      echo "Command sudo apt-get install $APP_NAME_INSTALL failed."
-                      echo "May be a failure downloading package. Bad Internet connection?"
-                      echo
-                      f_application_web_install
-                   fi
-                fi
-                #
-                if [ -d /var/lib/rpm ] ; then 
-                   # if /var/lib/rpm directory exists, then use rpm install
-                   # for RPM-based packages.
-                   sudo rpm -ivh $APP_NAME_INSTALL 
-                   # Assume if not Debian, then Red Hat distro packages.
-                   ERROR=$? # Save error flag condition.
-                   if [ $ERROR -ne 0 ] ; then
-                      # Error code 1 $?=1 means installation failed.
-                      # Error code 0 (zero) where $?=0 means no error.
-                      echo
-                      echo "Installation of $APP_NAME_INSTALL failed."
-                      echo "Command sudo rpm -ivh $APP_NAME_INSTALL failed."
-                      echo "May be a failure downloading package. Bad Internet connection"
-                      echo
-                      f_application_web_install
-                   fi
-                fi
-                #
-              # if [ -d <slackware installation directory> ] ; then
-                   # if <slackware installation directory> exists, then use installpkg
-                   # for slackware packages.
-                   # sudo installpkg <application package name>"
-                   # ERROR=$? # Save error flag condition.
-                   # if [ $ERROR -ne 0 ] ; then
-                        # Error code 1 $?=1 means installation failed.
-                        # Error code 0 (zero) where $?=0 means no error.
-                        # echo
-                        # echo "Installation of $APP_NAME_INSTALL failed."
-                        # echo "Command sudo installpkg $APP_NAME_INSTALL failed."
-                        # echo "May be a failure downloading package. Bad Internet connection"
-                        # echo
-                        # f_application_web_install
-                   # fi
-              # fi
-              #
-              # if [ -d <arch linux installation directory> ] ; then
-                   # if <arch linux installation directory> exists, then use installpkg
-                   # for arch linux packages.
-                   # sudo -S <application package name>"
-                   # ERROR=$? # Save error flag condition.
-                   # if [ $ERROR -ne 0 ] ; then
-                        # Error code 1 $?=1 means installation failed.
-                        # Error code 0 (zero) where $?=0 means no error.
-                        # echo
-                        # echo "Installation of $APP_NAME_INSTALL failed."
-                        # echo "Command sudo -S $APP_NAME_INSTALL failed."
-                        # echo "May be a failure downloading package. Bad Internet connection"
-                        # echo
-                        # f_application_web_install
-                   # fi
-              # fi
-
+      esac                      # End of APP_NAME_INSTALL case statement.
+      #
+      # Below are cases where the APP_NAME is not the same as the
+      # package name used to install the application.
+      # i.e. The game 'trek' is installed using the package called 'bsdgames'.
+      #
+      case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+           acat| als | apack | atool | aunpack)
+           APP_NAME_INSTALL="atool"
+           ;;
+           aria2c)
+           APP_NAME_INSTALL="aria2"
+           ;;
+           barnowl | zcrypt)
+           APP_NAME_INSTALL="barnowl"
+           ;;
+           adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
+           APP_NAME_INSTALL="bsdgames"
+           ;;
+           clamscan)
+           APP_NAME_INSTALL="clamav"
+           ;;
+           todo)
+           APP_NAME_INSTALL="devtodo"
+           ;;
+           fbgs)
+           APP_NAME_INSTALL="fbi"
+           ;;
+           glances) # Add repository for glances application.
+           sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
+           sudo apt-get update
+           ;;
+           ifplugstatus)
+           APP_NAME_INSTALL="ifplugd"
+           ;;
+           animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
+           APP_NAME_INSTALL="imagemagick"
+           ;;
+           moc)
+           APP_NAME_INSTALL="libqt4-dev"
+           ;;
+           lynx)
+           APP_NAME_INSTALL="lynx-cur"
+           ;;
+           nagios3)
+           APP_NAME_INSTALL="nagios3-core"
+           ;;
+           tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
+           APP_NAME_INSTALL="netdiag"
+           ;; 
+           mpstat | iostat | pidstat | sadf | sar)
+           APP_NAME_INSTALL="sysstat"
+           ;;
+           photorec)
+           APP_NAME_INSTALL="testdisk"
+           ;;
+           aaxine | cacaxine | fbxine)
+           APP_NAME_INSTALL="xine-console"
+           ;;
+           xz | unxz | xzcat | xzgrep)
+           APP_NAME_INSTALL="xz-utils"
+           ;;
+      esac # End of Install Package Name case statement.
+      #
+      if [ -d /etc/apt ] ; then 
+         # if /etc/apt directory exists, then use apt-get install
+         # for Debian-based packages.
+         sudo apt-get install $APP_NAME_INSTALL
+         ERROR=$? # Save error flag condition.
+         if [ $ERROR -ne 0 ] ; then
+            # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+            echo
+            echo "Installation of $APP_NAME_INSTALL failed."
+            echo "Command sudo apt-get install $APP_NAME_INSTALL failed."
+            echo "May be a failure downloading package. Bad Internet connection?"
+            echo
+            f_application_web_install
+         fi
+         #
+      elif [ -d /var/lib/slackpkg ] ; then
+         # if <slackware linux installation directory> exists, then use slackpkg or installpkg 
+         # for slackware packages.
+         sudo slackpkg install $APP_NAME_INSTALL
+         ERROR=$? # Save error flag condition.
+         # 
+         # This if statement is commented out because slackpkg has error code $?=0 even if install fails.
+         # To Do List: find a way to indicate a failed install and alter if statement below.
+         #if [ $ERROR -ne 0 ] ; then
+         #   # Error code 1 $?=1 means installation failed.
+         #   # Error code 0 (zero) where $?=0 means no error.
+         #   echo
+         #   echo "Installation of $APP_NAME_INSTALL failed."
+         #   echo "Command sudo slackpkg $APP_NAME_INSTALL failed."
+         #   echo "May be a failure downloading package. Bad Internet connection"
+         #   echo
+         #   f_application_web_install
+         #fi
+         #
+      elif [ -d /var/lib/pacman ] ; then
+         # if <arch linux installation directory> exists, then use pacman
+         # for arch linux packages.
+         sudo pacman -S $APP_NAME_INSTALL
+         ERROR=$? # Save error flag condition.
+         if [ $ERROR -ne 0 ] ; then
+            # Error code 1 $?=1 means installation failed.
+            # Error code 0 (zero) where $?=0 means no error.
+            echo
+            echo "Installation of $APP_NAME_INSTALL failed."
+            echo "Command sudo pacman -S $APP_NAME_INSTALL failed."
+            echo "May be a failure downloading package. Bad Internet connection"
+            echo
+            f_application_web_install
+         fi
+         #
+         # rpm is last because some Slackware-based distros have rpm directories also.
+      elif [ -d /var/lib/rpm ] ; then 
+         # if /var/lib/rpm directory exists, then use rpm install
+         # for RPM-based packages.
+         sudo rpm -ivh $APP_NAME_INSTALL 
+         # Assume if not Debian, then Red Hat distro packages.
+         ERROR=$? # Save error flag condition.
+         if [ $ERROR -ne 0 ] ; then
+            # Error code 1 $?=1 means installation failed.
+            # Error code 0 (zero) where $?=0 means no error.
+            echo
+            echo "Installation of $APP_NAME_INSTALL failed."
+            echo "Command sudo rpm -ivh $APP_NAME_INSTALL failed."
+            echo "May be a failure downloading package. Bad Internet connection"
+            echo
+            f_application_web_install
+         fi
+      else
+         echo
+         echo "You will have to install the $APP_NAME_INSTALL package manually."
+         echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
+         f_press_enter_key_to_continue
+      fi
+      #
 } # End of function f_application_install
 #
 #

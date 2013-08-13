@@ -44,20 +44,20 @@ sed -n 's/^#://'p README |more -d
 #: +----------------------------------------+
 #:
 #: The files EDIT_HISTORY, COPYING, README must be in the same folder/directory
-#: as this file/script so the Main Menu options to view/edit 'Edit History' or
+#: as cli-app-menu.sh so the Main Menu options to view/edit 'Edit History' or
 #: to view 'License' can work.
 #:
 #: The library files lib_cli-common.lib, lib_cli-menu-cat.lib, 
-#: lib_cli-menu-apps.lib must be in the same folder/directory as this
+#: lib_cli-menu-apps.lib must be in the same folder/directory as cli-app-menu.sh
 #: file/script so the script can run.
 #:
 #: +----------------------------------------+
 #: |        HOW-TO Update this script       |
 #: +----------------------------------------+
 #:
-#: After each edit made, update the version (date stamp string) of this script
-#: in both the EDIT_HISTORY file and this file.
-#: Also update the edit history in the EDIT_HISTORY file.
+#: After each edit made, update the version (date stamp string) of each affected
+#: file along with the EDIT_HISTORY file which contains the project rev date.
+#: Also update the edit history text in the EDIT_HISTORY file.
 #:
 #: +----------------------------------------+
 #: |    Revision number and Revision Date   |
@@ -68,7 +68,7 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="August-09-2013 15:55"
+#:REVDATE="August-13-2013 00:42"
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -123,7 +123,9 @@ sed -n 's/^#://'p README |more -d
 #:
 #: *You can get application help by 'man' or '--help' from the menu prompt.
 #:
-#: *If an application is not installed, script will automatically install it.
+#: *If an application is not installed, the script can install it using package
+#:  managers apt, rpm, slackpkg, pacman or for specific apps, download it from
+#:  a web site for manual installation.
 #:
 #: *If an application needs sudo, script will automatically give a sudo option.
 #:
@@ -148,8 +150,7 @@ sed -n 's/^#://'p README |more -d
 #:
 #: In brief:
 #
-#: 1. The menu code is contained in functions before the main program code.
-#:    The main program code, "Main Menu" is at the bottom of this listing.
+#: 1. The menu code is contained in functions with example templates. 
 #:
 #: 2. If you are adding a new application within an application menu, 
 #:    a) decide what row in the menu that you want to place the new menu item.
@@ -162,8 +163,6 @@ sed -n 's/^#://'p README |more -d
 #:
 #:    d) Create a new case statement for the new item.
 #:    e) Adjust the case statement patterns of menu items below the new item.
-#:       If you added the item in the middle of the menu, all case patterns for
-#:       the items below it need to be adjusted.
 #:
 #:    The case patterns will accept both the menu option number, or all or part
 #:    of the menu item name in upper or lower case or any mixture of case.
@@ -200,12 +199,10 @@ sed -n 's/^#://'p README |more -d
 #:    Wrong! [Tt][Ee][Ss][Tt]) or [Tt][Ee][Ss][[Tt]) 
 #:    Right! [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt])
 #:
-#: 3. Menu items only display when the letters are selected, not the number.
-#:    Or Wrong application is run when I select the number.
-#:
-#:    Check to see that you do not have duplicate numbers or out of sequence
-#:    numbers in the case patterns.
-#:
+#: 3. Only a few of the Menu items display when the number or letter is selected.
+#:    Check any instance of echo with only a single double-quotation mark.
+#:    Change from: echo "I forgot to type in the trailing double-quote.
+#:    Change   to: echo "I forgot to type in the trailing double-quote."
 #:
 #: +----------------------------------------+
 #: |     Known problems and limitations     |
@@ -221,6 +218,13 @@ sed -n 's/^#://'p README |more -d
 #:      LAN/WAN Applications Menu      LAN/WAN Applications Menu
 #:      ip link                        ip route list
 #:      ip route                       ip route flush
+#:
+#: 3. Option for automatic software installation only for distributions which
+#:    use apt, rpm, slackpkg, and pacman; all others must install manually.
+#:
+#: 4. For Slackware-based distros which use slackpkg, I have not figured out a
+#:    way to determine if "slackpkg install <package name> was successful. 
+#:    As a result, I commented out the code for further processing.
 #:
 #: +----------------------------------------+
 #: |               For more help            |
@@ -270,6 +274,8 @@ sed -n 's/^#://'p README |more -d
 #:               '-1' stay in menu loop, legitimate choice.
 #: DELIMITER   - String; Delimiter prefix of menu option string.
 #: ERROR       - Number; Save error code number from $? function.
+#: INSTALL_ANS - String; YES/NO Does user want to install app?
+#:               Passed from f_application_error to f_application_run.
 #: MAX         - Number; Maximum option choice number in menu.
 #: MENU_TITLE  - String; Title of menu.
 #: PRESSKEY    - Number: Ask "Press Enter key to continue".
