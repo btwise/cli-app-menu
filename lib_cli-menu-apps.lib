@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-13-2013 00:42"
+# REVDATE="August-13-2013 21:39"
 #
 # +----------------------------------------+
 # |   Function f_menu_app_sample_template  |
@@ -732,14 +732,14 @@ f_menu_app_file_burn () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Backup Applications until loop.
-            #MFB bashburn     - Write audio/data/iso image CD/DVD; features ASCII menus.
+            #MFB bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
             #MFB burn         - Write audio/data/iso image or copy CDs.
-            #MFB cdrecord     - CD burning. Obsoleted by 'wodim'. May simply be a hard-link to wodim.
+            #MFB cdrecord     - CD burning. Obsoleted by wodim. May be hard-linked to wodim.
             #MFB mkcd         - CD burning.
             #MFB mybashburn   - CD burning.
             #MFB simpleburner - CD burning.
-            #MFB wodim        - CD burning.
-            #MFB xorriso      - Write iso images to CD/DVD Rock Ridge ISO 9660 filesystems.
+            #MFB wodim        - CD/DVD Write audio/data/iso image. Single line command.
+            #MFB xorriso      - CD/DVD Write iso images to Rock Ridge ISO 9660 filesystems.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -795,8 +795,8 @@ f_menu_app_file_burn () {
                  echo
                  echo "$ sudo cdrecord dev=/dev/sg1 -pad -v -eject /home/public/iso/<insert name of iso-file>.iso "
                  echo
-                 echo "*** For more help type: 'man wodim'"
-                 echo "                        'wodim --help'"
+                 echo "*** For more help type: 'man cdrecord'"
+                 echo "                        'cdrecord --help'"
                  echo
                  echo "Now run cdrecord. Usage: cdrecord --help"
                  f_press_enter_key_to_continue
@@ -6663,12 +6663,14 @@ f_menu_app_text_compare () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Compare Applications until loop.
-            #MTC colordiff - Differences between two text files shown in color.
-            #MTC cmp       - Compares two text files.
-            #MTC diff      - Differences between two text files shown using <> signs.
+            #MTC cmp       - Compares 2 text files.
+            #MTC colordiff - Differences between 2 text files shown in color.
+            #MTC comm      - Compares 2 sorted files line by line.
+            #MTC diff      - Differences between 2 text files shown using <> signs.
+            #MTC diff3     - Differences between 3 text files
             #MTC imediff2  - Interactive 2-way file merge.
-            #MTC vimdiff   - Differences between two text files shown in color highlights.
-            #MTC wdiff     - Differences between two text files shown using +/- signs.
+            #MTC vimdiff   - Differences between 2 text files shown in color highlights.
+            #MTC wdiff     - Differences between 2 text files shown using +/- signs.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="lib_cli-menu-apps.lib"
@@ -6684,14 +6686,6 @@ f_menu_app_text_compare () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Compare Applications case statement.
-                 colordiff' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Oo]*)
-                 APP_NAME="colordiff"
-                 f_application_run
-                 ;;
                  cmp' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -6700,12 +6694,58 @@ f_menu_app_text_compare () {
                  APP_NAME="cmp"
                  f_application_run
                  ;;
+                 colordiff' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Ll]*)
+                 APP_NAME="colordiff"
+                 f_application_run
+                 ;;
+                 comm' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
+                 APP_NAME="comm"
+                 clear # Blank the screen.
+                 echo "comm - compare two sorted files line by line." 
+                 echo
+                 echo "Usage:"
+                 echo "comm [OPTION]... FILE1 FILE2"
+                 echo
+                 echo "Output is in three columns of quoted lines."
+                 echo
+                 echo "  Column 1      Column 2          Column 3"
+                 echo "Lines unique  Lines unique      Lines common"
+                 echo "  to FILE1      to FILE2     to FILE1 and FILE2"
+                 echo
+                 echo "OPTIONS:"
+                 echo "         -1                 Suppress column 1."
+                 echo "         -2                 Suppress column 2."
+                 echo "         -3                 Suppress column 3."
+                 echo "         --no-check order   Do not check files for sort order."
+                 echo 
+                 echo "*** For more help type: 'man comm'"
+                 echo "                        'comm --help'"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
                  diff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Dd] | [[Dd][Ii]*)
+                 [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff])
                  APP_NAME="diff"
+                 f_application_run
+                 ;;
+                 diff3' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff] | [[Dd][Ii][Ff][Ff]3)
+                 APP_NAME="diff3"
                  f_application_run
                  ;;
                  imediff2' '*)

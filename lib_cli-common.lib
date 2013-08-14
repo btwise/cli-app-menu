@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-13-2013 00:42"
+# REVDATE="August-13-2013 21:39"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -599,14 +599,29 @@ f_application_error () {
                 ;;
            esac # End of Install Application Option case statement.
            ;;
-           1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
-              # Some applications exit with error code 1 even if successfully run.
+           1) # Error code 1 is a general error code. But it may be a result output rather than error.
+              # Some applications (i.e. file compare) exit with error code 1 even if successfully run.
               # The Error Code 1 Number Exceptions case statement, takes care of those weird applications.
            case $APP_NAME in # Start of Error Code Number 1 Exceptions case statement.
-                *diff*)
-                # Do not display error message if error code 1
-                # and apps colordiff, diff, imediff2, vimdiff, wdiff.
-                # For diff apps, error code 1 means compared files are different, not a real error.
+                *diff* | cmp' '* | comm' '*)
+                # Exceptions: Do not display error message if error code 1 when
+                # applications are colordiff, diff, imediff2, vimdiff, wdiff, cmp, comm.
+                # For these applications, error code 1 means compared files are different, not a real error.
+                ;;
+                comm) # Error code 1 means operand or files is missing.
+                # Display error message.
+                f_display_error_code
+                echo "Missing operand (file name(s) or names)."
+                echo "Try running $APP_NAME_TMP again this time using operands."
+                echo
+                echo "Operands may be filenames as in the examples below."
+                echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
+                echo "Example: locate test1.txt     or diff test1.txt test2.txt"
+                echo
+                echo "Or operands may be a combination of parameters, options, and filenames."
+                echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
+                echo "Example: find /home -iname test1.txt -print"
+                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                 ;;
                 sudo' '*)
                 # Display error message.
