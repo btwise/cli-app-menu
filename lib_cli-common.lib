@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-13-2013 21:39"
+# REVDATE="August-19-2013 18:29"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -155,7 +155,7 @@ f_common_scat_menu () {
            CHOICE_SCAT=0
            PRESS_KEY=0
            ;;
-           [1-9] | [1-9] | [0-9])
+           [1-9] | [1-9][0-9])
            if [  $CHOICE_SCAT -ge 1 -a $CHOICE_SCAT -le $MAX ] ; then
               CHOICE_SCAT=${CHOICE[$CHOICE_SCAT]}
            fi
