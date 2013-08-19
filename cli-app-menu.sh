@@ -1,3 +1,4 @@
+#!/bin/bash
 # ©2013 Copyright 2013 Robert D. Chin
 #
 # +----------------------------------------+
@@ -27,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-08-2013 12:00"
+REVDATE="August-19-2013 15:23"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -101,6 +102,7 @@ REVDATE="August-08-2013 12:00"
 #@
 #@ Just remember --help (after the name) or man (before the name).
 #@
+#
 # +----------------------------------------+
 # |          Function f_test_dash          |
 # +----------------------------------------+
@@ -110,32 +112,35 @@ REVDATE="August-08-2013 12:00"
 # Outputs: None
 #
 f_test_dash () {
-#
-if [ "$BASH_VERSION" = '' ]; then
-   echo
-   echo "You are using the DASH environment."
-   echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
-   echo
-   echo "*** This script cannot be run in the DASH environment. ***"
-   echo
-   echo "You can invoke the BASH environment by typing"
-   echo "'bash cli-app-menu.sh' at the command line."
-   echo
-   exit # Quit script if not in BASH environment. 
-fi
+      if [ "$BASH_VERSION" = '' ]; then
+         echo
+         echo "You are using the DASH environment."
+         echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
+         echo
+         echo "*** This script cannot be run in the DASH environment. ***"
+         echo
+         echo "You can invoke the BASH environment by typing"
+         echo "'bash cli-app-menu.sh' at the command line."
+         echo
+         echo ">>>The errors below disappear in the BASH environment.<<<"
+         echo
+         f_press_enter_key_to_continue
+      fi
 } # End of function f_test_dash
-##
+#
 # **************************************
 # ***     Start of Main Program      ***
 # **************************************
+# Since the DASH environment does not recognize the ". <library> command,
+# the function f_test_dash must be included in this cli-app-menu.sh script file
+# rather than in the library file lib_cli-common.lib, but once in BASH, then
+# common library file may be invoked.
 #
 # Test the environment for DASH.
 f_test_dash
 #
-# Invoke libraries.
+# Invoke the common library to display menus.
 . lib_cli-common.lib
-. lib_cli-menu-apps.lib
-. lib_cli-menu-cat.lib
 #
 # **************************************
 # ***           Main Menu            ***
@@ -161,7 +166,7 @@ do    # Start of CLI Menu util loop.
       #
       THIS_FILE="cli-app-menu.sh"
       MENU_TITLE="Main Menu"
-      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu options. 
+      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu options.
       f_show_menu $MENU_TITLE $DELIMITER 
       read CHOICE_MAIN
       case $CHOICE_MAIN in 
@@ -183,6 +188,7 @@ do    # Start of CLI Menu util loop.
       #
       case $CHOICE_MAIN in # Start of CLI Menu case statement.
            [Aa] | [Aa][Pp]*)
+           . lib_cli-menu-cat.lib # invoke module/library.
            f_menu_cat_applications
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
@@ -236,7 +242,6 @@ do    # Start of CLI Menu util loop.
                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
                 [Tt] | [Tt][Ee] | [Tt][Ee][Ss]| [Tt][Ee][Ss][Tt]*)
-                
                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/cli-app-menu.sh"
                 wget $WEB_SITE
                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-common.lib"
@@ -339,7 +344,7 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
-           clear # Blank the screen.
+           # clear # Blank the screen.
            #
            # 1. grep finds all lines containing "#M" followed by two letters in
            #    this script.
@@ -364,12 +369,25 @@ do    # Start of CLI Menu util loop.
            #         i.e. print $0: "bastet         - Tetris-like game." 
            #    (Where "GF" substituted by "".)
            #
-           THIS_FILE="lib_cli-menu-apps.lib"
-           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
+           #
+           # Print a list of applications by using grep on each module file.
+           # Assumes all module files are present in current directory.
+           #
+           #for MOD_FILE in mod_apps-audio.lib mod_apps-filedir.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-system.lib
+           #do
+           #     grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
+           #done
+           #
+           #
+           # Print a list of applications using grep on file LIST_APPS.
+           MOD_FILE="LIST_APPS"
+           grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            #
            # The code below will work but is less elegant.
            #
-           # 3. The second awk prints out the 2nd to the 15th words in the
+           # 5. The second awk prints out the 2nd to the 15th words in the
            #    resultant string. The 1st word is skipped because it is the
            #    last 2 letters of the special menu option marker.
            #    i.e. "GF bastet         - Tetris-like game."
@@ -379,8 +397,6 @@ do    # Start of CLI Menu util loop.
            #
            # grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{print $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15}' | more -d
            #
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ss] | [Ss][Ee]*)
            clear # Blank the screen.
@@ -393,8 +409,11 @@ do    # Start of CLI Menu util loop.
            f_press_enter_key_to_continue
            #
            clear # Blank the screen.
-           THIS_FILE="lib_cli-menu-apps.lib"
-           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | grep -i $XSTR | more -d
+           for MOD_FILE in mod_apps-audio.lib mod_apps-filedir.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-system.lib
+           do
+               grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | grep -i $XSTR | more -d
+           done
+           #
            f_press_enter_key_to_continue
            ;;
            [Uu] | [Uu][Pp]*)

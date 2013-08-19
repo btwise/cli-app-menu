@@ -1,0 +1,1518 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-14-2013 01:00"
+#
+# +----------------------------------------+
+# |      Function f_menu_cat_internet      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: CHOICE_SCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#
+f_menu_cat_internet () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ]
+      do    # Start of Internet Category until loop.
+            #BIN Bittorrent        - File transfer.
+            #BIN Downloaders       - Download files and calculate file checksums. 
+            #BIN Email             - Email clients.
+            #BIN FAX               - FAX clients.
+            #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
+            #BIN Instant Messaging - AIM/ICQ, Yahoo!, MSN, IRC, Jabber/XMPP/Google Talk...
+            #BIN IRC Clients       - Internet Relay Chat clients.
+            #BIN LAN Chat          - Local Area Network Chat (not IRC).
+            #BIN News Readers      - Read USEnet news.
+            #BIN Podcatcher        - Podcaster readers.
+            #BIN Remote Connection - Connect to other PCs remotely.
+            #BIN RSS Feeders       - RSS news, messages.
+            #BIN Web Browsers      - Internet web  browsers.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Internet Category Menu"
+            DELIMITER="#BIN" #BIN This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_common_scat_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Internet Category case statement.
+                 [Bb] | [Bb][Ii]*)
+                 f_menu_app_bittorrent        # Bittorrent Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Dd] | [Dd][Oo]*)
+                 f_menu_app_downloaders       # Downloaders Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Mm]*)
+                 f_menu_app_email             # Email Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop. 
+                 ;;
+                 [Ff] | [Ff][Aa]*)
+                 f_menu_app_fax               # FAX Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ff] | [Ff][Tt]*)
+                 f_menu_app_file_transfer     # File Transfer Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ii] | [Ii][Nn]*)
+                 f_menu_app_instant_messaging #Instant Messaging Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ii] | [Ii][Rr]*)
+                 f_menu_app_irc_clients       # IRC Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ll] | [Ll][Aa]*)
+                 f_menu_app_lan_chat          # LAN Chat Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Nn] | [Nn][Ee]*)
+                 f_menu_app_news_readers      # News Readers Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Pp] | [Pp][Oo]*)
+                 f_menu_app_podcatchers       # Podcatcher Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
+                 f_menu_app_remote_connection # Remote Connection Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Rr] | [Rr][Ss]*)
+                 f_menu_app_rssfeeders        # RSS Feeder Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ww] | [Ww][Ee]*)
+                 f_menu_app_web_browsers      # Web Browser Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                # End of Internet Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_scat_bad_menu_choice
+      done  # End of Internet Category until loop.
+} # End of function f_menu_cat_internet
+#
+# +----------------------------------------+
+# |      Function f_menu_app_bittorrent    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_bittorrent () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Bittorrent Applications until loop.
+            #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
+            #MBT bittornado   - Torrent file transfer.
+            #MBT bittorrent   - Torrent file transfer.
+            #MBT ctorrent     - Torrent file transfer.
+            #MBT deluge       - Torrent downloader, user-interfaces GTK+, web, console.
+            #MBT mldonkey     - Downloader supports BitTorrent/eDonkey/HTTP/FTP.
+            #MBT rtorrent     - Torrent file transfer.
+            #MBT transmission - Torrent client web, console, Mac, GTK+ and Qt GUI clients.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Bittorrent Applications Menu"
+            DELIMITER="#MBT" #MBT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Bittorrent Applications case statement.
+                 aria2c' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Rr]*)
+                 APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
+                 f_application_run
+                 ;;
+                 bittornado' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn]*)
+                 APP_NAME="bittornado"
+                 f_application_run
+                 ;;
+                 bittorrent' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr]*)
+                 APP_NAME="bittorrent"
+                 f_application_run
+                 ;;
+                 ctorrent' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Tt]*)
+                 APP_NAME="ctorrent"
+                 f_application_run
+                 ;;
+                 deluge' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ee]*)
+                 APP_NAME="deluge"
+                 f_application_run
+                 ;;
+                 mldonkey' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Ll]*)
+                 APP_NAME="mldonkey"
+                 f_application_run
+                 ;;
+                 rtorrent' '*) 
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Tt]*)
+                 APP_NAME="rtorrent"
+                 f_application_run
+                 ;;
+                 transmission' '*) 
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Rr]*)
+                 APP_NAME="transmission"
+                 f_application_run
+                 ;;
+            esac                # End of Bittorrent Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Bittorrent Applications until loop.
+} # End of function f_menu_app_bittorrent
+#
+# +----------------------------------------+
+# |     Function f_menu_app_downloaders    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_downloaders () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Downloaders Applications until loop.
+            #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+            #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+            #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+            #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+            #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Downloader-Checksum Applications Menu"
+            DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Dowloader Applications case statement.
+                 aria2c' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Rr]*)
+                 APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
+                 f_application_run
+                 ;;
+                 md5pass' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp]*)
+                 APP_NAME="md5pass"
+                 clear # Blank the screen.
+                 echo "md5pass - Create a password hash."
+                 echo
+                 echo "Usage:"
+                 echo "md5pass [PASSWORD] [SALT]"
+                 echo
+                 echo "*** For more help type: 'man md5pass'"
+                 echo
+                 echo "md5pass without any SALT value causes a random salt value to be generated."
+                 echo "Now run md5pass. Usage: 'md5pass'."
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 md5sum' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm][ | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Ss]*)
+                 APP_NAME="man md5sum"
+                 clear # Blank the screen.
+                 echo "md5sum - Display md5 checksum."
+                 echo
+                 echo "Usage:"
+                 echo "md5sum [OPTION]... [FILE]..."
+                 echo
+                 echo "*** For more help type: 'man md5sum'"
+                 echo "                        'md5sum --help'"
+                 echo
+                 echo "Now show help. Usage: man md5sum"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 sha1pass' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp]*)
+                 APP_NAME="sha1pass"
+                 clear # Blank the screen.
+                 echo "sha1pass - Create a password hash."
+                 echo
+                 echo "Usage:"
+                 echo "sha1pass [PASSWORD] [SALT]"
+                 echo "*** For more help type: 'man sha1pass'"
+                 echo
+                 echo "sha1pass without any SALT value causes a random salt value to be generated."
+                 echo "Now run sha1pass. Usage: 'sha1pass'."
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 sha1sum' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss]*)
+                 APP_NAME="man sha1sum"
+                 clear # Blank the screen.
+                 echo "sha1sum - Display sha1 checksum."
+                 echo
+                 echo "Usage:"
+                 echo "sha1sum [OPTION]... [FILE]..."
+                 echo
+                 echo "*** For more help type: 'man sha1sum'"
+                 echo "                        'sha1sum --help'"
+                 echo
+                 echo "Now show help. Usage: man sha1sum"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+            esac                # End of Downloader Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Downloaders Applications until loop.
+} # End of function f_menu_app_downloaders
+#
+# +----------------------------------------+
+# |        Function f_menu_app_email       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_email () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of E-mail Applications until loop.
+            #MEM alpine         - E-mail client, FOSS version of pine.
+            #MEM cone           - E-mail client.
+            #MEM elmo           - E-mail client.
+            #MEM fetchyahoo     - E-mail client.
+            #MEM gnus           - Email, NNTP, RSS client for Emacs.
+            #MEM heirloom-mailx - E-mail client.
+            #MEM mu4e           - Email client for Emacs.
+            #MEM mutt           - E-mail client.
+            #MEM nedmail        - E-mail client.
+            #MEM pine           - E-mail client.
+            #MEM sup            - E-mail client.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="E-mail Applications Menu"
+            DELIMITER="#MEM" #MEM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of E-mail Applications case statement.
+                 alpine' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Ll]*)
+                 APP_NAME="alpine"
+                 f_application_run
+                 ;;
+                 cone' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo]*)
+                 APP_NAME="cone"
+                 f_application_run
+                 ;;
+                 elmo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Ll]*)
+                 APP_NAME="elmo"
+                 f_application_run
+                 ;;
+                 fetchyahoo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Ee]*)
+                 APP_NAME="fetchyahoo"
+                 f_application_run
+                 ;;
+                 gnus' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg]  | [Gg][Nn]*)
+                 APP_NAME="gnus"
+                 f_application_run
+                 ;;
+                 heirloom-mailx' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Ee]*)
+                 APP_NAME="heirloom-mailx"
+                 f_application_run
+                 ;;
+                 mu4e' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][4] | [Mm][Uu][4]*)
+                 APP_NAME="mu4e"
+                 f_application_run
+                 ;;
+                 mutt' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Uu] | [Mm][Uu][Tt]*)
+                 APP_NAME="mutt"
+                 f_application_run
+                 ;;
+                 nedmail' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ee]*)
+                 APP_NAME="nedmail"
+                 f_application_run
+                 ;;
+                 pine' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Ii]*)
+                 APP_NAME="pine"
+                 f_application_run
+                 ;;
+                 supp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Uu]*)
+                 APP_NAME="supp"
+                 f_application_run
+                 ;;
+            esac                # End of E-mail Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of E-mail Applications until loop.
+} # End of function f_menu_app_email
+#
+# +----------------------------------------+
+# |         Function f_menu_app_fax        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_fax () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of FAX Applications until loop.
+            #MFX efax           - FAX over modem.
+            #MFX hylafax-client - Works with HylaFAX server software.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="FAX Applications Menu"
+            DELIMITER="#MFX" #MFX This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of FAX Applications case statement.
+                 efax' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Ff]*)
+                 APP_NAME="efax"
+                 f_application_run
+                 ;;
+                 hylafax-client' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Yy]*)
+                 APP_NAME="hylafax-client"
+                 f_application_run
+                 ;;
+            esac                # End of FAX Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of FAX Applications until loop.
+} # End of function f_menu_app_fax
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_tranfer     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_file_transfer () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of File Transfer Applications until loop.
+            #MFT cmdftp - File transfer client.
+            #MFT curl   - File transfer.
+            #MFT ftp    - File transfer.
+            #MFT ftpfs  - File transfer client.
+            #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
+            #MFT ncftp  - File transfer client.
+            #MFT scp    - File transfer.
+            #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="File Transfer Applications Menu"
+            DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of File Transfer Applications case statement.
+                 cmdftp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Mm]*)
+                 APP_NAME="cmdftp"
+                 f_application_run
+                 ;;
+                 curl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Uu]*)
+                 APP_NAME="curl"
+                 f_application_run
+                 ;;
+                 ftp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Tt] | [Ff][Tt][Pp])
+                 APP_NAME="ftp"
+                 f_application_run
+                 ;;
+                 ftpfs' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Tt] | [Ff][Tt][Pp] | [Ff][Tt][Pp][Ff]*)
+                 APP_NAME="ftpfs"
+                 f_application_run
+                 ;;
+                 lftp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ff]*)
+                 APP_NAME="lftp"
+                 f_application_run
+                 ;;
+                 ncftp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Cc]*)
+                 APP_NAME="ncftp"
+                 f_application_run
+                 ;;
+                 scp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Cc]*)
+                 APP_NAME="scp"
+                 f_application_run
+                 ;;
+                 woof' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [WW][Oo]*)
+                 APP_NAME="woof"
+                 f_application_run
+                 ;;
+            esac                # End of File Transfer Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of File Transfer Applications until loop.
+} # End of function f_menu_app_file_transfer
+#
+# +----------------------------------------+
+# | Function f_menu_app_instant_messaging  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_instant_messaging () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Internet Messaging Applications until loop.
+            #MIM barnowl      - BarnOwl supports AIM, IRC, Jabber, Zephyr.
+            #MIM bitlbee      - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
+            #MIM centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+            #MIM centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+            #MIM emacs-jabber - Jabber client for Emacs.
+            #MIM finch        - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster.
+            #MIM freetalk     - Jabber client.
+            #MIM mcabber      - Jabber client.          	
+            #MIM naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Instant Messaging Applications Menu"
+            DELIMITER="#MIM" #MIM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Instant Messaging Applications case statement.
+                 barnowl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application ":q (colon q)" "no-clear"
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Aa]*)
+                 APP_NAME="barnowl"
+                 clear # Blank the screen.
+                 echo "BarnOwl - Internet Messenger."
+                 echo
+                 echo "Usage:"
+                 echo "barnowl"
+                 echo "Inside barnowl type ':help' (colon help) for built-in help page."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Now run barnowl. Usage: barnowl"
+                 echo
+                 f_how_to_quit_application ":q (colon q)" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 bitlbee' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ii]*)
+                 APP_NAME="bitlbee"
+                 f_application_run
+                 ;;
+                 centericq' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc]*)
+                 APP_NAME="centericq"
+                 f_application_run
+                 ;;
+                 centerim' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm])
+                 APP_NAME="centerim"
+                 f_application_run
+                 ;;
+                 emacs-jabber' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee][Mm]*)
+                 APP_NAME="emacs-jabber"
+                 f_application_run
+                 ;;
+                 finch' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Ii]*)
+                 APP_NAME="finch"
+                 f_application_run
+                 ;;
+                 freetalk' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Rr]*)
+                 APP_NAME="freetalk"
+                 f_application_run
+                 ;;
+                 mcabber' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Cc]*)
+                 APP_NAME="mcabber"
+                 f_application_run
+                 ;;
+                 naim' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Aa]*)
+                 APP_NAME="naim"
+                 f_application_run
+                 ;;
+            esac                # End of Instant Messaging Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Instant Messaging Applications until loop.
+} # End of function f_menu_app_instant_messaging
+#
+# +----------------------------------------+
+# |    Function f_menu_app_irc_clients     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_irc_clients () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of IRC Clients Applications until loop.
+            #MIR epic5   - IRC client based on ircI.
+            #MIR erc     - IRC client for Emacs, powerful, modular, and extensible.
+            #MIR ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.
+            #MIR ircii   - Termcap based interface. Supports "/encrypt -cast".
+            #MIR irssi   - Supports SILC and ICB protocols via plugins.
+            #MIR pork    - Ncurses-based AOL Instant Messenger and IRC client.
+            #MIR scrollz - An advanced, faster IRC client based on ircII code.
+            #MIR sic     - Fast small IRC client.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="IRC Clients Applications Menu"
+            DELIMITER="#MIR" #MIR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of IRC Clients Applications case statement.
+                 epic' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Pp]*)
+                 APP_NAME="epic"
+                 f_application_run
+                 ;;
+                 erc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Rr]*)
+                 APP_NAME="erc"
+                 f_application_run
+                 ;;
+                 ii' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] |[Ii][Ii])
+                 APP_NAME="ii"
+                 f_application_run
+                 ;;
+                 ircii' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Rr] | [Ii][Rr][Cc]*)
+                 APP_NAME="ircii"
+                 f_application_run
+                 ;;
+                 irssi' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Rr] | [Ii][Rr][Ss]*)
+                 APP_NAME="irssi"
+                 f_application_run
+                 ;;
+                 pork' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Oo]*)
+                 APP_NAME="pork"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 scrollz' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Cc]*)
+                 APP_NAME="scrollz"
+                 f_application_run
+                 ;;
+                 sic' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ii]*)
+                 APP_NAME="sic"
+                 f_application_run
+                 ;;
+            esac                # End of IRC Clients Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of IRC Clients Applications until loop.
+} # End of function f_menu_app_irc_clients
+#
+# +----------------------------------------+
+# |      Function f_menu_app_lan_chat      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_lan_chat () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of LAN Chat Applications until loop.
+            #MNC talk    - Copies lines from your terminal to that of another user.
+            #MNC weechat - WeeChat (Wee Enhanced Environment for Chat) fast, light client.
+            #MNC ytalk   - Multi-user chat program can do multiple connections.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="LAN Chat Applications Menu"
+            DELIMITER="#MNC" #MNC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of LAN Chat Applications case statement.
+                 talk' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Aa]*)
+                 APP_NAME="talk"
+                 f_application_run
+                 ;;
+                 weechat' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Ee]*)
+                 APP_NAME="weechat"
+                 f_application_run
+                 ;;
+                 ytalk' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Yy] | [Yy][Tt]*)
+                 APP_NAME="ytalk"
+                 f_application_run
+                 ;;
+            esac                # End of LAN Chat Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of LAN Chat Applications until loop.
+} # End of function f_menu_app_lan_chat
+#
+# +----------------------------------------+
+# |     Function f_menu_app_news_readers   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_news_readers () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of RSS Feeder Applications until loop.
+            #MNR gnus - News reader and E-mail client for Emacs.
+            #MNR nn   - News reader.
+            #MNR rn   - News reader.
+            #MNR slrn - News reader.
+            #MNR tin  - News reader.
+            #MNR trn  - News reader.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="News Reader Applications Menu"
+            DELIMITER="#MNR" #MNR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of News Reader Applications case statement.
+                 gnus' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Nn]*)
+                 APP_NAME="gnus"
+                 f_application_run
+                 ;;
+                 nn' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Nn]) 
+                 APP_NAME="nn"
+                 f_application_run
+                 ;;
+                 rn' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Nn])
+                 APP_NAME="rn"
+                 f_application_run
+                 ;;
+                 slrn' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ll]*)
+                 APP_NAME="slrn"
+                 f_application_run
+                 ;;
+                 tin' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ii] | [Tt][Ii][Nn])
+                 APP_NAME="tin"
+                 f_application_run
+                 ;;
+                 trn' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Rr]*)
+                 APP_NAME="trn"
+                 f_application_run
+                 ;;
+            esac                # End of News Reader Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of News Reader Applications until loop.
+} # End of function f_menu_app_news_readers
+#
+# +----------------------------------------+
+# |     Function f_menu_app_podcatchers     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_podcatchers () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Podcatcher Applications until loop.
+            #MPO bashpodder - Podcatcher.
+            #MPO goldenpod  - Podcatcher.
+            #MPO hpodder    - Podcatcher.
+            #MPO podget     - Podcatcher.
+            #MPO podracer   - Podcatcher.
+            #MPO uraniacast - Podcatcher.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Podcatcher Applications Menu"
+            DELIMITER="#MPO" #MPO This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Podcatcher Applications case statement.
+                 bashpodder' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Aa]*)
+                 APP_NAME="bashpodder"
+                 f_application_run
+                 ;;
+                 goldenpod' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Oo]*)
+                 APP_NAME="goldenpod"
+                 f_application_run
+                 ;;
+                 hpodder' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Pp]*)
+                 APP_NAME="hpodder"
+                 f_application_run
+                 ;;
+                 podget' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Gg]*)
+                 APP_NAME="podget"
+                 f_application_run
+                 ;;
+                 podracer' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Rr]*)
+                 APP_NAME="podracer"
+                 f_application_run
+                 ;;
+                 uraniacast' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu] | [Uu][Rr]*)
+                 APP_NAME="uraniacast"
+                 f_application_run
+                 ;;
+            esac                # End of Podcatcher Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Podcatcher Applications until loop.
+} # End of function f_menu_app_podcatchers
+#
+# +----------------------------------------+
+# |  Function f_menu_app_remote_connection |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_remote_connection () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Remote Connection Applications until loop.
+            #MRC cpu     - Remote connection.
+            #MRC openssh - Remote connection.
+            #MRC ssh     - Remote connection.
+            #MRC sslh    - Remote connection.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Remote Connection Applications Menu"
+            DELIMITER="#MRC" #MRC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Remote Connection Applications case statement.
+                 cpu' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Pp]*)
+                 APP_NAME="cpu"
+                 f_application_run
+                 ;;
+                 openssh' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Oo] | [Oo][Pp]*)
+                 APP_NAME="openssh"
+                 f_application_run
+                 ;;
+                 ssh' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ss] | [Ss][Ss][Hh])
+                 APP_NAME="ssh"
+                 f_application_run
+                 ;;
+                 sslh' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ss] | [Ss][Ss][Ll] | [Ss][Ss][Ll]*)
+                 APP_NAME="sslh"
+                 f_application_run
+                 ;;
+            esac                # End of Remote Connection Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Remote Connection Applications until loop.
+} # End of function f_menu_app_remote_connection
+#
+# +----------------------------------------+
+# |     Function f_menu_app_rssfeeders      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_rssfeeders () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of RSS Feeder Applications until loop.
+            #MRS canto      - RSS feeder.
+            #MRS newsbeuter - RSS feeder.
+            #MRS nrss       - RSS feeder.
+            #MRS olive      - RSS feeder.
+            #MRS raggle     - RSS feeder.
+            #MRS rawdog     - RSS feeder.
+            #MRS rsstail    - RSS feeder.
+            #MRS snownews   - RSS feeder.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="RSS Feeder Applications Menu"
+            DELIMITER="#MRS" #MRS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of RSS Feeder Applications case statement.
+                 canto' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Aa]*)
+                 APP_NAME="canto"
+                 f_application_run
+                 ;;
+                 newsbeuter' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ee]*)
+                 APP_NAME="newsbeuter"
+                 f_application_run
+                 ;;
+                 nrss' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Rr]*)
+                 APP_NAME="nrss"
+                 f_application_run
+                 ;;
+                 olive' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Oo] | [Oo][Ll]*)
+                 APP_NAME="olive"
+                 f_application_run
+                 ;;
+                 raggle' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Aa] | [Rr][Aa][Gg]*)
+                 APP_NAME="raggle"
+                 f_application_run
+                 ;;
+                 rawdog' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Aa] | [Rr][Aa][Ww]*)
+                 APP_NAME="rawdog"
+                 f_application_run
+                 ;;
+                 rsstail' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Ss]*)
+                 APP_NAME="rsstail"
+                 f_application_run
+                 ;;
+                 snownews' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Nn]*)
+                 APP_NAME="snownews"
+                 f_application_run
+                 ;;
+            esac                # End of RSS Feeder Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of RSS Feeder Applications until loop.
+} # End of function f_menu_app_rssfeeders
+#
+# +----------------------------------------+
+# |    Function f_menu_app_web_browsers    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_web_browsers () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Web Browsers Applications until loop.
+            #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
+            #MWB links   - Web browser, no graphics mode.
+            #MWB links2  - Web browser, has graphics mode.
+            #MWB lynx    - Web browser, NLS support.
+            #MWB retawq  - Web browser, multi-threaded.
+            #MWB surfraw - Search the web using a web search site.
+            #MWB w3m     - Web browser, tables, frames support, IPv6 support.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Web Browser Applications Menu"
+            DELIMITER="#MWB" #MWB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Web Browser Applications case statement.
+                 elinks' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Ll]*)
+                 APP_NAME="elinks"
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 links' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss]) 
+                 APP_NAME="links"
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 links2' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ii] | [Ll][Ii][Nn] | [Ll][Ii][Nn][Kk] | [Ll][Ii][Nn][Kk][Ss] | [Ll][Ii][Nn][Kk][Ss][2] | [Ll][Ii][Nn][Kk][Ss][2])
+                 APP_NAME="links2"
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 lynx' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Yy]*)
+                 APP_NAME="lynx"
+                 f_web_site
+                 f_application_run
+                 ;;
+                 retawq' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Aa]*)
+                 APP_NAME="retawq"
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 surfraw' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Uu]*)
+                 APP_NAME="surfraw"
+                 f_application_run
+                 ;;
+                 w3m' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][3]*)
+                 APP_NAME="w3m"
+                 f_web_site
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+            esac                # End of Web Browsers Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Web Browsers Applications until loop.
+} # End of function f_menu_app_web_browsers
+#
+# +----------------------------------------+
+# |          Function f_web_site           |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME.
+# Outputs: APP_NAME, WEB_SITE, PRESS_KEY.
+#
+f_web_site () {
+case $APP_NAME in # Start of case statement.
+     #
+     # The order of the case pattern matching clauses is necessary.
+     #
+     # Does $APP_NAME start with 'sudo'?
+     # Does $APP_NAME have no spaces?
+     # If so, treat as a web browser without a specified web site.
+     #
+     'sudo '*) # Starts with 'sudo' command.
+     # If so, 2nd word is an application option and not a web site.
+     # Assumed format: sudo w3m
+     # It is assumed that users who do "sudo <application name> <options>"
+     # know what they are doing and do not need to be prompted to provide
+     # a web site and do not call f_web_site in the application case statments.
+     #
+     # The application case statements will not allow any other sudo
+     # formats i.e. sudo -width 80 links -driver atheos -html-images 0.
+     # To accomodate all formats would require extensive parsing and
+     # differentiating between an option and a web site.
+     #
+     APP_NAME_SUDO=$(echo $APP_NAME | awk '{print $2;}')
+     # awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
+     # APP_OPT=$(echo APP_NAME 
+     # WEB_SITE=$(echo $APP_NAME | awk '{print $2;}')
+     echo
+     echo "When using the web browser or network application directly from the command line,"
+     echo "use the syntax: $APP_NAME WEB_SITE"
+     echo
+     echo -n "Enter the name of the web site: "
+     read WEB_SITE
+     #
+     # If no web site specified, default to a web site. Note the test command
+     # has $WEB_SITE in quotes because it may not be set prior to this test.
+     if [ -z "$WEB_SITE" ] ; then
+         WEB_SITE="http://www.lxer.com"
+     fi
+     #
+     APP_NAME="$APP_NAME $WEB_SITE"
+     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+     ;;
+     *[!' ']*) # It has no spaces in name.
+     echo
+     echo "When using a web browser or network application directly from the command line,"
+     echo "use the syntax: $APP_NAME WEB_SITE"
+     echo
+     echo -n "Enter the name of the web site: (i.e. www.lxer.com) "
+     read WEB_SITE
+     #
+     # If no web site specified, default to a web site. Note the test command
+     # has $WEB_SITE in quotes because it may not be set prior to this test.
+     if [ -z "$WEB_SITE" ] ; then
+         WEB_SITE="http://www.lxer.com"
+     fi
+     #
+     APP_NAME="$APP_NAME $WEB_SITE"
+     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+     ;;
+     # Does $APP_NAME have space followed by dash?
+     # If so, 2nd word is an application option and not a web site.
+     #
+     *' '[\-]*) # Space followed by dash in name. Same as ' -'*) pattern.
+                 # The pattern ' '[\-] is the same as ' -' pattern.
+                 # The dash is usually used in range pattern [0-9] [a-zA-Z]
+                 # but the back-slash makes dash interpreted as literal dash.
+     # No action needs to be taken. Invoking application option not a web site.
+     #
+     echo
+     echo "There is no web site specified, just a "-option" invoking an application option"
+     echo "and not a web site."
+     echo
+    WEB_SITE="" 
+    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+     ;;
+     # Does $APP_NAME have space not followed by dash?
+     # If so, 2nd word treated as a web site.
+     #
+     *' '[!\-]*) # Space not followed by dash. Assume 2nd word is the web site.
+     # WEB_SITE=$(echo $APP_NAME | awk '{print $2;}') # TEST LINE.
+     # APP_NAME=$(echo $APP_NAME | awk '{print $1;}') # TEST LINE.
+     # echo $APP_NAME to browse in $WEB_SITE          # TEST LINE.
+     # f_press_enter_key_to_continue                  # TEST LINE.
+     #
+     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+     ;;
+esac # End of case statement.
+} # End of function f_web_site
+#

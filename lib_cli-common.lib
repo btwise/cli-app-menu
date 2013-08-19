@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-13-2013 21:39"
+# REVDATE="August-19-2013 15:23"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -35,34 +35,42 @@ f_initvars_menu_app () {
 #  Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
 # Outputs: MAX, XNUM.
 #
-f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
-#
+f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       clear # Blank the screen.
       f_term_color # Set terminal color.
       echo "--- $MENU_TITLE ---"
       echo
-      if [ $DELIMITER = "#AAA" ] ; then #AAA This 3rd field prevents awk from  printing this line into menu options.
+      if [ $DELIMITER = "#AAA" ] ; then #AAA This 3rd field prevents awk from printing this line into menu options.
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
       fi
       #
-      # The following command grep <pattern> <filename> | awk '{<if condition>{print field}}
+      # Calculate $MAX, the number of menu items using grep -c(ount) option.
+      # Count number of lines containing special comment marker string to get
+      # maximum item number.
+      #
+      MAX=$(grep $DELIMITER -c $THIS_FILE)
+      #
+      # Subtract 1 since the line DELIMITER=<string> contains the 
+      # special comment marker but is not part of menu display.
+      #
+      MAX=$((MAX=$MAX-1))
+      #
+      # Cannot use MAX=$MAX-1, since if MAX=12 echo $MAX shows "12-1" not "11".
+      #
+      # The following command awk '{<if condition>{print field}}
       # will print the menu items. The command automatically calculates the
       # menu option numbers for you.
       #
-      # Search (grep) for all lines in this file containing the special comment
-      # marker string.
-      # Pass (pipe) results to awk which prints the second field delimited by
-      # the special comment string.
-      # awk will not print the second field if there is a third field (lines
-      # containing 2 special comment strings).
-      # The if statement conditional "($2&&!$3)" means if 2nd field exists and
-      # not a 3rd field, then print.
+      # if statement conditional "($2&&!$3)":
+      # Since the $DELIMITER is the special comment marker, then:
+      # if there is 1 marker (2 fields) then awk will print the menu item.
+      # if there are 2 markers (3 fields), then awk will not print anything.
       # This prevents the lines of code which set the $ DELIMITER variable from
-      # being printed as part of the menu.
+      # being printed as a menu item, because they purposely have 2 markers.
       #
-      # The menu option numbers are incremented by using any unset variable name
+      # The menu option numbers are incremented using any unset variable name
       # (such as "XNUM") followed by "++",
       # However, because XNUM is unset, it will increment from zero, whereas we
       # want it to increment from one.
@@ -70,44 +78,9 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
       # so numbering will always start at one. Interestingly the "++" increment
       # command is only valid from within awk.
       #
-      MAX=$(grep $DELIMITER -c $THIS_FILE)
-      # Count number of lines containing special comment marker string to get
-      # maximum item number.
       awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
       f_choice_array  # Create array to handle numeric answer to menu choices.
       #
-      case $DELIMITER in
-           # Application Menu?
-           "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-3)) 
-              # Subtract 3 total since 3 lines of code not part of menu display,
-              # contain the special comment marker.
-              echo
-              echo "'0', Q/quit, to quit this script, $THIS_FILE."
-           ;; 
-           "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-2))
-              # Subtract 2 total since 2 lines of code not part of menu display,
-              # contain the special comment marker.
-           ;;
-           "#MWB") #MWB This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-3))
-              # Subtract 3 total since 3 lines of code not part of menu display,
-              # contain the special comment marker.
-              echo
-              echo "For help, type: '<application name> --help' or 'man <application name>'"
-              echo "Also accepts application options i.e. <application name> --version"
-           ;; 
-           "#M"* | "#B"*) # Only display help message in application menus.
-              # Do not display in application category menus or main menu.
-              MAX=$((MAX=$MAX-1))
-              # Subtract 1 total since 1 line of code to set $DELIMITER where
-              # contains the special comment marker.
-              echo
-              echo "For help, type: '<application name> --help' or 'man <application name>'"
-              echo "Also accepts application options i.e. <application name> --version"
-           ;;
-      esac
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
 } # End of function f_show_menu
@@ -125,18 +98,36 @@ f_choice_array () {
       unset CHOICE
       XNUM=1 # Initialize XNUM.
       X=" "
-      # Code below rewritten to allow menu choice names consisting of 2 words. i.e. "ip addr", "ip route".
       #
-      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
-      # Set XSTR to first two words (delimited by "%" of menu choice name. 
-      # Example: Main menu option, "About CLI Menu" then XSTR="About%CLI" 
+      # The 1st awk:
+      # if-statement conditional "($2&&!$3)":
+      # Since the $DELIMITER is the special comment marker, then:
+      # if there is 1 marker (2 fields) then awk will print the 2nd field.
+      # if there are 2 markers (3 fields), then awk will not print anything.
+      # This prevents the lines of code which set the $ DELIMITER variable from
+      # being printed as a menu item, because they purposely have 2 markers.
+      #
+      # The 2nd awk:
+      # Prints the name of the menu item but not the description.
+      #
+      # The 3rd awk:
+      # If the name of the menu item is 2 or more words, just print the
+      # first 2 words into array CHOICE[$XNUM] which is sufficient for case
+      # pattern matching on that menu item choice.
+      # Allow app names consisting of 2 words. i.e. "ip addr", "ip route".
+
+      # The <space> between the words needs a substitution { print $1"%"$2 }
+      # of a "%" for the <space> so awk will not separate the words into 2
+      # different menu items, rather than 1 menu item having 2 words.
+      # 
+      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'` # Use back-ticks to redirect, not single quotes.
+      #
+      # Set XSTR to first two words (delimited by "%" of menu choice name.
+      # Example: Main menu item, "About CLI Menu" then XSTR="About%CLI" 
       do
-           XSTR=${XSTR/[%]/ }   # Substitute <space> for "%".
-           CHOICE[$XNUM]=$XSTR  # If Ubuntu or Ubuntu derived distro errors here,
-                                # cause is Ubuntu uses DASH instead of BASH shell.
-                                # Use "bash cli-menu-app.sh" 
-                                # instead of "sh cli-menu-app.sh".
-           XNUM=`expr $XNUM + 1`
+           XSTR=${XSTR/[%]/ }    # Substitute <space> for "%" to restore name.
+           CHOICE[$XNUM]=$XSTR   # 
+           XNUM=`expr $XNUM + 1` # Use back-ticks to redirect, not single quotes.
       done
 } # End of f_choice_array
 #
@@ -153,16 +144,16 @@ f_common_scat_menu () {
            # Quit?
            0)
            CHOICE_SCAT=0
-           PRESS_KEY=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           [1-9] | [1-9] | [0-9])
+           [1-9] | [1-9][0-9])
            if [  $CHOICE_SCAT -ge 1 -a $CHOICE_SCAT -le $MAX ] ; then
               CHOICE_SCAT=${CHOICE[$CHOICE_SCAT]}
            fi
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
            CHOICE_SCAT=0
-           PRESS_KEY=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
 } # End of function f_common_scat_menu
@@ -180,7 +171,7 @@ f_common_tcat_menu () {
            # Quit?
            0)
            CHOICE_TCAT=0
-           PRESS_KEY=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
            [1-9] | [1-9][0-9])
            if [  $CHOICE_TCAT -ge 1 -a $CHOICE_TCAT -le $MAX ] ; then
@@ -189,7 +180,7 @@ f_common_tcat_menu () {
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
            CHOICE_TCAT=0
-           PRESS_KEY=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
 } # End of function f_common_tcat_menu
@@ -205,7 +196,7 @@ f_common_app_menu () {
            # Quit?
            0)
            CHOICE_APP=0
-           PRESS_KEY=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
            [1-9] | [1-9][0-9])
            if [  $CHOICE_APP -ge 1 -a $CHOICE_APP -le $MAX ] ; then
@@ -214,7 +205,7 @@ f_common_app_menu () {
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
            CHOICE_APP=0
-           PRESS_KEY=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
 } # End of function f_common_app_menu
@@ -291,12 +282,12 @@ f_option_press_enter_key () { # Display message and wait for user input.
 #  Inputs: CHOICE_APP, ERROR.
 # Outputs: PRESS_KEY, CHOICE_APP=-1, APP_NAME
 #
-f_application_help () { # function where $CHOICE_APP="<Application name> --help"
-                        # or "man <Application name>"
+f_application_help () { # $CHOICE_APP="<Application name> --help"
+                        # $CHOICE_APP="man <Application name>"
       case $CHOICE_APP in
            *--help)
               clear # Blank screen
-              # Use awk to grab only the application's name to use for APP_NAME.
+              # awk extracts only the application's name to use for APP_NAME.
               APP_NAME=$(echo $CHOICE_APP | awk '{print $1;}')
               #
               # Test to see if the application is installed.
@@ -355,7 +346,7 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
               ERROR=$? # Save error flag condition.
               # If there are no man pages, ask user if wants to install app.
               # Function f_application_install needs APP_NAME as input
-              # so use awk to grab only the application's name to use for APP_NAME.
+              # awk extracts only the application's name to use for APP_NAME.
               APP_NAME=$(echo $CHOICE_APP | awk '{print $2;}')
               #
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -543,9 +534,9 @@ f_application_error () {
               ;;
               *)
               # If string APP_NAME/APP_NAME_INSTALL includes spaces for
-              # run-time parameters, then just extract package name. 
-              # i.e. "dstat 1 10", then just grab "dstat" as package name.
-              # i.e. "dstat --version", then just grab "dstat" as package name.
+              # run-time parameters, then just extract package name.
+              # i.e. "dstat 1 10", then extract "dstat" as package name.
+              # i.e. "dstat --version", then extract "dstat" as package name.
               APP_NAME_TMP=$(echo $APP_NAME | awk '{print $1;}')
               ;;
          esac             # End of AppName case statement.
@@ -599,29 +590,14 @@ f_application_error () {
                 ;;
            esac # End of Install Application Option case statement.
            ;;
-           1) # Error code 1 is a general error code. But it may be a result output rather than error.
-              # Some applications (i.e. file compare) exit with error code 1 even if successfully run.
+           1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
+              # Some applications exit with error code 1 even if successfully run.
               # The Error Code 1 Number Exceptions case statement, takes care of those weird applications.
            case $APP_NAME in # Start of Error Code Number 1 Exceptions case statement.
-                *diff* | cmp' '* | comm' '*)
-                # Exceptions: Do not display error message if error code 1 when
-                # applications are colordiff, diff, imediff2, vimdiff, wdiff, cmp, comm.
-                # For these applications, error code 1 means compared files are different, not a real error.
-                ;;
-                comm) # Error code 1 means operand or files is missing.
-                # Display error message.
-                f_display_error_code
-                echo "Missing operand (file name(s) or names)."
-                echo "Try running $APP_NAME_TMP again this time using operands."
-                echo
-                echo "Operands may be filenames as in the examples below."
-                echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
-                echo "Example: locate test1.txt     or diff test1.txt test2.txt"
-                echo
-                echo "Or operands may be a combination of parameters, options, and filenames."
-                echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
-                echo "Example: find /home -iname test1.txt -print"
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                *diff*)
+                # Do not display error message if error code 1
+                # and apps colordiff, diff, imediff2, vimdiff, wdiff.
+                # For diff apps, error code 1 means compared files are different, not a real error.
                 ;;
                 sudo' '*)
                 # Display error message.
@@ -754,9 +730,9 @@ f_application_install () {
       case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
            *' '*)  
            # If string APP_NAME/APP_NAME_INSTALL includes spaces for
-           # run-time parameters, then just extract package name. 
-           # i.e. "dstat 1 10", then just grab "dstat" as package name.
-           # i.e. "dstat --version", then just grab "dstat" as package name.
+           # run-time parameters, then just extract package name.
+           # i.e. "dstat 1 10", then extract "dstat" as package name.
+           # i.e. "dstat --version", then extract "dstat" as package name.
            #
            APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
            ;;
@@ -986,26 +962,106 @@ f_application_web_install () {
 } # End of function f_application_web_install
 #
 # +----------------------------------------+
-# |          Function f_test_dash          |
+# |  Function f_load_module                |
 # +----------------------------------------+
 #
-#  Inputs: $BASH_VERSION (System variable)
-#    Uses: None
-# Outputs: None
+#  Inputs: MOD_FILE
+#    Uses: ANS, WEB_SITE.
+# Outputs: ANS, WEB_SITE, PRESS_KEY
 #
-f_test_dash () {
+f_load_module () {
+      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+      #
+      if [ -r $MOD_FILE ] ; then
+         . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+      else
+         echo -n "Download module library from which branch? (STABLE/testing/local/script/quit): "
+         read ANS
+         case $ANS in
+              [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              ;;
+              [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
+              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/$MOD_FILE"
+              wget $WEB_SITE
+              ANS="TESTING"
+              echo "Downloaded files from github $ANS branch." 
+              echo "Downloaded files are in the same folder as this script."
+              echo
+              . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              ;;                  
+              "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
+              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/$MOD_FILE"
+              wget $WEB_SITE
+              ANS="STABLE"
+              echo "Downloaded files from github $ANS branch." 
+              echo "Downloaded files are in the same folder as this script."
+              echo
+              . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              ;;
+              [Ll] | [Ll][Oo] | [Ll][Oo][Cc]*)  
+              TARGETDIR="/home/robert/Dropbox/linux/cli-app-menu_git-project/"
+              GITDIR=""
+              if [ -d $TARGETDIR ] ; then
+                 GITDIR=$TARGETDIR
+                 cp -p $GITDIR/$MOD_FILE .
+                 . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+              else
+                 TARGETDIR="/home/stuff/Dropbox/linux/cli-app-menu_git-project/"
+                 if [ -d $TARGETDIR ] ; then
+                    GITDIR=$TARGETDIR
+                    cp -p $GITDIR/$MOD_FILE .
+                    . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+                 fi
+              fi
+              echo "Downloaded files from $GITDIR."
+              echo "Downloaded files are in the same folder as this script."
+              echo
+              ;;
+              [Ss] | [Ss][Cc] | [Ss][Cc][Rr]*)
+              TARGETDIR="/home/robert/Dropbox/linux/apps/cli/scripts/cli-app-testing"
+              SCRIPTDIR=""
+              if [ -d $TARGETDIR ] ; then
+                 SCRIPTDIR=$TARGETDIR
+                 cp -p $SCRIPTDIR/$MOD_FILE .
+                 . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+              else
+                 TARGETDIR="/home/stuff/Dropbox/linux/apps/cli/scripts/cli-app-testing"
+                 if [ -d $TARGETDIR ] ; then
+                    SCRIPTDIR=$TARGETDIR
+                    cp -p $SCRIPTDIR/$MOD_FILE .
+                    . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+                 fi
+              fi
+              echo "Downloaded files from $SCRIPTDIR."
+              echo "Downloaded files are in the same folder as this script."
+              echo
+              . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
+              ;;
+           esac
+      fi
+} # End of f_load_module
 #
-if [ "$BASH_VERSION" = '' ]; then
-   echo
-   echo "You are using the DASH environment."
-   echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
-   echo
-   echo "*** This script cannot be run in the DASH environment. ***"
-   echo
-   echo "You can invoke the BASH environment by typing"
-   echo "'bash cli-app-menu.sh' at the command line."
-   echo
-   f_press_enter_key_to_continue
-fi
+# +----------------------------------------+
+# |          Function f_create_LIST_APPS   |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: MOD_FILE
+# Outputs: File LIST_APPS
+#
+f_create_LIST_APPS () {
+      # Generate file LIST_APPS by using grep on each module file.
+      # Assumes all module files are present in current directory.
+      if [ -r LIST_APPS ] ; then
+         rm LIST_APPS # Remove old LIST_APPS file.
+      fi
+      for MOD_FILE in mod_apps-audio.lib mod_apps-filedir.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-system.lib
+      do
+          grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> LIST_APPS
+          #grep [#][M][A-Z][A-Z] $MOD_FILE >> LIST_APPS
+      done
 } # End of function f_test_dash
 #

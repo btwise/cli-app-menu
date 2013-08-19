@@ -1,0 +1,517 @@
+            #MAC abcde      - Audio CD ripper.
+            #MAC acripper   - Audio CD ripper.
+            #MAC cdparanoia - Audio CD ripper.
+            #MAC crip       - Audio CD ripper.
+            #MAC jack       - Audio CD ripper.
+            #MAC lxdvdrip   - Audio CD ripper.
+            #MAC ripit      - Audio CD ripper.
+            #MAC rubyripper - Audio CD ripper.
+            DELIMITER="#MAC" #MAC This 3rd field prevents awk from printing this line into menu options. 
+            #MAU avconv   - Audio/Video converter.
+            #MAU ecasound - Multitrack audio processing, record, convert, playback, mixing.
+            #MAU ffmpeg   - Multimedia Record, convert, stream and playback.
+            #MAU sox      - Audio file cut/paste and combine, speed playback.
+            DELIMITER="#MAU" #MAU This 3rd field prevents awk from printing this line into menu options. 
+            #MAP cdcd     - CD player.
+            #MAP cmus     - Music player.
+            #MAP cplay    - CD player.
+            #MAP herrie   - Music player with playlist and file browser on split screen.
+            #MAP juke     - Music Jukebox.
+            #MAP mcdp     - CD player ncurses-based.
+            #MAP moc      - Music player.
+            #MAP mpg123   - Music player MPEG 1.0/2.0/2.5 stream (layers 1, 2 and 3).
+            #MAP mplayer  - Multimedia player.
+            #MAP mplayer2 - Multimedia player.
+            #MAP ncmpc    - Music player, ncurses-based.
+            #MAP pytone   - Music Jukebox ncurses-based, cross-fading, search, mixer.
+            #MAP vlc      - Multimedia VideoLAN player MPEG, MOV, WMV, QT, WebM, MP3, etc.
+            #MAP yauap    - Music player based on Gstreamer.
+            DELIMITER="#MAP" #MAP This 3rd field prevents awk from printing this line into menu options. 
+            #MAR dradio   - Streaming radio on world-wide web.
+            #MAR radio    - Streaming radio, ncurses-based.
+            #MAR pianobar - Streaming radio player for Pandora Radio.
+            #MAR shell-fm - Streaming radio player for last.fm radio.
+            DELIMITER="#MAR" #MAR This 3rd field prevents awk from printing this line into menu options. 
+            #MAS ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
+            #MAS edbrowse      - Audio web browser, editor, and reads aloud email.
+            #MAS festival      - Reads text from text files or interactively on screen.
+            #MAS screader      - Reads screen text.
+            DELIMITER="#MAS" #MAS This 3rd field prevents awk from printing this line into menu options. 
+            #MSB dtrx - Use tar without remembering which flags for each file to use.
+            #MSB rsync - File backup, mirror, directories and files.
+            #MSB tar   - File backup, compress files.
+            DELIMITER="#MSB" #MSB This 3rd field prevents awk from printing this line into menu options. 
+            #MFB bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
+            #MFB burn         - Write audio/data/iso image or copy CDs.
+            #MFB cdrecord     - CD burning. Obsoleted by wodim. May be hard-linked to wodim.
+            #MFB mkcd         - CD burning.
+            #MFB mybashburn   - CD burning.
+            #MFB simpleburner - CD burning.
+            #MFB wodim        - CD/DVD Write audio/data/iso image. Single line command.
+            #MFB xorriso      - CD/DVD Write iso images to Rock Ridge ISO 9660 filesystems.
+            DELIMITER="#MFB" #MFB This 3rd field prevents awk from printing this line into menu options. 
+            #MTC cmp       - Compares 2 text files.
+            #MTC colordiff - Differences between 2 text files shown in color.
+            #MTC comm      - Compares 2 sorted files line by line.
+            #MTC diff      - Differences between 2 text files shown using <> signs.
+            #MTC diff3     - Differences between 3 text files
+            #MTC imediff2  - Interactive 2-way file merge.
+            #MTC vimdiff   - Differences between 2 text files shown in color highlights.
+            #MTC wdiff     - Differences between 2 text files shown using +/- signs.
+            DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
+            #MFC acat   - Exract files in archives to standard output (tar, gzip, zip etc.).
+            #MFC als    - List files in archives (tar, gzip, zip etc.).
+            #MFC apack  - File compress create archives (tar, gzip, zip etc.).
+            #MFC atool  - Manages file archives (tar, gzip, zip etc.).
+            #MFC aunpack - File decompress extract from archives (tar, gzip, zip etc.).
+            #MFC dtrx   - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
+            #MFC gunzip - File decompress gzip files.
+            #MFC gzip   - File compress, to gzip files.
+            #MFC p7zip  - File compress, to 7z files, 7z better than zip compression.
+            #MFC unace  - File decompress ACE 1.x archives. (ACE is a proprietary format).
+            #MFC unxc   - File decompress xz files.
+            #MFC unzip  - File decompress zip files.
+            #MFC xz     - File compress xz files.
+            #MFC xzcat  - File cat xz files.
+            #MFC xzgrep - File grep xz files.
+            #MFC zip    - File compress files to zip files. 
+            DELIMITER="#MFC" #MFC This 3rd field prevents awk from printing this line into menu options. 
+            #MFD shred - Delete files securely without recovery.
+            DELIMITER="#MFD" #MFD This 3rd field prevents awk from printing this line into menu options. 
+            #MTE beav  - Binary editor and viewer.
+            #MTE dav   - Text editor.
+            #MTE dex   - Support for ctags and parsing compiler errors.
+            #MTE ed    - Classic CLI text editor.
+            #MTE emacs - Full screen text editor with plugins.
+            #MTE groff - Uses macros to format text, create man pages to PS printers.
+            #MTE jed   - JED text editor.
+            #MTE joe   - Text editor. Ctrl-K H for help.
+            #MTE nano  - Simple full-screen text editor.
+            #MTE pico  - Simple full-screen text editor.
+            #MTE vi    - Classic full-screen text editor.
+            #MTE vim   - vi "Improved" text editor.
+            #MTE zile  - Very small Emacs-subset editor.
+            DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
+            #MFE bcrypt    - Uses the blowfish encryption algorithm.
+            #MFE ccrypt    - Uses the Rijndael cipher algorithm.
+            #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
+            #MFE lspgpot   - Extracts ownertrust values from PGP keyrings.
+            #MFE mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
+            #MFE pgp       - Pretty Good Privacy (pgp).
+            #MFE scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
+            #MFE truecrypt - Program released under TrueCrypt License (not Open-source).
+            #MFE zcrypt    - Another crypt program.
+            DELIMITER="#MFE" #MFE This 3rd field prevents awk from printing this line into menu options. 
+            #MFF find     - Find files using pattern matching.
+            #MFF locate   - Find files using an internal database, mlocate.
+            #MFF updatedb - Update the internal database, mlocate, used by locate.
+            DELIMITER="#MFF" #MFF This 3rd field prevents awk from printing this line into menu options. 
+            #MFT cmdftp - File transfer client.
+            #MFT curl   - File transfer.
+            #MFT ftp    - File transfer.
+            #MFT ftpfs  - File transfer client.
+            #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
+            #MFT ncftp  - File transfer client.
+            #MFT scp    - File transfer.
+            #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+            DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
+            #MFI clex    - File manager.
+            #MFI detox   - File name clean up.
+            #MFI dired   - File manager for Emacs.
+            #MFI findmnt - Find a filesystem.
+            #MFI mc      - File Manager, Midnight Commander.
+            #MFI ranger  - File manager.
+            #MFI smbc    - Samba file manager for folder shares with Microsoft Windows.
+            #MFI vfu     - File manager, ncurses-based.
+            #MFI vifm    - File manager with vi-like commands.
+            DELIMITER="#MFI" #MFI This 3rd field prevents awk from printing this line into menu options. 
+            #MFS lxsplit - Splits/Joins files even greater than 2GB.
+            #MFS split   - Splits/Joins files.
+            DELIMITER="#MFS" #MFS This 3rd field prevents awk from printing this line into menu options. 
+            #MFR foremost  - File recovery from within a *.img disk image file.
+            #MFR photorec  - File recovery.
+            #MFR safecopy  - File recovery.
+            #MFR trash-cli - Remembers name, path, date, permissions of each trashed file.
+            DELIMITER="#MFR" #MFR This 3rd field prevents awk from printing this line into menu options. 
+            #MFV less - File viewer and bi-directional pager.
+            #MFV more - File viewer pager.
+            #MFV most - File viewer and bi-directional pager.
+            DELIMITER="#MFV" #MFV This 3rd field prevents awk from printing this line into menu options. 
+            #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
+            #MBT bittornado   - Torrent file transfer.
+            #MBT bittorrent   - Torrent file transfer.
+            #MBT ctorrent     - Torrent file transfer.
+            #MBT deluge       - Torrent downloader, user-interfaces GTK+, web, console.
+            #MBT mldonkey     - Downloader supports BitTorrent/eDonkey/HTTP/FTP.
+            #MBT rtorrent     - Torrent file transfer.
+            #MBT transmission - Torrent client web, console, Mac, GTK+ and Qt GUI clients.
+            DELIMITER="#MBT" #MBT This 3rd field prevents awk from printing this line into menu options. 
+            #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+            #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+            #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+            #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+            #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+            DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
+            #MEM alpine         - E-mail client, FOSS version of pine.
+            #MEM cone           - E-mail client.
+            #MEM elmo           - E-mail client.
+            #MEM fetchyahoo     - E-mail client.
+            #MEM gnus           - Email, NNTP, RSS client for Emacs.
+            #MEM heirloom-mailx - E-mail client.
+            #MEM mu4e           - Email client for Emacs.
+            #MEM mutt           - E-mail client.
+            #MEM nedmail        - E-mail client.
+            #MEM pine           - E-mail client.
+            #MEM sup            - E-mail client.
+            DELIMITER="#MEM" #MEM This 3rd field prevents awk from printing this line into menu options. 
+            #MFX efax           - FAX over modem.
+            #MFX hylafax-client - Works with HylaFAX server software.
+            DELIMITER="#MFX" #MFX This 3rd field prevents awk from printing this line into menu options. 
+            #MFT cmdftp - File transfer client.
+            #MFT curl   - File transfer.
+            #MFT ftp    - File transfer.
+            #MFT ftpfs  - File transfer client.
+            #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
+            #MFT ncftp  - File transfer client.
+            #MFT scp    - File transfer.
+            #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+            DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
+            #MIM barnowl      - BarnOwl supports AIM, IRC, Jabber, Zephyr.
+            #MIM bitlbee      - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
+            #MIM centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+            #MIM centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+            #MIM emacs-jabber - Jabber client for Emacs.
+            #MIM finch        - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster.
+            #MIM freetalk     - Jabber client.
+            #MIM mcabber      - Jabber client.          	
+            #MIM naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+            DELIMITER="#MIM" #MIM This 3rd field prevents awk from printing this line into menu options. 
+            #MIR epic5   - IRC client based on ircI.
+            #MIR erc     - IRC client for Emacs, powerful, modular, and extensible.
+            #MIR ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.
+            #MIR ircii   - Termcap based interface. Supports "/encrypt -cast".
+            #MIR irssi   - Supports SILC and ICB protocols via plugins.
+            #MIR pork    - Ncurses-based AOL Instant Messenger and IRC client.
+            #MIR scrollz - An advanced, faster IRC client based on ircII code.
+            #MIR sic     - Fast small IRC client.
+            DELIMITER="#MIR" #MIR This 3rd field prevents awk from printing this line into menu options. 
+            #MNC talk    - Copies lines from your terminal to that of another user.
+            #MNC weechat - WeeChat (Wee Enhanced Environment for Chat) fast, light client.
+            #MNC ytalk   - Multi-user chat program can do multiple connections.
+            DELIMITER="#MNC" #MNC This 3rd field prevents awk from printing this line into menu options. 
+            #MNR gnus - News reader and E-mail client for Emacs.
+            #MNR nn   - News reader.
+            #MNR rn   - News reader.
+            #MNR slrn - News reader.
+            #MNR tin  - News reader.
+            #MNR trn  - News reader.
+            DELIMITER="#MNR" #MNR This 3rd field prevents awk from printing this line into menu options. 
+            #MPO bashpodder - Podcatcher.
+            #MPO goldenpod  - Podcatcher.
+            #MPO hpodder    - Podcatcher.
+            #MPO podget     - Podcatcher.
+            #MPO podracer   - Podcatcher.
+            #MPO uraniacast - Podcatcher.
+            DELIMITER="#MPO" #MPO This 3rd field prevents awk from printing this line into menu options. 
+            #MRC cpu     - Remote connection.
+            #MRC openssh - Remote connection.
+            #MRC ssh     - Remote connection.
+            #MRC sslh    - Remote connection.
+            DELIMITER="#MRC" #MRC This 3rd field prevents awk from printing this line into menu options. 
+            #MRS canto      - RSS feeder.
+            #MRS newsbeuter - RSS feeder.
+            #MRS nrss       - RSS feeder.
+            #MRS olive      - RSS feeder.
+            #MRS raggle     - RSS feeder.
+            #MRS rawdog     - RSS feeder.
+            #MRS rsstail    - RSS feeder.
+            #MRS snownews   - RSS feeder.
+            DELIMITER="#MRS" #MRS This 3rd field prevents awk from printing this line into menu options. 
+            #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
+            #MWB links   - Web browser, no graphics mode.
+            #MWB links2  - Web browser, has graphics mode.
+            #MWB lynx    - Web browser, NLS support.
+            #MWB retawq  - Web browser, multi-threaded.
+            #MWB surfraw - Search the web using a web search site.
+            #MWB w3m     - Web browser, tables, frames support, IPv6 support.
+            DELIMITER="#MWB" #MWB This 3rd field prevents awk from printing this line into menu options. 
+            #MNF arptables - Firewall configuration rules for an ARP chain.
+            #MNF iptables  - Firewall configuration rules for an IP chain.
+            #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
+            #MNF portbunny - Port scanner created by Recurity Labs.
+            #MNF strobe    - Port scanner.
+            #MNF ufw       - Firewall configuration and status.
+            DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
+            #MNL arping      - Check LAN connectivity by pinging MAC, IP address or hostname.
+            #MNL dig         - Query Internet domain name servers.
+            #MNL ip          - Shows routing, devices, policy routing and tunnels.
+            #MNL ip addr     - Protocol (IP or IPv6) address on a device.
+            #MNL ip link     - Shows network device.
+            #MNL ip neighbor - ARP or NDISC cache entry.
+            #MNL ip route    - Shows routing.
+            #MNL mtr         - Traceroute tool, has features of ping and traceroute.
+            #MNL nslookup    - Query Internet domain name servers.
+            #MNL ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
+            #MNL route       - Shows routing table.
+            #MNL speedometer - Check LAN/WAN connectivity speed.
+            #MNL ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
+            #MNL traceroute  - Traceroute tool, trace network path to destination. 
+            DELIMITER="#MNL" #MNL This 3rd field prevents awk from printing this line into menu options. 
+            #MNB bmon     - Bandwidth monitor and rate estimator.
+            #MNB cbm      - Color Bandwidth Meter, ncurses based display.
+            #MNB ifstat   - Bandwidth statistics. (See also dstat, System Monitors Menu).
+            #MNB iftop    - Bandwidth statistics.
+            #MNB jnettop  - Bandwidth statistics across streams.
+            #MNB nethogs  - Bandwidth statistics by process.
+            #MNB nload    - Bandwidth graphical monitor in real-time; ncurses based display.
+            #MNB pktstat  - Display active connections and bandwidth in real-time.
+            #MNB statnet  - Bandwidth statistics.
+            #MNB trafshow - Bandwidth statistics; ncurses based.
+            DELIMITER="#MNB" #MNB This 3rd field prevents awk from printing this line into menu options. 
+            #MNM iptraf   - IP LAN monitor, ncurses based display.
+            #MNM nagios3  - IP LAN monitor. Display network hosts, devices, connections.
+            #MNM nc       - Netcat reads/writes data across network.
+            #MNM netstat  - Print network connections, routing tables, interface stats, etc.
+            #MNM netwatch - Protocol monitor; ncurses based.
+            #MNM ntop     - Display network usage and status information in a web browser.
+            #MNM opennms  - Network management application. Discovery, reports, statistics.
+            #MNM pmacct   - Traffic information monitor.
+            #MNM slurm    - Simple Linux Utility for Resource Managment. I/O load monitor.
+            #MNM sntop    - IP LAN monitor. Display network hosts and connections.
+            #MNM vnstat   - Traffic information monitor.
+            DELIMITER="#MNM" #MNM This 3rd field prevents awk from printing this line into menu options. 
+            #MNN ethtool      - NIC configuration.
+            #MNN ifconfig     - NIC configuration.
+            #MNN ifplugstatus - Wireless USB NIC status.
+            #MNN iwconfig     - Wireless NIC configuration.
+            #MNN iwlist       - Get detailed information from wired/wireless interface.
+            #MNN mii-tool     - NIC configuration of Media Independent Interface Unit.
+            #MNN mii-diag     - NIC configuration of network cards.
+            #MNN netload      - NIC network load; ncurses based.
+            #MNN nictools-pci - NIC configuration of specific oem network cards.
+            #MNN wicd-curses  - Wireless scan and connect to wired/wireless networks.
+            DELIMITER="#MNN" #MNN This 3rd field prevents awk from printing this line into menu options. 
+            #MNP kismet    - Wireless network detector, packet sniffer, auditor.
+            #MNP ngrep     - Network packet analyzer.
+            #MNP nmap      - Network Mapper, mapping, auditing, security scanning.
+            #MNP snort     - Packet sniffer/logger, Network Intrusion Detection System.
+            #MNP tcpdump   - Packet sniffer/logger.
+            #MNP wireshark - Packet sniffer/logger.
+            DELIMITER="#MNP" #MNP This 3rd field prevents awk from printing this line into menu options. 
+            #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
+            #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.
+            #MNS smbclient - Samba client (share folders with Microsoft Windows).
+            #MNS smbstatus - Samba files lock status.
+            #MNS testparm  - Samba configuration display.
+            #MNS woof      - Woof (Web Offer One File) copies files via the HTTP protocol.
+            DELIMITER="#MNS" #MNS This 3rd field prevents awk from printing this line into menu options. 
+            #MAA hledger       - Same as "ledger" but using the Haskell Programming Language.
+            #MAA hledger-chart - Hledger pie chart generator.
+            #MAA hledger-vty   - Hledger n-curses style interface.
+            #MAA hledger-web   - Hledger web interface.
+            #MAA ledger        - Ledger using double-entry.
+            DELIMITER="#MAA" #MAA This 3rd field prevents awk from printing this line into menu options. 
+            #MCC bc       - Calculator.
+            #MCC dc       - RPN arbitrary precision reverse-polish calculator.
+            #MCC orpie    - RPN Reverse Polish Notation calculator.
+            #MCC tapecalc - Tape-like calculator.
+            DELIMITER="#MCC" #MCC This 3rd field prevents awk from printing this line into menu options. 
+            #MCA cal         - Displays a monthly calendar.
+            #MCA calcurse    - Calendar ncurses-based.
+            #MCA ccal        - Calendar color.
+            #MCA clcal       - Calendar and appointment reminders.
+            #MCA emacs-calfw - Displays a calendar view in the Emacs buffer.
+            #MCA gcal        - Calendar, almost the same as cal.
+            #MCA gcalcli     - Google calendar.
+            #MCA mencal      - Calendar to track repeating periodic events every nn days.
+            #MCA ncal        - Calendar with vertical days.
+            #MCA pal         - Calendar with events.
+            #MCA pcal        - Generate PostScript or HTML Calendars.
+            #MCA pom         - Display phase of moon on given date.
+            #MCA remind      - Calendar alarms, Sun rise/set, moon phases.
+            #MCA when        - Calendar.
+            #MCA wyrd        - Calendar, ncurses-based.
+            DELIMITER="#MCA" #MCA This 3rd field prevents awk from printing this line into menu options. 
+            #MCL binary-clock     - Binary numbers 1/0 tells time.
+            #MCL cclock           - Digital clock with huge numbers fills entire screen.
+            #MCL clockywock       - Analog clock, ncurses-based.
+            #MCL grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
+            #MCL saytime          - Audio clock.
+            DELIMITER="#MCL" #MCL This 3rd field prevents awk from printing this line into menu options. 
+            #MNO hnb - Hierarchical notebook.
+            DELIMITER="#MNO" #MNO This 3rd field prevents awk from printing this line into menu options. 
+            #MPS diffpdf  - Compare pdf files.
+            #MPS fbdjvu   - DjVu viewer similar to fbpdf.
+            #MPS fbgs     - GhostScript, PostScript, and PDF viewer.
+            #MPS fbpdf    - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
+            #MPS gs       - GhostScript, PostScript, and PDF viewer.
+            #MPS jfbview  - Image viewer and framebuffer PDF viewer based on Imlib2.
+            #MPS pdfjam   - Merge pdf files into a single file.
+            #MPS pdftex   - Typesetter creates pdf files.
+            #MPS pdftk    - Merge/split, rotate, watermark, bookmarks/metadata attach files.
+            #MPS pdftops  - Converts PDF to PS (PostScript) format.
+            #MPS ps2ascii - Converts PS (PostScript) to text format.
+            #MPS ps2pdf   - Converts PS (PostScript) to PDF format.
+            DELIMITER="#MPS" #MPS This 3rd field prevents awk from printing this line into menu options. 
+            #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
+            DELIMITER="#MPR" #MPR This 3rd field prevents awk from printing this line into menu options. 
+            #MSP oleo - Full-screen spreadsheet having a more Emacs-like feel.
+            #MSP sc   - Spreadsheet.
+            #MSP slsc - Spreadsheet based on sc.
+            DELIMITER="#MSP" #MSP This 3rd field prevents awk from printing this line into menu options. 
+            #MTC cmp       - Compares 2 text files.
+            #MTC colordiff - Differences between 2 text files shown in color.
+            #MTC comm      - Compares 2 sorted files line by line.
+            #MTC diff      - Differences between 2 text files shown using <> signs.
+            #MTC diff3     - Differences between 3 text files
+            #MTC imediff2  - Interactive 2-way file merge.
+            #MTC vimdiff   - Differences between 2 text files shown in color highlights.
+            #MTC wdiff     - Differences between 2 text files shown using +/- signs.
+            DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
+            #MTV txt2html   - Converts plain ASCII text to HTML format.
+            #MTV txt2man    - Converts plain ASCII text to man format.
+            #MTV txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
+            #MTV txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+            #MTV txt2tags   - Converts plain ASCII text to a variety of formats.
+            DELIMITER="#MTV" #MTV This 3rd field prevents awk from printing this line into menu options. 
+            #MTE beav  - Binary editor and viewer.
+            #MTE dav   - Text editor.
+            #MTE dex   - Support for ctags and parsing compiler errors.
+            #MTE ed    - Classic CLI text editor.
+            #MTE emacs - Full screen text editor with plugins.
+            #MTE groff - Uses macros to format text, create man pages to PS printers.
+            #MTE jed   - JED text editor.
+            #MTE joe   - Text editor. Ctrl-K H for help.
+            #MTE nano  - Simple full-screen text editor.
+            #MTE pico  - Simple full-screen text editor.
+            #MTE vi    - Classic full-screen text editor.
+            #MTE vim   - vi "Improved" text editor.
+            #MTE zile  - Very small Emacs-subset editor.
+            DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
+            #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
+            #MTT aspell   - Spell check allows text files as input with user dictionary.
+            #MTT doconce  - Text markup language to manipulate, transform, and convert text.
+            #MTT hunspell - Spell check allows keyboard or files as input w/user dictionary.
+            #MTT ispell   - Spell check allows text files as input with user dictionary.
+            #MTT spell    - Spell check allows keyboard or text files as input.
+            #MTT wc       - Word count, also counts lines, characters, bytes of a text file.
+            DELIMITER="#MTT" #MTT This 3rd field prevents awk from printing this line into menu options. 
+            #MTD doneyet - To-Do List.
+            #MTD hnb     - To-Do List and note taker, ncurses-based application.
+            #MTD todo    - To-Do List hierarchical. Install package 'devtodo'.
+            #MTD tudu    - To-Do List hierarchical tasks.
+            #MTD yaGTD   - To-Do List based on "Getting Things Done" methodology.
+            #MTD yokadi  - Project/task manager which uses SQLite.
+            DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
+            #MSB dtrx - Use tar without remembering which flags for each file to use.
+            #MSB rsync - File backup, mirror, directories and files.
+            #MSB tar   - File backup, compress files.
+            DELIMITER="#MSB" #MSB This 3rd field prevents awk from printing this line into menu options. 
+            #MSD blkid  - Block devices.
+            #MSD cfdisk - Disk partition tool.
+            #MSD df     - Disk usage and mount points, usage: -hT.
+            #MSD dfc    - Disk usage and mount points, graphical display.
+            #MSD du     - Disk usage monitor by directory.
+            #MSD gt5    - A diff-capable du-browser.
+            #MSD hdparm - Show/set disk parameters, settings. 
+            #MSD lsblk  - List block devices (disks).
+            #MSD ncdu   - Disk usage monitor, ncurses-based.
+            #MSD parted - Disk partition tool.
+            #MSD pydf   - Disk usage df clone written in python.
+            #MSD uuid   - Use ls -l to show disk uuid number.
+            DELIMITER="#MSD" #MSD This 3rd field prevents awk from printing this line into menu options. 
+            #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
+            #MSH arpalert   - Checks MAC addresses against list of known MACs, runs script.
+            #MSH arpon      - ArpON detects/blocks arp poisoning/spoofing attacks.
+            #MSH arpwatch   - Detects unknown MAC addresses and IP addresses, like ArpON.
+            #MSH chkrootkit - Root Kit detector.
+            #MSH clamscan   - Clam anti-virus program scans for viruses.
+            #MSH freshclam  - Clam anti-virus database definition update.
+            #MSH lynis      - security auditing tool that tests for security holes in a PC.
+            #MSH rkhunter   - Root Kit detector.
+            #MSH tripwire   - Detects/Reports changes in system files.
+            #MSH stress     - Stress test can simulate a heavy load on CPU.
+            DELIMITER="#MSH" #MSH This 3rd field prevents awk from printing this line into menu options. 
+            #MLO ccze      - A robust and modular log coloriser, with plugins. 
+            #MLO multitail - View multiple log files using multiple panes.
+            #MLO swatch    - Log file viewer with regexp matching, highlighting & hooks.
+            DELIMITER="#MLO" #MLO This 3rd field prevents awk from printing this line into menu options.
+            #MSI dmidecode   - Main board information.
+            #MSI free        - Memory usage RAM and swap.
+            #MSI hdparm      - Hard disk drive information.
+            #MSI lsb_release - Linux distro and LSB (Linux Standard Base).
+            #MSI lscpu       - CPU information.
+            #MSI lshw        - Main board information.
+            #MSI lsmod       - Linux kernel module information.
+            #MSI slabtop     - Kernel slab cache information in real time.
+            #MSI uname       - Linux kernel information.
+            #MSI vmstat      - Memory usage RAM and swap, CPU information.
+            DELIMITER="#MSI" #MSI This 3rd field prevents awk from printing this line into menu options. 
+            #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
+            #MSM chkconfig - System update/query run-level processes at boot time.
+            #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
+            #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
+            #MSM iostat    - CPU usage and disk I/O process monitor.
+            #MSM iotop     - Disk I/O process monitor.
+            #MSM last      - Users' login/logout times from /var/log/wtmp.
+            #MSM mpstat    - CPU microprocessor usage monitor.
+            #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
+            #MSM rrdtool   - The Round Robin Database Tool stores/displays time-series data.
+            #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
+            #MSM sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
+            #MSM swatch    - Log file viewer with regexp matching, highlighting & hooks.
+            #MSM tload     - System load average graphical monitor.
+            #MSM yacpi     - ACPI monitor, ncurses-based.
+            DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
+            #MSO desmume - Nintendo DS emulator.
+            #MSO dosemu  - DOS emulator.
+            #MSO scrot   - Screen capture.
+            DELIMITER="#MSO" #MSO This 3rd field prevents awk from printing this line into menu options. 
+            #MSL acpitool  - ACPI power/battery settings.
+            #MSL blkid     - Block devices information.
+            #MSL lsblk     - List block devices (disks).
+            #MSL lsof      - Display information about open files.
+            #MSL lspci     - PCI buses and connected devices.
+            #MSL lspcmcia  - PCMCIA extended debugging information.
+            #MSL lsusb     - USB devices.
+            #MSL pccardctl - PCMCIA card devices.
+            #MSL printenv  - Environmental variables.
+            #MSL uptime    - Display how long PC has been running, # users, load average.
+            #MSL w         - A combination of uptime and who commands.
+            DELIMITER="#MSL" #MSL This 3rd field prevents awk from printing this line into menu options. 
+            #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
+            #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
+            #MSR killall   - Kill processes based on full-name of process.
+            #MSR pgrep     - Search ps output for full/partial name of process.
+            #MSR pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
+            #MSR pkill     - Kill processes based on partial name of process.
+            #MSR pmap      - View process memory usage.
+            #MSR ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
+            #MSR pstree    - Tree view system processes/resources, like "ps" command.
+            #MSR pswatcher - Execute commands when certain processes are run.
+            #MSR pwdx      - Report current working directory of a process.
+            #MSR strace    - Trace process system calls and signals.
+            #MSR sysctl    - Configure kernel parameters at runtime.
+            #MSR top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
+            DELIMITER="#MSR" #MSR This 3rd field prevents awk from printing this line into menu options. 
+            #MSC byobu  - Multiple sessions.
+            #MSC dtach  - Emulates detach feature of screen.
+            #MSC dvtm   - dwm-style (tiling) window manager.
+            #MSC fbterm - Fast terminal emulator, multiple fonts, multiple windows.
+            #MSC screen - Multiple sessions via split or pager screens.
+            #MSC vlock  - Locks virtual console or current terminal.
+            #MSC tmux   - Multiple sessions with multiplexing.
+            DELIMITER="#MSC" #MSC This 3rd field prevents awk from printing this line into menu options. 
+            #MSF alien    - Converts rpm to deb packages.
+            #MSF apt      - Debian package manager.
+            #MSF aptitude - Debian package manager.
+            #MSF aptoncd  - GUI makes a CD of Debian packages for installation w/o Internet.
+            #MSF dpkg     - Debian package manager.
+            #MSF rpm      - RPM (Red Hat) package manager.
+            #MSF synaptic - GUI Debian package manager.
+            #MSF unshield - Extracts CAB files from InstallShield installers for MS Windows.
+            #MSF urpmi    - Mandriva, Mageia package manager.
+            #MSF YaST     - GUI OpenSUSE package manager.
+            #MSF yum      - "Yellow Dog Updated" package manager.
+            #MSF zypper   - OpenSUSE package manager on which is based YaST GUI.
+            DELIMITER="#MSF" #MSF This 3rd field prevents awk from printing this line into menu options. 

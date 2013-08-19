@@ -1,0 +1,1464 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-14-2013 01:00"
+#
+# +----------------------------------------+
+# |       Function f_menu_cat_network      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: CHOICE_SCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#
+f_menu_cat_network () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ]
+      do    # Start of Network Application Category until loop.
+            #BNE Firewalls    - Configure firewalls.
+            #BNE LAN-WAN      - Test network connectivity, speed, routing.
+            #BNE Monitors     - LAN monitors, network mappers.
+            #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
+            #BNE Packet Tools - Packet sniffers, packet analyzers.
+            #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
+            #
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Network Application Category Menu"
+            DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_common_scat_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Network Application Category case statement.
+                 [Ff] | [Ff][Ii]*)
+                 f_menu_app_firewalls         # Firewall Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ll] | [Ll][Aa]*)
+                 f_menu_app_lanwan            # LANWAN Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Mm] | [Mm][Oo]*)
+                 f_menu_tcat_network_monitors # Network Monitors Category Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Nn] | [Nn][Ii]*)
+                 f_menu_app_nic_tools         # NIC Tools Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Pp] | [Pp][Aa]*)
+                 f_menu_app_packet_tools      # Packet Tools Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ss] | [Ss][Hh]*)
+                 f_menu_app_network_sharing   # Network Sharing Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                # End of Network Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_scat_bad_menu_choice
+      done  # End of Network Application Category until loop.
+} # End of function f_menu_cat_network
+#
+# +----------------------------------------+
+# |          Function f_find_NIC           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+# Outputs: ANS.
+#
+f_find_NIC () {
+# Search for "Link" in ifconfig output and parse first word (network interface).
+echo "Finding all network interfaces..."
+ifconfig |  grep Link | awk '{print $1;}'
+echo -n "Enter FULL-NAME of network interface to monitor with $APP_NAME: "
+read ANS
+echo The network interface you chose is: $ANS
+echo
+# There is not yet any error checking on $ANS.
+} # End of function f_find_NIC
+#
+# +----------------------------------------+
+# |      Function f_menu_app_firewalls     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_firewalls () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of Firewall Applications until loop.
+            #MNF arptables - Firewall configuration rules for an ARP chain.
+            #MNF iptables  - Firewall configuration rules for an IP chain.
+            #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
+            #MNF portbunny - Port scanner created by Recurity Labs.
+            #MNF strobe    - Port scanner.
+            #MNF ufw       - Firewall configuration and status.
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Firewall Applications Menu"
+            DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Firewall Applications case statement.
+                 arptables' '* | 'sudo arptables '* | 'sudo arptables')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Rr]*)
+                 APP_NAME="sudo arptables --list"
+                 clear # Blank the screen.
+                 echo "arptables - Administration tool for ARP tables."
+                 echo
+                 echo "Usage:"
+                 echo "arptables [-t table] -[AD] chain rule-specification [OPTIONS]"
+                 echo "arptables [-t table] -[RI] chain rulenum rule-specification [OPTIONS]"
+                 echo "arptables [-t table] -D chain rulenum [OPTIONS]"
+                 echo "arptables [-t table] -[LFZ] [CHAIN] [OPTIONS]"
+                 echo "arptables [-t table] -[NX] chain"
+                 echo "arptables [-t table] -E old-chain-name new-chain-name"
+                 echo "arptables [-t table] -P chain target [OPTIONS]"
+                 echo
+                 echo "arptables  is  a user space tool, it is used to set up and maintain the"
+                 echo "tables of ARP rules in the Linux kernel. These rules  inspect  the  ARP"
+                 echo "frames  which  they  see.   arptables is analogous to the iptables user"
+                 echo "space tool, but arptables is less complicated."
+                 echo
+                 echo "*** For more help type: 'man arptables'"
+                 echo "                        'arptables --help"
+                 echo
+                 echo "List all ARP chains on this PC (localhost)."
+                 echo "Now run arptables. Usage: sudo arptables --list"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 iptables' '* | 'sudo iptables '* | 'sudo iptables')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa]*)
+                 APP_NAME="iptables --list"
+                 clear # Blank the screen.
+                 echo "iptables - Administration tool for IPv4 packet filtering and NAT."
+                 echo
+                 echo "Usage:"
+                 echo "iptables [-t table] {-A|-C|-D} chain rule-specification"
+                 echo
+                 echo "*** For more help type: 'man iptables'"
+                 echo "                        'iptables --help'"
+                 echo
+                 echo "List all chains of the IPv4 packet filter (firewall) on this PC (localhost)."
+                 echo
+                 echo "Now run iptables. Usage: iptables --list"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 iptstate' '* | 'sudo iptstate '* | 'sudo iptstate')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Ss]*)
+                 APP_NAME="iptstate"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 portbunny' '* | 'sudo portbunny '* | 'sudo portbunny')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Oo]*)
+                 APP_NAME="portbunny"
+                 clear # Blank the screen.
+                 echo "portbunny - Fast TCP-SYN port scanner."
+                 echo
+                 echo "Usage:"
+                 echo "portbunny <HOST>"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 strobe' '* | 'sudo strobe '* | 'sudo strobe')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Tt]*)
+                 APP_NAME="strobe"
+                 f_application_run
+                 ;;
+                 ufw' '* | 'sudo ufw '* | 'sudo ufw')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu] | [Uu][Ff]*)
+                 APP_NAME="ufw status verbose"
+                 clear # Blank the screen.
+                 echo "ufw - Manage the netfilter firewall."
+                 echo
+                 echo "Usage:"
+                 echo "ufw [--dry-run] enable|disable|reload"
+                 echo "ufw [--dry-run] default allow|deny|reject [incoming|outgoing]"
+                 echo "ufw [--dry-run] logging on|off|LEVEL"
+                 echo "ufw [--dry-run] reset"
+                 echo "ufw [--dry-run] status [verbose|numbered]"
+                 echo "ufw [--dry-run] show REPORT"
+                 echo "ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out]"
+                 echo "    [log|log-all] PORT[/protocol]"
+                 echo "ufw [--dry-run] [delete] [insert NUM] allow|deny|reject|limit [in|out"
+                 echo "    on INTERFACE] [log|log-all] [proto protocol]"
+                 echo "    [from ADDRESS [port PORT]] [to ADDRESS [port PORT]]"
+                 echo "ufw [--dry-run] delete NUM"
+                 echo "ufw [--dry-run] app list|info|default|update"
+                 echo
+                 echo "Display ufw firewall status of this PC (localhost) as an example."
+                 echo
+                 echo "Now run ufw. Usage: ufw status verbose"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+            esac                # End of Firewall Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Firewall Applications until loop.	
+} # End of function f_menu_app_firewalls
+#
+# +----------------------------------------+
+# |       Function f_menu_app_lanwan       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_lanwan () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of LAN/WAN Applications until loop.
+            #MNL arping      - Check LAN connectivity by pinging MAC, IP address or hostname.
+            #MNL dig         - Query Internet domain name servers.
+            #MNL ip          - Shows routing, devices, policy routing and tunnels.
+            #MNL ip addr     - Protocol (IP or IPv6) address on a device.
+            #MNL ip link     - Shows network device.
+            #MNL ip neighbor - ARP or NDISC cache entry.
+            #MNL ip route    - Shows routing.
+            #MNL mtr         - Traceroute tool, has features of ping and traceroute.
+            #MNL nslookup    - Query Internet domain name servers.
+            #MNL ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
+            #MNL route       - Shows routing table.
+            #MNL speedometer - Check LAN/WAN connectivity speed.
+            #MNL ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
+            #MNL traceroute  - Traceroute tool, trace network path to destination. 
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="LAN/WAN Applications Menu"
+            DELIMITER="#MNL" #MNL This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of LAN/WAN Applications case statement.
+                 'sudo arping')
+                 APP_NAME="sudo arping localhost -c 5"
+                 f_application_run
+                 ;;
+                 arping' '* | 'sudo arping '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Rr]*)
+                 APP_NAME="arping localhost -c 5"
+                 clear # Blank the screen.
+                 echo "arping - Send ICMP ECHO_REQUEST to network hosts."
+                 echo
+                 echo "Usage:"
+                 echo "arping [-fqbDUAV] [-c count] [-w timeout] [-I device] [-s source] destination"
+                 echo "       -f : quit on first reply"
+                 echo "       -q : be quiet"
+                 echo "       -b : keep broadcasting, don't go unicast"
+                 echo "       -D : duplicate address detection mode"
+                 echo "       -U : Unsolicited ARP mode, update your neighbours"
+                 echo "       -A : ARP answer mode, update your neighbours"
+                 echo "       -V : print version and exit"
+                 echo "       -c count : how many packets to send"
+                 echo "       -w timeout : how long to wait for a reply"
+                 echo "       -I device : which ethernet device to use (eth0)"
+                 echo "       -s source : source ip address"
+                 echo "       destination : ask for what ip address"
+                 echo
+                 echo "*** For more help type: 'man arping'"
+                 echo "                        'arping --help'"
+                 echo
+                 echo "Arpinging this PC (localhost) for 5 times as an example."
+                 echo "Now run arping. Usage: arping localhost -c 5"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 dig' '* | 'sudo dig '* | 'sudo dig')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Gg])
+                 APP_NAME="dig"
+                 f_application_run
+                 ;;
+                 ip' '* | 'sudo ip '* | 'sudo ip')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp])
+                 APP_NAME="ip"
+                 clear # Blank the screen.
+                 echo "IP - manipulate routing, devices, policy routing and tunnels."
+                 echo
+                 echo "Usage:"
+                 echo "ip [ OPTIONS ] OBJECT { COMMAND | help }"
+                 echo "OBJECT := { link | addr | addrlabel | route | rule | neigh | tunnel | maddr |"
+                 echo " mroute }"
+                 echo "link      - network device."
+                 echo "address   - protocol (IP or IPv6) address on a device."
+                 echo "addrlabel - label configuration for protocol address selection."
+                 echo "neighbour - ARP or NDISC cache entry."
+                 echo "route     - routing table entry."
+                 echo "rule      - rule in routing policy database."
+                 echo "maddress  - multicast address."
+                 echo "mroute    - multicast routing cache entry."
+                 echo "tunnel    - tunnel over IP."
+                 echo
+                 echo "OPTIONS := { -V[ersion] | -s[tatistics] | -r[esolve] | -f[amily] { inet | inet6"
+                 echo "             | ipx | dnet | link } | -o   OBJECT"
+                 echo
+                 echo "*** For more help type: 'man ip'"
+                 echo "                        'ip --help'"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 'ip addr '* | 'sudo ip addr '* | 'sudo ip addr')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Aa]*)
+                 APP_NAME="ip addr"
+                 f_application_run
+                 ;;
+                 'ip link '* | 'sudo ip link '* | 'sudo ip link')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Ll]*)
+                 APP_NAME="ip link"
+                 f_application_run
+                 ;;
+                 'ip neighbor '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Nn]*)
+                 APP_NAME="ip neighbor"
+                 f_application_run
+                 ;;
+                 'ip route '* | 'sudo ip route '* | 'sudo ip route')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Rr]*)
+                 APP_NAME="ip route"
+                 f_application_run
+                 ;;
+                 mtr' '* | 'sudo mtr '* | 'sudo mtr')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Tt]*)
+                 APP_NAME="mtr"
+                 clear # Blank the screen.
+                 echo "mtr - Network diagnostic tool with the functionality of traceroute and ping."
+                 echo
+                 echo "Usage:"
+                 echo "mtr [-hvrctglspniu46]  [--help] [--version] [--report] [--report-wide]"
+                 echo "    [--report-cycles COUNT] [--curses] [--split] [--raw] [--no-dns] [--gtk]"
+                 echo "    [--address IP.ADD.RE.SS] [--interval SECONDS] [--psize BYTES | -s BYTES]"
+                 echo "    HOSTNAME [PACKETSIZE]"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "mtr of this PC (localhost) as an example."
+                 echo
+                 echo "Now run mtr. Usage: mtr localhost"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 nslookup' '* |  'sudo nslookup '*)
+                 APP_NAME=$CHOICE_APP
+                 # f_web_site # Don't use f_web_site since web site may have already been entered.
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 'sudo nslookup')
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ss]*)
+                 APP_NAME="nslookup"
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 ping' '* | 'sudo ping '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ping')
+                 APP_NAME="sudo ping localhost -c 5"
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Ii]*)
+                 APP_NAME="ping localhost -c 5"
+                 clear # Blank the screen.
+                 echo "ping - Send ICMP ECHO_REQUEST to network hosts."
+                 echo
+                 echo "Usage:"
+                 echo "ping  [-LRUbdfnqrvVaAB] [-c count] [-m mark] [-i interval] [-l preload]"
+                 echo "      [-p pattern] [-s packetsize] [-t ttl] [-w deadline] [-F flowlabel]"
+                 echo "      [-I interface]  [-M  hint] [-N nioption] [-Q tos] [-S sndbuf]"
+                 echo "      [-T timestamp option] [-W timeout] [hop ...] destination"
+                 echo
+                 echo "Usage: ping destination where destination may be an IP-address or url."
+                 echo "       i.e. ping 192.168.1.1 or ping www.sourceforge.net"
+                 echo
+                 echo "*** For more help type: 'man ping'"
+                 echo "                        'ping --help'"
+                 echo
+                 echo "Pinging this PC (localhost) for 5 times as an example."
+                 echo
+                 echo "Now run ping. Usage: ping localhost -c 5"
+                 echo
+                 echo "Many web sites block pings resulting in a message: '100% packet loss'."
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 route' '* | 'sudo route '* | 'sudo route')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Oo]*)
+                 APP_NAME="route"
+                 f_application_run
+                 ;;
+                 speedometer' '* | 'sudo speedometer '* | 'sudo speedometer')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Pp]*)
+                 APP_NAME="speedometer"
+                 clear # Blank the screen.
+                 echo "speedometer - Display speed of transmitted/received data."
+                 echo
+                 echo "Usage:"
+                 echo  "speedometer [OPTIONS] tap [[-c] tap]..."
+                 echo
+                 echo "Taps:"
+                 echo "  -f filename [size]          display download speed [with progress bar]"
+                 echo "  -r network-interface        display bytes received on network-interface"
+                 echo "  -t network-interface        display bytes transmitted on network-interface"
+                 echo "  -c                          start a new column for following tap arguments"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "i.e. speedometer -s -r eth0 -t eth0"
+                 echo "Now run speedometer. Usage: speedometer -s -r <NIC device name> -t <NIC device name>"
+                 echo
+                 f_how_to_quit_application "q" "no-clear"
+                 f_find_NIC
+                 APP_NAME="speedometer -s -r $ANS -t $ANS"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ss' '* | 'sudo ss '* | 'sudo ss')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ss])
+                 APP_NAME="ss"
+                 clear # Blank the screen.
+                 echo "ss - Display TCP/UDP Network and Socket Information."
+                 echo
+                 echo "Usage:"
+                 echo  "ss [options] [ FILTER ]"
+                 echo "    -h, --help      Show summary of options."
+                 echo "    -a, --all       Display  both  listening  and  non-listening sockets."
+                 echo "    -l, --listening Display only listening sockets."
+                 echo "    -e, --extended  Show detailed socket information"
+                 echo "    -m, --memory    Show socket memory usage."
+                 echo "    -p, --processes Show process using socket."
+                 echo "    -i, --info      Show internal TCP information."
+                 echo "    -s, --summary   Print summary statistics."
+                 echo "    -4, --ipv4      Display only IP version 4 sockets (alias for -f inet)."
+                 echo "    -6, --ipv6      Display only IP version 6 sockets (alias for -f inet6)."
+                 echo "    -0, --packet    Display PACKET sockets (alias for -f link)."
+                 echo "    -t, --tcp       Display TCP sockets."
+                 echo "    -u, --udp       Display UDP sockets."
+                 echo "    -d, --dccp      Display DCCP sockets."
+                 echo "    -w, --raw       Display RAW sockets."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 traceroute' '* | 'sudo traceroute '* )
+                 APP_NAME=$CHOICE_APP
+                 # f_web_site # Don't use f_web_site since web site may have already been entered.
+                 f_application_run
+                 ;;
+                 'sudo traceroute')
+                 APP_NAME=$CHOICE_APP
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Rr]*)
+                 APP_NAME="traceroute"
+                 clear # Blank the screen.
+                 echo "traceroute - Trace path to network host."
+                 echo
+                 echo "Usage:"
+                 echo "traceroute [-46dFITUnreAV] [-f first_ttl] [-g gate,...]"
+                 echo "           [-i device] [-m max_ttl] [-p port] [-s src_addr]"
+                 echo "           [-q nqueries] [-N squeries] [-t tos] [-l flow_label]"
+                 echo "           [-w waittime] [-z sendwait] [-UL] [-P proto] [--sport=port]"
+                 echo "           [-M method] [-O mod_options] [--mtu] [--back]"
+                 echo "host [packet_len]"
+                 echo "traceroute6  [OPTIONS]"
+                 echo "tcptraceroute  [OPTIONS]"
+                 echo "lft  [OPTIONS]"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "traceroute of this PC (localhost) as an example."
+                 echo
+                 echo "Now run traceroute. Usage: traceroute <URL or web-site or IP-address>"
+                 f_press_enter_key_to_continue
+                 f_web_site
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of LAN/WAN Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of LAN/WAN Applications until loop.
+} # End of function f_menu_app_lanwan
+#
+# +----------------------------------------+
+# |  Function f_menu_tcat_network_monitors |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: CHOICE_TCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
+#
+f_menu_tcat_network_monitors () {
+      f_initvars_menu_app
+      until [ $CHOICE_TCAT -eq 0 ] 
+      do    # Start of Network Monitor Application Category until loop.
+            #BNM Bandwidth - Bandwidth monitors.
+            #BNM Structure - Management, status, connections, devices, hosts.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Network Monitor Application Category Menu"
+            DELIMITER="#BNM" #BNM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_TCAT
+            #
+            f_common_tcat_menu
+            ERROR=0 # Reset error flag.
+            #
+            case $CHOICE_TCAT in # Start of Network Monitor Application Category case statement.
+                 [Bb] | [Bb][Aa]*) 
+                 f_menu_app_network_bandwidth # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ss] | [Ss][Tt]*) 
+                 f_menu_app_network_monitors  # Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Network Monitor Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_tcat_bad_menu_choice
+      done  # End of Network Monitor Application Category until loop.
+} # End of function f_menu_tcat_network_monitors
+#
+# +----------------------------------------+
+# |Function f_menu_app_network_bandwidth   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_network_bandwidth () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Network Bandwidth Applications until loop.
+            #MNB bmon     - Bandwidth monitor and rate estimator.
+            #MNB cbm      - Color Bandwidth Meter, ncurses based display.
+            #MNB ifstat   - Bandwidth statistics. (See also dstat, System Monitors Menu).
+            #MNB iftop    - Bandwidth statistics.
+            #MNB jnettop  - Bandwidth statistics across streams.
+            #MNB nethogs  - Bandwidth statistics by process.
+            #MNB nload    - Bandwidth graphical monitor in real-time; ncurses based display.
+            #MNB pktstat  - Display active connections and bandwidth in real-time.
+            #MNB statnet  - Bandwidth statistics.
+            #MNB trafshow - Bandwidth statistics; ncurses based.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Network Bandwidth Applications Menu"
+            DELIMITER="#MNB" #MNB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Network Bandwidth Applications case statement.
+                 bmon' '* | 'sudo bmon '* | 'sudo bmon')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Bb] | [Bb][Mm]*)
+                 APP_NAME="bmon"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 cbm' '* | 'sudo cbm '* | 'sudo cbm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Bb]*)
+                 APP_NAME="cbm"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ifstat' '* | 'sudo ifstat '* | 'sudo ifstat')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Ff] | [Ii][Ff][Ss]*)
+                 APP_NAME="ifstat 2 5"
+                 clear # Blank the screen.
+                 echo "ifstat - Display bandwidth statistics."
+                 echo
+                 echo "ifstat this PC's NIC (localhost) for 5 times every 2 seconds as an example."
+                 echo
+                 echo "Now run ifstat. Usage: ifstat 2 5"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 iftop' '* | 'sudo iftop '* | 'sudo iftop')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ii] | [Ii][Ff] | [Ii][Ff][Tt]*)
+                 f_find_NIC
+                 APP_NAME="iftop -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 jnettop' '* | 'sudo jnettop '* | 'sudo jnettop')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj] | [Jj][Nn]*)
+                 f_find_NIC
+                 APP_NAME="jnettop -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 nethogs' '* | 'sudo nethogs '* | 'sudo nethogs')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh]*)
+                 APP_NAME="nethogs"
+                 f_application_run
+                 ;;
+                 nload' '* | 'sudo nload '* | 'sudo nload')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ll]*)
+                 APP_NAME="nload"
+                 f_find_NIC
+                 APP_NAME="nload $ANS"                  
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 pktstat' '* | 'sudo pktstat '* | 'sudo pkstat')
+                 APP_NAME=$CHOICE_APP
+                 echo
+                 echo "It may take a while to quit; wait while pktstat resolves addresses."
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Kk]*)
+                 APP_NAME="pktstat"
+                 echo
+                 echo "It may take a while to quit; wait while pktstat resolves addresses."
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 statnet' '* | 'sudo statnet '* | 'sudo statnet')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Tt]*)
+                 APP_NAME="statnet"
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 trafshow' '* | 'sudo trafshow '* | 'sudo trafshow')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Rr]*)
+                 APP_NAME="trafshow"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Network Bandwidth Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Network Bandwidth Applications until loop.
+} # End of function f_menu_app_network_bandwidth
+#
+# +----------------------------------------+
+# |   Function f_menu_app_network_monitors |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_network_monitors () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of Network Monitor Applications until loop.
+            #MNM iptraf   - IP LAN monitor, ncurses based display.
+            #MNM nagios3  - IP LAN monitor. Display network hosts, devices, connections.
+            #MNM nc       - Netcat reads/writes data across network.
+            #MNM netstat  - Print network connections, routing tables, interface stats, etc.
+            #MNM netwatch - Protocol monitor; ncurses based.
+            #MNM ntop     - Display network usage and status information in a web browser.
+            #MNM opennms  - Network management application. Discovery, reports, statistics.
+            #MNM pmacct   - Traffic information monitor.
+            #MNM slurm    - Simple Linux Utility for Resource Managment. I/O load monitor.
+            #MNM sntop    - IP LAN monitor. Display network hosts and connections.
+            #MNM vnstat   - Traffic information monitor.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Network Monitor Applications Menu"
+            DELIMITER="#MNM" #MNM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Network Monitor Applications case statement.
+                 iptraf' '* | 'sudo iptraf '* | 'sudo iptraf')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ii] | [Ii][Pp]*)
+                 APP_NAME="iptraf"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 nagios3' '* | 'sudo nagios3 '* | 'sudo nagios3')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Aa]*)
+                 APP_NAME="nagios3"
+                 clear # Blank the screen.
+                 echo "nagios3 - network/systems status monitoring daemon."
+                 echo
+                 echo "nagios3  is a daemon program that monitors the status of various network"
+                 echo "accessible systems, devices, and more.  For more information, please consult"
+                 echo "the online documentation available at http://www.nagios.org, or on your"
+                 echo "nagios server's web page."
+                 echo
+                 echo "Usage:"
+                 echo "nagios3 [-h] [-v] [-s] [-d] <main_config_file>"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 nc' '* | 'sudo nc '* | 'sudo nc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Cc])
+                 APP_NAME="nc"
+                 f_application_run
+                 ;;
+                 netstat' '* | 'sudo netstat '* | 'sudo netstat')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ss]*)
+                 APP_NAME="netstat -l"
+                 clear # Blank the screen.
+                 echo "netstat - Print network connections, routing tables, interface statistics,"
+                 echo "          masquerade connections, and multicast memberships."
+                 echo
+                 echo "Usage:"
+                 echo "netstat [address_family_options]  [--tcp|-t] [--udp|-u] [--raw|-w]"
+                 echo "[--listening|-l] [--all|-a] [--numeric|-n] [--numeric-hosts]  ...etc."
+                 echo
+                 echo "netstat {--route|-r}  [address_family_options] [--extend|-e[--extend|-e]]"
+                 echo "[--verbose|-v]  [--numeric|-n]  [--numeric-hosts]   [--numeric-ports] ...etc."
+                 echo
+                 echo "netstat {--interfaces|-i}  [--all|-a] [--extend|-e[--extend|-e]] ...etc."
+                 echo
+                 echo "netstat {--groups|-g} [--numeric|-n] [--numeric-hosts] [--numeric-ports] ..etc."
+                 echo
+                 echo "*** For more help type: 'man netstat'"
+                 echo "                        'netstat --help'"
+                 echo
+                 echo "netstat of this PC (localhost) as an example."
+                 echo "Now run netstat. Usage: netstat -l"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 ;;
+                 netwatch' '* | 'sudo netwatch '* | 'sudo netwatch')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Ww]*)
+                 f_find_NIC
+                 APP_NAME="netwatch -e $ANS"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ntop' '* | 'sudo ntop '* | 'sudo ntop')
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "ntop - Traffic probe with network usage."
+                 echo
+                 echo "This command starts the ntop process."
+                 echo "To use ntop, open a web browser to URL localhost:3000 or 127.0.0.1:3000"
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 [Nn] | [Nn][Tt]*)
+                 APP_NAME="sudo ntop"
+                 clear # Blank the screen.
+                 echo "ntop - Traffic probe with network usage."
+                 echo
+                 echo "This command starts the ntop process."
+                 echo "To use ntop, open a web browser to URL localhost:3000 or 127.0.0.1:3000"
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 opennms' '* | 'sudo opennms '* | 'sudo opennms')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Oo] | [Oo][Pp]*)
+                 APP_NAME="opennms"
+                 clear # Blank the screen.
+                 echo "OpenNMS - A commercial open source application and is in the menu for"
+                 echo "          reference only."
+                 echo
+                 echo "Description from the OpenNMS website:"
+                 echo "OpenNMS is an award winning network management application platform with a long"
+                 echo "track record of providing solutions for enterprises and carriers."
+                 echo "OpenNMS main features are Automated and Directed Discovery, Event and"
+                 echo "Notification Management, Service Assurance, Performance Measurement."
+                 echo
+                 echo "http://www.opennms.org/about/ or http://sourceforge.net/projects/opennms/"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 pmacct' '* | 'sudo pmacct '* | 'sudo pmacct')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Mm]*)
+                 APP_NAME="pmacct"
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 slurm' '* | 'sudo slurm '* | 'sudo slurm')
+                 f_how_to_quit_application "q" "no-clear"
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ll]*)
+                 f_find_NIC
+                 APP_NAME="slurm -i $ANS"
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 ;;
+                 sntop' '* | 'sudo sntop '* | 'sudo sntop')
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Nn]*)
+                 APP_NAME="sntop --refresh=3"
+                 clear # Blank the screen.
+                 echo "sntop - Network status display polls a list of hosts every few seconds."
+                 echo
+                 echo "sntop for every 3 seconds as an example."
+                 echo
+                 echo "Now run sntop. Usage: sntop --refresh=3"
+                 echo
+                 f_how_to_quit_application "q" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vnstat' '* | 'sudo vnstat '* | 'sudo vnstat')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Vv] | [Vv][Nn]*)
+                 APP_NAME="vnstat"
+                 f_application_run
+                 ;;
+            esac                # End of Network Monitor Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Network Monitor Applications until loop.
+} # End of function f_menu_app_network_monitors
+#
+# +----------------------------------------+
+# |      Function f_menu_app_nic_tools     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_nic_tools () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of NIC Tools Applications until loop.
+            #MNN ethtool      - NIC configuration.
+            #MNN ifconfig     - NIC configuration.
+            #MNN ifplugstatus - Wireless USB NIC status.
+            #MNN iwconfig     - Wireless NIC configuration.
+            #MNN iwlist       - Get detailed information from wired/wireless interface.
+            #MNN mii-tool     - NIC configuration of Media Independent Interface Unit.
+            #MNN mii-diag     - NIC configuration of network cards.
+            #MNN netload      - NIC network load; ncurses based.
+            #MNN nictools-pci - NIC configuration of specific oem network cards.
+            #MNN wicd-curses  - Wireless scan and connect to wired/wireless networks.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="NIC Tools Applications Menu"
+            DELIMITER="#MNN" #MNN This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of NIC Tools Applications case statement.
+                 ethtool' '* | 'sudo ethtool '* | 'sudo ethtool')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Tt]*)
+                 APP_NAME="ethtool"
+                 clear # Blank the screen.
+                 echo "ethtool - Query and control network driver and hardware settings."
+                 echo
+                 echo "Usage:" 
+                 echo "ethtool <OPTIONS> <NIC device name>"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Now run ethtool. Usage: ethtool -i <NIC device name>"
+                 echo "The option -i shows network driver information for <NIC device name>"
+                 f_press_enter_key_to_continue
+                 f_find_NIC
+                 APP_NAME="ethtool -i $ANS"
+                 f_application_run
+                 ;;
+                 ifconfig' '* | 'sudo ifconfig '* | 'sudo ifconfig')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Ff] | [Ii][Ff][Cc]*)
+                 APP_NAME="ifconfig"
+                 f_find_NIC
+                 APP_NAME="ifconfig $ANS"
+                 f_application_run
+                 ;;
+                 ifplugstatus' '* | 'sudo ifplugstatus '* | 'sudo ifplugstatus')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Ff] | [Ii][Ff][Pp]*)
+                 APP_NAME="ifplugstatus"
+                 f_application_run
+                 ;;
+                 iwconfig' '* | 'sudo iwconfig '* | 'sudo iwconfig')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Ww] | [Ii][Ww][Cc]*)
+                 APP_NAME="iwconfig"
+                 f_find_NIC
+                 APP_NAME="iwconfig $ANS"
+                 f_application_run
+                 ;;
+                 iwlist' '* | 'sudo iwlist '* | 'sudo iwlist')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Ww] | [Ii][Ww][Ll]*)
+                 f_find_NIC
+                 APP_NAME="iwlist --help"
+                 f_application_run
+                 echo
+                 echo "Usage: iwlist $ANS <command>"
+                 echo -n "Enter iwlist $ANS command: "
+                 read XSTR
+                 APP_NAME="iwlist $ANS $XSTR"
+                 f_application_run
+                 ;;
+                 mii-diag' '* | 'sudo mii-diag '* | 'sudo mii-diag')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Ii] | [Mm][Ii][Ii] | [Mm][Ii][Ii][-] | [Mm][Ii][Ii][-][Dd]*)
+                 APP_NAME="mii-diag"
+                 f_application_run
+                 ;;
+                 mii-tool' '* | 'sudo mii-tool '* | 'sudo mii-tool')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Ii] | [Mm][Ii][Ii] | [Mm][Ii][Ii][-] | [Mm][Ii][Ii][-][Tt]*)
+                 APP_NAME="mii-tool"
+                 f_application_run
+                 ;;
+                 netload' '* | 'sudo netload '* | 'sudo netload')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ee]*)
+                  f_find_NIC
+                  APP_NAME="netload $ANS"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 nictools-pci' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Ii]*)
+                 APP_NAME="nictools-pci"
+                 f_application_run
+                 ;;
+                 wicd-curses' '* | 'sudo wicd-curses '* | 'sudo wicd-curses')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ww] | [Ww][Ii]*)
+                 APP_NAME="wicd-curses"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of NIC Tools Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of NIC Tools Applications until loop.
+} # End of function f_menu_app_nic_tools
+#
+# +----------------------------------------+
+# |    Function f_menu_app_packet_tools    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_packet_tools () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of Packet Tools Applications until loop.
+            #MNP kismet    - Wireless network detector, packet sniffer, auditor.
+            #MNP ngrep     - Network packet analyzer.
+            #MNP nmap      - Network Mapper, mapping, auditing, security scanning.
+            #MNP snort     - Packet sniffer/logger, Network Intrusion Detection System.
+            #MNP tcpdump   - Packet sniffer/logger.
+            #MNP wireshark - Packet sniffer/logger.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Packet Tools Applications Menu"
+            DELIMITER="#MNP" #MNP This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Packet Tools Applications case statement.
+                 kismet' '* | 'sudo kismet '* | 'sudo kismet')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Kk] | [Kk][Ii]*)
+                 APP_NAME="kismet"
+                 f_application_run
+                 ;;
+                 ngrep' '* | 'sudo ngrep '* | 'sudo ngrep')
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "ngrep - Network packet analyzer."
+                 echo
+                 echo "Note: ngrep needs root permissions."
+                 echo "      You need to use 'sudo ngrep'."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 [Nn] | [Nn][Gg]*)
+                 APP_NAME="ngrep"
+                 clear # Blank the screen.
+                 echo "ngrep - Network packet analyzer."
+                 echo
+                 echo "Note: ngrep needs root permissions."
+                 echo "      You need to use 'sudo ngrep'."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 nmap' '* | 'sudo nmap '* | 'sudo nmap')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Mm]*)
+                 APP_NAME="nmap"
+                 f_application_run
+                 ;;
+                 snort' '* | 'sudo snort '* | 'sudo snort')
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 [Ss]| [Ss][Nn] | [Ss][Nn][Oo] | [Ss][Nn][Oo][Rr] | [Ss][Nn][Oo][Rr][Tt])
+                 clear # Blank the screen.
+                 echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_find_NIC
+                      APP_NAME="snort -i $ANS"
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 tcpdump' '* | 'sudo tcpdump '* | 'sudo tcpdump')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Cc]*)
+                 f_find_NIC
+                 APP_NAME="tcpdump -i $ANS -c 5"
+                 clear # Blank the screen.
+                 echo "tcpdump - Packet sniffer/logger."
+                 echo
+                 echo "tcpdump this PC's NIC (localhost) for 5 packets an example."
+                 echo
+                 echo "Now run tcpdump. Usage: tcpdump -i $ANS -c 5"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 wireshark' '* | 'sudo wireshark '* | 'sudo wireshark')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Ii]*)
+                 APP_NAME="wireshark"
+                 f_application_run
+                 ;;
+            esac                # End of Packet Tools Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Packet Tools Applications until loop.
+} # End of function f_menu_app_packet_tools
+#
+# +----------------------------------------+
+# |   Function f_menu_app_network_sharing  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_network_sharing () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Network Configuration Applications until loop.
+            #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
+            #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.
+            #MNS smbclient - Samba client (share folders with Microsoft Windows).
+            #MNS smbstatus - Samba files lock status.
+            #MNS testparm  - Samba configuration display.
+            #MNS woof      - Woof (Web Offer One File) copies files via the HTTP protocol.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Network Sharing Applications Menu"
+            DELIMITER="#MNS" #MNS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Network Sharing Applications case statement.
+                 ncpfs' '* | 'sudo ncpfs '* | 'sudo ncpfs')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Cc]*)
+                 APP_NAME="ncpfs"
+                 f_application_run
+                 ;;
+                 smbc' '* | 'sudo smbc '* | 'sudo smbc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
+                 APP_NAME="man smbc"
+                 clear # Blank the screen.
+                 echo "man smbc - Display help for smbc (Samba Commander)."
+                 echo
+                 echo "Use on networks with Microsoft Windows PCs."
+                 echo
+                 echo "Now show help. Usage: man smbc"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 smbclient' '* | 'sudo smbclient '* | 'sudo smbclient')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll]*)
+                 APP_NAME="smbclient"
+                 f_application_run
+                 ;;
+                 smbstatus' '* | 'sudo smbstatus '* | 'sudo smbstatus')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss]*)
+                 APP_NAME="smbstatus"
+                 f_application_run
+                 ;;
+                 testparm' '* | 'sudo testparm '* | 'sudo testparm')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ee]*)
+                 APP_NAME="testparm"
+                 f_application_run
+                 ;;
+                 woof' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [WW][Oo]*)
+                 APP_NAME="woof"
+                 f_application_run
+                 ;;
+            esac                # End of Network Sharing Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Network Sharing Applications until loop.
+} # End of function f_menu_app_network_sharing
+#

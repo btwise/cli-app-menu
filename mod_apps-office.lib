@@ -1,0 +1,1788 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-14-2013 01:00"
+#
+# +----------------------------------------+
+# |       Function f_menu_cat_office       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: CHOICE_SCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#
+f_menu_cat_office () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ] 
+      do    # Start of Office Application Category until loop.
+            #BOF Accounting   - Accounting (with with double-entry).
+            #BOF Calculators  - Simple "pocket" calculators.
+            #BOF Calendar     - Calendars.
+            #BOF Clocks       - Alarm clocks, specialized clocks.
+            #BOF Notebooks    - Write notes in a "notebook".
+            #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
+            #BOF Presenters   - Text slideshow presentation.
+            #BOF Spreadsheets - Basic spreadsheet.
+            #BOF Text         - Create/Edit text files, text format converters, etc.        
+            #BOF ToDo         - To-Do lists.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Office Application Category Menu"
+            DELIMITER="#BOF" #BOF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_common_scat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Office Application Category case statement.
+                 [Aa] | [Aa][Cc]*)
+                 f_menu_app_accounting        # Accounting Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc]*)
+                 f_menu_app_calculators       # Calculator Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee]*)
+                 f_menu_app_calendar          # Calendar Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Cc] | [Cc][Ll]*)
+                 f_menu_app_clocks            # Clock Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Nn] | [Nn][Oo]*)
+                 f_menu_app_note              # Note Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Pp] | [Pp][Dd]*)
+                 f_menu_app_pdfps             # PDF-PS Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Pp] | [Pp][Rr]*)
+                 f_menu_app_presentation      # Presentation Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ss] | [Ss][Pp]*)
+                 f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Tt] | [Tt][Ee]*)
+                 f_menu_cat_text              # Text Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Tt] | [Tt][Oo]*)
+                 f_menu_app_todo
+                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Office Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_scat_bad_menu_choice
+      done  # End of Office Application Category until loop.
+} # End of function f_menu_cat_office
+#
+# +----------------------------------------+
+# |     Function f_menu_app_accounting     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_accounting () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Accounting Applications until loop.
+            #MAA hledger       - Same as "ledger" but using the Haskell Programming Language.
+            #MAA hledger-chart - Hledger pie chart generator.
+            #MAA hledger-vty   - Hledger n-curses style interface.
+            #MAA hledger-web   - Hledger web interface.
+            #MAA ledger        - Ledger using double-entry.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Accounting Applications Menu"
+            DELIMITER="#MAA" #MAA This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Calculator Applications case statement.
+                 hledger' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr])
+                 APP_NAME="hledger"
+                 f_application_run
+                 ;;
+                 hledger-chart' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc]*)
+                 APP_NAME="hledger-chart"
+                 f_application_run
+                 ;;
+                 hledger-vty' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Vv]*)
+                 APP_NAME="hledger-vty"
+                 f_application_run
+                 ;;
+                 hledger-web' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Ww]*)
+                 APP_NAME="hledger-web"
+                 f_application_run
+                 ;;
+                 ledger' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ee]*)
+                 APP_NAME="ledger"
+                 f_application_run
+                 ;;
+            esac                # End of Accounting Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Accounting Applications until loop.
+} # End of f_menu_app_accounting
+#
+# +----------------------------------------+
+# |     Function f_menu_app_calculators    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_calculators () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Calculator Applications until loop.
+            #MCC bc       - Calculator.
+            #MCC dc       - RPN arbitrary precision reverse-polish calculator.
+            #MCC orpie    - RPN Reverse Polish Notation calculator.
+            #MCC tapecalc - Tape-like calculator.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Calculator Applications Menu"
+            DELIMITER="#MCC" #MCC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Calculator Applications case statement.
+                 bc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "quit"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Bb] | [Bb][Cc])
+                 APP_NAME="bc"
+                 f_how_to_quit_application "quit"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 dc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Cc])
+                 APP_NAME="dc"
+                 f_application_run
+                 ;;
+                 orpie' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Oo] | [Oo][Rr]*)
+                 APP_NAME="orpie"
+                 f_application_run
+                 ;;
+                 tapecalc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Aa]*)
+                 APP_NAME="tapecalc"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Calculator Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Calculator Applications until loop.
+} # End of f_menu_app_calculators
+#
+# +----------------------------------------+
+# |      Function f_menu_app_calendar      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_calendar () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Calendar Applications until loop.
+            #MCA cal         - Displays a monthly calendar.
+            #MCA calcurse    - Calendar ncurses-based.
+            #MCA ccal        - Calendar color.
+            #MCA clcal       - Calendar and appointment reminders.
+            #MCA emacs-calfw - Displays a calendar view in the Emacs buffer.
+            #MCA gcal        - Calendar, almost the same as cal.
+            #MCA gcalcli     - Google calendar.
+            #MCA mencal      - Calendar to track repeating periodic events every nn days.
+            #MCA ncal        - Calendar with vertical days.
+            #MCA pal         - Calendar with events.
+            #MCA pcal        - Generate PostScript or HTML Calendars.
+            #MCA pom         - Display phase of moon on given date.
+            #MCA remind      - Calendar alarms, Sun rise/set, moon phases.
+            #MCA when        - Calendar.
+            #MCA wyrd        - Calendar, ncurses-based.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Calendar Applications Menu"
+            DELIMITER="#MCA" #MCA This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Calendar Applications case statement.
+                 cal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
+                 APP_NAME="cal"
+                 f_application_run
+                 ;;
+                 calcurse' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc]*)
+                 APP_NAME="calcurse"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ccal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Cc]*)
+                 APP_NAME="ccal"
+                 f_application_run
+                 ;;
+                 clcal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Ll]*)
+                 APP_NAME="clcal"
+                 f_application_run
+                 ;;
+                 emacs-calfw' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee][Mm]*)
+                 APP_NAME="emacs-calfw"
+                 f_application_run
+                 ;;
+                 gcal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll])
+                 APP_NAME="gcal"
+                 f_application_run
+                 ;;
+                 gcalcli' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll] | [Gg][Cc][Aa][Ll][Cc]*)
+                 APP_NAME="gcalcli"
+                 f_application_run
+                 ;;
+                 mencal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Ee]*)
+                 APP_NAME="mencal"
+                 f_application_run
+                 ;;
+                 ncal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Cc]*)
+                 APP_NAME="ncal"
+                 f_application_run
+                 ;;
+                 pal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Aa]*)
+                 APP_NAME="pal"
+                 f_application_run
+                 ;;
+                 pcal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Cc]*)
+                 APP_NAME="pcal"
+                 f_application_run
+                 ;;
+                 pom' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Oo]*)
+                 APP_NAME="pom"
+                 f_application_run
+                 ;;
+                 remind' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
+                 APP_NAME="remind"
+                 f_application_run
+                 ;;
+                 when' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Hh]*)
+                 APP_NAME="when"
+                 f_application_run
+                 ;;
+                 wyrd' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ww] | [Ww][Yy]*)
+                 APP_NAME="wyrd"
+                 f_how_to_quit_application "Q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Calendar Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Calendar Applications until loop.
+} # End of f_menu_app_calendar
+#
+# +----------------------------------------+
+# |       Function f_menu_app_clocks       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_clocks () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Clock Applications until loop.
+            #MCL binary-clock     - Binary numbers 1/0 tells time.
+            #MCL cclock           - Digital clock with huge numbers fills entire screen.
+            #MCL clockywock       - Analog clock, ncurses-based.
+            #MCL grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
+            #MCL saytime          - Audio clock.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Clock Applications Menu"
+            DELIMITER="#MCL" #MCL This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Clock Applications case statement.
+                 binary-clock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ii]*)
+                 APP_NAME="binary-clock"
+                 f_application_run
+                 ;;
+                 cclock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Cc]*)
+                 APP_NAME="cclock"
+                 f_application_run
+                 ;;
+                 clockywock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Ll]*)
+                 APP_NAME="clockywock"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 grandfatherclock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Rr]*)
+                 APP_NAME="grandfatherclock"
+                 f_application_run
+                 ;;
+                 saytime' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Aa]*)
+                 APP_NAME="saytime"
+                 f_application_run
+                 ;;
+            esac                # End of Clock Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Clock Applications until loop.
+} # End of f_menu_app_clocks
+#
+# +----------------------------------------+
+# |         Function f_menu_app_note       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_note () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Note Applications until loop.
+            #MNO hnb - Hierarchical notebook.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Note Applications Menu"
+            DELIMITER="#MNO" #MNO This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Note Applications case statement.
+                 hnb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Nn]*)
+                 APP_NAME="hnb"
+                 f_application_run
+                 ;;
+            esac                # End of Note Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Note Applications until loop.
+} # End of f_menu_app_note
+#
+# +----------------------------------------+
+# |       Function f_menu_app_pdfps       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_pdfps () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Tool Applications until loop.
+            #MPS diffpdf  - Compare pdf files.
+            #MPS fbdjvu   - DjVu viewer similar to fbpdf.
+            #MPS fbgs     - GhostScript, PostScript, and PDF viewer.
+            #MPS fbpdf    - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
+            #MPS gs       - GhostScript, PostScript, and PDF viewer.
+            #MPS jfbview  - Image viewer and framebuffer PDF viewer based on Imlib2.
+            #MPS pdfjam   - Merge pdf files into a single file.
+            #MPS pdftex   - Typesetter creates pdf files.
+            #MPS pdftk    - Merge/split, rotate, watermark, bookmarks/metadata attach files.
+            #MPS pdftops  - Converts PDF to PS (PostScript) format.
+            #MPS ps2ascii - Converts PS (PostScript) to text format.
+            #MPS ps2pdf   - Converts PS (PostScript) to PDF format.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="PDF and PS Applications Menu"
+            DELIMITER="#MPS" #MPS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of PDF and PS Applications case statement.
+                 diffpdf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii]*)
+                 APP_NAME="diffpdf"
+                 f_application_run
+                 ;;
+                 fbdjvu' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Bb] | [Ff][Bb][Dd]*)
+                 APP_NAME="fbdjvu"
+                 f_application_run
+                 ;;
+                 fbgs' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Bb] | [Ff][Bb][Gg]*)
+                 APP_NAME="fbgs"
+                 f_application_run
+                 ;;
+                 fbpdf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Bb] | [Ff][Bb][Pp]*)
+                 APP_NAME="fbpdf"
+                 f_application_run
+                 ;;
+                 gs' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Ss])
+                 APP_NAME="gs"
+                 f_application_run
+                 ;;
+                 jfbview' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Jj] | [Jj][Ff]*)
+                 APP_NAME="jfbview"
+                 f_application_run
+                 ;;
+                 pdfjam' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Jj]*)
+                 APP_NAME="pdfjam"
+                 f_application_run
+                 ;;
+                 pdftex' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Ee]*)
+                 APP_NAME="pdftex"
+                 f_application_run
+                 ;;
+                 pdftk' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Kk])
+                 APP_NAME="pdftk"
+                 f_application_run
+                 ;;
+                 pdftops' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo]*)
+                 APP_NAME="pdftops"
+                 f_application_run
+                 ;;
+                 ps2ascii' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa]*)
+                 APP_NAME="ps2ascii"
+                 f_application_run
+                 ;;
+                 ps2pdf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp]*)
+                 APP_NAME="ps2pdf"
+                 f_application_run
+                 ;;
+            esac                # End of PDF and PS Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of pdf-ps Applications until loop.
+} # End of f_menu_app_pdfps
+#
+# +----------------------------------------+
+# |    Function f_menu_app_presentation    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_presentation () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of Presentation Applications until loop.
+            #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Presentation Applications Menu"
+            DELIMITER="#MPR" #MPR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Presentation Applications case statement.
+                 tpp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Pp]*)
+                 APP_NAME="tpp"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Presentation Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Presentation> Applications until loop.
+} # End of function f_menu_app_presentation
+#
+# +----------------------------------------+
+# |    Function f_menu_app_spreadsheets    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_spreadsheets () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Spreadsheet Applications until loop.
+            #MSP oleo - Full-screen spreadsheet having a more Emacs-like feel.
+            #MSP sc   - Spreadsheet.
+            #MSP slsc - Spreadsheet based on sc.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Spreadsheet Applications Menu"
+            DELIMITER="#MSP" #MSP This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Spreadsheet Applications case statement.
+                 oleo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Oo] | [Oo][Ll]*)
+                 APP_NAME="oleo"
+                 f_application_run
+                 ;;
+                 sc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Cc])
+                 APP_NAME="sc"
+                 f_application_run
+                 ;;
+                 slsc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ll]*)
+                 APP_NAME="slsc"
+                 f_application_run
+                 ;;
+            esac                # End of Spreadsheet Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Spreadsheet Applications until loop.} # End of menu_app_spreadsheets
+} # End of f_menu_app_spreadsheets
+#
+# +----------------------------------------+
+# |         Function f_menu_cat_text       |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: CHOICE_TCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
+#
+f_menu_cat_text () {
+      f_initvars_menu_app
+      until [ $CHOICE_TCAT -eq 0 ] 
+      do    # Start of Text Application Category until loop.
+            #BTX Compare    - Show differences between text files.
+            #BTX Converters - Convert between text document/file formats.
+            #BTX Editors    - Create/Edit text documents/files.
+            #BTX Tools      - Viewers,text markup language.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Application Category Menu"
+            DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_TCAT
+            #
+            f_common_tcat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_TCAT in # Start of Text Application Category case statement.
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
+                 f_menu_app_text_compare      # Text Compare Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;               
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Nn]*)
+                 f_menu_app_text_converters   # Text Converter Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Dd]*)
+                 f_menu_app_text_editors      # Text Editor Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Tt] | [Tt][Oo]*)
+                 f_menu_app_text_tools        # Text Tool Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Text Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_tcat_bad_menu_choice
+      done  # End of Text Application Category until loop.
+} # End of function f_menu_cat_text
+#
+# +----------------------------------------+
+# |    Function f_menu_app_text_compare    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_text_compare () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Compare Applications until loop.
+            #MTC cmp       - Compares 2 text files.
+            #MTC colordiff - Differences between 2 text files shown in color.
+            #MTC comm      - Compares 2 sorted files line by line.
+            #MTC diff      - Differences between 2 text files shown using <> signs.
+            #MTC diff3     - Differences between 3 text files
+            #MTC imediff2  - Interactive 2-way file merge.
+            #MTC vimdiff   - Differences between 2 text files shown in color highlights.
+            #MTC wdiff     - Differences between 2 text files shown using +/- signs.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Compare Applications Menu"
+            DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Compare Applications case statement.
+                 cmp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Mm] | [Cc][Mm][Pp])
+                 APP_NAME="cmp"
+                 f_application_run
+                 ;;
+                 colordiff' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Ll]*)
+                 APP_NAME="colordiff"
+                 f_application_run
+                 ;;
+                 comm' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
+                 APP_NAME="comm"
+                 clear # Blank the screen.
+                 echo "comm - compare two sorted files line by line." 
+                 echo
+                 echo "Usage:"
+                 echo "comm [OPTION]... FILE1 FILE2"
+                 echo
+                 echo "Output is in three columns of quoted lines."
+                 echo
+                 echo "  Column 1      Column 2          Column 3"
+                 echo "Lines unique  Lines unique      Lines common"
+                 echo "  to FILE1      to FILE2     to FILE1 and FILE2"
+                 echo
+                 echo "OPTIONS:"
+                 echo "         -1                 Suppress column 1."
+                 echo "         -2                 Suppress column 2."
+                 echo "         -3                 Suppress column 3."
+                 echo "         --no-check order   Do not check files for sort order."
+                 echo 
+                 echo "*** For more help type: 'man comm'"
+                 echo "                        'comm --help'"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 diff' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff])
+                 APP_NAME="diff"
+                 f_application_run
+                 ;;
+                 diff3' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff] | [[Dd][Ii][Ff][Ff]3)
+                 APP_NAME="diff3"
+                 f_application_run
+                 ;;
+                 imediff2' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Mm]*)
+                 APP_NAME="imediff2"
+                 f_application_run
+                 ;;
+                 vimdiff' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Vv] | [Vv][Ii]*)
+                 APP_NAME="vimdiff"
+                 f_application_run
+                 ;;
+                 wdiff' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Dd]*)
+                 APP_NAME="wdiff"
+                 f_application_run
+                 ;;
+            esac                # End of Text Compare Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Text Compare Applications until loop.
+} # End of f_menu_app_text_compare
+#
+# +----------------------------------------+
+# |   Function f_menu_app_text_converters  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_text_converters () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Converter Applications until loop.
+            #MTV txt2html   - Converts plain ASCII text to HTML format.
+            #MTV txt2man    - Converts plain ASCII text to man format.
+            #MTV txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
+            #MTV txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+            #MTV txt2tags   - Converts plain ASCII text to a variety of formats.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Converter Applications Menu"
+            DELIMITER="#MTV" #MTV This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Converter Applications case statement.
+                 txt2html' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh]*)
+                 APP_NAME="man txt2html"
+                 clear # Blank the screen.
+                 echo "txt2html - Convert plain text files to html." 
+                 echo
+                 echo "Usage:"
+                 echo "txt2html [ --append_file filename ] [ --append_head filename ]"
+                 echo "         [ --body_deco string ] [ --bold_delimiter string ]"
+                 echo "         [ --bullets string ] [ --bullets_ordered string ]"
+                 echo "         [ --caps_tag tag ]"
+                 echo
+                 echo "*** For more help type: 'man txt2html'"
+                 echo "                        'txt2html --help'"
+                 echo
+                 echo "Now show help. Usage: man txt2html"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 txt2man' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm]*)
+                 APP_NAME="man txt2man"
+                 clear # Blank the screen.
+                 echo "txt2man - Convert plain text files to man pages." 
+                 echo
+                 echo "Usage:"
+                 echo "txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
+                 echo "        [-I txt] [-B txt] [-d date] [ifile]"
+                 echo
+                 echo "*** For more help type: 'man txt2man'"
+                 echo "                        'txt2man --help'"
+                 echo
+                 echo "Now show help. Usage: man txt2man"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 txt2pdbdoc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp]*)
+                 APP_NAME="man txt2pdbdoc"
+                 clear # Blank the screen.
+                 echo "txt2pdbdoc - Convert plain text files to (Palm Pilot Database) Doc file *.pdb."
+                 echo "             for PalmPilots & DocReaders. (Does anyone still have a PalmPilot?)"
+                 echo
+                 echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
+                 echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
+                 echo "       txt2pdbdoc -V"
+                 echo
+                 echo "*** For more help type: 'man txt2pdbdoc'"
+                 echo "                        'txt2pdbdoc --help'"
+                 echo
+                 echo "Now show help. Usage: man txt2pdbdoc"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 txt2regex' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr]*)
+                 APP_NAME="man txt2regex"
+                 clear # Blank the screen.
+                 echo "txt2regex - Convert human sentences to regex." 
+                 echo
+                 echo "Usage:"
+                 echo "txt2regex --all|--prog <p1,p2,...,pN>"
+                 echo
+                 echo "*** For more help type: 'man txt2regex'"
+                 echo "                        'txt2regex --help'"
+                 echo
+                 echo "Now show help. Usage: man txt2regex"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 txt2tags' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt]*)
+                 APP_NAME="man txt2tags"
+                 clear # Blank the screen.
+                 echo "txt2tags - Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook,"
+                 echo "           DokuWiki, Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page,"
+                 echo "           MoinMoin, PageMaker, Plain Text, PmWiki, SGML, Wikipedia and XHTML."
+                 echo 
+                 echo "Usage:"
+                 echo "txt2tags [OPTIONS] [FILE]... "
+                 echo
+                 echo "*** For more help type: 'man txt2tags'"
+                 echo "                        'txt2tags --help'"
+                 echo
+                 echo "Now show help. Usage: man txt2tags"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+            esac                # End of Text Converter Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Text Converter Applications until loop.
+} # End of f_menu_app_text_converters
+#
+# +----------------------------------------+
+# |     Function f_menu_app_text_editors   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_text_editors () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Editor Applications until loop.
+            #MTE beav  - Binary editor and viewer.
+            #MTE dav   - Text editor.
+            #MTE dex   - Support for ctags and parsing compiler errors.
+            #MTE ed    - Classic CLI text editor.
+            #MTE emacs - Full screen text editor with plugins.
+            #MTE groff - Uses macros to format text, create man pages to PS printers.
+            #MTE jed   - JED text editor.
+            #MTE joe   - Text editor. Ctrl-K H for help.
+            #MTE nano  - Simple full-screen text editor.
+            #MTE pico  - Simple full-screen text editor.
+            #MTE vi    - Classic full-screen text editor.
+            #MTE vim   - vi "Improved" text editor.
+            #MTE zile  - Very small Emacs-subset editor.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Editor Applications Menu"
+            DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Editor Applications case statement.
+                 beav' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ee]*)
+                 APP_NAME="beav"
+                 f_application_run
+                 ;;
+                 dav' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<F5>"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Dd] | [Dd][Aa]*)
+                 APP_NAME="dav"
+                 f_how_to_quit_application "<F5>"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 dex' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Dd] | [Dd][Ee]*)
+                 APP_NAME="dex"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ed' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Dd])
+                 APP_NAME="ed"
+                 f_application_run
+                 ;;
+                 emacs' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ee] | [Ee][Mm]*)
+                 APP_NAME="emacs"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 groff' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Rr]*)
+                 APP_NAME="groff"
+                 clear # Blank the screen.
+                 echo "groff - Use macro command language to output formatted text"
+                 echo "        for PostScript printers."
+                 echo
+                 echo "Usage:" 
+                 echo "groff [-abcegiklpstzCEGNRSUVXZ] [-d cs] [-D arg] [-f fam] [-F dir] [-I dir]"
+                 echo "      [-K arg] [-L arg] [-m name] [-M dir] [-n num] [-o list] [-P arg]"
+                 echo "      [-r cn] [-T dev] [-w name] [-W name] [file ...]"
+                 echo "groff -h | --help"
+                 echo "groff -v | --version [OPTION ...]"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Now show help. Usage: man $APP_NAME"
+                 APP_NAME="groff --help"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 jed' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj] | [Jj][Ee]*)
+                 APP_NAME="jed"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 joe' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-k x"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj] | [Jj][Oo]*)
+                 APP_NAME="joe"
+                 f_how_to_quit_application "Ctrl-k x"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 nano' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Aa]*)
+                 APP_NAME="nano"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 pico' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Ii]*)
+                 APP_NAME="pico"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vi' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii])
+                 APP_NAME="vi"
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vim' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii] | [Vv][Ii][Mm])
+                 APP_NAME="vim"
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 zile' '*)
+                 APP_NAME=$CHOICE_APP
+                 clear # Blank the screen.
+                 echo zile - Small Emacs editor.
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-x followed by Ctrl-z and Ctrl-z again."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 [Zz] | [Zz][Ii]*)
+                 APP_NAME="zile"
+                 clear # Blank the screen.
+                 echo zile - Small Emacs editor.
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-x followed by Ctrl-z and Ctrl-z again."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+            esac                # End of Text Editor Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Text Editor Applications until loop.
+} # End of f_menu_app_text_editors
+#
+# +----------------------------------------+
+# |     Function f_menu_app_text_tools     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_text_tools () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Tool Applications until loop.
+            #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
+            #MTT aspell   - Spell check allows text files as input with user dictionary.
+            #MTT doconce  - Text markup language to manipulate, transform, and convert text.
+            #MTT hunspell - Spell check allows keyboard or files as input w/user dictionary.
+            #MTT ispell   - Spell check allows text files as input with user dictionary.
+            #MTT spell    - Spell check allows keyboard or text files as input.
+            #MTT wc       - Word count, also counts lines, characters, bytes of a text file.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Tool Applications Menu"
+            DELIMITER="#MTT" #MTT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error wc flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Tool Applications case statement.
+                 antiword' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Nn]*)
+                 APP_NAME="antiword"
+                 f_application_run
+                 ;;
+                 aspell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Ss] | [Aa][Ss][Pp]*)
+                 APP_NAME="aspell"
+                 clear # Blank the screen.
+                 echo "aspell - Spell checker"
+                 echo
+                 echo "Usage:" 
+                 echo "aspell [OPTIONS] <COMMAND> ..."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Aspell application lists all words that are misspelled."
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    echo
+                    echo "Missing filename."
+                    echo "Usage: aspell <filename>"
+                    echo
+                    f_press_enter_key_to_continue
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="aspell -c $ANS"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+                 doconce' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Oo]*)
+                 APP_NAME="doconce"
+                 f_application_run
+                 ;;
+                 hunspell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Hh] | [Hh][Uu]*)
+                 APP_NAME="hunspell"
+                 clear # Blank the screen.
+                 echo "hunspell - Spell checker"
+                 echo
+                 echo "Usage:"
+                 echo "hunspell [OPTIONS] [FILES]..."
+                 echo
+                 echo "Spell check file interactively."
+                 echo "hunspell -d en_US filename.txt"
+                 echo
+                 echo "Spell check file in batch mode."
+                 echo "cat myFile.txt | hunspell"
+                 echo "hunspell -l myFile.txt"
+                 echo
+                 echo "Prevent showing an '*' asterick for each line."
+                 echo "cat myFile.txt | hunspell -i utf-8 | grep -v \* | uniq"
+                 echo
+                 echo "List only misspelled words."
+                 echo "cat myFile.txt | hunspell -l -i utf-8"
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echowc 
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    clear # Blank the screen.
+                    echo "Missing filename."
+                    echo "Usage: hunspell <filename>"
+                    echo
+                    echo "Since no filename, now run 'hunspell' in interactive mode."
+                    echo
+                    echo "Interactive usage:"
+                    echo
+                    echo "Example: Type the sentence below"
+                    echo "The wrong spelling is recieve, while the correct spelling is receive."
+                    echo
+                    echo "& recieve 8 22: receive, relieve, reprieve, retrieve, reverie, recitative,"
+                    echo "Recife, receivable"
+                    echo
+                    echo "The word 'recieve' is repeated on the screen because it is mis-spelled."
+                    echo "8=number of possible correct words."
+                    echo "22+1=number of characters in line until misspelled word."
+                    echo
+                    echo "Now type the word(s) or sentence to spell check."
+                    echo "If the word has the wrong spelling, it will be repeated on the screen."
+                    echo "If the word has the correct spelling, an asterick '*' will appear."
+                    echo
+                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    APP_NAME="hunspell"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="hunspell $ANS"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+                 ispell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ii] | [Ii][Ss] | [Ii][Ss][Pp]*)
+                 APP_NAME="ispell"
+                 clear # Blank the screen.
+                 echo "ispell - Spell checker"
+                 echo
+                 echo "Usage:" 
+                 echo "ispell [OPTIONS] <COMMAND> ..."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Ispell application lists all words that are misspelled."
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    echo
+                    echo "Missing filename."
+                    echo "Usage: ispell <filename>"
+                    echo
+                    f_press_enter_key_to_continue
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="ispell $ANS"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+                 spell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Pp]*)
+                 APP_NAME="spell"
+                 clear # Blank the screen.
+                 echo "spell - Spell checker"
+                 echo
+                 echo "Usage:"
+                 echo "spell [OPTIONS] [FILE] ..."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "Spell application lists all words that are misspelled."
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    clear # Blank the screen.
+                    echo "Missing filename."
+                    echo "Usage: spell <filename>"
+                    echo
+                    echo "Since no filename, now run 'spell' in interactive mode."
+                    echo
+                    echo "Interactive usage:"
+                    echo
+                    echo "Example: Type the sentence below"
+                    echo "The wrong spelling is recieve, while the correct spelling is receive"
+                    echo
+                    echo "recieve <<--spell responds with this word."
+                    echo
+                    echo "The word 'recieve' is repeated on the screen because it is mis-spelled."
+                    echo
+                    echo "Now type the word(s) or sentence to spell check."
+                    echo
+                    echo "If the word has the wrong spelling, it will be repeated on the screen."
+                    echo "If the word has the correct spelling, it will not be repeated."
+                    echo
+                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    APP_NAME="spell"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="spell $ANS"
+                    f_application_run
+                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+                 wc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Cc])
+                 APP_NAME="wc"
+                 clear # Blank the screen.
+                 echo "wc - Word Count"
+                 echo
+                 echo "Usage:"
+                 echo "wc [OPTIONS] [FILE]..."
+                 echo
+                 echo "-c, --bytes      prints the byte counts."
+                 echo "-m, --chars      prints the character counts."
+                 echo "-l  --lines      prints the new line counts."
+                 echo "-w  --words      prints the word counts."
+                 echo
+                 echo "Example: Type the sentences below"
+                 echo "Line 1 This is the first line."
+                 echo "Line 2 This is the second Line."
+                 echo "      2      14      63"
+                 echo "    Lines   Words   Characters"
+                 echo
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo -n "Enter name of text file to check spelling: "
+                 read ANS
+                 if [ -z $ANS ] ; then   #String has zero length.
+                    clear # Blank the screen.
+                    echo "Missing filename."
+                    echo "Usage: wc <filename>"
+                    echo
+                    echo "Since no filename, now run '' in interactive mode."
+                    echo
+                    echo "Interactive usage:"
+                    echo
+                    echo "Example: Type the sentences below"
+                    echo "Line 1 This is the first line."
+                    echo "Line 2 This is the second Line."
+                    echo "      2      14      63"
+                    echo "    Lines   Words   Characters"
+                    echo
+                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    APP_NAME="wc"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
+                    APP_NAME="wc $ANS"
+                    f_application_run
+                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 else
+                    echo "The file $ANS is either missing or cannot be read."
+                    f_press_enter_key_to_continue
+                 fi
+                 ;;
+
+            esac                # End of Text Tool Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Text Tool Applications until loop.
+} # End of f_menu_app_text_tools
+#
+# +----------------------------------------+
+# |        Function f_menu_app_todo        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_todo () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of ToDo Applications until loop.
+            #MTD doneyet - To-Do List.
+            #MTD hnb     - To-Do List and note taker, ncurses-based application.
+            #MTD todo    - To-Do List hierarchical. Install package 'devtodo'.
+            #MTD tudu    - To-Do List hierarchical tasks.
+            #MTD yaGTD   - To-Do List based on "Getting Things Done" methodology.
+            #MTD yokadi  - Project/task manager which uses SQLite.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="To-Do Applications Menu"
+            DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of ToDo Applications case statement.
+                 doneyet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Oo]*)
+                 APP_NAME="doneyet"
+                 f_application_run
+                 ;;
+                 hnb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Hh] | [Hh][Nn]*)
+                 APP_NAME="hnb"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 todo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Oo]*)
+                 APP_NAME="todo"
+                 clear # Blank the screen.
+                 echo "todo - Simple To-Do list using hidden file .todo as a database list."
+                 echo
+                 echo "todo [OPTIONS]"
+                 echo "       With no options, displays the items in the current directory."
+                 echo
+                 echo "tda [-p <priority>] [-g <index>] [<text>]"
+                 echo "      Add a new item, optionally grafting it as a child of the given item."
+                 echo "tde <index>"
+                 echo "     Edit the given item."
+                 echo "tdr <indices>"
+                 echo "     Remove the given items."
+                 echo "tdd <indices>"
+                 echo "     Mark the specified items as being done."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 echo "todo -a to add a new note, todo -A -all to show all notes."
+                 echo 
+                 echo "Now run todo. Usage: todo"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 tudu' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Uu]*)
+                 APP_NAME="tudu"
+                 f_application_run
+                 ;;
+                 yagtd' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Yy] | [Yy][Aa]*)
+                 APP_NAME="yagtd"
+                 f_application_run
+                 ;;
+                 yokadi' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Yy] | [Yy][Oo]*)
+                 APP_NAME="yokadi"
+                 f_application_run
+                 ;;
+            esac                # End of ToDo Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of ToDo Applications until loop.
+} # End of f_menu_app_todo
+#
