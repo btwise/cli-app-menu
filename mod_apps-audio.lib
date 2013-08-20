@@ -62,7 +62,7 @@ f_menu_cat_audio () {
       done  # End of Audio Application Category until loop.
 } # End of function f_menu_cat_audio
 #
- +----------------------------------------+
+# +----------------------------------------+
 # |      Function f_menu_app_cdrippers     |
 # +----------------------------------------+
 #

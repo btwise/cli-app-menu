@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-19-2013 20:04"
+PROJECT_REVDATE="August-20-2013 00:40"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -47,6 +47,11 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-08-20 *mod_apps-audio.lib fixed a comment line.
+##            *f_test_dash moved back to cli-app-menu.sh added comments.
+##            *f_load_module fixed PRESS_KEY statements.
+##            *f_menu_cat_applications fixed "Games" item module name.
 ##
 ## 2013-08-19 *f_show_menu, f_choice_array improved documentation of awk.
 ##            *README updated documentation on "FILE LOCATIONS of cli-app-menu

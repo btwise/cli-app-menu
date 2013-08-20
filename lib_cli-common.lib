@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-19-2013 20:04"
+# REVDATE="August-20-2013 00:40"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -970,7 +970,7 @@ f_application_web_install () {
 # Outputs: ANS, WEB_SITE, PRESS_KEY
 #
 f_load_module () {
-      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+      PRESS_KEY=0 # Display "Press 'Enter' key to continue."
       #
       if [ -r $MOD_FILE ] ; then
          . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
@@ -1003,6 +1003,7 @@ f_load_module () {
               ;;
            esac
       fi
+      f_option_press_enter_key
 } # End of f_load_module
 #
 # +----------------------------------------+

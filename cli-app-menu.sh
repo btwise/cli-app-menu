@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-19-2013 15:23"
+REVDATE="August-20-2013 00:40
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -124,7 +124,6 @@ f_test_dash () {
          echo
          echo ">>>The errors below disappear in the BASH environment.<<<"
          echo
-         f_press_enter_key_to_continue
       fi
 } # End of function f_test_dash
 #
@@ -136,11 +135,11 @@ f_test_dash () {
 # rather than in the library file lib_cli-common.lib, but once in BASH, then
 # common library file may be invoked.
 #
-# Test the environment for DASH.
+# Test the environment for DASH and if in BASH invoke the common library.
 f_test_dash
-#
 # Invoke the common library to display menus.
-. lib_cli-common.lib
+. lib_cli-common.lib # If in DASH environment, then will program halt execution 
+                     # with error ".: lib_cli-common.lib: not found".
 #
 # **************************************
 # ***           Main Menu            ***

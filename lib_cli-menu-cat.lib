@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-19-2013 15:23"
+# REVDATE="August-20-2013 00:40"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -77,7 +77,7 @@ f_menu_cat_applications () {
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Gg] | [Gg][Aa]*)
-                 MOD_FILE="mod_apps-image.lib"
+                 MOD_FILE="mod_apps-games.lib"
                  f_load_module
                  f_menu_cat_games             # Games Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
