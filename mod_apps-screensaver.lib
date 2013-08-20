@@ -1,0 +1,88 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-14-2013 01:00"
+#
+# +----------------------------------------+
+# |    Function f_menu_app_screen_savers   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_screen_savers () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Screen-saver Applications until loop.
+            #MSS asciiaquarium - Aquarium on screen.
+            #MSS cmatrix       - Matrix-like screen-saver.
+            #MSS rain          - Rain on screen.
+            #MSS tty-clock     - Display a digital clack full-screen.
+            #MSS worms         - Worms wiggle on the screen.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-screensaver.lib"
+            MENU_TITLE="Screen-saver Applications Menu"
+            DELIMITER="#MSS" #MSS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Screen-saver Applications case statement.
+                 asciiaquarium' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Ss]*)
+                 APP_NAME="asciiaquarium"
+                 f_application_run
+                 ;;
+                 cmatrix' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Mm]*)
+                 APP_NAME="cmatrix"
+                 f_application_run
+                 ;;
+                 rain' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Aa]*)
+                 APP_NAME="rain"
+                 f_application_run
+                 ;;
+                 tty-clock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Tt]*)
+                 APP_NAME="tty-clock"
+                 f_application_run
+                 ;;
+                 worms' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Oo]*)
+                 APP_NAME="worms"
+                 f_application_run
+                 ;;
+            esac                # End of Screen-saver Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Screen-saver Applications until loop.
+} # End of f_menu_app_screen_savers
+#

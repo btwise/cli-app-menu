@@ -1,0 +1,160 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-14-2013 01:00"
+#
+# +----------------------------------------+
+# |     Function f_menu_app_education      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_education () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Education Applications until loop.
+            #MED aldo      - Morse code training.
+            #MED cw        - Morse code training.
+            #MED cwcp      - Morse code training.
+            #MED diatheke  - Holy Bible research tool.
+            #MED grass     - GIS Map utility (Geographic Information System).
+            #MED gtypist   - Typing tutor displays a sentence for practice.
+            #MED lifelines - Geneology.
+            #MED morse     - Morse code training.
+            #MED primes    - Prime number calculator. 
+            #MED typespeed - Typing tutor displays flying words arcade-style across screen.
+           #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-education.lib"
+            MENU_TITLE="Education/Hobby Applications Menu"
+            DELIMITER="#MED" #MED This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER
+ 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Education Applications case statement.
+                 aldo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Ll]*)
+                 APP_NAME="aldo"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 cw' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "Ctrl-d"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Ww])
+                 APP_NAME="cw"
+                 f_how_to_quit_application "Ctrl-d"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 f_application_run
+                 ;;
+                 cwcp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Ww] | [Cc][Ww][Cc]*)
+                 APP_NAME="cwcp"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 diatheke' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii]*)
+                 APP_NAME="diatheke"
+                 f_application_run
+                 ;;
+                 grass' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Rr]*)
+                 APP_NAME="grass"
+                 f_application_run
+                 ;;
+                 gtypist' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Gg] | [Gg][Tt]*)
+                 APP_NAME="gtypist"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 lifelines' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ii]*)
+                 APP_NAME="lifelines"
+                 f_application_run
+                 ;;
+                 morse' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Oo]*)
+                 APP_NAME="morse"
+                 clear # Blank the screen.
+                 echo "morse - text to morse code."
+                 echo
+                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running $APP_NAME will exit this menu script."
+                 echo
+                 echo -n "Run $APP_NAME and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+                 primes' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Rr]*)
+                 APP_NAME="primes"
+                 f_application_run
+                 ;;
+                 typespeed' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Yy]*)
+                 APP_NAME="typespeed"
+                 f_application_run
+                 ;;
+            esac                # End of Education Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Education Applications until loop.
+} # End of f_menu_app_education
+#

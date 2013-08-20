@@ -1,0 +1,363 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-14-2013 01:00"
+#
+# +----------------------------------------+
+# |       Function f_menu_cat_image        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: CHOICE_SCAT, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#
+f_menu_cat_image () {
+      f_initvars_menu_app
+      until [ $CHOICE_SCAT -eq 0 ] 
+      do    # Start of Image Application Category until loop.
+            #BIG ImageMagick - Tools to manipulate images.
+            #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-image.lib"
+            MENU_TITLE="Image Application Category Menu"
+            DELIMITER="#BIG" #BIG This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_SCAT
+            #
+            f_common_scat_menu
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_SCAT in # Start of Image Application Category case statement.
+                 [Ii] | [Ii][Mm]*)
+                 f_menu_app_imagemagick       # ImageMagic Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Tt] | [Tt][Oo]*)
+                 f_menu_app_image_graphics    # Image Graphics Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                 # End of Image Application Category case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_scat_bad_menu_choice
+      done  # End of Image Application Category until loop.
+} # End of function f_menu_cat_image
+#
+# +----------------------------------------+
+# |    Function f_menu_app_image_graphics   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_image_graphics () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Image-Graphics Applications until loop.
+            #MIG aview      - Image and ascii art image viewer.
+            #MIG bb         - ASCII-art movie demo based on AAlib.
+            #MIG caca-utils - Image viewer and converter jpg to ascii images.
+            #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png, etc.
+            #MIG fbv        - Image viewer framebuffer console.
+            #MIG fim        - Image and ascii art image viewer.
+            #MIG hasciicam  - ASCII web camera images.
+            #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
+            #MIG jp2a       - Convert jpg images to ascii images.
+            #MIG linuxlogo  - Color ANSI system logo
+            #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
+            #MIG star wars  - Star Wars movie in ASCII.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-image.lib"
+            MENU_TITLE="Image-Graphics Applications Menu"
+            DELIMITER="#MIG" #MIG This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Image-Graphics Applications case statement.
+                 aview' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Vv]*)
+                 APP_NAME="aview"
+                 f_application_run
+                 ;;
+                 bb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Bb] | [Bb][Bb])
+                 APP_NAME="bb"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 caca-utils' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Aa]*)
+                 APP_NAME="caca-utils"
+                 f_application_run
+                 ;;
+                 fbi' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Bb] | [Ff][Bb][Ii])
+                 APP_NAME="fbi"
+                 f_application_run
+                 ;;
+                 fbv' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Bb] | [Ff][Bb][Vv])
+                 APP_NAME="fbv"
+                 f_application_run
+                 ;;
+                 fim' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Ii]*)
+                 APP_NAME="fim"
+                 f_application_run
+                 ;;
+                 hasciicam' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Aa]*)
+                 APP_NAME="hasciicam"
+                 f_application_run
+                 ;;
+                 jfbview' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Jj] | [Jj][Ff]*)
+                 APP_NAME="jfbview"
+                 f_application_run
+                 ;;
+                 jp2a' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Jj] | [Jj][Pp]*)
+                 APP_NAME="jp2a"
+                 f_application_run
+                 ;;
+                 linuxlogo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ii]*)
+                 ANS=-1 # Initialize $ANS for until loop.
+                 until [ $ANS -ge 1 -a $ANS -le 26 ]
+                 do
+                       clear # Blank the screen.
+                       APP_NAME="linuxlogo -L list"
+                       f_application_run
+                       echo -n "Enter number (1-26): "
+                       read ANS
+                 done
+                 #
+                 APP_NAME="linuxlogo -L "$ANS
+                 f_application_run
+                 ;;
+                 sl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Ll])
+                 APP_NAME=sl
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] |[Ss][Tt] | [Ss][Tt][Aa]*)
+                 APP_NAME="telnet towel.blinkenlights.nl"
+                 clear # Blank the screen.
+                 echo "Star Wars ASCII Movie"
+                 echo
+                 echo The movie is played by running command:
+                 echo telnet towel.blinkenlights.nl
+                 echo
+                 echo If telnet hangs while trying the ip-address,
+                 echo then re-run this program and try again.
+                 echo
+                 echo "To quit Star Wars ASCII Movie, type Ctrl-Z or Ctrl-C."
+                 echo "(There is no way to cleanly return to the menu)."
+                 echo "Running Star Wars ASCII Movie will exit this menu script."
+                 echo
+                 echo -n "Run Star Wars ASCII Movie and exit script? (y/N)? "
+                 read ANS
+                 case $ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      f_application_run
+                      ;;
+                      [Nn] | [Nn][Oo] | *)
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac
+                 ;;
+            esac                # End of Image-Graphics Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Image-Graphics Applications until loop.
+} # End of f_menu_app_image_graphics
+#
+# +----------------------------------------+
+# |    Function f_menu_app_imagemagick     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_imagemagick () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of ImageMagick Applications until loop.
+            #MIK animate   - ImageMagick tool animates an image sequence on X-windows GUI.
+            #MIK composite - ImageMagick tool overlaps one image on top of another.
+            #MIK compare   - ImageMagick tool annotate differences between image versions.
+            #MIK conjure   - ImageMagick tool run Magick Scripting Language (MSL).
+            #MIK convert   - ImageMagick tool converts format, resize, crop, flip, etc.
+            #MIK display   - ImageMagick tool display image on X-windows GUI.
+            #MIK identify  - ImageMagick tool show format, characteristics of image files.
+            #MIK import    - ImageMagick tool Screen capture on X-windows GUI.
+            #MIK mogrify   - ImageMagick tool resize, blur, crop, dither, flip, join etc.
+            #MIK montage   - ImageMagick tool create a composite image from many images.
+            #MIK stream    - ImageMagick tool stream image to an archive format.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-image.lib"
+            MENU_TITLE="ImageMagick Applications Menu"
+            DELIMITER="#MIK" #MIK This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of ImageMagick Applications case statement.
+                 animate' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Nn]*)
+                 APP_NAME="animate"
+                 f_application_run
+                 ;;
+                 composite' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Oo]*)
+                 APP_NAME="composite"
+                 f_application_run
+                 ;;
+                 compare' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa]*)
+                 APP_NAME="compare"
+                 f_application_run
+                 ;;
+                 conjure' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Jj] | [Cc][Oo][Nn][Jj]*)
+                 APP_NAME="conjure"
+                 f_application_run
+                 ;;
+                 convert' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Vv]*)
+                 APP_NAME="convert"
+                 f_application_run
+                 ;;
+                 display' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii]*)
+                 APP_NAME="display"
+                 f_application_run
+                 ;;
+                 identify' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Dd]*)
+                 APP_NAME="identify"
+                 f_application_run
+                 ;;
+                 import' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Mm]*)
+                 APP_NAME="import"
+                 f_application_run
+                 ;;
+                 mogrify' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Gg]*)
+                 APP_NAME="mogrify"
+                 f_application_run
+                 ;;
+                 montage' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Nn]*)
+                 APP_NAME="montage"
+                 f_application_run
+                 ;;
+                 stream' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Tt]*)
+                 APP_NAME="stream"
+                 f_application_run
+                 ;;
+            esac                # End of ImageMagick Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of ImageMagick Applications until loop.
+} # End of f_menu_app_imagemagick
+#
