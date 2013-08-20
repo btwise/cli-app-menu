@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-19-2013 15:23"
+PROJECT_REVDATE="August-19-2013 20:04"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -55,6 +55,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_cat_applications added PRESS_KEY=0 for case statement.
 ##            *f_create_LIST_APPS added to create file LIST_APPS automatically.
 ##            *Main Menu item "List Applications" changed to use file LIST_APPS.
+##            *f_load_module deleted test code.
 ##
 ## 2013-08-17 *f_menu_cat_applications edited and added f_load_module, broke out
 ##             application category apps into different files.

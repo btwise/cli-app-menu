@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-19-2013 15:23"
+# REVDATE="August-19-2013 20:04"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -975,7 +975,7 @@ f_load_module () {
       if [ -r $MOD_FILE ] ; then
          . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
       else
-         echo -n "Download module library from which branch? (STABLE/testing/local/script/quit): "
+         echo -n "Download module library from which branch? (STABLE/testing/quit): "
          read ANS
          case $ANS in
               [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
@@ -1000,45 +1000,6 @@ f_load_module () {
               echo
               . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-              ;;
-              [Ll] | [Ll][Oo] | [Ll][Oo][Cc]*)  
-              TARGETDIR="/home/robert/Dropbox/linux/cli-app-menu_git-project/"
-              GITDIR=""
-              if [ -d $TARGETDIR ] ; then
-                 GITDIR=$TARGETDIR
-                 cp -p $GITDIR/$MOD_FILE .
-                 . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
-              else
-                 TARGETDIR="/home/stuff/Dropbox/linux/cli-app-menu_git-project/"
-                 if [ -d $TARGETDIR ] ; then
-                    GITDIR=$TARGETDIR
-                    cp -p $GITDIR/$MOD_FILE .
-                    . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
-                 fi
-              fi
-              echo "Downloaded files from $GITDIR."
-              echo "Downloaded files are in the same folder as this script."
-              echo
-              ;;
-              [Ss] | [Ss][Cc] | [Ss][Cc][Rr]*)
-              TARGETDIR="/home/robert/Dropbox/linux/apps/cli/scripts/cli-app-testing"
-              SCRIPTDIR=""
-              if [ -d $TARGETDIR ] ; then
-                 SCRIPTDIR=$TARGETDIR
-                 cp -p $SCRIPTDIR/$MOD_FILE .
-                 . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
-              else
-                 TARGETDIR="/home/stuff/Dropbox/linux/apps/cli/scripts/cli-app-testing"
-                 if [ -d $TARGETDIR ] ; then
-                    SCRIPTDIR=$TARGETDIR
-                    cp -p $SCRIPTDIR/$MOD_FILE .
-                    . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
-                 fi
-              fi
-              echo "Downloaded files from $SCRIPTDIR."
-              echo "Downloaded files are in the same folder as this script."
-              echo
-              . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
               ;;
            esac
       fi
