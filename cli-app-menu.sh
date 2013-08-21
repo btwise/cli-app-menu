@@ -391,7 +391,7 @@ do    # Start of CLI Menu util loop.
            if [ -r LIST_APPS ] ; then
               # Search LIST_APPS
               grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
-
+              echo
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            else
               echo

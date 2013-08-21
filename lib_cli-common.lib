@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 22:40"
+# REVDATE="August-21-2013 02:01"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -809,7 +809,8 @@ f_application_install () {
             echo
             echo "Installation of $APP_NAME_INSTALL failed."
             echo "Command sudo apt-get install $APP_NAME_INSTALL failed."
-            echo "May be a failure downloading package. Bad Internet connection?"
+            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "is not available for this linux distribution."
             echo
             f_application_web_install
          fi
@@ -820,15 +821,23 @@ f_application_install () {
          sudo slackpkg install $APP_NAME_INSTALL
          ERROR=$? # Save error flag condition.
          # 
-         # This if statement is commented out because slackpkg has error code $?=0 even if install fails.
+         # 
+         # This if statement is commented out because slackpkg has error code $?=0 even
+         # if install fails.
+         # 
+         # COMMENTED OUT FOR SLACKPKG BECAUSE ERROR CODE IS ALWAYS 0 WHETHER OR NOT IT 
+         # INSTALLED OK.
+         #
          # To Do List: find a way to indicate a failed install and alter if statement below.
+         #
          #if [ $ERROR -ne 0 ] ; then
          #   # Error code 1 $?=1 means installation failed.
          #   # Error code 0 (zero) where $?=0 means no error.
          #   echo
          #   echo "Installation of $APP_NAME_INSTALL failed."
          #   echo "Command sudo slackpkg $APP_NAME_INSTALL failed."
-         #   echo "May be a failure downloading package. Bad Internet connection"
+         #   echo "Perhaps the software package $APP_NAME_INSTALL"
+         #   echo "is not available for this linux distribution."
          #   echo
          #   f_application_web_install
          #fi
@@ -844,7 +853,9 @@ f_application_install () {
             echo
             echo "Installation of $APP_NAME_INSTALL failed."
             echo "Command sudo pacman -S $APP_NAME_INSTALL failed."
-            echo "May be a failure downloading package. Bad Internet connection"
+            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "is not available for this linux distribution."
+
             echo
             f_application_web_install
          fi
@@ -862,7 +873,8 @@ f_application_install () {
             echo
             echo "Installation of $APP_NAME_INSTALL failed."
             echo "Command sudo rpm -ivh $APP_NAME_INSTALL failed."
-            echo "May be a failure downloading package. Bad Internet connection"
+            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "is not available for this linux distribution."
             echo
             f_application_web_install
          fi
@@ -1107,7 +1119,7 @@ f_create_LIST_APPS () {
           # Print application names and descriptions.
           # Any new mod_apps*.lib files added must be included in the for-loop below.
 
-          for MOD_FILE in mod_apps-audio.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib mod_apps-sample-template.lib
+          for MOD_FILE in mod_apps-audio.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib
           do
               # Human readable list without special comment markers.
               # Indents one space before application name.
