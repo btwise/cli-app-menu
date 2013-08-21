@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-20-2013 22:40"
+REVDATE="August-21-2013 02:01"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -350,7 +350,16 @@ do    # Start of CLI Menu util loop.
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            else
               echo
-              echo "The file LIST_APPS is either missing or cannot be read."
+              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+              echo
+              echo "The file LIST_APPS may be automatically created/updated by:"
+              echo
+              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
+              echo
+              echo "2. Type the command below:"
+              echo
+              echo ". lib_cli-common.lib; f_create_LIST_APPS"
+              echo "<dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS."
               echo
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
@@ -379,9 +388,27 @@ do    # Start of CLI Menu util loop.
            f_press_enter_key_to_continue
            #
            clear # Blank the screen.
-           grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
-           #
-           f_press_enter_key_to_continue
+           if [ -r LIST_APPS ] ; then
+              # Search LIST_APPS
+              grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
+
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           else
+              echo
+              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+              echo
+              echo "The file LIST_APPS may be automatically created/updated by:"
+              echo
+              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
+              echo
+              echo "2. Type the command below:"
+              echo
+              echo ". lib_cli-common.lib; f_create_LIST_APPS"
+              echo "<dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS."
+              echo
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           fi
+           f_option_press_enter_key
            ;;
            [Uu] | [Uu][Pp]*)
            clear # Blank the screen.

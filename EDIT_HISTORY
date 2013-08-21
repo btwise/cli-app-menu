@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-20-2013 22:40"
+PROJECT_REVDATE="August-21-2013 02:01"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -47,6 +47,9 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-08-21 *Main Menu item "List Applications", "Search Applications" added
+##             error message and instructions if file LIST_APPS was missing.
 ##
 ## 2013-08-20 *cli-app-menu.sh fixed date string missing quotation mark.
 ##             Reworked "List Applications" and "Search Applications" items.
