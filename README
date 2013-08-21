@@ -27,7 +27,8 @@ sed -n 's/^#://'p README |more -d
 #:   Known problems and limitations
 #:   For more help
 #:   List of variables
-#:   List of Special Menu Option Markers
+#:   List of Special Menu Item Markers
+#:
 #:
 #: +----------------------------------------+
 #: |            Brief Description           |
@@ -49,6 +50,7 @@ sed -n 's/^#://'p README |more -d
 #: File naming convention for archiving:
 #: $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
 #:
+#:
 #: +----------------------------------------+
 #: | FILE LOCATIONS of cli-app-menu project |
 #: +----------------------------------------+
@@ -65,6 +67,7 @@ sed -n 's/^#://'p README |more -d
 #: You may download all or as few module files as you wish.
 #: You may delete any module files that you do not need.
 #:
+#:
 #: +----------------------------------------+
 #: |        HOW-TO Update this script       |
 #: +----------------------------------------+
@@ -72,6 +75,7 @@ sed -n 's/^#://'p README |more -d
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
 #: Also update the edit history text in the EDIT_HISTORY file.
+#:
 #:
 #: +----------------------------------------+
 #: |    Revision number and Revision Date   |
@@ -82,7 +86,8 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="August-19-2013 15:23"
+#:REVDATE="August-20-2013 22:40"
+#:
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -97,6 +102,7 @@ sed -n 's/^#://'p README |more -d
 #:
 #: Please enjoy . . . bob chin (2013).
 #:                    rdchin at yahoo.com.
+#:
 #:
 #: +----------------------------------------+
 #: |      Why is this menu so complex?      |
@@ -166,14 +172,14 @@ sed -n 's/^#://'p README |more -d
 #
 #: 1. The menu code is contained in functions with example templates. 
 #:
-#: 2. If you are adding a new application within an application menu, 
+#: 2. If you are adding a NEW APPLICATION within an application menu, 
 #:    a) decide what row in the menu that you want to place the new menu item.
 #:    b) Add the item string: <Special Menu Option Marker beginning with #> 
 #:       <name of item> <space><dash><space> <description>
 #:    c) Each Special Menu Option Marker MUST be unique for each menu.
 #:
 #:    Note: Please see bottom of this document
-#:          for a list of Special Menu Option Markers.
+#:          for a list of Special Menu Item Markers.
 #:
 #:    d) Create a new case statement for the new item.
 #:       There is no need to include an item number in the pattern matching.
@@ -184,15 +190,16 @@ sed -n 's/^#://'p README |more -d
 #:       a list of all applications available whether the app module is
 #:       downloaded or not.
 #:
-#: 3. If you are adding a new category or sub-category menu, please create them
+#: 3. If you are adding a NEW CATEGORY or SUB-CATEGORY menu, please create them
 #:    within the appropriate module file mod_apps-*.lib and please use the
 #:    templates for this very purpose available in mod_apps_sample_template.
-#:    Templates: f_menu_cat_sample_template or f_menu_scat_sample_template.
+#:    Templates: f_menu_scat_sample_template or f_menu_tcat_sample_template.
 #:
-#: 4. If you are adding a new application menu, please create them
-#:    within the appropriate module file mod_apps-*.lib and please use the
-#:    templates for this very purpose available in mod_apps_sample_template.
-#:    Template: f_menu_app_sample_template.
+#: 4. If you are creating a NEW MAJOR CATEGORY, create a new corresponding 
+#:    module file, mod_apps-*.lib and use template f_menu_scat_sample_template
+#:    to create the menu structure. ALSO UPDATE the README file and update the
+#:    function f_create_LIST_APPS within lib_cli-common.lib with the name of the
+#:    new module file so that the text file LIST_APPS can be re-created.
 #:
 #:
 #: +----------------------------------------+
@@ -202,7 +209,7 @@ sed -n 's/^#://'p README |more -d
 #: 1. Some or all of the menu items are missing.
 #:
 #:    If you copied from a template or another menu, check the Special Menu
-#:    Option Markers for consistency.
+#:    Item Markers for consistency.
 #:    In the example below, #MXX is before each menu item and in DELIMITER.
 #:    Note: DELIMITER has #MXX twice, separating it into 3 fields for awk.
 #:
@@ -250,6 +257,7 @@ sed -n 's/^#://'p README |more -d
 #:    As a result, I commented out the code which traps slackpkg installation
 #:    errors, shows an error message and asks if you want to download the
 #:    source code from the developer's web site.
+#:
 #:
 #: +----------------------------------------+
 #: |               For more help            |
@@ -320,7 +328,7 @@ sed -n 's/^#://'p README |more -d
 #:
 #:
 #: +----------------------------------------+
-#: |   List of Special Menu Option Markers  |
+#: |   List of Special Menu Item Markers    |
 #: +----------------------------------------+
 #:
 #:AAA - Main Menu
@@ -342,6 +350,7 @@ sed -n 's/^#://'p README |more -d
 #:MAA - Accounting Applications Menu
 #:MAC - Audio CD Ripper Applications Menu
 #:MAP - Audio Player Applications Menu
+#:MAQ - Audio Player2 Applications Menu
 #:MAR - Audio Radio Applications Menu
 #:MAS - Audio Speech Synthesis Applications Menu
 #:MAU - Audio Editor Applications Menu
@@ -363,16 +372,16 @@ sed -n 's/^#://'p README |more -d
 #:MFT - File Transfer Applications Menu
 #:MFV - File Viewer Applications Menu
 #:MFX - FAX Applications Menu
-#:MGB - Arcade Games
-#:MGC - Board Games
-#:MGD - Card Games
-#:MGE - MUD (Multi-user Dungeons)
-#:MGF - Puzzles
-#:MGG - Quiz
-#:MGH - RPG (Role-Playing Games)
-#:MGI - Simulation Games
-#:MGJ - Strategy Games
-#:MGK - Word Games
+#:MGB - Arcade Games Menu
+#:MGC - Board Games Menu
+#:MGD - Card Games Menu
+#:MGE - MUD (Multi-user Dungeons) Menu
+#:MGF - Puzzles Menu
+#:MGG - Quiz Menu
+#:MGH - RPG (Role-Playing Games) Menu
+#:MGI - Simulation Games Menu
+#:MGJ - Strategy Games Menu
+#:MGK - Word Games Menu
 #:MIG - Image-Graphics Applications Menu
 #:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu

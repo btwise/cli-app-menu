@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -261,6 +261,7 @@ f_menu_app_lanwan () {
       do    # Start of LAN/WAN Applications until loop.
             #MNL arping      - Check LAN connectivity by pinging MAC, IP address or hostname.
             #MNL dig         - Query Internet domain name servers.
+            #MNL dnstop      - Analyze and display tables of DNS traffic.
             #MNL ip          - Shows routing, devices, policy routing and tunnels.
             #MNL ip addr     - Protocol (IP or IPv6) address on a device.
             #MNL ip link     - Shows network device.
@@ -330,6 +331,14 @@ f_menu_app_lanwan () {
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Gg])
                  APP_NAME="dig"
+                 f_application_run
+                 ;;
+                 dnstop' '* | 'sudo dnstop '* | 'sudo dnstop')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Nn]*)
+                 APP_NAME="dnstop"
                  f_application_run
                  ;;
                  ip' '* | 'sudo ip '* | 'sudo ip')
@@ -1056,12 +1065,13 @@ f_menu_app_nic_tools () {
             #MNN ifconfig     - NIC configuration.
             #MNN ifplugstatus - Wireless USB NIC status.
             #MNN iwconfig     - Wireless NIC configuration.
-            #MNN iwlist       - Get detailed information from wired/wireless interface.
+            #MNN iwlist       - Get detailed information from wired/wireless NICs.
+            #MNN macchanger   - Change the hardware MAC address on wired/wireless NICs.
             #MNN mii-tool     - NIC configuration of Media Independent Interface Unit.
             #MNN mii-diag     - NIC configuration of network cards.
             #MNN netload      - NIC network load; ncurses based.
             #MNN nictools-pci - NIC configuration of specific oem network cards.
-            #MNN wicd-curses  - Wireless scan and connect to wired/wireless networks.
+            #MNN wicd-curses  - Scan and connect to wired/wireless networks.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-network.lib"
@@ -1140,6 +1150,35 @@ f_menu_app_nic_tools () {
                  echo -n "Enter iwlist $ANS command: "
                  read XSTR
                  APP_NAME="iwlist $ANS $XSTR"
+                 f_application_run
+                 ;;
+                 macchanger' '* | 'sudo macchanger '* | 'sudo macchanger')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Aa]*)
+                 f_find_NIC
+                 APP_NAME="macchanger"
+                 f_application_run
+                 clear # Blank the screen.
+                 echo "macchanger - Change the MAC hardware address of a NIC."
+                 echo
+                 echo "Usage:"
+                 echo "macchanger [OPTIONS] DEVICE"
+                 echo
+                 echo "Options:"
+                 echo "-a --another   Set random vendor MAC of the same kind."
+                 echo "-A             Set random vendor MAC of any kind."
+                 echo "-r --random    Set fully random MAC."
+                 echo "-p --permanent Reset MAC to original, permanent, hardware address."
+                 echo "-m --mac XX:XX:XX:XX:XX:XX Manually set the MAC."
+                 echo "-m --mac=XX:XX:XX:XX:XX:XX Manually set the MAC."
+                 echo "-s --show      Show the current MAC address."
+                 echo
+                 echo "Usage: macchanger [OPTIONS] $ANS"
+                 echo -n "Enter macchanger OPTIONS: "
+                 read XSTR
+                 APP_NAME="macchanger $XSTR $ANS"
                  f_application_run
                  ;;
                  mii-diag' '* | 'sudo mii-diag '* | 'sudo mii-diag')

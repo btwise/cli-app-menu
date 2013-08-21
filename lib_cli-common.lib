@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 00:40"
+# REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -99,26 +99,26 @@ f_choice_array () {
       XNUM=1 # Initialize XNUM.
       X=" "
       #
-      # The 1st awk:
-      # if-statement conditional "($2&&!$3)":
-      # Since the $DELIMITER is the special comment marker, then:
-      # if there is 1 marker (2 fields) then awk will print the 2nd field.
-      # if there are 2 markers (3 fields), then awk will not print anything.
-      # This prevents the lines of code which set the $ DELIMITER variable from
-      # being printed as a menu item, because they purposely have 2 markers.
+      # 1. The 1st awk:
+      #    if-statement conditional "($2&&!$3)":
+      #    Since the $DELIMITER is the special comment marker, then:
+      #    if there is 1 marker (2 fields) then awk will print the 2nd field.
+      #    if there are 2 markers (3 fields), then awk will not print anything.
+      #    This prevents the lines of code which set the $ DELIMITER variable
+      #    from being printed as a menu item, since they have 2 markers.
       #
-      # The 2nd awk:
-      # Prints the name of the menu item but not the description.
+      # 2. The 2nd awk:
+      #    Prints the name of the menu item but not the description.
       #
-      # The 3rd awk:
-      # If the name of the menu item is 2 or more words, just print the
-      # first 2 words into array CHOICE[$XNUM] which is sufficient for case
-      # pattern matching on that menu item choice.
-      # Allow app names consisting of 2 words. i.e. "ip addr", "ip route".
+      # 3. The 3rd awk:
+      #    If the name of the menu item is 2 or more words, just print the
+      #    first 2 words into array CHOICE[$XNUM] which is sufficient for case
+      #    pattern matching on that menu item choice.
+      #    Allow app names consisting of 2 words. i.e. "ip addr", "ip route".
 
-      # The <space> between the words needs a substitution { print $1"%"$2 }
-      # of a "%" for the <space> so awk will not separate the words into 2
-      # different menu items, rather than 1 menu item having 2 words.
+      #    The <space> between the words needs a substitution { print $1"%"$2 }
+      #    of a "%" for the <space> so awk will not separate the words into 2
+      #    different menu items, rather than 1 menu item having 2 words.
       # 
       for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'` # Use back-ticks to redirect, not single quotes.
       #
@@ -693,7 +693,6 @@ f_application_error () {
       # This function needs to be followed by a f_press_enter_key_to_continue 
       # or by a f_option_press_enter_key so that messages are displayed.
 } # End of function f_application_error
-
 #
 # +----------------------------------------+
 # |     Function f_display_error_code      |
@@ -876,7 +875,6 @@ f_application_install () {
       #
 } # End of function f_application_install
 #
-#
 # +----------------------------------------+
 # | Function f_application_web_install     |
 # +----------------------------------------+
@@ -887,32 +885,8 @@ f_application_install () {
 f_application_web_install () {
       WEB_SITE_INSTALL=""
       case $APP_NAME_INSTALL in # Start of Web Site case statement.
-      herrie)
-      WEB_SITE_INSTALL="http://herrie.info/#obtaining"
-      ;;
-      edbrowse)
-      WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
-      ;;
-      fbv)
-      WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
-      ;;
-      jfbview)
-      WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
-      ;;
-      retawq)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
-      ;;
-      portbunny)
-      WEB_SITE_INSTALL="http://portbunny.recurity.com/"
-      ;;
-      clcal)
-      WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
-      ;;
-      mencal)
-      WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
-      ;;
-      jed)
-      WEB_SITE_INSTALL="http://www.jedsoft.org/jed/download.html"
+      asciiaquarium)
+      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/html/"
       ;;
       binary-clock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
@@ -920,20 +894,53 @@ f_application_web_install () {
       cclock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
       ;;
+      clcal)
+      WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
+      ;;
       clockywock)
       WEB_SITE_INSTALL="http://soomka.com/"
-      ;;
-      grandfatherclock)
-      WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
-      ;;
-      asciiaquarium)
-      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/html/"
       ;;
       desmume)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
       ;;
+      edbrowse)
+      WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
+      ;;
+      fbv)
+      WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
+      ;;
+      grandfatherclock)
+      WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
+      ;;
       handbrake-cli)
       WEB_SITE_INSTALL="http://handbrake.fr/downloads2.php"
+      ;;
+      herrie)
+      WEB_SITE_INSTALL="http://herrie.info/#obtaining"
+      ;;
+      jed)
+      WEB_SITE_INSTALL="http://www.jedsoft.org/jed/download.html"
+      ;;
+      jfbview)
+      WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
+      ;;
+      lnav)
+      WEB_SITE_INSTALL="http://tstack.github.io/lnav/"
+      ;;
+      mencal)
+      WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
+      ;;
+      opencubicplayer)
+      WEB_SITE_INSTALL="http://stian.cubic.org/project-ocp.php"
+      ;;
+      retawq)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
+      ;;
+      portbunny)
+      WEB_SITE_INSTALL="http://portbunny.recurity.com/"
+      ;;
+      vtclock)
+      WEB_SITE_INSTALL="http://webonastick.com/vtclock/"
       ;;
       yougrabber)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/yougrabber/files/"
@@ -970,7 +977,7 @@ f_application_web_install () {
 # Outputs: ANS, WEB_SITE, PRESS_KEY
 #
 f_load_module () {
-      PRESS_KEY=0 # Display "Press 'Enter' key to continue."
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
       #
       if [ -r $MOD_FILE ] ; then
          . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
@@ -1003,15 +1010,15 @@ f_load_module () {
               ;;
            esac
       fi
-      f_option_press_enter_key
+      f_option_press_enter_key 
 } # End of f_load_module
 #
 # +----------------------------------------+
-# |          Function f_create_LIST_APPS   |
+# |       Function f_create_LIST_APPS      |
 # +----------------------------------------+
 #
 #  Inputs: None
-#    Uses: MOD_FILE
+#    Uses: MOD_FILE, XSTR
 # Outputs: File LIST_APPS
 #
 f_create_LIST_APPS () {
@@ -1020,10 +1027,88 @@ f_create_LIST_APPS () {
       if [ -r LIST_APPS ] ; then
          rm LIST_APPS # Remove old LIST_APPS file.
       fi
-      for MOD_FILE in mod_apps-audio.lib mod_apps-filedir.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-system.lib
+      #
+      # Explanation of the "for XSTR in" loop:
+      #
+      # 1. grep [#]:M[A-Z][A-Z] README
+      #    Find all lines matching "#:M[A-Z][A-Z]" in the file README.
+      #    This will find strings like "#:MAA - Accounting Applications Menu"
+      #
+      # 2. awk '{print $1}'
+      #    Prints just the Special Menu Item Marker, "#:MAA" and XSTR="#:MAA".
+      #
+      # 3. grep $XSTR README
+      #    Search README for all occurrences of the Special Menu Item Marker.
+      #    Find all lines matching "#:MAA" in the file README.
+      #    This will find strings like "#:MAA - Accounting Applications Menu"
+      #
+      # 4. awk -F " - " '{print $2}'
+      #    Strips the ":#MAA - " from it: "Accounting Applications Menu"
+      #
+      # 6. awk '{sub("Menu","Menu ***"); print $0}'
+      #    Appends "***" at the end: "Accounting Applications Menu ***"
+      #
+      # Set XSTR to the Special Menu Item Marker.
+      for XSTR in $(grep [#]:M[A-Z][A-Z] README | awk '{print $1}')
+      # for XSTR in $(grep [#]:M[A-Z][A-Z] README | awk '{print $1}' | awk -F "#:" '{print $2}')
       do
-          grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> LIST_APPS
-          #grep [#][M][A-Z][A-Z] $MOD_FILE >> LIST_APPS
+          echo >> LIST_APPS
+          # Print application category menu title.
+          echo "________________________________________________" >> LIST_APPS
+          echo -n "*** " >> LIST_APPS
+          grep $XSTR README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> LIST_APPS
+          #
+          # Explanation of the "for MOD_FILE in" loop.
+          #
+          # 1. grep $XSTR $MOD_FILE
+          #    Search the files mod_apps-*.lib one at a time for the Special
+          #    Menu Item Marker.
+          #    Find all lines matching "#MAA " in the files.
+          #    This will find strings like:
+          #    "#MAA ledger        - Ledger using double-entry."
+          #
+          # 2. awk -F $XSTR '{if ($2&&!$3){print $2}}' 
+          #    awk -F "#M" '{if ($2&&!$3){print $2}}'
+          #    if-statement conditional "($2&&!$3)":
+          #    Since the $DELIMITER is part/all of the special comment marker,
+          #    if there is 1 marker (2 fields) then print the 2nd field.
+          #    if there are 2 markers (3 fields), then do not print anything.
+          #    This prevents the lines of code which set the $ DELIMITER
+          #    variable from being printed as a menu item, because they
+          #    purposely have 2 markers.
+          #    This will result in:
+          #    " ledger        - Ledger using double-entry." w/delimiter $XSTR.
+          #    "AA ledger        - Ledger using double-entry." w/delimiter #M.
+          #
+          # 3. awk '{sub(/[^" "]+ /, ""); print $0}'
+          #    Substitute space for null at beginning of line.
+          #    This will result in:
+          #    "ledger        - Ledger using double-entry." w/delimiter "#M".
+          #
+          # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
+          # XSTR="#:MPS" to grep README file for menu titles.
+          # XSTR="#MPS"  to grep mod_apps*.lib files for application names
+          #              and descriptions.
+          # XSTR="MPS"   almost worked but README contained the word "MUMPS"
+          #              which caused problems when displaying the menu title
+          #              for "#:MPS - PDF-PS Applications Menu". Too much time.
+          # So somehow XSTR had to be modified within the for-loop.
+          #
+          XSTR=${XSTR/:/} # Use string substitution, I just learned how, cool!
+          #
+          # Print application names and descriptions.
+          # Any new mod_apps*.lib files added must be included in the for-loop below.
+
+          for MOD_FILE in mod_apps-audio.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib mod_apps-sample-template.lib
+          do
+              # Human readable list without special comment markers.
+              # Indents one space before application name.
+              grep $XSTR $MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> LIST_APPS
+              #
+              # Leaves no space before application name.
+              # grep $XSTR $MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> LIST_APPS
+
+          done
       done
-} # End of function f_test_dash
+} # End of function f_create_LIST_APPS
 #

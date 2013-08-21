@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -651,6 +651,7 @@ f_menu_app_instant_messaging () {
             #MIM bitlbee      - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
             #MIM centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
             #MIM centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+            #MIM climm        - Supports ICQ, Jabber, XMPP, GoogleTalk.
             #MIM emacs-jabber - Jabber client for Emacs.
             #MIM finch        - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster.
             #MIM freetalk     - Jabber client.
@@ -716,6 +717,14 @@ f_menu_app_instant_messaging () {
                  ;;
                  [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm])
                  APP_NAME="centerim"
+                 f_application_run
+                 ;;
+                 climm' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Ll][Ii]*)
+                 APP_NAME="climm"
                  f_application_run
                  ;;
                  emacs-jabber' '*)

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -179,6 +179,7 @@ f_menu_app_sys_disks () {
             #MSD ncdu   - Disk usage monitor, ncurses-based.
             #MSD parted - Disk partition tool.
             #MSD pydf   - Disk usage df clone written in python.
+            #MSD tdu    - Tree-view of disk space utilization; ncurses-based.
             #MSD uuid   - Use ls -l to show disk uuid number.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -355,6 +356,14 @@ f_menu_app_sys_disks () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 tdu' '* | 'sudo tdu '* | 'sudo tdu')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Dd]*)
+                 APP_NAME="tdu"
+                 f_application_run
+                 ;;
                  uuid' '* | 'sudo uuid '* | 'sudo uuid')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -386,6 +395,7 @@ f_menu_app_sys_health () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of System Health Applications until loop.
+            #MSH aide       - Advanced Intrusion Detection Environment check file integrity.
             #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
             #MSH arpalert   - Checks MAC addresses against list of known MACs, runs script.
             #MSH arpon      - ArpON detects/blocks arp poisoning/spoofing attacks.
@@ -412,6 +422,14 @@ f_menu_app_sys_health () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of System Health Applications case statement.
+                 aide' '* | 'sudo aide '* | 'sudo aide')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Ii*)
+                 APP_NAME="aide"
+                 f_application_run
+                 ;;
                  arp-scan' '* | 'sudo arp-scan '* | 'sudo arp-scan')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -621,6 +639,7 @@ f_menu_app_sys_logs () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Logs until loop.
             #MLO ccze      - A robust and modular log coloriser, with plugins. 
+            #MLO lnav      - View, analyze log files, histogram, hotkeys, ncurses-based.
             #MLO multitail - View multiple log files using multiple panes.
             #MLO swatch    - Log file viewer with regexp matching, highlighting & hooks.
             #
@@ -644,6 +663,14 @@ f_menu_app_sys_logs () {
                  ;;
                  [Cc] | [Cc][Cc]*)
                  APP_NAME="ccze"
+                 f_application_run
+                 ;;
+                 lnav' '* | 'sudo lnav '* | 'sudo lnav')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Nn]*)
+                 APP_NAME="lnav"
                  f_application_run
                  ;;
                  multitail' '* | 'sudo multitail '* | 'sudo multitail')
@@ -1691,8 +1718,9 @@ f_menu_app_sys_screens () {
             #MSC dvtm   - dwm-style (tiling) window manager.
             #MSC fbterm - Fast terminal emulator, multiple fonts, multiple windows.
             #MSC screen - Multiple sessions via split or pager screens.
-            #MSC vlock  - Locks virtual console or current terminal.
             #MSC tmux   - Multiple sessions with multiplexing.
+            #MSC twin   - A text mode window environment for multiple windows on screen.
+            #MSC vlock  - Locks virtual console or current terminal.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
@@ -1777,6 +1805,14 @@ f_menu_app_sys_screens () {
                  ;;
                  [Tt] | [Tt][Mm]*)
                  APP_NAME="tmux"
+                 f_application_run
+                 ;;
+                 twin' '* | 'sudo twin '* | 'sudo twin')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ww]*)
+                 APP_NAME="twin"
                  f_application_run
                  ;;
                  vlock' '* | 'sudo vlock '* | 'sudo vlock')

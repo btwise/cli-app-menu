@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-20-2013 00:40"
+PROJECT_REVDATE="August-20-2013 22:40"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -48,10 +48,32 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-08-20 *mod_apps-audio.lib fixed a comment line.
-##            *f_test_dash moved back to cli-app-menu.sh added comments.
+## 2013-08-20 *cli-app-menu.sh fixed date string missing quotation mark.
+##             Reworked "List Applications" and "Search Applications" items.
+##            *LISTAPPS updated for new apps, README updated for new audio menu.
+##            *f_application_web_install sorted alphabetically case patterns.
+##            *f_create_LIST_APPS rewritten so includes menu titles,
+##             application names and descriptions in human readable form.
 ##            *f_load_module fixed PRESS_KEY statements.
+##            *f_menu_app_accounting added clipf, fixed case pattern matching.
+##            *f_menu_app_cdrippers fixed a comment line missing "#".
+##            *f_menu_app_clocks added tbclock, vtclock.
+##            *f_menu_app_file_encryption added gnupgp.
+##            *f_menu_app_file_managers added exiftool, jhead.
+##            *f_menu_app_lanwan added dnstop.
+##            *f_menu_app_image_graphics added exiftool, jhead.
+##            *f_menu_app_instant_messaging added climm.
+##            *f_menu_app_music_players added clvc, mcplay, mjs, mp3blaster,
+##             opencubicplayer, orpheus.
+##            *f_menu_app_music_players2 is a new audio menu added mpd,
+##             moosic, mpc, draii, pms, mussort, vimpc, vitunes.
+##            *f_menu_app_nic_tools added macchanger.
+##            *f_menu_app_sys_disks added tdu.
+##            *f_menu_app_sys_health added aide.
+##            *f_menu_app_sys_logs added lnav.
+##            *f_menu_app_sys_screens added twin.
 ##            *f_menu_cat_applications fixed "Games" item module name.
+##            *f_test_dash moved back to cli-app-menu.sh added comments.
 ##
 ## 2013-08-19 *f_show_menu, f_choice_array improved documentation of awk.
 ##            *README updated documentation on "FILE LOCATIONS of cli-app-menu

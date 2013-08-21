@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -920,6 +920,7 @@ f_menu_app_file_encryption () {
             #MFE bcrypt    - Uses the blowfish encryption algorithm.
             #MFE ccrypt    - Uses the Rijndael cipher algorithm.
             #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
+            #MFE gnupg     - Gnu Privacy Guard symmetetric encryption/decryption.
             #MFE lspgpot   - Extracts ownertrust values from PGP keyrings.
             #MFE mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
             #MFE pgp       - Pretty Good Privacy (pgp).
@@ -963,6 +964,14 @@ f_menu_app_file_encryption () {
                  ;;
                  [Cc] | [Cc][Rr]*)
                  APP_NAME="crypt"
+                 f_application_run
+                 ;;
+                 gnupgp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Nn]*)
+                 APP_NAME="gnupgp"
                  f_application_run
                  ;;
                  lspgpot' '*)
@@ -1244,15 +1253,17 @@ f_menu_app_file_managers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of File Manager Applications until loop.
-            #MFI clex    - File manager.
-            #MFI detox   - File name clean up.
-            #MFI dired   - File manager for Emacs.
-            #MFI findmnt - Find a filesystem.
-            #MFI mc      - File Manager, Midnight Commander.
-            #MFI ranger  - File manager.
-            #MFI smbc    - Samba file manager for folder shares with Microsoft Windows.
-            #MFI vfu     - File manager, ncurses-based.
-            #MFI vifm    - File manager with vi-like commands.
+            #MFI clex     - File manager.
+            #MFI detox    - File name clean up.
+            #MFI dired    - File manager for Emacs.
+            #MFI exiftool - Display jpeg file properties in ls-like format.
+            #MFI findmnt  - Find a filesystem.
+            #MFI jhead    - Display jpeg file properties.
+            #MFI mc       - File Manager, Midnight Commander.
+            #MFI ranger   - File manager.
+            #MFI smbc     - Samba file manager for folder shares with Microsoft Windows.
+            #MFI vfu      - File manager, ncurses-based.
+            #MFI vifm     - File manager with vi-like commands.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-filedir.lib"
@@ -1296,12 +1307,28 @@ f_menu_app_file_managers () {
                  APP_NAME="dired"
                  f_application_run
                  ;;
+                 exiftool' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Xx]*)
+                 APP_NAME="exiftool"
+                 f_application_run
+                 ;;
                  findmnt' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ii]*)
                  APP_NAME="findmnt"
+                 f_application_run
+                 ;;
+                 jhead' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Jj] | [Jj][Hh]*)
+                 APP_NAME="jhead"
                  f_application_run
                  ;;
                  mc' '*)

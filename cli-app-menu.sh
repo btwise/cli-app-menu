@@ -21,14 +21,14 @@
 #:   Known problems and limitations
 #:   For more help
 #:   List of variables
-#:   List of Special Menu Option Markers
+#:   List of Special Menu Item Markers
 #
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-20-2013 00:40
+REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -165,7 +165,7 @@ do    # Start of CLI Menu util loop.
       #
       THIS_FILE="cli-app-menu.sh"
       MENU_TITLE="Main Menu"
-      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu options.
+      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu items.
       f_show_menu $MENU_TITLE $DELIMITER 
       read CHOICE_MAIN
       case $CHOICE_MAIN in 
@@ -343,75 +343,43 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
-           # clear # Blank the screen.
-           #
-           # 1. grep finds all lines containing "#M" followed by two letters in
-           #    this script.
-           #    .i.e. "            #MGF bastet         - Tetris-like game." #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #
-           #    Lines starting with "#M" are applications listed in menus.
-           #    The string "#M" followed by 2 letters are the special menu
-           #    option marker. i.e. #MGF is the marker for Puzzle Games. #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #
-           # 2. The first awk parses results and chosen if lines contain only
-           #    one "#M"*. Results are printed, showing everything after "#M".
-           #    i.e. Selected: "#MGF bastet         - Tetris-like game." #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #              print $2: "GF bastet         - Tetris-like game."
-           #
-           # 3. The second awk substitutes "" for only the first word and
-           #    prints all the rest of the words.
-           #    'sub' string function substitutes only the first match (word).
-           #    i.e.  Piped result: "GF bastet         - Tetris-like game."
-           #         result of sub: "bastet         - Tetris-like game."
-           #
-           # 4. 'print $0' I/O statement prints all the rest of the words.
-           #         i.e. print $0: "bastet         - Tetris-like game." 
-           #    (Where "GF" substituted by "".)
-           #
-           #
-           # Print a list of applications by using grep on each module file.
-           # Assumes all module files are present in current directory.
-           #
-           #for MOD_FILE in mod_apps-audio.lib mod_apps-filedir.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-system.lib
-           #do
-           #     grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
-           #done
-           #
-           #
-           # Print a list of applications using grep on file LIST_APPS.
-           MOD_FILE="LIST_APPS"
-           grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           clear # Blank the screen.
+           if [ -r LIST_APPS ] ; then
+              # display LIST_APPS
+              cat LIST_APPS | more -d
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           else
+              echo
+              echo "The file LIST_APPS is either missing or cannot be read."
+              echo
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           #
-           # The code below will work but is less elegant.
-           #
-           # 5. The second awk prints out the 2nd to the 15th words in the
-           #    resultant string. The 1st word is skipped because it is the
-           #    last 2 letters of the special menu option marker.
-           #    i.e. "GF bastet         - Tetris-like game."
-           #
-           #    2nd to 15th words printed.
-           #    i.e. "bastet - Tetris-like game."
-           #
-           # grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{print $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15}' | more -d
            #
            ;;
            [Ss] | [Ss][Ee]*)
-           clear # Blank the screen.
-           echo -n "Enter name of software package or search string: "
-           read XSTR
-           echo "If it is found, it will be listed below."
-           echo "No listing means that it is not featured in this menu."
+           XSTR=""
+           while [ -z $XSTR ]
+           do
+                 clear # Blank the screen.
+                 echo "Is a software package featured in this menu script, cli-app-menu?"
+                 echo -n "Enter name of software package or search string: "
+                 read XSTR
+           done
            echo
-           echo "For list of results of search for '$XSTR':"
+           echo "Please note:"
+           echo "Even if '$XSTR' is found, it may not be available for your Linux distribution."
+           echo
+           echo "Not all Linux distributions will have all packages featured in this menu."
+           echo "i.e. A software package available in Red Hat may not be available in Debian,"
+           echo "     and vice versa."
+           echo
+           echo
+           echo "To start search:"
            f_press_enter_key_to_continue
            #
            clear # Blank the screen.
-           for MOD_FILE in mod_apps-audio.lib mod_apps-filedir.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-system.lib
-           do
-               grep [#][M][A-Z][A-Z] $MOD_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | grep -i $XSTR | more -d
-           done
+           grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
            #
            f_press_enter_key_to_continue
            ;;

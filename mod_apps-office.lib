@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -100,6 +100,7 @@ f_menu_app_accounting () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Accounting Applications until loop.
+            #MAA clipf         - Track Your incomes and expenses, written for Python2.
             #MAA hledger       - Same as "ledger" but using the Haskell Programming Language.
             #MAA hledger-chart - Hledger pie chart generator.
             #MAA hledger-vty   - Hledger n-curses style interface.
@@ -120,11 +121,19 @@ f_menu_app_accounting () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calculator Applications case statement.
+                 clipf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Ll]*)
+                 APP_NAME="clipf"
+                 f_application_run
+                 ;;
                  hledger' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr])
+                 [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr])
                  APP_NAME="hledger"
                  f_application_run
                  ;;
@@ -132,7 +141,7 @@ f_menu_app_accounting () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc]*)
+                 [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc]*)
                  APP_NAME="hledger-chart"
                  f_application_run
                  ;;
@@ -140,7 +149,7 @@ f_menu_app_accounting () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Vv]*)
+                 [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Vv]*)
                  APP_NAME="hledger-vty"
                  f_application_run
                  ;;
@@ -148,7 +157,7 @@ f_menu_app_accounting () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Hh] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Ww]*)
+                 [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Ww]*)
                  APP_NAME="hledger-web"
                  f_application_run
                  ;;
@@ -445,6 +454,8 @@ f_menu_app_clocks () {
             #MCL clockywock       - Analog clock, ncurses-based.
             #MCL grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
             #MCL saytime          - Audio clock.
+            #MCL tbclock          - Binary clock, binary numbers 1/0 tells time.
+            #MCL vtclock          - Full-screen clock also shows 1 line text, ncurses-based.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -500,6 +511,22 @@ f_menu_app_clocks () {
                  ;;
                  [Ss] | [Ss][Aa]*)
                  APP_NAME="saytime"
+                 f_application_run
+                 ;;
+                 tbclock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Bb]*)
+                 APP_NAME="tbclock"
+                 f_application_run
+                 ;;
+                 vtclock' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Vv] | [Vv][Tt]*)
+                 APP_NAME="vtclock"
                  f_application_run
                  ;;
             esac                # End of Clock Applications case statement.
@@ -1478,7 +1505,7 @@ f_menu_app_text_tools () {
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
-                 echowc 
+                 echo
                  echo -n "Enter name of text file to check spelling: "
                  read ANS
                  if [ -z $ANS ] ; then   #String has zero length.

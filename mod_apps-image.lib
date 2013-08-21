@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-20-2013 22:40"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -63,11 +63,13 @@ f_menu_app_image_graphics () {
             #MIG aview      - Image and ascii art image viewer.
             #MIG bb         - ASCII-art movie demo based on AAlib.
             #MIG caca-utils - Image viewer and converter jpg to ascii images.
-            #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png, etc.
+            #MIG exiftool   - Display jpeg file properties in ls-like format.
+            #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
             #MIG fbv        - Image viewer framebuffer console.
             #MIG fim        - Image and ascii art image viewer.
             #MIG hasciicam  - ASCII web camera images.
             #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
+            #MIG jhead      - Display jpeg file properties.
             #MIG jp2a       - Convert jpg images to ascii images.
             #MIG linuxlogo  - Color ANSI system logo
             #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
@@ -115,6 +117,14 @@ f_menu_app_image_graphics () {
                  APP_NAME="caca-utils"
                  f_application_run
                  ;;
+                 exiftool' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Xx]*)
+                 APP_NAME="exiftool"
+                 f_application_run
+                 ;;
                  fbi' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -153,6 +163,14 @@ f_menu_app_image_graphics () {
                  ;;
                  [Jj] | [Jj][Ff]*)
                  APP_NAME="jfbview"
+                 f_application_run
+                 ;;
+                 jhead' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Jj] | [Jj][Hh]*)
+                 APP_NAME="jhead"
                  f_application_run
                  ;;
                  jp2a' '*)
