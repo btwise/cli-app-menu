@@ -1021,6 +1021,14 @@ f_load_module () {
 #    Uses: MOD_FILE, XSTR
 # Outputs: File LIST_APPS
 #
+# File LIST_APPS may be recreated at any time from the command line.
+# Prerequisite: ALL module files, mod_apps-*.lib MUST BE in the same directory
+#               as this lib_cli-common.lib file.
+#
+# Type this command (without the double-quote marks) at the command line prompt:
+# ". lib_cli-common.lib; f_create_LIST_APPS"
+#  <dot><space>lib_cli-common.lib<semi-colon><space>f_create_LIST_APPS.
+#
 f_create_LIST_APPS () {
       # Generate file LIST_APPS by using grep on each module file.
       # Assumes all module files are present in current directory.

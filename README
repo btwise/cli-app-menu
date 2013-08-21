@@ -201,6 +201,14 @@ sed -n 's/^#://'p README |more -d
 #:    function f_create_LIST_APPS within lib_cli-common.lib with the name of the
 #:    new module file so that the text file LIST_APPS can be re-created.
 #:
+#: 5. The file LIST_APPS may be automatically updated by copying all the 
+#:    mod_apps-*.lib files to the current directory and entering this command:
+#:
+#:    Type (without the double-quote marks) the command below:
+#:
+#:    ". lib_cli-common.lib; f_create_LIST_APPS"
+#:    <dot><space>lib_cli-common.lib<semi-colon><space>f_create_LIST_APPS.
+#:
 #:
 #: +----------------------------------------+
 #: |   Trouble-shooting a new menu item     |
