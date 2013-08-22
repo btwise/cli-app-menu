@@ -86,7 +86,7 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="August-20-2013 22:40"
+#:REVDATE="August-22-2013 17:24"
 #:
 #:
 #: +----------------------------------------+
@@ -330,6 +330,7 @@ sed -n 's/^#://'p README |more -d
 #: THIS_FILE   - String; name of shell script.
 #: WEB_SITE    - String; name of web site used when application is a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
+#: X
 #: XNUM        - Number; Scratch variable used in awk statement in f_show_menu
 #:               and in CHOICE[XNUM] array.
 #: XSTR        - String; Scratch variable.
@@ -341,6 +342,7 @@ sed -n 's/^#://'p README |more -d
 #:
 #:AAA - Main Menu
 #:AAB - Application Categories Menu
+#:AAC - Download Menu
 #:
 #:BAU - Audio Categories Menu
 #:BFM - File Management Categories Menu

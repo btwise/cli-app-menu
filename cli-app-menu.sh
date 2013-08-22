@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-21-2013 02:01"
+REVDATE="August-22-2013 17:24"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -154,7 +154,7 @@ do    # Start of CLI Menu util loop.
       #AAA Help and Features   - How to use and what can it do.
       #AAA About CLI Menu      - What version am I using.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
-      #AAA Download            - Download the STABLE released version of this script.
+      #AAA Download            - Download script program and/or software modules.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA License             - Licensing, GPL.
       #AAA List Applications   - List of all CLI applications in this menu.
@@ -210,7 +210,7 @@ do    # Start of CLI Menu util loop.
            # The first awk results in the date in quotes as a string.
            # The second awk strips the quotation marks from the date string.
            #
-           clear
+           clear # Blank the screen.
            echo "Project version: $PROJECT_REVISION"
            echo " Last edited on: $PROJECT_REVDATE"
            echo
@@ -234,59 +234,56 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
-           echo -n "Download from which branch? (STABLE/testing/quit): "
-           read ANS
-           case $ANS in
-                [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-                [Tt] | [Tt][Ee] | [Tt][Ee][Ss]| [Tt][Ee][Ss][Tt]*)
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/cli-app-menu.sh"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-common.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-menu-apps.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-menu-cat.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/README"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/COPYING"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/EDIT_HISTORY"
-                wget $WEB_SITE
-                ANS="TESTING"
-                echo "Downloaded files from github $ANS branch." 
-                echo "Downloaded files are in the same folder as this script."
-                echo
-                echo "The file names will be appended with a '.1'"
-                echo "and you will have to MANUALLY COPY THEM to the original names."
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;                  
-                "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa] | [Ss][Tt][Aa][Bb]*)  
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/cli-app-menu.sh"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-common.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-menu-apps.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-menu-cat.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/README"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/COPYING"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/EDIT_HISTORY"
-                wget $WEB_SITE
-                ANS="STABLE"
-                echo "Downloaded files from github $ANS branch." 
-                echo "Downloaded files are in the same folder as this script."
-                echo
-                echo "The file names will be appended with a '.1'"
-                echo "and you will have to MANUALLY COPY THEM to the original names."
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;
-           esac
+           f_initvars_menu_app
+           ANS="" # Initialize before calling f_download_file.
+           until [ $CHOICE_SCAT -eq 0 ] 
+           do    # Start of Download Software Menu until loop.
+                 #AAC Script program.
+                 #AAC Modules of applications.
+                 #
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 MENU_TITLE="Download Software Menu"
+                 DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
+                 f_show_menu $MENU_TITLE $DELIMITER 
+                 #
+                 read CHOICE_SCAT
+                 #
+                 f_common_scat_menu
+                 ERROR=0 # Reset error flag.
+                 #
+                 case $CHOICE_SCAT in # Start of Download Software Menu case statement.
+                      [Ss] | [Ss][Cc]*)
+                      echo
+                      echo "Choose the branch from where you want to download the script program."
+                      echo
+                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib README COPYING EDIT_HISTORY LIST_APPS
+                      do
+                         f_download_file
+                      done
+                      if [ "$ANS" != "QUIT" ] ; then
+                         echo "________________________________________________________________"
+                         echo
+                         echo "Downloaded files are in the same folder as this script."
+                         echo
+                         echo "The file names will be appended with a '.1'"
+                         echo "and you will have to MANUALLY COPY THEM to their original names."
+                         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      fi
+                      CHOICE_SCAT=-1         # Legitimate response. Stay in menu loop.
+                      ;;
+                      [Mm] | [Mm][Oo]*) 
+                      ANS=${ANS/QUIT/"BLAH"} # if user quit out of software program download,
+                                             # allow user the option to continue on to module download.
+                                             # by setting ANS to an invalid response will force
+                                             # f_ask_which_module_download to ask which branch to use.
+                      f_ask_which_module_download
+                      CHOICE_SCAT=-1         # Legitimate response. Stay in menu loop.
+                      ;;
+                 esac                 # End of Download Software Menu case statement.
+                 #
+                 # Trap bad menu choices, do not echo Press enter key to continue.
+                 f_scat_bad_menu_choice
+           done  # End of Download Software Menu until loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ee] | [Ee][Dd]*)
@@ -368,7 +365,7 @@ do    # Start of CLI Menu util loop.
            ;;
            [Ss] | [Ss][Ee]*)
            XSTR=""
-           while [ -z $XSTR ]
+           while [ -z "$XSTR" ]  # If no answer, repeat question.
            do
                  clear # Blank the screen.
                  echo "Is a software package featured in this menu script, cli-app-menu?"

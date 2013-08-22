@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 00:40"
+# REVDATE="August-22-2013 17:24"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -60,67 +60,67 @@ f_menu_cat_applications () {
             case $CHOICE_CAT in # Start of Application Category case statement.
                  [Aa] | [Aa][Uu]*)
                  MOD_FILE="mod_apps-audio.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_audio             # Audio Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd]*)
                  MOD_FILE="mod_apps-education.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_app_education         # Education Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ff] | [Ff][Ii]*)
                  MOD_FILE="mod_apps-filedir.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_file_management   # File Management Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Gg] | [Gg][Aa]*)
                  MOD_FILE="mod_apps-games.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_games             # Games Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ii] | [Ii][Mm]*)
                  MOD_FILE="mod_apps-image.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_image             # Image-Graphics Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ii] | [Ii][Nn]*)
                  MOD_FILE="mod_apps-internet.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_internet          # Internet Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Nn] | [Nn][Ee]*)
                  MOD_FILE="mod_apps-network.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_network           # Network Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Oo] | [Oo][Ff]*)
                  MOD_FILE="mod_apps-office.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_office            # Office Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Cc]*)
                  MOD_FILE="mod_apps-screensaver.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Yy]*)
                  MOD_FILE="mod_apps-system.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_system            # System Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Vv] | [Vv][Ii]*)
                  MOD_FILE="mod_apps-video.lib"
-                 f_load_module
+                 f_download_file
                  f_menu_cat_video             # Video Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;

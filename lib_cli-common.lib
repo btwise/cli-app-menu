@@ -3,11 +3,15 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-21-2013 02:01"
+# REVDATE="August-22-2013 17:24"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
 # +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: APP_NAME, CHOICE_APP, CHOICE_CAT, CHOICE_SCAT, CHOICE_TCAT, CHOICE_MAIN, ERROR, PRESS_KEY, TCOLOR.
 #
 f_initvars_menu_app () {
       TCOLOR="black"
@@ -33,6 +37,7 @@ f_initvars_menu_app () {
 # +----------------------------------------+
 #
 #  Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
+#    Uses: XNUM
 # Outputs: MAX, XNUM.
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
@@ -97,7 +102,6 @@ f_choice_array () {
       # declare -A CHOICE  # Commented out; do not need to declare the array.
       unset CHOICE
       XNUM=1 # Initialize XNUM.
-      X=" "
       #
       # 1. The 1st awk:
       #    if-statement conditional "($2&&!$3)":
@@ -135,8 +139,9 @@ f_choice_array () {
 # |       Function f_common_scat_menu      |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_SCAT.
-# Outputs: CHOICE_SCAT.
+#  Inputs: CHOICE_SCAT, CHOICE[$CHOICE_SCAT], MAX.
+#    Uses: None.
+# Outputs: CHOICE_SCAT, PRESS_KEY.
 #
 f_common_scat_menu () {
 #
@@ -162,8 +167,9 @@ f_common_scat_menu () {
 # |       Function f_common_tcat_menu      |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_TCAT, MAX, CHOICE[XNUM].
-# Outputs: CHOICE_TCAT.
+#  Inputs: CHOICE_TCAT, CHOICE[$CHOICE_TCAT], MAX.
+#    Uses: None.
+# Outputs: CHOICE_TCAT, PRESS_KEY.
 #
 f_common_tcat_menu () {
 #
@@ -189,8 +195,10 @@ f_common_tcat_menu () {
 # |       Function f_common_app_menu       |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_APP, MAX, CHOICE[XNUM].
-# Outputs: CHOICE_APP.
+#  Inputs: CHOICE_APP, CHOICE[$CHOICE_APP], MAX.
+#    Uses: None.
+# Outputs: CHOICE_APP, PRESS_KEY.
+#
 f_common_app_menu () {
       case $CHOICE_APP in
            # Quit?
@@ -214,7 +222,9 @@ f_common_app_menu () {
 # |   Function f_how_to_quit_application   |
 # +----------------------------------------+
 #
-# Inputs: $1, $2, APP_NAME.
+#  Inputs: $1, $2, APP_NAME.
+#    Uses: None.
+# Outputs: None.
 #
 f_how_to_quit_application () { 
       # $1 typed key to quit. 
@@ -233,7 +243,9 @@ f_how_to_quit_application () {
 # |          Function f_term_color         |
 # +----------------------------------------+
 #
-# Inputs: TCOLOR.
+#  Inputs: TCOLOR.
+#    Uses: None.
+# Outputs: None.
 #
 f_term_color () { # Set terminal display properties.
       case $TCOLOR in
@@ -251,20 +263,24 @@ f_term_color () { # Set terminal display properties.
 # | Function f_press_enter_key_to_continue |
 # +----------------------------------------+
 #
-# Inputs: None.
+#  Inputs: None.
+#    Uses: X.
+# Outputs: None.
 #
 f_press_enter_key_to_continue () { # Display message and wait for user input.
       . lib_cli-common.lib
       echo
       echo -n "Press '"Enter"' key to continue."
-      read ANS
+      read X
 } # End of function f_press_enter_key_to_continue
 #
 # +----------------------------------------+
 # |   Function f_option_press_enter_key    |
 # +----------------------------------------+
 #
-# Inputs: PRESS_KEY.
+#  Inputs: PRESS_KEY.
+#    Uses: None.
+# Outputs: None.
 #
 f_option_press_enter_key () { # Display message and wait for user input.
       # $PRESS_KEY = 0 means Do not display "Press 'Enter' key to continue."
@@ -280,7 +296,8 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # +----------------------------------------+
 #
 #  Inputs: CHOICE_APP, ERROR.
-# Outputs: PRESS_KEY, CHOICE_APP=-1, APP_NAME
+#    Uses: None.
+# Outputs: APP_NAME, ERROR, PRESS_KEY, CHOICE_APP=-1.
 #
 f_application_help () { # $CHOICE_APP="<Application name> --help"
                         # $CHOICE_APP="man <Application name>"
@@ -401,6 +418,7 @@ f_application_help () { # $CHOICE_APP="<Application name> --help"
 # +----------------------------------------+
 #
 #  Inputs: APP_NAME, INSTALL_ANS.
+#    Uses: ERROR.
 # Outputs: CHOICE_APP=-1.
 #
 f_application_run () {
@@ -434,7 +452,8 @@ f_application_run () {
 # | Function f_application_bad_menu_choice |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_APP, APP_NAME.
+#  Inputs: CHOICE_APP, MAX.
+#    Uses: None.
 # Outputs: CHOICE_APP, PRESS_KEY.
 #
 # Always set CHOICE_APP from string to an integer because menu until loop
@@ -469,13 +488,14 @@ f_application_bad_menu_choice () {
 # |    Function f_scat_bad_menu_choice     |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_SCAT.
+#  Inputs: CHOICE_SCAT, MAX.
+#    Uses: None.
 # Outputs: CHOICE_SCAT, PRESS_KEY.
 #
 f_scat_bad_menu_choice () {
       case $CHOICE_SCAT in
            "")
-           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           CHOICE_SCAT=-1 # Convert string to integer -1 forcing stay in until loop.
            PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
            ;;
            [A-Za-z]*)
@@ -495,13 +515,14 @@ f_scat_bad_menu_choice () {
 # |    Function f_tcat_bad_menu_choice     |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_TCAT.
+#  Inputs: CHOICE_TCAT, MAX.
+#    Uses: None.
 # Outputs: CHOICE_TCAT, PRESS_KEY.
 #
 f_tcat_bad_menu_choice () {
       case $CHOICE_TCAT in
            "")
-           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           CHOICE_TCAT=-1 # Convert string to integer -1 forcing stay in until loop.
            PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
            ;;
            [A-Za-z]*)
@@ -522,6 +543,7 @@ f_tcat_bad_menu_choice () {
 # +----------------------------------------+
 #
 #  Inputs: ERROR, APP_NAME. 
+#    Uses: APP_NAME_TMP.
 # Outputs: CHOICE_MAIN, CHOICE_CAT, CHOICE_SCAT, CHOICE_APP, INSTALL_ANS
 #          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL, APP_NAME_TMP.
 #
@@ -698,7 +720,8 @@ f_application_error () {
 # |     Function f_display_error_code      |
 # +----------------------------------------+
 #
-#  Inputs: ERROR, APP_NAME_TMP. 
+#  Inputs: ERROR, APP_NAME_TMP.
+#    Uses: None.
 # Outputs: None.
 #
 f_display_error_code () {
@@ -717,7 +740,8 @@ f_display_error_code () {
 # |     Function f_application_install     |
 # +----------------------------------------+
 #
-#  Inputs: ERROR, APP_NAME. 
+#  Inputs: APP_NAME, ERROR.
+#    Uses: ERROR.
 # Outputs: APP_NAME_INSTALL.
 #
 f_application_install () {
@@ -892,7 +916,8 @@ f_application_install () {
 # +----------------------------------------+
 #
 #  Inputs: APP_NAME_INSTALL.
-#    Uses: WEB_SITE_INSTALL
+#    Uses: ANS.
+# Outputs: APP_NAME, WEB_SITE_INSTALL.
 #
 f_application_web_install () {
       WEB_SITE_INSTALL=""
@@ -981,49 +1006,265 @@ f_application_web_install () {
 } # End of function f_application_web_install
 #
 # +----------------------------------------+
-# |  Function f_load_module                |
+# |  Function f_ask_which_branch_download  |
 # +----------------------------------------+
 #
-#  Inputs: MOD_FILE
+#  Inputs: None
 #    Uses: ANS, WEB_SITE.
 # Outputs: ANS, WEB_SITE, PRESS_KEY
 #
-f_load_module () {
-      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-      #
-      if [ -r $MOD_FILE ] ; then
-         . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
-      else
-         echo -n "Download module library from which branch? (STABLE/testing/quit): "
+f_ask_which_branch_download () {
+      while [  "$ANS" != "STABLE" -a "$ANS" != "TESTING" -a "$ANS" != "QUIT" ]
+      do
+         echo -n "Download from which branch? (STABLE/testing/quit): "
          read ANS
          case $ANS in
               [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+              ANS="QUIT"
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
               ;;
               [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
-              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/$MOD_FILE"
-              wget $WEB_SITE
+              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/"
               ANS="TESTING"
-              echo "Downloaded files from github $ANS branch." 
-              echo "Downloaded files are in the same folder as this script."
-              echo
-              . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
               ;;                  
               "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
-              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/$MOD_FILE"
-              wget $WEB_SITE
+              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/"
               ANS="STABLE"
-              echo "Downloaded files from github $ANS branch." 
-              echo "Downloaded files are in the same folder as this script."
-              echo
-              . $MOD_FILE # Invoke module library. # $MOD_FILE exists in current directory so use it.
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
               ;;
-           esac
+         esac
+      done
+} # End of function f_ask_which_branch_download
+#
+# +----------------------------------------+
+# |       Function f_download_file         |
+# +----------------------------------------+
+#
+#  Inputs: ANS, MOD_FILE
+#    Uses: ANS, WEB_SITE.
+# Outputs: ANS, WEB_SITE, PRESS_KEY
+#
+# Download a single file $MOD_FILE from $WEB_SITE.
+#
+f_download_file () {
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      #
+      case $MOD_FILE in
+           mod_apps*.lib)  # Module files only
+           if [ -r $MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
+           . $MOD_FILE # Invoke module library.
+                       # $MOD_FILE exists in current directory so make it accessible.
+           else  # $MOD_FILE is not in current directory.
+              # Ask download from which branch and wget.
+              f_wget_file
+              . $MOD_FILE # Invoke module library.
+                          # $MOD_FILE exists in current directory so make it accessible.
+           fi
+           ;;
+           *)  # All other files.
+           # Ask download from which branch and wget.
+           f_wget_file
+           ;;
+      esac
+} # End of f_download_file
+#
+# +----------------------------------------+
+# |       Function f_wget_file             |
+# +----------------------------------------+
+#
+#  Inputs: ANS, MOD_FILE
+#    Uses: ANS, WEB_SITE.
+# Outputs: ANS, WEB_SITE, PRESS_KEY
+#
+# wget a single file $MOD_FILE from $WEB_SITE.
+#
+f_wget_file () {
+      # echo "ANS = $ANS and MOD_FILE = $MOD_FILE" # Test diagnosis comment line.
+      # read X # Pause. Test diagnosis comment line.
+
+      if [ "$ANS" != "STABLE" -a "$ANS" != "TESTING" -a "$ANS" != "QUIT" ] ; then
+         f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
+                                      # ANS="QUIT"/"TESTING"/"STABLE", WEB_SITE, PRESS_KEY=0/1
       fi
-      f_option_press_enter_key 
-} # End of f_load_module
+      #
+      if [ "$ANS" = "QUIT" ] ; then
+         echo # if statement must have some command here to be happy.
+      else
+         # echo "Downloading wget $WEB_SITE$MOD_FILE files." # Test diagnosis comment line.
+         # echo  # Test diagnosis comment line.
+         wget $WEB_SITE$MOD_FILE      # Download the module.
+         echo "Downloaded file, $MOD_FILE from github $ANS branch." 
+         echo
+         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+      fi
+      # read X  # Pause. Test diagnosis comment line.
+} # End of f_wget_file
+#
+# +----------------------------------------+
+# |  Function f_ask_which_module_download  |
+# +----------------------------------------+
+#
+#  Inputs: ANS (STABLE, TESTING, QUIT)
+#    Uses: MOD_FILE, XSTR
+# Outputs: None (modules downloaded)
+#
+# Download a multiple $MOD_FILE files one at a time from $WEB_SITE.
+#
+f_ask_which_module_download () {
+      clear # Blank the screen.
+      echo "Here is a list of downloadable modules."
+      echo
+      echo "(ALL) modules"
+      echo "(AU)udio"
+      echo "(E)ducation"
+      echo "(F)ileDir"
+      echo "(G)ames"
+      echo "(IM)mage"
+      echo "(IN)ternet"
+      echo "(NE)etwork"
+      echo "(O)ffice"
+      echo "(SA)mple Templates"
+      echo "(SC)reensavers"
+      echo "(SY)stem"
+      echo "(V)ideo"
+      echo
+      echo "For example: 'GIMOSY' will download Games, Image, Office, System modules."
+      echo "          or 'G im OsY' (not case sensitive and spaces allowed)."
+      echo
+      echo "Download which modules? (Enter letter(s) or (Q)UIT: "
+      read XSTR
+      case $XSTR in
+           [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+           XSTR="QUIT"
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+           "")
+           XSTR="QUIT"
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+      esac
+      if [ "$XSTR" = "QUIT" ] ; then
+         echo "Quitting." # if statement must have some command here to be happy.
+      else
+         if [ "$ANS" != "STABLE" -a "$ANS" != "TESTING" -a "$ANS" != "QUIT" ] ; then
+           echo
+           echo "Choose the branch from where you want to download the software modules."
+           echo
+         f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
+                                      # ANS="QUIT"/"TESTING"/"STABLE", WEB_SITE, PRESS_KEY=0/1
+         fi
+         #
+         if [ "$ANS" = "QUIT" ] ; then
+            echo "Quitting." # if statement must have some command here to be happy.
+         else
+            # Prepare format of XSTR for processing by f_module_match.
+            # Change case of XSTR to all upper-case to make substition easier.
+            XSTR=$(echo $XSTR | tr '[:lower:]' '[:upper:]')
+            # Strip off any spaces in XSTR.
+            XSTR="${XSTR//[[:space:]]/}"  # Strip off any spaces in XSTR.
+            # echo "XSTR=$XSTR and MOD_FILE=$MOD_FILE before downloading." # Test diagnosis comment line.
+            # read X # Pause. Test diagnosis comment line.
+            #
+            while [ -n "$XSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
+            do
+               f_module_match # Set $MOD_FILE to module file name to be downloaded.
+               #echo "XSTR=$XSTR and MOD_FILE=$MOD_FILE before downloading." # Test diagnosis comment line.
+               if [ -n "$MOD_FILE" ]  ; then   # If MOD_FILE is not null, then wget.
+                                            # "ALL" menu item sets $MOD_FILE to null because
+                                            # "ALL" has already downloaded all modules prior.
+                  #echo "Downloading $MOD_FILES files." # Test diagnosis comment line.
+                  #echo  # Test diagnosis comment line.
+                  wget $WEB_SITE$MOD_FILE # Download the module.
+
+               fi
+            done
+         fi
+      fi      
+      #
+} # End of function f_ask_which_module_download
+#
+# +----------------------------------------+
+# |         Function f_module_match        |
+# +----------------------------------------+
+#
+#  Inputs: XSTR
+#    Uses: MOD_FILE, XSTR
+# Outputs: MOD_FILE, XSTR
+#
+f_module_match () {
+      #echo -n "Now entering f_module_match " # Test diagnosis comment line.
+      #echo "where XSTR = $XSTR and MOD_FILE=$MOD_FILE" # Test diagnosis comment line.
+      case $XSTR in
+           ALL)
+           for MOD_FILE in mod_apps-audio.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib mod_apps-sample-template.lib
+               do
+                  #echo "XSTR=$XSTR and download MOD_FILE=$MOD_FILE" # Test diagnosis comment line.
+                  wget $WEB_SITE$MOD_FILE  # Download all modules.
+               done
+           MOD_FILE=""  # This acts as a flag so download does not occur again at end of function.
+           XSTR=${XSTR/ALL/} # Strip off "ALL" from XSTR.
+           ;;
+           AU*)
+           MOD_FILE="mod_apps-audio.lib"
+           XSTR=${XSTR/AU/} # Strip off first letters AU of XSTR.
+           ;;
+           E*)
+           MOD_FILE="mod_apps-education.lib"
+           XSTR=${XSTR/E/} # Strip off first letter E of XSTR.
+           ;;
+           F*)
+           MOD_FILE="mod_apps-filedir.lib"
+           XSTR=${XSTR/F/} # Strip off first letter F of XSTR.
+           ;;
+           G*)
+           MOD_FILE="mod_apps-games.lib"
+           XSTR=${XSTR/G/} # Strip off first letter G of XSTR.
+           ;;
+           IM*)
+           MOD_FILE="mod_apps-image.lib"
+           XSTR=${XSTR/IM/} # Strip off first letters IM of XSTR.
+           ;;
+           IN*)
+           MOD_FILE="mod_apps-internet.lib"
+           XSTR=${XSTR/IN/} # Strip off first letters IN of XSTR.
+           ;;
+           NE*)
+           MOD_FILE="mod_apps-network.lib"
+           XSTR=${XSTR/NE/} # Strip off first letters NE of XSTR.
+           ;;
+           O*)
+           MOD_FILE="mod_apps-office.lib"
+           XSTR=${XSTR/O/} # Strip off first letter O of XSTR.
+           ;;
+           SA*)
+           MOD_FILE="mod_apps-sample-template.lib"
+           XSTR=${XSTR/SA/} # Strip off first letters SA of XSTR.
+           ;;
+           SC*)
+           MOD_FILE="mod_apps-screensaver.lib"
+           XSTR=${XSTR/SC/} # Strip off first letters SC of XSTR.
+           ;;
+           SY*)
+           MOD_FILE="mod_apps-system.lib"
+           XSTR=${XSTR/SY/} # Strip off first letters SY of XSTR.
+           ;;
+           V*)
+           MOD_FILE="mod_apps-video.lib"
+           XSTR=${XSTR/V/} # Strip off first letter V of XSTR.
+           ;;
+           *)
+           MOD_FILE=""
+           XSTR=""
+           echo
+           echo ">>>Error Bad choice input.<<<"
+           echo "       Exiting now."
+      esac
+      #echo # Test diagnosis comment line.
+      #echo -n "Now leaving f_module_match " # Test diagnosis comment line.
+      #echo "where XSTR = $XSTR and MOD_FILE = $MOD_FILE" # Test diagnosis comment line.
+      #read X # Pause. Test diagnosis comment line.
+} # End of function f_ask_which_module_download
 #
 # +----------------------------------------+
 # |       Function f_create_LIST_APPS      |
