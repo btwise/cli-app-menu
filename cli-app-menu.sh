@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-22-2013 17:24"
+REVDATE="August-25-2013 01:05"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -219,16 +219,38 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Cc]*)
+           X="" # Initialize scratch variable.
            clear # Blank the screen.
            if [ -r README ] ; then
-           # display Documentation (all lines beginning with #: but
-           # substitute "" for "#:" so "#:" is not printed).
-              sed -n 's/^#://'p README | more -d
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              echo # Do not take any action. Read file after downloading, if needed.
            else
-              echo
-              echo "The file README is either missing or cannot be read."
-              echo
+              while [  "$X" != "YES" -a "$X" != "NO" ]
+              do
+                    clear # Blank the screen.
+                    echo
+                    echo ">>>The file README is either missing or cannot be read.<<<"
+                    echo
+                    echo -n "Download README from www.git.com? (Y/n) "
+                    read X
+                    case $X in # Start of git download case statement.
+                         "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                         ANS=""
+                         MOD_FILE="README"
+                         f_download_file
+                         X="YES"
+                         ;;
+                         [Nn] | [Nn][Oo])
+                         X="NO"
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                         ;;
+                    esac         # End of git download case statement.
+              done
+           fi
+           #
+           if [ -r README ] ; then
+              # display Documentation (all lines beginning with #: but
+              # substitute "" for "#:" so "#:" is not printed).
+              sed -n 's/^#://'p README | more -d
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
@@ -251,7 +273,7 @@ do    # Start of CLI Menu util loop.
                  f_common_scat_menu
                  ERROR=0 # Reset error flag.
                  #
-                 case $CHOICE_SCAT in # Start of Download Software Menu case statement.
+                 case $CHOICE_SCAT in # Start of git download case statement.
                       [Ss] | [Ss][Cc]*)
                       echo
                       echo "Choose the branch from where you want to download the script program."
@@ -272,14 +294,10 @@ do    # Start of CLI Menu util loop.
                       CHOICE_SCAT=-1         # Legitimate response. Stay in menu loop.
                       ;;
                       [Mm] | [Mm][Oo]*) 
-                      ANS=${ANS/QUIT/"BLAH"} # if user quit out of software program download,
-                                             # allow user the option to continue on to module download.
-                                             # by setting ANS to an invalid response will force
-                                             # f_ask_which_module_download to ask which branch to use.
                       f_ask_which_module_download
                       CHOICE_SCAT=-1         # Legitimate response. Stay in menu loop.
                       ;;
-                 esac                 # End of Download Software Menu case statement.
+                 esac                 # End of git download case statement.
                  #
                  # Trap bad menu choices, do not echo Press enter key to continue.
                  f_scat_bad_menu_choice
@@ -287,17 +305,38 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ee] | [Ee][Dd]*)
+           X="" # Initialize scratch variable.
            clear # Blank the screen.
+           if [ -r EDIT_HISTORY ] ; then
+              echo # Do not take any action. Read file after downloading, if needed.
+           else
+              while [  "$X" != "YES" -a "$X" != "NO" ]
+              do
+                    clear # Blank the screen.
+                    echo
+                    echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
+                    echo
+                    echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
+                    read X
+                    case $X in # Start of git download case statement.
+                         "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                         ANS=""
+                         MOD_FILE="EDIT_HISTORY"
+                         f_download_file
+                         X="YES"
+                         ;;
+                         [Nn] | [Nn][Oo])
+                         X="NO"
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                         ;;
+                    esac         # End of git download case statement.
+              done
+           fi
            if [ -r EDIT_HISTORY ] ; then
               # display Edit History (all lines beginning with ## but
               # substitute "" for "##" so "##" is not printed).
               sed -n 's/^##//'p EDIT_HISTORY | more -d
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           else
-              echo
-              echo "The file EDIT_HISTORY is either missing or cannot be read."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
@@ -306,106 +345,190 @@ do    # Start of CLI Menu util loop.
            # display License (all lines beginning with #LIC but
            # substitute "" for "#LIC" so "#LIC" is not printed).
            sed -n 's/^#LIC//'p $THIS_FILE | more -d
-           echo
-           echo -n "Read the full license text contained in file 'COPYING'? (N/y) "
-           read ANS
-           case $ANS in # Start of license case statment.
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                echo
-                if [ -r COPYING ] ; then
-                   cat COPYING | more -d
-                else
-                   echo
-                   echo "The file COPYING is either missing or cannot be read."
-                   echo 
-                   echo -n "Read the full license text at http://www.gnu.org/licenses/ ? (N/y) "
-                   read ANS
-                   case $ANS in # Start of gnu.org case statement.
-                        [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                        echo
-                         APP_NAME="w3m"
-                        WEB_SITE="http://www.gnu.org/licenses/gpl.html"
-                        APP_NAME="$APP_NAME $WEB_SITE"
-                        f_application_run
-                        ;;
-                        [Nn] | [Nn][Oo])
-                        ;;
-                   esac         # End of gnu.org case statement.
-               fi
-               ;;
-               [Nn] | [Nn][Oo])
-               ;;
-           esac         # End of license case statment.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           f_press_enter_key_to_continue
+           X="" # Initialize scratch variable.
+           while [  "$X" != "YES" -a "$X" != "NO" ]
+           do
+                 clear # Blank the screen.
+                 echo -n "Read the full license text contained in file 'COPYING'? (Y/n) "
+                 read X
+                 case $X in # Start of license case statment.
+                      ""| [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      X="YES"
+                      echo
+                      if [ -r COPYING ] ; then
+                         echo # Do not take any action. Read file after downloading, if needed.
+                      else
+                         X="" # Initialize scratch variable.
+                         while [  "$X" != "YES" -a "$X" != "NO" ]
+                         do
+                               clear # Blank the screen.
+                               echo
+                               echo ">>>The file COPYING is either missing or cannot be read.<<<"
+                               echo 
+                               echo -n "Download COPYING from www.git.com? (Y/n) "
+                               read X
+                               case $X in # Start of git download case statement.
+                                    "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                                    ANS=""
+                                    MOD_FILE="COPYING"
+                                    f_download_file
+                                    X="YES"
+                                    ;;
+                                    [Nn] | [Nn][Oo])
+                                    X="" # Initialize scratch variable.
+                                    while [  "$X" != "YES" -a "$X" != "NO" ]
+                                    do
+                                          clear # Blank the screen.
+                                          echo -n "Read the full license text at http://www.gnu.org/licenses/ ? (Y/n) "
+                                          read X
+                                          case $X in # Start of gnu.org case statement.
+                                               "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                                               clear # Blank the screen.
+                                               APP_NAME="w3m"
+                                               WEB_SITE="http://www.gnu.org/licenses/gpl.html"
+                                               APP_NAME="$APP_NAME $WEB_SITE"
+                                               f_application_run
+                                               X="YES"
+                                               ;;
+                                               [Nn] | [Nn][Oo])
+                                               X="NO"
+                                               ;;
+                                          esac         # End of gnu.org case statement.
+                                    done
+                                    X="NO"
+                                               ;;
+                               esac         # End of git download case statement.
+                         done
+                      fi
+                      if [ -r COPYING ] ; then
+                         cat COPYING | more -d
+                         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      fi
+                      X="YES"
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      X="NO"
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac         # End of license case statment.
+           done
+           #
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
-           clear # Blank the screen.
+           X="" # Initialize scratch variable.
            if [ -r LIST_APPS ] ; then
-              # display LIST_APPS
-              cat LIST_APPS | more -d
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              echo # Do not take any action. Read file after downloading, if needed.
            else
-              echo
-              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
-              echo
-              echo "The file LIST_APPS may be automatically created/updated by:"
-              echo
-              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
-              echo
-              echo "2. Type the command below:"
-              echo
-              echo ". lib_cli-common.lib; f_create_LIST_APPS"
-              echo "<dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              while [  "$X" != "YES" -a "$X" != "NO" ]
+              do
+                    clear # Blank the screen.
+                    echo
+                    echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+                    echo
+                    echo -n "Download LIST_APPS from www.git.com? (Y/n) "
+                    read X
+                    case $X in # Start of gnu.org case statement.
+                         "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                         ANS=""
+                         MOD_FILE="LIST_APPS"
+                         f_download_file
+                         X="YES"
+                         ;;
+                         [Nn] | [Nn][Oo])
+                         echo
+                         echo "The file LIST_APPS may be automatically created/updated by:"
+                         echo
+                         echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
+                         echo
+                         echo "2. Type the command below:"
+                         echo
+                         echo ". lib_cli-common.lib; f_create_LIST_APPS"
+                         echo "<dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS."
+                         echo
+                         X="NO"
+                         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                         ;;
+                    esac         # End of gnu.org case statement.
+              done
+           fi
+           # display LIST_APPS
+           if [ -r LIST_APPS ] ; then
+           cat LIST_APPS | more -d
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            #
            ;;
            [Ss] | [Ss][Ee]*)
-           XSTR=""
-           while [ -z "$XSTR" ]  # If no answer, repeat question.
-           do
-                 clear # Blank the screen.
-                 echo "Is a software package featured in this menu script, cli-app-menu?"
-                 echo -n "Enter name of software package or search string: "
-                 read XSTR
-           done
-           echo
-           echo "Please note:"
-           echo "Even if '$XSTR' is found, it may not be available for your Linux distribution."
-           echo
-           echo "Not all Linux distributions will have all packages featured in this menu."
-           echo "i.e. A software package available in Red Hat may not be available in Debian,"
-           echo "     and vice versa."
-           echo
-           echo
-           echo "To start search:"
-           f_press_enter_key_to_continue
-           #
+           X="" # Initialize scratch variable.
            clear # Blank the screen.
            if [ -r LIST_APPS ] ; then
-              # Search LIST_APPS
-              grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              echo # Do not take any action. Read file after downloading, if needed.
            else
-              echo
-              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
-              echo
-              echo "The file LIST_APPS may be automatically created/updated by:"
-              echo
-              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
-              echo
-              echo "2. Type the command below:"
-              echo
-              echo ". lib_cli-common.lib; f_create_LIST_APPS"
-              echo "<dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              while [  "$X" != "YES" -a "$X" != "NO" ]
+              do
+                    clear # Blank the screen.
+                    echo
+                    echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+                    echo
+                    echo -n "Download LIST_APPS from www.git.com? (Y/n) "
+                    read X
+                         case $X in # Start of gnu.org case statement.
+                              "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                              ANS=""
+                              MOD_FILE="LIST_APPS"
+                              f_download_file
+                              X="YES"
+                              ;;
+                              [Nn] | [Nn][Oo])
+                              echo
+                              echo "The file LIST_APPS may be automatically created/updated by:"
+                              echo
+                              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
+                              echo
+                              echo "2. Type the command below:"
+                              echo
+                              echo ". lib_cli-common.lib; f_create_LIST_APPS"
+                              echo "<dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS."
+                              echo
+                              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                              X="NO"
+                              ;;
+                         esac         # End of gnu.org case statement.
+              done
            fi
-           f_option_press_enter_key
+           #
+           if [ -r LIST_APPS ] ; then
+              XSTR="-1"
+              clear # Blank the screen.
+              echo "Search for a software package featured in this menu script."
+              echo
+              echo "To quit, press 'Enter' key."
+              echo -n "Enter name of software package or search string: "
+              read XSTR
+              if [ -n "$XSTR" ] ; then
+                 echo
+                 echo "Please note:"
+                 echo "Even if '$XSTR' is found, it may not be available for your Linux distribution."
+                 echo
+                 echo "Not all Linux distributions will have all packages featured in this menu."
+                 echo "i.e. A software package available in Red Hat may not be available in Debian,"
+                 echo "     and vice versa."
+                 echo
+                 echo
+                 echo "To start search:"
+                 f_press_enter_key_to_continue
+                 #
+                 # Search LIST_APPS
+                 grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
+                 echo
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              else
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              fi
+           fi
            ;;
            [Uu] | [Uu][Pp]*)
            clear # Blank the screen.

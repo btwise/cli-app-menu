@@ -21,7 +21,7 @@ THIS_FILE="EDIT_HISTORY"
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-22-2013 17:24"
+PROJECT_REVDATE="August-25-2013 01:05"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -47,6 +47,10 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-08-25 *Main Menu items rewrote "Documentation", "Download",
+##             "Edit History", "License", List Applications", and "Search
+##             Applications".
 ##
 ## 2013-08-22 *f_ask_which_branch_download created asks which git branch to use.
 ##            *f_ask_which_module_download created asks modules to download.

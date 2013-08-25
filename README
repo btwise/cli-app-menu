@@ -330,7 +330,7 @@ sed -n 's/^#://'p README |more -d
 #: THIS_FILE   - String; name of shell script.
 #: WEB_SITE    - String; name of web site used when application is a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
-#: X
+#: X           - Scratch variable.
 #: XNUM        - Number; Scratch variable used in awk statement in f_show_menu
 #:               and in CHOICE[XNUM] array.
 #: XSTR        - String; Scratch variable.
