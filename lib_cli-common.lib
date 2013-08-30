@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-22-2013 17:24"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -302,6 +302,10 @@ f_option_press_enter_key () { # Display message and wait for user input.
 f_application_help () { # $CHOICE_APP="<Application name> --help"
                         # $CHOICE_APP="man <Application name>"
       case $CHOICE_APP in
+           *--version)
+           # if application has no option --version then this will generate an error message.
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           ;;
            *--help)
               clear # Blank screen
               # awk extracts only the application's name to use for APP_NAME.
@@ -596,21 +600,10 @@ f_application_error () {
            # Display error message.
            f_display_error_code
            echo "This $APP_NAME_TMP application is not installed."
+           echo 
+           echo "Not all applications in this menu are available on all linux distributions."
            echo
-           echo -n "Do you want to install $APP_NAME_TMP (y/N)? "
-           read INSTALL_ANS
-           case $INSTALL_ANS in # Start of Install Application Option case statement.
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                INSTALL_ANS="YES"
-                f_application_install
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;              
-                [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                INSTALL_ANS="NO"
-                ERROR=0
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-           esac # End of Install Application Option case statement.
+           f_application_install_question
            ;;
            1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
               # Some applications exit with error code 1 even if successfully run.
@@ -737,10 +730,35 @@ f_display_error_code () {
 } # End of function f_display_error_code
 #
 # +----------------------------------------+
+# | Function f_application_install_question|
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME
+#    Uses: INSTALL_ANS.
+# Outputs: ERROR, PRESS_KEY.
+#
+f_application_install_question () {
+                 echo -n "Do you want to install $APP_NAME (y/N)? "
+                 read INSTALL_ANS
+                 case $INSTALL_ANS in # Start of Install Application Option case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                      INSTALL_ANS="YES"
+                      f_application_install
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;              
+                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                      INSTALL_ANS="NO"
+                      ERROR=0
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac # End of Install Application Option case statement.
+} # End of function f_application_install_question
+#
+# +----------------------------------------+
 # |     Function f_application_install     |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME, ERROR.
+#  Inputs: APP_NAME.
 #    Uses: ERROR.
 # Outputs: APP_NAME_INSTALL.
 #
@@ -766,8 +784,17 @@ f_application_install () {
       # i.e. The game 'trek' is installed using the package called 'bsdgames'.
       #
       case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+           aaxine | cacaxine | fbxine)
+           APP_NAME_INSTALL="xine-console"
+           ;;
            acat| als | apack | atool | aunpack)
            APP_NAME_INSTALL="atool"
+           ;;
+           adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
+           APP_NAME_INSTALL="bsdgames"
+           ;;
+           animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
+           APP_NAME_INSTALL="imagemagick"
            ;;
            aria2c)
            APP_NAME_INSTALL="aria2"
@@ -775,14 +802,11 @@ f_application_install () {
            barnowl | zcrypt)
            APP_NAME_INSTALL="barnowl"
            ;;
-           adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
-           APP_NAME_INSTALL="bsdgames"
-           ;;
            clamscan)
            APP_NAME_INSTALL="clamav"
            ;;
-           todo)
-           APP_NAME_INSTALL="devtodo"
+           e3*) # covers e3em, e3vi, e3pi, e3ne, e3ws.
+           APP_NAME_INSTALL="e3"
            ;;
            fbgs)
            APP_NAME_INSTALL="fbi"
@@ -794,29 +818,26 @@ f_application_install () {
            ifplugstatus)
            APP_NAME_INSTALL="ifplugd"
            ;;
-           animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
-           APP_NAME_INSTALL="imagemagick"
+           lynx)
+           APP_NAME_INSTALL="lynx-cur"
            ;;
            moc)
            APP_NAME_INSTALL="libqt4-dev"
            ;;
-           lynx)
-           APP_NAME_INSTALL="lynx-cur"
+           mpstat | iostat | pidstat | sadf | sar)
+           APP_NAME_INSTALL="sysstat"
            ;;
            nagios3)
            APP_NAME_INSTALL="nagios3-core"
            ;;
-           tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
-           APP_NAME_INSTALL="netdiag"
-           ;; 
-           mpstat | iostat | pidstat | sadf | sar)
-           APP_NAME_INSTALL="sysstat"
-           ;;
            photorec)
            APP_NAME_INSTALL="testdisk"
            ;;
-           aaxine | cacaxine | fbxine)
-           APP_NAME_INSTALL="xine-console"
+           tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
+           APP_NAME_INSTALL="netdiag"
+           ;; 
+           todo)
+           APP_NAME_INSTALL="devtodo"
            ;;
            xz | unxz | xzcat | xzgrep)
            APP_NAME_INSTALL="xz-utils"
@@ -940,6 +961,12 @@ f_application_web_install () {
       desmume)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
       ;;
+      diary)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/diary/"
+      ;;
+      diary-f)
+      WEB_SITE_INSTALL="https://github.com/earshinov/diary-f"
+      ;;
       edbrowse)
       WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
       ;;
@@ -967,6 +994,9 @@ f_application_web_install () {
       mencal)
       WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
       ;;
+      ne)
+      WEB_SITE_INSTALL="http://ne.dsi.unimi.it/#downloads"
+      ;;
       opencubicplayer)
       WEB_SITE_INSTALL="http://stian.cubic.org/project-ocp.php"
       ;;
@@ -975,6 +1005,9 @@ f_application_web_install () {
       ;;
       portbunny)
       WEB_SITE_INSTALL="http://portbunny.recurity.com/"
+      ;;
+      todo2)
+      WEB_SITE_INSTALL="http://swapoff.org/devtodo.html"
       ;;
       vtclock)
       WEB_SITE_INSTALL="http://webonastick.com/vtclock/"
@@ -1289,6 +1322,9 @@ f_create_LIST_APPS () {
          rm LIST_APPS # Remove old LIST_APPS file.
       fi
       #
+      echo "________________________________________________" >> LIST_APPS
+      echo -n "Last updated: " >> LIST_APPS 
+      date +%Y-%m-%d" "%H:%M" "%A >> LIST_APPS
       # Explanation of the "for XSTR in" loop:
       #
       # 1. grep [#]:M[A-Z][A-Z] README
@@ -1360,7 +1396,7 @@ f_create_LIST_APPS () {
           # Print application names and descriptions.
           # Any new mod_apps*.lib files added must be included in the for-loop below.
 
-          for MOD_FILE in mod_apps-audio.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib
+          for MOD_FILE in mod_apps-audio.lib mod_apps-databases.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib
           do
               # Human readable list without special comment markers.
               # Indents one space before application name.

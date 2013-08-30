@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 22:40"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -22,12 +22,12 @@ f_menu_cat_internet () {
             #BIN Email             - Email clients.
             #BIN FAX               - FAX clients.
             #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
-            #BIN Instant Messaging - AIM/ICQ, Yahoo!, MSN, IRC, Jabber/XMPP/Google Talk...
+            #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
             #BIN IRC Clients       - Internet Relay Chat clients.
             #BIN LAN Chat          - Local Area Network Chat (not IRC).
             #BIN News Readers      - Read USEnet news.
             #BIN Podcatcher        - Podcaster readers.
-            #BIN Remote Connection - Connect to other PCs remotely.
+            #BIN Remote Connection - Connect to other PCs remotely, cloud services.
             #BIN RSS Feeders       - RSS news, messages.
             #BIN Web Browsers      - Internet web  browsers.
             #
@@ -64,7 +64,7 @@ f_menu_cat_internet () {
                  f_menu_app_file_transfer     # File Transfer Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Ii] | [Ii][Nn]*)
+                 [Ii] | [Ii][Mm]*)
                  f_menu_app_instant_messaging #Instant Messaging Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
@@ -116,6 +116,7 @@ f_menu_app_bittorrent () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Bittorrent Applications until loop.
             #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
+            #MBT bitflu       - Daemon includes web GUI interface, telnet, plugins.
             #MBT bittornado   - Torrent file transfer.
             #MBT bittorrent   - Torrent file transfer.
             #MBT ctorrent     - Torrent file transfer.
@@ -144,6 +145,14 @@ f_menu_app_bittorrent () {
                  ;;
                  [Aa] | [Aa][Rr]*)
                  APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
+                 f_application_run
+                 ;;
+                 bitflu' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Ff]*)
+                 APP_NAME="bitflu"
                  f_application_run
                  ;;
                  bittornado' '*)
@@ -223,6 +232,7 @@ f_menu_app_downloaders () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Downloaders Applications until loop.
+            #MDL axel     - Downloader accelerator using multiple connections/mirrors.
             #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
             #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
             #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
@@ -243,7 +253,15 @@ f_menu_app_downloaders () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Dowloader Applications case statement.
-                 aria2c' '*)
+                 axel' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Xx]*)
+                 APP_NAME="axel"
+                 f_application_run
+                 ;;
+                 axel' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
@@ -358,6 +376,8 @@ f_menu_app_email () {
             #MEM heirloom-mailx - E-mail client.
             #MEM mu4e           - Email client for Emacs.
             #MEM mutt           - E-mail client.
+            #MEM abook          - Address book with or w/o mutt, features tabbed fields.
+            #MEM lbdb           - Little Brother's Database for mutt mail reader.
             #MEM nedmail        - E-mail client.
             #MEM pine           - E-mail client.
             #MEM sup            - E-mail client.
@@ -376,6 +396,14 @@ f_menu_app_email () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of E-mail Applications case statement.
+                 abook' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Bb]*)
+                 APP_NAME="abook"
+                 f_application_run
+                 ;;
                  alpine' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -422,6 +450,14 @@ f_menu_app_email () {
                  ;;
                  [Hh] | [Hh][Ee]*)
                  APP_NAME="heirloom-mailx"
+                 f_application_run
+                 ;;
+                 lbdb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll | [Ll][Bb]*)
+                 APP_NAME="lbdb"
                  f_application_run
                  ;;
                  mu4e' '*)
@@ -649,6 +685,7 @@ f_menu_app_instant_messaging () {
       do    # Start of Internet Messaging Applications until loop.
             #MIM barnowl      - BarnOwl supports AIM, IRC, Jabber, Zephyr.
             #MIM bitlbee      - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
+            #MIM bti          - Tweet to Twitter.com, Identi.ca or any other StatusNet.
             #MIM centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
             #MIM centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
             #MIM climm        - Supports ICQ, Jabber, XMPP, GoogleTalk.
@@ -701,6 +738,14 @@ f_menu_app_instant_messaging () {
                  ;;
                  [Bb] | [Bb][Ii]*)
                  APP_NAME="bitlbee"
+                 f_application_run
+                 ;;
+                 bti' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Tt]*)
+                 APP_NAME="bti"
                  f_application_run
                  ;;
                  centericq' '*)
@@ -961,12 +1006,15 @@ f_menu_app_news_readers () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
-            #MNR gnus - News reader and E-mail client for Emacs.
-            #MNR nn   - News reader.
-            #MNR rn   - News reader.
-            #MNR slrn - News reader.
-            #MNR tin  - News reader.
-            #MNR trn  - News reader.
+            #MNR cortex     - Dump news web page to text.
+            #MNR gnus       - News reader and E-mail client for Emacs.
+            #MNR hacker-top - Dump news web page to text.
+            #MNR nn         - News reader.
+            #MNR reddit-top - Dump news web page to text.
+            #MNR rn         - News reader.
+            #MNR slrn       - News reader.
+            #MNR tin        - News reader.
+            #MNR trn        - News reader.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-internet.lib"
@@ -982,6 +1030,14 @@ f_menu_app_news_readers () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of News Reader Applications case statement.
+                 cortex' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo]*)
+                 APP_NAME="cortex"
+                 f_application_run
+                 ;;
                  gnus' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -990,12 +1046,28 @@ f_menu_app_news_readers () {
                  APP_NAME="gnus"
                  f_application_run
                  ;;
+                 hacker-top' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Aa]) 
+                 APP_NAME="hacker-top"
+                 f_application_run
+                 ;;
                  nn' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Nn] | [Nn][Nn]) 
                  APP_NAME="nn"
+                 f_application_run
+                 ;;
+                 reddit-top' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Ee]) 
+                 APP_NAME="reddit-top"
                  f_application_run
                  ;;
                  rn' '*)
@@ -1143,6 +1215,7 @@ f_menu_app_remote_connection () {
       do    # Start of Remote Connection Applications until loop.
             #MRC cpu     - Remote connection.
             #MRC openssh - Remote connection.
+            #MRC grive   - Google Drive client for cloud storage on Google.
             #MRC ssh     - Remote connection.
             #MRC sslh    - Remote connection.
             #
@@ -1166,6 +1239,14 @@ f_menu_app_remote_connection () {
                  ;;
                  [Cc] | [Cc][Pp]*)
                  APP_NAME="cpu"
+                 f_application_run
+                 ;;
+                 grive' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Rr]*)
+                 APP_NAME="grive"
                  f_application_run
                  ;;
                  openssh' '*)
@@ -1349,7 +1430,7 @@ f_menu_app_web_browsers () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Ee] | [Ee][Ll]*)
+                 [Ee] | [Ee][Ll] | [Ee][Ll][Ii] | [Ee][Ll][Ii][Nn] | [Ee][Ll][Ii][Nn][Kk] | [Ee][Ll][Ii][Nn][Kk][Ss])
                  APP_NAME="elinks"
                  f_web_site
                  f_how_to_quit_application "q"
@@ -1422,6 +1503,7 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
             esac                # End of Web Browsers Applications case statement.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
@@ -1446,39 +1528,17 @@ case $APP_NAME in # Start of case statement.
      # Does $APP_NAME have no spaces?
      # If so, treat as a web browser without a specified web site.
      #
-     'sudo '*) # Starts with 'sudo' command.
-     # If so, 2nd word is an application option and not a web site.
-     # Assumed format: sudo w3m
+     'sudo '*' '* | *' '*) # Command has at least one space.
      # It is assumed that users who do "sudo <application name> <options>"
      # know what they are doing and do not need to be prompted to provide
      # a web site and do not call f_web_site in the application case statments.
+     # i.e. "sudo nslookup www.lxer.com"
      #
-     # The application case statements will not allow any other sudo
-     # formats i.e. sudo -width 80 links -driver atheos -html-images 0.
-     # To accomodate all formats would require extensive parsing and
-     # differentiating between an option and a web site.
+     # This case pattern matching statements will allow any other sudo formats
+     # i.e. For links browser, "sudo -width 80 links -driver atheos -html-images 0".
      #
-     APP_NAME_SUDO=$(echo $APP_NAME | awk '{print $2;}')
-     # awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
-     # APP_OPT=$(echo APP_NAME 
-     # WEB_SITE=$(echo $APP_NAME | awk '{print $2;}')
-     echo
-     echo "When using the web browser or network application directly from the command line,"
-     echo "use the syntax: $APP_NAME WEB_SITE"
-     echo
-     echo -n "Enter the name of the web site: "
-     read WEB_SITE
-     #
-     # If no web site specified, default to a web site. Note the test command
-     # has $WEB_SITE in quotes because it may not be set prior to this test.
-     if [ -z "$WEB_SITE" ] ; then
-         WEB_SITE="http://www.lxer.com"
-     fi
-     #
-     APP_NAME="$APP_NAME $WEB_SITE"
-     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
      ;;
-     *[!' ']*) # It has no spaces in name.
+     *[!' ']*) # It has no spaces in name. No spaces means no web site specified.
      echo
      echo "When using a web browser or network application directly from the command line,"
      echo "use the syntax: $APP_NAME WEB_SITE"
@@ -1493,34 +1553,6 @@ case $APP_NAME in # Start of case statement.
      fi
      #
      APP_NAME="$APP_NAME $WEB_SITE"
-     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-     ;;
-     # Does $APP_NAME have space followed by dash?
-     # If so, 2nd word is an application option and not a web site.
-     #
-     *' '[\-]*) # Space followed by dash in name. Same as ' -'*) pattern.
-                 # The pattern ' '[\-] is the same as ' -' pattern.
-                 # The dash is usually used in range pattern [0-9] [a-zA-Z]
-                 # but the back-slash makes dash interpreted as literal dash.
-     # No action needs to be taken. Invoking application option not a web site.
-     #
-     echo
-     echo "There is no web site specified, just a "-option" invoking an application option"
-     echo "and not a web site."
-     echo
-    WEB_SITE="" 
-    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-     ;;
-     # Does $APP_NAME have space not followed by dash?
-     # If so, 2nd word treated as a web site.
-     #
-     *' '[!\-]*) # Space not followed by dash. Assume 2nd word is the web site.
-     # WEB_SITE=$(echo $APP_NAME | awk '{print $2;}') # TEST LINE.
-     # APP_NAME=$(echo $APP_NAME | awk '{print $1;}') # TEST LINE.
-     # echo $APP_NAME to browse in $WEB_SITE          # TEST LINE.
-     # f_press_enter_key_to_continue                  # TEST LINE.
-     #
-     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
      ;;
 esac # End of case statement.
 } # End of function f_web_site

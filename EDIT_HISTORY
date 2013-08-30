@@ -9,7 +9,8 @@
 #
 THIS_FILE="EDIT_HISTORY"
 #
-# The double # at the beginning of lines below are used to delineate the Edit History.
+# The double # at the beginning of lines below
+# are used to delineate the Edit History.
 #
 ## Edit History
 ##
@@ -20,8 +21,9 @@ THIS_FILE="EDIT_HISTORY"
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-25-2013 01:05"
+PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
+PROJECT_REVISION="2013.$PROJECT_REVISION"
+PROJECT_REVDATE="August-29-2013 18:50"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -30,7 +32,9 @@ echo "Bash script name: $THIS_FILE"
 echo
 echo -n "Press '"Enter"' key to continue."
 read ANS
-sed -n 's/^##//'p $THIS_FILE | more -d
+# sed substitutes null for ## at beginning of each line so it is not printed.
+# less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_FILE
 #
 #LIC This program, EDIT_HISTORY is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -47,6 +51,70 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-08-29 *f_application_help added case pattern *--version.
+##            *f_application_install_question added.
+##            *f_menu_app_audio_editors added avinfo.
+##            *f_menu_app_binhex_editors created; added bbe, bvi, dhex;
+##             moved beav from f_menu_app_text_editors.
+##            *f_menu_app_calculators added apcalc, concalc, genius, qualc,
+##             rpncalc, wcalc.
+##            *f_menu_app_contacts created, added abook.
+##            *f_menu_app_databases created, added ara, edb, freedb, lbdb,
+##             mysql, postgresql, sqlite, task-database, tokyocabinet.
+##            *f_menu_app_downloaders added axel.
+##            *f_menu_app_education added ebook2cw, morsegen, qrq, tlf.
+##            *f_menu_app_file_conversion created by copying from function
+##             f_menu_app_text_converters.
+##            *f_menu_app_file_deletion deleted.
+##            *f_menu_app_file_managers added pilot.
+##            *f_menu_app_file_operations created, added advcpmv, xd,
+##              consolidated file deletion/recovery/backup applications under
+##              a single menu.
+##            *f_menu_app_file_recover deleted.
+##            *f_menu_app_file_splitters added lxsplit.
+##            *f_menu_app_file_transfer added advcpmv.
+##            *f_menu_app_firewalls added knocker.
+##            *f_menu_app_games_arcade added nsnake, zsnake.
+##            *f_menu_app_games_board added gnubg.
+##            *f_menu_app_games_card added freecell.
+##            *f_menu_app_games_puzzle added greed, vitetris.
+##            *f_menu_app_games_rpg added gearhead, overkill.
+##            *f_menu_app_games_simulation added ztrack.
+##            *f_menu_app_games_strategy added empire.
+##            *f_menu_app_games_word added rl.
+##            *f_menu_app_instant_messaging added bti.
+##            *f_menu_app_lanwan added sipcalc, subnetcalc.
+##            *f_menu_app_music_players added audiotag, dcd.
+##            *f_menu_app_music_taggers created; added audiotag, lltag,
+##             and musictag.
+##            *f_menu_app_news_readers added cortex, hacker-top, reddit-top.
+##            *f_menu_app_note added diary, diary-f, org-mode.
+##            *f_menu_app_packet_tools added packit.
+##            *f_menu_app_pdfps added pstotext, ps2eps, sdf, sdop.
+##            *f_menu_app_remote_connection added grive.
+##            *f_menu_app_screen_savers added ticker.
+##            *f_menu_app_sys_backup deleted from mod_apps-filedir.lib.
+##            *f_menu_app_sys_logs added since.
+##            *f_menu_app_sys_monitors added conky-cli
+##            *f_menu_app_sys_screens added splitvt.
+##            *f_menu_app_sys_software added apt-file.
+##            *f_menu_app_text_compare added since.
+##            *f_menu_app_text_converters added ebook2cw, unoconv, unrtf, wp2x,
+##             xmlto.
+##            *f_menu_app_text_editors added aoeui, e3em, e3vi, e3pi,
+##             e3ne, e3ws, efte, elvis-console, fte-console, fte-terminal.
+##            *f_menu_app_text_editors2 created; added jed-extra, jove, le,
+##             ledit, levee, mg, nano-tiny, ne, nvi, the.
+##            *f_menu_app_text_editors3 created; vile, vim-nox, vim-scripts,
+##             vim-tiny, vim-outliner, wordgrinder.
+##            *f_menu_app_text_markup_language created, added sisu, stx2any,
+##             texinfo, udo, and moved doconce.
+##            *f_menu_app_text_tools added acheck, dict, dictd.
+##            *f_menu_app_todo added diary, diary-f, devtodo, org-mode, tdl.
+##            *f_web_site simplified case pattern matching.
+##            *Main Menu items "Search Applications" loop for multiple searches.
+##            *mod_apps-databases.lib created, added f_menu_app_databases.
 ##
 ## 2013-08-25 *Main Menu items rewrote "Documentation", "Download",
 ##             "Edit History", "License", List Applications", and "Search
@@ -183,7 +251,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_sys_screens added dvtm, fbterm, vlock.
 ##            *f_menu_app_web_browsers added surfraw.
 ##
-## 2013-07-18 *Case pattern matching re-ordered to allow <application> <options>.
+## 2013-07-18 *Case pattern matching re-ordered to allow <application><options>.
 ##            *f_menu_app_sys_disks added lsblk.
 ##            *f_menu_app_file_encryption added lspgpot.
 ##            *f_menu_app_sys_disks added dfc.
@@ -223,7 +291,8 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ## 2013-06-10 *Added help messages, added PRESS_KEY statements.
 ##            *cli-app-menu_dash.sh had fixes back-ported for STABLE branch.
 ##            *f_menu_app_education morse added warning message.
-##            *f_menu_app_games_arcade added bastet, netris, petris, added mssgs.
+##            *f_menu_app_games_arcade added bastet, netris, petris,
+##             added mssgs.
 ##            *f_menu_app_games_quiz morse added warning message.
 ##            *f_menu_app_games_puzzle bcd, netris, ppt added warning message.
 ##            *f_menu_app_games_puzzle petris added help message.
@@ -509,14 +578,14 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_applications_bad_menu_choice added.
 ##            *f_menu_app_sys_information added.
 ##            *Standardized help messages.
-##            *README, EDIT_HISTORY now can be read by sh <FILENAME> as a script.
+##            *README, EDIT_HISTORY now can be read by typing "sh <FILENAME>".
 ##            *Main Menu added item "Update Edit History".
 ##
 ## 2013-03-21 *Fixed all menus different responses to f_menu_app_press_enter_key
 ##             when CHOICE_* is alpha versus numeric. Force to be numeric before
 ##             calling f_menu_app_press_enter_key since it uses numeric tests.
-##             Before, an alpha CHOICE_* would ignore f_menu_app_press_enter_key.
-##            *Cleaned up many extraneous messages "Press Enter key to continue."
+##             Before, alpha CHOICE_* would ignore f_menu_app_press_enter_key.
+##            *Cleaned up many extraneous messages, "Press Enter key..."
 ##            *f_menu_app_network_monitor iftop changed to allow user to choose
 ##             what network interface to monitor.
 ##
@@ -525,7 +594,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_text_editors added txt2html, txt2pdbdoc, txt2regex,
 ##             and txt2tags.
 ##
-## 2013-03-18 *Fixed typo on first line #!bin/bash which had an appended comment.
+## 2013-03-18 *Fixed typo on 1st line #!bin/bash which had an appended comment
 ##             Thanks to D.J.J. Ringer.
 ##
 ## 2013-03-17 *f_how_to_quit_application added option to clear.
@@ -538,7 +607,7 @@ sed -n 's/^##//'p $THIS_FILE | more -d
 ##            *f_menu_app_downloaders fixed aria2 install.
 ##            *f_menu_app_sys_monitors added uuid, dmidecode, lsb, uname, lsmod,
 ##             printenv, lsusb.
-##            *f_menu_app_sys_monitors fixed display for dmidecode, lsb, lsmod, 
+##            *f_menu_app_sys_monitors fixed display for dmidecode, lsb, lsmod,
 ##             printenv, lsusb.
 ##            *f_menu_app_network_config added iptables, ufw.
 ##              

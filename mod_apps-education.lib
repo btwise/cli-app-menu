@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
@@ -21,11 +21,15 @@ f_menu_app_education () {
             #MED cw        - Morse code training.
             #MED cwcp      - Morse code training.
             #MED diatheke  - Holy Bible research tool.
+            #MED ebook2cw  - Converts plain text ebooks to  morse code mp3/ogg audio files.
             #MED grass     - GIS Map utility (Geographic Information System).
             #MED gtypist   - Typing tutor displays a sentence for practice.
             #MED lifelines - Geneology.
             #MED morse     - Morse code training.
-            #MED primes    - Prime number calculator. 
+            #MED morsegen  - Converts text file to ASCII morse code.
+            #MED primes    - Prime number calculator.
+            #MED qrq       - High-speed morse code trainer.
+            #MED tlf       - Morse code cw keyer, logging and contest program.
             #MED typespeed - Typing tutor displays flying words arcade-style across screen.
            #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -83,6 +87,14 @@ f_menu_app_education () {
                  APP_NAME="diatheke"
                  f_application_run
                  ;;
+                 ebook2cw' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Bb]*)
+                 APP_NAME="ebook2cw"
+                 f_application_run
+                 ;;
                  grass' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -113,7 +125,7 @@ f_menu_app_education () {
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Mm] | [Mm][Oo]*)
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
                  clear # Blank the screen.
                  echo "morse - text to morse code."
@@ -133,12 +145,36 @@ f_menu_app_education () {
                       ;;
                  esac
                  ;;
+                 morsegen' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee] | [Mm][Oo][Rr][Ss][Ee][Gg]*)
+                 APP_NAME="morsegen"
+                 f_application_run
+                 ;;
                  primes' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Pp] | [Pp][Rr]*)
                  APP_NAME="primes"
+                 f_application_run
+                 ;;
+                 qrq' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Qq] | [Qq][Rr]*)
+                 APP_NAME="qrq"
+                 f_application_run
+                 ;;
+                 tlf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ll]*)
+                 APP_NAME="tlf"
                  f_application_run
                  ;;
                  typespeed' '*)

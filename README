@@ -6,7 +6,10 @@
 # Usage: sh README
 #
 clear
-sed -n 's/^#://'p README |more -d
+THIS_FILE="README"
+# sed substitutes null for #: at beginning of each line so it is not printed..
+# less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_FILE
 #
 # The "#:" at the beginning of lines below are used 
 # to delineate the Help Instructions.
@@ -86,7 +89,7 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="August-22-2013 17:24"
+#:REVDATE="August-29-2013 18:50"
 #:
 #:
 #: +----------------------------------------+
@@ -207,7 +210,7 @@ sed -n 's/^#://'p README |more -d
 #:    Type (without the double-quote marks) the command below:
 #:
 #:    ". lib_cli-common.lib; f_create_LIST_APPS"
-#:    <dot><space>lib_cli-common.lib<semi-colon><space>f_create_LIST_APPS.
+#:    <dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS.
 #:
 #:
 #: +----------------------------------------+
@@ -330,7 +333,7 @@ sed -n 's/^#://'p README |more -d
 #: THIS_FILE   - String; name of shell script.
 #: WEB_SITE    - String; name of web site used when application is a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
-#: X           - Scratch variable.
+#: X
 #: XNUM        - Number; Scratch variable used in awk statement in f_show_menu
 #:               and in CHOICE[XNUM] array.
 #: XSTR        - String; Scratch variable.
@@ -363,21 +366,24 @@ sed -n 's/^#://'p README |more -d
 #:MAQ - Audio Player2 Applications Menu
 #:MAR - Audio Radio Applications Menu
 #:MAS - Audio Speech Synthesis Applications Menu
+#:MAT - Audio Music Tagger Applications Menu
 #:MAU - Audio Editor Applications Menu
+#:MBH - Bin-Hex Editor Applications Menu
 #:MBT - Bittorrent Applications Menu
 #:MCA - Calendar-ToDo Applications Menu
 #:MCC - Calculator Applications Menu
 #:MCL - Clock Applications Menu
+#:MCO - Contact List Applications Menu
+#:MDB - Database Applications Menu
 #:MDL - Dowloader Applications Menu
 #:MED - Education Applications Menu
 #:MEM - E-mail Applications Menu
 #:MFB - File Burn CD/DVD Applications Menu
 #:MFC - File Compression Applications Menu
-#:MFD - File Deletion Applications Menu
 #:MFE - File Encryption Applications Menu
 #:MFF - File Search and find Applications Menu
-#:MFI - File Manager Applications Menu
-#:MFR - File Recovery/Deletion Applications Menu
+#:MFM - File Manager Applications Menu
+#:MFO - File Operations Applications Menu
 #:MFS - File Splitter Applications Menu
 #:MFT - File Transfer Applications Menu
 #:MFV - File Viewer Applications Menu
@@ -427,8 +433,13 @@ sed -n 's/^#://'p README |more -d
 #:MTC - Text Compare Applications Menu
 #:MTD - To-Do Applications Menu
 #:MTE - Text Editor Applications Menu
+#:MTF - Text Editor2 Applications Menu
+#:MTG - Text Editor3 Applications Menu
+#:MTH - Text File Editor Applications Menu
+#:MTM - Text Markup Language Applications Menu
 #:MTT - Text Tool Applications Menu
 #:MTV - Text Converter Applications Menu
+#:MTW - Text File Conversion Applications Menu
 #:MVE - Video Editor Applications Menu
 #:MVI - Video Player/Downloader Applications Menu
 #:MWB - Web Browser Applications Menu

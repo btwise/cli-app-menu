@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 22:40"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -105,7 +105,7 @@ f_menu_app_sys_backup () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Backup Applications until loop.
-            #MSB dtrx - Use tar without remembering which flags for each file to use.
+            #MSB dtrx  - Use tar without remembering which flags for each file to use.
             #MSB rsync - File backup, mirror, directories and files.
             #MSB tar   - File backup, compress files.
             #
@@ -641,6 +641,7 @@ f_menu_app_sys_logs () {
             #MLO ccze      - A robust and modular log coloriser, with plugins. 
             #MLO lnav      - View, analyze log files, histogram, hotkeys, ncurses-based.
             #MLO multitail - View multiple log files using multiple panes.
+            #MLO since     - Shows new changes in log files since last run. Tail work-alike.
             #MLO swatch    - Log file viewer with regexp matching, highlighting & hooks.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -679,6 +680,14 @@ f_menu_app_sys_logs () {
                  ;;
                  [Mm] | [Mm][Uu]*)
                  APP_NAME="multitail"
+                 f_application_run
+                 ;;
+                 since' '* | 'sudo since '* | 'sudo since')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ii]*)
+                 APP_NAME="since"
                  f_application_run
                  ;;
                  swatch' '* | 'sudo swatch '* | 'sudo swatch')
@@ -906,6 +915,7 @@ f_menu_app_sys_monitors () {
       do    # Start of System Monitors until loop.
             #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
             #MSM chkconfig - System update/query run-level processes at boot time.
+            #MSM conky-cli - Versatile, configurable system monitor.
             #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
             #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
             #MSM iostat    - CPU usage and disk I/O process monitor.
@@ -987,6 +997,18 @@ f_menu_app_sys_monitors () {
                  echo "Now run chkconfig. Usage: chkconfig -l"
                  f_press_enter_key_to_continue
                  f_application_run
+                 ;;
+                 conky-cli' '* | 'sudo conky-cli '* | 'sudo conky-cli')
+                 APP_NAME=$CHOICE_APP
+                 #f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Oo]*)
+                 APP_NAME="conky-cli"
+                 #f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  dstat' '* | 'sudo dstat '* | 'sudo dstat')
                  APP_NAME=$CHOICE_APP
@@ -1713,14 +1735,15 @@ f_menu_app_sys_screens () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of System Screens until loop.
-            #MSC byobu  - Multiple sessions.
-            #MSC dtach  - Emulates detach feature of screen.
-            #MSC dvtm   - dwm-style (tiling) window manager.
-            #MSC fbterm - Fast terminal emulator, multiple fonts, multiple windows.
-            #MSC screen - Multiple sessions via split or pager screens.
-            #MSC tmux   - Multiple sessions with multiplexing.
-            #MSC twin   - A text mode window environment for multiple windows on screen.
-            #MSC vlock  - Locks virtual console or current terminal.
+            #MSC byobu   - Multiple sessions.
+            #MSC dtach   - Emulates detach feature of screen.
+            #MSC dvtm    - dwm-style (tiling) window manager.
+            #MSC fbterm  - Fast terminal emulator, multiple fonts, multiple windows.
+            #MSC screen  - Multiple sessions via split or pager screens.
+            #MSC splitvt - Multiple sessions on horizontal split screen (vt100 compatible).
+            #MSC tmux    - Multiple sessions with multiplexing.
+            #MSC twin    - A text mode window environment for multiple windows on screen.
+            #MSC vlock   - Locks virtual console or current terminal.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
@@ -1799,6 +1822,27 @@ f_menu_app_sys_screens () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 splitvt' '* | 'sudo splitvt '* | 'sudo splitvt')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Pp]*)
+                 APP_NAME="splitvt"
+                 clear # Blank the screen.
+                 echo "splitvt - Split screen horizontally into two upper/lower."
+                 echo
+                 echo "Usage:"
+                 echo "splitvt [OPTION]... [INPUT [PREFIX]]"
+                 echo
+                 echo "*** For more help type: 'man splitvt'" 
+                 echo "                        'splitvt --help'"
+                 echo
+                 echo "Now run splitvt. Usage: splitvt"
+                 echo
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
                  tmux' '* | 'sudo tmux '* | 'sudo tmux')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -1846,6 +1890,7 @@ f_menu_app_sys_software () {
       do    # Start of System Softare Applications until loop.
             #MSF alien    - Converts rpm to deb packages.
             #MSF apt      - Debian package manager.
+            #MSF apt-file - Search/List files in the Debian package manager w/o installing.
             #MSF aptitude - Debian package manager.
             #MSF aptoncd  - GUI makes a CD of Debian packages for installation w/o Internet.
             #MSF dpkg     - Debian package manager.
@@ -1907,6 +1952,14 @@ f_menu_app_sys_software () {
                  echo "*** For more help type: man apt / man apt-cache / man apt-get"
                  echo
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 apt-file' '* | 'apt-file -'* | 'sudo apt-file' | 'sudo apt-file '* | 'sudo apt-file-'*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt]- | [Aa][Pp][Tt]-[F]*)
+                 APP_NAME="apt-file"
                  f_application_run
                  ;;
                  aptitude' '* | 'sudo aptitude '* | 'sudo aptitude')

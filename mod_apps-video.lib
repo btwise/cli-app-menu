@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -162,7 +162,7 @@ f_menu_app_video_players () {
       do    # Start of Video Applications until loop.
             #MVI aaxine       - Xine video player.
             #MVI cacaxine     - Xine video player.
-            #MVI cclive       - Download/Play Youtube videos.
+            #MVI cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
             #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
             #MVI fbxine       - Xine video player.
             #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.

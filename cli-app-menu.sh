@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-25-2013 01:05"
+REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -193,10 +193,11 @@ do    # Start of CLI Menu util loop.
            ;;
            [Hh] | [Hh][Ee]*)
            clear # Blank the screen.
-           sed -n 's/^#@//'p $THIS_FILE | more -d
-           # display Help Applications (all lines beginning with #@ but
-           # substitute "" for "#@" so "#@" is not printed).
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           # Display Help (all lines beginning with "#@" but do not print "#@").
+           # sed substitutes null for "#@" at the beginning of each line so it is not printed.
+           # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+           sed -n 's/^#@//'p $THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Aa] | [Aa][Bb]*)
@@ -214,16 +215,15 @@ do    # Start of CLI Menu util loop.
            echo "Project version: $PROJECT_REVISION"
            echo " Last edited on: $PROJECT_REVDATE"
            echo
-           echo "Project file '"'cli-app-menu.sh'"' last edited on: $REVDATE"
+           echo "   Project file: cli-app-menu.sh"
+           echo " Last edited on: $REVDATE"
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Cc]*)
            X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ -r README ] ; then
-              echo # Do not take any action. Read file after downloading, if needed.
-           else
+           if [ ! -r README ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -248,10 +248,11 @@ do    # Start of CLI Menu util loop.
            fi
            #
            if [ -r README ] ; then
-              # display Documentation (all lines beginning with #: but
-              # substitute "" for "#:" so "#:" is not printed).
-              sed -n 's/^#://'p README | more -d
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              # Display README Documentation (all lines beginning with "#:" but do not print "#:").
+              # sed substitutes null for "#:" at the beginning of each line so it is not printed.
+              # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+              sed -n 's/^#://'p README | less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
@@ -307,9 +308,7 @@ do    # Start of CLI Menu util loop.
            [Ee] | [Ee][Dd]*)
            X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ -r EDIT_HISTORY ] ; then
-              echo # Do not take any action. Read file after downloading, if needed.
-           else
+           if [ ! -r EDIT_HISTORY ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -333,19 +332,21 @@ do    # Start of CLI Menu util loop.
               done
            fi
            if [ -r EDIT_HISTORY ] ; then
-              # display Edit History (all lines beginning with ## but
-              # substitute "" for "##" so "##" is not printed).
-              sed -n 's/^##//'p EDIT_HISTORY | more -d
+              # Display Edit History (all lines beginning with "##" but do not print "##").
+              # sed substitutes null for "##" at the beginning of each line so it is not printed.
+              # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+              sed -n 's/^##//'p EDIT_HISTORY | less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ll] | [Ll][Ii] | [Ll][Ii][Cc]*)
            clear # Blank the screen.
-           # display License (all lines beginning with #LIC but
-           # substitute "" for "#LIC" so "#LIC" is not printed).
-           sed -n 's/^#LIC//'p $THIS_FILE | more -d
-           f_press_enter_key_to_continue
+           # Display License (all lines beginning with "#LIC" but do not print "#LIC").
+           # sed substitutes null for "#LIC" at the beginning of each line so it is not printed.
+           # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+           sed -n 's/^#LIC//'p $THIS_FILE | less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            X="" # Initialize scratch variable.
            while [  "$X" != "YES" -a "$X" != "NO" ]
            do
@@ -356,9 +357,7 @@ do    # Start of CLI Menu util loop.
                       ""| [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                       X="YES"
                       echo
-                      if [ -r COPYING ] ; then
-                         echo # Do not take any action. Read file after downloading, if needed.
-                      else
+                      if [ ! -r COPYING ] ; then
                          X="" # Initialize scratch variable.
                          while [  "$X" != "YES" -a "$X" != "NO" ]
                          do
@@ -402,8 +401,8 @@ do    # Start of CLI Menu util loop.
                          done
                       fi
                       if [ -r COPYING ] ; then
-                         cat COPYING | more -d
-                         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                         less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' COPYING
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       fi
                       X="YES"
                       ;;
@@ -418,9 +417,7 @@ do    # Start of CLI Menu util loop.
            ;;
            [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
            X="" # Initialize scratch variable.
-           if [ -r LIST_APPS ] ; then
-              echo # Do not take any action. Read file after downloading, if needed.
-           else
+           if [ ! -r LIST_APPS ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -455,8 +452,8 @@ do    # Start of CLI Menu util loop.
            fi
            # display LIST_APPS
            if [ -r LIST_APPS ] ; then
-           cat LIST_APPS | more -d
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' LIST_APPS
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            #
@@ -464,9 +461,7 @@ do    # Start of CLI Menu util loop.
            [Ss] | [Ss][Ee]*)
            X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ -r LIST_APPS ] ; then
-              echo # Do not take any action. Read file after downloading, if needed.
-           else
+           if [ ! -r LIST_APPS ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -502,32 +497,35 @@ do    # Start of CLI Menu util loop.
            #
            if [ -r LIST_APPS ] ; then
               XSTR="-1"
-              clear # Blank the screen.
-              echo "Search for a software package featured in this menu script."
-              echo
-              echo "To quit, press 'Enter' key."
-              echo -n "Enter name of software package or search string: "
-              read XSTR
-              if [ -n "$XSTR" ] ; then
-                 echo
-                 echo "Please note:"
-                 echo "Even if '$XSTR' is found, it may not be available for your Linux distribution."
-                 echo
-                 echo "Not all Linux distributions will have all packages featured in this menu."
-                 echo "i.e. A software package available in Red Hat may not be available in Debian,"
-                 echo "     and vice versa."
-                 echo
-                 echo
-                 echo "To start search:"
-                 f_press_enter_key_to_continue
-                 #
-                 # Search LIST_APPS
-                 grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
-                 echo
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-              else
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-              fi
+              while [ -n "$XSTR" ]
+              do
+                    clear # Blank the screen.
+                    echo "Search for a software package featured in this menu script."
+                    echo
+                    echo "To quit, press 'Enter' key."
+                    echo -n "Enter name of software package or search string: "
+                    read XSTR
+                    if [ -n "$XSTR" ] ;then
+                       echo
+                       echo "Please note:"
+                       echo "Even if '$XSTR' is found, it may not be available for your Linux distribution."
+                       echo
+                       echo "Not all Linux distributions will have all packages featured in this menu."
+                       echo "i.e. A software package available in Red Hat may not be available in Debian,"
+                       echo "     and vice versa."
+                       echo
+                       echo
+                       echo "To start search:"
+                       f_press_enter_key_to_continue
+                       #
+                       # Search LIST_APPS
+                       grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
+                       echo
+                       echo "***End of search results.***"
+                       f_press_enter_key_to_continue
+                       echo
+                    fi
+              done
            fi
            ;;
            [Uu] | [Uu][Pp]*)

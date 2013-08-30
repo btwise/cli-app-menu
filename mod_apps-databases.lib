@@ -1,0 +1,161 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="August-29-2013 18:50"
+#
+# +----------------------------------------+
+# |      Function f_menu_app_databases     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_databases () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Database Applications until loop.
+            #MDB ara               - Search Debian package databases.
+            #MDB edb               - Database program for GNU Emacs.
+            #MDB freecdb           - Create and read constant databases (up to 4 GB).
+            #MDB lbdb              - Little Brother's Database for mutt mail reader.
+            #MDB mysql-client      - MySQL database client, (latest recommended version).
+            #MDB mysql-server      - MySQL database server, (latest recommended version).
+            #MDB postgresql        - Metapackage for object-relational SQL database.
+            #MDB postgresql-client - PostgreSQL database client, (latest version).
+            #MDB postgresql-doc    - Documentation for PostgreSQL database.
+            #MDB sqlite            - C Library allows SQL access w/o separate RDBMS process.
+            #MDB task-database     - Selects PostgreSQL database client and server packages.
+            #MDB tokyocabinet      - Tokyo Cabinet Database.
+            #MDB tokyocabinet-doc  - Documentation for the Tokyo Cabinet Database.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-databases.lib"
+            MENU_TITLE="Database Applications Menu"
+            DELIMITER="#MDB" #MDB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Database Applications case statement.
+                 ara' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Rr]*)
+                 APP_NAME="ara"
+                 f_application_run
+                 ;;
+                 edb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Dd]*)
+                 APP_NAME="edb"
+                 f_application_run
+                 ;;
+                 freecdb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Rr]*)
+                 APP_NAME="freecdb"
+                 f_application_run
+                 ;;
+                 lbdb' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ll | [Ll][Bb]*)
+                 APP_NAME="lbdb"
+                 f_application_run
+                 ;;
+                 mysql-client' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Yy] | [Mm][Yy][Ss] | [Mm][Yy][Ss][Qq] | [Mm][Yy][Ss][Qq][Ll] | [Mm][Yy][Ss][Qq][Ll]- | [Mm][Yy][Ss][Qq][Ll]-[Cc]*)
+                 APP_NAME="mysql-client"
+                 f_application_run
+                 ;;
+                 mysql-server' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Yy] | [Mm][Yy][Ss] | [Mm][Yy][Ss][Qq] | [Mm][Yy][Ss][Qq][Ll] | [Mm][Yy][Ss][Qq][Ll]- | [Mm][Yy][Ss][Qq][Ll]-[Ss]*)
+                 APP_NAME="mysql-server"
+                 f_application_run
+                 ;;
+                 postgresql' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Oo] | [Pp][Oo][Ss] | [Pp][Oo][Ss][Tt] | [Pp][Oo][Ss][Tt][Gg] | [Pp][Oo][Ss][Tt][Gg][Rr] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll])
+                 APP_NAME="postgresql"
+                 f_application_run
+                 ;;
+                 postgresql-client' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Oo] | [Pp][Oo][Ss] | [Pp][Oo][Ss][Tt] | [Pp][Oo][Ss][Tt][Gg] | [Pp][Oo][Ss][Tt][Gg][Rr] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]- | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]-[Cc]*)
+                 APP_NAME="postgresql-client"
+                 f_application_run
+                 ;;
+                 postgresql-doc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Oo] | [Pp][Oo][Ss] | [Pp][Oo][Ss][Tt] | [Pp][Oo][Ss][Tt][Gg] | [Pp][Oo][Ss][Tt][Gg][Rr] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]- | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]-[Dd]*)
+                 APP_NAME="postgresql-doc"
+                 f_application_run
+                 ;;
+                 sqlite' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Qq]*)
+                 APP_NAME="sqlite"
+                 f_application_run
+                 ;;
+                 task-database' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Aa]*)
+                 APP_NAME="task-database"
+                 f_application_run
+                 ;;
+                 tokyocabinet' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Oo] | [Tt][Oo][Kk] | [Tt][Oo][Kk][Yy] | [Tt][Oo][Kk][Yy][Oo] | [Tt][Oo][Kk][Yy][Oo][Cc] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt])
+                 APP_NAME="tokyocabinet"
+                 f_application_run
+                 ;;
+                 tokyocabinet-doc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Oo] | [Tt][Oo][Kk] | [Tt][Oo][Kk][Yy] | [Tt][Oo][Kk][Yy][Oo] | [Tt][Oo][Kk][Yy][Oo][Cc] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt]- | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt]-[Dd]*)
+                 APP_NAME="tokyocabinet-doc"
+                 f_application_run
+                 ;;
+
+            esac                # End of Database Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Database Applications until loop.
+} # End of f_menu_app_databases
+#

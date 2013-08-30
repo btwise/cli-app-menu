@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-22-2013 17:24"
+# REVDATE="August-29-2013 18:50"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -17,6 +17,7 @@ f_menu_cat_applications () {
       until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
             #AAB Audio        - Music players, editors, utilities.
+            #AAB Databases    - General and specialized databases.
             #AAB Education    - Learn something.
             #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
             #AAB Games        - Fun time!
@@ -62,6 +63,12 @@ f_menu_cat_applications () {
                  MOD_FILE="mod_apps-audio.lib"
                  f_download_file
                  f_menu_cat_audio             # Audio Applications Menu.
+                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Dd] | [Dd][Aa]*)
+                 MOD_FILE="mod_apps-databases.lib"
+                 f_download_file
+                 f_menu_app_databases         # Database Applications Menu.
                  CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd]*)

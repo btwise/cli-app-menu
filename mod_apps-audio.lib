@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 22:40"
+# REVDATE="August-29-2013 18:50"
 #
 ## +----------------------------------------+
 # |        Function f_menu_cat_audio       |
@@ -188,6 +188,7 @@ f_menu_app_audio_editors () {
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Audio Editor Applications until loop.
             #MAU avconv   - Audio/Video converter.
+            #MAU avinfo   - Audio/Video information automatic extractor/file list generator.
             #MAU ecasound - Multitrack audio processing, record, convert, playback, mixing.
             #MAU ffmpeg   - Multimedia Record, convert, stream and playback.
             #MAU sox      - Audio file cut/paste and combine, speed playback.
@@ -211,9 +212,17 @@ f_menu_app_audio_editors () {
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
-                 [Aa] | [Aa][Vv]*)
+                 [Aa] | [Aa][Vv] | [Aa][Vv][Cc]*)
                  APP_NAME="avconv"
                  f_how_to_quit_application "q"
+                 f_application_run
+                 ;;
+                 avinfo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Vv] | [Aa][Vv][Ii]*)
+                 APP_NAME="avinfo"
                  f_application_run
                  ;;
                  ecasound' '*)
@@ -250,6 +259,279 @@ f_menu_app_audio_editors () {
 } # End of f_menu_app_audio_editors
 #
 # +----------------------------------------+
+# |    Function f_menu_app_music_taggers   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_music_taggers () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of Music Tagger Applications until loop.
+            #MAT audiotag - Music tagger.
+            #MAT lltag    - Music tagger.
+            #MAT easytag  - Music tagger.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-audio.lib"
+            MENU_TITLE="Music Tagger Applications Menu"
+            DELIMITER="#MAT" #MAT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Music Tagger Applications case statement.
+                 audiotag' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Uu]*)
+                 APP_NAME="audiotag"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 lltag' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ll] | [Ll][Ll]*)
+                 APP_NAME="lltag"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 easytag' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ee] | [Ee][Aa]*)
+                 APP_NAME="easytag"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Music Tagger Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Music Tagger Applications until loop.
+} # End of function f_menu_app_music_taggers
+#
+# +----------------------------------------+
+# |    Function f_menu_app_music_players   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_music_players () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of Music Player Applications until loop.
+            #MAP dcd             - CD player.
+            #MAP clvc            - Music player, ncurses-based, depends on vlc.
+            #MAP cmus            - Music player, MP3,  Ogg Vorbis, ncurses-based.
+            #MAP cplay           - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
+            #MAP juke            - Music Jukebox, ncurses-based.
+            #MAP mcdp            - CD player, adjust volume, repeat track/cd, ncurses-based.
+            #MAP mcplay          - Playlist ncurses-based.
+            #MAP mjs             - mp3 player, ncurses-based.
+            #MAP mp3blaster      - Music player, playlists, groups, ncurses-based.
+            #MAP moc             - Music player, ncurses-based.
+            #MAP ncmpc           - Music player, ncurses-based.
+            #MAP opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
+            #MAP orpheus         - Music player ncurses-based.
+            #MAP pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-audio.lib"
+            MENU_TITLE="Music Player Applications Menu"
+            DELIMITER="#MAP" #MAP This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Music Player Applications case statement.
+                 audiotag' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Uu]*)
+                 APP_NAME="audiotag"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 dcd' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Dd] | [Dd][Cc]*)
+                 APP_NAME="dcd"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 clvc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Ll]*)
+                 APP_NAME="clvc"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 cmus' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Mm]*)
+                 APP_NAME="cmus"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 cplay' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Pp]*)
+                 APP_NAME="cplay"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 juke' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj] | [Jj][Uu]*)
+                 APP_NAME="juke"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 mcdp' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Mm] | [Mm][Cc] | [Mm][Cc][Dd]*)
+                 APP_NAME="mcdp"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 mcplay' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Mm] | [Mm][Cc] | [Mm][Cc][Pp]*)
+                 APP_NAME="mcplay"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 mjs' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Mm] | [Mm][Jj]*)
+                 APP_NAME="mjs"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 moc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
+                 APP_NAME="moc"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 mp3blaster' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Mm] | [Mm][Pp] | [Mm][Pp][3]*)
+                 APP_NAME="mp3blaster"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ncmpc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Cc]*)
+                 f_how_to_quit_application "q"
+                 APP_NAME="ncmpc"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 opencubicplayer' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Oo] | [Oo][Pp]*)
+                 APP_NAME="opencubicplayer"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 orpheus' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Oo] | [Oo][Rr]*)
+                 APP_NAME="orpheus"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 pytone' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Pp] | [Pp][Yy]*)
+                 APP_NAME="pytone"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Music Player Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Music Player Applications until loop.
+} # End of function f_menu_app_music_players
+#
+# +----------------------------------------+
 # |    Function f_menu_app_music_players2  |
 # +----------------------------------------+
 #
@@ -261,19 +543,19 @@ f_menu_app_music_players2 () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of Music Player Applications2 until loop.
-            #MAQ mpd             - Music Player Daemon server-side app for playing music.
-            #MAQ moosic          - Front-end to mpd. Auto-starts mpd daemon if needed.
-            #MAQ mpc             - Front-end to mpd. Single-line command.
-            #MAQ draai           - A wrapper for mpc. Single-line command.
-            #MAQ pms             - Front-end to mpd. Playlists, ncurses-based.
-            #MAQ --------------  - ---------------------------------------------------------
-            #MAQ cdcd            - CD player. Single-line command, gives prompt.
-            #MAQ herrie          - Music playlist and file browser on split screen.
-            #MAQ mpg123          - Music player MPEG 1.0/2.0/2.5 stream (layers 1, 2 and 3).
-            #MAQ mussort         - Sort music files by artist and album via tag information.
-            #MAQ vimpc           - vi-like music player. List playlists with vi keybindings.
-            #MAQ vitunes         - vi-like music player.
-            #MAQ yauap           - Music player based on Gstreamer, MP3, network streams.
+            #MAQ mpd     - Music Player Daemon server-side app for playing music.
+            #MAQ moosic  - Front-end to mpd. Auto-starts mpd daemon if needed.
+            #MAQ mpc     - Front-end to mpd. Single-line command.
+            #MAQ draai   - A wrapper for mpc. Single-line command.
+            #MAQ pms     - Front-end to mpd. Playlists, ncurses-based.
+            #MAQ ------- - -----------------------------------------------------------------
+            #MAQ cdcd    - CD player. Single-line command, gives prompt.
+            #MAQ herrie  - Music playlist and file browser on split screen.
+            #MAQ mpg123  - Music player MPEG 1.0/2.0/2.5 stream (layers 1, 2 and 3).
+            #MAQ mussort - Sort music files by artist and album via tag information.
+            #MAQ vimpc   - vi-like music player. List playlists with vi keybindings.
+            #MAQ vitunes - vi-like music player.
+            #MAQ yauap   - Music player based on Gstreamer, MP3, network streams.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-audio.lib"
@@ -397,216 +679,6 @@ f_menu_app_music_players2 () {
             f_option_press_enter_key
       done  # End of Music Player Applications2 until loop.
 } # End of function f_menu_app_music_players2
-#
-# +----------------------------------------+
-# |    Function f_menu_app_music_players   |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
-#
-f_menu_app_music_players () {
-      f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
-      do    # Start of Music Player Applications until loop.
-            #MAP clvc            - Music player, ncurses-based, depends on vlc.
-            #MAP cmus            - Music player, MP3,  Ogg Vorbis, ncurses-based.
-            #MAP cplay           - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
-            #MAP juke            - Music Jukebox, ncurses-based.
-            #MAP mcdp            - CD player, adjust volume, repeat track/cd, ncurses-based.
-            #MAP mcplay          - Playlist ncurses-based.
-            #MAP mjs             - mp3 player, ncurses-based.
-            #MAP mp3blaster      - Music player, playlists, groups, ncurses-based.
-            #MAP moc             - Music player, ncurses-based.
-            #MAP mplayer         - Multimedia player, movies and audio.
-            #MAP mplayer2        - Multimedia player, movies and audio.
-            #MAP ncmpc           - Music player, ncurses-based.
-            #MAP opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
-            #MAP orpheus         - Music player ncurses-based.
-            #MAP pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
-            #MAP vlc             - Multimedia VideoLAN, MPEG, MOV, WMV, QT, WebM, MP3, etc.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="mod_apps-audio.lib"
-            MENU_TITLE="Music Player Applications Menu"
-            DELIMITER="#MAP" #MAP This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_APP
-            #
-            f_common_app_menu
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_APP in # Start of Music Player Applications case statement.
-                 clvc' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Ll]*)
-                 APP_NAME="clvc"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cmus' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Mm]*)
-                 APP_NAME="cmus"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cplay' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Pp]*)
-                 APP_NAME="cplay"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 juke' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Jj] | [Jj][Uu]*)
-                 APP_NAME="juke"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 mcdp' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Cc] | [Mm][Cc][Dd]*)
-                 APP_NAME="mcdp"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 mcplay' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Cc] | [Mm][Cc][Pp]*)
-                 APP_NAME="mcplay"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 mjs' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Jj]*)
-                 APP_NAME="mjs"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 moc' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Oo] | [Mm][Oo][Cc])
-                 APP_NAME="moc"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 mp3blaster' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Pp] | [Mm][Pp][3]*)
-                 APP_NAME="mp3blaster"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 mplayer' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa]*)
-                 APP_NAME="mplayer"
-                 f_application_run
-                 ;;
-                 mplayer2' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr][2])
-                 APP_NAME="mplayer2"
-                 f_application_run
-                 ;;
-                 ncmpc' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Nn] | [Nn][Cc]*)
-                 f_how_to_quit_application "q"
-                 APP_NAME="ncmpc"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 opencubicplayer' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Oo] | [Oo][Pp]*)
-                 APP_NAME="opencubicplayer"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 orpheus' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Oo] | [Oo][Rr]*)
-                 APP_NAME="orpheus"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 pytone' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Pp] | [Pp][Yy]*)
-                 APP_NAME="pytone"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 vlc' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Vv] | [Vv][Ll]*)
-                 APP_NAME="vlc"
-                 f_application_run
-                 ;;
-            esac                # End of Music Player Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
-      done  # End of Music Player Applications until loop.
-} # End of function f_menu_app_music_players
 #
 # +----------------------------------------+
 # |        Function f_menu_app_radio       |

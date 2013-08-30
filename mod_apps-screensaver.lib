@@ -20,6 +20,7 @@ f_menu_app_screen_savers () {
             #MSS asciiaquarium - Aquarium on screen.
             #MSS cmatrix       - Matrix-like screen-saver.
             #MSS rain          - Rain on screen.
+            #MSS ticker        - scrolls text across the screen.
             #MSS tty-clock     - Display a digital clack full-screen.
             #MSS worms         - Worms wiggle on the screen.
             #
@@ -59,6 +60,14 @@ f_menu_app_screen_savers () {
                  ;;
                  [Rr] | [Rr][Aa]*)
                  APP_NAME="rain"
+                 f_application_run
+                 ;;
+                 ticker' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ii]*)
+                 APP_NAME="ticker"
                  f_application_run
                  ;;
                  tty-clock' '*)

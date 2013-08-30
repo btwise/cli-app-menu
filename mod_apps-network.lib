@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 22:40"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -101,6 +101,7 @@ f_menu_app_firewalls () {
             #MNF arptables - Firewall configuration rules for an ARP chain.
             #MNF iptables  - Firewall configuration rules for an IP chain.
             #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
+            #MNF knocker   - TCP security port scanner written in C, using threads.
             #MNF portbunny - Port scanner created by Recurity Labs.
             #MNF strobe    - Port scanner.
             #MNF ufw       - Firewall configuration and status.
@@ -182,6 +183,14 @@ f_menu_app_firewalls () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 knocker' '* | 'sudo knocker '* | 'sudo knocker')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Kk] | [Kk][Nn]*)
+                 APP_NAME="knocker"
+                 f_application_run
+                 ;;
                  portbunny' '* | 'sudo portbunny '* | 'sudo portbunny')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -259,7 +268,7 @@ f_menu_app_lanwan () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
       do    # Start of LAN/WAN Applications until loop.
-            #MNL arping      - Check LAN connectivity by pinging MAC, IP address or hostname.
+            #MNL arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
             #MNL dig         - Query Internet domain name servers.
             #MNL dnstop      - Analyze and display tables of DNS traffic.
             #MNL ip          - Shows routing, devices, policy routing and tunnels.
@@ -271,8 +280,10 @@ f_menu_app_lanwan () {
             #MNL nslookup    - Query Internet domain name servers.
             #MNL ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
             #MNL route       - Shows routing table.
+            #MNL sipcalc     - ip subnet calculator.
             #MNL speedometer - Check LAN/WAN connectivity speed.
             #MNL ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
+            #MNL subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
             #MNL traceroute  - Traceroute tool, trace network path to destination. 
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -487,6 +498,14 @@ f_menu_app_lanwan () {
                  APP_NAME="route"
                  f_application_run
                  ;;
+                 sipcalc' '* | 'sudo sipcalc '* | 'sudo sipcalc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ii]*)
+                 APP_NAME="sipcalc"
+                 f_application_run
+                 ;;
                  speedometer' '* | 'sudo speedometer '* | 'sudo speedometer')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -547,6 +566,14 @@ f_menu_app_lanwan () {
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 subnetcalc' '* | 'sudo subnetcalc '* | 'sudo subnetcalc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Uu]*)
+                 APP_NAME="subnetcalc"
                  f_application_run
                  ;;
                  traceroute' '* | 'sudo traceroute '* )
@@ -1250,6 +1277,7 @@ f_menu_app_packet_tools () {
             #MNP kismet    - Wireless network detector, packet sniffer, auditor.
             #MNP ngrep     - Network packet analyzer.
             #MNP nmap      - Network Mapper, mapping, auditing, security scanning.
+            #MNP packit    - Network auditing, spoofing, security testing.
             #MNP snort     - Packet sniffer/logger, Network Intrusion Detection System.
             #MNP tcpdump   - Packet sniffer/logger.
             #MNP wireshark - Packet sniffer/logger.
@@ -1328,6 +1356,14 @@ f_menu_app_packet_tools () {
                  ;;
                  [Nn] | [Nn][Mm]*)
                  APP_NAME="nmap"
+                 f_application_run
+                 ;;
+                 packit' '* | 'sudo packit '* | 'sudo packit')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Aa]*)
+                 APP_NAME="packit"
                  f_application_run
                  ;;
                  snort' '* | 'sudo snort '* | 'sudo snort')

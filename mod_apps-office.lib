@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-20-2013 22:40"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -21,7 +21,8 @@ f_menu_cat_office () {
             #BOF Calculators  - Simple "pocket" calculators.
             #BOF Calendar     - Calendars.
             #BOF Clocks       - Alarm clocks, specialized clocks.
-            #BOF Notebooks    - Write notes in a "notebook".
+            #BOF Contacts     - Contact/Address book lists.
+            #BOF Notebooks    - Write notes in a "notebook" or "diary".
             #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
             #BOF Presenters   - Text slideshow presentation.
             #BOF Spreadsheets - Basic spreadsheet.
@@ -55,6 +56,10 @@ f_menu_cat_office () {
                  ;;
                  [Cc] | [Cc][Ll]*)
                  f_menu_app_clocks            # Clock Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Cc] | [Cc][Oo]*)
+                 f_menu_app_contacts          # Contact Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Nn] | [Nn][Oo]*)
@@ -148,10 +153,12 @@ f_menu_app_accounting () {
                  hledger-vty' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Vv]*)
                  APP_NAME="hledger-vty"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  hledger-web' '*)
                  APP_NAME=$CHOICE_APP
@@ -190,10 +197,17 @@ f_menu_app_calculators () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Calculator Applications until loop.
+            #MCC apcalc   - Arbitrary precision calculator, uses C-like language.
             #MCC bc       - Calculator.
+            #MCC concalc  - Calculator, parser-algorithm of extcalc.
             #MCC dc       - RPN arbitrary precision reverse-polish calculator.
+            #MCC genius   - General purpose calculator.
             #MCC orpie    - RPN Reverse Polish Notation calculator.
+            #MCC qalc     - Qalculate! calculator customizable functions, units, precision.
+            #MCC rpncalc  - RPN calculator trying to emulate an HP28S.
             #MCC tapecalc - Tape-like calculator.
+            #MCC wcalc    - Scientific calculator.
+
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -209,6 +223,16 @@ f_menu_app_calculators () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Calculator Applications case statement.
+                 apcalc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Pp]*)
+                 APP_NAME="apcalc"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  bc' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "quit"
@@ -221,6 +245,16 @@ f_menu_app_calculators () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 concalc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Cc] | [Cc][Oo]*)
+                 APP_NAME="concalc"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  dc' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -229,6 +263,16 @@ f_menu_app_calculators () {
                  APP_NAME="dc"
                  f_application_run
                  ;;
+                 genius' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Gg] | [Gg][Ee])
+                 APP_NAME="genius"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  orpie' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -236,6 +280,26 @@ f_menu_app_calculators () {
                  [Oo] | [Oo][Rr]*)
                  APP_NAME="orpie"
                  f_application_run
+                 ;;
+                 qalc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Qq] | [Qq][Aa]*)
+                 APP_NAME="qalc"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 rpncalc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Rr] | [Rr][Pp]*)
+                 APP_NAME="rpncalc"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  tapecalc' '*)
                  APP_NAME=$CHOICE_APP
@@ -246,6 +310,16 @@ f_menu_app_calculators () {
                  [Tt] | [Tt][Aa]*)
                  APP_NAME="tapecalc"
                  f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 wcalc' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ww] | [Ww][Cc]*)
+                 APP_NAME="wcalc"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -524,10 +598,12 @@ f_menu_app_clocks () {
                  vtclock' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Tt]*)
                  APP_NAME="vtclock"
                  f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of Clock Applications case statement.
             #
@@ -537,6 +613,51 @@ f_menu_app_clocks () {
             f_option_press_enter_key
       done  # End of Clock Applications until loop.
 } # End of f_menu_app_clocks
+#
+# +----------------------------------------+
+# |      Function f_menu_app_contacts      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_contacts () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Contact List Applications until loop.
+            #MCO abook - Address book with or w/o mutt. With tabs for fields of information.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Contact List Applications Menu"
+            DELIMITER="#MCO" #MCO This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Contact List Applications case statement.
+                 abook' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Bb]*)
+                 APP_NAME="abook"
+                 f_application_run
+                 ;;
+            esac                # End of Contact List Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Contact List Applications until loop.
+} # End of f_menu_app_contacts
 #
 # +----------------------------------------+
 # |         Function f_menu_app_note       |
@@ -550,7 +671,10 @@ f_menu_app_note () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Note Applications until loop.
-            #MNO hnb - Hierarchical notebook.
+            #MNO diary    - Diary and To Do List uses commands date, grep, and text editor.
+            #MNO diary-f  - Fork of "diary" enhanced "view"/"cat" actions, non-latin locales.
+            #MNO hnb      - Hierarchical notebook.
+            #MNO org-mode - Emacs plugin for notes, ToDo lists, and project planning.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -566,12 +690,36 @@ f_menu_app_note () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Note Applications case statement.
+                 diary' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy])
+                 APP_NAME="diary"
+                 f_application_run
+                 ;;
+                 diary-f' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy] | [Dd][Ii][Aa][Rr][Yy][-] | [Dd][Ii][Aa][Rr][Yy][-][Ff])
+                 APP_NAME="diary-f"
+                 f_application_run
+                 ;;
                  hnb' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Hh] | [Hh][Nn]*)
                  APP_NAME="hnb"
+                 f_application_run
+                 ;;
+                 org-mode' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Oo] | [Oo][Rr]*)
+                 APP_NAME="org-mode"
                  f_application_run
                  ;;
             esac                # End of Note Applications case statement.
@@ -595,18 +743,21 @@ f_menu_app_pdfps () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Tool Applications until loop.
-            #MPS diffpdf  - Compare pdf files.
+            #MPS diffpdf  - Compare PDF files.
             #MPS fbdjvu   - DjVu viewer similar to fbpdf.
             #MPS fbgs     - GhostScript, PostScript, and PDF viewer.
             #MPS fbpdf    - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
             #MPS gs       - GhostScript, PostScript, and PDF viewer.
             #MPS jfbview  - Image viewer and framebuffer PDF viewer based on Imlib2.
-            #MPS pdfjam   - Merge pdf files into a single file.
-            #MPS pdftex   - Typesetter creates pdf files.
+            #MPS pdfjam   - Merge PDF files into a single file.
+            #MPS pdftex   - Typesetter creates PDF files.
             #MPS pdftk    - Merge/split, rotate, watermark, bookmarks/metadata attach files.
             #MPS pdftops  - Converts PDF to PS (PostScript) format.
+            #MPS pstotext - Extract text from PS  (PostScript) and PDF files.
             #MPS ps2ascii - Converts PS (PostScript) to text format.
             #MPS ps2pdf   - Converts PS (PostScript) to PDF format.
+            #MPS sdf      - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+            #MPS sdop     - Converts a Simplified Docbook XML file to PS (PostScript).
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -702,6 +853,14 @@ f_menu_app_pdfps () {
                  APP_NAME="pdftops"
                  f_application_run
                  ;;
+                 pstotext' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Ss] | [Pp][Ss][Tt]*)
+                 APP_NAME="pstotext"
+                 f_application_run
+                 ;;
                  ps2ascii' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -710,12 +869,36 @@ f_menu_app_pdfps () {
                  APP_NAME="ps2ascii"
                  f_application_run
                  ;;
+                 ps2eps' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Ee]*)
+                 APP_NAME="ps2eps"
+                 f_application_run
+                 ;;
                  ps2pdf' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp]*)
                  APP_NAME="ps2pdf"
+                 f_application_run
+                 ;;
+                 sdf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Dd] | [Ss][Dd][Ff])
+                 APP_NAME="sdf"
+                 f_application_run
+                 ;;
+                 sdop' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Dd] | [Ss][Dd][Oo]*)
+                 APP_NAME="sdop"
                  f_application_run
                  ;;
             esac                # End of PDF and PS Applications case statement.
@@ -849,10 +1032,13 @@ f_menu_cat_text () {
       f_initvars_menu_app
       until [ $CHOICE_TCAT -eq 0 ] 
       do    # Start of Text Application Category until loop.
-            #BTX Compare    - Show differences between text files.
-            #BTX Converters - Convert between text document/file formats.
-            #BTX Editors    - Create/Edit text documents/files.
-            #BTX Tools      - Viewers,text markup language.
+            #BTX Compare     - Show differences between text files.
+            #BTX Converters  - Convert between text document/file formats.
+            #BTX Editors     - Create/Edit text documents/files.
+            #BTX Editors2    - Create/Edit text documents/files.
+            #BTX Editors3    - Create/Edit text documents/files.
+            #BTX Markup Docs - Create a single source document, publish in many formats.
+            #BTX Tools       - Viewers, spell-check, dictionaries.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -875,9 +1061,22 @@ f_menu_cat_text () {
                  f_menu_app_text_converters   # Text Converter Application Menu.
                  CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 [Ee] | [Ee][Dd]*)
+                 [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_text_editors      # Text Editor Application Menu.
                  CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]2)
+                 f_menu_app_text_editors2     # Text Editor Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]3)
+                 f_menu_app_text_editors3     # Text Editor Application Menu.
+                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Mm] | [Mm][Aa]*)
+                 f_menu_app_text_markup_language
+                 CHOICE_TCAT=-1               # Text Markup Application Menu.
+                                              # Legitimate response. Stay in menu loop.
                  ;;
                  [Tt] | [Tt][Oo]*)
                  f_menu_app_text_tools        # Text Tool Application Menu.
@@ -908,6 +1107,7 @@ f_menu_app_text_compare () {
             #MTC diff      - Differences between 2 text files shown using <> signs.
             #MTC diff3     - Differences between 3 text files
             #MTC imediff2  - Interactive 2-way file merge.
+            #MTC since     - Shows new changes in log files since last run. Tail work-alike.
             #MTC vimdiff   - Differences between 2 text files shown in color highlights.
             #MTC wdiff     - Differences between 2 text files shown using +/- signs.
             #
@@ -995,6 +1195,14 @@ f_menu_app_text_compare () {
                  APP_NAME="imediff2"
                  f_application_run
                  ;;
+                 since' '* | 'sudo since '* | 'sudo since')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ii]*)
+                 APP_NAME="since"
+                 f_application_run
+                 ;;
                  vimdiff' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -1037,6 +1245,10 @@ f_menu_app_text_converters () {
             #MTV txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
             #MTV txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
             #MTV txt2tags   - Converts plain ASCII text to a variety of formats.
+            #MTV unoconv    - Converts any document format that LibreOffice imports/exports.
+            #MTV unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
+            #MTV wp2x       - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+            #MTV xmlto      - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -1155,6 +1367,38 @@ f_menu_app_text_converters () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 unoconv' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu] | [Uu][Nn] | [Uu][Nn][Oo]*)
+                 APP_NAME="unoconv"
+                 f_application_run
+                 ;;
+                 unrtf' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu] | [Uu][Nn] | [Uu][Nn][Rr]*)
+                 APP_NAME="unrtf"
+                 f_application_run
+                 ;;
+                 wp2x' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | Ww][Pp]*)
+                 APP_NAME="wp2x"
+                 f_application_run
+                 ;;
+                 xmlto' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Xx] | Xx][Mm]*)
+                 APP_NAME="xmlto"
+                 f_application_run
+                 ;;
             esac                # End of Text Converter Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -1176,23 +1420,25 @@ f_menu_app_text_editors () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Editor Applications until loop.
-            #MTE beav  - Binary editor and viewer.
-            #MTE dav   - Text editor.
-            #MTE dex   - Support for ctags and parsing compiler errors.
-            #MTE ed    - Classic CLI text editor.
-            #MTE emacs - Full screen text editor with plugins.
-            #MTE groff - Uses macros to format text, create man pages to PS printers.
-            #MTE jed   - JED text editor.
-            #MTE joe   - Text editor. Ctrl-K H for help.
-            #MTE nano  - Simple full-screen text editor.
-            #MTE pico  - Simple full-screen text editor.
-            #MTE vi    - Classic full-screen text editor.
-            #MTE vim   - vi "Improved" text editor.
-            #MTE zile  - Very small Emacs-subset editor.
+            #MTE aoeui         - Very small editor for Dvorak layout keyboards.
+            #MTE dav           - Text editor.
+            #MTE dex           - Support for ctags and parsing compiler errors.
+            #MTE e3em          - Very small editor with emacs-like key bindings.
+            #MTE e3vi          - Very small editor with vi-like key bindings.
+            #MTE e3pi          - Very small editor with pico-like key bindings.
+            #MTE e3ne          - Very small editor with nedit-like key bindings.
+            #MTE e3ws          - Very small editor with Wordstar-like key bindings.
+            #MTE ed            - Classic CLI text editor.
+            #MTE efte          - Configurable editor, drop-down menus, ncurses-based.
+            #MTE elvis-console - vi-clone. Multiple files/windows, spell-check, highlight.
+            #MTE emacs         - Full screen text editor with plugins.
+            #MTE fte-console   - fte for consoles, no internationalization I18N support.
+            #MTE fte-terminal  - fte for xterm, vt100 terminals.
+            #MTE groff         - Format text via macros, create man pages to PS printers.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="Text Editor Applications Menu"
+            MENU_TITLE="Text Editor #1 Applications Menu"
             DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -1204,12 +1450,12 @@ f_menu_app_text_editors () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
-                 beav' '*)
+                 aoeui' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Bb] | [Bb][Ee]*)
-                 APP_NAME="beav"
+                 [Aa] | [Aa][Oo]*)
+                 APP_NAME="aoeui"
                  f_application_run
                  ;;
                  dav' '*)
@@ -1234,12 +1480,68 @@ f_menu_app_text_editors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 e3em' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [3][Ee]*)
+                 APP_NAME="e3em"
+                 f_application_run
+                 ;;
+                 e3vi' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [3][Vv]*)
+                 APP_NAME="e3vi"
+                 f_application_run
+                 ;;
+                 e3pi' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [3][Pp]*)
+                 APP_NAME="e3pi"
+                 f_application_run
+                 ;;
+                 e3ne' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [3][Nn]*)
+                 APP_NAME="e3ne"
+                 f_application_run
+                 ;;
+                 e3ws' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [3][Ww]*)
+                 APP_NAME="e3ws"
+                 f_application_run
+                 ;;
                  ed' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
                  [Ee] | [Ee][Dd])
                  APP_NAME="ed"
+                 f_application_run
+                 ;;
+                 efte' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Ff])
+                 APP_NAME="efte"
+                 f_application_run
+                 ;;
+                 elvis-console' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Ll]*)
+                 APP_NAME="elvis-console"
                  f_application_run
                  ;;
                  emacs' '*)
@@ -1251,6 +1553,22 @@ f_menu_app_text_editors () {
                  APP_NAME="emacs"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 fte-console' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Tt] | [Ff][Tt][Ee] | [Ff][Tt][Ee]-[Cc]*)
+                 APP_NAME="fte-console"
+                 f_application_run
+                 ;;
+                 fte-terminal' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Tt] | [Ff][Tt][Ee] | [Ff][Tt][Ee]-[Tt]*)
+                 APP_NAME="fte-terminal"
+                 f_application_run
                  ;;
                  groff' '*)
                  APP_NAME=$CHOICE_APP
@@ -1277,12 +1595,66 @@ f_menu_app_text_editors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+            esac                # End of Text Editor Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Text Editor Applications until loop.
+} # End of f_menu_app_text_editors
+#
+# +----------------------------------------+
+# |    Function f_menu_app_text_editors2   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_text_editors2 () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Editor Applications until loop.
+            #MTF jed       - JED text editor. Also consider package: jed-extra.
+            #MTF joe       - Text editor. Ctrl-K H for help.
+            #MTF jove      - Jonathan's Own Version of Emacs, ncurses-based.
+            #MTF le        - LE editor text/hex mode, drop-down menus, ncurses-based.
+            #MTF ledit     - line editor used with interactive commands.
+            #MTF levi      - Very small vi-clone. From the 1980's.
+            #MTF mg        - Microscopic GNU Emacs-style editor.
+            #MTF nano      - Simple full-screen text editor more powerful than pico.
+            #MTF nano-tiny - tiny build of nano.
+            #MTF ne        - Nice Editor. Drop-down menus, ncurses-based. 
+            #MTF nvi       - vi-clone as close to vi as possible.
+            #MTF pico      - Simple full-screen text editor.
+            #MTF the       - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Editor #2 Applications Menu"
+            DELIMITER="#MTF" #MTF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Editor Applications case statement.
                  jed' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME_TMP=$CHOICE_APP # Save jed <OPTIONS>.
+                 APP_NAME=jed-extra  # Install jed-extra package before running/installing jed.
+                 f_application_install_question
+                 APP_NAME=$APP_NAME_TMP
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Jj] | [Jj][Ee]*)
+                 APP_NAME=jed-extra  # Install jed-extra package before running/installing jed.
+                 f_application_install_question
                  APP_NAME="jed"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1299,6 +1671,56 @@ f_menu_app_text_editors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 jove' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj] | [Jj][Oo] | [Jj][Oo][Vv]*)
+                 APP_NAME="jove"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 le' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ll] | [Ll][Ee])
+                 APP_NAME="le"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ledit' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ll] | [Ll][Ee] | [Ll][Ee][Dd]*)
+                 APP_NAME="ledit"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 levee' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ll] | [Ll][Ee] | [Ll][Ee][Vv]*)
+                 APP_NAME="levee"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 mg' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Mm] | [Mm][Gg])
+                 APP_NAME="mg"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  nano' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -1306,6 +1728,38 @@ f_menu_app_text_editors () {
                  ;;
                  [Nn] | [Nn][Aa]*)
                  APP_NAME="nano"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 nano-tiny' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Aa] | [Nn][Aa][Nn] | [Nn][Aa][Nn][Oo] | [Nn][Aa][Nn][Oo][-]*)
+                 APP_NAME="nano-tiny"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 ne' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ee])
+                 APP_NAME="ne"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 nvi' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Vv]*)
+                 APP_NAME="nvi"
+                 f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1319,6 +1773,61 @@ f_menu_app_text_editors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 the' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Hh]*)
+                 APP_NAME="the"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Text Editor Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Text Editor Applications until loop.
+} # End of f_menu_app_text_editors2
+#
+# +----------------------------------------+
+# |    Function f_menu_app_text_editors3   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_text_editors3 () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Editor Applications until loop.
+            #MTG vi              - Classic full-screen text editor.
+            #MTG vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
+            #MTG vim             - vi "Improved" text editor with more features than "vi".
+            #MTG vim-nox         - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
+            #MTG vim-scripts     - plugins for vim, adding bells and whistles.
+            #MTG vim-tiny        - Vi IMproved compact version.
+            #MTG vim-vimoutliner - Script for building an outline editor on top of vim.
+            #MTG wordgrinder     - Word processor, styles, drop-down menus, ncurses-based.
+            #MTG zile            - Very small Emacs-subset editor.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Editor #3 Applications Menu"
+            DELIMITER="#MTG" #MTG This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Editor Applications case statement.
                  vi' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "<esc> + :q!"
@@ -1327,6 +1836,18 @@ f_menu_app_text_editors () {
                  ;;
                  [Vv] | [Vv][Ii])
                  APP_NAME="vi"
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vile' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii] | [Vv][Ii][Ll]*)
+                 APP_NAME="vile"
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1340,6 +1861,64 @@ f_menu_app_text_editors () {
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm])
                  APP_NAME="vim"
                  f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vim-nox' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Nn]*)
+                 APP_NAME="vim-nox"
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vim-scripts' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Ss]*)
+                 APP_NAME="vim-scripts"
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vim-tiny' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Tt]*)
+                 APP_NAME="vim-tiny"
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 vim-outliner' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Oo]*)
+                 APP_NAME="vim-outliner"
+                 f_how_to_quit_application "<esc> + :q!"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 wordgrinder' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ww] | [Ww][Oo]*)
+                 APP_NAME="wordgrinder"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1383,14 +1962,94 @@ f_menu_app_text_editors () {
                       ;;
                  esac
                  ;;
-            esac                # End of Text Editor Applications case statement.
+            esac                # End of Text Editor Applications3 case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Text Editor Applications until loop.
-} # End of f_menu_app_text_editors
+      done  # End of Text Editor Applications3 until loop.
+} # End of f_menu_app_text_editors3
+# +----------------------------------------+
+# |Function f_menu_app_text_markup_language|
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_text_markup_language () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ]
+      do    # Start of Text Markup Language Applications until loop.
+            #MTM doconce  - Markup language to manipulate, transform, and convert text.
+            #MTM sisu     - Markup language, publishing, search, write to many formats.
+            #MTM stx2any  - Markup language, write to XHTML, HTML, XML, PS, LaTeX, etc.
+            #MTM texinfo  - Markup language produces both printed & on-line web pages.
+            #MTM udo      - Simpler markup language writes to 25 formats.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Markup Language Applications Menu"
+            DELIMITER="#MTM" #MTM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error wc flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of Text Markup Language Applications case statement.
+                 doconce' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Oo]*)
+                 APP_NAME="doconce"
+                 f_application_run
+                 ;;
+                 sisu' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ii]*)
+                 APP_NAME="sisu"
+                 f_application_run
+                 ;;
+                 stx2any' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Tt]*)
+                 APP_NAME="stx2any"
+                 f_application_run
+                 ;;
+                 texinfo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ee]*)
+                 APP_NAME="texinfo"
+                 f_application_run
+                 ;;
+                 udo' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Uu] | [Uu][Dd]*)
+                 APP_NAME="udo"
+                 f_application_run
+                 ;;
+            esac                # End of Text Markup Language Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of Text Markup Language Applications until loop.
+} # End of f_menu_app_text_markup_language
 #
 # +----------------------------------------+
 # |     Function f_menu_app_text_tools     |
@@ -1404,9 +2063,11 @@ f_menu_app_text_tools () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Tool Applications until loop.
+            #MTT acheck   - Check grammar.
             #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
             #MTT aspell   - Spell check allows text files as input with user dictionary.
-            #MTT doconce  - Text markup language to manipulate, transform, and convert text.
+            #MTT dict     - On-line dictionary, client application queries a dictd server.
+            #MTT dictd    - Dictionary Server database. dict-gcide, dict-wn recommended.
             #MTT hunspell - Spell check allows keyboard or files as input w/user dictionary.
             #MTT ispell   - Spell check allows text files as input with user dictionary.
             #MTT spell    - Spell check allows keyboard or text files as input.
@@ -1426,6 +2087,14 @@ f_menu_app_text_tools () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Tool Applications case statement.
+                 acheck' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Cc]*)
+                 APP_NAME="acheck"
+                 f_application_run
+                 ;;
                  antiword' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -1469,12 +2138,20 @@ f_menu_app_text_tools () {
                     f_press_enter_key_to_continue
                  fi
                  ;;
-                 doconce' '*)
+                 dict' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Dd] | [Dd][Oo]*)
-                 APP_NAME="doconce"
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Cc] | [Dd][Ii][Cc][Tt])
+                 APP_NAME="dict"
+                 f_application_run
+                 ;;
+                 dictd' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Cc] | [Dd][Ii][Cc][Tt][Dd])
+                 APP_NAME="dictd"
                  f_application_run
                  ;;
                  hunspell' '*)
@@ -1556,6 +2233,10 @@ f_menu_app_text_tools () {
                  echo
                  echo "Usage:" 
                  echo "ispell [OPTIONS] <COMMAND> ..."
+                 echo
+                 echo "Related packages:" 
+                 echo "iamerican, iamerican-small, -large, -huge, -insane"
+                 echo "ibritish, ibritish-small, -large, -huge, -insane"
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
@@ -1689,7 +2370,6 @@ f_menu_app_text_tools () {
                     f_press_enter_key_to_continue
                  fi
                  ;;
-
             esac                # End of Text Tool Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -1711,12 +2391,17 @@ f_menu_app_todo () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of ToDo Applications until loop.
-            #MTD doneyet - To-Do List.
-            #MTD hnb     - To-Do List and note taker, ncurses-based application.
-            #MTD todo    - To-Do List hierarchical. Install package 'devtodo'.
-            #MTD tudu    - To-Do List hierarchical tasks.
-            #MTD yaGTD   - To-Do List based on "Getting Things Done" methodology.
-            #MTD yokadi  - Project/task manager which uses SQLite.
+            #MTD diary    - Diary & To Do List uses grep, date, etc. with your text editor.
+            #MTD diary-f  - Fork of "diary" enhanced "view"/"cat", non-latin locales.
+            #MTD doneyet  - To-Do List.
+            #MTD hnb      - To-Do List and note taker, ncurses-based application.
+            #MTD org-mode - Emacs plugin for notes, ToDo lists, and project planning.
+            #MTD tdl      - To Do List manager.
+            #MTD todo     - To-Do List hierarchical. Install package 'devtodo'.
+            #MTD todo2    - 'devtodo2' application is a todo2 list, 5-levels of priorties.
+            #MTD tudu     - To-Do List hierarchical tasks.
+            #MTD yaGTD    - To-Do List based on "Getting Things Done" methodology.
+            #MTD yokadi   - Project/task manager which uses SQLite.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -1732,6 +2417,22 @@ f_menu_app_todo () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of ToDo Applications case statement.
+                 diary' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy])
+                 APP_NAME="diary"
+                 f_application_run
+                 ;;
+                 diary-f' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy] | [Dd][Ii][Aa][Rr][Yy][-] | [Dd][Ii][Aa][Rr][Yy][-][Ff])
+                 APP_NAME="diary-f"
+                 f_application_run
+                 ;;
                  doneyet' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -1750,11 +2451,27 @@ f_menu_app_todo () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 org-mode' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Oo] | [Oo][Rr]*)
+                 APP_NAME="org-mode"
+                 f_application_run
+                 ;;
+                 tdl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Dd]*)
+                 APP_NAME="tdl"
+                 f_application_run
+                 ;;
                  todo' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
                  ;;
-                 [Tt] | [Tt][Oo]*)
+                 [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
                  APP_NAME="todo"
                  clear # Blank the screen.
                  echo "todo - Simple To-Do list using hidden file .todo as a database list."
@@ -1777,6 +2494,40 @@ f_menu_app_todo () {
                  echo "todo -a to add a new note, todo -A -all to show all notes."
                  echo 
                  echo "Now run todo. Usage: todo"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 todo2' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo] | [Tt][Oo][Dd][Oo]2)
+                 APP_NAME="todo2"
+                 clear # Blank the screen.
+                 echo "devtodo2 - To-Do list with 5-levels of priorities."
+                 echo
+                 echo "***Note: Run using 'todo2' command.***"
+                 echo "         Application name is devtodo2".
+                 echo
+                 echo "todo2 [OPTIONS]"
+                 echo "       With no options, displays the items in the current directory."
+                 echo
+                 echo "Add a Task: 
+                 echo "todo2 -a <Task description> "
+                 echo            
+                 echo "Add a task as a child of an existing task:"
+                 echo "todo2 -g 2 -a This is a child of task 2."
+                 echo
+                 echo "List all tasks:"
+                 echo "todo2 -A
+                 echo
+                 echo "Mark a task as complete:"
+                 echo "todo2 -d 1.2"
+                 echo
+                 echo "*** For more help type: 'man todo2'"
+                 echo "                        'todo2 --help'"
+                 echo
+                 echo "Now run devtodo2. Usage: todo2"
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;

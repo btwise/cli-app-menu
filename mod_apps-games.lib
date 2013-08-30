@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-14-2013 01:00"
+# REVDATE="August-29-2013 18:50"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -104,13 +104,17 @@ f_menu_app_games_arcade () {
             #MGB bastet         - Tetris-like game.
             #MGB freesweep      - Minesweeper game.
             #MGB moon-buggy     - Drive a moon buggy on the moon.
+            #MGB myman          - Pac-Man clone, ncurses-based.
             #MGB netris         - Tetris-like game.
             #MGB ninvaders      - Space invaders-like game ncurses-based.
+            #MGB nsnake         - Variation of BSD's snake game.
             #MGB pacman4console - Pacman-like game ncurses-based.
             #MGB petris         - Tetris-like game.
             #MGB robots         - Be chased by killer robots.
             #MGB snake          - Be chased by a snake while collecting money.
             #MGB worm           - Be a growing worm, don't crash into yourself.
+            #MGB zsnake         - Variation of BSD's snake game.
+
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
@@ -200,6 +204,17 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
+                 nsnake' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Nn] | [Nn][Ss]*)
+                 APP_NAME="nsnake"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+
                  pacman4console' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -257,6 +272,18 @@ f_menu_app_games_arcade () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 zsnake' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "x"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Nn]*)
+                 APP_NAME="zsnake"
+                 f_how_to_quit_application "x"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
             esac # End of Arcade Games case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -280,6 +307,7 @@ f_menu_app_games_board () {
       do    # Start of Board Games until loop.
             #MGC atom4      - Board game strategy 2-player ncurses-based.
             #MGC backgammon - Backgammon.
+            #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
             #MGC monop      - Monopoly-like game.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -320,6 +348,18 @@ f_menu_app_games_board () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 gnubg' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Gg] | [Gg][Nn]*)
+                 APP_NAME="gnubg"
+                 f_how_to_quit_application "q"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  monop' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "q or quit"
@@ -353,6 +393,7 @@ f_menu_app_games_card () {
       do    # Start of Card Games until loop.
             #MGD canfield - Solitaire card game with betting.
             #MGD cribbage - Cribbage Card game.
+            #MGD freecell - Freecell card game.
             #MGD go-fish  - Go Fish card game.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -402,6 +443,14 @@ f_menu_app_games_card () {
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac
+                 ;;
+                 freecell' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ff] | [Ff][Rr]*)
+                 APP_NAME="freecell"
+                 f_application_run
                  ;;
                  go-fish' '*)
                  APP_NAME=$CHOICE_APP
@@ -486,12 +535,16 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Puzzle Games until loop.
-            #MGF bastet - Tetris-like game.
-            #MGF bcd    - Reformat input as a punch card.
-            #MGF dab    - 2-players try to complete the most boxes.
-            #MGF netris - Tetris-like game.
-            #MGF petris - Tetris-like game.
-            #MGF ppt    - Reformat input as a paper tape.
+            #MGF bastet   - Tetris-like game.
+            #MGF bcd      - Reformat input as a punch card.
+            #MGF dab      - 2-players try to complete the most boxes.
+            #MGF greed    - Greed numbers game, ncurses-based.
+            #MGF netris   - Tetris-like game.
+            #MGF nsuduko  - Suduko game.
+            #MGF petris   - Tetris-like game.
+            #MGF ppt      - Reformat input as a paper tape.
+            #MGF vitetris - tetris clone; 1-2 players, network play, custom graphics etc.
+
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
@@ -548,6 +601,15 @@ f_menu_app_games_puzzle () {
                  [Dd] | [Dd][Aa]*)
                  APP_NAME="dab"
                  f_application_run
+                 ;;
+                 greed' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Gg] | [Gg][Rr]*)
+                 APP_NAME="greed"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  netris' '*)
                  APP_NAME=$CHOICE_APP
@@ -609,6 +671,19 @@ f_menu_app_games_puzzle () {
                       ;;
                  esac
                  ;;
+                 vitetris' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Vv] | [Vv][Ii]*)
+                 APP_NAME="vitetris"
+                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+
             esac # End of Puzzle Games case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -740,8 +815,10 @@ f_menu_app_games_rpg () {
       do    # Start of RPG Games until loop.
             #MGH adventure  - Explore Colossal Cave. 
             #MGH battlestar - Tropical adventure game.
+            #MGH GearHead   - Post-nuclear apocalyptic game with 150 machines of destruction.
             #MGH hack       - Explore the Dungeons of Doom.
             #MGH nethack    - Retrieve the Amulet of Yendor in the  20th dungeon level.
+            #MGH overkill   - 2D ASCII shooter game.
             #MGH phantasia  - Fight monsters and other players.
             #MGH slashem    - Enter the Dungeons of Doom.
             #MGH wump       - Hunt the Wumpus, watch out for bats, pits.
@@ -845,6 +922,8 @@ f_menu_app_games_simulation () {
             #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
             #MGI star wars - Star Wars movie in ASCII.
             #MGI trek      - Star Trek blast Klingons.
+            #MGI ztrack    - First-person car racing game.
+
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
@@ -976,6 +1055,7 @@ f_menu_app_games_strategy () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Strategy Games until loop.
+            #MGJ empire   - war game build armies, planes, ships, capture cities.
             #MGJ gomoku   - 2-player game of 5-in-a-row.
             #MGJ hunt     - Multi-user game. Kill everyone else.
             #MGJ mille    - Travel 700 miles card game.
@@ -995,6 +1075,14 @@ f_menu_app_games_strategy () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Strategy Games case statement.
+                 empire' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Mm]*)
+                 APP_NAME="empire"
+                 f_application_run
+                 ;;
                  gomoku' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -1073,6 +1161,7 @@ f_menu_app_games_word () {
             #MGK hangman - Classic hangman word game.
             #MGK pig     - Converts text into pig-latin.
             #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
+            #MGK rl      - Randomize Lines scrambles words of a text file.
             #MGK toilet  - Creates banner with bold font.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -1200,6 +1289,14 @@ f_menu_app_games_word () {
                                 # set PRESS_KEY=0 whereas we need it set to 1.
                     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  fi
+                 ;;
+                 rl' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Rr] | [Rr][Ll])
+                 APP_NAME="rl"
+                 f_application_run
                  ;;
                  toilet' '*)
                  APP_NAME=$CHOICE_APP
