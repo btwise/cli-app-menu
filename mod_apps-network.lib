@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="August-30-2013 00:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -18,11 +18,12 @@ f_menu_cat_network () {
       until [ $CHOICE_SCAT -eq 0 ]
       do    # Start of Network Application Category until loop.
             #BNE Firewalls    - Configure firewalls.
-            #BNE LAN-WAN      - Test network connectivity, speed, routing.
+            #BNE LAN          - Test local area network connectivity, display settings.
             #BNE Monitors     - LAN monitors, network mappers.
             #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
             #BNE Packet Tools - Packet sniffers, packet analyzers.
             #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
+            #BNE WAN          - Test wide-area network connectivity, speed, routing, DNS.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Application Category Menu"
@@ -42,7 +43,7 @@ f_menu_cat_network () {
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ll] | [Ll][Aa]*)
-                 f_menu_app_lanwan            # LANWAN Applications Menu.
+                 f_menu_app_lan               # LAN Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Oo]*)
@@ -59,6 +60,10 @@ f_menu_cat_network () {
                  ;;
                  [Ss] | [Ss][Hh]*)
                  f_menu_app_network_sharing   # Network Sharing Applications Menu.
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ww] | [Ww][Aa]*)
+                 f_menu_app_wan               # WAN Applications Menu.
                  CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Network Application Category case statement.
@@ -257,38 +262,30 @@ f_menu_app_firewalls () {
 } # End of function f_menu_app_firewalls
 #
 # +----------------------------------------+
-# |       Function f_menu_app_lanwan       |
+# |         Function f_menu_app_lan        |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: CHOICE_APP, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
 #
-f_menu_app_lanwan () {
+f_menu_app_lan () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ] 
-      do    # Start of LAN/WAN Applications until loop.
+      do    # Start of LAN Applications until loop.
             #MNL arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
-            #MNL dig         - Query Internet domain name servers.
-            #MNL dnstop      - Analyze and display tables of DNS traffic.
             #MNL ip          - Shows routing, devices, policy routing and tunnels.
             #MNL ip addr     - Protocol (IP or IPv6) address on a device.
             #MNL ip link     - Shows network device.
             #MNL ip neighbor - ARP or NDISC cache entry.
-            #MNL ip route    - Shows routing.
-            #MNL mtr         - Traceroute tool, has features of ping and traceroute.
-            #MNL nslookup    - Query Internet domain name servers.
             #MNL ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
-            #MNL route       - Shows routing table.
             #MNL sipcalc     - ip subnet calculator.
-            #MNL speedometer - Check LAN/WAN connectivity speed.
             #MNL ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
             #MNL subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
-            #MNL traceroute  - Traceroute tool, trace network path to destination. 
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-network.lib"
-            MENU_TITLE="LAN/WAN Applications Menu"
+            MENU_TITLE="LAN Applications Menu"
             DELIMITER="#MNL" #MNL This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
@@ -299,7 +296,7 @@ f_menu_app_lanwan () {
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of LAN/WAN Applications case statement.
+            case $CHOICE_APP in # Start of LAN Applications case statement.
                  'sudo arping')
                  APP_NAME="sudo arping localhost -c 5"
                  f_application_run
@@ -334,22 +331,6 @@ f_menu_app_lanwan () {
                  echo "Arpinging this PC (localhost) for 5 times as an example."
                  echo "Now run arping. Usage: arping localhost -c 5"
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 dig' '* | 'sudo dig '* | 'sudo dig')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ii] | [Dd][Ii][Gg])
-                 APP_NAME="dig"
-                 f_application_run
-                 ;;
-                 dnstop' '* | 'sudo dnstop '* | 'sudo dnstop')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Nn]*)
-                 APP_NAME="dnstop"
                  f_application_run
                  ;;
                  ip' '* | 'sudo ip '* | 'sudo ip')
@@ -405,6 +386,181 @@ f_menu_app_lanwan () {
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Nn]*)
                  APP_NAME="ip neighbor"
+                 f_application_run
+                 ;;
+                 ping' '* | 'sudo ping '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 'sudo ping')
+                 APP_NAME="sudo ping localhost -c 5"
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Ii]*)
+                 APP_NAME="ping localhost -c 5"
+                 clear # Blank the screen.
+                 echo "ping - Send ICMP ECHO_REQUEST to network hosts."
+                 echo
+                 echo "Usage:"
+                 echo "ping  [-LRUbdfnqrvVaAB] [-c count] [-m mark] [-i interval] [-l preload]"
+                 echo "      [-p pattern] [-s packetsize] [-t ttl] [-w deadline] [-F flowlabel]"
+                 echo "      [-I interface]  [-M  hint] [-N nioption] [-Q tos] [-S sndbuf]"
+                 echo "      [-T timestamp option] [-W timeout] [hop ...] destination"
+                 echo
+                 echo "Usage: ping destination where destination may be an IP-address or url."
+                 echo "       i.e. ping 192.168.1.1 or ping www.sourceforge.net"
+                 echo
+                 echo "*** For more help type: 'man ping'"
+                 echo "                        'ping --help'"
+                 echo
+                 echo "Pinging this PC (localhost) for 5 times as an example."
+                 echo
+                 echo "Now run ping. Usage: ping localhost -c 5"
+                 echo
+                 echo "Many web sites block pings resulting in a message: '100% packet loss'."
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 sipcalc' '* | 'sudo sipcalc '* | 'sudo sipcalc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ii]*)
+                 APP_NAME="sipcalc"
+                 f_application_run
+                 ;;
+                 ss' '* | 'sudo ss '* | 'sudo ss')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ss])
+                 APP_NAME="ss"
+                 clear # Blank the screen.
+                 echo "ss - Display TCP/UDP Network and Socket Information."
+                 echo
+                 echo "Usage:"
+                 echo  "ss [options] [ FILTER ]"
+                 echo "    -h, --help      Show summary of options."
+                 echo "    -a, --all       Display  both  listening  and  non-listening sockets."
+                 echo "    -l, --listening Display only listening sockets."
+                 echo "    -e, --extended  Show detailed socket information"
+                 echo "    -m, --memory    Show socket memory usage."
+                 echo "    -p, --processes Show process using socket."
+                 echo "    -i, --info      Show internal TCP information."
+                 echo "    -s, --summary   Print summary statistics."
+                 echo "    -4, --ipv4      Display only IP version 4 sockets (alias for -f inet)."
+                 echo "    -6, --ipv6      Display only IP version 6 sockets (alias for -f inet6)."
+                 echo "    -0, --packet    Display PACKET sockets (alias for -f link)."
+                 echo "    -t, --tcp       Display TCP sockets."
+                 echo "    -u, --udp       Display UDP sockets."
+                 echo "    -d, --dccp      Display DCCP sockets."
+                 echo "    -w, --raw       Display RAW sockets."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 subnetcalc' '* | 'sudo subnetcalc '* | 'sudo subnetcalc')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Uu]*)
+                 APP_NAME="subnetcalc"
+                 f_application_run
+                 ;;
+            esac                # End of LAN Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_application_bad_menu_choice
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+      done  # End of LAN Applications until loop.
+} # End of function f_menu_app_lan
+#
+# +----------------------------------------+
+# |         Function f_menu_app_wan        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: CHOICE_APP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#
+f_menu_app_wan () {
+      f_initvars_menu_app
+      until [ $CHOICE_APP -eq 0 ] 
+      do    # Start of WAN Applications until loop.
+            #MNW dig         - Query Internet domain name servers.
+            #MNW dnstop      - Analyze and display tables of DNS traffic.
+            #MNW ip          - Shows routing, devices, policy routing and tunnels.
+            #MNW ip route    - Shows routing.
+            #MNW mtr         - Traceroute tool, has features of ping and traceroute.
+            #MNW nslookup    - Query Internet domain name servers.
+            #MNW ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
+            #MNW route       - Shows routing table.
+            #MNW speedometer - Check LAN/WAN connectivity speed.
+            #MNW ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
+            #MNW traceroute  - Traceroute tool, trace network path to destination. 
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="WAN Applications Menu"
+            DELIMITER="#MNW" #MNW This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read CHOICE_APP
+            #
+            f_common_app_menu
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $CHOICE_APP in # Start of WAN Applications case statement.
+                 dig' '* | 'sudo dig '* | 'sudo dig')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii] | [Dd][Ii][Gg])
+                 APP_NAME="dig"
+                 f_application_run
+                 ;;
+                 dnstop' '* | 'sudo dnstop '* | 'sudo dnstop')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Nn]*)
+                 APP_NAME="dnstop"
+                 f_application_run
+                 ;;
+                 ip' '* | 'sudo ip '* | 'sudo ip')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp])
+                 APP_NAME="ip"
+                 clear # Blank the screen.
+                 echo "IP - manipulate routing, devices, policy routing and tunnels."
+                 echo
+                 echo "Usage:"
+                 echo "ip [ OPTIONS ] OBJECT { COMMAND | help }"
+                 echo "OBJECT := { link | addr | addrlabel | route | rule | neigh | tunnel | maddr |"
+                 echo " mroute }"
+                 echo "link      - network device."
+                 echo "address   - protocol (IP or IPv6) address on a device."
+                 echo "addrlabel - label configuration for protocol address selection."
+                 echo "neighbour - ARP or NDISC cache entry."
+                 echo "route     - routing table entry."
+                 echo "rule      - rule in routing policy database."
+                 echo "maddress  - multicast address."
+                 echo "mroute    - multicast routing cache entry."
+                 echo "tunnel    - tunnel over IP."
+                 echo
+                 echo "OPTIONS := { -V[ersion] | -s[tatistics] | -r[esolve] | -f[amily] { inet | inet6"
+                 echo "             | ipx | dnet | link } | -o   OBJECT"
+                 echo
+                 echo "*** For more help type: 'man ip'"
+                 echo "                        'ip --help'"
+                 f_press_enter_key_to_continue
                  f_application_run
                  ;;
                  'ip route '* | 'sudo ip route '* | 'sudo ip route')
@@ -498,14 +654,6 @@ f_menu_app_lanwan () {
                  APP_NAME="route"
                  f_application_run
                  ;;
-                 sipcalc' '* | 'sudo sipcalc '* | 'sudo sipcalc')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ii]*)
-                 APP_NAME="sipcalc"
-                 f_application_run
-                 ;;
                  speedometer' '* | 'sudo speedometer '* | 'sudo speedometer')
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -568,14 +716,6 @@ f_menu_app_lanwan () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
-                 subnetcalc' '* | 'sudo subnetcalc '* | 'sudo subnetcalc')
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Uu]*)
-                 APP_NAME="subnetcalc"
-                 f_application_run
-                 ;;
                  traceroute' '* | 'sudo traceroute '* )
                  APP_NAME=$CHOICE_APP
                  # f_web_site # Don't use f_web_site since web site may have already been entered.
@@ -614,14 +754,14 @@ f_menu_app_lanwan () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
-            esac                # End of LAN/WAN Applications case statement.
+            esac                # End of WAN Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_application_bad_menu_choice
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of LAN/WAN Applications until loop.
-} # End of function f_menu_app_lanwan
+      done  # End of WAN Applications until loop.
+} # End of function f_menu_app_wan
 #
 # +----------------------------------------+
 # |  Function f_menu_tcat_network_monitors |
@@ -1091,6 +1231,9 @@ f_menu_app_nic_tools () {
             #MNN ethtool      - NIC configuration.
             #MNN ifconfig     - NIC configuration.
             #MNN ifplugstatus - Wireless USB NIC status.
+            #MNL ip          - Shows routing, devices, policy routing and tunnels.
+            #MNL ip addr     - Protocol (IP or IPv6) address on a device.
+            #MNL ip neighbor - ARP or NDISC cache entry.
             #MNN iwconfig     - Wireless NIC configuration.
             #MNN iwlist       - Get detailed information from wired/wireless NICs.
             #MNN macchanger   - Change the hardware MAC address on wired/wireless NICs.
@@ -1152,6 +1295,53 @@ f_menu_app_nic_tools () {
                  ;;
                  [Ii] | [Ii][Ff] | [Ii][Ff][Pp]*)
                  APP_NAME="ifplugstatus"
+                 f_application_run
+                 ;;
+                 ip' '* | 'sudo ip '* | 'sudo ip')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp])
+                 APP_NAME="ip"
+                 clear # Blank the screen.
+                 echo "IP - manipulate routing, devices, policy routing and tunnels."
+                 echo
+                 echo "Usage:"
+                 echo "ip [ OPTIONS ] OBJECT { COMMAND | help }"
+                 echo "OBJECT := { link | addr | addrlabel | route | rule | neigh | tunnel | maddr |"
+                 echo " mroute }"
+                 echo "link      - network device."
+                 echo "address   - protocol (IP or IPv6) address on a device."
+                 echo "addrlabel - label configuration for protocol address selection."
+                 echo "neighbour - ARP or NDISC cache entry."
+                 echo "route     - routing table entry."
+                 echo "rule      - rule in routing policy database."
+                 echo "maddress  - multicast address."
+                 echo "mroute    - multicast routing cache entry."
+                 echo "tunnel    - tunnel over IP."
+                 echo
+                 echo "OPTIONS := { -V[ersion] | -s[tatistics] | -r[esolve] | -f[amily] { inet | inet6"
+                 echo "             | ipx | dnet | link } | -o   OBJECT"
+                 echo
+                 echo "*** For more help type: 'man ip'"
+                 echo "                        'ip --help'"
+                 f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 'ip addr '* | 'sudo ip addr '* | 'sudo ip addr')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Aa]*)
+                 APP_NAME="ip addr"
+                 f_application_run
+                 ;;
+                 'ip neighbor '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Nn]*)
+                 APP_NAME="ip neighbor"
                  f_application_run
                  ;;
                  iwconfig' '* | 'sudo iwconfig '* | 'sudo iwconfig')

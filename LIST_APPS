@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-08-29 19:18 Thursday
+Last updated: 2013-09-01 15:31 Sunday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -104,7 +104,7 @@ ________________________________________________
  transmission - Torrent client web, console, Mac, GTK+ and Qt GUI clients.
 
 ________________________________________________
-*** Calendar-ToDo Applications Menu ***
+*** Calendar Applications Menu ***
  cal         - Displays a monthly calendar.
  calcurse    - Calendar ncurses-based.
  ccal        - Calendar color.
@@ -183,12 +183,14 @@ ________________________________________________
  grass     - GIS Map utility (Geographic Information System).
  gtypist   - Typing tutor displays a sentence for practice.
  lifelines - Geneology.
+ metar     - Download METAR weather reports from NOAA HTTP servers.
  morse     - Morse code training.
  morsegen  - Converts text file to ASCII morse code.
  primes    - Prime number calculator.
  qrq       - High-speed morse code trainer.
  tlf       - Morse code cw keyer, logging and contest program.
  typespeed - Typing tutor displays flying words arcade-style across screen.
+ weather-util - current weather conditions and forecasts.
 
 ________________________________________________
 *** E-mail Applications Menu ***
@@ -490,24 +492,19 @@ ________________________________________________
  ufw       - Firewall configuration and status.
 
 ________________________________________________
-*** LAN/WAN Applications Menu ***
+*** LAN Applications Menu ***
  arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
- dig         - Query Internet domain name servers.
- dnstop      - Analyze and display tables of DNS traffic.
  ip          - Shows routing, devices, policy routing and tunnels.
  ip addr     - Protocol (IP or IPv6) address on a device.
  ip link     - Shows network device.
  ip neighbor - ARP or NDISC cache entry.
- ip route    - Shows routing.
- mtr         - Traceroute tool, has features of ping and traceroute.
- nslookup    - Query Internet domain name servers.
  ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
- route       - Shows routing table.
  sipcalc     - ip subnet calculator.
- speedometer - Check LAN/WAN connectivity speed.
  ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
  subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
- traceroute  - Traceroute tool, trace network path to destination. 
+ ip          - Shows routing, devices, policy routing and tunnels.
+ ip addr     - Protocol (IP or IPv6) address on a device.
+ ip neighbor - ARP or NDISC cache entry.
 
 ________________________________________________
 *** Network Bandwidth Applications Menu ***
@@ -587,6 +584,20 @@ ________________________________________________
  smbstatus - Samba files lock status.
  testparm  - Samba configuration display.
  woof      - Woof (Web Offer One File) copies files via the HTTP protocol.
+
+________________________________________________
+*** WAN Applications Menu ***
+ dig         - Query Internet domain name servers.
+ dnstop      - Analyze and display tables of DNS traffic.
+ ip          - Shows routing, devices, policy routing and tunnels.
+ ip route    - Shows routing.
+ mtr         - Traceroute tool, has features of ping and traceroute.
+ nslookup    - Query Internet domain name servers.
+ ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
+ route       - Shows routing table.
+ speedometer - Check LAN/WAN connectivity speed.
+ ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
+ traceroute  - Traceroute tool, trace network path to destination. 
 
 ________________________________________________
 *** Podcatcher Applications Menu ***
@@ -849,9 +860,12 @@ ________________________________________________
 
 ________________________________________________
 *** Text Editor2 Applications Menu ***
- jed       - JED text editor. Also consider package: jed-extra.
+ jed       - JED ncurses-based. Also consider package: jed-extra.
+ jmacs     - Joe Editor, GNU-EMACS emulation mode.
  joe       - Text editor. Ctrl-K H for help.
  jove      - Jonathan's Own Version of Emacs, ncurses-based.
+ jpico     - Joe Editor, PICO emulation mode.
+ jstar     - Joe Editor, WordStar emulation mode.
  le        - LE editor text/hex mode, drop-down menus, ncurses-based.
  ledit     - line editor used with interactive commands.
  levi      - Very small vi-clone. From the 1980's.
@@ -861,10 +875,11 @@ ________________________________________________
  ne        - Nice Editor. Drop-down menus, ncurses-based. 
  nvi       - vi-clone as close to vi as possible.
  pico      - Simple full-screen text editor.
- the       - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
+ rjoe      - Joe Editor, only edit file(s) specified by "rjoe <filenames>.
 
 ________________________________________________
 *** Text Editor3 Applications Menu ***
+ the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
  vi              - Classic full-screen text editor.
  vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
  vim             - vi "Improved" text editor with more features than "vi".

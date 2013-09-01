@@ -25,12 +25,14 @@ f_menu_app_education () {
             #MED grass     - GIS Map utility (Geographic Information System).
             #MED gtypist   - Typing tutor displays a sentence for practice.
             #MED lifelines - Geneology.
+            #MED metar     - Download METAR weather reports from NOAA HTTP servers.
             #MED morse     - Morse code training.
             #MED morsegen  - Converts text file to ASCII morse code.
             #MED primes    - Prime number calculator.
             #MED qrq       - High-speed morse code trainer.
             #MED tlf       - Morse code cw keyer, logging and contest program.
             #MED typespeed - Typing tutor displays flying words arcade-style across screen.
+            #MED weather-util - current weather conditions and forecasts.
            #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-education.lib"
@@ -121,6 +123,14 @@ f_menu_app_education () {
                  APP_NAME="lifelines"
                  f_application_run
                  ;;
+                 metar' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Ee]*)
+                 APP_NAME="metar"
+                 f_application_run
+                 ;;
                  morse' '*)
                  APP_NAME=$CHOICE_APP
                  f_application_run
@@ -183,6 +193,14 @@ f_menu_app_education () {
                  ;;
                  [Tt] | [Tt][Yy]*)
                  APP_NAME="typespeed"
+                 f_application_run
+                 ;;
+                 weather-util' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Ee]*)
+                 APP_NAME="weather-util"
                  f_application_run
                  ;;
             esac                # End of Education Applications case statement.

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-01-2013 12:12"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -45,8 +45,10 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       f_term_color # Set terminal color.
       echo "--- $MENU_TITLE ---"
       echo
-      if [ $DELIMITER = "#AAA" ] ; then #AAA This 3rd field prevents awk from printing this line into menu options.
+      if [ "$DELIMITER" = "#AAA" ] ; then #AAA This 3rd field prevents awk from printing this line into menu options.
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
+      elif [ "$DELIMITER" = "#AAB" ] ; then 
+         echo " 0 - Return to Main Menu." # Option for Application Category Menu.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
       fi
@@ -62,11 +64,30 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       #
       MAX=$((MAX=$MAX-1))
       #
-      # Cannot use MAX=$MAX-1, since if MAX=12 echo $MAX shows "12-1" not "11".
+      # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
       #
       # The following command awk '{<if condition>{print field}}
       # will print the menu items. The command automatically calculates the
       # menu option numbers for you.
+      #
+      # if $DELIMITER is "#AAB" when the Application Category Menu is
+      # displayed, any modules that are not in the same directory as the menu
+      # script are in lighter font (normal font versus bold font).
+      # Else any other menu always has bold font and does not change fonts.
+      #
+      # To make the Application Category Menu font change bold/normal depending
+      # if a module is loaded (in the same directory) or not loaded:
+      # The for X in loop cycles through all the module file names.
+      # The for X in loop has awk which looks for "#AAB" 1 marker only, in file
+      # lib_cli-menu-cat.lib. The result is "# mod_apps_<module>.lib" and then
+      # this is piped to the second awk which strips away the "#" leaving only
+      # the file name.
+      #
+      # If the module file name exists/readable in the directory, then apply
+      # bold font, echo the item number and grep "AAB" which finds a single
+      # menu item, which is then piped to awk which prints out the item name
+      # and description. Else the module file name does not exist/not readable
+      # in the directory, then apply normal font and print menu item.
       #
       # if statement conditional "($2&&!$3)":
       # Since the $DELIMITER is the special comment marker, then:
@@ -83,9 +104,52 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # so numbering will always start at one. Interestingly the "++" increment
       # command is only valid from within awk.
       #
-      awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
-      f_choice_array  # Create array to handle numeric answer to menu choices.
+      if [ "$DELIMITER" = "#AAB" ] ; then
+         XNUM=0
+         for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_FILE | awk -F "#" '{print $2}'`
+         do
+             let "XNUM++"
+             # Setting XSTR=$(...) strips the whitespace from the menu item. It's not grep/awk's fault.
+             # XSTR=$(grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
+             #
+             if [ -r $X ] ; then 
+                echo -n $(tput bold) $XNUM" - " ; grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                # echo $(tput bold) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
+             else
+                echo -n $(tput sgr0) $XNUM" - " ; grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                # echo $(tput sgr0) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
+             fi
+         done
+      else
+         awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
+      fi
       #
+      f_choice_array  # Create array to handle numeric answer to menu choices.
+                      # Caution: Also uses $XNUM which is used in for loop above.
+      #
+         case $DELIMITER in
+              # Main Menu.
+              "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
+                 echo
+                 echo "'0', Q/quit, to quit this script."
+              ;;
+              # Application Category Menus.
+              "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
+                 echo
+                 echo "'0', R/return, to go back to Main Menu."
+              ;;
+              # Application Sub-category Menus
+              "#B"*) # Only display help message in Sub-category menus.
+                 echo
+                 echo "For help, type: '<application name> --help' or 'man <application name>'"
+              ;;
+              # Application Sub-category Menus or Application Menus.
+              "#M"* | "#B"*) # Only display help message in application menus.
+                 echo
+                 echo "For help, type: '<application name> --help' or 'man <application name>'"
+                 echo "Also accepts application options i.e. <application name> --version"
+              ;;
+         esac
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
 } # End of function f_show_menu
@@ -250,11 +314,11 @@ f_how_to_quit_application () {
 f_term_color () { # Set terminal display properties.
       case $TCOLOR in
            [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
-              setterm -reset -bold on
+              setterm -reset -bold on -store
            ;;
            [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
               setterm -reset
-              setterm -foreground white -background black -inverse
+              setterm -foreground white -background black -inverse -store
            ;;  
       esac
 } # End of function f_term_color
@@ -817,6 +881,9 @@ f_application_install () {
            ;;
            ifplugstatus)
            APP_NAME_INSTALL="ifplugd"
+           ;;
+           jstar | jmacs | jpico | rjoe)
+           APP_NAME_INSTALL="joe"
            ;;
            lynx)
            APP_NAME_INSTALL="lynx-cur"
@@ -1408,4 +1475,49 @@ f_create_LIST_APPS () {
           done
       done
 } # End of function f_create_LIST_APPS
+#
+# +----------------------------------------+
+# |          Function f_show_max           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: XSTR, MOD_FILE, MAX
+# Outputs: MAX.
+#
+f_show_max () {
+      #
+      # Calculate $MAX, the number of menu items using grep -c(ount) option.
+      # Count number of lines containing special comment marker string to get
+      # maximum item number.
+      #
+      # Set XSTR to the Special Menu Item Marker.
+      for XSTR in $(grep [#]:M[A-Z][A-Z] README | awk '{print $1}')
+      # for XSTR in $(grep --silent [#]:M[A-Z][A-Z] README)
+      do
+          echo
+          # Print application category menu title.
+          #echo -n "*** "
+          #grep $XSTR README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}'
+          grep $XSTR README
+          XSTR=${XSTR/:/} # Use string substitution.
+          #
+          for MOD_FILE in mod_apps-audio.lib mod_apps-databases.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib
+          do
+              # Human readable list without special comment markers.
+              # Indents one space before application name.
+              MAX=$(grep $XSTR -c $MOD_FILE)
+              # Subtract 1 since the line DELIMITER=<string> contains the 
+              # special comment marker but is not part of menu display.
+              #
+              MAX=$((MAX=$MAX-1))
+              #
+              # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
+              #
+              if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
+                 echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
+              fi   
+           #
+          done
+      done
+} # End of function f_show_max
 #

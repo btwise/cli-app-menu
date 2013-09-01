@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2013 COPYRIGHT 2013 ROBERT D. CHIN
 #
-# File naming convention for archiving:
+# FILE NAMING CONVENTION FOR ARCHIVING:
 # $THIS_FILE_<YYYY-MM-DD_HHMM>
 #
 # Usage: sh EDIT_HISTORY
@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="August-29-2013 18:50"
+PROJECT_REVDATE="September-01-2013 12:12"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,28 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-09-01 *f_show_menu enhanced the Application Categories Menu
+##             to indicate whether or not a module file is accessible by
+##             changing the menu item font.
+##            *f_menu_cat_applications changed structure to embed the module
+##             file names in the menu. Needed for enhancement to f_show_menu.
+##            *Main Menu changed editor from "joe" to "jed" more user-friendly,
+##             added menu item "Update LIST_APPS".
+##            *f_menu_app_text_editors2 changed "jed" description in menu,
+##             Added jmacs, jpico, jstar, rjoe. Deleted "the" text editor.
+##            *f_menu_app_text_editors3 added "the" text editor.
+##
+## 2013-08-30 *f_menu_app_lanwan deleted.
+##            *f_menu_app_lan created added arping, ip, ip addr, ip link,
+##             ip neighbor, ping, sipcalc, ss, subnetcalc.
+##            *f_menu_app_nic_tools added ip, ip address, ip neighbor.
+##            *f_menu_app_wan created added dig, dnsstop, ip ip route, mtr,
+##             nslookup, ping, route, speedometer, ss, traceroute.
+##            *f_show_max created.
+##            *f_show_menu added back the help instructions.
+##            *Main Menu replaced "more -d" with "less -P", custom prompt.
+##            *README added instructions "HOW-TO Add a new menu item".
 ##
 ## 2013-08-29 *f_application_help added case pattern *--version.
 ##            *f_application_install_question added.

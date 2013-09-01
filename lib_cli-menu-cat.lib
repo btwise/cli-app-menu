@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-01-2013 12:12"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -16,18 +16,18 @@ f_menu_cat_applications () {
       f_initvars_menu_app
       until [ $CHOICE_CAT -eq 0 ]
       do    # Start of Application Category until loop.
-            #AAB Audio        - Music players, editors, utilities.
-            #AAB Databases    - General and specialized databases.
-            #AAB Education    - Learn something.
-            #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
-            #AAB Games        - Fun time!
-            #AAB Image        - View images and graphics files.
-            #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
-            #AAB Network      - Wireless connection, network monitoring, tools.
-            #AAB Office       - Editors, spreadsheets, presenters, organizers, calcs, acctg.
-            #AAB Screen-saver - For when you're away.
-            #AAB System       - Monitor system processes, resources, utilities, etc.
-            #AAB Video        - Video players, editors, utilities.
+            #mod_apps-audio.lib       #AAB Audio        - Music players, editors, utilities.
+            #mod_apps-databases.lib   #AAB Databases    - General and specialized databases.
+            #mod_apps-education.lib   #AAB Education    - Learn something.
+            #mod_apps-filedir.lib     #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
+            #mod_apps-games.lib       #AAB Games        - Fun time!
+            #mod_apps-image.lib       #AAB Image        - View images and graphics files.
+            #mod_apps-internet.lib    #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
+            #mod_apps-network.lib     #AAB Network      - Wireless connection, network monitoring, tools.
+            #mod_apps-office.lib      #AAB Office       - Editors, spreadsheets, presenter, organize, calcs, acctg.
+            #mod_apps-screensaver.lib #AAB Screen-saver - For when you're away.
+            #mod_apps-system.lib      #AAB System       - Monitor system processes, resources, utilities, etc.
+            #mod_apps-video.lib       #AAB Video        - Video players, editors, utilities.
             #
             THIS_FILE="lib_cli-menu-cat.lib"
             MENU_TITLE="Application Categories Menu"

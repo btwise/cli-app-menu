@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-01-2013 12:12"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -1616,9 +1616,12 @@ f_menu_app_text_editors2 () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Editor Applications until loop.
-            #MTF jed       - JED text editor. Also consider package: jed-extra.
+            #MTF jed       - JED ncurses-based. Also consider package: jed-extra.
+            #MTF jmacs     - Joe Editor, GNU-EMACS emulation mode.
             #MTF joe       - Text editor. Ctrl-K H for help.
             #MTF jove      - Jonathan's Own Version of Emacs, ncurses-based.
+            #MTF jpico     - Joe Editor, PICO emulation mode.
+            #MTF jstar     - Joe Editor, WordStar emulation mode.
             #MTF le        - LE editor text/hex mode, drop-down menus, ncurses-based.
             #MTF ledit     - line editor used with interactive commands.
             #MTF levi      - Very small vi-clone. From the 1980's.
@@ -1628,7 +1631,7 @@ f_menu_app_text_editors2 () {
             #MTF ne        - Nice Editor. Drop-down menus, ncurses-based. 
             #MTF nvi       - vi-clone as close to vi as possible.
             #MTF pico      - Simple full-screen text editor.
-            #MTF the       - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
+            #MTF rjoe      - Joe Editor, only edit file(s) specified by "rjoe <filenames>.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -1667,7 +1670,21 @@ f_menu_app_text_editors2 () {
                  ;;
                  [Jj] | [Jj][Oo]*)
                  APP_NAME="joe"
-                 f_how_to_quit_application "Ctrl-k x"
+                 clear # Blank the screen.
+                 echo "joe - Text editor with 5 emulations of other text editors"
+                 echo
+                 echo "Usage:" 
+                 echo "Regular Usage mode : joe [global-options] [ [local-options] filename ]..."
+                 echo " WordStar emulation: jstar [global-options] [ [local-options] filename ]..."
+                 echo "GNU-Emacs emulation: jmacs [global-options] [ [local-options] filename ]..."
+                 echo "    Restricted mode: rjoe [global-options] [ [local-options] filename ]..."
+                 echo "     PICO emulation: jpico [global-options] [ [local-options] filename ]..."
+                 echo
+                 echo "Available at: www.sourceforge.net/projects/joe-editor."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 f_how_to_quit_application "Ctrl-k x" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1773,16 +1790,6 @@ f_menu_app_text_editors2 () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-                 the' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Tt] | [Tt][Hh]*)
-                 APP_NAME="the"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
             esac                # End of Text Editor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -1804,6 +1811,7 @@ f_menu_app_text_editors3 () {
       f_initvars_menu_app
       until [ $CHOICE_APP -eq 0 ]
       do    # Start of Text Editor Applications until loop.
+            #MTG the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
             #MTG vi              - Classic full-screen text editor.
             #MTG vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
             #MTG vim             - vi "Improved" text editor with more features than "vi".
@@ -1828,6 +1836,16 @@ f_menu_app_text_editors3 () {
             APP_NAME="" # Set application name to null value.
             #
             case $CHOICE_APP in # Start of Text Editor Applications case statement.
+                 the' '*)
+                 APP_NAME=$CHOICE_APP
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Hh]*)
+                 APP_NAME="the"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  vi' '*)
                  APP_NAME=$CHOICE_APP
                  f_how_to_quit_application "<esc> + :q!"
