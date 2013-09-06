@@ -3,19 +3,20 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-01-2013 12:12"
+# REVDATE="September-06-2013 14:21"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#    Uses: BOF, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_cat_office () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
+      BOF="" # Initialize variable.
+      until [ $BOF -eq 0 ]
       do    # Start of Office Application Category until loop.
             #BOF Accounting   - Accounting (with with double-entry).
             #BOF Calculators  - Simple "pocket" calculators.
@@ -35,62 +36,55 @@ f_menu_cat_office () {
             DELIMITER="#BOF" #BOF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_SCAT
+            read BOF
             #
-            f_common_scat_menu
+            f_menu_item_process $BOF  # Outputs $MENU_ITEM. $BOF
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_SCAT in # Start of Office Application Category case statement.
+            case $MENU_ITEM in # Start of Office Application Category case statement.
                  [Aa] | [Aa][Cc]*)
                  f_menu_app_accounting        # Accounting Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc]*)
                  f_menu_app_calculators       # Calculator Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee]*)
                  f_menu_app_calendar          # Calendar Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Cc] | [Cc][Ll]*)
                  f_menu_app_clocks            # Clock Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Cc] | [Cc][Oo]*)
                  f_menu_app_contacts          # Contact Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Nn] | [Nn][Oo]*)
                  f_menu_app_note              # Note Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Pp] | [Pp][Dd]*)
                  f_menu_app_pdfps             # PDF-PS Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Pp] | [Pp][Rr]*)
                  f_menu_app_presentation      # Presentation Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Pp]*)
                  f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Tt] | [Tt][Ee]*)
                  f_menu_cat_text              # Text Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Tt] | [Tt][Oo]*)
                  f_menu_app_todo
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Office Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BOF=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
       done  # End of Office Application Category until loop.
+            #
+      unset BOF MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_office
 #
 # +----------------------------------------+
@@ -98,12 +92,12 @@ f_menu_cat_office () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MAA, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_accounting () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MAA -eq 0 ]
       do    # Start of Accounting Applications until loop.
             #MAA clipf         - Track Your incomes and expenses, written for Python2.
             #MAA hledger       - Same as "ledger" but using the Haskell Programming Language.
@@ -118,16 +112,16 @@ f_menu_app_accounting () {
             DELIMITER="#MAA" #MAA This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAA
             #
-            f_common_app_menu
+            f_menu_item_process $MAA  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Calculator Applications case statement.
+            case $MENU_ITEM in # Start of Calculator Applications case statement.
                  clipf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Ll]*)
@@ -135,7 +129,7 @@ f_menu_app_accounting () {
                  f_application_run
                  ;;
                  hledger' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr])
@@ -143,7 +137,7 @@ f_menu_app_accounting () {
                  f_application_run
                  ;;
                  hledger-chart' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Cc]*)
@@ -151,7 +145,7 @@ f_menu_app_accounting () {
                  f_application_run
                  ;;
                  hledger-vty' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -161,7 +155,7 @@ f_menu_app_accounting () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  hledger-web' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Ll] | [Hh][Ll][Ee] | [Hh][Ll][Ee][Dd] | [Hh][Ll][Ee][Dd][Gg] | [Hh][Ll][Ee][Dd][Gg][Ee] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-] | [Hh][Ll][Ee][Dd][Gg][Ee][Rr][-][Ww]*)
@@ -169,7 +163,7 @@ f_menu_app_accounting () {
                  f_application_run
                  ;;
                  ledger' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ee]*)
@@ -179,10 +173,16 @@ f_menu_app_accounting () {
             esac                # End of Accounting Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MAA=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Accounting Applications until loop.
+            #
+      unset MAA MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_accounting
 #
 # +----------------------------------------+
@@ -190,12 +190,12 @@ f_menu_app_accounting () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MCC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_calculators () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MCC -eq 0 ]
       do    # Start of Calculator Applications until loop.
             #MCC apcalc   - Arbitrary precision calculator, uses C-like language.
             #MCC bc       - Calculator.
@@ -215,16 +215,16 @@ f_menu_app_calculators () {
             DELIMITER="#MCC" #MCC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MCC
             #
-            f_common_app_menu
+            f_menu_item_process $MCC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Calculator Applications case statement.
+            case $MENU_ITEM in # Start of Calculator Applications case statement.
                  apcalc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -234,7 +234,7 @@ f_menu_app_calculators () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  bc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "quit"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -246,7 +246,7 @@ f_menu_app_calculators () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  concalc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -256,7 +256,7 @@ f_menu_app_calculators () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  dc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Cc])
@@ -264,7 +264,7 @@ f_menu_app_calculators () {
                  f_application_run
                  ;;
                  genius' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -274,7 +274,7 @@ f_menu_app_calculators () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  orpie' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Rr]*)
@@ -282,7 +282,7 @@ f_menu_app_calculators () {
                  f_application_run
                  ;;
                  qalc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -292,7 +292,7 @@ f_menu_app_calculators () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  rpncalc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -302,7 +302,7 @@ f_menu_app_calculators () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  tapecalc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -314,7 +314,7 @@ f_menu_app_calculators () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  wcalc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -326,10 +326,16 @@ f_menu_app_calculators () {
             esac                # End of Calculator Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MCC=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Calculator Applications until loop.
+            #
+      unset MCC MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_calculators
 #
 # +----------------------------------------+
@@ -337,12 +343,12 @@ f_menu_app_calculators () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MCA, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_calendar () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MCA -eq 0 ]
       do    # Start of Calendar Applications until loop.
             #MCA cal         - Displays a monthly calendar.
             #MCA calcurse    - Calendar ncurses-based.
@@ -366,16 +372,16 @@ f_menu_app_calendar () {
             DELIMITER="#MCA" #MCA This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MCA
             #
-            f_common_app_menu
+            f_menu_item_process $MCA  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Calendar Applications case statement.
+            case $MENU_ITEM in # Start of Calendar Applications case statement.
                  cal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Aa] | [Cc][Aa][Ll])
@@ -383,7 +389,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  calcurse' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -395,7 +401,7 @@ f_menu_app_calendar () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ccal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Cc]*)
@@ -403,7 +409,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  clcal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Ll]*)
@@ -411,7 +417,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  emacs-calfw' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee][Mm]*)
@@ -419,7 +425,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  gcal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll])
@@ -427,7 +433,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  gcalcli' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Cc] | [Gg][Cc][Aa] | [Gg][Cc][Aa][Ll] | [Gg][Cc][Aa][Ll][Cc]*)
@@ -435,7 +441,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  mencal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Ee]*)
@@ -443,7 +449,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  ncal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Cc]*)
@@ -451,7 +457,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  pal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Aa]*)
@@ -459,7 +465,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  pcal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Cc]*)
@@ -467,7 +473,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  pom' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo]*)
@@ -475,7 +481,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  remind' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
@@ -483,7 +489,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  when' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [Ww][Hh]*)
@@ -491,7 +497,7 @@ f_menu_app_calendar () {
                  f_application_run
                  ;;
                  wyrd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -505,10 +511,16 @@ f_menu_app_calendar () {
             esac                # End of Calendar Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MCA=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Calendar Applications until loop.
+            #
+      unset MCA MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_calendar
 #
 # +----------------------------------------+
@@ -516,12 +528,12 @@ f_menu_app_calendar () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MCL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_clocks () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MCL -eq 0 ]
       do    # Start of Clock Applications until loop.
             #MCL binary-clock     - Binary numbers 1/0 tells time.
             #MCL cclock           - Digital clock with huge numbers fills entire screen.
@@ -537,16 +549,16 @@ f_menu_app_clocks () {
             DELIMITER="#MCL" #MCL This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MCL
             #
-            f_common_app_menu
+            f_menu_item_process $MCL  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Clock Applications case statement.
+            case $MENU_ITEM in # Start of Clock Applications case statement.
                  binary-clock' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ii]*)
@@ -554,7 +566,7 @@ f_menu_app_clocks () {
                  f_application_run
                  ;;
                  cclock' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Cc]*)
@@ -562,7 +574,7 @@ f_menu_app_clocks () {
                  f_application_run
                  ;;
                  clockywock' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -572,7 +584,7 @@ f_menu_app_clocks () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  grandfatherclock' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Rr]*)
@@ -580,7 +592,7 @@ f_menu_app_clocks () {
                  f_application_run
                  ;;
                  saytime' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Aa]*)
@@ -588,7 +600,7 @@ f_menu_app_clocks () {
                  f_application_run
                  ;;
                  tbclock' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Bb]*)
@@ -596,7 +608,7 @@ f_menu_app_clocks () {
                  f_application_run
                  ;;
                  vtclock' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -608,10 +620,16 @@ f_menu_app_clocks () {
             esac                # End of Clock Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MCL=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Clock Applications until loop.
+            #
+      unset MCL MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_clocks
 #
 # +----------------------------------------+
@@ -619,12 +637,12 @@ f_menu_app_clocks () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MCO, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_contacts () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MCO -eq 0 ]
       do    # Start of Contact List Applications until loop.
             #MCO abook - Address book with or w/o mutt. With tabs for fields of information.
             #
@@ -634,16 +652,16 @@ f_menu_app_contacts () {
             DELIMITER="#MCO" #MCO This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MCO
             #
-            f_common_app_menu
+            f_menu_item_process $MCO  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Contact List Applications case statement.
+            case $MENU_ITEM in # Start of Contact List Applications case statement.
                  abook' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Bb]*)
@@ -653,10 +671,16 @@ f_menu_app_contacts () {
             esac                # End of Contact List Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MCO=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Contact List Applications until loop.
+            #
+      unset MCO MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_contacts
 #
 # +----------------------------------------+
@@ -664,12 +688,12 @@ f_menu_app_contacts () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNO, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_note () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MNO -eq 0 ]
       do    # Start of Note Applications until loop.
             #MNO diary    - Diary and To Do List uses commands date, grep, and text editor.
             #MNO diary-f  - Fork of "diary" enhanced "view"/"cat" actions, non-latin locales.
@@ -682,16 +706,16 @@ f_menu_app_note () {
             DELIMITER="#MNO" #MNO This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNO
             #
-            f_common_app_menu
+            f_menu_item_process $MNO  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Note Applications case statement.
+            case $MENU_ITEM in # Start of Note Applications case statement.
                  diary' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy])
@@ -699,7 +723,7 @@ f_menu_app_note () {
                  f_application_run
                  ;;
                  diary-f' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy] | [Dd][Ii][Aa][Rr][Yy][-] | [Dd][Ii][Aa][Rr][Yy][-][Ff])
@@ -707,7 +731,7 @@ f_menu_app_note () {
                  f_application_run
                  ;;
                  hnb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Nn]*)
@@ -715,7 +739,7 @@ f_menu_app_note () {
                  f_application_run
                  ;;
                  org-mode' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Rr]*)
@@ -725,10 +749,16 @@ f_menu_app_note () {
             esac                # End of Note Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNO=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Note Applications until loop.
+            #
+      unset MNO MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_note
 #
 # +----------------------------------------+
@@ -736,12 +766,12 @@ f_menu_app_note () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MPS, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_pdfps () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MPS -eq 0 ]
       do    # Start of Text Tool Applications until loop.
             #MPS diffpdf  - Compare PDF files.
             #MPS fbdjvu   - DjVu viewer similar to fbpdf.
@@ -765,16 +795,16 @@ f_menu_app_pdfps () {
             DELIMITER="#MPS" #MPS This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MPS
             #
-            f_common_app_menu
+            f_menu_item_process $MPS  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of PDF and PS Applications case statement.
+            case $MENU_ITEM in # Start of PDF and PS Applications case statement.
                  diffpdf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii]*)
@@ -782,7 +812,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  fbdjvu' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Bb] | [Ff][Bb][Dd]*)
@@ -790,7 +820,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  fbgs' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Bb] | [Ff][Bb][Gg]*)
@@ -798,7 +828,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  fbpdf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Bb] | [Ff][Bb][Pp]*)
@@ -806,7 +836,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  gs' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Ss])
@@ -814,7 +844,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  jfbview' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Jj] | [Jj][Ff]*)
@@ -822,7 +852,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  pdfjam' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Jj]*)
@@ -830,7 +860,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  pdftex' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Ee]*)
@@ -838,7 +868,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  pdftk' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Kk])
@@ -846,7 +876,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  pdftops' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Tt] | [Pp][Dd][Ff][Tt][Oo]*)
@@ -854,7 +884,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  pstotext' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ss] | [Pp][Ss][Tt]*)
@@ -862,7 +892,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  ps2ascii' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Aa]*)
@@ -870,7 +900,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  ps2eps' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Ee]*)
@@ -878,7 +908,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  ps2pdf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ss] | [Pp][Ss][2] | [Pp][Ss][2][Pp]*)
@@ -886,7 +916,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  sdf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Dd] | [Ss][Dd][Ff])
@@ -894,7 +924,7 @@ f_menu_app_pdfps () {
                  f_application_run
                  ;;
                  sdop' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Dd] | [Ss][Dd][Oo]*)
@@ -904,10 +934,16 @@ f_menu_app_pdfps () {
             esac                # End of PDF and PS Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MPS=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of pdf-ps Applications until loop.
+            #
+      done  # End of PDF and PS Applications until loop.
+            #
+      unset MPS MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_pdfps
 #
 # +----------------------------------------+
@@ -915,12 +951,12 @@ f_menu_app_pdfps () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MPR, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_presentation () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MPR -eq 0 ]
       do    # Start of Presentation Applications until loop.
             #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
             #
@@ -930,16 +966,16 @@ f_menu_app_presentation () {
             DELIMITER="#MPR" #MPR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MPR
             #
-            f_common_app_menu
+            f_menu_item_process $MPR  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Presentation Applications case statement.
+            case $MENU_ITEM in # Start of Presentation Applications case statement.
                  tpp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -951,10 +987,16 @@ f_menu_app_presentation () {
             esac                # End of Presentation Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MPR=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Presentation> Applications until loop.
+            #
+      done  # End of Presentation Applications until loop.
+            #
+      unset MPR MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_presentation
 #
 # +----------------------------------------+
@@ -962,12 +1004,12 @@ f_menu_app_presentation () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MSP, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_spreadsheets () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MSP -eq 0 ]
       do    # Start of Spreadsheet Applications until loop.
             #MSP oleo - Full-screen spreadsheet having a more Emacs-like feel.
             #MSP sc   - Spreadsheet.
@@ -979,16 +1021,16 @@ f_menu_app_spreadsheets () {
             DELIMITER="#MSP" #MSP This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MSP
             #
-            f_common_app_menu
+            f_menu_item_process $MSP  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Spreadsheet Applications case statement.
+            case $MENU_ITEM in # Start of Spreadsheet Applications case statement.
                  oleo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Ll]*)
@@ -996,7 +1038,7 @@ f_menu_app_spreadsheets () {
                  f_application_run
                  ;;
                  sc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc])
@@ -1004,7 +1046,7 @@ f_menu_app_spreadsheets () {
                  f_application_run
                  ;;
                  slsc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ll]*)
@@ -1014,10 +1056,16 @@ f_menu_app_spreadsheets () {
             esac                # End of Spreadsheet Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MSP=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Spreadsheet Applications until loop.} # End of menu_app_spreadsheets
+            #
+      done  # End of Spreadsheet Applications until loop.
+            #
+      unset MSP MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_spreadsheets
 #
 # +----------------------------------------+
@@ -1025,12 +1073,13 @@ f_menu_app_spreadsheets () {
 # +----------------------------------------+
 #
 #  Inputs: None
-#    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
+#    Uses: BTX, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_cat_text () {
       f_initvars_menu_app
-      until [ $CHOICE_TCAT -eq 0 ] 
+      BTX="" # Initialize variable.
+      until [ $BTX -eq 0 ]
       do    # Start of Text Application Category until loop.
             #BTX Compare     - Show differences between text files.
             #BTX Converters  - Convert between text document/file formats.
@@ -1046,47 +1095,44 @@ f_menu_cat_text () {
             DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_TCAT
+            read BTX
             #
-            f_common_tcat_menu
+            f_menu_item_process $BTX  # Outputs $MENU_ITEM. $BTX
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_TCAT in # Start of Text Application Category case statement.
+            case $MENU_ITEM in # Start of Text Application Category case statement.
                  [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
                  f_menu_app_text_compare      # Text Compare Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;               
                  [Cc] | [Cc][Oo] | [Cc][Oo][Nn]*)
                  f_menu_app_text_converters   # Text Converter Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss])
                  f_menu_app_text_editors      # Text Editor Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]2)
                  f_menu_app_text_editors2     # Text Editor Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]3)
                  f_menu_app_text_editors3     # Text Editor Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Aa]*)
                  f_menu_app_text_markup_language
-                 CHOICE_TCAT=-1               # Text Markup Application Menu.
-                                              # Legitimate response. Stay in menu loop.
+                                              # Text Markup Application Menu.
                  ;;
                  [Tt] | [Tt][Oo]*)
                  f_menu_app_text_tools        # Text Tool Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Text Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_tcat_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BTX=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
       done  # End of Text Application Category until loop.
+            #
+      unset BTX MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_text
 #
 # +----------------------------------------+
@@ -1094,12 +1140,12 @@ f_menu_cat_text () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_compare () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTC -eq 0 ]
       do    # Start of Text Compare Applications until loop.
             #MTC cmp       - Compares 2 text files.
             #MTC colordiff - Differences between 2 text files shown in color.
@@ -1117,16 +1163,16 @@ f_menu_app_text_compare () {
             DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTC
             #
-            f_common_app_menu
+            f_menu_item_process $MTC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Compare Applications case statement.
+            case $MENU_ITEM in # Start of Text Compare Applications case statement.
                  cmp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Mm] | [Cc][Mm][Pp])
@@ -1134,7 +1180,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  colordiff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Ll]*)
@@ -1142,7 +1188,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  comm' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
@@ -1172,7 +1218,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  diff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff])
@@ -1180,7 +1226,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  diff3' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff] | [[Dd][Ii][Ff][Ff]3)
@@ -1188,7 +1234,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  imediff2' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Mm]*)
@@ -1196,7 +1242,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  since' '* | 'sudo since '* | 'sudo since')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ii]*)
@@ -1204,7 +1250,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  vimdiff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Vv] | [Vv][Ii]*)
@@ -1212,7 +1258,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  wdiff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [Ww][Dd]*)
@@ -1222,10 +1268,16 @@ f_menu_app_text_compare () {
             esac                # End of Text Compare Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTC=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Text Compare Applications until loop.
+            #
+      unset MTC MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_compare
 #
 # +----------------------------------------+
@@ -1233,12 +1285,12 @@ f_menu_app_text_compare () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTV, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_converters () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTV -eq 0 ]
       do    # Start of Text Converter Applications until loop.
             #MTV txt2html   - Converts plain ASCII text to HTML format.
             #MTV txt2man    - Converts plain ASCII text to man format.
@@ -1256,16 +1308,16 @@ f_menu_app_text_converters () {
             DELIMITER="#MTV" #MTV This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTV
             #
-            f_common_app_menu
+            f_menu_item_process $MTV  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Converter Applications case statement.
+            case $MENU_ITEM in # Start of Text Converter Applications case statement.
                  txt2html' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh]*)
@@ -1287,7 +1339,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  txt2man' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm]*)
@@ -1307,7 +1359,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  txt2pdbdoc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp]*)
@@ -1328,7 +1380,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  txt2regex' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr]*)
@@ -1347,7 +1399,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  txt2tags' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt]*)
@@ -1368,7 +1420,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  unoconv' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Nn] | [Uu][Nn][Oo]*)
@@ -1376,7 +1428,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  unrtf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Nn] | [Uu][Nn][Rr]*)
@@ -1384,7 +1436,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  wp2x' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | Ww][Pp]*)
@@ -1392,7 +1444,7 @@ f_menu_app_text_converters () {
                  f_application_run
                  ;;
                  xmlto' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Xx] | Xx][Mm]*)
@@ -1402,10 +1454,16 @@ f_menu_app_text_converters () {
             esac                # End of Text Converter Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTV=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Text Converter Applications until loop.
+            #
+      unset MTV MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_converters
 #
 # +----------------------------------------+
@@ -1413,12 +1471,12 @@ f_menu_app_text_converters () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTE, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_editors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTE -eq 0 ]
       do    # Start of Text Editor Applications until loop.
             #MTE aoeui         - Very small editor for Dvorak layout keyboards.
             #MTE dav           - Text editor.
@@ -1435,6 +1493,7 @@ f_menu_app_text_editors () {
             #MTE fte-console   - fte for consoles, no internationalization I18N support.
             #MTE fte-terminal  - fte for xterm, vt100 terminals.
             #MTE groff         - Format text via macros, create man pages to PS printers.
+            #MTE MORE...        - For more text editor applications.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -1442,16 +1501,16 @@ f_menu_app_text_editors () {
             DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTE
             #
-            f_common_app_menu
+            f_menu_item_process $MTE  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Editor Applications case statement.
+            case $MENU_ITEM in # Start of Text Editor Applications case statement.
                  aoeui' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Oo]*)
@@ -1459,7 +1518,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  dav' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<F5>"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1471,7 +1530,7 @@ f_menu_app_text_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  dex' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1481,7 +1540,7 @@ f_menu_app_text_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  e3em' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [3][Ee]*)
@@ -1489,7 +1548,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  e3vi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [3][Vv]*)
@@ -1497,7 +1556,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  e3pi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [3][Pp]*)
@@ -1505,7 +1564,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  e3ne' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [3][Nn]*)
@@ -1513,7 +1572,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  e3ws' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [3][Ww]*)
@@ -1521,7 +1580,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  ed' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Dd])
@@ -1529,7 +1588,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  efte' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Ff])
@@ -1537,7 +1596,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  elvis-console' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Ll]*)
@@ -1545,7 +1604,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  emacs' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1555,7 +1614,7 @@ f_menu_app_text_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  fte-console' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Tt] | [Ff][Tt][Ee] | [Ff][Tt][Ee]-[Cc]*)
@@ -1563,7 +1622,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  fte-terminal' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Tt] | [Ff][Tt][Ee] | [Ff][Tt][Ee]-[Tt]*)
@@ -1571,7 +1630,7 @@ f_menu_app_text_editors () {
                  f_application_run
                  ;;
                  groff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Rr]*)
@@ -1595,13 +1654,23 @@ f_menu_app_text_editors () {
                  f_press_enter_key_to_continue
                  f_application_run
                  ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee]*)
+                 f_menu_app_text_editors2
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
             esac                # End of Text Editor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTE=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Text Editor Applications until loop.
+            #
+      unset MTE MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_editors
 #
 # +----------------------------------------+
@@ -1609,16 +1678,16 @@ f_menu_app_text_editors () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTF, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_editors2 () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
-      do    # Start of Text Editor Applications until loop.
+      until [ $MTF -eq 0 ]
+      do    # Start of Text Editor Applications2 until loop.
             #MTF jed       - JED ncurses-based. Also consider package: jed-extra.
             #MTF jmacs     - Joe Editor, GNU-EMACS emulation mode.
-            #MTF joe       - Text editor. Ctrl-K H for help.
+            #MTF joe       - Joe editor. Ctrl-K H for help.
             #MTF jove      - Jonathan's Own Version of Emacs, ncurses-based.
             #MTF jpico     - Joe Editor, PICO emulation mode.
             #MTF jstar     - Joe Editor, WordStar emulation mode.
@@ -1631,7 +1700,7 @@ f_menu_app_text_editors2 () {
             #MTF ne        - Nice Editor. Drop-down menus, ncurses-based. 
             #MTF nvi       - vi-clone as close to vi as possible.
             #MTF pico      - Simple full-screen text editor.
-            #MTF rjoe      - Joe Editor, only edit file(s) specified by "rjoe <filenames>.
+            #MTF MORE...   - For more text editor applications.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -1639,16 +1708,16 @@ f_menu_app_text_editors2 () {
             DELIMITER="#MTF" #MTF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTF
             #
-            f_common_app_menu
+            f_menu_item_process $MTF  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Editor Applications case statement.
+            case $MENU_ITEM in # Start of Text Editor Applications2 case statement.
                  jed' '*)
-                 APP_NAME_TMP=$CHOICE_APP # Save jed <OPTIONS>.
+                 APP_NAME_TMP=$MENU_ITEM # Save jed <OPTIONS>.
                  APP_NAME=jed-extra  # Install jed-extra package before running/installing jed.
                  f_application_install_question
                  APP_NAME=$APP_NAME_TMP
@@ -1662,8 +1731,18 @@ f_menu_app_text_editors2 () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 jmacs' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj] | [Jj][Mm]*)
+                 APP_NAME=jmacs
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  joe' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1689,7 +1768,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  jove' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1698,8 +1777,28 @@ f_menu_app_text_editors2 () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 jpico' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj][Pp] | [Jj][Pp][Ii]*)
+                 APP_NAME="jpico"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 jstar' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Jj][Ss] | [Jj][Ss][Tt]*)
+                 APP_NAME="jstar"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  le' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1709,7 +1808,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ledit' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1719,7 +1818,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  levee' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1729,7 +1828,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mg' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1739,7 +1838,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nano' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1749,7 +1848,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nano-tiny' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1759,7 +1858,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ne' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1769,7 +1868,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nvi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1781,7 +1880,7 @@ f_menu_app_text_editors2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pico' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1790,13 +1889,23 @@ f_menu_app_text_editors2 () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-            esac                # End of Text Editor Applications case statement.
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee]*)
+                 f_menu_app_text_editors3
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Text Editor Applications2 case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTF=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Text Editor Applications until loop.
+            #
+      done  # End of Text Editor2 Applications until loop.
+            #
+      unset MTF MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_editors2
 #
 # +----------------------------------------+
@@ -1804,13 +1913,14 @@ f_menu_app_text_editors2 () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTG, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_editors3 () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTG -eq 0 ]
       do    # Start of Text Editor Applications until loop.
+            #MTG rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
             #MTG the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
             #MTG vi              - Classic full-screen text editor.
             #MTG vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
@@ -1828,16 +1938,42 @@ f_menu_app_text_editors3 () {
             DELIMITER="#MTG" #MTG This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTG
             #
-            f_common_app_menu
+            f_menu_item_process $MTG  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Editor Applications case statement.
+            case $MENU_ITEM in # Start of Text Editor Applications case statement.
+                 rjoe' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_how_to_quit_application "Ctrl-k x"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Rr] | [Rr][Jj] | [Rr][Jj][Oo]*)
+                 APP_NAME="rjoe"
+                 clear # Blank the screen.
+                 echo "joe - Text editor with 5 emulations of other text editors"
+                 echo
+                 echo "Usage:" 
+                 echo "Regular Usage mode : joe [global-options] [ [local-options] filename ]..."
+                 echo " WordStar emulation: jstar [global-options] [ [local-options] filename ]..."
+                 echo "GNU-Emacs emulation: jmacs [global-options] [ [local-options] filename ]..."
+                 echo "    Restricted mode: rjoe [global-options] [ [local-options] filename ]..."
+                 echo "     PICO emulation: jpico [global-options] [ [local-options] filename ]..."
+                 echo
+                 echo "Available at: www.sourceforge.net/projects/joe-editor."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 f_how_to_quit_application "Ctrl-k x" "no-clear"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  the' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1847,7 +1983,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1859,7 +1995,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vile' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1871,7 +2007,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1883,7 +2019,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-nox' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1895,7 +2031,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-scripts' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1907,7 +2043,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-tiny' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1919,7 +2055,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-outliner' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1931,7 +2067,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  wordgrinder' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1941,7 +2077,7 @@ f_menu_app_text_editors3 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  zile' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  clear # Blank the screen.
                  echo zile - Small Emacs editor.
                  echo
@@ -1983,22 +2119,29 @@ f_menu_app_text_editors3 () {
             esac                # End of Text Editor Applications3 case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTG=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Text Editor Applications3 until loop.
+            #
+      done  # End of Text Editor Applications until loop.
+            #
+      unset MTG MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_editors3
+#
 # +----------------------------------------+
 # |Function f_menu_app_text_markup_language|
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_markup_language () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTM -eq 0 ]
       do    # Start of Text Markup Language Applications until loop.
             #MTM doconce  - Markup language to manipulate, transform, and convert text.
             #MTM sisu     - Markup language, publishing, search, write to many formats.
@@ -2012,16 +2155,16 @@ f_menu_app_text_markup_language () {
             DELIMITER="#MTM" #MTM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTM
             #
-            f_common_app_menu
+            f_menu_item_process $MTM  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error wc flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Markup Language Applications case statement.
+            case $MENU_ITEM in # Start of Text Markup Language Applications case statement.
                  doconce' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Oo]*)
@@ -2029,7 +2172,7 @@ f_menu_app_text_markup_language () {
                  f_application_run
                  ;;
                  sisu' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ii]*)
@@ -2037,7 +2180,7 @@ f_menu_app_text_markup_language () {
                  f_application_run
                  ;;
                  stx2any' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Tt]*)
@@ -2045,7 +2188,7 @@ f_menu_app_text_markup_language () {
                  f_application_run
                  ;;
                  texinfo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Ee]*)
@@ -2053,7 +2196,7 @@ f_menu_app_text_markup_language () {
                  f_application_run
                  ;;
                  udo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Dd]*)
@@ -2063,10 +2206,16 @@ f_menu_app_text_markup_language () {
             esac                # End of Text Markup Language Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTM=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Text Markup Language Applications until loop.
+            #
+      done  # End of Text Markup Applications until loop.
+            #
+      unset MTM MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_markup_language
 #
 # +----------------------------------------+
@@ -2074,12 +2223,12 @@ f_menu_app_text_markup_language () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_tools () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTT -eq 0 ]
       do    # Start of Text Tool Applications until loop.
             #MTT acheck   - Check grammar.
             #MTT antiword - Microsoft Word document viewer/converter to txt, pdf, ps, xml.
@@ -2097,16 +2246,16 @@ f_menu_app_text_tools () {
             DELIMITER="#MTT" #MTT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTT
             #
-            f_common_app_menu
+            f_menu_item_process $MTT  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error wc flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Tool Applications case statement.
+            case $MENU_ITEM in # Start of Text Tool Applications case statement.
                  acheck' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Cc]*)
@@ -2114,7 +2263,7 @@ f_menu_app_text_tools () {
                  f_application_run
                  ;;
                  antiword' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Nn]*)
@@ -2122,7 +2271,7 @@ f_menu_app_text_tools () {
                  f_application_run
                  ;;
                  aspell' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2157,7 +2306,7 @@ f_menu_app_text_tools () {
                  fi
                  ;;
                  dict' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Cc] | [Dd][Ii][Cc][Tt])
@@ -2165,7 +2314,7 @@ f_menu_app_text_tools () {
                  f_application_run
                  ;;
                  dictd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Cc] | [Dd][Ii][Cc][Tt][Dd])
@@ -2173,7 +2322,7 @@ f_menu_app_text_tools () {
                  f_application_run
                  ;;
                  hunspell' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2240,7 +2389,7 @@ f_menu_app_text_tools () {
                  fi
                  ;;
                  ispell' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2279,7 +2428,7 @@ f_menu_app_text_tools () {
                  fi
                  ;;
                  spell' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Pp]*)
@@ -2332,7 +2481,7 @@ f_menu_app_text_tools () {
                  fi
                  ;;
                  wc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [Ww][Cc])
@@ -2391,10 +2540,16 @@ f_menu_app_text_tools () {
             esac                # End of Text Tool Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTT=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Text Tool Applications until loop.
+            #
+      unset MTT MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_tools
 #
 # +----------------------------------------+
@@ -2402,12 +2557,12 @@ f_menu_app_text_tools () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTD, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_todo () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTD -eq 0 ]
       do    # Start of ToDo Applications until loop.
             #MTD diary    - Diary & To Do List uses grep, date, etc. with your text editor.
             #MTD diary-f  - Fork of "diary" enhanced "view"/"cat", non-latin locales.
@@ -2427,16 +2582,16 @@ f_menu_app_todo () {
             DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTD
             #
-            f_common_app_menu
+            f_menu_item_process $MTD  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of ToDo Applications case statement.
+            case $MENU_ITEM in # Start of ToDo Applications case statement.
                  diary' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy])
@@ -2444,7 +2599,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  diary-f' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Aa] | [Dd][Ii][Aa][Rr] | [Dd][Ii][Aa][Rr][Yy] | [Dd][Ii][Aa][Rr][Yy][-] | [Dd][Ii][Aa][Rr][Yy][-][Ff])
@@ -2452,7 +2607,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  doneyet' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Oo]*)
@@ -2460,7 +2615,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  hnb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2470,7 +2625,7 @@ f_menu_app_todo () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  org-mode' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Rr]*)
@@ -2478,7 +2633,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  tdl' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Dd]*)
@@ -2486,7 +2641,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  todo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo])
@@ -2516,7 +2671,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  todo2' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Oo] | [Tt][Oo][Dd] | [Tt][Oo][Dd][Oo] | [Tt][Oo][Dd][Oo]2)
@@ -2550,7 +2705,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  tudu' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Uu]*)
@@ -2558,7 +2713,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  yagtd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Yy] | [Yy][Aa]*)
@@ -2566,7 +2721,7 @@ f_menu_app_todo () {
                  f_application_run
                  ;;
                  yokadi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Yy] | [Yy][Oo]*)
@@ -2576,9 +2731,15 @@ f_menu_app_todo () {
             esac                # End of ToDo Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTD=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of ToDo Applications until loop.
+            #
+      unset MTD MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_todo
 #

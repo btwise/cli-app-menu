@@ -3,19 +3,19 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-06-2013 14:21"
 #
 ## +----------------------------------------+
 # |        Function f_menu_cat_audio       |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#    Uses: BAU, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_cat_audio () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
+      until [ $BAU -eq 0 ]
       do    # Start of Audio Application Category until loop.
             #BAU CD Rippers         - Copy music off CD-ROM to files.
             #BAU Editors/Converters - Edit music files and convert to different file formats.
@@ -30,41 +30,40 @@ f_menu_cat_audio () {
             DELIMITER="#BAU" #BAU This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_SCAT
+            read BAU
             #
-            f_common_scat_menu
+            f_menu_item_process $BAU  # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
             #
-            case $CHOICE_SCAT in # Start of Audio Application Category case statement.
+            case $MENU_ITEM in # Start of Audio Application Category case statement.
                  [Cc] | [Cc][Dd]*)
                  f_menu_app_cdrippers         # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd]*)
                  f_menu_app_audio_editors     # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Uu]*)
                  f_menu_app_music_players     # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Oo]*)
                  f_menu_app_music_players2    # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Rr] | [Rr][Aa]*)
                  f_menu_app_radio             # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Pp]*)
                  f_menu_app_speech_synthesis  # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Audio Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BAU=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
       done  # End of Audio Application Category until loop.
+            #
+      unset BAU MENU_ITEM # Throw out this variable.
 } # End of function f_menu_cat_audio
 #
  +----------------------------------------+
@@ -72,12 +71,12 @@ f_menu_cat_audio () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAC, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_cdrippers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MAC -eq 0 ]
       do    # Start of CD Rippers Applications until loop.
             #MAC abcde      - Audio CD ripper.
             #MAC acripper   - Audio CD ripper.
@@ -94,16 +93,16 @@ f_menu_app_cdrippers () {
             DELIMITER="#MAC" #MAC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAC
             #
-            f_common_app_menu
+            f_menu_item_process $MAC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of CD Rippers Applications case statement.
+            case $MENU_ITEM in # Start of CD Rippers Applications case statement.
                  abcde' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Bb]*)
@@ -111,7 +110,7 @@ f_menu_app_cdrippers () {
                  f_application_run
                  ;;
                  acripper' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Cc]*)
@@ -119,7 +118,7 @@ f_menu_app_cdrippers () {
                  f_application_run
                  ;;
                  cdparanoia' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Dd]*)
@@ -127,7 +126,7 @@ f_menu_app_cdrippers () {
                  f_application_run
                  ;;
                  crip' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Rr]*)
@@ -135,7 +134,7 @@ f_menu_app_cdrippers () {
                  f_application_run
                  ;;
                  jack' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Jj] | [Jj][Aa]*)
@@ -143,7 +142,7 @@ f_menu_app_cdrippers () {
                  f_application_run
                  ;;
                  lxdvdrip' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Xx]*)
@@ -151,7 +150,7 @@ f_menu_app_cdrippers () {
                  f_application_run
                  ;;
                  ripit' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Ii]*)
@@ -159,7 +158,7 @@ f_menu_app_cdrippers () {
                  f_application_run
                  ;;
                  rubyripper' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Uu]*)
@@ -169,10 +168,16 @@ f_menu_app_cdrippers () {
             esac                # End of CD Rippers Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MAC=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of CD Rippers Applications until loop.
+            #
+      unset MAC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_cdrippers
 #
 # +----------------------------------------+
@@ -180,12 +185,12 @@ f_menu_app_cdrippers () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAU, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_audio_editors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MAU -eq 0 ]
       do    # Start of Audio Editor Applications until loop.
             #MAU avconv   - Audio/Video converter.
             #MAU avinfo   - Audio/Video information automatic extractor/file list generator.
@@ -199,16 +204,16 @@ f_menu_app_audio_editors () {
             DELIMITER="#MAU" #MAU This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAU
             #
-            f_common_app_menu
+            f_menu_item_process $MAU  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Audio Editor Applications case statement.
+            case $MENU_ITEM in # Start of Audio Editor Applications case statement.
                  avconv' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  ;;
@@ -218,7 +223,7 @@ f_menu_app_audio_editors () {
                  f_application_run
                  ;;
                  avinfo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Vv] | [Aa][Vv][Ii]*)
@@ -226,7 +231,7 @@ f_menu_app_audio_editors () {
                  f_application_run
                  ;;
                  ecasound' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Cc]*)
@@ -234,7 +239,7 @@ f_menu_app_audio_editors () {
                  f_application_run
                  ;;
                  ffmpeg' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ff]*)
@@ -242,7 +247,7 @@ f_menu_app_audio_editors () {
                  f_application_run
                  ;;
                  sox' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Oo]*)
@@ -252,10 +257,16 @@ f_menu_app_audio_editors () {
             esac                # End of Audio Editor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MAU=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Audio Editor Applications until loop.
+            #
+      unset MAU MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_audio_editors
 #
 # +----------------------------------------+
@@ -263,12 +274,12 @@ f_menu_app_audio_editors () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAT, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_music_taggers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MAT -eq 0 ]
       do    # Start of Music Tagger Applications until loop.
             #MAT audiotag - Music tagger.
             #MAT lltag    - Music tagger.
@@ -280,16 +291,17 @@ f_menu_app_music_taggers () {
             DELIMITER="#MAT" #MAT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAT
             #
-            f_common_app_menu
+            MENU_ITEM=$MAT
+            f_menu_item_process $MAT  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Music Tagger Applications case statement.
+            case $MENU_ITEM in # Start of Music Tagger Applications case statement.
                  audiotag' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -299,7 +311,7 @@ f_menu_app_music_taggers () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  lltag' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -309,7 +321,7 @@ f_menu_app_music_taggers () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  easytag' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -321,10 +333,16 @@ f_menu_app_music_taggers () {
             esac                # End of Music Tagger Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MAT=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Music Tagger Applications until loop.
+            #
+      unset MAT MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_music_taggers
 #
 # +----------------------------------------+
@@ -332,12 +350,12 @@ f_menu_app_music_taggers () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAP, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_music_players () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MAP -eq 0 ]
       do    # Start of Music Player Applications until loop.
             #MAP dcd             - CD player.
             #MAP clvc            - Music player, ncurses-based, depends on vlc.
@@ -353,6 +371,7 @@ f_menu_app_music_players () {
             #MAP opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
             #MAP orpheus         - Music player ncurses-based.
             #MAP pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
+            #MAP MORE...         - For more music player applications.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-audio.lib"
@@ -360,16 +379,17 @@ f_menu_app_music_players () {
             DELIMITER="#MAP" #MAP This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAP
             #
-            f_common_app_menu
+            MENU_ITEM=$MAP
+            f_menu_item_process $MAP  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Music Player Applications case statement.
+            case $MENU_ITEM in # Start of Music Player Applications case statement.
                  audiotag' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -379,7 +399,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  dcd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -389,7 +409,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  clvc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -399,7 +419,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  cmus' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -411,7 +431,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  cplay' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -421,7 +441,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  juke' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -431,7 +451,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mcdp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -441,7 +461,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mcplay' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -451,7 +471,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mjs' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -461,7 +481,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  moc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -471,7 +491,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mp3blaster' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -481,7 +501,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ncmpc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -493,7 +513,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  opencubicplayer' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -503,7 +523,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  orpheus' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -513,7 +533,7 @@ f_menu_app_music_players () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pytone' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -522,13 +542,23 @@ f_menu_app_music_players () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee]*)
+                 f_menu_app_music_players2
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
             esac                # End of Music Player Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MAP=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Music Player Applications until loop.
+            #
+      unset MAP MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_music_players
 #
 # +----------------------------------------+
@@ -536,12 +566,12 @@ f_menu_app_music_players () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAQ, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_music_players2 () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MAQ -eq 0 ]
       do    # Start of Music Player Applications2 until loop.
             #MAQ mpd     - Music Player Daemon server-side app for playing music.
             #MAQ moosic  - Front-end to mpd. Auto-starts mpd daemon if needed.
@@ -563,16 +593,17 @@ f_menu_app_music_players2 () {
             DELIMITER="#MAQ" #MAQ This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAQ
             #
-            f_common_app_menu
+            MENU_ITEM=$MAQ
+            f_menu_item_process $MAQ  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Music Player Applications2 case statement.
+            case $MENU_ITEM in # Start of Music Player Applications2 case statement.
                  mpd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Pp] |  [Mm][Pp][Dd])
@@ -580,7 +611,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  moosic' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Oo]*)
@@ -588,7 +619,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  mpc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Pp] |  [Mm][Pp][Cc])
@@ -596,7 +627,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  draai' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Rr]*)
@@ -604,7 +635,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  pms' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -614,7 +645,7 @@ f_menu_app_music_players2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  cdcd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Dd]*)
@@ -622,7 +653,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  herrie' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -632,7 +663,7 @@ f_menu_app_music_players2 () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  mpg123' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Pp] | [Mm][Pp][Gg]*)
@@ -640,7 +671,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  mussort' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Uu]*)
@@ -648,7 +679,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  vimpc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm]*)
@@ -656,7 +687,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  vitunes' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Tt]*)
@@ -664,7 +695,7 @@ f_menu_app_music_players2 () {
                  f_application_run
                  ;;
                  yauap' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Yy] | [Yy][Aa]*)
@@ -674,10 +705,16 @@ f_menu_app_music_players2 () {
             esac                # End of Music Player Applications2 case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MAQ=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Music Player Applications2 until loop.
+            #
+      unset MAQ MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_music_players2
 #
 # +----------------------------------------+
@@ -685,12 +722,12 @@ f_menu_app_music_players2 () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAR, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_radio () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MAR -eq 0 ]
       do    # Start of Radio Applications until loop.
             #MAR dradio   - Streaming radio on world-wide web.
             #MAR radio    - Streaming radio, ncurses-based.
@@ -704,16 +741,16 @@ f_menu_app_radio () {
             DELIMITER="#MAR" #MAR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAR
             #
-            f_common_app_menu
+            f_menu_item_process $MAR  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Radio Applications case statement.
+            case $MENU_ITEM in # Start of Radio Applications case statement.
                  dradio' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -724,7 +761,7 @@ f_menu_app_radio () {
                  f_application_run
                  ;;
                  radio' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -734,7 +771,7 @@ f_menu_app_radio () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pianobar' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ii]*)
@@ -742,7 +779,7 @@ f_menu_app_radio () {
                  f_application_run
                  ;;
                  shell-fm' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Hh]*)
@@ -752,10 +789,16 @@ f_menu_app_radio () {
             esac                # End of Radio Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MAR=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Radio Applications until loop.
+            #
+      unset MAR MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_radio
 #
 # +----------------------------------------+
@@ -763,12 +806,12 @@ f_menu_app_radio () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAS, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_speech_synthesis () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MAS -eq 0 ]
       do    # Start of Speech Synthesis Applications until loop.
             #MAS ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
             #MAS edbrowse      - Audio web browser, editor, and reads aloud email.
@@ -781,16 +824,16 @@ f_menu_app_speech_synthesis () {
             DELIMITER="#MAS" #MAS This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MAS
             #
-            f_common_app_menu
+            f_menu_item_process $MAS  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Speech Synthesis Applications case statement.
+            case $MENU_ITEM in # Start of Speech Synthesis Applications case statement.
                  ebook-speaker' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Bb]*)
@@ -798,7 +841,7 @@ f_menu_app_speech_synthesis () {
                  f_application_run
                  ;;
                  edbrowse' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Dd]*)
@@ -807,7 +850,7 @@ f_menu_app_speech_synthesis () {
                  ;;
                  festival' '*)
                  f_how_to_quit_application "(quit) including the parenthesis"
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ee]*)
@@ -816,7 +859,7 @@ f_menu_app_speech_synthesis () {
                  f_application_run
                  ;;
                  screader' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc]*)
@@ -826,9 +869,15 @@ f_menu_app_speech_synthesis () {
             esac                # End of Speech Synthesis Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM
+            #
+            MAS=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Speech Synthesis Applications until loop.
+            #
+      unset MAS MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_speech_synthesis
 #

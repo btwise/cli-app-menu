@@ -3,19 +3,19 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-30-2013 00:00"
+# REVDATE="September-06-2013 14:21"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#    Uses: BNE, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_cat_network () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ]
+      until [ $BNE -eq 0 ]
       do    # Start of Network Application Category until loop.
             #BNE Firewalls    - Configure firewalls.
             #BNE LAN          - Test local area network connectivity, display settings.
@@ -30,47 +30,43 @@ f_menu_cat_network () {
             DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_SCAT
+            read BNE
             #
-            f_common_scat_menu
-            f_application_help
+            f_menu_item_process $BNE  # Outputs $MENU_ITEM. $BNE
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_SCAT in # Start of Network Application Category case statement.
+            case $MENU_ITEM in # Start of Network Application Category case statement.
                  [Ff] | [Ff][Ii]*)
                  f_menu_app_firewalls         # Firewall Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ll] | [Ll][Aa]*)
                  f_menu_app_lan               # LAN Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Oo]*)
-                 f_menu_tcat_network_monitors # Network Monitors Category Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 f_menu_scat_network_monitors # Network Monitors Category Menu.
                  ;;
                  [Nn] | [Nn][Ii]*)
                  f_menu_app_nic_tools         # NIC Tools Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Pp] | [Pp][Aa]*)
                  f_menu_app_packet_tools      # Packet Tools Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Hh]*)
                  f_menu_app_network_sharing   # Network Sharing Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ww] | [Ww][Aa]*)
                  f_menu_app_wan               # WAN Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Network Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BNE=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
       done  # End of Network Application Category until loop.
+            #
+      unset BNE MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_network
 #
 # +----------------------------------------+
@@ -96,12 +92,12 @@ echo
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNF, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_firewalls () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MNF -eq 0 ]
       do    # Start of Firewall Applications until loop.
             #MNF arptables - Firewall configuration rules for an ARP chain.
             #MNF iptables  - Firewall configuration rules for an IP chain.
@@ -116,16 +112,16 @@ f_menu_app_firewalls () {
             DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNF
             #
-            f_common_app_menu
+            f_menu_item_process $MNF  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Firewall Applications case statement.
+            case $MENU_ITEM in # Start of Firewall Applications case statement.
                  arptables' '* | 'sudo arptables '* | 'sudo arptables')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Rr]*)
@@ -156,7 +152,7 @@ f_menu_app_firewalls () {
                  f_application_run
                  ;;
                  iptables' '* | 'sudo iptables '* | 'sudo iptables')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp][Tt] | [Ii][Pp][Tt][Aa]*)
@@ -177,7 +173,7 @@ f_menu_app_firewalls () {
                  f_application_run
                  ;;
                  iptstate' '* | 'sudo iptstate '* | 'sudo iptstate')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -189,7 +185,7 @@ f_menu_app_firewalls () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  knocker' '* | 'sudo knocker '* | 'sudo knocker')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Kk] | [Kk][Nn]*)
@@ -197,7 +193,7 @@ f_menu_app_firewalls () {
                  f_application_run
                  ;;
                  portbunny' '* | 'sudo portbunny '* | 'sudo portbunny')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo]*)
@@ -215,7 +211,7 @@ f_menu_app_firewalls () {
                  f_application_run
                  ;;
                  strobe' '* | 'sudo strobe '* | 'sudo strobe')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Tt]*)
@@ -223,7 +219,7 @@ f_menu_app_firewalls () {
                  f_application_run
                  ;;
                  ufw' '* | 'sudo ufw '* | 'sudo ufw')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Ff]*)
@@ -255,10 +251,16 @@ f_menu_app_firewalls () {
             esac                # End of Firewall Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNF=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Firewall Applications until loop.	
+            #
+      done  # End of Firewall Applications until loop.
+            #
+      unset MNF MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_firewalls
 #
 # +----------------------------------------+
@@ -266,12 +268,12 @@ f_menu_app_firewalls () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_lan () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MNL -eq 0 ]
       do    # Start of LAN Applications until loop.
             #MNL arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
             #MNL ip          - Shows routing, devices, policy routing and tunnels.
@@ -289,20 +291,20 @@ f_menu_app_lan () {
             DELIMITER="#MNL" #MNL This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNL
             #
-            f_common_app_menu
+            f_menu_item_process $MNL  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of LAN Applications case statement.
+            case $MENU_ITEM in # Start of LAN Applications case statement.
                  'sudo arping')
                  APP_NAME="sudo arping localhost -c 5"
                  f_application_run
                  ;;
                  arping' '* | 'sudo arping '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Rr]*)
@@ -334,7 +336,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  ip' '* | 'sudo ip '* | 'sudo ip')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp])
@@ -365,7 +367,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  'ip addr '* | 'sudo ip addr '* | 'sudo ip addr')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Aa]*)
@@ -373,7 +375,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  'ip link '* | 'sudo ip link '* | 'sudo ip link')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Ll]*)
@@ -381,7 +383,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  'ip neighbor '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Nn]*)
@@ -389,7 +391,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  ping' '* | 'sudo ping '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  'sudo ping')
@@ -422,7 +424,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  sipcalc' '* | 'sudo sipcalc '* | 'sudo sipcalc')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ii]*)
@@ -430,7 +432,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  ss' '* | 'sudo ss '* | 'sudo ss')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ss])
@@ -462,7 +464,7 @@ f_menu_app_lan () {
                  f_application_run
                  ;;
                  subnetcalc' '* | 'sudo subnetcalc '* | 'sudo subnetcalc')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Uu]*)
@@ -472,10 +474,16 @@ f_menu_app_lan () {
             esac                # End of LAN Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNL=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of LAN Applications until loop.
+            #
+      unset MNL MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_lan
 #
 # +----------------------------------------+
@@ -483,12 +491,12 @@ f_menu_app_lan () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNW, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_wan () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MNW -eq 0 ]
       do    # Start of WAN Applications until loop.
             #MNW dig         - Query Internet domain name servers.
             #MNW dnstop      - Analyze and display tables of DNS traffic.
@@ -508,16 +516,16 @@ f_menu_app_wan () {
             DELIMITER="#MNW" #MNW This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNW
             #
-            f_common_app_menu
+            f_menu_item_process $MNW  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of WAN Applications case statement.
+            case $MENU_ITEM in # Start of WAN Applications case statement.
                  dig' '* | 'sudo dig '* | 'sudo dig')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii] | [Dd][Ii][Gg])
@@ -525,7 +533,7 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  dnstop' '* | 'sudo dnstop '* | 'sudo dnstop')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Nn]*)
@@ -533,7 +541,7 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  ip' '* | 'sudo ip '* | 'sudo ip')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp])
@@ -564,7 +572,7 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  'ip route '* | 'sudo ip route '* | 'sudo ip route')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Rr]*)
@@ -572,7 +580,7 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  mtr' '* | 'sudo mtr '* | 'sudo mtr')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Tt]*)
@@ -596,13 +604,13 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  nslookup' '* |  'sudo nslookup '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  # f_web_site # Don't use f_web_site since web site may have already been entered.
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  'sudo nslookup')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -614,7 +622,7 @@ f_menu_app_wan () {
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  ping' '* | 'sudo ping '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  'sudo ping')
@@ -647,7 +655,7 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  route' '* | 'sudo route '* | 'sudo route')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Oo]*)
@@ -655,7 +663,7 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  speedometer' '* | 'sudo speedometer '* | 'sudo speedometer')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Pp]*)
@@ -685,7 +693,7 @@ f_menu_app_wan () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ss' '* | 'sudo ss '* | 'sudo ss')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ss])
@@ -717,12 +725,12 @@ f_menu_app_wan () {
                  f_application_run
                  ;;
                  traceroute' '* | 'sudo traceroute '* )
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  # f_web_site # Don't use f_web_site since web site may have already been entered.
                  f_application_run
                  ;;
                  'sudo traceroute')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -757,23 +765,30 @@ f_menu_app_wan () {
             esac                # End of WAN Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNW=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of WAN Applications until loop.
+            #
+      unset MNW MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_wan
 #
 # +----------------------------------------+
-# |  Function f_menu_tcat_network_monitors |
+# |  Function f_menu_scat_network_monitors |
 # +----------------------------------------+
 #
 #  Inputs: None
-#    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
+#    Uses: BNM, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
-f_menu_tcat_network_monitors () {
+f_menu_scat_network_monitors () {
       f_initvars_menu_app
-      until [ $CHOICE_TCAT -eq 0 ] 
+      BNM="" # Initialize variable.
+      until [ $BNM -eq 0 ]
       do    # Start of Network Monitor Application Category until loop.
             #BNM Bandwidth - Bandwidth monitors.
             #BNM Structure - Management, status, connections, devices, hosts.
@@ -784,38 +799,41 @@ f_menu_tcat_network_monitors () {
             DELIMITER="#BNM" #BNM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_TCAT
+            read BNM
             #
-            f_common_tcat_menu
+            f_menu_item_process $BNM  # Outputs $MENU_ITEM. $BNM
             ERROR=0 # Reset error flag.
             #
-            case $CHOICE_TCAT in # Start of Network Monitor Application Category case statement.
+            case $MENU_ITEM in # Start of Network Monitor Application Category case statement.
                  [Bb] | [Bb][Aa]*) 
                  f_menu_app_network_bandwidth # Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Tt]*) 
                  f_menu_app_network_monitors  # Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Network Monitor Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_tcat_bad_menu_choice
-      done  # End of Network Monitor Application Category until loop.
-} # End of function f_menu_tcat_network_monitors
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BNM=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+      done  # End of Network Monitors Application Category until loop.
+            #
+      unset BNM MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_scat_network_monitors
 #
 # +----------------------------------------+
 # |Function f_menu_app_network_bandwidth   |
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_network_bandwidth () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MNB -eq 0 ]
       do    # Start of Network Bandwidth Applications until loop.
             #MNB bmon     - Bandwidth monitor and rate estimator.
             #MNB cbm      - Color Bandwidth Meter, ncurses based display.
@@ -834,16 +852,16 @@ f_menu_app_network_bandwidth () {
             DELIMITER="#MNB" #MNB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER
             #
-            read CHOICE_APP
+            read MNB
             #
-            f_common_app_menu
+            f_menu_item_process $MNB  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Network Bandwidth Applications case statement.
+            case $MENU_ITEM in # Start of Network Bandwidth Applications case statement.
                  bmon' '* | 'sudo bmon '* | 'sudo bmon')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -853,7 +871,7 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  cbm' '* | 'sudo cbm '* | 'sudo cbm')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -863,7 +881,7 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ifstat' '* | 'sudo ifstat '* | 'sudo ifstat')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Ff] | [Ii][Ff][Ss]*)
@@ -878,7 +896,7 @@ f_menu_app_network_bandwidth () {
                  f_application_run
                  ;;
                  iftop' '* | 'sudo iftop '* | 'sudo iftop')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -891,7 +909,7 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  jnettop' '* | 'sudo jnettop '* | 'sudo jnettop')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -904,7 +922,7 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nethogs' '* | 'sudo nethogs '* | 'sudo nethogs')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Ee] | [Nn][Ee][Tt] | [Nn][Ee][Tt][Hh]*)
@@ -912,7 +930,7 @@ f_menu_app_network_bandwidth () {
                  f_application_run
                  ;;
                  nload' '* | 'sudo nload '* | 'sudo nload')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -924,7 +942,7 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pktstat' '* | 'sudo pktstat '* | 'sudo pkstat')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  echo
                  echo "It may take a while to quit; wait while pktstat resolves addresses."
                  f_how_to_quit_application "q" "no-clear"
@@ -940,7 +958,7 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  statnet' '* | 'sudo statnet '* | 'sudo statnet')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
@@ -950,7 +968,7 @@ f_menu_app_network_bandwidth () {
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  trafshow' '* | 'sudo trafshow '* | 'sudo trafshow')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -964,10 +982,16 @@ f_menu_app_network_bandwidth () {
             esac                # End of Network Bandwidth Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNB=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Network Bandwidth Applications until loop.
+            #
+      unset MNB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_network_bandwidth
 #
 # +----------------------------------------+
@@ -975,12 +999,12 @@ f_menu_app_network_bandwidth () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_network_monitors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MNM -eq 0 ]
       do    # Start of Network Monitor Applications until loop.
             #MNM iptraf   - IP LAN monitor, ncurses based display.
             #MNM nagios3  - IP LAN monitor. Display network hosts, devices, connections.
@@ -1000,16 +1024,16 @@ f_menu_app_network_monitors () {
             DELIMITER="#MNM" #MNM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNM
             #
-            f_common_app_menu
+            f_menu_item_process $MNM  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Network Monitor Applications case statement.
+            case $MENU_ITEM in # Start of Network Monitor Applications case statement.
                  iptraf' '* | 'sudo iptraf '* | 'sudo iptraf')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1019,7 +1043,7 @@ f_menu_app_network_monitors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nagios3' '* | 'sudo nagios3 '* | 'sudo nagios3')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Aa]*)
@@ -1042,7 +1066,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
                  nc' '* | 'sudo nc '* | 'sudo nc')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Cc])
@@ -1050,7 +1074,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
                  netstat' '* | 'sudo netstat '* | 'sudo netstat')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  ;;
@@ -1080,7 +1104,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
                  netwatch' '* | 'sudo netwatch '* | 'sudo netwatch')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1093,7 +1117,7 @@ f_menu_app_network_monitors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ntop' '* | 'sudo ntop '* | 'sudo ntop')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  clear # Blank the screen.
                  echo "ntop - Traffic probe with network usage."
                  echo
@@ -1139,7 +1163,7 @@ f_menu_app_network_monitors () {
                  esac
                  ;;
                  opennms' '* | 'sudo opennms '* | 'sudo opennms')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Pp]*)
@@ -1160,7 +1184,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
                  pmacct' '* | 'sudo pmacct '* | 'sudo pmacct')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
@@ -1171,7 +1195,7 @@ f_menu_app_network_monitors () {
                  ;;
                  slurm' '* | 'sudo slurm '* | 'sudo slurm')
                  f_how_to_quit_application "q" "no-clear"
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ll]*)
@@ -1181,7 +1205,7 @@ f_menu_app_network_monitors () {
                  f_application_run
                  ;;
                  sntop' '* | 'sudo sntop '* | 'sudo sntop')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1200,7 +1224,7 @@ f_menu_app_network_monitors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vnstat' '* | 'sudo vnstat '* | 'sudo vnstat')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Vv] | [Vv][Nn]*)
@@ -1210,10 +1234,16 @@ f_menu_app_network_monitors () {
             esac                # End of Network Monitor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNM=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Network Monitor Applications until loop.
+            #
+      unset MNM MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_network_monitors
 #
 # +----------------------------------------+
@@ -1221,12 +1251,12 @@ f_menu_app_network_monitors () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNN, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_nic_tools () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MNN -eq 0 ]
       do    # Start of NIC Tools Applications until loop.
             #MNN ethtool      - NIC configuration.
             #MNN ifconfig     - NIC configuration.
@@ -1249,16 +1279,16 @@ f_menu_app_nic_tools () {
             DELIMITER="#MNN" #MNN This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNN
             #
-            f_common_app_menu
+            f_menu_item_process $MNN  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of NIC Tools Applications case statement.
+            case $MENU_ITEM in # Start of NIC Tools Applications case statement.
                  ethtool' '* | 'sudo ethtool '* | 'sudo ethtool')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Tt]*)
@@ -1280,7 +1310,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  ifconfig' '* | 'sudo ifconfig '* | 'sudo ifconfig')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Ff] | [Ii][Ff][Cc]*)
@@ -1290,7 +1320,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  ifplugstatus' '* | 'sudo ifplugstatus '* | 'sudo ifplugstatus')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Ff] | [Ii][Ff][Pp]*)
@@ -1298,7 +1328,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  ip' '* | 'sudo ip '* | 'sudo ip')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp])
@@ -1329,7 +1359,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  'ip addr '* | 'sudo ip addr '* | 'sudo ip addr')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Aa]*)
@@ -1337,7 +1367,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  'ip neighbor '* | 'sudo ip neighbor '* | 'sudo ip neighbor')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Pp] | [Ii][Pp]' ' | [Ii][Pp]' '[Nn]*)
@@ -1345,7 +1375,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  iwconfig' '* | 'sudo iwconfig '* | 'sudo iwconfig')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Ww] | [Ii][Ww][Cc]*)
@@ -1355,7 +1385,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  iwlist' '* | 'sudo iwlist '* | 'sudo iwlist')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Ww] | [Ii][Ww][Ll]*)
@@ -1370,7 +1400,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  macchanger' '* | 'sudo macchanger '* | 'sudo macchanger')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Aa]*)
@@ -1399,7 +1429,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  mii-diag' '* | 'sudo mii-diag '* | 'sudo mii-diag')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Ii] | [Mm][Ii][Ii] | [Mm][Ii][Ii][-] | [Mm][Ii][Ii][-][Dd]*)
@@ -1407,7 +1437,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  mii-tool' '* | 'sudo mii-tool '* | 'sudo mii-tool')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Ii] | [Mm][Ii][Ii] | [Mm][Ii][Ii][-] | [Mm][Ii][Ii][-][Tt]*)
@@ -1415,7 +1445,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  netload' '* | 'sudo netload '* | 'sudo netload')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1426,7 +1456,7 @@ f_menu_app_nic_tools () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nictools-pci' '* | 'sudo nictools-pci '* | 'sudo nictools-pci')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Ii]*)
@@ -1434,7 +1464,7 @@ f_menu_app_nic_tools () {
                  f_application_run
                  ;;
                  wicd-curses' '* | 'sudo wicd-curses '* | 'sudo wicd-curses')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1446,10 +1476,16 @@ f_menu_app_nic_tools () {
             esac                # End of NIC Tools Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNN=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of NIC Tools Applications until loop.
+            #
+      unset MNN MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_nic_tools
 #
 # +----------------------------------------+
@@ -1457,12 +1493,12 @@ f_menu_app_nic_tools () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNP, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_packet_tools () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MNP -eq 0 ]
       do    # Start of Packet Tools Applications until loop.
             #MNP kismet    - Wireless network detector, packet sniffer, auditor.
             #MNP ngrep     - Network packet analyzer.
@@ -1478,16 +1514,16 @@ f_menu_app_packet_tools () {
             DELIMITER="#MNP" #MNP This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNP
             #
-            f_common_app_menu
+            f_menu_item_process $MNP  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Packet Tools Applications case statement.
+            case $MENU_ITEM in # Start of Packet Tools Applications case statement.
                  kismet' '* | 'sudo kismet '* | 'sudo kismet')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Kk] | [Kk][Ii]*)
@@ -1495,7 +1531,7 @@ f_menu_app_packet_tools () {
                  f_application_run
                  ;;
                  ngrep' '* | 'sudo ngrep '* | 'sudo ngrep')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  clear # Blank the screen.
                  echo "ngrep - Network packet analyzer."
                  echo
@@ -1541,7 +1577,7 @@ f_menu_app_packet_tools () {
                  esac
                  ;;
                  nmap' '* | 'sudo nmap '* | 'sudo nmap')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Mm]*)
@@ -1549,7 +1585,7 @@ f_menu_app_packet_tools () {
                  f_application_run
                  ;;
                  packit' '* | 'sudo packit '* | 'sudo packit')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Aa]*)
@@ -1557,7 +1593,7 @@ f_menu_app_packet_tools () {
                  f_application_run
                  ;;
                  snort' '* | 'sudo snort '* | 'sudo snort')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  clear # Blank the screen.
                  echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
                  echo
@@ -1598,7 +1634,7 @@ f_menu_app_packet_tools () {
                  esac
                  ;;
                  tcpdump' '* | 'sudo tcpdump '* | 'sudo tcpdump')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Cc]*)
@@ -1614,7 +1650,7 @@ f_menu_app_packet_tools () {
                  f_application_run
                  ;;
                  wireshark' '* | 'sudo wireshark '* | 'sudo wireshark')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [Ww][Ii]*)
@@ -1624,10 +1660,16 @@ f_menu_app_packet_tools () {
             esac                # End of Packet Tools Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNP=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Packet Tools Applications until loop.
+            #
+      unset MNP MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_packet_tools
 #
 # +----------------------------------------+
@@ -1635,12 +1677,12 @@ f_menu_app_packet_tools () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNS, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_network_sharing () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MNS -eq 0 ]
       do    # Start of Network Configuration Applications until loop.
             #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
             #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.
@@ -1655,16 +1697,16 @@ f_menu_app_network_sharing () {
             DELIMITER="#MNS" #MNS This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNS
             #
-            f_common_app_menu
+            f_menu_item_process $MNS  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Network Sharing Applications case statement.
+            case $MENU_ITEM in # Start of Network Sharing Applications case statement.
                  ncpfs' '* | 'sudo ncpfs '* | 'sudo ncpfs')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Cc]*)
@@ -1672,7 +1714,7 @@ f_menu_app_network_sharing () {
                  f_application_run
                  ;;
                  smbc' '* | 'sudo smbc '* | 'sudo smbc')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc])
@@ -1687,7 +1729,7 @@ f_menu_app_network_sharing () {
                  f_application_run
                  ;;
                  smbclient' '* | 'sudo smbclient '* | 'sudo smbclient')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss][Mm][Bb] | [Ss][Mm][Bb][Cc] | [Ss][Mm][Bb][Cc][Ll]*)
@@ -1695,7 +1737,7 @@ f_menu_app_network_sharing () {
                  f_application_run
                  ;;
                  smbstatus' '* | 'sudo smbstatus '* | 'sudo smbstatus')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Mm] | [Ss][Mm][Bb] | [Ss][Mm][Bb][Ss]*)
@@ -1703,7 +1745,7 @@ f_menu_app_network_sharing () {
                  f_application_run
                  ;;
                  testparm' '* | 'sudo testparm '* | 'sudo testparm')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Ee]*)
@@ -1711,7 +1753,7 @@ f_menu_app_network_sharing () {
                  f_application_run
                  ;;
                  woof' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [WW][Oo]*)
@@ -1721,9 +1763,15 @@ f_menu_app_network_sharing () {
             esac                # End of Network Sharing Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNS=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Network Sharing Applications until loop.
+            #
+      unset MNS MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_network_sharing
 #

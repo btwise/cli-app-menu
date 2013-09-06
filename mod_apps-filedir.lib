@@ -3,19 +3,19 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-06-2013 14:21"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#    Uses: BFM, MAX, MENU_ITEM
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_cat_file_management () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
+      until [ $BFM -eq 0 ]
       do    # Start of File Management Application Category until loop.
             #BFM Bin/Hex     - View/Edit binary, hexadecimal files.
             #BFM CD/DVD Burn - Write files to CD/DVD.
@@ -37,70 +37,62 @@ f_menu_cat_file_management () {
             DELIMITER="#BFM" #BFM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_SCAT
+            read BFM
             #
-            f_common_scat_menu
+            f_menu_item_process $BFM  # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_SCAT in # Start of Application Category case statement.
+            case $MENU_ITEM in # Start of Application Category case statement.
                  [Bb] | [Bb][Ii]*)
                  f_menu_app_binhex_editors    # Binary-Hexadecimal File Editor Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Cc] | [Cc][Dd]*)
                  f_menu_app_file_burn         # File Burn Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa]*)
                  f_menu_app_text_compare      # Text Compare Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;               
                  [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Rr]*)
                  f_menu_app_file_compression  # File Burn Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Nn]*)
                  f_menu_app_file_conversion   # File Conversion Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd]*)
                  f_menu_app_text_file_editors # Text File Editor Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Nn]*)
                  f_menu_app_file_encryption   # File Encryption Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ff] | [Ff][Ii]*)
                  f_menu_app_file_find         # File Find Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ff] | [Ff][Tt]*)
                  f_menu_app_file_transfer     # File Transfer Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Aa]*)
                  f_menu_app_file_managers     # File Manager Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Oo] | [Oo][Pp]*)
                  f_menu_app_file_operations   # File Operations Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Pp]*) 
                  f_menu_app_file_splitters    # File Viewers Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Vv] | [Vv][Ii]*)
                  f_menu_app_file_viewers      # File Viewers Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of File Management Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of File Management Application Category until loop.
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BFM=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Management Applications until loop.
+            #
+      unset BFM MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_file_management
 #
 # +----------------------------------------+
@@ -108,12 +100,12 @@ f_menu_cat_file_management () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MBH, MAX, MENU_ITEM.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_binhex_editors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MBH -eq 0 ]
       do    # Start of Bin-Hex Editor Applications until loop.
             #MBH bbe     - sed-like editor for binary files.
             #MBH beav    - Binary file editor and viewer.
@@ -128,16 +120,16 @@ f_menu_app_binhex_editors () {
             DELIMITER="#MBH" #MBH This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MBH
             #
-            f_common_app_menu
+            f_menu_item_process $MBH  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Bin-Hex Editor Applications Applications case statement.
+            case $MENU_ITEM in # Start of Bin-Hex Editor Applications Applications case statement.
                  bbe' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Bb]*)
@@ -145,7 +137,7 @@ f_menu_app_binhex_editors () {
                  f_application_run
                  ;;
                  beav' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ee]*)
@@ -153,7 +145,7 @@ f_menu_app_binhex_editors () {
                  f_application_run
                  ;;
                  bvi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Vv]*)
@@ -161,7 +153,7 @@ f_menu_app_binhex_editors () {
                  f_application_run
                  ;;
                  dhex' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -170,7 +162,7 @@ f_menu_app_binhex_editors () {
                  f_application_run
                  ;;
                  tweak' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Ww]*)
@@ -181,10 +173,16 @@ f_menu_app_binhex_editors () {
             esac                # End of Bin-Hex Editor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MBH=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Bin-Hex Editor Applications until loop.
+            #
+      unset MBH MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_binhex_editors
 #
 # +----------------------------------------+
@@ -192,12 +190,12 @@ f_menu_app_binhex_editors () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFB, MAX, MENU_ITEM
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_burn () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MFB -eq 0 ]
       do    # Start of Backup Applications until loop.
             #MFB bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
             #MFB burn         - Write audio/data/iso image or copy CDs.
@@ -214,16 +212,16 @@ f_menu_app_file_burn () {
             DELIMITER="#MFB" #MFB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFB
             #
-            f_common_app_menu
+            f_menu_item_process $MFB  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of CD/DVD File Burning Applications case statement.
+            case $MENU_ITEM in # Start of CD/DVD File Burning Applications case statement.
                  bashburn' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Aa]*)
@@ -231,7 +229,7 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  burn' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Uu]*)
@@ -239,7 +237,7 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  cdrecord' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Dd]*)
@@ -270,7 +268,7 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  mkcd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Kk]*)
@@ -278,7 +276,7 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  mybashburn' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Yy]*)
@@ -286,7 +284,7 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  simpleburner' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ii]*)
@@ -294,7 +292,7 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  wodim' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [Ww][Oo]*)
@@ -326,7 +324,7 @@ f_menu_app_file_burn () {
                  f_application_run
                  ;;
                  xorriso' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Xx] | [Xx][Oo]*)
@@ -336,10 +334,16 @@ f_menu_app_file_burn () {
             esac                # End of CD/DVD File Burning Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFB=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of CD/DVD File Burning Applications until loop.
+            #
+      unset MFB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_burn
 #
 # +----------------------------------------+
@@ -347,12 +351,12 @@ f_menu_app_file_burn () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTC, MAX, MENU_ITEM.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_compare () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTC -eq 0 ]
       do    # Start of Text Compare Applications until loop.
             #MTC cmp       - Compares 2 text files.
             #MTC colordiff - Differences between 2 text files shown in color.
@@ -369,16 +373,16 @@ f_menu_app_text_compare () {
             DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTC
             #
-            f_common_app_menu
+            f_menu_item_process $MTC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Compare Applications case statement.
+            case $MENU_ITEM in # Start of Text Compare Applications case statement.
                  cmp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Mm] | [Cc][Mm][Pp])
@@ -386,7 +390,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  colordiff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Ll]*)
@@ -394,7 +398,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  comm' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
@@ -424,7 +428,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  diff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff])
@@ -432,7 +436,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  diff3' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [[Dd][Ii] | [[Dd][Ii][Ff] | [[Dd][Ii][Ff][Ff] | [[Dd][Ii][Ff][Ff]3)
@@ -440,7 +444,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  imediff2' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Mm]*)
@@ -448,7 +452,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  vimdiff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Vv] | [Vv][Ii]*)
@@ -456,7 +460,7 @@ f_menu_app_text_compare () {
                  f_application_run
                  ;;
                  wdiff' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [Ww][Dd]*)
@@ -466,10 +470,16 @@ f_menu_app_text_compare () {
             esac                # End of Text Compare Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTC=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Text Compare Applications until loop.
+            #
+      unset MTC MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_compare
 #
 # +----------------------------------------+
@@ -477,12 +487,12 @@ f_menu_app_text_compare () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_compression () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MFC -eq 0 ]
       do    # Start of Backup Applications until loop.
             #MFC acat    - Exract files in archives to standard output (tar, gzip, zip etc.).
             #MFC als     - List files in archives (tar, gzip, zip etc.).
@@ -507,17 +517,17 @@ f_menu_app_file_compression () {
             DELIMITER="#MFC" #MFC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFC
             #
-            f_common_app_menu
+            f_menu_item_process $MFC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Compression Applications case statement.
+            case $MENU_ITEM in # Start of File Compression Applications case statement.
 
                  acat' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Cc]*)
@@ -525,7 +535,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  als' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Ll]*)
@@ -533,7 +543,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  apack' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Pp]*)
@@ -541,7 +551,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  atool' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Tt]*)
@@ -549,7 +559,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  aunpack' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Uu]*)
@@ -557,7 +567,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  dtrx' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Tt]*)
@@ -565,7 +575,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  gunzip' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Uu]*)
@@ -573,7 +583,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  gzip' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Zz]*)
@@ -581,7 +591,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  p7zip' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][7]*)
@@ -589,7 +599,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  unace' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu]| [Uu][Nn] | [Uu][Nn][Aa]*)
@@ -597,7 +607,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  unxz' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu]| [Uu][Nn] | [Uu][Nn][Xx]*)
@@ -605,7 +615,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  unzip' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Nn] | [Uu][Nn][Zz]*)
@@ -613,7 +623,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  xz' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Xx] | [Xx][Zz])
@@ -621,7 +631,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  xzcat' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Xx] | [Xx][Zz] | [Xx][Zz][Cc]*)
@@ -629,7 +639,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  xzgrep' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Xx] | [Xx][Zz] | [Xx][Zz][Gg]*)
@@ -637,7 +647,7 @@ f_menu_app_file_compression () {
                  f_application_run
                  ;;
                  zip' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Zz] | [Zz][Ii]*)
@@ -647,10 +657,16 @@ f_menu_app_file_compression () {
             esac                # End of File Compression Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFC=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Compression Applications until loop.
+            #
+      unset MFC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_compression
 #
 # +----------------------------------------+
@@ -658,12 +674,12 @@ f_menu_app_file_compression () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTW, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_conversion () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTW -eq 0 ]
       do    # Start of File Format Conversion Applications until loop.
             #MTW ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
             #MTW txt2html   - Converts plain ASCII text to HTML format.
@@ -682,16 +698,16 @@ f_menu_app_file_conversion () {
             DELIMITER="#MTW" #MTW This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTW
             #
-            f_common_app_menu
+            f_menu_item_process $MTW  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Format Conversion Applications case statement.
+            case $MENU_ITEM in # Start of File Format Conversion Applications case statement.
                  ebook2cw' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Bb]*)
@@ -699,7 +715,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  txt2html' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Hh]*)
@@ -721,7 +737,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  txt2man' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Mm]*)
@@ -741,7 +757,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  txt2pdbdoc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Pp]*)
@@ -762,7 +778,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  txt2regex' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Rr]*)
@@ -781,7 +797,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  txt2tags' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Xx] | [Tt][Xx][Tt] | [Tt][Xx][Tt][2] | [Tt][Xx][Tt][2][Tt]*)
@@ -802,7 +818,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  unoconv' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Nn] | [Uu][Nn][Oo]*)
@@ -810,7 +826,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  unrtf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Nn] | [Uu][Nn][Rr]*)
@@ -818,7 +834,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  wp2x' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | Ww][Pp]*)
@@ -826,7 +842,7 @@ f_menu_app_file_conversion () {
                  f_application_run
                  ;;
                  xmlto' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Xx] | Xx][Mm]*)
@@ -836,10 +852,16 @@ f_menu_app_file_conversion () {
             esac                # End of File Format Conversion Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTW=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Format Conversion Applications until loop.
+            #
+      unset MTW MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_file_conversion
 #
 # +----------------------------------------+
@@ -847,12 +869,12 @@ f_menu_app_file_conversion () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MTH, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_text_file_editors () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MTH -eq 0 ]
       do    # Start of Text Editor Applications until loop.
             #MTH dav   - Text editor.
             #MTH ed    - Classic CLI text editor.
@@ -871,16 +893,16 @@ f_menu_app_text_file_editors () {
             DELIMITER="#MTH" #MTH This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MTH
             #
-            f_common_app_menu
+            f_menu_item_process $MTH  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Text Editor Applications case statement.
+            case $MENU_ITEM in # Start of Text Editor Applications case statement.
                  dav' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<F5>"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -892,7 +914,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ed' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Dd])
@@ -900,7 +922,7 @@ f_menu_app_text_file_editors () {
                  f_application_run
                  ;;
                  emacs' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -910,7 +932,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  jed' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -920,7 +942,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  joe' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "Ctrl-k x"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -932,7 +954,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  nano' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -942,7 +964,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pico' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -952,7 +974,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -964,7 +986,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "<esc> + :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -976,7 +998,7 @@ f_menu_app_text_file_editors () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  zile' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  clear # Blank the screen.
                  echo zile - Small Emacs editor.
                  echo
@@ -1018,10 +1040,16 @@ f_menu_app_text_file_editors () {
             esac                # End of Text Editor Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MTH=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Text Editor Applications until loop.
+            #
+      unset MTH MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_editors
 #
 # +----------------------------------------+
@@ -1029,12 +1057,12 @@ f_menu_app_text_file_editors () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFE, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_encryption () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MFE -eq 0 ]
       do    # Start of File Encryption Applications until loop.
             #MFE bcrypt    - Uses the blowfish encryption algorithm.
             #MFE ccrypt    - Uses the Rijndael cipher algorithm.
@@ -1053,16 +1081,16 @@ f_menu_app_file_encryption () {
             DELIMITER="#MFE" #MFE This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFE
             #
-            f_common_app_menu
+            f_menu_item_process $MFE  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Encryption Applications case statement.
+            case $MENU_ITEM in # Start of File Encryption Applications case statement.
                  bcrypt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Cc]*)
@@ -1070,7 +1098,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  ccrypt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Cc]*)
@@ -1078,7 +1106,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  crypt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Rr]*)
@@ -1086,7 +1114,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  gnupgp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Nn]*)
@@ -1094,7 +1122,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  lspgpot' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ss]*)
@@ -1102,7 +1130,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  mcrypt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Cc]*)
@@ -1110,7 +1138,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  pgp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Gg]*)
@@ -1118,7 +1146,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  scrypt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc]*)
@@ -1126,7 +1154,7 @@ f_menu_app_file_encryption () {
                  f_application_run
                  ;;
                  truecrypt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1136,7 +1164,7 @@ f_menu_app_file_encryption () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  zcrypt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Zz] | [Zz][Cc]*)
@@ -1146,10 +1174,16 @@ f_menu_app_file_encryption () {
             esac                # End of File Encryption Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFE=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of File Encryption Applications until loop.
+            #
+      done  # End of <Sample Template> Applications until loop.
+            #
+      unset MFE MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_encryption
 #
 # +----------------------------------------+
@@ -1157,12 +1191,12 @@ f_menu_app_file_encryption () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFF, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_find () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MENU_ITEM -eq 0 ]
       do    # Start of Find File Applications until loop.
             #MFF find     - Find files using pattern matching.
             #MFF locate   - Find files using an internal database, mlocate.
@@ -1174,16 +1208,16 @@ f_menu_app_file_find () {
             DELIMITER="#MFF" #MFF This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFF
             #
-            f_common_app_menu
+            f_menu_item_process $MFF  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Find File Applications case statement.
+            case $MENU_ITEM in # Start of Find File Applications case statement.
                  find' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ii]*)
@@ -1208,7 +1242,7 @@ f_menu_app_file_find () {
                  f_application_run
                  ;;
                  locate' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Oo]*)
@@ -1236,7 +1270,7 @@ f_menu_app_file_find () {
                  f_application_run
                  ;;
                  updatedb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Pp]*)
@@ -1246,10 +1280,16 @@ f_menu_app_file_find () {
             esac                # End of Find File Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFF=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Find File Applications until loop.
+            #
+      unset MFF MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_find
 #
 # +----------------------------------------+
@@ -1257,12 +1297,12 @@ f_menu_app_file_find () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_transfer () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MFT -eq 0 ]
       do    # Start of File Transfer Applications until loop.
             #MFT cmdftp - File transfer client.
             #MFT curl   - File transfer.
@@ -1279,16 +1319,16 @@ f_menu_app_file_transfer () {
             DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFT
             #
-            f_common_app_menu
+            f_menu_item_process $MFT  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Transfer Applications case statement.
+            case $MENU_ITEM in # Start of File Transfer Applications case statement.
                  cmdftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Mm]*)
@@ -1296,7 +1336,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  curl' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Uu]*)
@@ -1304,7 +1344,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  ftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Tt] | [Ff][Tt][Pp])
@@ -1312,7 +1352,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  ftpfs' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Tt] | [Ff][Tt][Pp] | [Ff][Tt][Pp][Ff]*)
@@ -1320,7 +1360,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  lftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ff]*)
@@ -1328,7 +1368,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  ncftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Cc]*)
@@ -1336,7 +1376,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  scp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc]*)
@@ -1344,7 +1384,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  woof' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [WW][Oo]*)
@@ -1354,10 +1394,16 @@ f_menu_app_file_transfer () {
             esac                # End of File Transfer Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFT=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Transfer Applications until loop.
+            #
+      unset MFT MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_transfer
 #
 # +----------------------------------------+
@@ -1365,12 +1411,12 @@ f_menu_app_file_transfer () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_managers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MFM -eq 0 ]
       do    # Start of File Manager Applications until loop.
             #MFM clex     - File manager.
             #MFM detox    - File name clean up.
@@ -1391,16 +1437,16 @@ f_menu_app_file_managers () {
             DELIMITER="#MFM" #MFM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFM
             #
-            f_common_app_menu
+            f_menu_item_process $MFM  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Manager Applications case statement.
+            case $MENU_ITEM in # Start of File Manager Applications case statement.
                  clex' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "Alt-q" 
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1412,7 +1458,7 @@ f_menu_app_file_managers () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  detox' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ee]*)
@@ -1420,7 +1466,7 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  dired' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii]*)
@@ -1428,7 +1474,7 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  exiftool' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Xx]*)
@@ -1436,7 +1482,7 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  findmnt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ii]*)
@@ -1444,7 +1490,7 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  jhead' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Jj] | [Jj][Hh]*)
@@ -1452,7 +1498,7 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  mc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1462,7 +1508,7 @@ f_menu_app_file_managers () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  pilot' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1472,7 +1518,7 @@ f_menu_app_file_managers () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  ranger' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1484,7 +1530,7 @@ f_menu_app_file_managers () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  smbc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Mm]*)
@@ -1492,7 +1538,7 @@ f_menu_app_file_managers () {
                  f_application_run
                  ;;
                  vfu' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1503,7 +1549,7 @@ f_menu_app_file_managers () {
                  ;;
                  vifm' '*)
                  f_how_to_quit_application "the vi command for 'quit' which is ':q' or <colon>+q"
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1516,10 +1562,16 @@ f_menu_app_file_managers () {
             esac               # End of File Manager Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFM=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Manager Applications until loop.
+            #
+      unset MFM MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_file_managers
 #
 # +----------------------------------------+
@@ -1527,12 +1579,12 @@ f_menu_app_file_managers () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFO, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_operations () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MFO -eq 0 ]
       do    # Start of File Operations Applications until loop.
             #MFO dtrx      - Use tar without remembering which flags for each file to use.
             #MFO rsync     - File backup, mirror, directories and files.
@@ -1554,16 +1606,16 @@ f_menu_app_file_operations () {
             DELIMITER="#MFO" #MFO This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFO
             #
-            f_common_app_menu
+            f_menu_item_process $MFO  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Operations Applications case statement.
+            case $MENU_ITEM in # Start of File Operations Applications case statement.
                  dtrx' '* | 'sudo dtrx' | 'sudo dtrx '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Tt]*)
@@ -1571,7 +1623,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  rsync' '* | 'sudo rsync' | 'sudo rsync '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Ss]*)
@@ -1579,7 +1631,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  tar' '* | 'sudo tar' | 'sudo tar '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Aa]*)
@@ -1587,7 +1639,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  advcpmv' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Dd]*)
@@ -1595,7 +1647,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  shred' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Hh]*)
@@ -1603,7 +1655,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  foremost' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Oo]*)
@@ -1635,7 +1687,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  photorec' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Hh]*)
@@ -1658,7 +1710,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  safecopy' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Aa]*)
@@ -1677,7 +1729,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  trash-cli' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Rr]*)
@@ -1685,7 +1737,7 @@ f_menu_app_file_operations () {
                  f_application_run
                  ;;
                  xd' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Xx] | [Xx][Dd])
@@ -1695,10 +1747,16 @@ f_menu_app_file_operations () {
             esac                # End of File Operations Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFO=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Operations Applications until loop.
+            #
+      unset MFO MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_operations
 #
 # +----------------------------------------+
@@ -1706,12 +1764,12 @@ f_menu_app_file_operations () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFS, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_splitters () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MFS -eq 0 ]
       do    # Start of File Splitter Applications until loop.
             #MFS lxsplit - Splits/Joins files even greater than 2GB.
             #MFS slice   - Divides ASCII file w/delimiters into possibly overlapping slices.
@@ -1723,16 +1781,16 @@ f_menu_app_file_splitters () {
             DELIMITER="#MFS" #MFS This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFS
             #
-            f_common_app_menu
+            f_menu_item_process $MFS  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Splitter Applications case statement.
+            case $MENU_ITEM in # Start of File Splitter Applications case statement.
                  lxsplit' '* | 'sudo lxsplit '* | 'sudo lxsplit')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Xx]*)
@@ -1740,7 +1798,7 @@ f_menu_app_file_splitters () {
                  f_application_run
                  ;;
                  slice' '* | 'sudo slice '* | 'sudo slice')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ll]*)
@@ -1748,7 +1806,7 @@ f_menu_app_file_splitters () {
                  f_application_run
                  ;;
                  split' '* | 'sudo split '* | 'sudo split')
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1775,10 +1833,16 @@ f_menu_app_file_splitters () {
             esac                # End of File Splitter Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFS=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Splitter Applications until loop.
+            #
+      unset MFS MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_splitters
 #
 # +----------------------------------------+
@@ -1786,12 +1850,12 @@ f_menu_app_file_splitters () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFV, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_viewers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ] 
+      until [ $MFV -eq 0 ]
       do    # Start of File Viewer Applications until loop.
             #MFV less - File viewer and bi-directional pager.
             #MFV more - File viewer pager.
@@ -1803,16 +1867,16 @@ f_menu_app_file_viewers () {
             DELIMITER="#MFV" #MFV This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFV
             #
-            f_common_app_menu
+            f_menu_item_process $MFV  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Viewer Applications case statement.
+            case $MENU_ITEM in # Start of File Viewer Applications case statement.
                  less' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1822,7 +1886,7 @@ f_menu_app_file_viewers () {
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
                  more' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1832,7 +1896,7 @@ f_menu_app_file_viewers () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  most' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=1 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1844,8 +1908,14 @@ f_menu_app_file_viewers () {
             esac                # End of File Viewer Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFV=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Viewer Applications until loop.
+            #
+      unset MFV MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_viewers

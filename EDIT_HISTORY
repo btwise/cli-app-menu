@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="September-01-2013 12:12"
+PROJECT_REVDATE="September-06-2013 14:21"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,16 +52,54 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-09-06 *f_menu_app_sample_template was rewritten for flexibility
+##             in nesting.
+##            *f_menu_scat_sample_template was rewritten for flexibility
+##             in nesting.
+##            *f_show_menu added case pattern "AAC" for Download menu.
+##            *lib_cli-menu-cat.lib rewritten to be consistent with templates.
+##             deleted CHOICE_CAT variable.
+##            *Main Menu item "Download" made slight adjustments.
+##            *mod_apps-* were rewritten for flexibility in nesting.
+##             No more CHOICE_SCAT/TCAT/APP variables.
+##             Scratch variables Bxx, Mxx used in Until-loop are unset before
+##             exiting mod_apps-*.
+##            *README deleted references to CHOICE_CAT, CHOICE_SCAT,
+##             CHOICE_TCAT, CHOICE_APP, variables.
+##
+## 2013-09-05 *f_menu_item_process created based on f_common_app/scat/tcat_menus.
+##            *f_scat_bad_menu_choice deleted.
+##            *f_tcat_bad_menu_choice deleted.
+##            *f_show_max renamed to f_show_max_items.
+##            *mod_apps-audio.lib, mod_apps-databases.lib, mod_apps_sample-
+##             template.lib, mod_apps-education.lib, mod_apps-filedir.lib
+##             were rewritten for flexibility in nesting.
+##
+## 2013-09-04 *f_application_bad_menu_choice deleted.
+##            *f_ask_which_branch_download reworked.
+##            *f_ask_which_branch_download preserved default answers, more robust.
+##            *f_bad_menu_choice created based on f_application/scat/cat_bad_menu_choice.
+##            *f_common_app_menu deleted.
+##            *f_common_scat_menu deleted.
+##            *f_common_tcat_menu deleted.
+##            *f_download_file invoke common library.
+##            *f_initvars_menu_app simplify the initialization of variables.
+##            *f_menu_app_hamradio created; added hamexam. Moved aldo, cw,
+##             cwcp, ebook2cw, morse, morsegen, qrq, tlf from the education
+##             module f_menu_app_education.
+##            *f_wget_file invoke common library. Changed to always ask which branch.
+##            *Main Menu item "Download" fixed script downloading, more robust.
+##
 ## 2013-09-01 *f_show_menu enhanced the Application Categories Menu
 ##             to indicate whether or not a module file is accessible by
 ##             changing the menu item font.
 ##            *f_menu_cat_applications changed structure to embed the module
 ##             file names in the menu. Needed for enhancement to f_show_menu.
-##            *Main Menu changed editor from "joe" to "jed" more user-friendly,
-##             added menu item "Update LIST_APPS".
 ##            *f_menu_app_text_editors2 changed "jed" description in menu,
 ##             Added jmacs, jpico, jstar, rjoe. Deleted "the" text editor.
 ##            *f_menu_app_text_editors3 added "the" text editor.
+##            *Main Menu changed editor from "joe" to "jed" more user-friendly,
+##             added menu item "Update LIST_APPS".
 ##
 ## 2013-08-30 *f_menu_app_lanwan deleted.
 ##            *f_menu_app_lan created added arping, ip, ip addr, ip link,

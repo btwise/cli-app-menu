@@ -3,102 +3,54 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-06-2013 14:21"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MED, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_education () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MED -eq 0 ]
       do    # Start of Education Applications until loop.
-            #MED aldo      - Morse code training.
-            #MED cw        - Morse code training.
-            #MED cwcp      - Morse code training.
             #MED diatheke  - Holy Bible research tool.
-            #MED ebook2cw  - Converts plain text ebooks to  morse code mp3/ogg audio files.
             #MED grass     - GIS Map utility (Geographic Information System).
             #MED gtypist   - Typing tutor displays a sentence for practice.
             #MED lifelines - Geneology.
             #MED metar     - Download METAR weather reports from NOAA HTTP servers.
-            #MED morse     - Morse code training.
-            #MED morsegen  - Converts text file to ASCII morse code.
+            #MED ham radio - Morse code and Ham Radio applications.
             #MED primes    - Prime number calculator.
-            #MED qrq       - High-speed morse code trainer.
-            #MED tlf       - Morse code cw keyer, logging and contest program.
             #MED typespeed - Typing tutor displays flying words arcade-style across screen.
             #MED weather-util - current weather conditions and forecasts.
-           #
+            #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-education.lib"
             MENU_TITLE="Education/Hobby Applications Menu"
             DELIMITER="#MED" #MED This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER
- 
             #
-            read CHOICE_APP
+            read MED
             #
-            f_common_app_menu
+            f_menu_item_process $MED  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Education Applications case statement.
-                 aldo' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Aa] | [Aa][Ll]*)
-                 APP_NAME="aldo"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cw' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_how_to_quit_application "Ctrl-d"
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Ww])
-                 APP_NAME="cw"
-                 f_how_to_quit_application "Ctrl-d"
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 f_application_run
-                 ;;
-                 cwcp' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Ww] | [Cc][Ww][Cc]*)
-                 APP_NAME="cwcp"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
+            case $MENU_ITEM in # Start of Education Applications case statement.
                  diatheke' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii]*)
                  APP_NAME="diatheke"
                  f_application_run
                  ;;
-                 ebook2cw' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ee] | [Ee][Bb]*)
-                 APP_NAME="ebook2cw"
-                 f_application_run
-                 ;;
                  grass' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Rr]*)
@@ -106,7 +58,7 @@ f_menu_app_education () {
                  f_application_run
                  ;;
                  gtypist' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -115,8 +67,11 @@ f_menu_app_education () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Hh] | [Hh][Aa]*)
+                 f_menu_app_hamradio
+                 ;;
                  lifelines' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ii]*)
@@ -124,16 +79,137 @@ f_menu_app_education () {
                  f_application_run
                  ;;
                  metar' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Ee]*)
                  APP_NAME="metar"
                  f_application_run
                  ;;
-                 morse' '*)
-                 APP_NAME=$CHOICE_APP
+                 primes' '*)
+                 APP_NAME=$MENU_ITEM
                  f_application_run
+                 ;;
+                 [Pp] | [Pp][Rr]*)
+                 APP_NAME="primes"
+                 f_application_run
+                 ;;
+                 typespeed' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Yy]*)
+                 APP_NAME="typespeed"
+                 f_application_run
+                 ;;
+                 weather-util' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Ee]*)
+                 APP_NAME="weather-util"
+                 f_application_run
+                 ;;
+            esac                # End of Education Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MED=$MENU_ITEM
+            #
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+            #
+      done  # End of Education Applications until loop.
+            #
+      unset MED MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_education
+#
+# +----------------------------------------+
+# |      Function f_menu_app_hamradio      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: MHR, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_app_hamradio () {
+      f_initvars_menu_app
+      until [ $MHR -eq 0 ]
+      do    # Start of Ham Radio Application Category until loop.
+            #MHR aldo      - Morse code training.
+            #MHR cw        - Morse code training.
+            #MHR cwcp      - Morse code training.
+            #MHR ebook2cw  - Converts plain text ebooks to  morse code mp3/ogg audio files.
+            #MHR morse     - Morse code training.
+            #MHR morsegen  - Converts text file to ASCII morse code.
+            #MHR qrq       - High-speed morse code trainer.
+            #MHR tlf       - Morse code cw keyer, logging and contest program.
+
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Ham Radio Application Category Menu"
+            DELIMITER="#MHR" #MHR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MHR
+            #
+            f_menu_item_process $MHR  # Outputs $MENU_ITEM.
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $MENU_ITEM in # Start of Ham Radio Application Category case statement.
+                 aldo' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Aa] | [Aa][Ll]*)
+                 APP_NAME="aldo"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 cw' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_how_to_quit_application "Ctrl-d"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Cc] | [Cc][Ww])
+                 APP_NAME="cw"
+                 f_how_to_quit_application "Ctrl-d"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 cwcp' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Cc] | [Cc][Ww] | [Cc][Ww][Cc]*)
+                 APP_NAME="cwcp"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
+                 ;;
+                 ebook2cw' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ee] | [Ee][Bb]*)
+                 APP_NAME="ebook2cw"
+                 f_application_run
+                 ;;
+                 morse' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
                  APP_NAME="morse"
@@ -156,59 +232,47 @@ f_menu_app_education () {
                  esac
                  ;;
                  morsegen' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee] | [Mm][Oo][Rr][Ss][Ee][Gg]*)
                  APP_NAME="morsegen"
                  f_application_run
-                 ;;
-                 primes' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Rr]*)
-                 APP_NAME="primes"
-                 f_application_run
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  qrq' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Qq] | [Qq][Rr]*)
                  APP_NAME="qrq"
                  f_application_run
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  tlf' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Tt] | [Tt][Ll]*)
                  APP_NAME="tlf"
                  f_application_run
+                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-                 typespeed' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Yy]*)
-                 APP_NAME="typespeed"
-                 f_application_run
-                 ;;
-                 weather-util' '*)
-                 APP_NAME=$CHOICE_APP
-                 f_application_run
-                 ;;
-                 [Ww] | [Ww][Ee]*)
-                 APP_NAME="weather-util"
-                 f_application_run
-                 ;;
-            esac                # End of Education Applications case statement.
+            esac                 # End of Ham Radio Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MHR=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Education Applications until loop.
-} # End of f_menu_app_education
+            #
+      done  # End of Ham Radio Application Category until loop.
+            #
+      unset MHR MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_hamradio
 #

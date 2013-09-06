@@ -3,20 +3,20 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-06-2013 14:21"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#    Uses: BIN, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_cat_internet () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ]
-      do    # Start of Internet Category until loop.
+      until [ $BIN -eq 0 ]
+      do    # Start of Internet Application Category until loop.
             #BIN Bittorrent        - File transfer.
             #BIN Downloaders       - Download files and calculate file checksums. 
             #BIN Email             - Email clients.
@@ -36,71 +36,61 @@ f_menu_cat_internet () {
             DELIMITER="#BIN" #BIN This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_SCAT
+            read BIN
             #
-            f_common_scat_menu
-            f_application_help
+            f_menu_item_process $BIN  # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_SCAT in # Start of Internet Category case statement.
+            case $MENU_ITEM in # Start of Internet Application Category case statement.
                  [Bb] | [Bb][Ii]*)
                  f_menu_app_bittorrent        # Bittorrent Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Dd] | [Dd][Oo]*)
                  f_menu_app_downloaders       # Downloaders Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Mm]*)
                  f_menu_app_email             # Email Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop. 
                  ;;
                  [Ff] | [Ff][Aa]*)
                  f_menu_app_fax               # FAX Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ff] | [Ff][Tt]*)
                  f_menu_app_file_transfer     # File Transfer Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ii] | [Ii][Mm]*)
                  f_menu_app_instant_messaging #Instant Messaging Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ii] | [Ii][Rr]*)
                  f_menu_app_irc_clients       # IRC Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ll] | [Ll][Aa]*)
                  f_menu_app_lan_chat          # LAN Chat Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Nn] | [Nn][Ee]*)
                  f_menu_app_news_readers      # News Readers Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Pp] | [Pp][Oo]*)
                  f_menu_app_podcatchers       # Podcatcher Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
                  f_menu_app_remote_connection # Remote Connection Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Rr] | [Rr][Ss]*)
                  f_menu_app_rssfeeders        # RSS Feeder Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Ww] | [Ww][Ee]*)
                  f_menu_app_web_browsers      # Web Browser Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
-            esac                # End of Internet Category case statement.
+            esac                # End of Internet Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Internet Category until loop.
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BIN=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+      done  # End of Internet Application Category until loop.
+            #
+      unset BIN MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_internet
 #
 # +----------------------------------------+
@@ -108,12 +98,12 @@ f_menu_cat_internet () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MBT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_bittorrent () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MBT -eq 0 ]
       do    # Start of Bittorrent Applications until loop.
             #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
             #MBT bitflu       - Daemon includes web GUI interface, telnet, plugins.
@@ -131,16 +121,16 @@ f_menu_app_bittorrent () {
             DELIMITER="#MBT" #MBT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MBT
             #
-            f_common_app_menu
+            f_menu_item_process $MBT  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Bittorrent Applications case statement.
+            case $MENU_ITEM in # Start of Bittorrent Applications case statement.
                  aria2c' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Rr]*)
@@ -148,7 +138,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  bitflu' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Ff]*)
@@ -156,7 +146,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  bittornado' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Nn]*)
@@ -164,7 +154,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  bittorrent' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ii] | [Bb][Ii][Tt] | [Bb][Ii][Tt][Tt] | [Bb][Ii][Tt][Tt][Oo] | [Bb][Ii][Tt][Tt][Oo][Rr] | [Bb][Ii][Tt][Tt][Oo][Rr][Rr]*)
@@ -172,7 +162,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  ctorrent' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Tt]*)
@@ -180,7 +170,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  deluge' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ee]*)
@@ -188,7 +178,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  mldonkey' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Ll]*)
@@ -196,7 +186,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  rtorrent' '*) 
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Tt]*)
@@ -204,7 +194,7 @@ f_menu_app_bittorrent () {
                  f_application_run
                  ;;
                  transmission' '*) 
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Rr]*)
@@ -214,10 +204,16 @@ f_menu_app_bittorrent () {
             esac                # End of Bittorrent Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MBT=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Bittorrent Applications until loop.
+            #
+      unset MBT MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_bittorrent
 #
 # +----------------------------------------+
@@ -225,12 +221,12 @@ f_menu_app_bittorrent () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MDL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_downloaders () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MDL -eq 0 ]
       do    # Start of Downloaders Applications until loop.
             #MDL axel     - Downloader accelerator using multiple connections/mirrors.
             #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
@@ -245,16 +241,16 @@ f_menu_app_downloaders () {
             DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MDL
             #
-            f_common_app_menu
+            f_menu_item_process $MDL  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Dowloader Applications case statement.
+            case $MENU_ITEM in # Start of Dowloader Applications case statement.
                  axel' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Xx]*)
@@ -262,7 +258,7 @@ f_menu_app_downloaders () {
                  f_application_run
                  ;;
                  axel' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Rr]*)
@@ -270,7 +266,7 @@ f_menu_app_downloaders () {
                  f_application_run
                  ;;
                  md5pass' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Pp]*)
@@ -290,7 +286,7 @@ f_menu_app_downloaders () {
                  f_application_run
                  ;;
                  md5sum' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm][ | [Mm][Dd] | [Mm][Dd][5] | [Mm][Dd][5][Ss]*)
@@ -309,7 +305,7 @@ f_menu_app_downloaders () {
                  f_application_run
                  ;;
                  sha1pass' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Pp]*)
@@ -328,7 +324,7 @@ f_menu_app_downloaders () {
                  f_application_run
                  ;;
                  sha1sum' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Hh] | [Ss][Hh][Aa] | [Ss][Hh][Aa][1] | [Ss][Hh][Aa][1][Ss]*)
@@ -350,10 +346,16 @@ f_menu_app_downloaders () {
             esac                # End of Downloader Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MDL=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Downloaders Applications until loop.
+            #
+      done  # End of Downloader Applications until loop.
+            #
+      unset MDL MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_downloaders
 #
 # +----------------------------------------+
@@ -361,12 +363,12 @@ f_menu_app_downloaders () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MEM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_email () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MEM -eq 0 ]
       do    # Start of E-mail Applications until loop.
             #MEM alpine         - E-mail client, FOSS version of pine.
             #MEM cone           - E-mail client.
@@ -388,16 +390,16 @@ f_menu_app_email () {
             DELIMITER="#MEM" #MEM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MEM
             #
-            f_common_app_menu
+            f_menu_item_process $MEM  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of E-mail Applications case statement.
+            case $MENU_ITEM in # Start of E-mail Applications case statement.
                  abook' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Bb]*)
@@ -405,7 +407,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  alpine' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Ll]*)
@@ -413,7 +415,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  cone' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo]*)
@@ -421,7 +423,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  elmo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Ll]*)
@@ -429,7 +431,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  fetchyahoo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ee]*)
@@ -437,7 +439,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  gnus' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg]  | [Gg][Nn]*)
@@ -445,7 +447,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  heirloom-mailx' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Ee]*)
@@ -453,7 +455,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  lbdb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll | [Ll][Bb]*)
@@ -461,7 +463,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  mu4e' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][4] | [Mm][Uu][4]*)
@@ -469,7 +471,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  mutt' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Uu] | [Mm][Uu][Tt]*)
@@ -477,7 +479,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  nedmail' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Ee]*)
@@ -485,7 +487,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  pine' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Ii]*)
@@ -493,7 +495,7 @@ f_menu_app_email () {
                  f_application_run
                  ;;
                  supp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Uu]*)
@@ -503,10 +505,16 @@ f_menu_app_email () {
             esac                # End of E-mail Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MEM=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of E-mail Applications until loop.
+            #
+      unset MEM MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_email
 #
 # +----------------------------------------+
@@ -514,12 +522,12 @@ f_menu_app_email () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFX, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_fax () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MFX -eq 0 ]
       do    # Start of FAX Applications until loop.
             #MFX efax           - FAX over modem.
             #MFX hylafax-client - Works with HylaFAX server software.
@@ -530,16 +538,16 @@ f_menu_app_fax () {
             DELIMITER="#MFX" #MFX This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFX
             #
-            f_common_app_menu
+            f_menu_item_process $MFX  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of FAX Applications case statement.
+            case $MENU_ITEM in # Start of FAX Applications case statement.
                  efax' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Ff]*)
@@ -547,7 +555,7 @@ f_menu_app_fax () {
                  f_application_run
                  ;;
                  hylafax-client' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Yy]*)
@@ -557,10 +565,16 @@ f_menu_app_fax () {
             esac                # End of FAX Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFX=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of FAX Applications until loop.
+            #
+      unset MFX MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_fax
 #
 # +----------------------------------------+
@@ -568,12 +582,12 @@ f_menu_app_fax () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MFT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_file_transfer () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MFT -eq 0 ]
       do    # Start of File Transfer Applications until loop.
             #MFT cmdftp - File transfer client.
             #MFT curl   - File transfer.
@@ -590,16 +604,16 @@ f_menu_app_file_transfer () {
             DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MFT
             #
-            f_common_app_menu
+            f_menu_item_process $MFT  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of File Transfer Applications case statement.
+            case $MENU_ITEM in # Start of File Transfer Applications case statement.
                  cmdftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Mm]*)
@@ -607,7 +621,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  curl' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Uu]*)
@@ -615,7 +629,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  ftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Tt] | [Ff][Tt][Pp])
@@ -623,7 +637,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  ftpfs' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Tt] | [Ff][Tt][Pp] | [Ff][Tt][Pp][Ff]*)
@@ -631,7 +645,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  lftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ff]*)
@@ -639,7 +653,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  ncftp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Cc]*)
@@ -647,7 +661,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  scp' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc]*)
@@ -655,7 +669,7 @@ f_menu_app_file_transfer () {
                  f_application_run
                  ;;
                  woof' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [WW][Oo]*)
@@ -665,10 +679,16 @@ f_menu_app_file_transfer () {
             esac                # End of File Transfer Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MFT=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of File Transfer Applications until loop.
+            #
+      unset MFT MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_transfer
 #
 # +----------------------------------------+
@@ -676,12 +696,12 @@ f_menu_app_file_transfer () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MIM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_instant_messaging () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MIM -eq 0 ]
       do    # Start of Internet Messaging Applications until loop.
             #MIM barnowl      - BarnOwl supports AIM, IRC, Jabber, Zephyr.
             #MIM bitlbee      - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
@@ -701,16 +721,16 @@ f_menu_app_instant_messaging () {
             DELIMITER="#MIM" #MIM This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MIM
             #
-            f_common_app_menu
+            f_menu_item_process $MIM  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Instant Messaging Applications case statement.
+            case $MENU_ITEM in # Start of Instant Messaging Applications case statement.
                  barnowl' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application ":q (colon q)" "no-clear"
                  f_application_run
                  ;;
@@ -733,7 +753,7 @@ f_menu_app_instant_messaging () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  bitlbee' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Ii]*)
@@ -741,7 +761,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  bti' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Tt]*)
@@ -749,7 +769,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  centericq' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Cc]*)
@@ -757,7 +777,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  centerim' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Ee] | [Cc][Ee][Nn] | [Cc][Ee][Nn][Tt] | [Cc][Ee][Nn][Tt][Ee] | [Cc][Ee][Nn][Tt][Ee][Rr] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii] | [Cc][Ee][Nn][Tt][Ee][Rr][Ii][Mm])
@@ -765,7 +785,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  climm' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Ll][Ii]*)
@@ -773,7 +793,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  emacs-jabber' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee][Mm]*)
@@ -781,7 +801,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  finch' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ii]*)
@@ -789,7 +809,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  freetalk' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Rr]*)
@@ -797,7 +817,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  mcabber' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Cc]*)
@@ -805,7 +825,7 @@ f_menu_app_instant_messaging () {
                  f_application_run
                  ;;
                  naim' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Aa]*)
@@ -815,10 +835,16 @@ f_menu_app_instant_messaging () {
             esac                # End of Instant Messaging Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MIM=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Instant Messaging Applications until loop.
+            #
+      unset MIM MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_instant_messaging
 #
 # +----------------------------------------+
@@ -826,12 +852,12 @@ f_menu_app_instant_messaging () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MIR, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_irc_clients () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MIR -eq 0 ]
       do    # Start of IRC Clients Applications until loop.
             #MIR epic5   - IRC client based on ircI.
             #MIR erc     - IRC client for Emacs, powerful, modular, and extensible.
@@ -848,16 +874,16 @@ f_menu_app_irc_clients () {
             DELIMITER="#MIR" #MIR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MIR
             #
-            f_common_app_menu
+            f_menu_item_process $MIR  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of IRC Clients Applications case statement.
+            case $MENU_ITEM in # Start of IRC Clients Applications case statement.
                  epic' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Pp]*)
@@ -865,7 +891,7 @@ f_menu_app_irc_clients () {
                  f_application_run
                  ;;
                  erc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Rr]*)
@@ -873,7 +899,7 @@ f_menu_app_irc_clients () {
                  f_application_run
                  ;;
                  ii' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] |[Ii][Ii])
@@ -881,7 +907,7 @@ f_menu_app_irc_clients () {
                  f_application_run
                  ;;
                  ircii' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Rr] | [Ii][Rr][Cc]*)
@@ -889,7 +915,7 @@ f_menu_app_irc_clients () {
                  f_application_run
                  ;;
                  irssi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Rr] | [Ii][Rr][Ss]*)
@@ -897,7 +923,7 @@ f_menu_app_irc_clients () {
                  f_application_run
                  ;;
                  pork' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -907,7 +933,7 @@ f_menu_app_irc_clients () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  scrollz' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Cc]*)
@@ -915,7 +941,7 @@ f_menu_app_irc_clients () {
                  f_application_run
                  ;;
                  sic' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ii]*)
@@ -925,10 +951,16 @@ f_menu_app_irc_clients () {
             esac                # End of IRC Clients Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MIR=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of IRC Clients Applications until loop.
+            #
+      unset MIR MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_irc_clients
 #
 # +----------------------------------------+
@@ -936,12 +968,12 @@ f_menu_app_irc_clients () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_lan_chat () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MNC -eq 0 ]
       do    # Start of LAN Chat Applications until loop.
             #MNC talk    - Copies lines from your terminal to that of another user.
             #MNC weechat - WeeChat (Wee Enhanced Environment for Chat) fast, light client.
@@ -953,16 +985,16 @@ f_menu_app_lan_chat () {
             DELIMITER="#MNC" #MNC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNC
             #
-            f_common_app_menu
+            f_menu_item_process $MNC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of LAN Chat Applications case statement.
+            case $MENU_ITEM in # Start of LAN Chat Applications case statement.
                  talk' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Aa]*)
@@ -970,7 +1002,7 @@ f_menu_app_lan_chat () {
                  f_application_run
                  ;;
                  weechat' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ww] | [Ww][Ee]*)
@@ -978,7 +1010,7 @@ f_menu_app_lan_chat () {
                  f_application_run
                  ;;
                  ytalk' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Yy] | [Yy][Tt]*)
@@ -988,10 +1020,16 @@ f_menu_app_lan_chat () {
             esac                # End of LAN Chat Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNC=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of LAN Chat Applications until loop.
+            #
+      unset MNC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_lan_chat
 #
 # +----------------------------------------+
@@ -999,12 +1037,12 @@ f_menu_app_lan_chat () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MNR, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_news_readers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MNR -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
             #MNR cortex     - Dump news web page to text.
             #MNR gnus       - News reader and E-mail client for Emacs.
@@ -1022,16 +1060,16 @@ f_menu_app_news_readers () {
             DELIMITER="#MNR" #MNR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MNR
             #
-            f_common_app_menu
+            f_menu_item_process $MNR  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of News Reader Applications case statement.
+            case $MENU_ITEM in # Start of News Reader Applications case statement.
                  cortex' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo]*)
@@ -1039,7 +1077,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  gnus' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Nn]*)
@@ -1047,7 +1085,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  hacker-top' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Aa]) 
@@ -1055,7 +1093,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  nn' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Nn]) 
@@ -1063,7 +1101,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  reddit-top' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Ee]) 
@@ -1071,7 +1109,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  rn' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Nn])
@@ -1079,7 +1117,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  slrn' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ll]*)
@@ -1087,7 +1125,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  tin' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Ii] | [Tt][Ii][Nn])
@@ -1095,7 +1133,7 @@ f_menu_app_news_readers () {
                  f_application_run
                  ;;
                  trn' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Rr]*)
@@ -1105,10 +1143,16 @@ f_menu_app_news_readers () {
             esac                # End of News Reader Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MNR=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of News Reader Applications until loop.
+            #
+      unset MNR MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_news_readers
 #
 # +----------------------------------------+
@@ -1116,12 +1160,12 @@ f_menu_app_news_readers () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MPO, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_podcatchers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MPO -eq 0 ]
       do    # Start of Podcatcher Applications until loop.
             #MPO bashpodder - Podcatcher.
             #MPO goldenpod  - Podcatcher.
@@ -1136,16 +1180,16 @@ f_menu_app_podcatchers () {
             DELIMITER="#MPO" #MPO This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MPO
             #
-            f_common_app_menu
+            f_menu_item_process $MPO  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Podcatcher Applications case statement.
+            case $MENU_ITEM in # Start of Podcatcher Applications case statement.
                  bashpodder' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Bb] | [Bb][Aa]*)
@@ -1153,7 +1197,7 @@ f_menu_app_podcatchers () {
                  f_application_run
                  ;;
                  goldenpod' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Oo]*)
@@ -1161,7 +1205,7 @@ f_menu_app_podcatchers () {
                  f_application_run
                  ;;
                  hpodder' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Pp]*)
@@ -1169,7 +1213,7 @@ f_menu_app_podcatchers () {
                  f_application_run
                  ;;
                  podget' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Gg]*)
@@ -1177,7 +1221,7 @@ f_menu_app_podcatchers () {
                  f_application_run
                  ;;
                  podracer' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo] | [Pp][Oo][Dd] | [Pp][Oo][Dd][Rr]*)
@@ -1185,7 +1229,7 @@ f_menu_app_podcatchers () {
                  f_application_run
                  ;;
                  uraniacast' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Uu] | [Uu][Rr]*)
@@ -1195,10 +1239,16 @@ f_menu_app_podcatchers () {
             esac                # End of Podcatcher Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MPO=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Podcatcher Applications until loop.
+            #
+      unset MPO MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_podcatchers
 #
 # +----------------------------------------+
@@ -1206,12 +1256,12 @@ f_menu_app_podcatchers () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MRC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_remote_connection () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MRC -eq 0 ]
       do    # Start of Remote Connection Applications until loop.
             #MRC cpu     - Remote connection.
             #MRC openssh - Remote connection.
@@ -1225,16 +1275,16 @@ f_menu_app_remote_connection () {
             DELIMITER="#MRC" #MRC This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MRC
             #
-            f_common_app_menu
+            f_menu_item_process $MRC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Remote Connection Applications case statement.
+            case $MENU_ITEM in # Start of Remote Connection Applications case statement.
                  cpu' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Pp]*)
@@ -1242,7 +1292,7 @@ f_menu_app_remote_connection () {
                  f_application_run
                  ;;
                  grive' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Gg] | [Gg][Rr]*)
@@ -1250,7 +1300,7 @@ f_menu_app_remote_connection () {
                  f_application_run
                  ;;
                  openssh' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Pp]*)
@@ -1258,7 +1308,7 @@ f_menu_app_remote_connection () {
                  f_application_run
                  ;;
                  ssh' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ss] | [Ss][Ss][Hh])
@@ -1266,7 +1316,7 @@ f_menu_app_remote_connection () {
                  f_application_run
                  ;;
                  sslh' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Ss] | [Ss][Ss][Ll] | [Ss][Ss][Ll]*)
@@ -1276,10 +1326,16 @@ f_menu_app_remote_connection () {
             esac                # End of Remote Connection Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MRC=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Remote Connection Applications until loop.
+            #
+      unset MRC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_remote_connection
 #
 # +----------------------------------------+
@@ -1287,12 +1343,12 @@ f_menu_app_remote_connection () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MRS, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_rssfeeders () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MRS -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
             #MRS canto      - RSS feeder.
             #MRS newsbeuter - RSS feeder.
@@ -1309,16 +1365,16 @@ f_menu_app_rssfeeders () {
             DELIMITER="#MRS" #MRS This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MRS
             #
-            f_common_app_menu
+            f_menu_item_process $MRS  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of RSS Feeder Applications case statement.
+            case $MENU_ITEM in # Start of RSS Feeder Applications case statement.
                  canto' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Aa]*)
@@ -1326,7 +1382,7 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
                  newsbeuter' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Ee]*)
@@ -1334,7 +1390,7 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
                  nrss' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Nn] | [Nn][Rr]*)
@@ -1342,7 +1398,7 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
                  olive' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Ll]*)
@@ -1350,7 +1406,7 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
                  raggle' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Aa] | [Rr][Aa][Gg]*)
@@ -1358,7 +1414,7 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
                  rawdog' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Aa] | [Rr][Aa][Ww]*)
@@ -1366,7 +1422,7 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
                  rsstail' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Rr] | [Rr][Ss]*)
@@ -1374,7 +1430,7 @@ f_menu_app_rssfeeders () {
                  f_application_run
                  ;;
                  snownews' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Nn]*)
@@ -1384,10 +1440,16 @@ f_menu_app_rssfeeders () {
             esac                # End of RSS Feeder Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MRS=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of RSS Feeder Applications until loop.
+            #
+      unset MRS MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_rssfeeders
 #
 # +----------------------------------------+
@@ -1395,12 +1457,12 @@ f_menu_app_rssfeeders () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MWB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_web_browsers () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MWB -eq 0 ]
       do    # Start of Web Browsers Applications until loop.
             #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
             #MWB links   - Web browser, no graphics mode.
@@ -1416,16 +1478,16 @@ f_menu_app_web_browsers () {
             DELIMITER="#MWB" #MWB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MWB
             #
-            f_common_app_menu
+            f_menu_item_process $MWB  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Web Browser Applications case statement.
+            case $MENU_ITEM in # Start of Web Browser Applications case statement.
                  elinks' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1437,7 +1499,7 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
                  links' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1449,7 +1511,7 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
                  links2' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1461,7 +1523,7 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
                  lynx' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_application_run
                  ;;
@@ -1471,7 +1533,7 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
                  retawq' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1483,7 +1545,7 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
                  surfraw' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Uu]*)
@@ -1491,7 +1553,7 @@ f_menu_app_web_browsers () {
                  f_application_run
                  ;;
                  w3m' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_web_site
                  f_how_to_quit_application "q"
                  f_application_run
@@ -1506,10 +1568,16 @@ f_menu_app_web_browsers () {
             PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MWB=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Web Browsers Applications until loop.
+            #
+      unset MWB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_web_browsers
 #
 # +----------------------------------------+

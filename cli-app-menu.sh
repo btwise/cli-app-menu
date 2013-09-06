@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-29-2013 18:50"
+REVDATE="September-04-2013 00:00"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -148,6 +148,7 @@ f_test_dash
 # Inputs: CHOICE_MAIN, MAX, THIS_FILE, REVISION, REVDATE.
 #
 f_initvars_menu_app
+#
 until [ $CHOICE_MAIN -eq 0 ]
 do    # Start of CLI Menu util loop.
       #AAA Applications        - Launch a command-line application.
@@ -259,51 +260,57 @@ do    # Start of CLI Menu util loop.
            ;;
            [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
            f_initvars_menu_app
-           ANS="" # Initialize before calling f_download_file.
-           until [ $CHOICE_SCAT -eq 0 ] 
+           AAC=""    # Initialize variable.
+           until [ $AAC -eq 0 ] 
            do    # Start of Download Software Menu until loop.
                  #AAC Script program.
                  #AAC Modules of applications.
                  #
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 PRESS_KEY=0 # Display "Press 'Enter' key to continue."
                  MENU_TITLE="Download Software Menu"
                  DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
                  f_show_menu $MENU_TITLE $DELIMITER 
                  #
-                 read CHOICE_SCAT
+                 read AAC
                  #
-                 f_common_scat_menu
+                 f_menu_item_process $AAC ; AAC=$MENU_ITEM  # Outputs $MENU_ITEM.
                  ERROR=0 # Reset error flag.
                  #
-                 case $CHOICE_SCAT in # Start of git download case statement.
+                 case $AAC in  # Start of git download case statement.
                       [Ss] | [Ss][Cc]*)
                       echo
                       echo "Choose the branch from where you want to download the script program."
                       echo
                       for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib README COPYING EDIT_HISTORY LIST_APPS
                       do
-                         f_download_file
+                         if [ "$BRANCH" != "QUIT" ] ; then
+                            echo
+                            echo "File to be downloaded is $MOD_FILE."
+                            f_download_file  # BRANCH is set here. Download each file one at a time.
+                         fi
                       done
-                      if [ "$ANS" != "QUIT" ] ; then
-                         echo "________________________________________________________________"
-                         echo
-                         echo "Downloaded files are in the same folder as this script."
-                         echo
-                         echo "The file names will be appended with a '.1'"
-                         echo "and you will have to MANUALLY COPY THEM to their original names."
-                         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      echo "________________________________________________________________"
+                      echo
+                      echo "Any downloaded files are in the same folder as this script."
+                      echo
+                      echo "The file names will be appended with a '.1'"
+                      echo "and you will have to MANUALLY COPY THEM to their original names."
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      #
+                      if [ "$BRANCH"="QUIT" ] ; then 
+                         BRANCH=""
                       fi
-                      CHOICE_SCAT=-1         # Legitimate response. Stay in menu loop.
                       ;;
                       [Mm] | [Mm][Oo]*) 
                       f_ask_which_module_download
-                      CHOICE_SCAT=-1         # Legitimate response. Stay in menu loop.
                       ;;
-                 esac                 # End of git download case statement.
+                 esac          # End of git download case statement.
                  #
                  # Trap bad menu choices, do not echo Press enter key to continue.
-                 f_scat_bad_menu_choice
+                 f_bad_menu_choice $AAC ; AAC=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 #
            done  # End of Download Software Menu until loop.
+           unset AAC  # Throw out this variable.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ee] | [Ee][Dd]*)
@@ -524,6 +531,7 @@ do    # Start of CLI Menu util loop.
                        echo
                     fi
               done
+           unset XSTR  # Throw out this variable.
            fi
            ;;
            [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee]*)

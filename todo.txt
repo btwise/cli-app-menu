@@ -1,0 +1,72 @@
+2013-09-06 14:21
+ENHANCEMENTS
+
+
+________________
+GUI window 3-D stuff
+kwin, fusion-icon
+kwin --replace
+quicktile
+________________
+
+ADD APPLICATIONS
+atsar - Monitor system resources such as CPU, network, memory & disk I/O, and record data for later analysis .
+axiom - General purpose computer algebra system.
+dicelab - evaluate the statistical distribution of dice rolls.
+mathomatic - Portable CAS (Computer Algebra System)
+mathomatic-primes - Prime number tools for CAS.
+ministat - Fundamental statistical comparison of one or two numeric data sets.
+num-utils - Collection of programs; sum, grep, average, normalize, math, random, range, rounding.
+open-axiom - Open scientific computation platform.
+plotutils - Plot 2-dimensional scientific data.
+pi - Calculate Archimedes constant Pi to arbitrary precision.
+pspp - Statistical analysis tool.
+relational - Education tool for relational algebra, (relational databases).
+relational-cli - Command-line interface for "relational".
+stda - Simple tools for data analysis; histogram, average/sum/integral/derivative etc.
+couchdb - Apache CouchDB document-oriented databsae written in Erlang.
+cpuburn - Test heavy loads on a CPU.
+xtide - XTide provides tide/current forecasts. Also download/install xtide-data.
+termsaver - screensaver for text terminals.
+tina - PIM (personal information manager), ncurses-based.
+ttyrec - Records terminal input/output like the "script" command, and also timing-information.
+urlview - Extracts URLs from text files including email.
+welcome2l - Produces an ANSI login logo.
+worklog - Time-tracking for projects/tasks. Running clock controlled by 1 or 2 keystrokes, ncurses-based.
+wuzzah - LAN user login/out tracker.
+weather-util - current weather conditions and forecasts.
+               wget http://weather.noaa.gov/data/nsd_cccc.txt | grep -i boston nsd_cccc.txt
+               weather -i KBOS
+metar - Download METAR weather reports from NOAA HTTP servers.
+        metar -d KBOS
+        http://weather.noaa.gov/pub/data/observations/metar/stations/
+
+
+
+REJECTED curtain - GUI curtain for your desktop.
+REJECTED drgeo - GUI geometry software.
+REJECTED maple - General purpose calculator.
+REJECTED matlab - economic modeling.
+REJECTED clive superseded by cclive.
+REJECTED apt-listchanges.
+REJECTED ckport - portability analysis and security checking tool.
+REJECTED pip - teletype simulator.
+REJECTED camp - Music player. Not in Debian.
+REJECTED conconky - Display customized system information. Not in Debian.
+REJECTED CAN'T FIND snakes - Screen-saver ncurses-based.
+REJECTED ogg123 - Plays Ogg Vorbis music files.
+REJECTED flac123 - Plays FLAC (Free Lossless Audio Codec) audio files.
+REJECTED monitorix - System and network monitor. GUI app.
+REJECTED oneko - animal chases mouse pointer. GUI app.
+REJECTED sacct - Included in package slurm-llnl.
+REJECTED vrms - Lists all installed Debian non-free and contrib packages. 
+REJECTED util-linux - System utilities includes fdisk, schedutils, setterm, etc.
+REJECTED rpm2cpio - Convert RPM package to CPIO archive.
+REJECTED rpm2html - Generate web pages describing a set of RPM packages.
+REJECTED psmisc - Proc FS utilities; fuser, killall, peekfd, pstree, prtstat.
+REJECTED pm-utils - Power management tools to suspend, hibernate your laptop/PC.
+REJECTED f_menu_app_irc_clients - BitchX.
+REJECTED f_menu_app_irc_clients -ircfs - Stand-alone IRC FileServer (or fservs).
+REJECTED f_menu_app_email - mu - Email indexer for Emacs.
+REJECTED f_menu_app_email - Wanderlust - Email client for Emacs.
+REJECTED net-tools - NET-3 Networking Tool Kit; arp, ifconfig, netstat, rarp, nameif, route.

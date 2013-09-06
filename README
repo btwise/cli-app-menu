@@ -89,7 +89,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="August-30-2013 00:00"
+#:REVDATE="September 6, 2013 14:21"
 #:
 #:
 #: +----------------------------------------+
@@ -199,7 +199,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: 3. If you are adding a NEW CATEGORY or SUB-CATEGORY menu, please create them
 #:    within the appropriate module file mod_apps-*.lib and please use the
 #:    templates for this very purpose available in mod_apps_sample_template.
-#:    Templates: f_menu_scat_sample_template or f_menu_tcat_sample_template.
+#:    Template: f_menu_scat_sample_template.
 #:
 #: 4. If you are creating a NEW MAJOR CATEGORY, create a new corresponding 
 #:    module file, mod_apps-*.lib and use template f_menu_scat_sample_template
@@ -303,21 +303,15 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:               actually also includes name of web site to browse.
 #: CHOICE[XNUM] - Array of string elements. User choice in Applications and
 #:               Category Menus where XNUM is a number.
-#: CHOICE_APP  - String; User choice in Applications Menu (alpha-numeric).
+#: M[A-Z][A-Z]  - String; User choice in Applications Menu (alpha-numeric).
 #:               First few letters of user choice from menu.
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, display "Press enter key to continue."
-#: CHOICE_CAT  - String; User choice in Applications Category Menu (alpha-
+#: B[A-Z][A-Z]  - String; User choice in Applications Category Menu (alpha-
 #:                    numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
 #: CHOICE_MAIN - String; User choice in Main Menu (alpha-numeric).
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, legitimate choice.
-#: CHOICE_SCAT - String; User choice in Sub-Category Menu (alpha-numeric).
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, legitimate choice.
-#: CHOICE_TCAT - String; User choice in 3rd-level Category Menu (alpha-numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
 #: DELIMITER   - String; Delimiter prefix of menu option string.
@@ -325,6 +319,9 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: INSTALL_ANS - String; YES/NO Does user want to install app?
 #:               Passed from f_application_error to f_application_run.
 #: MAX         - Number; Maximum option choice number in menu.
+#: MENU_ITEM   - String; User choice, f_menu_item_process (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
 #: MENU_TITLE  - String; Title of menu.
 #: MOD_FILE    - Module file name.
 #: PRESSKEY    - Number: Ask "Press Enter key to continue".
@@ -401,6 +398,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MGI - Simulation Games Menu
 #:MGJ - Strategy Games Menu
 #:MGK - Word Games Menu
+#:MHR - Ham Radio Applications Menu
 #:MIG - Image-Graphics Applications Menu
 #:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu

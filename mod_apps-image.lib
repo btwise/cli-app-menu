@@ -3,19 +3,19 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-06-2013 14:21"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
+#    Uses: BIG, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_cat_image () {
       f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
+      until [ $BIG -eq 0 ]
       do    # Start of Image Application Category until loop.
             #BIG ImageMagick - Tools to manipulate images.
             #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
@@ -26,26 +26,28 @@ f_menu_cat_image () {
             DELIMITER="#BIG" #BIG This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_SCAT
+            read BIG
             #
-            f_common_scat_menu
+            f_menu_item_process $BIG  # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_SCAT in # Start of Image Application Category case statement.
+            case $MENU_ITEM in # Start of Image Application Category case statement.
                  [Ii] | [Ii][Mm]*)
                  f_menu_app_imagemagick       # ImageMagic Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
                  [Tt] | [Tt][Oo]*)
                  f_menu_app_image_graphics    # Image Graphics Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
                  ;;
             esac                 # End of Image Application Category case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM
+            #
+            BIG=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
       done  # End of Image Application Category until loop.
+            #
+      unset BIG MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_image
 #
 # +----------------------------------------+
@@ -53,12 +55,12 @@ f_menu_cat_image () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MIG, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_image_graphics () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MIG -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
             #MIG aview      - Image and ascii art image viewer.
             #MIG bb         - ASCII-art movie demo based on AAlib.
@@ -81,16 +83,16 @@ f_menu_app_image_graphics () {
             DELIMITER="#MIG" #MIG This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MIG
             #
-            f_common_app_menu
+            f_menu_item_process $MIG  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Image-Graphics Applications case statement.
+            case $MENU_ITEM in # Start of Image-Graphics Applications case statement.
                  aview' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Vv]*)
@@ -98,7 +100,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  bb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_how_to_quit_application "q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -110,7 +112,7 @@ f_menu_app_image_graphics () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  caca-utils' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Aa]*)
@@ -118,7 +120,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  exiftool' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Xx]*)
@@ -126,7 +128,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  fbi' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Bb] | [Ff][Bb][Ii])
@@ -134,7 +136,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  fbv' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Bb] | [Ff][Bb][Vv])
@@ -142,7 +144,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  fim' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Ii]*)
@@ -150,7 +152,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  hasciicam' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Hh] | [Hh][Aa]*)
@@ -158,7 +160,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  jfbview' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Jj] | [Jj][Ff]*)
@@ -166,7 +168,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  jhead' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Jj] | [Jj][Hh]*)
@@ -174,7 +176,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  jp2a' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Jj] | [Jj][Pp]*)
@@ -182,7 +184,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  linuxlogo' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ii]*)
@@ -200,7 +202,7 @@ f_menu_app_image_graphics () {
                  f_application_run
                  ;;
                  sl' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -238,10 +240,16 @@ f_menu_app_image_graphics () {
             esac                # End of Image-Graphics Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MIG=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of Image-Graphics Applications until loop.
+            #
+      unset MIG MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_image_graphics
 #
 # +----------------------------------------+
@@ -249,12 +257,12 @@ f_menu_app_image_graphics () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MIK, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_imagemagick () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MIK -eq 0 ]
       do    # Start of ImageMagick Applications until loop.
             #MIK animate   - ImageMagick tool animates an image sequence on X-windows GUI.
             #MIK composite - ImageMagick tool overlaps one image on top of another.
@@ -274,16 +282,16 @@ f_menu_app_imagemagick () {
             DELIMITER="#MIK" #MIK This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MIK
             #
-            f_common_app_menu
+            f_menu_item_process $MIK  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of ImageMagick Applications case statement.
+            case $MENU_ITEM in # Start of ImageMagick Applications case statement.
                  animate' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Nn]*)
@@ -291,7 +299,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  composite' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Oo]*)
@@ -299,7 +307,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  compare' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa]*)
@@ -307,7 +315,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  conjure' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Jj] | [Cc][Oo][Nn][Jj]*)
@@ -315,7 +323,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  convert' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Cc] | [Cc][Oo] | [Cc][Oo][Nn] | [Cc][Oo][Nn][Vv]*)
@@ -323,7 +331,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  display' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Dd] | [Dd][Ii]*)
@@ -331,7 +339,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  identify' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Dd]*)
@@ -339,7 +347,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  import' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ii] | [Ii][Mm]*)
@@ -347,7 +355,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  mogrify' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Gg]*)
@@ -355,7 +363,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  montage' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Oo] | [Mm][Oo][Nn]*)
@@ -363,7 +371,7 @@ f_menu_app_imagemagick () {
                  f_application_run
                  ;;
                  stream' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Tt]*)
@@ -373,9 +381,15 @@ f_menu_app_imagemagick () {
             esac                # End of ImageMagick Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MIK=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
+            #
       done  # End of ImageMagick Applications until loop.
+            #
+      unset MIK MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_imagemagick
 #

@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-09-01 15:31 Sunday
+Last updated: 2013-09-06 15:03 Friday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -37,6 +37,7 @@ ________________________________________________
  opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
  orpheus         - Music player ncurses-based.
  pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
+ MORE...         - For more music player applications.
 
 ________________________________________________
 *** Audio Player2 Applications Menu ***
@@ -175,20 +176,13 @@ ________________________________________________
 
 ________________________________________________
 *** Education Applications Menu ***
- aldo      - Morse code training.
- cw        - Morse code training.
- cwcp      - Morse code training.
  diatheke  - Holy Bible research tool.
- ebook2cw  - Converts plain text ebooks to  morse code mp3/ogg audio files.
  grass     - GIS Map utility (Geographic Information System).
  gtypist   - Typing tutor displays a sentence for practice.
  lifelines - Geneology.
  metar     - Download METAR weather reports from NOAA HTTP servers.
- morse     - Morse code training.
- morsegen  - Converts text file to ASCII morse code.
+ ham radio - Morse code and Ham Radio applications.
  primes    - Prime number calculator.
- qrq       - High-speed morse code trainer.
- tlf       - Morse code cw keyer, logging and contest program.
  typespeed - Typing tutor displays flying words arcade-style across screen.
  weather-util - current weather conditions and forecasts.
 
@@ -418,6 +412,17 @@ ________________________________________________
  rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
  rl      - Randomize Lines scrambles words of a text file.
  toilet  - Creates banner with bold font.
+
+________________________________________________
+*** Ham Radio Applications Menu ***
+ aldo      - Morse code training.
+ cw        - Morse code training.
+ cwcp      - Morse code training.
+ ebook2cw  - Converts plain text ebooks to  morse code mp3/ogg audio files.
+ morse     - Morse code training.
+ morsegen  - Converts text file to ASCII morse code.
+ qrq       - High-speed morse code trainer.
+ tlf       - Morse code cw keyer, logging and contest program.
 
 ________________________________________________
 *** Image-Graphics Applications Menu ***
@@ -857,12 +862,13 @@ ________________________________________________
  fte-console   - fte for consoles, no internationalization I18N support.
  fte-terminal  - fte for xterm, vt100 terminals.
  groff         - Format text via macros, create man pages to PS printers.
+ MORE...        - For more text editor applications.
 
 ________________________________________________
 *** Text Editor2 Applications Menu ***
  jed       - JED ncurses-based. Also consider package: jed-extra.
  jmacs     - Joe Editor, GNU-EMACS emulation mode.
- joe       - Text editor. Ctrl-K H for help.
+ joe       - Joe editor. Ctrl-K H for help.
  jove      - Jonathan's Own Version of Emacs, ncurses-based.
  jpico     - Joe Editor, PICO emulation mode.
  jstar     - Joe Editor, WordStar emulation mode.
@@ -875,10 +881,11 @@ ________________________________________________
  ne        - Nice Editor. Drop-down menus, ncurses-based. 
  nvi       - vi-clone as close to vi as possible.
  pico      - Simple full-screen text editor.
- rjoe      - Joe Editor, only edit file(s) specified by "rjoe <filenames>.
+ MORE...   - For more text editor applications.
 
 ________________________________________________
 *** Text Editor3 Applications Menu ***
+ rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
  the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
  vi              - Classic full-screen text editor.
  vile            - "VI Like Emacs" vi "finger feel" but with emacs features.

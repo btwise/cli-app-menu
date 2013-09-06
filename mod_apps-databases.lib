@@ -3,19 +3,19 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-29-2013 18:50"
+# REVDATE="September-06-2013 14:21"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_databases     |
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: CHOICE_APP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_APP
+#    Uses: MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, MENU_ITEM
 #
 f_menu_app_databases () {
       f_initvars_menu_app
-      until [ $CHOICE_APP -eq 0 ]
+      until [ $MDB -eq 0 ]
       do    # Start of Database Applications until loop.
             #MDB ara               - Search Debian package databases.
             #MDB edb               - Database program for GNU Emacs.
@@ -37,16 +37,16 @@ f_menu_app_databases () {
             DELIMITER="#MDB" #MDB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_APP
+            read MDB
             #
-            f_common_app_menu
+            f_menu_item_process $MDB  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_APP in # Start of Database Applications case statement.
+            case $MENU_ITEM in # Start of Database Applications case statement.
                  ara' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Rr]*)
@@ -54,7 +54,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  edb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ee] | [Ee][Dd]*)
@@ -62,7 +62,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  freecdb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ff] | [Ff][Rr]*)
@@ -70,7 +70,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  lbdb' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll | [Ll][Bb]*)
@@ -78,7 +78,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  mysql-client' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Yy] | [Mm][Yy][Ss] | [Mm][Yy][Ss][Qq] | [Mm][Yy][Ss][Qq][Ll] | [Mm][Yy][Ss][Qq][Ll]- | [Mm][Yy][Ss][Qq][Ll]-[Cc]*)
@@ -86,7 +86,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  mysql-server' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Mm] | [Mm][Yy] | [Mm][Yy][Ss] | [Mm][Yy][Ss][Qq] | [Mm][Yy][Ss][Qq][Ll] | [Mm][Yy][Ss][Qq][Ll]- | [Mm][Yy][Ss][Qq][Ll]-[Ss]*)
@@ -94,7 +94,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  postgresql' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo] | [Pp][Oo][Ss] | [Pp][Oo][Ss][Tt] | [Pp][Oo][Ss][Tt][Gg] | [Pp][Oo][Ss][Tt][Gg][Rr] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll])
@@ -102,7 +102,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  postgresql-client' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo] | [Pp][Oo][Ss] | [Pp][Oo][Ss][Tt] | [Pp][Oo][Ss][Tt][Gg] | [Pp][Oo][Ss][Tt][Gg][Rr] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]- | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]-[Cc]*)
@@ -110,7 +110,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  postgresql-doc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Pp] | [Pp][Oo] | [Pp][Oo][Ss] | [Pp][Oo][Ss][Tt] | [Pp][Oo][Ss][Tt][Gg] | [Pp][Oo][Ss][Tt][Gg][Rr] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll] | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]- | [Pp][Oo][Ss][Tt][Gg][Rr][Ee][Ss][Qq][Ll]-[Dd]*)
@@ -118,7 +118,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  sqlite' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ss] | [Ss][Qq]*)
@@ -126,7 +126,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  task-database' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Aa]*)
@@ -134,7 +134,7 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  tokyocabinet' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Oo] | [Tt][Oo][Kk] | [Tt][Oo][Kk][Yy] | [Tt][Oo][Kk][Yy][Oo] | [Tt][Oo][Kk][Yy][Oo][Cc] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt])
@@ -142,20 +142,25 @@ f_menu_app_databases () {
                  f_application_run
                  ;;
                  tokyocabinet-doc' '*)
-                 APP_NAME=$CHOICE_APP
+                 APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Tt] | [Tt][Oo] | [Tt][Oo][Kk] | [Tt][Oo][Kk][Yy] | [Tt][Oo][Kk][Yy][Oo] | [Tt][Oo][Kk][Yy][Oo][Cc] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt] | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt]- | [Tt][Oo][Kk][Yy][Oo][Cc][Aa][Bb][Ii][Nn][Ee][Tt]-[Dd]*)
                  APP_NAME="tokyocabinet-doc"
                  f_application_run
                  ;;
-
             esac                # End of Database Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
-            f_application_bad_menu_choice
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MDB=$MENU_ITEM
+            #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-      done  # End of Database Applications until loop.
+            #
+      done  # End of <Sample Template> Applications until loop.
+            #
+      unset MDB MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_databases
 #
