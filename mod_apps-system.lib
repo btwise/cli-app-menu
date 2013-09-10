@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -168,10 +168,13 @@ f_menu_app_sys_disks () {
       f_initvars_menu_app
       until [ $MSD -eq 0 ]
       do    # Start of System Disks Information Applications until loop.
+            #MSD agedu  - Find wasted disk space.
             #MSD blkid  - Block devices.
             #MSD cfdisk - Disk partition tool.
-            #MSD df     - Disk usage and mount points, usage: -hT.
+            #MSD df     - Disk usage and mount points, usage: 'df -hT'.
             #MSD dfc    - Disk usage and mount points, graphical display.
+            #MSD di     - 'df'-like disk usage utility.
+            #MSD discus - 'df'-like disk usage utility with color, graphs, formatting.
             #MSD du     - Disk usage monitor by directory.
             #MSD gt5    - A diff-capable du-browser.
             #MSD hdparm - Show/set disk parameters, settings. 
@@ -196,6 +199,14 @@ f_menu_app_sys_disks () {
             APP_NAME="" # Set application name to null value.
             #
             case $MENU_ITEM in # Start of System Disks Information Applications case statement.
+                 agedu' '* | 'sudo agedu '* | 'sudo agedu')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Gg]*)
+                 APP_NAME="agedu"
+                 f_application_run
+                 ;;
                  blkid' '* | 'sudo blkid '* | 'sudo blkid')
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -249,6 +260,22 @@ f_menu_app_sys_disks () {
                  ;;
                  [Dd] | [Dd][Ff]| [Dd][Ff][Cc])
                  APP_NAME="dfc"
+                 f_application_run
+                 ;;
+                 di' '* | 'sudo di '* | 'sudo di')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii])
+                 APP_NAME="di"
+                 f_application_run
+                 ;;
+                 discus' '* | 'sudo discus '* | 'sudo discus')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Dd] | [Dd][Ii]| [Dd][Ii][Ss]*)
+                 APP_NAME="discus"
                  f_application_run
                  ;;
                  du' '* | 'sudo du '* | 'sudo du')
@@ -408,6 +435,7 @@ f_menu_app_sys_health () {
             #MSH arpwatch   - Detects unknown MAC addresses and IP addresses, like ArpON.
             #MSH chkrootkit - Root Kit detector.
             #MSH clamscan   - Clam anti-virus program scans for viruses.
+            #MSH cpuburn    - Stress test puts heavy loads on a CPU.
             #MSH freshclam  - Clam anti-virus database definition update.
             #MSH lynis      - security auditing tool that tests for security holes in a PC.
             #MSH rkhunter   - Root Kit detector.
@@ -537,6 +565,16 @@ f_menu_app_sys_health () {
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
+                 cpuburn' '* | 'sudo cpuburn '* | 'sudo cpuburn')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Ff] | [Cc][pp]*)
+                 APP_NAME="cpuburn"
+                 f_application_run
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
                  freshclam' '* | 'sudo freshclam '* | 'sudo freshclam')
                  APP_NAME=$MENU_ITEM
                  # f_how_to_quit_application "q"
@@ -650,11 +688,14 @@ f_menu_app_sys_logs () {
       f_initvars_menu_app
       until [ $MLO -eq 0 ]
       do    # Start of System Logs until loop.
-            #MLO ccze      - A robust and modular log coloriser, with plugins. 
-            #MLO lnav      - View, analyze log files, histogram, hotkeys, ncurses-based.
-            #MLO multitail - View multiple log files using multiple panes.
-            #MLO since     - Shows new changes in log files since last run. Tail work-alike.
-            #MLO swatch    - Log file viewer with regexp matching, highlighting & hooks.
+            #MLO ccze       - A robust and modular log coloriser, with plugins.
+            #MLO colortail  - log colorizer.
+            #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
+            #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
+            #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
+            #MLO multitail  - View multiple log files using multiple panes.
+            #MLO since      - Shows new changes in log files since last run. Tail work-alike.
+            #MLO swatch     - Log file viewer with regexp matching, highlighting & hooks.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
@@ -678,12 +719,36 @@ f_menu_app_sys_logs () {
                  APP_NAME="ccze"
                  f_application_run
                  ;;
+                 colortail' '* | 'sudo colortail '* | 'sudo colortail')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo]*)
+                 APP_NAME="colortail"
+                 f_application_run
+                 ;;
+                 inotail' '* | 'sudo inotail '* | 'sudo inotail')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ii] | [Ii][Nn]*)
+                 APP_NAME="inotail"
+                 f_application_run
+                 ;;
                  lnav' '* | 'sudo lnav '* | 'sudo lnav')
                  APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Ll] | [Ll][Nn]*)
                  APP_NAME="lnav"
+                 f_application_run
+                 ;;
+                 monkeytail' '* | 'sudo monkeytail '* | 'sudo monkeytail')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Oo]*)
+                 APP_NAME="monkeytail"
                  f_application_run
                  ;;
                  multitail' '* | 'sudo multitail '* | 'sudo multitail')
@@ -744,6 +809,7 @@ f_menu_app_sys_mainboard () {
             #MSI lscpu       - CPU information.
             #MSI lshw        - Main board information.
             #MSI lsmod       - Linux kernel module information.
+            #MSI mbw         - "Copy" memory bandwidth available to userspace programs.
             #MSI slabtop     - Kernel slab cache information in real time.
             #MSI uname       - Linux kernel information.
             #MSI vmstat      - Memory usage RAM and swap, CPU information.
@@ -860,7 +926,15 @@ f_menu_app_sys_mainboard () {
                  f_application_run
                  ;;
                  [Ll] | [Ll][Ss] | [Ll][Ss][Mm]*)
-                 APP_NAME="lsmod "
+                 APP_NAME="lsmod"
+                 f_application_run
+                 ;;
+                 mbw' '* | 'sudo mbw '* | 'sudo mbw')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Bb]*)
+                 APP_NAME="mbw"
                  f_application_run
                  ;;
                  slabtop' '* | 'sudo slabtop '* | 'sudo slabtop')
@@ -937,6 +1011,9 @@ f_menu_app_sys_monitors () {
       f_initvars_menu_app
       until [ $MSM -eq 0 ]
       do    # Start of System Monitors until loop.
+            #MSM acpi      - Show acpi information.
+            #MSM acpitail  - Show acpi information in growing tail list.
+            #MSM atsar     - CPU, network, memory & disk I/O, record data for analysis.
             #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
             #MSM chkconfig - System update/query run-level processes at boot time.
             #MSM conky-cli - Versatile, configurable system monitor.
@@ -949,10 +1026,7 @@ f_menu_app_sys_monitors () {
             #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
             #MSM rrdtool   - The Round Robin Database Tool stores/displays time-series data.
             #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
-            #MSM sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
-            #MSM swatch    - Log file viewer with regexp matching, highlighting & hooks.
-            #MSM tload     - System load average graphical monitor.
-            #MSM yacpi     - ACPI monitor, ncurses-based.
+            #MSM MORE...   - For more system monitor applications.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
@@ -968,6 +1042,34 @@ f_menu_app_sys_monitors () {
             APP_NAME="" # Set application name to null value.
             #
             case $MENU_ITEM in # Start of System Monitors case statement.
+                 acpi' '* | 'sudo acpi '* | 'sudo acpi')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii])
+                 APP_NAME="acpi"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 acpitail' '* | 'sudo acpitail '* | 'sudo acpitail')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt]*)
+                 APP_NAME="acpitail"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 atsar' '* | 'sudo atsar '* | 'sudo atsar')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Tt] | [Aa][Tt][Ss]*)
+                 APP_NAME="atsar"
+                 f_application_run
+                 ;;
                  cacti' '* | 'sudo cacti '* | 'sudo cacti')
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -1172,6 +1274,56 @@ f_menu_app_sys_monitors () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee]*)
+                 f_menu_app_sys_monitors2
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of System Monitors case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MSM=$MENU_ITEM
+            #
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+            #
+      done  # End of System Monitors Applications until loop.
+            #
+      unset MSM MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_sys_monitors
+#
+# +----------------------------------------+
+# |    Function f_menu_app_sys_monitors2   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSN, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_app_sys_monitors2 () {
+      f_initvars_menu_app
+      until [ $MSN -eq 0 ]
+      do    # Start of System Monitors until loop.
+            #MSN sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
+            #MSN tload     - System load average graphical monitor.
+            #MSN tyload    - Color-coded graphs of CPU load average.
+            #MSN yacpi     - ACPI monitor, ncurses-based.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="System Monitors Menu"
+            DELIMITER="#MSN" #MSN This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MSN
+            #
+            f_menu_item_process $MSN  # Outputs $MENU_ITEM.
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $MENU_ITEM in # Start of System Monitors case statement.
                  sar' '* | 'sudo sar '* | 'sudo sar')
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -1180,20 +1332,12 @@ f_menu_app_sys_monitors () {
                  APP_NAME="sar"
                  f_application_run
                  ;;
-                 swatch' '* | 'sudo swatch '* | 'sudo swatch')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ww]*)
-                 APP_NAME="swatch"
-                 f_application_run
-                 ;;
                  tload' '* | 'sudo tload '* | 'sudo tload')
                  APP_NAME=$MENU_ITEM
                  clear # Blank the screen.
                  echo tload - System load average graphical monitor.
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1213,7 +1357,7 @@ f_menu_app_sys_monitors () {
                  clear # Blank the screen.
                  echo tload - System load average graphical monitor.
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1227,6 +1371,14 @@ f_menu_app_sys_monitors () {
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac
+                 ;;
+                 tyload' '* | 'sudo tyload '* | 'sudo tyload')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Yy]*)
+                 APP_NAME="tyload"
+                 f_application_run
                  ;;
                  yacpi' '* | 'sudo yacpi '* | 'sudo yacpi')
                  APP_NAME=$MENU_ITEM
@@ -1245,15 +1397,15 @@ f_menu_app_sys_monitors () {
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
             #
-            MSM=$MENU_ITEM
+            MSN=$MENU_ITEM
             #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
             #
       done  # End of System Monitors Applications until loop.
             #
-      unset MSM MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_sys_monitors
+      unset MSN MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_sys_monitors2
 #
 # +----------------------------------------+
 # |     Function f_menu_app_sys_other      |
@@ -1267,9 +1419,13 @@ f_menu_app_sys_other () {
       f_initvars_menu_app
       until [ $MSO -eq 0 ]
       do    # Start of System Other until loop.
-            #MSO desmume - Nintendo DS emulator.
-            #MSO dosemu  - DOS emulator.
-            #MSO scrot   - Screen capture.
+            #MSO colortest - test color capabilities of a terminal.
+            #MSO cpm       - Password manager using PGP-encryption, ncurses-based.
+            #MSO desmume   - Nintendo DS emulator.
+            #MSO dosemu    - DOS emulator.
+            #MSO script    - Records terminal input/output (keystrokes).
+            #MSO scrot     - Screen capture.
+            #MSO ttyrec    - Records terminal input/output and also timing-information.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
@@ -1285,6 +1441,22 @@ f_menu_app_sys_other () {
             APP_NAME="" # Set application name to null value.
             #
             case $MENU_ITEM in # Start of Other System Applications case statement.
+                 colortest' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Cc | [Cc][Oo]*)
+                 APP_NAME="colortest"
+                 f_application_run
+                 ;;
+                 cpm' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Pp]*)
+                 APP_NAME="cpm"
+                 f_application_run
+                 ;;
                  desmume' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -1301,12 +1473,28 @@ f_menu_app_sys_other () {
                  APP_NAME="dosemu"
                  f_application_run
                  ;;
+                 script' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ii]*)
+                 APP_NAME="script"
+                 f_application_run
+                 ;;
                  scrot' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
-                 [Ss] | [Ss][Cc]*)
+                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Oo]*)
                  APP_NAME="scrot"
+                 f_application_run
+                 ;;
+                 ttyrec' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Yy]*)
+                 APP_NAME="ttyrec"
                  f_application_run
                  ;;
             esac                # End of Other System Applications case statement.
@@ -1338,6 +1526,7 @@ f_menu_app_sys_peripherals () {
       do    # Start of Peripheral System Information until loop.
             #MSL acpitool  - ACPI power/battery settings.
             #MSL blkid     - Block devices information.
+            #MSL cdde      - Detects if a CD is inserted, runs specified program.
             #MSL lsblk     - List block devices (disks).
             #MSL lsof      - Display information about open files.
             #MSL lspci     - PCI buses and connected devices.
@@ -1345,6 +1534,7 @@ f_menu_app_sys_peripherals () {
             #MSL lsusb     - USB devices.
             #MSL pccardctl - PCMCIA card devices.
             #MSL printenv  - Environmental variables.
+            #MSL setcd     - Control CDROM device, auto-close/eject/locking, set speed.
             #MSL uptime    - Display how long PC has been running, # users, load average.
             #MSL w         - A combination of uptime and who commands.
             #
@@ -1400,6 +1590,14 @@ f_menu_app_sys_peripherals () {
                  f_press_enter_key_to_continue
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 cdde' '* | 'sudo cdde '* | 'sudo cdde')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Dd]*)
+                 APP_NAME="cdde"
+                 f_application_run
                  ;;
                  lsblk' '* | 'sudo lsblk '* | 'sudo lsblk')
                  APP_NAME=$MENU_ITEM
@@ -1485,6 +1683,14 @@ f_menu_app_sys_peripherals () {
                  ;;
                  [Pp] | [Pp][Rr]*)
                  APP_NAME="printenv"
+                 f_application_run
+                 ;;
+                 setcd' '* | 'sudo setcd '* | 'sudo setcd')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Ee]*)
+                 APP_NAME="setcd"
                  f_application_run
                  ;;
                  uptime' '* | 'sudo uptime '* | 'sudo uptime')
@@ -1783,15 +1989,17 @@ f_menu_app_sys_screens () {
       f_initvars_menu_app
       until [ $MSC -eq 0 ]
       do    # Start of System Screens until loop.
-            #MSC byobu   - Multiple sessions.
-            #MSC dtach   - Emulates detach feature of screen.
-            #MSC dvtm    - dwm-style (tiling) window manager.
-            #MSC fbterm  - Fast terminal emulator, multiple fonts, multiple windows.
-            #MSC screen  - Multiple sessions via split or pager screens.
-            #MSC splitvt - Multiple sessions on horizontal split screen (vt100 compatible).
-            #MSC tmux    - Multiple sessions with multiplexing.
-            #MSC twin    - A text mode window environment for multiple windows on screen.
-            #MSC vlock   - Locks virtual console or current terminal.
+            #MSC away     - Locks terminal with password and checks for new email.
+            #MSC byobu    - Multiple sessions.
+            #MSC dtach    - Emulates detach feature of screen.
+            #MSC dvtm     - dwm-style (tiling) window manager.
+            #MSC fbterm   - Fast terminal emulator, multiple fonts, multiple windows.
+            #MSC screen   - Multiple sessions via split or pager screens.
+            #MSC screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
+            #MSC splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
+            #MSC tmux     - Multiple sessions with multiplexing.
+            #MSC twin     - A text mode window environment for multiple windows on screen.
+            #MSC vlock    - Locks virtual console or current terminal.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
@@ -1807,6 +2015,14 @@ f_menu_app_sys_screens () {
             APP_NAME="" # Set application name to null value.
             #
             case $MENU_ITEM in # Start of System Screens case statement.
+                 away' '* | 'sudo away '* | 'sudo away')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Aa] | [Aa][Ww]*)
+                 APP_NAME="away"
+                 f_application_run
+                 ;;
                  byobu' '* | 'sudo byobu '* | 'sudo byobu')
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -1843,31 +2059,39 @@ f_menu_app_sys_screens () {
                  APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
-                 [Ss] | [Ss][Cc]*)
+                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn])
                  APP_NAME="screen"
                  clear # Blank the screen.
                  echo "screen - Multiple screen-window sessions."
                  echo 
                  echo "Usage:"
-                 echo "Ctrl-A <double-quote> List all windows."
-                 echo "Ctrl-A N     Show window title."
-                 echo "Ctrl-A a     Name title of the window."
+                 echo "<Ctrl>-A <double-quote> List all windows."
+                 echo "<Ctrl>-A N     Show window title."
+                 echo "<Ctrl>-A a     Name title of the window."
                  echo
-                 echo "Ctrl-A c     Create new window."
-                 echo "Ctrl-A n     Switch to next window."
-                 echo "Ctrl-A p     Switch to previous window."
-                 echo "Ctrl-A l     Refresh window."
-                 echo "Ctrl-A <single-quote> Prompt window number to use."
-                 echo "Ctrl-A (0-9 or -)  Switch to window number to use."
+                 echo "<Ctrl>-A c     Create new window."
+                 echo "<Ctrl>-A n     Switch to next window."
+                 echo "<Ctrl>-A p     Switch to previous window."
+                 echo "<Ctrl>-A l     Refresh window."
+                 echo "<Ctrl>-A <single-quote> Prompt window number to use."
+                 echo "<Ctrl>-A (0-9 or -)  Switch to window number to use."
                  echo
-                 echo "Ctrl-A k     Kill window."
-                 echo "Ctrl-A S     Split window horizontally."
-                 echo "Ctrl-A <tab> Toggle between split window areas."
-                 echo "Ctrl-A x     Kill split window area."
+                 echo "<Ctrl>-A k     Kill window."
+                 echo "<Ctrl>-A S     Split window horizontally."
+                 echo "<Ctrl>-A <tab> Toggle between split window areas."
+                 echo "<Ctrl>-A x     Kill split window area."
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
                  f_press_enter_key_to_continue
+                 f_application_run
+                 ;;
+                 screenie' '* | 'sudo screenie '* | 'sudo screenie')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ii]*)
+                 APP_NAME="screenie"
                  f_application_run
                  ;;
                  splitvt' '* | 'sudo splitvt '* | 'sudo splitvt')

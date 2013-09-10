@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -23,7 +23,7 @@ f_menu_cat_office () {
             #BOF Calendar     - Calendars.
             #BOF Clocks       - Alarm clocks, specialized clocks.
             #BOF Contacts     - Contact/Address book lists.
-            #BOF Notebooks    - Write notes in a "notebook" or "diary".
+            #BOF Notes        - Notebooks, diaries, PIM (personal information manager).
             #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
             #BOF Presenters   - Text slideshow presentation.
             #BOF Spreadsheets - Basic spreadsheet.
@@ -357,14 +357,15 @@ f_menu_app_calendar () {
             #MCA emacs-calfw - Displays a calendar view in the Emacs buffer.
             #MCA gcal        - Calendar, almost the same as cal.
             #MCA gcalcli     - Google calendar.
+            #MCA hebcal      - Perpetual Jewish calendar.
+            #MCA jcal        - Display Jalali (Persian) calendar.
+            #MCA lunar       - Converts Gregorian date to Chinese lunar calendar.
             #MCA mencal      - Calendar to track repeating periodic events every nn days.
             #MCA ncal        - Calendar with vertical days.
             #MCA pal         - Calendar with events.
             #MCA pcal        - Generate PostScript or HTML Calendars.
             #MCA pom         - Display phase of moon on given date.
-            #MCA remind      - Calendar alarms, Sun rise/set, moon phases.
-            #MCA when        - Calendar.
-            #MCA wyrd        - Calendar, ncurses-based.
+            #MCA MORE...     - More calendar applications.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -440,6 +441,30 @@ f_menu_app_calendar () {
                  APP_NAME="gcalcli"
                  f_application_run
                  ;;
+                 hebcal' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Hh] | [Hh][Ee]*)
+                 APP_NAME="hebcal"
+                 f_application_run
+                 ;;
+                 jcal' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Jj] | [Jj][Cc]*)
+                 APP_NAME="jcal"
+                 f_application_run
+                 ;;
+                 lunar' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Uu]*)
+                 APP_NAME="lunar"
+                 f_application_run
+                 ;;
                  mencal' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -480,6 +505,55 @@ f_menu_app_calendar () {
                  APP_NAME="pom"
                  f_application_run
                  ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee]*)
+                 f_menu_app_calendar2
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of Calendar Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MCA=$MENU_ITEM
+            #
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+            #
+      done  # End of Calendar Applications until loop.
+            #
+      unset MCA MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_calendar
+#
+# +----------------------------------------+
+# |      Function f_menu_app_calendar2     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MCB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_app_calendar2 () {
+      f_initvars_menu_app
+      until [ $MCB -eq 0 ]
+      do    # Start of Calendar2 Applications until loop.
+            #MCB remind - Calendar alarms, Sun rise/set, moon phases.
+            #MCB when   - Calendar.
+            #MCB wyrd   - Calendar, ncurses-based.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Calendar #2 Applications Menu"
+            DELIMITER="#MCB" #MCB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MCB
+            #
+            f_menu_item_process $MCB  # Outputs $MENU_ITEM.
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $MENU_ITEM in # Start of Calendar2 Applications case statement.
                  remind' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -508,20 +582,20 @@ f_menu_app_calendar () {
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
-            esac                # End of Calendar Applications case statement.
+            esac                # End of Calendar2 Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
             #
-            MCA=$MENU_ITEM
+            MCB=$MENU_ITEM
             #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
             #
-      done  # End of Calendar Applications until loop.
+      done  # End of Calendar2 Applications until loop.
             #
-      unset MCA MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_calendar
+      unset MCB MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_calendar2
 #
 # +----------------------------------------+
 # |       Function f_menu_app_clocks       |
@@ -535,12 +609,15 @@ f_menu_app_clocks () {
       f_initvars_menu_app
       until [ $MCL -eq 0 ]
       do    # Start of Clock Applications until loop.
+            #MCL binclock         - Binary clock.
             #MCL binary-clock     - Binary numbers 1/0 tells time.
             #MCL cclock           - Digital clock with huge numbers fills entire screen.
             #MCL clockywock       - Analog clock, ncurses-based.
             #MCL grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
+            #MCL leave            - Text "alarm" tells you when it's time to leave.
             #MCL saytime          - Audio clock.
             #MCL tbclock          - Binary clock, binary numbers 1/0 tells time.
+            #MCL tzwatch          - Displays time/date in specified time zones on console.
             #MCL vtclock          - Full-screen clock also shows 1 line text, ncurses-based.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -557,11 +634,19 @@ f_menu_app_clocks () {
             APP_NAME="" # Set application name to null value.
             #
             case $MENU_ITEM in # Start of Clock Applications case statement.
+                 bin-clock' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn]-*)
+                 APP_NAME="binary-clock"
+                 f_application_run
+                 ;;
                  binary-clock' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
-                 [Bb] | [Bb][Ii]*)
+                 [Bb] | [Bb][Ii] | [Bb][Ii][Nn] | [Bb][Ii][Nn][Aa]*)
                  APP_NAME="binary-clock"
                  f_application_run
                  ;;
@@ -591,6 +676,14 @@ f_menu_app_clocks () {
                  APP_NAME="grandfatherclock"
                  f_application_run
                  ;;
+                 leave' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ll] | [Ll][Ee]*)
+                 APP_NAME="leave"
+                 f_application_run
+                 ;;
                  saytime' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -605,6 +698,14 @@ f_menu_app_clocks () {
                  ;;
                  [Tt] | [Tt][Bb]*)
                  APP_NAME="tbclock"
+                 f_application_run
+                 ;;
+                 tzwatch' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Zz]*)
+                 APP_NAME="tzwatch"
                  f_application_run
                  ;;
                  vtclock' '*)
@@ -698,7 +799,11 @@ f_menu_app_note () {
             #MNO diary    - Diary and To Do List uses commands date, grep, and text editor.
             #MNO diary-f  - Fork of "diary" enhanced "view"/"cat" actions, non-latin locales.
             #MNO hnb      - Hierarchical notebook.
+            #MNO nodau    - Note-taking with search by name or date.
+            #MNO note     - Manage notes with a DBI-based mysql-module.
             #MNO org-mode - Emacs plugin for notes, ToDo lists, and project planning.
+            #MNO tina     - PIM (personal information manager), ncurses-based.
+            #MNO worklog  - Time-tracking for projects/tasks, running clock, ncurses-based.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -738,12 +843,44 @@ f_menu_app_note () {
                  APP_NAME="hnb"
                  f_application_run
                  ;;
+                 nodau' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Oo] | [Nn][Oo][Dd]*)
+                 APP_NAME="nodau"
+                 f_application_run
+                 ;;
+                 note' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Nn] | [Nn][Oo] | [Nn][Oo][Tt]*)
+                 APP_NAME="note"
+                 f_application_run
+                 ;;
                  org-mode' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Oo] | [Oo][Rr]*)
                  APP_NAME="org-mode"
+                 f_application_run
+                 ;;
+                 tina' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ii]*)
+                 APP_NAME="tina"
+                 f_application_run
+                 ;;
+                 worklog' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Oo]*)
+                 APP_NAME="worklog"
                  f_application_run
                  ;;
             esac                # End of Note Applications case statement.
@@ -762,7 +899,7 @@ f_menu_app_note () {
 } # End of f_menu_app_note
 #
 # +----------------------------------------+
-# |       Function f_menu_app_pdfps       |
+# |       Function f_menu_app_pdfps        |
 # +----------------------------------------+
 #
 #  Inputs: None. 
@@ -772,22 +909,23 @@ f_menu_app_note () {
 f_menu_app_pdfps () {
       f_initvars_menu_app
       until [ $MPS -eq 0 ]
-      do    # Start of Text Tool Applications until loop.
-            #MPS diffpdf  - Compare PDF files.
-            #MPS fbdjvu   - DjVu viewer similar to fbpdf.
-            #MPS fbgs     - GhostScript, PostScript, and PDF viewer.
-            #MPS fbpdf    - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
-            #MPS gs       - GhostScript, PostScript, and PDF viewer.
-            #MPS jfbview  - Image viewer and framebuffer PDF viewer based on Imlib2.
-            #MPS pdfjam   - Merge PDF files into a single file.
-            #MPS pdftex   - Typesetter creates PDF files.
-            #MPS pdftk    - Merge/split, rotate, watermark, bookmarks/metadata attach files.
-            #MPS pdftops  - Converts PDF to PS (PostScript) format.
-            #MPS pstotext - Extract text from PS  (PostScript) and PDF files.
-            #MPS ps2ascii - Converts PS (PostScript) to text format.
-            #MPS ps2pdf   - Converts PS (PostScript) to PDF format.
-            #MPS sdf      - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
-            #MPS sdop     - Converts a Simplified Docbook XML file to PS (PostScript).
+      do    # Start of PDF and PS Applications until loop.
+            #MPS comparepdf - Compare two PDF files.
+            #MPS diffpdf    - Compare two PDF files.
+            #MPS fbdjvu     - DjVu viewer similar to fbpdf.
+            #MPS fbgs       - GhostScript, PostScript, and PDF viewer.
+            #MPS fbpdf      - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
+            #MPS gs         - GhostScript, PostScript, and PDF viewer.
+            #MPS jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
+            #MPS pdfgrep    - Search PDF files with filename, page, count and color output.
+            #MPS pdfjam     - Merge PDF files into a single file.
+            #MPS pdftex     - Typesetter creates PDF files.
+            #MPS pdftk      - Merge/split, rotate, watermark, bookmarks/metadata, attach.
+            #MPS pdftops    - Converts PDF to PS (PostScript) format.
+            #MPS pstotext   - Extract text from PS  (PostScript) and PDF files.
+            #MPS ps2ascii   - Converts PS (PostScript) to text format.
+            #MPS ps2pdf     - Converts PS (PostScript) to PDF format.
+            #MPS MORE...    - For more PDF and PS applications.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -803,6 +941,14 @@ f_menu_app_pdfps () {
             APP_NAME="" # Set application name to null value.
             #
             case $MENU_ITEM in # Start of PDF and PS Applications case statement.
+                 comparepdf' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Oo]*)
+                 APP_NAME="comparepdf"
+                 f_application_run
+                 ;;
                  diffpdf' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -849,6 +995,14 @@ f_menu_app_pdfps () {
                  ;;
                  [Jj] | [Jj][Ff]*)
                  APP_NAME="jfbview"
+                 f_application_run
+                 ;;
+                 pdfgrep' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Pp] | [Pp][Dd] | [Pp][Dd][Ff] | [Pp][Dd][Ff][Gg]*)
+                 APP_NAME="pdfgrep"
                  f_application_run
                  ;;
                  pdfjam' '*)
@@ -915,6 +1069,54 @@ f_menu_app_pdfps () {
                  APP_NAME="ps2pdf"
                  f_application_run
                  ;;
+                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee]*)
+                 f_menu_app_pdfps2
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+            esac                # End of PDF and PS Applications case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            MPS=$MENU_ITEM
+            #
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+            #
+      done  # End of PDF and PS Applications until loop.
+            #
+      unset MPS MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_pdfps
+#
+# +----------------------------------------+
+# |       Function f_menu_app_pdfps2       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MPT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_app_pdfps2 () {
+      f_initvars_menu_app
+      until [ $MPT -eq 0 ]
+      do    # Start of PDF and PS #2 Applications until loop.
+            #MPT sdf        - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+            #MPT sdop       - Converts a Simplified Docbook XML file to PS (PostScript).
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="PDF and PS #2 Applications Menu"
+            DELIMITER="#MPT" #MPT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MPT
+            #
+            f_menu_item_process $MPT  # Outputs $MENU_ITEM.
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $MENU_ITEM in # Start of PDF and PS #2 Applications case statement.
                  sdf' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -931,20 +1133,20 @@ f_menu_app_pdfps () {
                  APP_NAME="sdop"
                  f_application_run
                  ;;
-            esac                # End of PDF and PS Applications case statement.
+            esac                # End of PDF and PS #2 Applications case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
             #
-            MPS=$MENU_ITEM
+            MPT=$MENU_ITEM
             #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
             #
-      done  # End of PDF and PS Applications until loop.
+      done  # End of PDF and PS #2 Applications until loop.
             #
-      unset MPS MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_pdfps
+      unset MPT MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_pdfps2
 #
 # +----------------------------------------+
 # |    Function f_menu_app_presentation    |
@@ -1084,8 +1286,6 @@ f_menu_cat_text () {
             #BTX Compare     - Show differences between text files.
             #BTX Converters  - Convert between text document/file formats.
             #BTX Editors     - Create/Edit text documents/files.
-            #BTX Editors2    - Create/Edit text documents/files.
-            #BTX Editors3    - Create/Edit text documents/files.
             #BTX Markup Docs - Create a single source document, publish in many formats.
             #BTX Tools       - Viewers, spell-check, dictionaries.
             #
@@ -1107,14 +1307,8 @@ f_menu_cat_text () {
                  [Cc] | [Cc][Oo] | [Cc][Oo][Nn]*)
                  f_menu_app_text_converters   # Text Converter Application Menu.
                  ;;
-                 [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss])
+                 [Ee] | [Ee][Dd]*)
                  f_menu_app_text_editors      # Text Editor Application Menu.
-                 ;;
-                 [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]2)
-                 f_menu_app_text_editors2     # Text Editor Application Menu.
-                 ;;
-                 [Ee] | [Ee][Dd] | [Ee][Dd][Ii] | [Ee][Dd][Ii][Tt] | [Ee][Dd][Ii][Tt][Oo] | [Ee][Dd][Ii][Tt][Oo][Rr] | [Ee][Dd][Ii][Tt][Oo][Rr][Ss]3)
-                 f_menu_app_text_editors3     # Text Editor Application Menu.
                  ;;
                  [Mm] | [Mm][Aa]*)
                  f_menu_app_text_markup_language
@@ -1300,6 +1494,9 @@ f_menu_app_text_converters () {
             #MTV unoconv    - Converts any document format that LibreOffice imports/exports.
             #MTV unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
             #MTV wp2x       - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+            #MTV wpd2odt    - WordPerfect to OpenDocument converter.
+            #MTV wpg2odg    - WordPerfect Graphics to OpenDocument converter.
+            #MTV wps2odt    - Microsoft Works text documents to OpenDocument converter.
             #MTV xmlto      - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -1443,6 +1640,30 @@ f_menu_app_text_converters () {
                  APP_NAME="wp2x"
                  f_application_run
                  ;;
+                 wpd2odt' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Pp] | [Ww][Pp][Dd]*)
+                 APP_NAME="wpd2odt"
+                 f_application_run
+                 ;;
+                 wpg2odg' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Pp] | [Ww][Pp][Gg]*)
+                 APP_NAME="wpg2odg"
+                 f_application_run
+                 ;;
+                 wps2odt' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Pp] | [Ww][Pp][Ss]*)
+                 APP_NAME="wps2odt"
+                 f_application_run
+                 ;;
                  xmlto' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -1493,7 +1714,7 @@ f_menu_app_text_editors () {
             #MTE fte-console   - fte for consoles, no internationalization I18N support.
             #MTE fte-terminal  - fte for xterm, vt100 terminals.
             #MTE groff         - Format text via macros, create man pages to PS printers.
-            #MTE MORE...        - For more text editor applications.
+            #MTE MORE...       - For more text editor applications.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-office.lib"
@@ -1610,6 +1831,7 @@ f_menu_app_text_editors () {
                  ;;
                  [Ee] | [Ee][Mm]*)
                  APP_NAME="emacs"
+                 f_how_to_quit_application "<Ctrl>-X <Ctrl>-C"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1687,7 +1909,7 @@ f_menu_app_text_editors2 () {
       do    # Start of Text Editor Applications2 until loop.
             #MTF jed       - JED ncurses-based. Also consider package: jed-extra.
             #MTF jmacs     - Joe Editor, GNU-EMACS emulation mode.
-            #MTF joe       - Joe editor. Ctrl-K H for help.
+            #MTF joe       - Joe editor. <Ctrl>-K H for help.
             #MTF jove      - Jonathan's Own Version of Emacs, ncurses-based.
             #MTF jpico     - Joe Editor, PICO emulation mode.
             #MTF jstar     - Joe Editor, WordStar emulation mode.
@@ -1738,12 +1960,13 @@ f_menu_app_text_editors2 () {
                  ;;
                  [Jj] | [Jj][Mm]*)
                  APP_NAME=jmacs
+                 f_how_to_quit_application "<Ctrl>-X <Ctrl>-C"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  joe' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Ctrl-k x"
+                 f_how_to_quit_application "<Ctrl>-K X"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1763,7 +1986,7 @@ f_menu_app_text_editors2 () {
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
-                 f_how_to_quit_application "Ctrl-k x" "no-clear"
+                 f_how_to_quit_application "<Ctrl>-K X" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1774,6 +1997,7 @@ f_menu_app_text_editors2 () {
                  ;;
                  [Jj] | [Jj][Oo] | [Jj][Oo][Vv]*)
                  APP_NAME="jove"
+                 f_how_to_quit_application "<Ctrl>-X <Ctrl>-C"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1834,6 +2058,7 @@ f_menu_app_text_editors2 () {
                  ;;
                  [Mm] | [Mm][Gg])
                  APP_NAME="mg"
+                 f_how_to_quit_application "<Ctrl>-X <Ctrl>-C"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1869,13 +2094,13 @@ f_menu_app_text_editors2 () {
                  ;;
                  nvi' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Vv]*)
                  APP_NAME="nvi"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1948,7 +2173,7 @@ f_menu_app_text_editors3 () {
             case $MENU_ITEM in # Start of Text Editor Applications case statement.
                  rjoe' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Ctrl-k x"
+                 f_how_to_quit_application "<Ctrl>-K x"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1968,7 +2193,7 @@ f_menu_app_text_editors3 () {
                  echo
                  echo "*** For more help type: 'man $APP_NAME'"
                  echo "                        '$APP_NAME --help'"
-                 f_how_to_quit_application "Ctrl-k x" "no-clear"
+                 f_how_to_quit_application "<Ctrl>-K x" "no-clear"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1984,85 +2209,85 @@ f_menu_app_text_editors3 () {
                  ;;
                  vi' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii])
                  APP_NAME="vi"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vile' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Ll]*)
                  APP_NAME="vile"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm])
                  APP_NAME="vim"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-nox' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Nn]*)
                  APP_NAME="vim-nox"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-scripts' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Ss]*)
                  APP_NAME="vim-scripts"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-tiny' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Tt]*)
                  APP_NAME="vim-tiny"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  vim-outliner' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii] | [Vv][Ii][Mm]-[Oo]*)
                  APP_NAME="vim-outliner"
-                 f_how_to_quit_application "<esc> + :q!"
+                 f_how_to_quit_application "<Esc> :q!"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -2078,43 +2303,13 @@ f_menu_app_text_editors3 () {
                  ;;
                  zile' '*)
                  APP_NAME=$MENU_ITEM
-                 clear # Blank the screen.
-                 echo zile - Small Emacs editor.
-                 echo
-                 echo "To quit $APP_NAME, type Ctrl-x followed by Ctrl-z and Ctrl-z again."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Zz] | [Zz][Ii]*)
                  APP_NAME="zile"
-                 clear # Blank the screen.
-                 echo zile - Small Emacs editor.
-                 echo
-                 echo "To quit $APP_NAME, type Ctrl-x followed by Ctrl-z and Ctrl-z again."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
             esac                # End of Text Editor Applications3 case statement.
             #
@@ -2237,6 +2432,7 @@ f_menu_app_text_tools () {
             #MTT dictd    - Dictionary Server database. dict-gcide, dict-wn recommended.
             #MTT hunspell - Spell check allows keyboard or files as input w/user dictionary.
             #MTT ispell   - Spell check allows text files as input with user dictionary.
+            #MTT sdcv     - Use StarDict formatted dictionaries (must have own dictionary).
             #MTT spell    - Spell check allows keyboard or text files as input.
             #MTT wc       - Word count, also counts lines, characters, bytes of a text file.
             #
@@ -2375,7 +2571,7 @@ f_menu_app_text_tools () {
                     echo "If the word has the wrong spelling, it will be repeated on the screen."
                     echo "If the word has the correct spelling, an asterick '*' will appear."
                     echo
-                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    f_how_to_quit_application "<Ctrl>-D" "no-clear"
                     APP_NAME="hunspell"
                     f_application_run
                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2427,6 +2623,14 @@ f_menu_app_text_tools () {
                     f_press_enter_key_to_continue
                  fi
                  ;;
+                 sdcv' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ss] | [Ss][Dd]*)
+                 APP_NAME="sdcv"
+                 f_application_run
+                 ;;
                  spell' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -2467,7 +2671,7 @@ f_menu_app_text_tools () {
                     echo "If the word has the wrong spelling, it will be repeated on the screen."
                     echo "If the word has the correct spelling, it will not be repeated."
                     echo
-                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    f_how_to_quit_application "<Ctrl>-D" "no-clear"
                     APP_NAME="spell"
                     f_application_run
                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2524,7 +2728,7 @@ f_menu_app_text_tools () {
                     echo "      2      14      63"
                     echo "    Lines   Words   Characters"
                     echo
-                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    f_how_to_quit_application "<Ctrl>-D" "no-clear"
                     APP_NAME="wc"
                     f_application_run
                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -2573,6 +2777,7 @@ f_menu_app_todo () {
             #MTD todo     - To-Do List hierarchical. Install package 'devtodo'.
             #MTD todo2    - 'devtodo2' application is a todo2 list, 5-levels of priorties.
             #MTD tudu     - To-Do List hierarchical tasks.
+            #MTD w2do     - To Do with support for group, due date and priority categories.
             #MTD yaGTD    - To-Do List based on "Getting Things Done" methodology.
             #MTD yokadi   - Project/task manager which uses SQLite.
             #
@@ -2710,6 +2915,14 @@ f_menu_app_todo () {
                  ;;
                  [Tt] | [Tt][Uu]*)
                  APP_NAME="tudu"
+                 f_application_run
+                 ;;
+                 w2do' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww]2*)
+                 APP_NAME="w2do"
                  f_application_run
                  ;;
                  yagtd' '*)

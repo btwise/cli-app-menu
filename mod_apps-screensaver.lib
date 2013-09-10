@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -20,6 +20,7 @@ f_menu_app_screen_savers () {
             #MSS asciiaquarium - Aquarium on screen.
             #MSS cmatrix       - Matrix-like screen-saver.
             #MSS rain          - Rain on screen.
+            #MSS termsaver     - screensaver for text terminals.
             #MSS ticker        - scrolls text across the screen.
             #MSS tty-clock     - Display a digital clack full-screen.
             #MSS worms         - Worms wiggle on the screen.
@@ -60,6 +61,14 @@ f_menu_app_screen_savers () {
                  ;;
                  [Rr] | [Rr][Aa]*)
                  APP_NAME="rain"
+                 f_application_run
+                 ;;
+                 termsaver' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Tt] | [Tt][Ee]*)
+                 APP_NAME="termsaver"
                  f_application_run
                  ;;
                  ticker' '*)

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -171,7 +171,7 @@ f_menu_app_games_arcade () {
                  clear # Blank the screen.
                  echo "netris - Tetris-like game."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -188,13 +188,13 @@ f_menu_app_games_arcade () {
                  ;;
                  ninvaders' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Nn] | [Nn][Ii]*)
                  APP_NAME="ninvaders"
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
@@ -222,13 +222,13 @@ f_menu_app_games_arcade () {
                  ;;
                  petris' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_how_to_quit_application "(lose game and then) type 'Q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Ee]*)
                  APP_NAME="petris"
-                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_how_to_quit_application "(lose game and then) type 'Q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -244,37 +244,37 @@ f_menu_app_games_arcade () {
                  ;;
                  snake' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "x"
+                 f_how_to_quit_application "X"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Nn]*)
                  APP_NAME="snake"
-                 f_how_to_quit_application "x"
+                 f_how_to_quit_application "X"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  worm' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Ctrl-C or crash into wall"
+                 f_how_to_quit_application "<Ctrl>-C or crash into wall"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ww] | [Ww][Oo]*)
                  APP_NAME="worm"
-                 f_how_to_quit_application "Ctrl-C or crash into wall"
+                 f_how_to_quit_application "<Ctrl>-C or crash into wall"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  zsnake' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "x"
+                 f_how_to_quit_application "X"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Ss] | [Ss][Nn]*)
                  APP_NAME="zsnake"
-                 f_how_to_quit_application "x"
+                 f_how_to_quit_application "X"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -326,48 +326,48 @@ f_menu_app_games_board () {
             case $MENU_ITEM in # Start of Board Games case statement.
                  atom4' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Aa] | [Aa][Tt]*)
                  APP_NAME="atom4 -mt"
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  backgammon' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Bb] | [Bb][Aa]*)
                  APP_NAME="backgammon"
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  gnubg' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Gg] | [Gg][Nn]*)
                  APP_NAME="gnubg"
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  monop' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q or quit"
+                 f_how_to_quit_application "Q or quit"
                  f_application_run
                  ;;
                  [Mm] | [Mm][Oo]*)
                  APP_NAME="monop"
-                 f_how_to_quit_application "q or quit" 
+                 f_how_to_quit_application "Q or quit" 
                  f_application_run
                  ;;
             esac # End of Board Games case statement.
@@ -435,7 +435,7 @@ f_menu_app_games_card () {
                  clear # Blank the screen.
                  echo "cribbage - Classic card game for one player vs. the computer."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -597,7 +597,7 @@ f_menu_app_games_puzzle () {
                  clear # Blank the screen.
                  echo "bcd - Text to computer punch card simulation."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -638,7 +638,7 @@ f_menu_app_games_puzzle () {
                  clear # Blank the screen.
                  echo "netris - Tetris-like game."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -655,13 +655,13 @@ f_menu_app_games_puzzle () {
                  ;;
                  petris' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_how_to_quit_application "(lose game and then) type 'Q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Pp] | [Pp][Ee]*)
                  APP_NAME="petris"
-                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_how_to_quit_application "(lose game and then) type 'Q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -674,7 +674,7 @@ f_menu_app_games_puzzle () {
                  clear # Blank the screen.
                  echo "ppt - Text to teletype paper tape simulation."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -691,13 +691,13 @@ f_menu_app_games_puzzle () {
                  ;;
                  vitetris' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_how_to_quit_application "(lose game and then) type 'Q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Vv] | [Vv][Ii]*)
                  APP_NAME="vitetris"
-                 f_how_to_quit_application "(lose game and then) type 'q'"
+                 f_how_to_quit_application "(lose game and then) type 'Q'"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -750,14 +750,14 @@ f_menu_app_games_quiz () {
             case $MENU_ITEM in # Start of Quiz Games case statement.
                  arithmetic' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Ctrl-Z"
+                 f_how_to_quit_application "<Ctrl>-Z"
                  f_application_run
                  ;;
                  [Aa] |[Aa][Rr]*)
                  APP_NAME="arithmetic"
                  echo "arithmetic - Quiz on basic arithmetic."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -791,7 +791,7 @@ f_menu_app_games_quiz () {
                  clear # Blank the screen.
                  echo "morse - text to morse code."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -808,12 +808,12 @@ f_menu_app_games_quiz () {
                  ;;
                  quiz' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  ;;
                  [Qq] | [Qq][Uu]*)
                  APP_NAME="quiz"
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  ;;
             esac # End of Quiz Games case statement.
@@ -983,7 +983,7 @@ f_menu_app_games_simulation () {
                  APP_NAME="atc"
                  echo "atc - Air Traffic Controller Game"
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1000,13 +1000,13 @@ f_menu_app_games_simulation () {
                  ;;
                  bb' '*)
                  APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Bb] | [Bb][Bb])
                  APP_NAME="bb"
-                 f_how_to_quit_application "q"
+                 f_how_to_quit_application "Q"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
@@ -1043,7 +1043,7 @@ f_menu_app_games_simulation () {
                  echo If telnet hangs while trying the ip-address,
                  echo then re-run this program and try again.
                  echo
-                 echo "To quit Star Wars ASCII Movie, type Ctrl-Z or Ctrl-C."
+                 echo "To quit Star Wars ASCII Movie, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running Star Wars ASCII Movie will exit this menu script."
                  echo
@@ -1207,6 +1207,7 @@ f_menu_app_games_word () {
             #MGK boggle  - Word search game.
             #MGK figlet  - Creates banner with outline font.
             #MGK hangman - Classic hangman word game.
+            #MGK hodie   - Date and time in Latin.
             #MGK pig     - Converts text into pig-latin.
             #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
             #MGK rl      - Randomize Lines scrambles words of a text file.
@@ -1232,7 +1233,7 @@ f_menu_app_games_word () {
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  [Bb] | [Bb][Oo]*)
-                 f_how_to_quit_application "Ctrl + C (Control-C)"
+                 f_how_to_quit_application "<Ctrl>-C"
                  APP_NAME="boggle"
                  f_application_run
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1242,7 +1243,7 @@ f_menu_app_games_word () {
                  clear # Blank the screen.
                  echo "figlet - Banner creator"
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1270,6 +1271,17 @@ f_menu_app_games_word () {
                  APP_NAME="hangman"
                  f_application_run
                  ;;
+                 hodie' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Hh] | [Hh][Oo]*)
+                 f_how_to_quit_application "<Ctrl>-C."
+                 APP_NAME="hodie"
+                 f_application_run
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
                  pig' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
@@ -1278,7 +1290,7 @@ f_menu_app_games_word () {
                  APP_NAME="pig"
                  echo "pig - Converts text to Pig Latin"
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1321,7 +1333,7 @@ f_menu_app_games_word () {
                     echo "Interactive usage:"
                     echo "Now type the word(s) or sentence to reverse."
                     echo
-                    f_how_to_quit_application "Ctrl-d" "no-clear"
+                    f_how_to_quit_application "<Ctrl>-D" "no-clear"
                     APP_NAME="rev"
                     f_application_run
                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -1356,7 +1368,7 @@ f_menu_app_games_word () {
                  clear # Blank the screen.
                  echo "figlet - Banner creator"
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo

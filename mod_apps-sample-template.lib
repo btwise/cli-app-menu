@@ -58,7 +58,7 @@ f_menu_scat_sample_template () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MENU_ITEM, MXX, MAX.
+#    Uses: MXX, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_sample_template () {

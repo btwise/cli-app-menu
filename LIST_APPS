@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-09-06 15:03 Friday
+Last updated: 2013-09-10 15:05 Tuesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -85,12 +85,16 @@ ________________________________________________
 
 ________________________________________________
 *** Bin-Hex Editor Applications Menu ***
- bbe     - sed-like editor for binary files.
- beav    - Binary file editor and viewer.
- bvi     - Binary file editor and viewer with vi-like key bindings.
- dhex    - Hexadecimal editor with diff mode, ncurses-based.
- hexedit - Hexadecimal editor.
- tweak   - Hex editor with emacs-like keybindings, ncurses-based.
+ bbe      - sed-like editor for binary files.
+ beav     - Binary file editor and viewer.
+ bvi      - Binary file editor and viewer with vi-like key bindings.
+ dhex     - Hexadecimal editor with diff mode, ncurses-based.
+ hexedit  - Hexadecimal editor.
+ hexer    - Hex editor with vi-like bindings.
+ tweak    - Hex editor with emacs-like keybindings, ncurses-based.
+ vbindiff - Displays in hexadecimal and ASCII, works with up to 4GB files.
+ xdelta   - diff binary files, results can be applied to original bin file.
+ xdelta3  - diff binary files. "Delta files" in RFC3284 (VCDIFF) format.
 
 ________________________________________________
 *** Bittorrent Applications Menu ***
@@ -113,14 +117,21 @@ ________________________________________________
  emacs-calfw - Displays a calendar view in the Emacs buffer.
  gcal        - Calendar, almost the same as cal.
  gcalcli     - Google calendar.
+ hebcal      - Perpetual Jewish calendar.
+ jcal        - Display Jalali (Persian) calendar.
+ lunar       - Converts Gregorian date to Chinese lunar calendar.
  mencal      - Calendar to track repeating periodic events every nn days.
  ncal        - Calendar with vertical days.
  pal         - Calendar with events.
  pcal        - Generate PostScript or HTML Calendars.
  pom         - Display phase of moon on given date.
- remind      - Calendar alarms, Sun rise/set, moon phases.
- when        - Calendar.
- wyrd        - Calendar, ncurses-based.
+ MORE...     - More calendar applications.
+
+________________________________________________
+*** Calendar2 Applications Menu ***
+ remind - Calendar alarms, Sun rise/set, moon phases.
+ when   - Calendar.
+ wyrd   - Calendar, ncurses-based.
 
 ________________________________________________
 *** Calculator Applications Menu ***
@@ -137,12 +148,15 @@ ________________________________________________
 
 ________________________________________________
 *** Clock Applications Menu ***
+ binclock         - Binary clock.
  binary-clock     - Binary numbers 1/0 tells time.
  cclock           - Digital clock with huge numbers fills entire screen.
  clockywock       - Analog clock, ncurses-based.
  grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
+ leave            - Text "alarm" tells you when it's time to leave.
  saytime          - Audio clock.
  tbclock          - Binary clock, binary numbers 1/0 tells time.
+ tzwatch          - Displays time/date in specified time zones on console.
  vtclock          - Full-screen clock also shows 1 line text, ncurses-based.
 
 ________________________________________________
@@ -152,6 +166,7 @@ ________________________________________________
 ________________________________________________
 *** Database Applications Menu ***
  ara               - Search Debian package databases.
+ couchdb           - Apache CouchDB document-oriented databsae.
  edb               - Database program for GNU Emacs.
  freecdb           - Create and read constant databases (up to 4 GB).
  lbdb              - Little Brother's Database for mutt mail reader.
@@ -169,6 +184,7 @@ ________________________________________________
 *** Dowloader Applications Menu ***
  axel     - Downloader accelerator using multiple connections/mirrors.
  aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+ cfv      - create/verify many types of checksum files.
  md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
  md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
  sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
@@ -176,15 +192,18 @@ ________________________________________________
 
 ________________________________________________
 *** Education Applications Menu ***
- diatheke  - Holy Bible research tool.
- grass     - GIS Map utility (Geographic Information System).
- gtypist   - Typing tutor displays a sentence for practice.
- lifelines - Geneology.
- metar     - Download METAR weather reports from NOAA HTTP servers.
- ham radio - Morse code and Ham Radio applications.
- primes    - Prime number calculator.
- typespeed - Typing tutor displays flying words arcade-style across screen.
- weather-util - current weather conditions and forecasts.
+ diatheke    - Holy Bible research tool.
+ grass       - GIS Map utility (Geographic Information System).
+ gtypist     - Typing tutor displays a sentence for practice.
+ Ham radio   - Morse code and Ham Radio applications.
+ kon2        - Japanese Kanji characters on Linux Console.
+ lifelines   - Geneology.
+ Mathematics - Mathematics, problems.
+ metar       - Download METAR weather reports from NOAA HTTP servers.
+ seesat5     - Compute the location of a satellite.
+ tide        - CLI XTide gives tide/current forecasts. May need xtide-data.
+ typespeed   - Typing tutor shows flying words arcade-style across screen.
+ weather     - current weather conditions and forecasts.
 
 ________________________________________________
 *** E-mail Applications Menu ***
@@ -201,12 +220,15 @@ ________________________________________________
  nedmail        - E-mail client.
  pine           - E-mail client.
  sup            - E-mail client.
+ urlview        - Extracts URL from email text.
 
 ________________________________________________
 *** File Burn CD/DVD Applications Menu ***
  bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
  burn         - Write audio/data/iso image or copy CDs.
+ cdck         - Check the quality of a written CD.
  cdrecord     - CD burning. Obsoleted by wodim. May be hard-linked to wodim.
+ lsdvd        - Reads contents of DVDs.
  mkcd         - CD burning.
  mybashburn   - CD burning.
  simpleburner - CD burning.
@@ -223,14 +245,41 @@ ________________________________________________
  dtrx    - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
  gunzip  - File decompress gzip files.
  gzip    - File compress, to gzip files.
+ lhasa   - Decompresses LHA (.lzh) archive files.
+ lzma    - Compress/Decompress files in the LZMA format.
+ lzip    - Compress files based on the LZMA algorithm.
+ lzop    - Compress files gzip-like but faster.
  p7zip   - File compress, to 7z files, 7z better than zip compression.
+ pdlzip  - Simpler,compress files based on the LZMA algorithm.
+ rzip    - Compresses large files, history buffer up to 900MB.
+ MORE... - For more file compression applications.
+
+________________________________________________
+*** File Compression2 Applications Menu ***
  unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
  unxc    - File decompress xz files.
  unzip   - File decompress zip files.
+ unp     - Extract many kinds of archive files with one command.
  xz      - File compress xz files.
  xzcat   - File cat xz files.
  xzgrep  - File grep xz files.
  zip     - File compress files to zip files. 
+
+________________________________________________
+*** File Deletion/Undeletion Applications Menu ***
+ shred       - Delete files securely without recovery.
+ scrub       - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
+ wipe        - Secure file deletion.
+ ----------- - -------------------------------------------------------------
+ dares       - Rescue data from damaged CDs/DVDs, ncurses-based.
+ ddrescue    - Rescue readable data from failing hard disk drives.
+ foremost    - File recovery from within a *.img disk image file.
+ magicrescue - Scans a block device, rescues files, partitions, disks.
+ myrescue    - Rescue data from failing disk drives; read good sectors first.
+ photorec    - File recovery.
+ safecopy    - File recovery.
+ safe-rm     - Protect files from rm deletion.
+ trash-cli   - Remembers name, path, date, permissions of each trashed file.
 
 ________________________________________________
 *** File Encryption Applications Menu ***
@@ -240,16 +289,33 @@ ________________________________________________
  gnupg     - Gnu Privacy Guard symmetetric encryption/decryption.
  lspgpot   - Extracts ownertrust values from PGP keyrings.
  mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
+ nasty     - Helps you to recover forgotten PGP/GPG pass-phrase.
  pgp       - Pretty Good Privacy (pgp).
+ rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
  scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
  truecrypt - Program released under TrueCrypt License (not Open-source).
  zcrypt    - Another crypt program.
 
 ________________________________________________
 *** File Search and find Applications Menu ***
- find     - Find files using pattern matching.
- locate   - Find files using an internal database, mlocate.
- updatedb - Update the internal database, mlocate, used by locate.
+ duff         - Duplicate file finder.
+ fdupes       - Finds duplicate files uses md5sum and byte comparisons.
+ file         - Determines file type.
+ find         - Find files using pattern matching.
+ locate       - Find files using an internal database, mlocate.
+ missidentify - Finds win32 applications.
+ rdfind       - Find duplicate files.
+ rrep         - Replace text in files.
+ updatedb     - Update the internal database, mlocate, used by locate.
+
+________________________________________________
+*** File Checksum Applications Menu ***
+ cdck     - Check the quality of a written CD.
+ cfv      - One application to create/verify many types of checksum files.
+ md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+ md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+ sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+ sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
 
 ________________________________________________
 *** File Manager Applications Menu ***
@@ -259,7 +325,9 @@ ________________________________________________
  exiftool - Display jpeg file properties in ls-like format.
  findmnt  - Find a filesystem.
  jhead    - Display jpeg file properties.
- mc       - File Manager, Midnight Commander.
+ lfm      - "Last File Manager", "Midnight Commander"-like.
+ mc       - File Manager, "Midnight Commander".
+ ncdt     - Display directory tree with tree summary, MP3 file information.
  pilot    - Simple file browser from Aline.
  ranger   - File manager.
  smbc     - Samba file manager for folder shares with Microsoft Windows.
@@ -273,17 +341,16 @@ ________________________________________________
  tar       - File backup, compress files.
  --------- - ---------------------------------------------------------------
  advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+ cdargs    - 'cd' with bookmarks, can bookmark paths of directories.
+ mmv       - Move/copy/append/link multiple files using wildcard patterns.
+ mrename   - Scripts to rename many files automatically.
  xd        - Smart 'cd' change directory; uses abbreviated directory names.
  --------- - ---------------------------------------------------------------
- shred     - Delete files securely without recovery.
- --------- - ---------------------------------------------------------------
- foremost  - File recovery from within a *.img disk image file.
- photorec  - File recovery.
- safecopy  - File recovery.
- trash-cli - Remembers name, path, date, permissions of each trashed file.
+ Del/Undel - Delete/Undelete utilities for disks and files.
 
 ________________________________________________
 *** File Splitter Applications Menu ***
+ hoz     - File splitter using hacha file format.
  lxsplit - Splits/Joins files even greater than 2GB.
  slice   - Divides ASCII file w/delimiters into possibly overlapping slices.
  split   - Splits/Joins files.
@@ -408,6 +475,7 @@ ________________________________________________
  boggle  - Word search game.
  figlet  - Creates banner with outline font.
  hangman - Classic hangman word game.
+ hodie   - Date and time in Latin.
  pig     - Converts text into pig-latin.
  rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
  rl      - Randomize Lines scrambles words of a text file.
@@ -415,14 +483,14 @@ ________________________________________________
 
 ________________________________________________
 *** Ham Radio Applications Menu ***
- aldo      - Morse code training.
- cw        - Morse code training.
- cwcp      - Morse code training.
- ebook2cw  - Converts plain text ebooks to  morse code mp3/ogg audio files.
- morse     - Morse code training.
- morsegen  - Converts text file to ASCII morse code.
- qrq       - High-speed morse code trainer.
- tlf       - Morse code cw keyer, logging and contest program.
+ aldo     - Morse code training.
+ cw       - Morse code training.
+ cwcp     - Morse code training.
+ ebook2cw - Converts plain text ebooks to  morse code mp3/ogg audio files.
+ morse    - Morse code training.
+ morsegen - Converts text file to ASCII morse code.
+ qrq      - High-speed morse code trainer.
+ tlf      - Morse code cw keyer, logging and contest program.
 
 ________________________________________________
 *** Image-Graphics Applications Menu ***
@@ -440,6 +508,7 @@ ________________________________________________
  linuxlogo  - Color ANSI system logo
  sl         - Steam locomotive (when you mis-type 'ls' command).
  star wars  - Star Wars movie in ASCII.
+ welcome21  - ANSI logo on login screen.
 
 ________________________________________________
 *** ImageMagick Applications Menu ***
@@ -481,6 +550,21 @@ ________________________________________________
  sic     - Fast small IRC client.
 
 ________________________________________________
+*** Mathematics Application Menu ***
+ axiom          - General purpose computer algebra system.
+ dicelab        - evaluate the statistical distribution of dice rolls.
+ mathomatic     - Portable CAS (Computer Algebra System)
+ ministat       - Fundamental statistical comparison of 1 or 2 data sets.
+ num-utils      - Collection of programs; avg, normal, random, range, etc.
+ open-axiom     - Open scientific computation platform.
+ plotutils      - Plot 2-dimensional scientific data.
+ pi             - Calculate Archimedes constant Pi to arbitrary precision.
+ primes         - Prime number calculator.
+ pspp           - Statistical analysis tool.
+ relational-cli - relational algebra and relational database.
+ stda           - Simple tools for data analysis.
+
+________________________________________________
 *** LAN Chat Applications Menu ***
  talk    - Copies lines from your terminal to that of another user.
  weechat - WeeChat (Wee Enhanced Environment for Chat) fast, light client.
@@ -507,9 +591,7 @@ ________________________________________________
  sipcalc     - ip subnet calculator.
  ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
  subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
- ip          - Shows routing, devices, policy routing and tunnels.
- ip addr     - Protocol (IP or IPv6) address on a device.
- ip neighbor - ARP or NDISC cache entry.
+ wuzzah      - LAN user login/out tracker.
 
 ________________________________________________
 *** Network Bandwidth Applications Menu ***
@@ -543,6 +625,9 @@ ________________________________________________
  ethtool      - NIC configuration.
  ifconfig     - NIC configuration.
  ifplugstatus - Wireless USB NIC status.
+ ip           - Shows routing, devices, policy routing and tunnels.
+ ip addr      - Protocol (IP or IPv6) address on a device.
+ ip neighbor  - ARP or NDISC cache entry.
  iwconfig     - Wireless NIC configuration.
  iwlist       - Get detailed information from wired/wireless NICs.
  macchanger   - Change the hardware MAC address on wired/wireless NICs.
@@ -557,7 +642,11 @@ ________________________________________________
  diary    - Diary and To Do List uses commands date, grep, and text editor.
  diary-f  - Fork of "diary" enhanced "view"/"cat" actions, non-latin locales.
  hnb      - Hierarchical notebook.
+ nodau    - Note-taking with search by name or date.
+ note     - Manage notes with a DBI-based mysql-module.
  org-mode - Emacs plugin for notes, ToDo lists, and project planning.
+ tina     - PIM (personal information manager), ncurses-based.
+ worklog  - Time-tracking for projects/tasks, running clock, ncurses-based.
 
 ________________________________________________
 *** Network Packet Applications Menu ***
@@ -619,21 +708,27 @@ ________________________________________________
 
 ________________________________________________
 *** PDF-PS Applications Menu ***
- diffpdf  - Compare PDF files.
- fbdjvu   - DjVu viewer similar to fbpdf.
- fbgs     - GhostScript, PostScript, and PDF viewer.
- fbpdf    - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
- gs       - GhostScript, PostScript, and PDF viewer.
- jfbview  - Image viewer and framebuffer PDF viewer based on Imlib2.
- pdfjam   - Merge PDF files into a single file.
- pdftex   - Typesetter creates PDF files.
- pdftk    - Merge/split, rotate, watermark, bookmarks/metadata attach files.
- pdftops  - Converts PDF to PS (PostScript) format.
- pstotext - Extract text from PS  (PostScript) and PDF files.
- ps2ascii - Converts PS (PostScript) to text format.
- ps2pdf   - Converts PS (PostScript) to PDF format.
- sdf      - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
- sdop     - Converts a Simplified Docbook XML file to PS (PostScript).
+ comparepdf - Compare two PDF files.
+ diffpdf    - Compare two PDF files.
+ fbdjvu     - DjVu viewer similar to fbpdf.
+ fbgs       - GhostScript, PostScript, and PDF viewer.
+ fbpdf      - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
+ gs         - GhostScript, PostScript, and PDF viewer.
+ jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
+ pdfgrep    - Search PDF files with filename, page, count and color output.
+ pdfjam     - Merge PDF files into a single file.
+ pdftex     - Typesetter creates PDF files.
+ pdftk      - Merge/split, rotate, watermark, bookmarks/metadata, attach.
+ pdftops    - Converts PDF to PS (PostScript) format.
+ pstotext   - Extract text from PS  (PostScript) and PDF files.
+ ps2ascii   - Converts PS (PostScript) to text format.
+ ps2pdf     - Converts PS (PostScript) to PDF format.
+ MORE...    - For more PDF and PS applications.
+
+________________________________________________
+*** PDF-PS2 Applications Menu ***
+ sdf        - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+ sdop       - Converts a Simplified Docbook XML file to PS (PostScript).
 
 ________________________________________________
 *** Remote Connection Applications Menu ***
@@ -662,22 +757,27 @@ ________________________________________________
 
 ________________________________________________
 *** System Screen Applications Menu ***
- byobu   - Multiple sessions.
- dtach   - Emulates detach feature of screen.
- dvtm    - dwm-style (tiling) window manager.
- fbterm  - Fast terminal emulator, multiple fonts, multiple windows.
- screen  - Multiple sessions via split or pager screens.
- splitvt - Multiple sessions on horizontal split screen (vt100 compatible).
- tmux    - Multiple sessions with multiplexing.
- twin    - A text mode window environment for multiple windows on screen.
- vlock   - Locks virtual console or current terminal.
+ away     - Locks terminal with password and checks for new email.
+ byobu    - Multiple sessions.
+ dtach    - Emulates detach feature of screen.
+ dvtm     - dwm-style (tiling) window manager.
+ fbterm   - Fast terminal emulator, multiple fonts, multiple windows.
+ screen   - Multiple sessions via split or pager screens.
+ screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
+ splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
+ tmux     - Multiple sessions with multiplexing.
+ twin     - A text mode window environment for multiple windows on screen.
+ vlock    - Locks virtual console or current terminal.
 
 ________________________________________________
 *** System Disk Information Applications Menu ***
+ agedu  - Find wasted disk space.
  blkid  - Block devices.
  cfdisk - Disk partition tool.
- df     - Disk usage and mount points, usage: -hT.
+ df     - Disk usage and mount points, usage: 'df -hT'.
  dfc    - Disk usage and mount points, graphical display.
+ di     - 'df'-like disk usage utility.
+ discus - 'df'-like disk usage utility with color, graphs, formatting.
  du     - Disk usage monitor by directory.
  gt5    - A diff-capable du-browser.
  hdparm - Show/set disk parameters, settings. 
@@ -713,6 +813,7 @@ ________________________________________________
  arpwatch   - Detects unknown MAC addresses and IP addresses, like ArpON.
  chkrootkit - Root Kit detector.
  clamscan   - Clam anti-virus program scans for viruses.
+ cpuburn    - Stress test puts heavy loads on a CPU.
  freshclam  - Clam anti-virus database definition update.
  lynis      - security auditing tool that tests for security holes in a PC.
  rkhunter   - Root Kit detector.
@@ -728,6 +829,7 @@ ________________________________________________
  lscpu       - CPU information.
  lshw        - Main board information.
  lsmod       - Linux kernel module information.
+ mbw         - "Copy" memory bandwidth available to userspace programs.
  slabtop     - Kernel slab cache information in real time.
  uname       - Linux kernel information.
  vmstat      - Memory usage RAM and swap, CPU information.
@@ -736,6 +838,7 @@ ________________________________________________
 *** System Peripherals Information Applications Menu ***
  acpitool  - ACPI power/battery settings.
  blkid     - Block devices information.
+ cdde      - Detects if a CD is inserted, runs specified program.
  lsblk     - List block devices (disks).
  lsof      - Display information about open files.
  lspci     - PCI buses and connected devices.
@@ -743,11 +846,15 @@ ________________________________________________
  lsusb     - USB devices.
  pccardctl - PCMCIA card devices.
  printenv  - Environmental variables.
+ setcd     - Control CDROM device, auto-close/eject/locking, set speed.
  uptime    - Display how long PC has been running, # users, load average.
  w         - A combination of uptime and who commands.
 
 ________________________________________________
 *** System Monitor Applications Menu ***
+ acpi      - Show acpi information.
+ acpitail  - Show acpi information in growing tail list.
+ atsar     - CPU, network, memory & disk I/O, record data for analysis.
  cacti     - Frontend to rrdtool for monitoring systems and services.
  chkconfig - System update/query run-level processes at boot time.
  conky-cli - Versatile, configurable system monitor.
@@ -760,9 +867,13 @@ ________________________________________________
  nmon      - CPU usage, memory, network, disk usage, processes, resources.
  rrdtool   - The Round Robin Database Tool stores/displays time-series data.
  saidar    - Monitor system processes, network I/O, disks I/O, free space.
+ MORE...   - For more system monitor applications.
+
+________________________________________________
+*** System Monitor2 Applications Menu ***
  sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
- swatch    - Log file viewer with regexp matching, highlighting & hooks.
  tload     - System load average graphical monitor.
+ tyload    - Color-coded graphs of CPU load average.
  yacpi     - ACPI monitor, ncurses-based.
 
 ________________________________________________
@@ -793,23 +904,31 @@ ________________________________________________
  asciiaquarium - Aquarium on screen.
  cmatrix       - Matrix-like screen-saver.
  rain          - Rain on screen.
+ termsaver     - screensaver for text terminals.
  ticker        - scrolls text across the screen.
  tty-clock     - Display a digital clack full-screen.
  worms         - Worms wiggle on the screen.
 
 ________________________________________________
 *** System Log Applications Menu ***
- ccze      - A robust and modular log coloriser, with plugins. 
- lnav      - View, analyze log files, histogram, hotkeys, ncurses-based.
- multitail - View multiple log files using multiple panes.
- since     - Shows new changes in log files since last run. Tail work-alike.
- swatch    - Log file viewer with regexp matching, highlighting & hooks.
+ ccze       - A robust and modular log coloriser, with plugins.
+ colortail  - log colorizer.
+ inotail    - Tail command replacement uses the inotify API to re-read files.
+ lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
+ monkeytail - tail variant designed for web developers monitoring logfiles.
+ multitail  - View multiple log files using multiple panes.
+ since      - Shows new changes in log files since last run. Tail work-alike.
+ swatch     - Log file viewer with regexp matching, highlighting & hooks.
 
 ________________________________________________
 *** System Other Applications Menu ***
- desmume - Nintendo DS emulator.
- dosemu  - DOS emulator.
- scrot   - Screen capture.
+ colortest - test color capabilities of a terminal.
+ cpm       - Password manager using PGP-encryption, ncurses-based.
+ desmume   - Nintendo DS emulator.
+ dosemu    - DOS emulator.
+ script    - Records terminal input/output (keystrokes).
+ scrot     - Screen capture.
+ ttyrec    - Records terminal input/output and also timing-information.
 
 ________________________________________________
 *** Text Compare Applications Menu ***
@@ -818,6 +937,7 @@ ________________________________________________
  comm      - Compares 2 sorted files line by line.
  diff      - Differences between 2 text files shown using <> signs.
  diff3     - Differences between 3 text files
+ dwdiff    - Like wdiff but allows whitespace to be included.
  imediff2  - Interactive 2-way file merge.
  vimdiff   - Differences between 2 text files shown in color highlights.
  wdiff     - Differences between 2 text files shown using +/- signs.
@@ -842,6 +962,7 @@ ________________________________________________
  todo     - To-Do List hierarchical. Install package 'devtodo'.
  todo2    - 'devtodo2' application is a todo2 list, 5-levels of priorties.
  tudu     - To-Do List hierarchical tasks.
+ w2do     - To Do with support for group, due date and priority categories.
  yaGTD    - To-Do List based on "Getting Things Done" methodology.
  yokadi   - Project/task manager which uses SQLite.
 
@@ -862,13 +983,13 @@ ________________________________________________
  fte-console   - fte for consoles, no internationalization I18N support.
  fte-terminal  - fte for xterm, vt100 terminals.
  groff         - Format text via macros, create man pages to PS printers.
- MORE...        - For more text editor applications.
+ MORE...       - For more text editor applications.
 
 ________________________________________________
 *** Text Editor2 Applications Menu ***
  jed       - JED ncurses-based. Also consider package: jed-extra.
  jmacs     - Joe Editor, GNU-EMACS emulation mode.
- joe       - Joe editor. Ctrl-K H for help.
+ joe       - Joe editor. <Ctrl>-K H for help.
  jove      - Jonathan's Own Version of Emacs, ncurses-based.
  jpico     - Joe Editor, PICO emulation mode.
  jstar     - Joe Editor, WordStar emulation mode.
@@ -903,9 +1024,11 @@ ________________________________________________
  ed    - Classic CLI text editor.
  emacs - Full screen text editor with plugins.
  jed   - JED text editor.
- joe   - Text editor. Ctrl-K H for help.
+ joe   - Text editor. <Ctrl>-K H for help.
  nano  - Simple full-screen text editor.
  pico  - Simple full-screen text editor.
+ pyp   - "Pyed Piper" awk-sed-like features using Python-based sub-commands.
+ rrep  - Replace text in files.
  vi    - Classic full-screen text editor.
  vim   - vi "Improved" text editor.
  zile  - Very small Emacs-subset editor.
@@ -927,6 +1050,7 @@ ________________________________________________
  dictd    - Dictionary Server database. dict-gcide, dict-wn recommended.
  hunspell - Spell check allows keyboard or files as input w/user dictionary.
  ispell   - Spell check allows text files as input with user dictionary.
+ sdcv     - Use StarDict formatted dictionaries (must have own dictionary).
  spell    - Spell check allows keyboard or text files as input.
  wc       - Word count, also counts lines, characters, bytes of a text file.
 
@@ -940,6 +1064,9 @@ ________________________________________________
  unoconv    - Converts any document format that LibreOffice imports/exports.
  unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
  wp2x       - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+ wpd2odt    - WordPerfect to OpenDocument converter.
+ wpg2odg    - WordPerfect Graphics to OpenDocument converter.
+ wps2odt    - Microsoft Works text documents to OpenDocument converter.
  xmlto      - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
 
 ________________________________________________
@@ -961,6 +1088,7 @@ ________________________________________________
  avidemux      - Editor for simple cutting, filtering, encoding.
  ffmpeg        - Multimedia Record, convert, stream and play. 
  handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
+ melt          - Multi-track video editor, also plays audio/video files.
  mencoder      - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
  mjpegtools    - MJPEG video playback, editing, video capture.
  mpgtx         - Editor splits/joins MPEG, MP3. video/audio files.

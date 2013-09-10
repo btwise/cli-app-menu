@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-07-2013 00:00"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -17,10 +17,14 @@ f_initvars_menu_app () {
       TCOLOR="black"
       ERROR=0        # Initialize to 0 to indicate success at running last
                      # command.
-      APP_NAME=""    # Initialize to null. String variable contains
-                     # application name.
-
-      # Initialize to variables to -1 to force looping in until loop(s).
+      #
+      # Initialize variables to "" or null.
+      for INIT_VAR in APP_NAME WEB_BROWSER TEXT_EDITOR
+      do
+          eval $INIT_VAR="" # eval sets the variables to "" or null.
+      done
+      #
+      # Initialize variables to -1 to force looping in until loop(s).
       for INIT_VAR in CHOICE_MAIN MENU_ITEM
       do
           eval $INIT_VAR=-1 # eval sets the variables to "-1".
@@ -130,6 +134,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
               ;;
               # Application Category Menus.
               "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
+                 echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
                  echo
                  echo "'0', (R)eturn, to go back to Main Menu."
               ;;
@@ -213,7 +218,8 @@ f_choice_array () {
 # Outputs: MENU_ITEM, PRESS_KEY.
 #
 f_menu_item_process () {
-      MENU_ITEM=$1
+      MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
+                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
       case $MENU_ITEM in
            # Quit?
            0)
@@ -799,9 +805,15 @@ f_application_install () {
            ;;
            tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
            APP_NAME_INSTALL="netdiag"
-           ;; 
+           ;;
+           tide)
+           APP_NAME_INSTALL="xtide"
+           ;;
            todo)
            APP_NAME_INSTALL="devtodo"
+           ;;
+           weather)
+           APP_NAME_INSTALL="weather-util"
            ;;
            xz | unxz | xzcat | xzgrep)
            APP_NAME_INSTALL="xz-utils"
@@ -986,12 +998,12 @@ f_application_web_install () {
       ;;
       *) # if web site is specified, then go there.
          echo
-         echo "If application did not install properly, do want to use the w3m web browser"
+         echo "If application did not install properly, do want to use the elinks web browser"
          echo -n "to visit the project's web site to download manually (y/N)? "
          read ANS
          case $ANS in        # Start of Install case statement.
               [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-              APP_NAME="w3m $WEB_SITE_INSTALL"
+              APP_NAME="elinks $WEB_SITE_INSTALL"
               f_how_to_quit_application "q"
               f_application_run
               ;;

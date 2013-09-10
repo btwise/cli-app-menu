@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 ## +----------------------------------------+
 # |        Function f_menu_cat_audio       |
@@ -20,7 +20,6 @@ f_menu_cat_audio () {
             #BAU CD Rippers         - Copy music off CD-ROM to files.
             #BAU Editors/Converters - Edit music files and convert to different file formats.
             #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
-            #BAU More Music Players - Single command-line, non-ncurses music players.
             #BAU Radio              - Listen to Internet radio stations.
             #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
             #
@@ -44,9 +43,6 @@ f_menu_cat_audio () {
                  ;;
                  [Mm] | [Mm][Uu]*)
                  f_menu_app_music_players     # Application Menu.
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 f_menu_app_music_players2    # Application Menu.
                  ;;
                  [Rr] | [Rr][Aa]*)
                  f_menu_app_radio             # Application Menu.

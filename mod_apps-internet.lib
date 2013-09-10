@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -230,6 +230,7 @@ f_menu_app_downloaders () {
       do    # Start of Downloaders Applications until loop.
             #MDL axel     - Downloader accelerator using multiple connections/mirrors.
             #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+            #MDL cfv      - create/verify many types of checksum files.
             #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
             #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
             #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
@@ -257,12 +258,20 @@ f_menu_app_downloaders () {
                  APP_NAME="axel"
                  f_application_run
                  ;;
-                 axel' '*)
+                 aria2c' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
                  [Aa] | [Aa][Rr]*)
                  APP_NAME="aria2c" # aria2c is included in package aria2. There is no application "aria2".
+                 f_application_run
+                 ;;
+                 cfv' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Cc] | [Cc][Ff]*)
+                 APP_NAME="cfv"
                  f_application_run
                  ;;
                  md5pass' '*)
@@ -383,6 +392,7 @@ f_menu_app_email () {
             #MEM nedmail        - E-mail client.
             #MEM pine           - E-mail client.
             #MEM sup            - E-mail client.
+            #MEM urlview        - Extracts URL from email text.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-internet.lib"
@@ -500,6 +510,14 @@ f_menu_app_email () {
                  ;;
                  [Ss] | [Ss][Uu]*)
                  APP_NAME="supp"
+                 f_application_run
+                 ;;
+                 urlview' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Uu] | [Uu][Rr]*)
+                 APP_NAME="urlview"
                  f_application_run
                  ;;
             esac                # End of E-mail Applications case statement.

@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-04-2013 00:00"
+REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -127,6 +127,168 @@ f_test_dash () {
       fi
 } # End of function f_test_dash
 #
+# +----------------------------------------+
+# |     Function f_menu_main_configure     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: AAC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_main_configure () {
+      f_initvars_menu_app
+      until [ $AAC -eq 0 ]
+      do    # Start of <Sample Template> Applications until loop.
+            #AAC Edit History - Make changes to the Edit History.
+            #AAC LIST_APPS    - Re-create/Update file list of all applications.
+            #AAC ------------ - --------------------------------------------------------
+            #AAC Black        - Set display white on black (works in X-terminals).
+            #AAC White        - Set display black on white (except in X-terminals).
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Configuration Menu"
+            DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read AAC
+            #
+            f_menu_item_process $AAC  # Outputs $MENU_ITEM.
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $MENU_ITEM in # Start of Configuration Menu case statement.
+                 [Bb] | [Bb][Ll]*)  # Main Menu item, "Black".
+                 TCOLOR="black"
+                 f_term_color # Set terminal color.
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
+                 clear # Blank the screen.
+                 if [ -r EDIT_HISTORY ] ; then
+                    APP_NAME="jed EDIT_HISTORY"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo
+                    echo "The file EDIT_HISTORY is either missing or cannot be read."
+                    echo
+                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 fi
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)  # Main Menu item, "Update LIST_APPS".
+                 X="" # Initialize scratch variable.
+                 while [  "$X" != "YES" -a "$X" != "NO" ]
+                 do
+                       clear # Blank the screen.
+                       echo
+                       echo "For a complete listing of all applications available in all modules,"
+                       echo "all modules must be downloaded into this directory."
+                       echo "This will produce a list of applications in modules present in this directory."
+                       echo "Do you have all modules downloaded to this directory?"
+                       echo -n "If so, update LIST_APPS? (y/N) "
+                       read X
+                            case $X in
+                                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                                 . lib_cli-common.lib ;  f_create_LIST_APPS
+                                 echo ; echo "LIST_APPS is updated."
+                                 X="YES"
+                                 ;;
+                                 "" | [Nn] | [Nn][Oo])
+                                 echo ; echo "LIST_APPS is not updated."
+                                 X="NO"
+                                 ;;
+                            esac
+                 done
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ww] | [Ww][Hh]*)  # Main Menu item, "White".
+                 TCOLOR="white"
+                 f_term_color # Set terminal color.
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;  
+            esac                # End of Configuration Menu case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            AAC=$MENU_ITEM
+            #
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+            #
+      done  # End of Configuration Menu until loop.
+            #
+      unset AAC MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_main_configure
+#
+# +----------------------------------------+
+# |      Function f_menu_main_download     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: AAC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_main_download () {
+           f_initvars_menu_app
+           AAD=""    # Initialize variable.
+           until [ $AAD -eq 0 ] 
+           do    # Start of Download Software Menu until loop.
+                 #AAD Script program.
+                 #AAD Modules of applications.
+                 #
+                 PRESS_KEY=0 # Display "Press 'Enter' key to continue."
+                 MENU_TITLE="Download Software Menu"
+                 DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
+                 f_show_menu $MENU_TITLE $DELIMITER 
+                 #
+                 read AAD
+                 #
+                 f_menu_item_process $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 ERROR=0 # Reset error flag.
+                 #
+                 case $AAD in  # Start of git download case statement.
+                      [Ss] | [Ss][Cc]*)
+                      echo
+                      echo "Choose the branch from where you want to download the script program."
+                      echo
+                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib README COPYING EDIT_HISTORY LIST_APPS
+                      do
+                         if [ "$BRANCH" != "QUIT" ] ; then
+                            echo
+                            echo "File to be downloaded is $MOD_FILE."
+                            f_download_file  # BRANCH is set here. Download each file one at a time.
+                         fi
+                      done
+                      echo "________________________________________________________________"
+                      echo
+                      echo "Any downloaded files are in the same folder as this script."
+                      echo
+                      echo "The file names will be appended with a '.1'"
+                      echo "and you will have to MANUALLY COPY THEM to their original names."
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      #
+                      if [ "$BRANCH"="QUIT" ] ; then 
+                         BRANCH=""
+                      fi
+                      ;;
+                      [Mm] | [Mm][Oo]*) 
+                      f_ask_which_module_download
+                      ;;
+                 esac          # End of git download case statement.
+                 #
+                 # Trap bad menu choices, do not echo Press enter key to continue.
+                 f_bad_menu_choice $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 #
+           done  # End of Download Software Menu until loop.
+           unset AAD  # Throw out this variable.
+} # End of function f_menu_main_download
+#
 # **************************************
 # ***     Start of Main Program      ***
 # **************************************
@@ -154,16 +316,13 @@ do    # Start of CLI Menu util loop.
       #AAA Applications        - Launch a command-line application.
       #AAA Help and Features   - How to use and what can it do.
       #AAA About CLI Menu      - What version am I using.
+      #AAA Configure           - Change default settings; terminal, browser etc.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
       #AAA Download            - Download script program and/or software modules.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA License             - Licensing, GPL.
       #AAA List Applications   - List of all CLI applications in this menu.
       #AAA Search Applications - Is an application featured in this menu script?
-      #AAA Update Edit History - Make changes to the Edit History.
-      #AAA Update LIST_APPS    - Re-create/Update file list of all applications.
-      #AAA Black               - Set display white on black (works in X-terminals).
-      #AAA White               - Set display black on white (except in X-terminals).
       #
       THIS_FILE="cli-app-menu.sh"
       MENU_TITLE="Main Menu"
@@ -187,13 +346,13 @@ do    # Start of CLI Menu util loop.
            ;;
       esac
       #
-      case $CHOICE_MAIN in # Start of CLI Menu case statement.
-           [Aa] | [Aa][Pp]*)
+      case $CHOICE_MAIN in  # Start of CLI Menu case statement.
+           [Aa] | [Aa][Pp]*)  # Main Menu item, "Applications".
            . lib_cli-menu-cat.lib # invoke module/library.
            f_menu_cat_applications
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           [Hh] | [Hh][Ee]*)
+           [Hh] | [Hh][Ee]*)  # Main Menu item, "Help and Features".
            clear # Blank the screen.
            # Display Help (all lines beginning with "#@" but do not print "#@").
            # sed substitutes null for "#@" at the beginning of each line so it is not printed.
@@ -202,7 +361,7 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Aa] | [Aa][Bb]*)
+           [Aa] | [Aa][Bb]*)  # Main Menu item, "About CLI Menu".
            # Calculate project revision number by counting all lines starting with "## 2013".
            # grep ^ (carot sign) means grep any lines beginning with "##2013".
            # grep -c means count the lines that match the pattern.
@@ -222,7 +381,12 @@ do    # Start of CLI Menu util loop.
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Dd] | [Dd][Oo] | [Dd][Oo][Cc]*)
+           [Cc] | [Cc][Oo]*)  # Main Menu item, "Configure".
+           f_menu_main_configure
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           #
+           ;;
+           [Dd] | [Dd][Oo] | [Dd][Oo][Cc]*)  # Main Menu item, "Documentation".
            X="" # Initialize scratch variable.
            clear # Blank the screen.
            if [ ! -r README ] ; then
@@ -258,62 +422,11 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
-           f_initvars_menu_app
-           AAC=""    # Initialize variable.
-           until [ $AAC -eq 0 ] 
-           do    # Start of Download Software Menu until loop.
-                 #AAC Script program.
-                 #AAC Modules of applications.
-                 #
-                 PRESS_KEY=0 # Display "Press 'Enter' key to continue."
-                 MENU_TITLE="Download Software Menu"
-                 DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
-                 f_show_menu $MENU_TITLE $DELIMITER 
-                 #
-                 read AAC
-                 #
-                 f_menu_item_process $AAC ; AAC=$MENU_ITEM  # Outputs $MENU_ITEM.
-                 ERROR=0 # Reset error flag.
-                 #
-                 case $AAC in  # Start of git download case statement.
-                      [Ss] | [Ss][Cc]*)
-                      echo
-                      echo "Choose the branch from where you want to download the script program."
-                      echo
-                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib README COPYING EDIT_HISTORY LIST_APPS
-                      do
-                         if [ "$BRANCH" != "QUIT" ] ; then
-                            echo
-                            echo "File to be downloaded is $MOD_FILE."
-                            f_download_file  # BRANCH is set here. Download each file one at a time.
-                         fi
-                      done
-                      echo "________________________________________________________________"
-                      echo
-                      echo "Any downloaded files are in the same folder as this script."
-                      echo
-                      echo "The file names will be appended with a '.1'"
-                      echo "and you will have to MANUALLY COPY THEM to their original names."
-                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                      #
-                      if [ "$BRANCH"="QUIT" ] ; then 
-                         BRANCH=""
-                      fi
-                      ;;
-                      [Mm] | [Mm][Oo]*) 
-                      f_ask_which_module_download
-                      ;;
-                 esac          # End of git download case statement.
-                 #
-                 # Trap bad menu choices, do not echo Press enter key to continue.
-                 f_bad_menu_choice $AAC ; AAC=$MENU_ITEM  # Outputs $MENU_ITEM.
-                 #
-           done  # End of Download Software Menu until loop.
-           unset AAC  # Throw out this variable.
+           [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)  # Main Menu item, "Download".
+           f_menu_main_download
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Ee] | [Ee][Dd]*)
+           [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
            X="" # Initialize scratch variable.
            clear # Blank the screen.
            if [ ! -r EDIT_HISTORY ] ; then
@@ -348,7 +461,7 @@ do    # Start of CLI Menu util loop.
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Ll] | [Ll][Ii] | [Ll][Ii][Cc]*)
+           [Ll] | [Ll][Ii] | [Ll][Ii][Cc]*)  # Main Menu item, "License".
            clear # Blank the screen.
            # Display License (all lines beginning with "#LIC" but do not print "#LIC").
            # sed substitutes null for "#LIC" at the beginning of each line so it is not printed.
@@ -392,7 +505,7 @@ do    # Start of CLI Menu util loop.
                                           case $X in # Start of gnu.org case statement.
                                                "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                                                clear # Blank the screen.
-                                               APP_NAME="w3m"
+                                               APP_NAME="elinks"
                                                WEB_SITE="http://www.gnu.org/licenses/gpl.html"
                                                APP_NAME="$APP_NAME $WEB_SITE"
                                                f_application_run
@@ -423,7 +536,7 @@ do    # Start of CLI Menu util loop.
            #
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
+           [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)  # Main Menu item, "List Applications".
            X="" # Initialize scratch variable.
            if [ ! -r LIST_APPS ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
@@ -466,7 +579,7 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            #
            ;;
-           [Ss] | [Ss][Ee]*)
+           [Ss] | [Ss][Ee]*)  # Main Menu item, "Search Applications".
            X="" # Initialize scratch variable.
            clear # Blank the screen.
            if [ ! -r LIST_APPS ] ; then
@@ -524,69 +637,12 @@ do    # Start of CLI Menu util loop.
                        f_press_enter_key_to_continue
                        #
                        # Search LIST_APPS
-                       grep $XSTR LIST_APPS --ignore-case -C 9 --color=always | more -d
-                       echo
-                       echo "***End of search results.***"
-                       f_press_enter_key_to_continue
-                       echo
+                       grep --ignore-case -C 9 --color=always $XSTR LIST_APPS | less -rP 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
                     fi
               done
            unset XSTR  # Throw out this variable.
            fi
            ;;
-           [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ee]*)
-           clear # Blank the screen.
-           if [ -r EDIT_HISTORY ] ; then
-              APP_NAME="jed EDIT_HISTORY"
-              f_application_run
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           else
-              echo
-              echo "The file EDIT_HISTORY is either missing or cannot be read."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-           fi
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           [Uu] | [Uu][Pp] | [Uu][Pp][Dd] | [Uu][Pp][Dd][Aa] | [Uu][Pp][Dd][Aa][Tt] | [Uu][Pp][Dd][Aa][Tt][Ee] | [Uu][Pp][Dd][Aa][Tt][Ee]' ' | [Uu][Pp][Dd][Aa][Tt][Ee]' '[Ll]*)
-           X="" # Initialize scratch variable.
-           while [  "$X" != "YES" -a "$X" != "NO" ]
-           do
-                 clear # Blank the screen.
-                 echo
-                 echo "For a complete listing of all applications available in all modules,"
-                 echo "all modules must be downloaded into this directory."
-                 echo "This will produce a list of applications in modules present in this directory."
-                 echo "Do you have all modules downloaded to this directory?"
-                 echo -n "If so, update LIST_APPS? (y/N) "
-                 read X
-                      case $X in
-                           [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                           . lib_cli-common.lib ;  f_create_LIST_APPS
-                           echo ; echo "LIST_APPS is updated."
-                           X="YES"
-                           ;;
-                           "" | [Nn] | [Nn][Oo])
-                           echo ; echo "LIST_APPS is not updated."
-                           X="NO"
-                           ;;
-                      esac
-           done
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           [Bb] | [Bb][Ll]*)
-           TCOLOR="black"
-           f_term_color # Set terminal color.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           [Ww] | [Ww][Hh]*)
-           TCOLOR="white"
-           f_term_color # Set terminal color.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;  
       esac # End of CLI Menu case statement.
       #
       case $CHOICE_MAIN in

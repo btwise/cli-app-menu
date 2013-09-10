@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="SSeptember-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -66,6 +66,7 @@ f_menu_app_video_editors () {
             #MVE avidemux      - Editor for simple cutting, filtering, encoding.
             #MVE ffmpeg        - Multimedia Record, convert, stream and play. 
             #MVE handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
+            #MVE melt          - Multi-track video editor, also plays audio/video files.
             #MVE mencoder      - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
             #MVE mjpegtools    - MJPEG video playback, editing, video capture.
             #MVE mpgtx         - Editor splits/joins MPEG, MP3. video/audio files.
@@ -118,11 +119,19 @@ f_menu_app_video_editors () {
                  APP_NAME="handbrake-cli"
                  f_application_run
                  ;;
+                 melt' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Mm] | [Mm][Ee] | [Mm][Ee][Ll]*)
+                 APP_NAME="melt"
+                 f_application_run
+                 ;;
                  mencoder' '*)
                  APP_NAME=$MENU_ITEM
                  f_application_run
                  ;;
-                 [Mm] | [Mm][Ee]*)
+                 [Mm] | [Mm][Ee] | [Mm][Ee][Nn]*)
                  APP_NAME="mencoder"
                  f_application_run
                  ;;

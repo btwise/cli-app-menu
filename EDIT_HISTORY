@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="September-06-2013 14:21"
+PROJECT_REVDATE="September-10-2013 15:39"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,72 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-09-10 *Main Menu item "Configure" added, f_menu_main_configure.
+##             item "Download" added f_menu_main_download.
+##
+## 2013-09-09 *f_menu_app_binhex_editors added hexer, vbindiff, xdelta,
+##             xdelta3.
+##            *f_menu_app_file_burn added cdck, lsdvd.
+##            *f_menu_app_file_checksum added cdck, cfv.
+##            *f_menu_app_file_compression added lhasa, lzma, lzip, lzop,
+##             pdlzip, rzip, unp.
+##            *f_menu_app_file_encryption added nasty, rephrase
+##            *f_menu_app_file_find added duff, fdupes, file, missidentify,
+##             rdfind, rrep.
+##            *f_menu_app_file_managers added ncdt, lfm.
+##            *f_menu_app_file_operations added cdargs, dares, ddrescue,
+##             magicrescue, myrescue, safe-rm, scrub, wipe.
+##            *f_menu_app_file_splitters added hoz.
+##            *f_menu_app_pdfps added comparepdf, pdfgrep.
+##            *f_menu_app_sys_disks added agedu, di, discus.
+##            *f_menu_app_sys_logs added colortail, inotail, monkeytail.
+##            *f_menu_app_sys_mainboard added mbw.
+##            *f_menu_app_sys_monitors added tyload.
+##            *f_menu_app_sys_other added colortest, cpm.
+##            *f_menu_app_sys_peripherals added cdde, setcd.
+##            *f_menu_app_text_compare added dwdiff.
+##            *f_menu_app_text_file_editors added pyp, rrep.
+##
+## 2013-09-08 *f_menu_app_calendar added hebcal, jcal, lunar.
+##            *f_menu_app_clocks added leave, tzwatch.
+##            *f_menu_app_education added kon2.
+##            *f_menu_app_file_checksum created under "File/Dir" app menu.
+##            *f_menu_app_internet added cfv.
+##            *f_menu_app_note added nodau, note.
+##            *f_menu_app_text_converters added wpd2odt, wpg2odg, wps2odt.
+##            *f_menu_app_text_tools added sdcv.
+##            *f_menu_app_todo added w2do.
+##            *f_menu_app_video added melt.
+##            *Main Menu item "Search" used "less" switch for color output.
+##
+## 2013-09-07 *f_menu_app_clocks added binclock.
+##            *f_menu_app_databases added couchdb.
+##            *f_menu_app_education added metar, seesat5, weather, tide.
+##            *f_menu_app_file_delundel created. Added safe-rm, scrub.
+##             Moved shred, wipe, foremost, photorec, safecopy, trash-cli
+##             from f_menu_app_file_operations.
+##            *f_menu_app_file_managers added lfm, ncdt.
+##            *f_menu_app_file_operations added cdargs, mmv, mrename.
+##            *f_menu_app_file_splitters added hoz.
+##            *f_menu_app_games_word added hodie.
+##            *f_menu_app_image_graphics added welcome21.
+##            *f_menu_app_lan added wuzzah.
+##            *f_menu_app_math axiom, dicelab, mathomatic, ministat,
+##            *f_menu_app_note added tina, worklog.
+##             num-utils, open-axiom, plotutils,  pi, pspp, relational-cli,
+##             and stda.
+##            *f_menu_app_screen_savers added termsaver.
+##            *f_menu_app_sys_disks added agedu.
+##            *f_menu_app_sys_health added cpuburn.
+##            *f_menu_app_sys_others added script, ttyrec.
+##            *f_menu_app_sys_monitors added atsar, acpi, acpitail.
+##            *f_menu_app_sys_screens added away, screenie.
+##            *f_menu_item_process fixed improper setting of MENU_ITEM for
+##             "man <appname>" or "<appname> --help" or anything w/arguments.
+##            *f_show_menu fixed font for Application Category Menu if last
+##             module in menu is not loaded (in normal not bold font).
+##             This made the prompt echo in normal font too.
 ##
 ## 2013-09-06 *f_menu_app_sample_template was rewritten for flexibility
 ##             in nesting.

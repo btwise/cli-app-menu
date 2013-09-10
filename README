@@ -89,7 +89,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="September 6, 2013 14:21"
+#:REVDATE="September-10-2013 15:39"
 #:
 #:
 #: +----------------------------------------+
@@ -345,7 +345,8 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #:AAA - Main Menu
 #:AAB - Application Categories Menu
-#:AAC - Download Menu
+#:AAC - Configure Menu
+#:AAD - Download Menu
 #:
 #:BAU - Audio Categories Menu
 #:BFM - File Management Categories Menu
@@ -371,6 +372,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MBH - Bin-Hex Editor Applications Menu
 #:MBT - Bittorrent Applications Menu
 #:MCA - Calendar Applications Menu
+#:MCB - Calendar2 Applications Menu
 #:MCC - Calculator Applications Menu
 #:MCL - Clock Applications Menu
 #:MCO - Contact List Applications Menu
@@ -378,10 +380,13 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MDL - Dowloader Applications Menu
 #:MED - Education Applications Menu
 #:MEM - E-mail Applications Menu
-#:MFB - File Burn CD/DVD Applications Menu
-#:MFC - File Compression Applications Menu
+#:MFA - File Burn CD/DVD Applications Menu
+#:MFB - File Compression Applications Menu
+#:MFC - File Compression2 Applications Menu
+#:MFD - File Deletion/Undeletion Applications Menu
 #:MFE - File Encryption Applications Menu
 #:MFF - File Search and find Applications Menu
+#:MFG - File Checksum Applications Menu
 #:MFM - File Manager Applications Menu
 #:MFO - File Operations Applications Menu
 #:MFS - File Splitter Applications Menu
@@ -403,6 +408,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu
 #:MIR - Internet Relay Chat (IRC) Applications Menu
+#:MMA - Mathematics Application Menu
 #:MNC - LAN Chat Applications Menu
 #:MNF - Firewalls Applications Menu
 #:MNL - LAN Applications Menu
@@ -417,6 +423,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MPO - Podcatcher Applications Menu
 #:MPR - Presentation Applications Menu
 #:MPS - PDF-PS Applications Menu
+#:MPT - PDF-PS2 Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
 #:MSB - System Backup Applications Menu
@@ -427,6 +434,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MSI - System Mainboard Information Applications Menu
 #:MSL - System Peripherals Information Applications Menu
 #:MSM - System Monitor Applications Menu
+#:MSN - System Monitor2 Applications Menu
 #:MSP - Spreadsheet Applications Menu
 #:MSR - System Process Applications Menu
 #:MSS - Screen-saver Applications Menu

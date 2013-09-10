@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -51,7 +51,7 @@ f_menu_cat_image () {
 } # End of function f_menu_cat_image
 #
 # +----------------------------------------+
-# |    Function f_menu_app_image_graphics   |
+# |   Function f_menu_app_image_graphics   |
 # +----------------------------------------+
 #
 #  Inputs: None. 
@@ -76,6 +76,7 @@ f_menu_app_image_graphics () {
             #MIG linuxlogo  - Color ANSI system logo
             #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
             #MIG star wars  - Star Wars movie in ASCII.
+            #MIG welcome21  - ANSI logo on login screen.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-image.lib"
@@ -222,7 +223,7 @@ f_menu_app_image_graphics () {
                  echo If telnet hangs while trying the ip-address,
                  echo then re-run this program and try again.
                  echo
-                 echo "To quit Star Wars ASCII Movie, type Ctrl-Z or Ctrl-C."
+                 echo "To quit Star Wars ASCII Movie, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running Star Wars ASCII Movie will exit this menu script."
                  echo
@@ -236,6 +237,14 @@ f_menu_app_image_graphics () {
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac
+                 ;;
+                 welcome21' '*)
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Ee]*)
+                 APP_NAME="welcome21"
+                 f_application_run
                  ;;
             esac                # End of Image-Graphics Applications case statement.
             #

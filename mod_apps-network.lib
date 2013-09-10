@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-10-2013 15:39"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -284,6 +284,7 @@ f_menu_app_lan () {
             #MNL sipcalc     - ip subnet calculator.
             #MNL ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
             #MNL subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
+            #MNL wuzzah      - LAN user login/out tracker.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-network.lib"
@@ -469,6 +470,14 @@ f_menu_app_lan () {
                  ;;
                  [Ss] | [Ss][Uu]*)
                  APP_NAME="subnetcalc"
+                 f_application_run
+                 ;;
+                 wuzzah' '* | 'sudo wuzzah '* | 'sudo wuzzah')
+                 APP_NAME=$MENU_ITEM
+                 f_application_run
+                 ;;
+                 [Ww] | [Ww][Uu]*)
+                 APP_NAME="wuzzah"
                  f_application_run
                  ;;
             esac                # End of LAN Applications case statement.
@@ -1124,7 +1133,7 @@ f_menu_app_network_monitors () {
                  echo "This command starts the ntop process."
                  echo "To use ntop, open a web browser to URL localhost:3000 or 127.0.0.1:3000"
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1147,7 +1156,7 @@ f_menu_app_network_monitors () {
                  echo "This command starts the ntop process."
                  echo "To use ntop, open a web browser to URL localhost:3000 or 127.0.0.1:3000"
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1261,9 +1270,9 @@ f_menu_app_nic_tools () {
             #MNN ethtool      - NIC configuration.
             #MNN ifconfig     - NIC configuration.
             #MNN ifplugstatus - Wireless USB NIC status.
-            #MNL ip          - Shows routing, devices, policy routing and tunnels.
-            #MNL ip addr     - Protocol (IP or IPv6) address on a device.
-            #MNL ip neighbor - ARP or NDISC cache entry.
+            #MNN ip           - Shows routing, devices, policy routing and tunnels.
+            #MNN ip addr      - Protocol (IP or IPv6) address on a device.
+            #MNN ip neighbor  - ARP or NDISC cache entry.
             #MNN iwconfig     - Wireless NIC configuration.
             #MNN iwlist       - Get detailed information from wired/wireless NICs.
             #MNN macchanger   - Change the hardware MAC address on wired/wireless NICs.
@@ -1538,7 +1547,7 @@ f_menu_app_packet_tools () {
                  echo "Note: ngrep needs root permissions."
                  echo "      You need to use 'sudo ngrep'."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1561,7 +1570,7 @@ f_menu_app_packet_tools () {
                  echo "Note: ngrep needs root permissions."
                  echo "      You need to use 'sudo ngrep'."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1597,7 +1606,7 @@ f_menu_app_packet_tools () {
                  clear # Blank the screen.
                  echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
@@ -1616,7 +1625,7 @@ f_menu_app_packet_tools () {
                  clear # Blank the screen.
                  echo "snort - Packet sniffer/logger, Network Intrusion Detection System."
                  echo
-                 echo "To quit $APP_NAME, type Ctrl-Z or Ctrl-C."
+                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
                  echo "(There is no way to cleanly return to the menu)."
                  echo "Running $APP_NAME will exit this menu script."
                  echo
