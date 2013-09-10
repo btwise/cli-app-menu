@@ -103,9 +103,9 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 ##            *f_menu_app_image_graphics added welcome21.
 ##            *f_menu_app_lan added wuzzah.
 ##            *f_menu_app_math axiom, dicelab, mathomatic, ministat,
-##            *f_menu_app_note added tina, worklog.
 ##             num-utils, open-axiom, plotutils,  pi, pspp, relational-cli,
 ##             and stda.
+##            *f_menu_app_note added tina, worklog.
 ##            *f_menu_app_screen_savers added termsaver.
 ##            *f_menu_app_sys_disks added agedu.
 ##            *f_menu_app_sys_health added cpuburn.
