@@ -89,7 +89,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="September-10-2013 15:39"
+#:REVDATE="September-11-2013 11:35"
 #:
 #:
 #: +----------------------------------------+
@@ -337,6 +337,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: XNUM        - Number; Scratch variable used in awk statement in f_show_menu
 #:               and in CHOICE[XNUM] array.
 #: XSTR        - String; Scratch variable.
+#: XXSTR       - String; Scratch variable.
 #:
 #:
 #: +----------------------------------------+
