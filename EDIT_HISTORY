@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="September-11-2013 11:35"
+PROJECT_REVDATE="September-23-2013 00:53"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,36 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-09-23 *f_menu_main_configure "LIST_APPS" menu item clarify instructions.
+##            *f_mod_apps-office.lib rework finished.
+##
+## 2013-09-20 *f_mod_apps-network.lib rework finished.
+##            *f_mod_apps-system reworked.
+##
+## 2013-09-17 *f_find_NIC reworked to add validity checking.
+##            *f_mod_apps-network.lib reworked.
+##
+## 2013-09-16 *f_cat_menu_item_process copied from f_menu_item_process for
+##             use in the Main Menu, and Application Categories Menu,
+##             f_menu_cat_applications. It was simpler to use existing code
+##             than to make those menus work with the reworked code.
+##            *f_menu_item_process reworked to allow for category menus.
+##            *mod_apps_audio.lib, education, games, image, internet,
+##             screensaver, video.
+##
+## 2013-09-15 *f_menu_app* menus started restructuring with application
+##             information included in the menu data. This eliminated the
+##             need for case pattern matching and reduced file sizes
+##             considerably. To support this new functionality, a number of
+##             new functions had to be written.
+##            *f_eval_funct created.
+##            *f_menu_item_process was reworked.
+##            *f_menu_item_valid created.
+##            *f_menu_item_info created.
+##            *f_press_key created.
+##            *f_quit_app_clause created.
+##            *f_run_and_exit created.
 ##
 ## 2013-09-11 *f_menu_app_packet_tools deleted wireshark (GUI) and
 ##              added tshark (CLI for wireshark).

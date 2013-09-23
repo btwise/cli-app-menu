@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-09-10 15:05 Tuesday
+Last updated: 2013-09-23 00:37 Monday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -458,7 +458,6 @@ ________________________________________________
  bb        - ASCII-art movie demo based on AAlib.
  sail      - Command a Man O'War fighting ship.
  sl        - Steam locomotive (when you mis-type 'ls' command).
- star wars - Star Wars movie in ASCII.
  trek      - Star Trek blast Klingons.
  ztrack    - First-person car racing game.
 
@@ -485,7 +484,7 @@ ________________________________________________
 *** Ham Radio Applications Menu ***
  aldo     - Morse code training.
  cw       - Morse code training.
- cwcp     - Morse code training.
+ cwcp     - Morse code training; ncurses-based.
  ebook2cw - Converts plain text ebooks to  morse code mp3/ogg audio files.
  morse    - Morse code training.
  morsegen - Converts text file to ASCII morse code.
@@ -494,6 +493,7 @@ ________________________________________________
 
 ________________________________________________
 *** Image-Graphics Applications Menu ***
+ star wars  - Star Wars movie in ASCII.
  aview      - Image and ascii art image viewer.
  bb         - ASCII-art movie demo based on AAlib.
  caca-utils - Image viewer and converter jpg to ascii images.
@@ -551,6 +551,7 @@ ________________________________________________
 
 ________________________________________________
 *** Mathematics Application Menu ***
+ arithmetic     - Basic arithmetic quiz.
  axiom          - General purpose computer algebra system.
  dicelab        - evaluate the statistical distribution of dice rolls.
  mathomatic     - Portable CAS (Computer Algebra System)
@@ -790,19 +791,20 @@ ________________________________________________
 
 ________________________________________________
 *** System Software Package Applications Menu ***
- alien    - Converts rpm to deb packages.
- apt      - Debian package manager.
- apt-file - Search/List files in the Debian package manager w/o installing.
- aptitude - Debian package manager.
- aptoncd  - GUI makes a CD of Debian packages for installation w/o Internet.
- dpkg     - Debian package manager.
- rpm      - RPM (Red Hat) package manager.
- synaptic - GUI Debian package manager.
- unshield - Extracts CAB files from InstallShield installers for MS Windows.
- urpmi    - Mandriva, Mageia package manager.
- YaST     - GUI OpenSUSE package manager.
- yum      - "Yellow Dog Updated" package manager.
- zypper   - OpenSUSE package manager on which is based YaST GUI.
+ alien     - Converts rpm to deb packages.
+ apt       - Debian package manager.
+ apt-cache - Show package information, (reverse)/dependency information.
+ apt-file  - Search/List files in the Debian package manager w/o installing.
+ aptitude  - Debian package manager.
+ aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
+ dpkg      - Debian package manager.
+ rpm       - RPM (Red Hat) package manager.
+ synaptic  - GUI Debian package manager.
+ unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
+ urpmi     - Mandriva, Mageia package manager.
+ YaST      - GUI OpenSUSE package manager.
+ yum       - "Yellow Dog Updated" package manager.
+ zypper    - OpenSUSE package manager on which is based YaST GUI.
 
 ________________________________________________
 *** System Health Applications Menu ***
@@ -959,8 +961,8 @@ ________________________________________________
  hnb      - To-Do List and note taker, ncurses-based application.
  org-mode - Emacs plugin for notes, ToDo lists, and project planning.
  tdl      - To Do List manager.
- todo     - To-Do List hierarchical. Install package 'devtodo'.
- todo2    - 'devtodo2' application is a todo2 list, 5-levels of priorties.
+ todo     - To-Do List hierarchical. Install package "devtodo".
+ todo2    - "devtodo2" application is a todo2 list, 5-levels of priorties.
  tudu     - To-Do List hierarchical tasks.
  w2do     - To Do with support for group, due date and priority categories.
  yaGTD    - To-Do List based on "Getting Things Done" methodology.

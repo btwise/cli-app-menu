@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-10-2013 15:39"
+# REVDATE="September-20-2013 02:05"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -11,16 +11,15 @@
 #
 #  Inputs: None.
 #    Uses: BVI, MENU_ITEM, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_video () {
       f_initvars_menu_app
       until [ $BVI -eq 0 ]
       do    # Start of Video Application Category until loop.
-            #BVI Editors - Video editors, transcoders, converters.
-            #BVI Players - Video players/downloaders.
+#^f_menu_app_video_editors #BVI Editors - Video editors, transcoders, converters.
+#^f_menu_app_video_players #BVI Players - Video players/downloaders.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-video.lib"
             MENU_TITLE="Video Application Category Menu"
             DELIMITER="#BVI" #BVI This 3rd field prevents awk from printing this line into menu options. 
@@ -28,22 +27,8 @@ f_menu_cat_video () {
             #
             read BVI
             #
+            . lib_cli-common.lib
             f_menu_item_process $BVI  # Outputs $MENU_ITEM.
-            ERROR=0 # Reset error flag.
-            #
-            case $MENU_ITEM in # Start of Video Application Category case statement.
-                 [Ee] | [Ee][Dd]*)
-                 f_menu_app_video_editors     # Application Menu.
-                 ;;
-                 [Pp] | [Pp][Ll]*)
-                 f_menu_app_video_players     # Application Menu.
-                 ;;
-            esac                 # End of Video Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM
-            #
-            BVI=$MENU_ITEM  # Outputs $MENU_ITEM.
             #
       done  # End of Video Application Category until loop.
             #
@@ -62,14 +47,14 @@ f_menu_app_video_editors () {
       f_initvars_menu_app
       until [ $MVE -eq 0 ]
       do    # Start of Video Applications until loop.
-            #MVE avconv        - Audio/Video converter.
-            #MVE avidemux      - Editor for simple cutting, filtering, encoding.
-            #MVE ffmpeg        - Multimedia Record, convert, stream and play. 
-            #MVE handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
-            #MVE melt          - Multi-track video editor, also plays audio/video files.
-            #MVE mencoder      - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
-            #MVE mjpegtools    - MJPEG video playback, editing, video capture.
-            #MVE mpgtx         - Editor splits/joins MPEG, MP3. video/audio files.
+#0^0^0^1^1 #MVE avconv        - Audio/Video converter.
+#0^0^0^1^1 #MVE avidemux      - Editor for simple cutting, filtering, encoding.
+#0^0^0^0^1 #MVE ffmpeg        - Multimedia Record, convert, stream and play. 
+#0^0^0^0^1 #MVE handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
+#0^0^0^0^1 #MVE melt          - Multi-track video editor, also plays audio/video files.
+#0^0^0^0^1 #MVE mencoder      - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
+#0^0^0^0^1 #MVE mjpegtools    - MJPEG video playback, editing, video capture.
+#0^0^0^0^1 #MVE mpgtx         - Editor splits/joins MPEG, MP3. video/audio files.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-video.lib"
@@ -79,87 +64,8 @@ f_menu_app_video_editors () {
             #
             read MVE
             #
+            . lib_cli-common.lib
             f_menu_item_process $MVE  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Video Editor Applications case statement.
-                 avconv' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Vv] | [Aa][Vv][Cc]*)
-                 APP_NAME="avconv"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 ;;
-                 avidemux' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Vv] | [Aa][Vv][Ii]*)
-                 APP_NAME="avidemux"
-                 f_application_run
-                 ;;
-                 ffmpeg' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ff] | [Ff][Ff]*)
-                 APP_NAME="ffmpeg"
-                 f_application_run
-                 ;;
-                 handbrake-cli' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Hh] | [Hh][Aa]*)
-                 APP_NAME="handbrake-cli"
-                 f_application_run
-                 ;;
-                 melt' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Ee] | [Mm][Ee][Ll]*)
-                 APP_NAME="melt"
-                 f_application_run
-                 ;;
-                 mencoder' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Ee] | [Mm][Ee][Nn]*)
-                 APP_NAME="mencoder"
-                 f_application_run
-                 ;;
-                 mjpegtools' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Jj]*)
-                 APP_NAME="mjpegtools"
-                 f_application_run
-                 ;;
-                 mpgtx' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Pp]*)
-                 APP_NAME="mpgtx"
-                 f_application_run
-                 ;;
-            esac                # End of Video Editor Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MVE=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Video Editor Applications until loop.
             #
@@ -178,18 +84,18 @@ f_menu_app_video_players () {
       f_initvars_menu_app
       until [ $MVI -eq 0 ]
       do    # Start of Video Applications until loop.
-            #MVI aaxine       - Xine video player.
-            #MVI cacaxine     - Xine video player.
-            #MVI cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
-            #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
-            #MVI fbxine       - Xine video player.
-            #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
-            #MVI mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
-            #MVI mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
-            #MVI vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
-            #MVI xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
-            #MVI yougrabber   - Download/Play Youtube videos.
-            #MVI youtube-dl   - Download/Play Youtube videos.
+#0^0^0^0^1 #MVI aaxine       - Xine video player.
+#0^0^0^0^1 #MVI cacaxine     - Xine video player.
+#0^0^0^0^1 #MVI cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
+#0^0^0^0^1 #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
+#0^0^0^0^1 #MVI fbxine       - Xine video player.
+#0^0^0^0^1 #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
+#0^0^0^0^1 #MVI mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+#0^0^0^0^1 #MVI mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+#0^0^0^0^1 #MVI vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
+#0^0^0^0^1 #MVI xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
+#0^0^0^0^1 #MVI yougrabber   - Download/Play Youtube videos.
+#0^0^0^0^1 #MVI youtube-dl   - Download/Play Youtube videos.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-video.lib"
@@ -199,117 +105,8 @@ f_menu_app_video_players () {
             #
             read MVI
             #
+            . lib_cli-common.lib
             f_menu_item_process $MVI  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Video Player/Downloader Applications case statement.
-                 aaxine' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Aa]*)
-                 APP_NAME="aaxine"
-                 f_application_run
-                 ;;
-                 cacaxine'*')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Aa]*)
-                 APP_NAME="cacaxine"
-                 f_application_run
-                 ;;
-                 cclive' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Cc]*)
-                 APP_NAME="cclive"
-                 f_application_run
-                 ;;
-                 episoder' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ee] | [Ee][Pp]*)
-                 APP_NAME="episoder"
-                 f_application_run
-                 ;;
-                 fbxine' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ff] | [Ff][Bb]*)
-                 APP_NAME="fbxine"
-                 f_application_run
-                 ;;
-                 mencoder' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Ee]*)
-                 APP_NAME="mencoder"
-                 f_application_run
-                 ;;
-                 mplayer' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr])
-                 APP_NAME="mplayer"
-                 f_application_run
-                 ;;
-                 mplayer2' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Pp] | [Mm][Pp][Ll] | [Mm][Pp][Ll][Aa] | [Mm][Pp][Ll][Aa][Yy] | [Mm][Pp][Ll][Aa][Yy][Ee] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr] | [Mm][Pp][Ll][Aa][Yy][Ee][Rr][2])
-                 APP_NAME="mplayer2"
-                 f_application_run
-                 ;;
-                 vlc' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Vv] | [Vv][Ll]*)
-                 APP_NAME="vlc"
-                 f_application_run
-                 ;;
-                 xine-console' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Xx] | [Xx][Ii]*)
-                 APP_NAME="xine-console"
-                 f_application_run
-                 ;;
-                 yougrabber' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Yy] | [Yy][Oo] | [Yy][Oo][Uu] | [Yy][Oo][Uu][Gg]*)
-                 APP_NAME="yougrabber"
-                 f_application_run
-                 ;;
-                 youtube-dl' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Yy] | [Yy][Oo] | [Yy][Oo][Uu] | [Yy][Oo][Uu][Tt]*)
-                 APP_NAME="youtube-dl"
-                 f_application_run
-                 ;;
-            esac                # End of Video Player/Downloader Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MVI=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Video Player/Downloader Applications until loop.
             #

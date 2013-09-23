@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-10-2013 15:39"
+REVDATE="September-23-2013 00:53"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -152,7 +152,7 @@ f_menu_main_configure () {
             #
             read AAC
             #
-            f_menu_item_process $AAC  # Outputs $MENU_ITEM.
+            f_cat_menu_item_process $AAC  # Outputs $MENU_ITEM.
             f_application_help
             ERROR=0 # Reset error flag.
             APP_NAME="" # Set application name to null value.
@@ -184,11 +184,13 @@ f_menu_main_configure () {
                  do
                        clear # Blank the screen.
                        echo
-                       echo "For a complete listing of all applications available in all modules,"
-                       echo "all modules must be downloaded into this directory."
-                       echo "This will produce a list of applications in modules present in this directory."
-                       echo "Do you have all modules downloaded to this directory?"
-                       echo -n "If so, update LIST_APPS? (y/N) "
+                       echo "For a COMPLETE listing of ALL applications available in ALL modules,"
+                       echo "ALL modules MUST be downloaded into this directory."
+                       echo
+                       echo "Otherwise, list the applications available only in the modules"
+                       echo "currently downloaded into this directory."
+                       echo 
+                       echo -n "Are you ready to update LIST_APPS? (y/N) "
                        read X
                             case $X in
                                  [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -417,7 +419,7 @@ do    # Start of CLI Menu util loop.
               # Display README Documentation (all lines beginning with "#:" but do not print "#:").
               # sed substitutes null for "#:" at the beginning of each line so it is not printed.
               # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-              sed -n 's/^#://'p README | less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+              sed -n 's/^#://'p README | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
@@ -456,7 +458,7 @@ do    # Start of CLI Menu util loop.
               # Display Edit History (all lines beginning with "##" but do not print "##").
               # sed substitutes null for "##" at the beginning of each line so it is not printed.
               # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-              sed -n 's/^##//'p EDIT_HISTORY | less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+              sed -n 's/^##//'p EDIT_HISTORY | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
@@ -466,7 +468,7 @@ do    # Start of CLI Menu util loop.
            # Display License (all lines beginning with "#LIC" but do not print "#LIC").
            # sed substitutes null for "#LIC" at the beginning of each line so it is not printed.
            # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-           sed -n 's/^#LIC//'p $THIS_FILE | less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           sed -n 's/^#LIC//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            X="" # Initialize scratch variable.
            while [  "$X" != "YES" -a "$X" != "NO" ]
@@ -522,7 +524,7 @@ do    # Start of CLI Menu util loop.
                          done
                       fi
                       if [ -r COPYING ] ; then
-                         less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' COPYING
+                         less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' COPYING
                          PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       fi
                       X="YES"
@@ -573,7 +575,7 @@ do    # Start of CLI Menu util loop.
            fi
            # display LIST_APPS
            if [ -r LIST_APPS ] ; then
-           less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' LIST_APPS
+           less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' LIST_APPS
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
@@ -637,7 +639,7 @@ do    # Start of CLI Menu util loop.
                        f_press_enter_key_to_continue
                        #
                        # Search LIST_APPS
-                       grep --ignore-case -C 9 --color=always $XSTR LIST_APPS | less -rP 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+                       grep --ignore-case -C 9 --color=always $XSTR LIST_APPS | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
                     fi
               done
            unset XSTR  # Throw out this variable.

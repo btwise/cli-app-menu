@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-10-2013 15:39"
+# REVDATE="September-20-2013 02:05"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -17,16 +17,16 @@ f_menu_cat_games () {
       f_initvars_menu_app
       until [ $BGA -eq 0 ]
       do    # Start of Application Category until loop.
-            #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
-            #BGA Board Games    - Classic board games.
-            #BGA Card Games     - Played with a deck of playing cards.
-            #BGA MUD Games      - Multi-user dungeon adventure games.
-            #BGA Puzzles        - Tetris-clones, create punch card/paper tape codes.
-            #BGA Quiz Games     - Challenge your mind.
-            #BGA RPG Games      - Single-player role-playing games.
-            #BGA Sims/Anims     - Simulations and animations. ASCII movies.
-            #BGA Strategy Games - 1-2 Players.
-            #BGA Word Games     - Boggle, hangman, pig-latin, create banners.
+#^f_menu_app_games_arcade #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
+#^f_menu_app_games_board #BGA Board Games    - Classic board games.
+#^f_menu_app_games_card #BGA Card Games     - Played with a deck of playing cards.
+#^f_menu_app_games_mud #BGA MUD Games      - Multi-user dungeon adventure games.
+#^f_menu_app_games_puzzle #BGA Puzzles        - Tetris-clones, create punch card/paper tape codes.
+#^f_menu_app_games_quiz #BGA Quiz Games     - Challenge your mind.
+#^f_menu_app_games_rpg #BGA RPG Games      - Single-player role-playing games.
+#^f_menu_app_games_simulation #BGA Sims/Anims     - Simulations and animations. ASCII movies.
+#^f_menu_app_games_strategy #BGA Strategy Games - 1-2 Players.
+#^f_menu_app_games_word #BGA Word Games     - Boggle, hangman, pig-latin, create banners.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Games Category Menu"
@@ -35,46 +35,8 @@ f_menu_cat_games () {
             #
             read BGA
             #
+            . lib_cli-common.lib
             f_menu_item_process $BGA  # Outputs $MENU_ITEM.
-            ERROR=0 # Reset error flag.
-            #
-            case $MENU_ITEM in # Start of Game Category case statement.
-                 [Aa] | [Aa][Rr]*)
-                 f_menu_app_games_arcade      # Arcade Games Applications Menu.
-                 ;;
-                 [Bb] | [Bb][Oo]*)
-                 f_menu_app_games_board       # Board Games Applications Menu.
-                 ;;
-                 [Cc] | [Cc][Aa]*)
-                 f_menu_app_games_card        # Card Games Applications Menu.
-                 ;;
-                 [Mm] | [Mm][Uu]*)
-                 f_menu_app_games_mud         # Mud Games Applications Menu.
-                 ;;
-                 [Pp] | [Pp][Uu]*)
-                 f_menu_app_games_puzzle      # Puzzle Games Applications Menu.
-                 ;;
-                 [Qq] | [Qq][Uu]*)
-                 f_menu_app_games_quiz        # Quiz Games Applications Menu.
-                 ;;
-                 [Rr] | [Rr][Pp]*)
-                 f_menu_app_games_rpg         # Role Playing Games Applications Menu.
-                 ;;
-                 [Ss] | [Ss][Ii]*)
-                 f_menu_app_games_simulation  # Simulation Games Applications Menu.
-                 ;;
-                 [Ss] | [Ss][Tt]*)
-                 f_menu_app_games_strategy    # Strategy Games Applications Menu.
-                 ;;
-                 [Ww] | [Ww][Oo]*)
-                 f_menu_app_games_word        # Word Games Applications Menu.
-                 ;;
-            esac                 # End of Game Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM
-            #
-            BGA=$MENU_ITEM  # Outputs $MENU_ITEM.
             #
       done  # End of Game Category until loop.
             #
@@ -88,29 +50,27 @@ f_menu_cat_games () {
 #
 #  Inputs: None. 
 #    Uses: MGB, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_arcade () {
       f_initvars_menu_app
       until [ $MGB -eq 0 ]
       do    # Start of Arcade Games until loop.
-            #MGB asciijump      - Ski jump game.
-            #MGB bastet         - Tetris-like game.
-            #MGB freesweep      - Minesweeper game.
-            #MGB moon-buggy     - Drive a moon buggy on the moon.
-            #MGB myman          - Pac-Man clone, ncurses-based.
-            #MGB netris         - Tetris-like game.
-            #MGB ninvaders      - Space invaders-like game ncurses-based.
-            #MGB nsnake         - Variation of BSD's snake game.
-            #MGB pacman4console - Pacman-like game ncurses-based.
-            #MGB petris         - Tetris-like game.
-            #MGB robots         - Be chased by killer robots.
-            #MGB snake          - Be chased by a snake while collecting money.
-            #MGB worm           - Be a growing worm, don't crash into yourself.
-            #MGB zsnake         - Variation of BSD's snake game.
-
+#0^0^0^0^0 #MGB asciijump      - Ski jump game.
+#0^0^0^0^0 #MGB bastet         - Tetris-like game.
+#0^0^0^0^1 #MGB freesweep      - Minesweeper game.
+#0^0^0^0^0 #MGB moon-buggy     - Drive a moon buggy on the moon.
+#0^0^0^0^1 #MGB myman          - Pac-Man clone, ncurses-based.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGB netris         - Tetris-like game.
+#0^0^0^1^1 #MGB ninvaders      - Space invaders-like game ncurses-based.
+#0^0^0^0^0 #MGB nsnake         - Variation of BSD's snake game.
+#0^0^0^0^1 #MGB pacman4console - Pacman-like game ncurses-based.
+#0^0^0^5^0 #MGB petris         - Tetris-like game.
+#0^0^0^0^0 #MGB robots         - Be chased by killer robots.
+#0^0^0^18^0 #MGB snake          - Be chased by a snake while collecting money.
+#0^0^0^9^0 #MGB worm           - Be a growing worm, don't crash into yourself.
+#0^0^0^18^0 #MGB zsnake         - Variation of BSD's snake game.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade Game Menu"
             DELIMITER="#MGB" #MGB This 3rd field prevents awk from printing this line into menu options. 
@@ -118,175 +78,8 @@ f_menu_app_games_arcade () {
             #
             read MGB
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGB  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Arcade Games case statement.
-                 asciijump' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Aa] | [Aa][Ss]*)
-                 APP_NAME="asciijump"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 bastet' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Bb] | [Bb][Aa]*)
-                 APP_NAME="bastet"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 freesweep' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ff] | [Ff][Rr]*)
-                 APP_NAME="freesweep"
-                 f_application_run
-                 ;;
-                 moon-buggy' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 APP_NAME="moon-buggy"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 netris' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Ee]*)
-                 APP_NAME="netris"
-                 clear # Blank the screen.
-                 echo "netris - Tetris-like game."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 ninvaders' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 [Nn] | [Nn][Ii]*)
-                 APP_NAME="ninvaders"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 nsnake' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Nn] | [Nn][Ss]*)
-                 APP_NAME="nsnake"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-
-                 pacman4console' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Pp] | [Pp][Aa]*)
-                 APP_NAME="pacman4console"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 # Allows display of error message "Console window must be at least 32x29".
-                 ;;
-                 petris' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "(lose game and then) type 'Q'"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Pp] | [Pp][Ee]*)
-                 APP_NAME="petris"
-                 f_how_to_quit_application "(lose game and then) type 'Q'"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 robots' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Rr] | [Rr][Oo]*)
-                 APP_NAME="robots"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 snake' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "X"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] | [Ss][Nn]*)
-                 APP_NAME="snake"
-                 f_how_to_quit_application "X"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 worm' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<Ctrl>-C or crash into wall"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ww] | [Ww][Oo]*)
-                 APP_NAME="worm"
-                 f_how_to_quit_application "<Ctrl>-C or crash into wall"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 zsnake' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "X"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] | [Ss][Nn]*)
-                 APP_NAME="zsnake"
-                 f_how_to_quit_application "X"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-            esac # End of Arcade Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGB=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Arcade Games until loop.
             #
@@ -299,18 +92,17 @@ f_menu_app_games_arcade () {
 #
 #  Inputs: None. 
 #    Uses: MGC, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_board () {
       f_initvars_menu_app
       until [ $MGC -eq 0 ]
       do    # Start of Board Games until loop.
-            #MGC atom4      - Board game strategy 2-player ncurses-based.
-            #MGC backgammon - Backgammon.
-            #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
-            #MGC monop      - Monopoly-like game.
+#1^0^0^1^0 #MGC atom4      - Board game strategy 2-player ncurses-based.
+#0^0^0^1^0 #MGC backgammon - Backgammon.
+#0^0^0^1^0 #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
+#0^0^0^2^1 #MGC monop      - Monopoly-like game.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Board Games Menu"
             DELIMITER="#MGC" #MGC This 3rd field prevents awk from printing this line into menu options. 
@@ -318,67 +110,8 @@ f_menu_app_games_board () {
             #
             read MGC
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGC  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Board Games case statement.
-                 atom4' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Aa] | [Aa][Tt]*)
-                 APP_NAME="atom4 -mt"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 backgammon' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Bb] | [Bb][Aa]*)
-                 APP_NAME="backgammon"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 gnubg' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Gg] | [Gg][Nn]*)
-                 APP_NAME="gnubg"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 monop' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q or quit"
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 APP_NAME="monop"
-                 f_how_to_quit_application "Q or quit" 
-                 f_application_run
-                 ;;
-            esac # End of Board Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGC=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Board Games until loop.
             #
@@ -386,23 +119,30 @@ f_menu_app_games_board () {
 } # End of f_menu_app_games_board
 #
 # +----------------------------------------+
+# |            Function f_atom4            |
+# +----------------------------------------+
+#
+f_atom4 () {
+      APP_NAME="atom4 -mt"
+} # End of f_atom4
+#
+# +----------------------------------------+
 # |     Function f_menu_app_games_card     |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MGD, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_card () {
       f_initvars_menu_app
       until [ $MGD -eq 0 ]
       do    # Start of Card Games until loop.
-            #MGD canfield - Solitaire card game with betting.
-            #MGD cribbage - Cribbage Card game.
-            #MGD freecell - Freecell card game.
-            #MGD go-fish  - Go Fish card game.
+#0^0^0^0^0 #MGD canfield - Solitaire card game with betting.
+#f_run_and_exit "Cribbage" "cribbage"^0^0^0^0 #MGD cribbage - Cribbage Card game.
+#0^0^0^0^0 #MGD freecell - Freecell card game.
+#0^0^0^0^0 #MGD go-fish  - Go Fish card game.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Card Game Menu"
             DELIMITER="#MGD" #MGD This 3rd field prevents awk from printing this line into menu options. 
@@ -410,71 +150,8 @@ f_menu_app_games_card () {
             #
             read MGD
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGD  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Card Games case statement.
-                 canfield' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Aa]*)
-                 APP_NAME="canfield"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cribbage' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Rr]*)
-                 APP_NAME="cribbage"
-                 clear # Blank the screen.
-                 echo "cribbage - Classic card game for one player vs. the computer."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 freecell' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ff] | [Ff][Rr]*)
-                 APP_NAME="freecell"
-                 f_application_run
-                 ;;
-                 go-fish' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Gg] | [Gg][Oo]*)
-                 APP_NAME="go-fish"
-                 f_application_run
-                 ;;
-            esac # End of Card Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGD=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Card Games until loop.
             #
@@ -487,16 +164,15 @@ f_menu_app_games_card () {
 #
 #  Inputs: None. 
 #    Uses: MGE, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_mud () {
       f_initvars_menu_app
       until [ $MGE -eq 0 ]
       do    # Start of MUD Games until loop.
-            #MGE crawl    - Explore a cave, retrieve the Orb of Zot.
-            #MGE tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
+#0^0^0^0^1 #MGE crawl    - Explore a cave, retrieve the Orb of Zot.
+#0^0^0^0^1 #MGE tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="MUD Game Menu"
             DELIMITER="#MGE" #MGE This 3rd field prevents awk from printing this line into menu options. 
@@ -504,37 +180,8 @@ f_menu_app_games_mud () {
             #
             read MGE
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGE  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of MUD Games case statement.
-                 crawl' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] |[Cc][Rr]*)
-                 APP_NAME="crawl"
-                 f_application_run
-                 ;;
-                 tintin++' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Ii]*)
-                 APP_NAME="tintin++"
-                 f_application_run
-                 ;;
-            esac # End of MUD Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGE=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of MUD Games until loop.
             #
@@ -547,24 +194,22 @@ f_menu_app_games_mud () {
 #
 #  Inputs: None. 
 #    Uses: MGF, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_puzzle () {
       f_initvars_menu_app
       until [ $MGF -eq 0 ]
       do    # Start of Puzzle Games until loop.
-            #MGF bastet   - Tetris-like game.
-            #MGF bcd      - Reformat input as a punch card.
-            #MGF dab      - 2-players try to complete the most boxes.
-            #MGF greed    - Greed numbers game, ncurses-based.
-            #MGF netris   - Tetris-like game.
-            #MGF nsuduko  - Suduko game.
-            #MGF petris   - Tetris-like game.
-            #MGF ppt      - Reformat input as a paper tape.
-            #MGF vitetris - tetris clone; 1-2 players, network play, custom graphics etc.
-
+#0^0^0^0^0 #MGF bastet   - Tetris-like game.
+#f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd      - Reformat input as a punch card.
+#0^0^0^0^1 #MGF dab      - 2-players try to complete the most boxes.
+#0^0^0^0^0 #MGF greed    - Greed numbers game, ncurses-based.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGF netris   - Tetris-like game.
+#0^0^0^0^0 #MGF nsuduko  - Suduko game.
+#0^0^0^5^0 #MGF petris   - Tetris-like game.
+#f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt      - Reformat input as a paper tape.
+#0^0^0^5^0 #MGF vitetris - tetris clone; 1-2 players, network play, custom graphics etc.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"
             DELIMITER="#MGF" #MGF This 3rd field prevents awk from printing this line into menu options. 
@@ -572,145 +217,8 @@ f_menu_app_games_puzzle () {
             #
             read MGF
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGF  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Puzzle Games case statement.
-                 bastet' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Bb] | [Bb][Aa]*)
-                 APP_NAME="bastet"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 bcd' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Bb] | [Bb][Cc]*)
-                 APP_NAME="bcd"
-                 clear # Blank the screen.
-                 echo "bcd - Text to computer punch card simulation."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 dab' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Aa]*)
-                 APP_NAME="dab"
-                 f_application_run
-                 ;;
-                 greed' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Gg] | [Gg][Rr]*)
-                 APP_NAME="greed"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 netris' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Ee]*)
-                 APP_NAME="netris"
-                 clear # Blank the screen.
-                 echo "netris - Tetris-like game."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 petris' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "(lose game and then) type 'Q'"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Pp] | [Pp][Ee]*)
-                 APP_NAME="petris"
-                 f_how_to_quit_application "(lose game and then) type 'Q'"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 ppt' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Pp]*)
-                 APP_NAME="ppt"
-                 clear # Blank the screen.
-                 echo "ppt - Text to teletype paper tape simulation."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 vitetris' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "(lose game and then) type 'Q'"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Vv] | [Vv][Ii]*)
-                 APP_NAME="vitetris"
-                 f_how_to_quit_application "(lose game and then) type 'Q'"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-
-            esac # End of Puzzle Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGF=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Puzzle Games Applications until loop.
             #
@@ -723,18 +231,17 @@ f_menu_app_games_puzzle () {
 #
 #  Inputs: None. 
 #    Uses: MGG, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_quiz () {
       f_initvars_menu_app
       until [ $MGG -eq 0 ]
       do    # Start of Quiz Games until loop.
-            #MGG arithmetic - Basic arithmetic quiz.
-            #MGG geekcode   - Code tells others how geeky you are.
-            #MGG morse      - Morse code training.
-            #MGG quiz       - Quiz with choice of assorted topics.
+#0^0^0^10^0 #MGG arithmetic - Basic arithmetic quiz.
+#0^0^0^0^0 #MGG geekcode   - Code tells others how geeky you are.
+#0^0^0^10^0 #MGG morse      - Morse code training.
+#0^0^0^1^1 #MGG quiz       - Quiz with choice of assorted topics.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Quiz Game Menu"
             DELIMITER="#MGG" #MGG This 3rd field prevents awk from printing this line into menu options. 
@@ -742,89 +249,8 @@ f_menu_app_games_quiz () {
             #
             read MGG
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGG  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Quiz Games case statement.
-                 arithmetic' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<Ctrl>-Z"
-                 f_application_run
-                 ;;
-                 [Aa] |[Aa][Rr]*)
-                 APP_NAME="arithmetic"
-                 echo "arithmetic - Quiz on basic arithmetic."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 geekcode' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Gg] | [Gg][Ee]*)
-                 APP_NAME="geekcode"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 morse' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 APP_NAME="morse"
-                 clear # Blank the screen.
-                 echo "morse - text to morse code."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 quiz' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 ;;
-                 [Qq] | [Qq][Uu]*)
-                 APP_NAME="quiz"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 ;;
-            esac # End of Quiz Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGG=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Quiz Games until loop.
             #
@@ -837,23 +263,22 @@ f_menu_app_games_quiz () {
 #
 #  Inputs: None. 
 #    Uses: MGH, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_rpg () {
       f_initvars_menu_app
       until [ $MGH -eq 0 ]
       do    # Start of RPG Games until loop.
-            #MGH adventure  - Explore Colossal Cave. 
-            #MGH battlestar - Tropical adventure game.
-            #MGH GearHead   - Post-nuclear apocalyptic game with 150 machines of destruction.
-            #MGH hack       - Explore the Dungeons of Doom.
-            #MGH nethack    - Retrieve the Amulet of Yendor in the  20th dungeon level.
-            #MGH overkill   - 2D ASCII shooter game.
-            #MGH phantasia  - Fight monsters and other players.
-            #MGH slashem    - Enter the Dungeons of Doom.
-            #MGH wump       - Hunt the Wumpus, watch out for bats, pits.
+#0^0^0^7^1 #MGH adventure  - Explore Colossal Cave. 
+#0^0^0^0^1 #MGH battlestar - Tropical adventure game.
+#0^0^0^0^1 #MGH GearHead   - Post-nuclear apocalyptic game with 150 machines of destruction.
+#0^0^0^0^1 #MGH hack       - Explore the Dungeons of Doom.
+#0^0^0^0^1 #MGH nethack    - Retrieve the Amulet of Yendor in the  20th dungeon level.
+#0^0^0^0^1 #MGH overkill   - 2D ASCII shooter game.
+#0^0^0^0^1 #MGH phantasia  - Fight monsters and other players.
+#0^0^0^0^1 #MGH slashem    - Enter the Dungeons of Doom.
+#0^0^0^0^1 #MGH wump       - Hunt the Wumpus, watch out for bats, pits.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="RPG Game Menu"
             DELIMITER="#MGH" #MGH This 3rd field prevents awk from printing this line into menu options. 
@@ -861,79 +286,8 @@ f_menu_app_games_rpg () {
             #
             read MGH
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGH  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of RPG Games case statement.
-                 adventure' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "quit"
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Dd]*)
-                 APP_NAME="adventure"
-                 f_how_to_quit_application "quit"
-                 f_application_run
-                 ;;
-                 battlestar' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Bb] | [Bb][Aa]*)
-                 APP_NAME="battlestar"
-                 f_application_run
-                 ;;
-                 hack' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [hH] | [hH][Aa]*)
-                 APP_NAME="hack"
-                 f_application_run
-                 ;;
-                 nethack' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Ee]*)
-                 APP_NAME="nethack-console"
-                 f_application_run
-                 ;;
-                 phantasia' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Hh]*)
-                 APP_NAME="phantasia"
-                 f_application_run
-                 ;;
-                 slashem' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ll]*)
-                 APP_NAME="slashem"
-                 f_application_run
-                 ;;
-                 wump' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ww] | [Ww][Uu]*)
-                 APP_NAME="wump"
-                 f_application_run
-                 ;;
-            esac # End of RPG Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGH=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of RPG Games until loop.
             #
@@ -946,22 +300,20 @@ f_menu_app_games_rpg () {
 #
 #  Inputs: None. 
 #    Uses: MGI, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_simulation () {
       f_initvars_menu_app
       until [ $MGI -eq 0 ]
       do    # Start of Simulation Games until loop.
-            #MGI atc       - Air traffic controller.
-            #MGI bb        - ASCII-art movie demo based on AAlib.
-            #MGI sail      - Command a Man O'War fighting ship.
-            #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
-            #MGI star wars - Star Wars movie in ASCII.
-            #MGI trek      - Star Trek blast Klingons.
-            #MGI ztrack    - First-person car racing game.
-
+#f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
+#0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
+#0^0^0^1^0 #MGI sail      - Command a Man O'War fighting ship.
+#0^0^0^0^0 #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
+#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MIG star wars  - Star Wars movie in ASCII.
+#0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
+#0^0^0^0^1 #MGI ztrack    - First-person car racing game.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Simulation Games and Animation Menu"
             DELIMITER="#MGI" #MGI This 3rd field prevents awk from printing this line into menu options. 
@@ -969,116 +321,8 @@ f_menu_app_games_simulation () {
             #
             read MGI
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGI  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Simulation Games case statement.
-                 atc' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Tt]*)
-                 APP_NAME="atc"
-                 echo "atc - Air Traffic Controller Game"
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 bb' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Bb] | [Bb][Bb])
-                 APP_NAME="bb"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 sail' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] |[Ss][Aa]*)
-                 APP_NAME="sail"
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 sl' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] | [Ss][Ll])
-                 APP_NAME=sl
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] |[Ss][Tt] | [Ss][Tt][Aa]*)
-                 APP_NAME="telnet towel.blinkenlights.nl"
-                 clear # Blank the screen.
-                 echo "Star Wars ASCII Movie"
-                 echo
-                 echo The movie is played by running command:
-                 echo telnet towel.blinkenlights.nl
-                 echo
-                 echo If telnet hangs while trying the ip-address,
-                 echo then re-run this program and try again.
-                 echo
-                 echo "To quit Star Wars ASCII Movie, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running Star Wars ASCII Movie will exit this menu script."
-                 echo
-                 echo -n "Run Star Wars ASCII Movie and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 trek' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "at the prompt Command: terminate"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Tt] | [Tt][Rr]*)
-                 APP_NAME="trek"
-                 f_how_to_quit_application "at the prompt Command: terminate"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-            esac # End of Simulation Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGI=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Simulation Games until loop.
             #
@@ -1086,24 +330,39 @@ f_menu_app_games_simulation () {
 } # End of f_menu_app_games_simulation
 #
 # +----------------------------------------+
+# |           Function f_starwars          |
+# +----------------------------------------+
+#
+f_starwars () {
+      clear # Blank the screen.
+      echo "Star Wars ASCII Movie"
+      echo
+      echo The movie is played by running command:
+      echo telnet towel.blinkenlights.nl
+      echo
+      echo If telnet hangs while trying the ip-address,
+      echo then re-run this program and try again.
+      echo
+}  #End of function f_starwars
+#
+# +----------------------------------------+
 # |   Function f_menu_app_games_strategy   |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MGJ, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_strategy () {
       f_initvars_menu_app
       until [ $MGJ -eq 0 ]
       do    # Start of Strategy Games until loop.
-            #MGJ empire   - war game build armies, planes, ships, capture cities.
-            #MGJ gomoku   - 2-player game of 5-in-a-row.
-            #MGJ hunt     - Multi-user game. Kill everyone else.
-            #MGJ mille    - Travel 700 miles card game.
-            #MGJ wargames - Computer prompt from movie "War Games". 
+#0^0^0^1^0 #MGJ empire   - war game build armies, planes, ships, capture cities.
+#0^0^0^0^0 #MGJ gomoku   - 2-player game of 5-in-a-row.
+#0^0^0^0^0 #MGJ hunt     - Multi-user game. Kill everyone else.
+#0^0^0^0^0 #MGJ mille    - Travel 700 miles card game.
+#1^0^0^0^1 #MGJ wargames - Computer prompt from movie "War Games". 
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Strategy Game Menu"
             DELIMITER="#MGJ" #MGJ This 3rd field prevents awk from printing this line into menu options. 
@@ -1111,81 +370,8 @@ f_menu_app_games_strategy () {
             #
             read MGJ
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGJ  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Strategy Games case statement.
-                 empire' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ee] | [Ee][Mm]*)
-                 APP_NAME="empire"
-                 f_application_run
-                 ;;
-                 gomoku' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Gg] | [Gg][Oo]*)
-                 APP_NAME="gomoku"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 hunt' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Hh] | [Hh][Uu]*)
-                 APP_NAME="hunt"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 mille' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Ii]*)
-                 APP_NAME="mille"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 wargames' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ww] | [Ww][Aa]*)
-                 APP_NAME="wargames"
-                 clear # Blank the screen.
-                 echo "wargames - Question asked by the WOPR super-computer."
-                 echo
-                 echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
-                 echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
-                 echo "the backdoor of a top-secret U.S. Air Force super-computer."
-                 echo "The WOPR (War Operation Planned Response) controls the U.S. nuclear arsenal."
-                 echo
-                 echo "Notice the computer equipment David uses, the acoustic modem, and floppy drive."
-                 echo
-                 echo "WOPR asks this question when David first hacks the backdoor, making David think"
-                 echo "that it is simply a recreational program."
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-            esac # End of Strategy Games case statement
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGJ=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Strategy Games until loop.
             #
@@ -1193,27 +379,47 @@ f_menu_app_games_strategy () {
 } # End of f_menu_app_games_strategy
 #
 # +----------------------------------------+
+# |            Function f_wargames         |
+# +----------------------------------------+
+#
+f_wargames () {
+      clear # Blank the screen.
+      echo "wargames - Question asked by the WOPR super-computer."
+      echo
+      echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
+      echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
+      echo "the backdoor of a top-secret U.S. Air Force super-computer."
+      echo "The WOPR (War Operation Planned Response) controls the U.S. nuclear arsenal."
+      echo
+      echo "Notice the computer equipment David uses, the acoustic modem, and floppy drive."
+      echo
+      echo "WOPR asks this question when David first hacks the backdoor, making David think"
+      echo "that it is simply a recreational program."
+      echo
+      f_press_enter_key_to_continue
+} # End of f_wargames
+#
+# +----------------------------------------+
 # |     Function f_menu_app_games_word     |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MGK, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_word () {
       f_initvars_menu_app
       until [ $MGK -eq 0 ]
       do    # Start of Word Games until loop.
-            #MGK boggle  - Word search game.
-            #MGK figlet  - Creates banner with outline font.
-            #MGK hangman - Classic hangman word game.
-            #MGK hodie   - Date and time in Latin.
-            #MGK pig     - Converts text into pig-latin.
-            #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
-            #MGK rl      - Randomize Lines scrambles words of a text file.
-            #MGK toilet  - Creates banner with bold font.
+#0^0^0^10^0 #MGK boggle  - Word search game.
+#0^0^0^10^0 #MGK figlet  - Creates banner with outline font.
+#0^0^0^0^1 #MGK hangman - Classic hangman word game.
+#0^0^0^10^1 #MGK hodie   - Date and time in Latin.
+#0^0^0^10^0 #MGK pig     - Converts text into pig-latin.
+#1^0^0^0^1 #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
+#0^0^0^0^1 #MGK rl      - Randomize Lines scrambles words of a text file.
+#0^0^0^10^0 #MGK toilet  - Creates banner with bold font.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Word Game Menu"
             DELIMITER="#MGK" #MGK This 3rd field prevents awk from printing this line into menu options. 
@@ -1221,180 +427,59 @@ f_menu_app_games_word () {
             #
             read MGK
             #
+            . lib_cli-common.lib
             f_menu_item_process $MGK  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Word Games case statement.
-                 boggle' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Bb] | [Bb][Oo]*)
-                 f_how_to_quit_application "<Ctrl>-C"
-                 APP_NAME="boggle"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ff] | [Ff][Ii] | [Ff][Ii][Gg]*)
-                 APP_NAME="figlet"
-                 clear # Blank the screen.
-                 echo "figlet - Banner creator"
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 figlet' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 hangman' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Hh] | [Hh][Aa]*)
-                 APP_NAME="hangman"
-                 f_application_run
-                 ;;
-                 hodie' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Hh] | [Hh][Oo]*)
-                 f_how_to_quit_application "<Ctrl>-C."
-                 APP_NAME="hodie"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 pig' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ii]*)
-                 APP_NAME="pig"
-                 echo "pig - Converts text to Pig Latin"
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 rev' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Vv])
-                 APP_NAME="rev"
-                 clear # Blank the screen.
-                 echo "rev - takes a text file or standard input (keyboard) and reverses the words."
-                 echo
-                 echo "Usage:" 
-                 echo "rev [-V] [-h] file ..."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 echo -n "Enter name of text file to reverse: "
-                 read ANS
-
-                 if [ -z $ANS ] ; then   #String has zero length.
-                    clear # Blank the screen.
-                    echo "Missing filename."
-                    echo "Usage: rev <filename>"
-                    echo
-                    echo "Since no filename, now run 'rev' in interactive mode."
-                    echo
-                    echo "Interactive usage:"
-                    echo "Now type the word(s) or sentence to reverse."
-                    echo
-                    f_how_to_quit_application "<Ctrl>-D" "no-clear"
-                    APP_NAME="rev"
-                    f_application_run
-                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 elif [ -r $ANS ] ; then   #Filename exists and is readable.
-                    APP_NAME="rev $ANS"
-                    f_application_run
-                 else
-                    echo "The file $ANS is either missing or cannot be read."
-                    APP_NAME=-1 # Usually f_application_run sets APP_NAME=-1
-                                # for valid menu choices but it's not run here.
-                                # If not -1, then f_application_bad_menu_choice
-                                # below will consider it a bad choice and will
-                                # set PRESS_KEY=0 whereas we need it set to 1.
-                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 fi
-                 ;;
-                 rl' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Rr] | [Rr][Ll])
-                 APP_NAME="rl"
-                 f_application_run
-                 ;;
-                 toilet' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 [Tt] | [Tt][Oo] | [Tt][Oo][Ii]*)
-                 APP_NAME="toilet"
-                 clear # Blank the screen.
-                 echo "figlet - Banner creator"
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-            esac # End of Word Games case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MGK=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Word Games until loop.
             #
       unset MGK MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_word
+#
+# +----------------------------------------+
+# |             Function f_rev             |
+# +----------------------------------------+
+#
+f_rev () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "rev - takes a text file or standard input (keyboard) and reverses the words."
+         echo
+         echo "Usage:" 
+         echo "rev [-V] [-h] file ..."
+         echo
+         echo "*** For more help type: 'man $APP_NAME'"
+         echo "                        '$APP_NAME --help'"
+         echo
+         echo -n "Enter name of text file to reverse: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            clear # Blank the screen.
+            echo "Missing filename."
+            echo "Usage: rev <filename>"
+            echo
+            echo "Since no filename, now run 'rev' in interactive mode."
+            echo
+            echo "Interactive usage:"
+            echo "Now type the word(s) or sentence to reverse."
+            echo
+            f_how_to_quit_application "<Ctrl>-D" "no-clear"
+            APP_NAME="rev"
+            f_application_run
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="rev $ANS"
+            f_application_run
+         else
+            echo "The file $ANS is either missing or cannot be read."
+            APP_NAME=-1 # Usually f_application_run sets APP_NAME=-1
+                        # for valid menu choices but it's not run here.
+                        # If not -1, then f_application_bad_menu_choice
+                        # below will consider it a bad choice and will
+                        # set PRESS_KEY=0 whereas we need it set to 1.
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+         fi
+      fi
+      APP_NAME=""
+} # End of function f_rev
 #

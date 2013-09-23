@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-10-2013 15:39"
+# REVDATE="September-20-2013 02:05"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -17,13 +17,13 @@ f_menu_app_screen_savers () {
       f_initvars_menu_app
       until [ $MSS -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
-            #MSS asciiaquarium - Aquarium on screen.
-            #MSS cmatrix       - Matrix-like screen-saver.
-            #MSS rain          - Rain on screen.
-            #MSS termsaver     - screensaver for text terminals.
-            #MSS ticker        - scrolls text across the screen.
-            #MSS tty-clock     - Display a digital clack full-screen.
-            #MSS worms         - Worms wiggle on the screen.
+            #0^0^0^0^0 #MSS asciiaquarium - Aquarium on screen.
+            #0^0^0^0^0 #MSS cmatrix       - Matrix-like screen-saver.
+            #0^0^0^0^0 #MSS rain          - Rain on screen.
+            #0^0^0^0^0 #MSS termsaver     - screensaver for text terminals.
+            #0^0^0^0^0 #MSS ticker        - scrolls text across the screen.
+            #0^0^0^0^0 #MSS tty-clock     - Display a digital clack full-screen.
+            #0^0^0^0^0 #MSS worms         - Worms wiggle on the screen.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-screensaver.lib"
@@ -33,79 +33,9 @@ f_menu_app_screen_savers () {
             #
             read MSS
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSS  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Screen-saver Applications case statement.
-                 asciiaquarium' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Ss]*)
-                 APP_NAME="asciiaquarium"
-                 f_application_run
-                 ;;
-                 cmatrix' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Mm]*)
-                 APP_NAME="cmatrix"
-                 f_application_run
-                 ;;
-                 rain' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Rr] | [Rr][Aa]*)
-                 APP_NAME="rain"
-                 f_application_run
-                 ;;
-                 termsaver' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Ee]*)
-                 APP_NAME="termsaver"
-                 f_application_run
-                 ;;
-                 ticker' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Ii]*)
-                 APP_NAME="ticker"
-                 f_application_run
-                 ;;
-                 tty-clock' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Tt]*)
-                 APP_NAME="tty-clock"
-                 f_application_run
-                 ;;
-                 worms' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ww] | [Ww][Oo]*)
-                 APP_NAME="worms"
-                 f_application_run
-                 ;;
-            esac                # End of Screen-saver Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSS=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
-            #
-      done  # End of Screen-saver Applications until loop.
+     done  # End of Screen-saver Applications until loop.
             #
       unset MSS MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_screen_savers

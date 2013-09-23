@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-11-2013 11:35"
+# REVDATE="September-20-2013 02:05"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -95,23 +95,19 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # This prevents the lines of code which set the $ DELIMITER variable from
       # being printed as a menu item, because they purposely have 2 markers.
       #
-      # The menu option numbers are incremented using any unset variable name
-      # (such as "XNUM") followed by "++",
-      # However, because XNUM is unset, it will increment from zero, whereas we
-      # want it to increment from one.
-      # To do this, we add one before XNUM so the expression is now "1+XNUM++".
-      # so numbering will always start at one. Interestingly the "++" increment
-      # command is only valid from within awk.
+      # The menu option numbers are incremented using a "let" command.
+      # First set XNUM=0 then in the for-loop, let "XNUM++".
+      # 
       #
       if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
          XNUM=0
          for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_FILE | awk -F "#" '{print $2}'`
          do
-             let "XNUM++"
+             let XNUM++
              # Setting XSTR=$(...) strips the whitespace from the menu item. It's not grep/awk's fault.
              # XSTR=$(grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
              #
-             if [ -r $X ] ; then 
+             if [ -r $X ] ; then  # X=<module file name> <Followed by whitespace>
                 echo -n $(tput bold) $XNUM" - " ; grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
                 # echo $(tput bold) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
              else
@@ -206,18 +202,20 @@ f_choice_array () {
            CHOICE[$XNUM]=$XSTR   # 
            XNUM=`expr $XNUM + 1` # Use back-ticks to redirect, not single quotes.
       done
+      #
       unset XSTR  # Throw out this variable.
+      #
 } # End of f_choice_array
 #
 # +----------------------------------------+
-# |      Function f_menu_item_process      |
+# |    Function f_cat_menu_item_process    |
 # +----------------------------------------+
 #
 #  Inputs: $1, CHOICE[$MENU_ITEM], MAX.
 #    Uses: None.
 # Outputs: MENU_ITEM, PRESS_KEY.
 #
-f_menu_item_process () {
+f_cat_menu_item_process () {
       MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
                     # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
       case $MENU_ITEM in
@@ -236,27 +234,396 @@ f_menu_item_process () {
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
+} # End of f_cat_menu_item_process
+#
+# +----------------------------------------+
+# |      Function f_menu_item_process      |
+# +----------------------------------------+
+#
+#  Inputs: $*, CHOICE[$MENU_ITEM], MAX.
+#          $* is the complete user-entered string passed as a set of arguments.
+#    Uses: None.
+# Outputs: None.
+#
+f_menu_item_process () {
+      MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
+                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+                    #
+      case $MENU_ITEM in
+           # Quit?
+           0)
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
+           if [  $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
+           fi
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+      esac
+      f_application_help
+      ERROR=0 # Reset error flag.
+      #
+      if [ "$MENU_ITEM" != 0 -a -n "$MENU_ITEM" ] ; then
+         # Is MENU_ITEM a valid choice?
+         f_menu_item_valid # APP_NAME="" for invalid name.
+                           # APP_NAME=$MENU_ITEM_NAME for valid name.
+         #
+         if [ -n "$APP_NAME" ] ; then
+            f_menu_item_info
+            #
+            # Set PRESS_KEY default before any custom functions since they may also set PRESS_KEY.
+            f_press_key
+            #
+            # Specify 1st field of $MENU_ITEM_OPT for function #1.
+            f_eval_funct "$MENU_ITEM_OPT" 1
+            #
+            # Specify 2nd field of $MENU_ITEM_OPT for function #2.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            #
+            # How to quit?
+            # Do not check for Quit Clause if quitting out of
+            # a sub-menu after running an application.
+            if [ -n "$APP_NAME" ] ; then
+               f_quit_app_clause
+            fi
+            #
+            # Specify 3rd field of $MENU_ITEM_OPT for function #3.
+            f_eval_funct "$MENU_ITEM_OPT" 3
+            # Run application program.
+            # $APP_NAME="" when f_run_and_exit is run prior within function #1, #2, or #3.
+            if [ -n "$APP_NAME" ] ; then
+               f_application_run
+               MENU_ITEM_NAME="" # Null so f_application_run is not run twice
+               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
+            fi
+         fi
+      fi
+      # Trap bad menu choices, do not echo Press enter key to continue.
+      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+      #
+      DELIM=${DELIMITER/\#/}   # Strip off leading "#" of DELIMITER "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
+                               # The "\" treats "#" as a literal hash mark, not as a comment.
+      eval $DELIM=$MENU_ITEM   # Set M[A-Z][A-Z] = $MENU_ITEM
+                               # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
+                               #            0 if "Return to previous menu." Exit Menu loop.
+      #
+      # If application displays information, allow user to read it.
+      f_option_press_enter_key
+      #
+      unset X DELIM RUN MENU_ITEM PRESS_KEY
+      #
 } # End of function f_menu_item_process
+#
+# +----------------------------------------+
+# |       Function f_menu_item_valid       |
+# +----------------------------------------+
+#
+#  Inputs: DELIMITER, THIS_FILE, MENU_ITEM.
+#    Uses: XNUM, MENU_ITEM, MENU_ITEM_NAME.
+# Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME. (If invalid, then APPNAME is null).
+#
+f_menu_item_valid () {
+      # Get application name from menu.
+      XNUM=1
+      APP_NAME="" # Set application name to null value.
+      # Cycle through entire CHOICE[$XNUM] array to find matching $MENU_ITEM_NAME.
+      while [ $XNUM -ge 1 -a $XNUM -le $MAX ]
+      do
+            # If no "sudo" or any [OPTIONS] in command then convert MENU_ITEM to lower case.
+            # If command contains "sudo" or any [OPTIONS] then don't touch.
+            # Assume any sudo-user knows what to type because [OPTIONS] are case-sensitive.
+            if [[ ! "$MENU_ITEM" == *" -"* ]] ; then
+               if [[ ! "$MENU_ITEM" == "sudo"* ]] ; then
+                  # Convert to lower-case.
+                  MENU_ITEM=$(echo $MENU_ITEM | tr '[:upper:]' '[:lower:]')
+               fi
+            fi
+            # Set (next) MENU_ITEM_NAME from CHOICE array.
+            MENU_ITEM_NAME=${CHOICE[$XNUM]}
+            # Convert MENU_ITEM_NAME to lower-case. (Sub-menus choice "MORE..." are in upper-case).
+            MENU_ITEM_NAME=$(echo $MENU_ITEM_NAME | tr '[:upper:]' '[:lower:]')
+            #
+            # Does MENU_ITEM begin with sudo?
+            if [[ "$MENU_ITEM" == "sudo"* ]] ; then
+               # if grep -q $MENU_ITEM_NAME <<<$MENU_ITEM ; then
+               # Yes, sudo
+               # Is MENU_ITEM a valid choice?
+               # This pattern matching statement will allow any other sudo formats
+               # i.e. links web browser, "sudo -width 80 links -driver atheos -html-images 0".       
+               if [[ "$MENU_ITEM" == *"$MENU_ITEM_NAME"* ]] ; then 
+                  APP_NAME=$MENU_ITEM
+                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+               else
+                  let XNUM++  # Not valid, try next menu item.
+               fi
+            else              
+               # No, no sudo
+               # Is MENU_ITEM a valid choice?
+               # Does MENU_ITEM_NAME contain MENU_ITEM?
+               # i.e. "nslookup" contains "nsl"*.
+               if [[ "$MENU_ITEM_NAME" == "$MENU_ITEM"* ]] ; then
+               # if grep -q $MENU_ITEM_NAME <<<$MENU_ITEM ; then
+                  # Valid choice, extract APP_NAME.
+                  MENU_ITEM=$MENU_ITEM_NAME
+                  APP_NAME=$MENU_ITEM_NAME
+                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+               # Does MENU_ITEM contain MENU_ITEM_NAME? 
+               # i.e. "nslookup www.distrowatch.com" contains "nslookup".
+               # i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
+               elif [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]] ; then 
+                  # Valid choice, extract APP_NAME.
+                  APP_NAME=$MENU_ITEM
+                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+               else
+                  let XNUM++  # Not valid, try next menu item, force stay in menu loop.
+               fi
+#echo "MENU_ITEM_NAME=$MENU_ITEM_NAME"  #test diagnostic line.
+#echo -n "Press Enter key to continue."  #test diagnostic line.
+#read BOBCHIN  #test diagnostic line.
+             fi
+      done
+      #
+      export MENU_ITEM MENU_ITEM_NAME APP_NAME
+      unset XNUM
+      #
+} # End of function f_menu_item_process
+#
+# +----------------------------------------+
+# |        Function f_menu_item_info       |
+# +----------------------------------------+
+#
+#  Inputs: DELIMITER, MENU_ITEM_NAME, THIS_FILE.
+#    Uses: None.
+# Outputs: MENU_ITEM_OPT.
+#
+f_menu_item_info () {
+      # Extract MENU_ITEM_OPT string.
+      # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+      MENU_ITEM_OPT=""
+
+#echo "Just before getting info string, MENU_ITEM_NAME=$MENU_ITEM_NAME"  #test diagnostic line.
+#echo -n "Press Enter key to continue."  #test diagnostic line.
+#read BOBCHIN  #test diagnostic line.
+
+      # grep "$MENU_ITEM_NAME" is in quotes because some menu items have 2 words i.e. "star wars".
+      # grep needs -i because my convention is any sub-menus start with an upper-case letter.
+      # grep needs "$DELIMITER<SPACE>$MENU_ITEM_NAME because some names are in the descriptions
+      # of multiple menu choices i.e. grep -i "morse" would give several hits (results).
+      MENU_ITEM_OPT=$(awk -F $DELIMITER '{if ($2&&!$3){print $0}}' $THIS_FILE | grep -i "$DELIMITER $MENU_ITEM_NAME" | awk -F $DELIMITER '{print $1}')
+
+#echo "MENU_ITEM_OPT2=$MENU_ITEM_OPT"  #test diagnostic line.
+#echo -n "Press Enter key to continue."  #test diagnostic line.
+#read BOBCHIN  #test diagnostic line.
+
+      MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F $DELIMITER '{print $1}')
+      MENU_ITEM_OPT=${MENU_ITEM_OPT/\#/} # Strip off leading "#".
+      # The "\" treats "#" as a literal hash mark, not as a comment.
+      #
+      # if grep -i finds 2 or more matches,
+      # i.e. $MENU_ITEM_NAME="morse" matches both "morse", "morsegen".
+      # there will be several strings containing "n^n^n^n^n"
+      # i.e. "n^n^n^n^n #n^n^n^n^n"
+      # only the first one is valid, use the " #" as a delimiter and take only the first one.
+      MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
+
+#echo "if grep -i finds >1, MENU_ITEM_OPT=$MENU_ITEM_OPT"  #test diagnostic line.
+#echo -n "Press Enter key to continue."  #test diagnostic line.
+#read BOBCHIN  #test diagnostic line.
+
+      export MENU_ITEM_OPT
+      #
+} # End of function f_menu_item_info
+#
+# +----------------------------------------+
+# |          Function f_eval_funct         |
+# +----------------------------------------+
+#
+#  Inputs: $1, $2.
+#          $1=$MENU_ITEM_OPT.
+#          $2=$Field number.
+#    Uses: X, XSTR.
+# Outputs: None.
+#
+f_eval_funct () {
+      MENU_ITEM_OPT=$1
+      #
+      # The 1st awk:
+      # Extracts the $2 field from $MENU_ITEM_OPT.
+      #
+      XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
+
+#echo -n "Press Enter key to eval \"$XSTR\" DELIMITER=$DELIMITER MENU_ITEM=$MENU_ITEM MENU_ITEM_NAME=$MENU_ITEM_NAME APP_NAME=$APP_NAME"  #test diagnostic line.
+#read BOBCHIN  #test diagnostic line.
+
+      if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
+         if [ "$XSTR" = 1 ] ; then
+            XSTR=f_$MENU_ITEM_NAME
+         fi
+         eval $XSTR  # Invoke (run) the function.
+         if [ $? -ne 0 ] ; then
+            echo "Command or function not found: $XSTR."
+            f_press_enter_key_to_continue
+         fi
+      fi
+      #
+      # MENU_ITEM_OPT_FIELD=$XSTR
+      # export MENU_ITEM_OPT_FIELD  # Make variables available after exiting function.
+      unset X XSTR
+      #
+} # End of function f-sub_menu
+#
+# +----------------------------------------+
+# |       Function f_quit_app_clause       |
+# +----------------------------------------+
+#
+#  Inputs: MENU_ITEM_OPT.
+#    Uses: XSTR, QUIT_FIELD, NO_CLEAR.
+# Outputs: None.
+#
+f_quit_app_clause () {
+      #
+      # Example string in Quit field of MENU_ITEM_OPT:
+      #         <##><NC> 13:NC (for "no clear" or <##> 13 (clears screen).
+      #
+      #%%1. "Q"
+      #%%2. "Q" or "quit"
+      #%%3. "Q" or <F10>
+      #%%4. ":q" <colon> q (which is the vi command for 'quit')
+      #%%5. (lose game and then) type "Q"
+      #%%6. "(quit)" including the parenthesis
+      #%%7. "quit"
+      #%%8. <Ctrl>-C
+      #%%9. <Ctrl>-C or crash into wall
+      #%%10. <Ctrl>-D
+      #%%11. <Ctrl>-K X
+      #%%12. <Ctrl>-X <Ctrl>-C
+      #%%13. <Ctrl>-Z
+      #%%14. <Esc> :q!
+      #%%15. <F5>
+      #%%16. at the prompt Command: "terminate"
+      #%%17. Alt-Q
+      #%%18. "X"
+      #%%19. <Ctrl>-Z or <Ctrl>-C
+      #%%20. "exit"
+      #%%21. "quit" or "exit"
+      #%% # End of list marker (and awk field marker), DO NOT remove.
+          # This marker prevents awk from printing any more lines found by grep "#%%" below
+          # and including this line.
+      #
+      # Does MENU_ITEM_OPT Quit field contain string?
+      # Extract Quit field, 4th field.
+      QUIT_FIELD=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $4}')
+      if [ "$QUIT_FIELD" != "0" -a -n "$QUIT_FIELD" ] ; then  # If Quit field is non-zero.
+         #
+         NO_CLEAR=""
+         # Convert QUIT_FIELD "nc to upper-case.
+         QUIT_FIELD=$(echo $QUIT_FIELD | tr '[:lower:]' '[:upper:]')
+         #
+         if [[ "$QUIT_FIELD" == *":NC"* ]] ; then
+            NO_CLEAR="no-clear"  # "no-clear" string exists.
+            # Strip ":NC" from QUIT_FIELD.
+            QUIT_FIELD=$(echo $QUIT_FIELD | awk -F ":" '{print $1}')
+         else
+            NO_CLEAR=""  # "no-clear" string is null.
+         fi
+         # QUIT_FIELD is now the number designation from the list above, corresponding to the
+         # keystroke sequence needed to quit the application.
+         # i.e. QUIT_FIELD=1 for keystroke sequence "Q", =2 for "Q or quit", =3 for "Q or <F10>"...
+         QUIT_FIELD=`expr $QUIT_FIELD + 1` # Use backticks with expr to increment QUIT_FIELD by 1
+                                           # to get field number for awk (since field #1 is null).
+         XSTR=$(grep "#%%" lib_cli-common.lib)  # Get list of Quit Fields in a single big string.
+         # Match integer of QUIT_FIELD to grepped XSTR containg that value.
+         #
+         # Extract keystroke sequence from matching grepped string and set QUIT_FIELD to that string.
+         # 1st awk gets "NN. <Keystroke sequence>" i.e "13. <Ctrl>-Z".
+         # 2nd awk strips away numbers "NN." leaving " <Keystroke sequence>" i.e. "<Ctrl>-Z".
+         #         To pass QUIT_FIELD into awk so that field is printed by awk,
+         #         insert "QUIT_FIELD=$QUIT_FIELD" after '{print $QUIT_FIELD}'.
+         QUIT_FIELD=$(echo $XSTR | awk -F "#%%" '{print $QUIT_FIELD}' QUIT_FIELD=$QUIT_FIELD | awk -F "." '{print $2}')
+         #QUIT_FIELD="\"$QUIT_FIELD\""  # Add quotation marks around string.
+         f_how_to_quit_application "$QUIT_FIELD" $NO_CLEAR
+      fi
+      #
+      unset XSTR QUIT_FIELD NO_CLEAR
+      #
+} # End of function f_quit_app_clause
+#
+# +----------------------------------------+
+# |          Function f_press_key          |
+# +----------------------------------------+
+#
+#  Inputs: MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: PRESS_KEY.
+#
+f_press_key () { 
+      XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $5}')
+      if [ "$XSTR" != 0 -a -n "XSTR" ] ; then
+         PRESS_KEY=1
+      else
+         PRESS_KEY=0
+      fi
+      export PRESS_KEY
+      unset X XSTR
+      #
+} # End of function f_press_key
+#
+# +----------------------------------------+
+# |         Function f_run_and_exit        |
+# +----------------------------------------+
+#
+#  Inputs: $1 $2. 
+#          $1=application name
+#          $2=$APP_NAME 
+#    Uses: X.
+# Outputs: APP_NAME.
+#
+f_run_and_exit () {
+      echo "To quit $1, type <Ctrl>-Z or <Ctrl>-C."
+      echo "(There is no way to cleanly return to the menu)."
+      echo "Running $1 will exit this menu script."
+      echo
+      echo -n "Run $1 and exit script? (y/N)? "
+      read X
+      case $X in
+           [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+           APP_NAME=$2
+           f_application_run
+           APP_NAME=""
+           ;;
+           [Nn] | [Nn][Oo] | *)
+           APP_NAME=""
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+      esac
+      unset X
+      #
+} # End of function f_run_and_exit
 #
 # +----------------------------------------+
 # |   Function f_how_to_quit_application   |
 # +----------------------------------------+
 #
 #  Inputs: $1, $2, APP_NAME.
+#          $1 typed key to quit. 
+#          $2 string "no-clear" if screen should not be cleared.
 #    Uses: None.
 # Outputs: None.
 #
 f_how_to_quit_application () { 
-      # $1 typed key to quit. 
-      # $2 string "no-clear" if screen should not be cleared.
       #
       if [ -z $2 ] ; then
-      # if [ $2 != "no-clear" ] ; then
          clear # Blank the screen.
       fi
       echo
-      echo "To quit $APP_NAME, type $1."
+      echo "To quit \"$APP_NAME\", type $1."
       f_press_enter_key_to_continue
+      #
 } # End of function how_to_quit_application
 #
 # +----------------------------------------+
@@ -267,7 +634,7 @@ f_how_to_quit_application () {
 #    Uses: None.
 # Outputs: None.
 #
-f_term_color () { # Set terminal display properties.
+f_term_color () {  # Set terminal display properties.
       case $TCOLOR in
            [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
               setterm -reset -bold on -store
@@ -277,6 +644,7 @@ f_term_color () { # Set terminal display properties.
               setterm -foreground white -background black -inverse -store
            ;;  
       esac
+      #
 } # End of function f_term_color
 #
 # +----------------------------------------+
@@ -293,7 +661,7 @@ f_press_enter_key_to_continue () { # Display message and wait for user input.
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-
+      #
 } # End of function f_press_enter_key_to_continue
 #
 # +----------------------------------------+
@@ -302,7 +670,7 @@ f_press_enter_key_to_continue () { # Display message and wait for user input.
 #
 #  Inputs: PRESS_KEY.
 #    Uses: None.
-# Outputs: None.
+# Outputs: MENU_ITEM=-1 (If "--version" or "--help" or "man").
 #
 f_option_press_enter_key () { # Display message and wait for user input.
       # $PRESS_KEY = 0 means Do not display "Press 'Enter' key to continue."
@@ -318,11 +686,13 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # +----------------------------------------+
 #
 #  Inputs: MENU_ITEM, ERROR.
+#          MENU_ITEM="<Application name> --help"
+#          MENU_ITEM="man <Application name>"
 #    Uses: ANS.
 # Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
 #
-f_application_help () { # $MENU_ITEM="<Application name> --help"
-                        # $MENU_ITEM="man <Application name>"
+f_application_help () {
+
       case $MENU_ITEM in
            *--version)
            # if application has no option --version then this will generate an error message.
@@ -481,6 +851,7 @@ f_application_run () {
 # +----------------------------------------+
 #
 #  Inputs: $1, MAX.
+#          $1=$MENU_ITEM
 #    Uses: None.
 # Outputs: MENU_ITEM, PRESS_KEY.
 #
@@ -1227,18 +1598,16 @@ f_ask_which_module_download () {
 # +----------------------------------------+
 #
 #  Inputs: $1
+#          $1=XSTR
 #    Uses: MOD_FILE, XSTR
 # Outputs: MOD_FILE, XSTR
 #
 f_module_match () {
-      #echo -n "Now entering f_module_match " # Test diagnosis comment line.
-      #echo "where XSTR = $XSTR and MOD_FILE=$MOD_FILE" # Test diagnosis comment line.
       XSTR=$1
       case $XSTR in
            ALL)
            for MOD_FILE in mod_apps-audio.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib mod_apps-sample-template.lib
                do
-                  #echo "XSTR=$XSTR and download MOD_FILE=$MOD_FILE" # Test diagnosis comment line.
                   wget $WEB_SITE$MOD_FILE  # Download all modules.
                done
            MOD_FILE=""  # This acts as a flag so download does not occur again at end of function.
@@ -1299,10 +1668,6 @@ f_module_match () {
            echo ">>>Error Bad choice input.<<<"
            echo "       Exiting now."
       esac
-      #echo # Test diagnosis comment line.
-      #echo -n "Now leaving f_module_match " # Test diagnosis comment line.
-      #echo "where XSTR = $XSTR and MOD_FILE = $MOD_FILE" # Test diagnosis comment line.
-      #read X # Pause. Test diagnosis comment line.
 } # End of function f_ask_which_module_download
 #
 # +----------------------------------------+
@@ -1353,7 +1718,6 @@ f_create_LIST_APPS () {
       #
       # Set XSTR to the Special Menu Item Marker.
       for XSTR in $(grep [#]:M[A-Z][A-Z] README | awk '{print $1}')
-      # for XSTR in $(grep [#]:M[A-Z][A-Z] README | awk '{print $1}' | awk -F "#:" '{print $2}')
       do
           echo >> LIST_APPS
           # Print application category menu title.

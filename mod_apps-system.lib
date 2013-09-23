@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-10-2013 15:39"
+# REVDATE="September-20-2013 02:05"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -11,23 +11,23 @@
 #
 #  Inputs: None.
 #    Uses: BSY, MENU_ITEM, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_system () {
       f_initvars_menu_app
       until [ $BSY -eq 0 ]
       do    # Start of System Application Category until loop.
-            #BSY Backup      - File Backup.
-            #BSY Disks       - Disk information.
-            #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
-            #BSY Logs        - Log file viewers.
-            #BSY Mainboard   - Information on PC mainboard, memory, etc.
-            #BSY Monitors    - Resources, and disk I/O monitors.
-            #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
-            #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
-            #BSY Process     - System process monitoring, killing.
-            #BSY Screens     - Multiple screen sessions and terminal emulators.
-            #BSY Software    - (Un)Install and manage software packages (programs).
+#^f_menu_app_sys_backup #BSY Backup      - File Backup.
+#^f_menu_app_sys_disks #BSY Disks       - Disk information.
+#^f_menu_app_sys_health #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
+#^f_menu_app_sys_logs #BSY Logs        - Log file viewers.
+#^f_menu_app_sys_mainboard #BSY Mainboard   - Information on PC mainboard, memory, etc.
+#^f_menu_app_sys_monitors #BSY Monitors    - Resources, and disk I/O monitors.
+#^f_menu_app_sys_other #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
+#^f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
+#^f_menu_app_sys_process #BSY Process     - System process monitoring, killing.
+#^f_menu_app_sys_screens #BSY Screens     - Multiple screen sessions and terminal emulators.
+#^f_menu_app_sys_software #BSY Software    - (Un)Install and manage software packages (programs).
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Category Menu"
@@ -36,51 +36,8 @@ f_menu_cat_system () {
             #
             read BSY
             #
+            . lib_cli-common.lib
             f_menu_item_process $BSY  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Application Category case statement.
-                 [Bb] | [Bb][Aa]*)
-                 f_menu_app_sys_backup        # System Backup Applications Menu.
-                 ;;
-                 [Dd] | [Dd][Ii]*)
-                 f_menu_app_sys_disks         # System Disks Applications Menu.
-                 ;;
-                 [Hh] | [Hh][Ee]*)
-                 f_menu_app_sys_health        # System Health Applications Menu.
-                 ;;
-                 [Ll] | [Ll][Oo]*)
-                 f_menu_app_sys_logs          # System Logs Applications Menu.
-                 ;;
-                 [Mm] | [Mm][Aa]*)
-                 f_menu_app_sys_mainboard     # System Mainboard Applications Menu.
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 f_menu_app_sys_monitors      # System Monitors Applications Menu.
-                 ;;
-                 [Oo] | [Oo][Tt]*)
-                 f_menu_app_sys_other         # System Other Applications Menu.
-                 ;;
-                 [Pp] | [Pp][Ee]*)
-                 f_menu_app_sys_peripherals   # System Peripherals Applications Menu.
-                 ;;
-                 [Pp] | [Pp][Rr]*)
-                 f_menu_app_sys_process       # System Process Applications Menu.
-                 ;;
-                 [Ss] | [Ss][Cc]*)
-                 f_menu_app_sys_screens       # System Screens Applications Menu.
-                 ;;
-                 [Ss] | [Ss][Oo]*)
-                 f_menu_app_sys_software      # System Software Applications Menu.
-                 ;;
-            esac                 # End of System Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM
-            #
-            BSY=$MENU_ITEM  # Outputs $MENU_ITEM.
             #
       done  # End of System Application Category until loop.
             #
@@ -93,17 +50,16 @@ f_menu_cat_system () {
 #
 #  Inputs: None. 
 #    Uses: MSB, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_backup () {
       f_initvars_menu_app
       until [ $MSB -eq 0 ]
       do    # Start of Backup Applications until loop.
-            #MSB dtrx  - Use tar without remembering which flags for each file to use.
-            #MSB rsync - File backup, mirror, directories and files.
-            #MSB tar   - File backup, compress files.
+#0^0^0^0^1 #MSB dtrx  - Use tar without remembering which flags for each file to use.
+#0^0^0^0^1 #MSB rsync - File backup, mirror, directories and files.
+#0^0^0^0^1 #MSB tar   - File backup, compress files.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Backup/Archive Applications Menu"
             DELIMITER="#MSB" #MSB This 3rd field prevents awk from printing this line into menu options. 
@@ -111,45 +67,8 @@ f_menu_app_sys_backup () {
             #
             read MSB
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSB  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Backup Applications case statement.
-                 dtrx' '* | 'sudo dtrx' | 'sudo dtrx '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Tt]*)
-                 APP_NAME="dtrx"
-                 f_application_run
-                 ;;
-                 rsync' '* | 'sudo rsync' | 'sudo rsync '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Rr] | [Rr][Ss]*)
-                 APP_NAME="rsync"
-                 f_application_run
-                 ;;
-                 tar' '* | 'sudo tar' | 'sudo tar '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Aa]*)
-                 APP_NAME="tar"
-                 f_application_run
-                 ;;
-            esac                # End of Backup Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSB=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Backup Applications until loop.
             #
@@ -162,30 +81,29 @@ f_menu_app_sys_backup () {
 #
 #  Inputs: None. 
 #    Uses: MSD, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_disks () {
       f_initvars_menu_app
       until [ $MSD -eq 0 ]
       do    # Start of System Disks Information Applications until loop.
-            #MSD agedu  - Find wasted disk space.
-            #MSD blkid  - Block devices.
-            #MSD cfdisk - Disk partition tool.
-            #MSD df     - Disk usage and mount points, usage: 'df -hT'.
-            #MSD dfc    - Disk usage and mount points, graphical display.
-            #MSD di     - 'df'-like disk usage utility.
-            #MSD discus - 'df'-like disk usage utility with color, graphs, formatting.
-            #MSD du     - Disk usage monitor by directory.
-            #MSD gt5    - A diff-capable du-browser.
-            #MSD hdparm - Show/set disk parameters, settings. 
-            #MSD lsblk  - List block devices (disks).
-            #MSD ncdu   - Disk usage monitor, ncurses-based.
-            #MSD parted - Disk partition tool.
-            #MSD pydf   - Disk usage df clone written in python.
-            #MSD tdu    - Tree-view of disk space utilization; ncurses-based.
-            #MSD uuid   - Use ls -l to show disk uuid number.
+#0^0^0^0^1 #MSD agedu  - Find wasted disk space.
+#0^0^0^0^1 #MSD blkid  - Block devices.
+#0^0^0^1^0 #MSD cfdisk - Disk partition tool.
+#1^0^0^0^1 #MSD df     - Disk usage and mount points, usage: 'df -hT'.
+#0^0^0^0^1 #MSD dfc    - Disk usage and mount points, graphical display.
+#0^0^0^0^1 #MSD di     - 'df'-like disk usage utility.
+#0^0^0^0^1 #MSD discus - 'df'-like disk usage utility with color, graphs, formatting.
+#1^0^0^0^1 #MSD du     - Disk usage monitor by directory.
+#0^0^0^1^0 #MSD gt5    - A diff-capable du-browser.
+#0^0^0^0^1 #MSD hdparm - Show/set disk parameters, settings. 
+#0^0^0^0^1 #MSD lsblk  - List block devices (disks).
+#0^0^0^1^0 #MSD ncdu   - Disk usage monitor, ncurses-based.
+#0^0^0^1^0 #MSD parted - Disk partition tool.
+#1^0^0^0^1 #MSD pydf   - Disk usage df clone written in python.
+#0^0^0^0^1 #MSD tdu    - Tree-view of disk space utilization; ncurses-based.
+#1^0^0^0^1 #MSD uuid   - Use ls -l to show disk uuid number.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Disks Information Menu"
             DELIMITER="#MSD" #MSD This 3rd field prevents awk from printing this line into menu options. 
@@ -193,223 +111,8 @@ f_menu_app_sys_disks () {
             #
             read MSD
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSD  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Disks Information Applications case statement.
-                 agedu' '* | 'sudo agedu '* | 'sudo agedu')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Gg]*)
-                 APP_NAME="agedu"
-                 f_application_run
-                 ;;
-                 blkid' '* | 'sudo blkid '* | 'sudo blkid')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Bb] | [Bb][Ll]*)
-                 APP_NAME="blkid"
-                 f_application_run
-                 ;;
-                 cfdisk' '* | 'sudo cfdisk '* | 'sudo cfdisk')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Ff]*)
-                 APP_NAME="cfdisk"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 df' '* | 'sudo df '* | 'sudo df')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ff])
-                 APP_NAME="df -hT"
-                 clear # Blank the screen.
-                 echo "df - Displays free space on disk"
-                 echo
-                 echo "Usage:"
-                 echo "df [OPTION]... [FILE]..."
-                 echo "df [OPTION]... --files0-from=F"
-                 echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
-                 echo "   --total                 produce a grand total"
-                 echo "   -t, --type=TYPE         limit listing to specific file systems"
-                 echo "   -T, --print-type        print file system type"
-                 echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
-                 echo
-                 echo "*** For more help type: 'man df'"
-                 echo "                        'df --help'"
-                 echo
-                 echo "Display total disk usage in human-readable format."
-                 echo
-                 echo "Now run du. Usage: df -hT"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 dfc' '* | 'sudo dfc '* | 'sudo dfc')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ff]| [Dd][Ff][Cc])
-                 APP_NAME="dfc"
-                 f_application_run
-                 ;;
-                 di' '* | 'sudo di '* | 'sudo di')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ii])
-                 APP_NAME="di"
-                 f_application_run
-                 ;;
-                 discus' '* | 'sudo discus '* | 'sudo discus')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ii]| [Dd][Ii][Ss]*)
-                 APP_NAME="discus"
-                 f_application_run
-                 ;;
-                 du' '* | 'sudo du '* | 'sudo du')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Uu])
-                 APP_NAME="du -hsc"
-                 clear # Blank the screen.
-                 echo "du - Displays disk usage per directory"
-                 echo
-                 echo "Usage:"
-                 echo "du [OPTION]... [FILE]..."
-                 echo "du [OPTION]... --files0-from=F"
-                 echo "   -h, --human-readable  human-readable format (e.g., 1K 234M 2G)"
-                 echo "   -c, --total           produce a grand total"
-                 echo "   -S, --separate-dirs   do not include sub-folders"
-                 echo "   -s, --summarize       display only a total"
-                 echo "   --exclude=PATTERN     exclude files matching PATTERN"
-                 echo "   -d, --max-depth=N     N  or  fewer  levels  below"
-                 echo
-                 echo "*** For more help type: 'man du'"
-                 echo "                        'du --help'"
-                 echo
-                 echo "Display total disk usage in human-readable format."
-                 echo
-                 echo "Now run du. Usage: du -hc"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 gt5' '* | 'sudo gt5 '* | 'sudo gt5')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Gg] | [Gg][Tt]*)
-                 APP_NAME="gt5"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 hdparm' '* | 'sudo hdparm '* | 'sudo hdparm')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Hh] | [Hh][Dd]*)
-                 APP_NAME="hdparm"
-                 f_application_run
-                 ;;
-                 lsblk' '* | 'sudo lsblk '* | 'sudo lsblk')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss]*)
-                 APP_NAME="lsblk"
-                 f_application_run
-                 ;;
-                 ncdu' '* | 'sudo ncdu '* | 'sudo ncdu')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Nn] | [Nn][Cc]*)
-                 APP_NAME="ncdu"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 parted' '* | 'sudo parted '* | 'sudo parted')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Pp] | [Pp][Aa]*)
-                 APP_NAME="parted"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 pydf' '* | 'sudo pydf '* | 'sudo pydf')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Yy]*)
-                 APP_NAME="pydf -hT"
-                 clear # Blank the screen.
-                 echo "pydf - Displays free space on disk"
-                 echo
-                 echo "Usage:"
-                 echo "pydf [OPTION]... [FILE]..."
-                 echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
-                 echo "   -k, --kilobytes"
-                 echo "   -m, --megabytes"
-                 echo "   -g, --gigabytes"
-                 echo
-                 echo "*** For more help type: 'man df'"
-                 echo "                        'df --help'"
-                 echo
-                 echo "Display total disk usage in human-readable format."
-                 echo
-                 echo "Now run df. Usage: df -hT"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 tdu' '* | 'sudo tdu '* | 'sudo tdu')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Dd]*)
-                 APP_NAME="tdu"
-                 f_application_run
-                 ;;
-                 uuid' '* | 'sudo uuid '* | 'sudo uuid')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Uu] | [Uu][Uu]*)
-                 clear # Blank the screen.
-                 echo "To find the UUID of a disk, type: ls -l /dev/disk/by-uuid."
-                 APP_NAME="ls -l /dev/disk/by-uuid"
-                 f_application_run             
-                 ;;
-            esac                # End of System Disks Information Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSD=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of System Disks Information Applications until loop.
             #
@@ -417,32 +120,123 @@ f_menu_app_sys_disks () {
 } # End of function f_menu_app_sys_disks
 #
 # +----------------------------------------+
+# |              Function f_df             |
+# +----------------------------------------+
+#
+f_df () {
+       clear # Blank the screen.
+       echo "df - Displays free space on disk"
+       echo
+       echo "Usage:"
+       echo "df [OPTION]... [FILE]..."
+       echo "df [OPTION]... --files0-from=F"
+       echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+       echo "   --total                 produce a grand total"
+       echo "   -t, --type=TYPE         limit listing to specific file systems"
+       echo "   -T, --print-type        print file system type"
+       echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
+       echo
+       echo "*** For more help type: 'man df'"
+       echo "                        'df --help'"
+       echo
+       echo "Display total disk usage in human-readable format."
+       echo
+       echo "Now run du. Usage: df -hT"
+       APP_NAME="df -hT"
+       f_press_enter_key_to_continue
+} # End of function f_df
+#
+# +----------------------------------------+
+# |              Function f_du             |
+# +----------------------------------------+
+#
+f_du () {
+       clear # Blank the screen.
+       echo "du - Displays disk usage per directory"
+       echo
+       echo "Usage:"
+       echo "du [OPTION]... [FILE]..."
+       echo "du [OPTION]... --files0-from=F"
+       echo "   -h, --human-readable  human-readable format (e.g., 1K 234M 2G)"
+       echo "   -c, --total           produce a grand total"
+       echo "   -S, --separate-dirs   do not include sub-folders"
+       echo "   -s, --summarize       display only a total"
+       echo "   --exclude=PATTERN     exclude files matching PATTERN"
+       echo "   -d, --max-depth=N     N  or  fewer  levels  below"
+       echo
+       echo "*** For more help type: 'man du'"
+       echo "                        'du --help'"
+       echo
+       echo "Display total disk usage in human-readable format."
+       echo
+       echo "Now run du. Usage: du -hsc"
+       APP_NAME="du -hsc"
+       f_press_enter_key_to_continue
+} # End of function f_du
+#
+# +----------------------------------------+
+# |             Function f_pydf            |
+# +----------------------------------------+
+#
+f_pydf () {
+       clear # Blank the screen.
+       echo "pydf - Displays free space on disk"
+       echo
+       echo "Usage:"
+       echo "pydf [OPTION]... [FILE]..."
+       echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+       echo "   -k, --kilobytes"
+       echo "   -m, --megabytes"
+       echo "   -g, --gigabytes"
+       echo
+       echo "*** For more help type: 'man df'"
+       echo "                        'df --help'"
+       echo
+       echo "Display total disk usage in human-readable format."
+       echo
+       echo "Now run df. Usage: pydf -hT"
+       APP_NAME="pydf -hT"
+       f_press_enter_key_to_continue
+} # End of function f_pydf
+#
+# +----------------------------------------+
+# |             Function f_uuid            |
+# +----------------------------------------+
+#
+f_uuid () {
+       clear # Blank the screen.
+       echo "To find the UUID of a disk, type: ls -l /dev/disk/by-uuid."
+       APP_NAME="ls -l /dev/disk/by-uuid"
+       f_application_run             
+       f_press_enter_key_to_continue
+} # End of function f_uuid
+#
+# +----------------------------------------+
 # |     Function f_menu_app_sys_health     |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MSH, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_health () {
       f_initvars_menu_app
       until [ $MSH -eq 0 ]
       do    # Start of System Health Applications until loop.
-            #MSH aide       - Advanced Intrusion Detection Environment check file integrity.
-            #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
-            #MSH arpalert   - Checks MAC addresses against list of known MACs, runs script.
-            #MSH arpon      - ArpON detects/blocks arp poisoning/spoofing attacks.
-            #MSH arpwatch   - Detects unknown MAC addresses and IP addresses, like ArpON.
-            #MSH chkrootkit - Root Kit detector.
-            #MSH clamscan   - Clam anti-virus program scans for viruses.
-            #MSH cpuburn    - Stress test puts heavy loads on a CPU.
-            #MSH freshclam  - Clam anti-virus database definition update.
-            #MSH lynis      - security auditing tool that tests for security holes in a PC.
-            #MSH rkhunter   - Root Kit detector.
-            #MSH tripwire   - Detects/Reports changes in system files.
-            #MSH stress     - Stress test can simulate a heavy load on CPU.
+#0^0^0^0^1 #MSH aide       - Advanced Intrusion Detection Environment check file integrity.
+#1^0^0^0^1 #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
+#0^0^0^0^1 #MSH arpalert   - Checks MAC addresses against list of known MACs, runs script.
+#0^0^0^0^1 #MSH arpon      - ArpON detects/blocks arp poisoning/spoofing attacks.
+#1^0^0^0^1 #MSH arpwatch   - Detects unknown MAC addresses and IP addresses, like ArpON.
+#0^0^0^0^1 #MSH chkrootkit - Root Kit detector.
+#1^0^0^0^1 #MSH clamscan   - Clam anti-virus program scans for viruses.
+#0^0^0^0^1 #MSH cpuburn    - Stress test puts heavy loads on a CPU.
+#0^0^0^1^1 #MSH freshclam  - Clam anti-virus database definition update.
+#0^0^0^0^1 #MSH lynis      - security auditing tool that tests for security holes in a PC.
+#0^0^0^0^1 #MSH rkhunter   - Root Kit detector.
+#1^0^0^0^1 #MSH tripwire   - Detects/Reports changes in system files.
+#1^0^0^0^1 #MSH stress     - Stress test can simulate a heavy load on CPU.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Health Applications Menu"
             DELIMITER="#MSH" #MSH This 3rd field prevents awk from printing this line into menu options. 
@@ -450,226 +244,8 @@ f_menu_app_sys_health () {
             #
             read MSH
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSH  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Health Applications case statement.
-                 aide' '* | 'sudo aide '* | 'sudo aide')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Ii*)
-                 APP_NAME="aide"
-                 f_application_run
-                 ;;
-                 arp-scan' '* | 'sudo arp-scan '* | 'sudo arp-scan')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][-]*)
-                 clear # Blank the screen.
-                 echo "arp-scan - ARP Scanner."
-                 echo
-                 echo "Usage:"
-                 echo "arp-scan [OPTIONS] [HOSTS]..."
-                 echo
-                 echo "       --localnet or -l"
-                 echo "              Generate addresses from network  interface  configuration.   Use"
-                 echo "              the  network  interface  IP address and network mask to generate"
-                 echo "              the list of target host addresses.  The list  will  include  the"
-                 echo "              network  and  broadcast  addresses,  so  an interface address of"
-                 echo "              10.0.0.1 with netmask 255.255.255.0 would  generate  256  target"
-                 echo "              hosts  from  10.0.0.0  to 10.0.0.255 inclusive."
-                 echo
-                 echo "       --interface=<s> or -I <s>"
-                 echo "              Use  network  interface  <s>."
-                 echo
-                 echo "Now run arp-scan on this PC as an example."
-                 echo "Usage: arp-scan -l -I <interface>"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_find_NIC
-                 APP_NAME="arp-scan -l -I $ANS"
-                 f_application_run
-                 ;;
-                 arpalert' '* | 'sudo arpalert '* | 'sudo arpalert')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Aa]*)
-                 APP_NAME="arpalert"
-                 f_application_run
-                 ;;
-                 arpon' '* | 'sudo arpon '* | 'sudo arpon')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Oo]*)
-                 APP_NAME="arpon"
-                 f_application_run
-                 ;;
-                 arpwatch' '* | 'sudo arpwatch '* | 'sudo arpwatch')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Rr] | [Aa][Rr][Pp] | [Aa][Rr][Pp][Ww]*)
-                 APP_NAME="arpwatch"
-                 clear # Blank the screen.
-                 echo "arpwatch - Keep track of ethernet/ip address pairings"
-                 echo
-                 echo "Arpwatch  keeps  track  for  ethernet/ip  address  pairings. It syslogs"
-                 echo "activity and reports certain changes via email.  Arpwatch uses  pcap(3)"
-                 echo "to listen for arp packets on a local ethernet interface."
-                 echo
-                 echo "Usage:"
-                 echo "arpwatch [-dN] [-f datafile] [-i interface] [-n net[/width]] [-r file]"
-                 echo "         [-s sendmail_path] [-p] [-a] [-m addr] [-u username]"
-                 echo "         [-R seconds ] [-Q] [-z ignorenet/ignoremask]"
-                 echo
-                 echo "Now run man arpwatch. Usage: man arpwatch"
-                 echo
-                 f_press_enter_key_to_continue
-                 APP_NAME="man arpwatch"
-                 f_application_run
-                 ;;
-                 chkrootkit' '* | 'sudo chkrootkit '* | 'sudo chkrootkit')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Hh]*)
-                 APP_NAME="chkrootkit"
-                 f_application_run
-                 ;;
-                 clamscan' '* | 'sudo clamscan '* | 'sudo clamscan')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Ll]*)
-                 APP_NAME="clamscan -r /home"
-                 clear # Blank the screen.
-                 echo "clamscan -  Anti-virus scanner"
-                 echo
-                 echo "Usage:" 
-                 echo "clamscan [OPTIONS] [FILE/DIRECTORY/-]"
-                 echo "         -r, --recursive will recursively scan your home directory."
-                 echo
-                 echo "*** For more help type: 'man clamscan'"
-                 echo "                        'clamscan --help'"
-                 echo
-                 echo "Clam anti-virus will now scan the folder, please be patient"
-                 echo "since Clam anti-virus is slow to scan, but thorough."
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 cpuburn' '* | 'sudo cpuburn '* | 'sudo cpuburn')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 [Ff] | [Cc][pp]*)
-                 APP_NAME="cpuburn"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 freshclam' '* | 'sudo freshclam '* | 'sudo freshclam')
-                 APP_NAME=$MENU_ITEM
-                 # f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 [Ff] | [Ff][Rr]*)
-                 APP_NAME="freshclam"
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 lynis' '* | 'sudo lynis '* | 'sudo lynis')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Yy]*)
-                 APP_NAME="lynis"
-                 f_application_run
-                 ;;
-                 rkhunter' '* | 'sudo rkhunter '* | 'sudo rkhunter')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Rr] | [Rr][Kk]*)
-                 APP_NAME="rkhunter"
-                 f_application_run
-                 ;;
-                 stress' '* | 'sudo stress '* | 'sudo stress')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Tt]*)
-                 APP_NAME="stress"
-                 clear # Blank the screen.
-                 echo "stress - A tool to impose load on and stress test a computer system"
-                 echo
-                 echo "The application, 'stress' is a tool that imposes a configurable amount of CPU,"
-                 echo "memory, I/O, or disk stress on a POSIX-compliant operating system and reports"
-                 echo "any errors it detects."
-                 echo
-                 echo "The application 'stress' is not a benchmark."
-                 echo
-                 echo "It is a tool used by:"
-                 echo "System Administrators to evaluate how well their systems will scale,"
-                 echo "Kernel Programmers to evaluate perceived performance characteristics, and by"
-                 echo "Systems Programmers to expose the classes of bugs which only or more frequently"
-                 echo "manifest themselves when the system is under heavy load."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 tripwire' '* | 'sudo tripwire '* | 'sudo tripwire')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Rr]*)
-                 APP_NAME="man tripwire"
-                 clear # Blank the screen.
-                 echo "tripwire - Detects unauthorized file changes"
-                 echo
-                 echo "*** For more help type: 'man tripwire' for use and operation."
-                 echo "*** For more help type: 'man twadmin' - create, encode policy, config files."
-                 echo "*** For more help type: 'man twprint' - print database."
-                 echo "*** For more help type: 'man siggen' - display hash values for files."
-                 echo "*** For more help type: 'man twconfig' - explanation of config files."
-                 echo "*** For more help type: 'man twpolicy' - explanation of policy files."
-                 echo "*** For more help type: 'man twfiles' - overview of files, settings."
-                 echo
-                 echo "Usage:"
-                 echo "Database Initialization:  tripwire [-m i|--init] [OPTIONS]"
-                 echo "Integrity Checking:  tripwire [-m c|--check] [object1 [object2...]]"
-                 echo "Database Update:  tripwire [-m u|--update]"
-                 echo "Policy Update:  tripwire [-m p|--update-policy] policyfile.txt"
-                 echo "Test:  tripwire [-m t|--test] --email address"
-                 echo "Type 'tripwire [mode] --help' OR"
-                 echo "'tripwire --help mode [mode...]' OR"
-                 echo "'tripwire --help all' for extended help"
-                 echo
-                 echo "Now run man tripwire. Usage: man tripwire"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-            esac                # End of System Health Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSH=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of System Health Applications until loop.
             #
@@ -677,27 +253,174 @@ f_menu_app_sys_health () {
 } # End of function f_menu_app_sys_health
 #
 # +----------------------------------------+
+# |           Function f_arp-scan          |
+# +----------------------------------------+
+#
+f_arp-scan () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "arp-scan - ARP Scanner."
+         echo
+         echo "Usage:"
+         echo "arp-scan [OPTIONS] [HOSTS]..."
+         echo
+         echo "       --localnet or -l"
+         echo "              Generate addresses from network  interface  configuration.   Use"
+         echo "              the  network  interface  IP address and network mask to generate"
+         echo "              the list of target host addresses.  The list  will  include  the"
+         echo "              network  and  broadcast  addresses,  so  an interface address of"
+         echo "              10.0.0.1 with netmask 255.255.255.0 would  generate  256  target"
+         echo "              hosts  from  10.0.0.0  to 10.0.0.255 inclusive."
+         echo
+         echo "       --interface=<s> or -I <s>"
+         echo "              Use  network  interface  <s>."
+         echo
+         echo "Now run arp-scan on this PC as an example."
+         echo "Usage: arp-scan -I <interface>"
+         echo
+         f_press_enter_key_to_continue
+         f_find_NIC
+         APP_NAME="arp-scan -I $ANS"
+      fi
+} # End of function f_arp-scan
+#
+# +----------------------------------------+
+# |           Function f_arpwatch          |
+# +----------------------------------------+
+#
+f_arpwatch () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "arpwatch - Keep track of ethernet/ip address pairings"
+         echo
+         echo "Arpwatch  keeps  track  for  ethernet/ip  address  pairings. It syslogs"
+         echo "activity and reports certain changes via email.  Arpwatch uses  pcap(3)"
+         echo "to listen for arp packets on a local ethernet interface."
+         echo
+         echo "Usage:"
+         echo "arpwatch [-dN] [-f datafile] [-i interface] [-n net[/width]] [-r file]"
+         echo "         [-s sendmail_path] [-p] [-a] [-m addr] [-u username]"
+         echo "         [-R seconds ] [-Q] [-z ignorenet/ignoremask]"
+         echo
+         echo "Now run man arpwatch. Usage: man arpwatch"
+         echo
+         APP_NAME="man arpwatch"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_arpwatch
+#
+# +----------------------------------------+
+# |           Function f_clamscan          |
+# +----------------------------------------+
+#
+f_clamscan () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "clamscan -  Anti-virus scanner"
+         echo
+         echo "Usage:" 
+         echo "clamscan [OPTIONS] [FILE/DIRECTORY/-]"
+         echo "         --recursive -r  will recursively scan a directory."
+         echo "         --verbose   -v  be verbose."
+         echo "         --infected  -i  only print infected files."
+         echo "         --bell          sound bell on virus detection."
+         echo
+         echo "*** For more help type: 'man clamscan'"
+         echo "                        'clamscan --help'"
+         echo
+         echo "Clam anti-virus will now scan the folder, please be patient"
+         echo "since Clam anti-virus is slow to scan, but thorough."
+         echo
+         echo "Now run clamscan. Usage: clamscan -r ~"
+         echo
+         APP_NAME="clamscan -r ~"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_clamscan
+#
+# +----------------------------------------+
+# |            Function f_stress           |
+# +----------------------------------------+
+#
+f_stress () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "stress - A tool to impose load on and stress test a computer system"
+         echo
+         echo "The application, 'stress' is a tool that imposes a configurable amount of CPU,"
+         echo "memory, I/O, or disk stress on a POSIX-compliant operating system and reports"
+         echo "any errors it detects."
+         echo
+         echo "The application 'stress' is not a benchmark."
+         echo
+         echo "It is a tool used by:"
+         echo "System Administrators to evaluate how well their systems will scale,"
+         echo "Kernel Programmers to evaluate perceived performance characteristics, and by"
+         echo "Systems Programmers to expose the classes of bugs which only or more frequently"
+         echo "manifest themselves when the system is under heavy load."
+         echo
+         echo "*** For more help type: 'man $APP_NAME'"
+         echo "                '$APP_NAME --help'"
+         echo
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_stress
+#
+# +----------------------------------------+
+# |           Function f_tripwire          |
+# +----------------------------------------+
+#
+f_tripwire () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "tripwire - Detects unauthorized file changes"
+         echo
+         echo "*** For more help type: 'man tripwire' for use and operation."
+         echo "*** For more help type: 'man twadmin' - create, encode policy, config files."
+         echo "*** For more help type: 'man twprint' - print database."
+         echo "*** For more help type: 'man siggen' - display hash values for files."
+         echo "*** For more help type: 'man twconfig' - explanation of config files."
+         echo "*** For more help type: 'man twpolicy' - explanation of policy files."
+         echo "*** For more help type: 'man twfiles' - overview of files, settings."
+         echo
+         echo "Usage:"
+         echo "Database Initialization:  tripwire [-m i|--init] [OPTIONS]"
+         echo "Integrity Checking:  tripwire [-m c|--check] [object1 [object2...]]"
+         echo "Database Update:  tripwire [-m u|--update]"
+         echo "Policy Update:  tripwire [-m p|--update-policy] policyfile.txt"
+         echo "Test:  tripwire [-m t|--test] --email address"
+         echo "Type 'tripwire [mode] --help' OR"
+         echo "'tripwire --help mode [mode...]' OR"
+         echo "'tripwire --help all' for extended help"
+         echo
+         echo "Now run man tripwire. Usage: man tripwire"
+         echo
+         APP_NAME="man tripwire"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_tripwire
+#
+# +----------------------------------------+
 # |      Function f_menu_app_sys_logs      |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MLO, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_logs () {
       f_initvars_menu_app
       until [ $MLO -eq 0 ]
       do    # Start of System Logs until loop.
-            #MLO ccze       - A robust and modular log coloriser, with plugins.
-            #MLO colortail  - log colorizer.
-            #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
-            #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
-            #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
-            #MLO multitail  - View multiple log files using multiple panes.
-            #MLO since      - Shows new changes in log files since last run. Tail work-alike.
-            #MLO swatch     - Log file viewer with regexp matching, highlighting & hooks.
+#0^0^0^0^1 #MLO ccze       - A robust and modular log coloriser, with plugins.
+#0^0^0^0^1 #MLO colortail  - log colorizer.
+#0^0^0^0^1 #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
+#0^0^0^0^1 #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
+#0^0^0^0^1 #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
+#0^0^0^0^1 #MLO multitail  - View multiple log files using multiple panes.
+#0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail work-alike.
+#0^0^0^0^1 #MLO swatch     - Log file viewer with regexp matching, highlighting & hooks.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Logs Menu"
             DELIMITER="#MLO" #MLO This 3rd field prevents awk from printing this line into menu options.
@@ -705,85 +428,8 @@ f_menu_app_sys_logs () {
             #
             read MLO
             #
+            . lib_cli-common.lib
             f_menu_item_process $MLO  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Logs case statement.
-                 ccze' '* | 'sudo ccze '* | 'sudo ccze')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Cc]*)
-                 APP_NAME="ccze"
-                 f_application_run
-                 ;;
-                 colortail' '* | 'sudo colortail '* | 'sudo colortail')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Oo]*)
-                 APP_NAME="colortail"
-                 f_application_run
-                 ;;
-                 inotail' '* | 'sudo inotail '* | 'sudo inotail')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ii] | [Ii][Nn]*)
-                 APP_NAME="inotail"
-                 f_application_run
-                 ;;
-                 lnav' '* | 'sudo lnav '* | 'sudo lnav')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Nn]*)
-                 APP_NAME="lnav"
-                 f_application_run
-                 ;;
-                 monkeytail' '* | 'sudo monkeytail '* | 'sudo monkeytail')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 APP_NAME="monkeytail"
-                 f_application_run
-                 ;;
-                 multitail' '* | 'sudo multitail '* | 'sudo multitail')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Uu]*)
-                 APP_NAME="multitail"
-                 f_application_run
-                 ;;
-                 since' '* | 'sudo since '* | 'sudo since')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ii]*)
-                 APP_NAME="since"
-                 f_application_run
-                 ;;
-                 swatch' '* | 'sudo swatch '* | 'sudo swatch')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ww]*)
-                 APP_NAME="swatch"
-                 f_application_run
-                 ;;
-            esac                # End of System Logs case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MLO=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of System Logs Applications until loop.
             #
@@ -796,25 +442,24 @@ f_menu_app_sys_logs () {
 #
 #  Inputs: None. 
 #    Uses: MSI, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_mainboard () {
       f_initvars_menu_app
       until [ $MSI -eq 0 ]
       do    # Start of System Information until loop.
-            #MSI dmidecode   - Main board information.
-            #MSI free        - Memory usage RAM and swap.
-            #MSI hdparm      - Hard disk drive information.
-            #MSI lsb_release - Linux distro and LSB (Linux Standard Base).
-            #MSI lscpu       - CPU information.
-            #MSI lshw        - Main board information.
-            #MSI lsmod       - Linux kernel module information.
-            #MSI mbw         - "Copy" memory bandwidth available to userspace programs.
-            #MSI slabtop     - Kernel slab cache information in real time.
-            #MSI uname       - Linux kernel information.
-            #MSI vmstat      - Memory usage RAM and swap, CPU information.
+#0^0^0^0^1 #MSI dmidecode   - Main board information.
+#1^0^0^0^1 #MSI free        - Memory usage RAM and swap.
+#1^0^0^0^1 #MSI hdparm      - Hard disk drive information.
+#1^0^0^0^1 #MSI lsb_release - Linux distro and LSB (Linux Standard Base).
+#0^0^0^0^1 #MSI lscpu       - CPU information.
+#1^0^0^0^1 #MSI lshw        - Main board information.
+#0^0^0^0^1 #MSI lsmod       - Linux kernel module information.
+#0^0^0^0^1 #MSI mbw         - "Copy" memory bandwidth available to userspace programs.
+#1^0^0^1^0 #MSI slabtop     - Kernel slab cache information in real time.
+#1^0^0^0^1 #MSI uname       - Linux kernel information.
+#0^0^0^0^1 #MSI vmstat      - Memory usage RAM and swap, CPU information.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Mainboard Information Menu"
             DELIMITER="#MSI" #MSI This 3rd field prevents awk from printing this line into menu options. 
@@ -822,177 +467,8 @@ f_menu_app_sys_mainboard () {
             #
             read MSI
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSI  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Mainboard System Information case statement.
-                 dmidecode' '* | 'sudo dmidecode '* | 'sudo dmidecode')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Mm]*)
-                 APP_NAME="dmidecode"
-                 f_application_run
-                 ;;
-                 free' '* | 'sudo free '* | 'sudo free')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ff] | [Ff][Rr]*)
-                 APP_NAME="free -m -t -s 2 -c 5"
-                 clear # Blank the screen.
-                 echo "free - Display the amount of free and used memory both RAM and swap"
-                 echo
-                 echo "Usage:"
-                 echo "free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
-                 echo
-                 echo "*** For more help type: 'man free'"
-                 echo "                        'free --help'"
-
-                 echo
-                 echo "Display in MB Megabytes with column totals, for 5 times every 2 seconds."
-                 echo
-                 echo "Now run free. Usage: free -m -t -s 2 -c 5"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 hdparm' '* | 'sudo hdparm '* | 'sudo hdparm')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Hh] | [Hh][Dd]*)
-                 APP_NAME="hdparm -I /dev/sda"
-                 clear # Blank the screen.
-                 echo "hdparm - Get SATA/IDE hard disk drive parameters."
-                 echo
-                 echo "Usage:"
-                 echo "hdparm [OPTIONS..] [DEVICE ...]"
-                 echo
-                 echo "*** For more help type: 'man hdparm'"
-                 echo "                        'hdparm --help'"
-                 echo
-                 echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
-                 echo
-                 echo "Now run hdparm. Usage: 'hdparm -I /dev/sda'"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 lsb_release' '* | 'sudo lsb_release '* | 'sudo lsb_release')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Bb]*)
-                 APP_NAME="lsb_release -a"
-                 f_application_run
-                 ;;
-                 lscpu' '* | 'sudo lscpu '* | 'sudo lscpu')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Cc]*)
-                 APP_NAME="lscpu"
-                 f_application_run
-                 ;;
-                 lshw' '* | 'sudo lshw '* | 'sudo lshw')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Hh]*)
-                 APP_NAME="lshw -short"
-                 clear # Blank the screen.
-                 echo "lshw - Displays main board information"
-                 echo
-                 echo "Usage:"
-                 echo "lshw [ -version ]"
-                 echo "lshw [ -help ]"
-                 echo "lshw [ -X ]"
-                 echo "lshw  [ -html ] [ -short ] [ -xml ] [ -json ] [ -businfo ] [ -dump filename ]"
-                 echo "[ -class class... ] [ -disable test... ] [ -enable test... ] [ -sanitize ]"
-                 echo "[ -numeric ] [ -quiet ]"
-                 echo
-                 echo "*** For more help type: 'man lshw'"
-                 echo "                        'lshw --help'"
-                 echo
-                 echo "Display short report."
-                 echo
-                 echo "Now run lshw. Usage: lshw -short"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 lsmod' '* | 'sudo lsmod '* | 'sudo lsmod')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Mm]*)
-                 APP_NAME="lsmod"
-                 f_application_run
-                 ;;
-                 mbw' '* | 'sudo mbw '* | 'sudo mbw')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Bb]*)
-                 APP_NAME="mbw"
-                 f_application_run
-                 ;;
-                 slabtop' '* | 'sudo slabtop '* | 'sudo slabtop')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] | [Ss][Ll]*)
-                 APP_NAME="slabtop"
-                 clear # Blank the screen.
-                 echo "slabtop - Display kernel slab cache information in real time."
-                 echo
-                 echo "slabtop displays a listing of the top caches sorted by  one  of  the  listed"
-                 echo "sort  criteria.   It also displays a statistics header filled with slab"
-                 echo "layer information."
-                 echo
-                 echo "Usage:"
-                 echo "slabtop [OPTIONS]"
-                 echo
-                 echo "slabtop  displays  detailed kernel slab cache information in real time."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 echo "If you get error message: 'fopen /proc/slabinfo: Permission denied'"
-                 echo "Then try running with sudo command i.e. 'sudo slabtop'."
-                 echo
-                 f_press_enter_key_to_continue
-                 f_how_to_quit_application "Q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 uname' '* | 'sudo uname '* | 'sudo uname')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Uu] | [Uu][Nn]*)
-                 APP_NAME="uname -a"
-                 f_application_run
-                 ;;
-                 vmstat' '* | 'sudo vmstat '* | 'sudo vmstat')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Vv] | [Vv][Mm]*)
-                 APP_NAME="vmstat"
-                 f_application_run
-                 ;;
-            esac                # End of Mainboard System Information case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSI=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Mainboard System Information Applications until loop.
             #
@@ -1000,35 +476,196 @@ f_menu_app_sys_mainboard () {
 } # End of f_menu_app_sys_mainboard
 #
 # +----------------------------------------+
+# |             Function f_free            |
+# +----------------------------------------+
+#
+f_free () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "free - Display the amount of free and used memory both RAM and swap"
+         echo
+         echo "Usage:"
+         echo "free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
+         echo
+         echo "*** For more help type: 'man free'"
+         echo "                        'free --help'"
+         echo
+         echo "Display in MB Megabytes with column totals, for 5 times every 2 seconds."
+         echo
+         echo "Now run free. Usage: free -m -t -s 2 -c 5"
+         APP_NAME="free -m -t -s 2 -c 5"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_free
+#
+# +----------------------------------------+
+# |            Function f_hdparm           |
+# +----------------------------------------+
+#
+f_hdparm () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "hdparm - Get SATA/IDE hard disk drive parameters."
+         echo
+         echo "Usage:"
+         echo "hdparm [OPTIONS..] [DEVICE ...]"
+         echo
+         echo "*** For more help type: 'man hdparm'"
+         echo "                'hdparm --help'"
+         echo
+         echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
+         echo
+         echo "Now run hdparm. Usage: 'hdparm -I /dev/sda'"
+         APP_NAME="hdparm -I /dev/sda"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_hdparm
+#
+# +----------------------------------------+
+# |          Function f_lsbrelease         |
+# +----------------------------------------+
+#
+f_lsbrelease () {
+
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "lsb_release - print distribution-specific information"
+         echo "The  lsb_release command provides certain LSB (Linux Standard Base) and"
+         echo "distribution-specific information."
+         echo
+         echo "Usage:" 
+         echo "If no options are given, the -v option is assumed."
+         echo
+         echo "lsb_release [OPTIONS]"
+         echo "            -v, --version   Version of lsb_release."
+         echo "            -i, --id        Display the distributor's ID."
+         echo "            -r, --release   Display the release number."
+         echo "            -c, --codename  Display the code name of the currently installed"
+         echo "                            distribution."
+         echo "            -a, --all       Display all of the above information."
+         echo
+         echo "Now run lsb_release. Usage: 'lsb_release -a'"
+         APP_NAME="lsb_release -a"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_lsbrelease
+#
+# +----------------------------------------+
+# |             Function f_lshw            |
+# +----------------------------------------+
+#
+f_lshw () {
+
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "lshw - Displays main board information"
+         echo
+         echo "Usage:"
+         echo "lshw [ -version ]"
+         echo "lshw [ -help ]"
+         echo "lshw [ -X ]"
+         echo "lshw  [ -html ] [ -short ] [ -xml ] [ -json ] [ -businfo ] [ -dump filename ]"
+         echo "[ -class class... ] [ -disable test... ] [ -enable test... ] [ -sanitize ]"
+         echo "[ -numeric ] [ -quiet ]"
+         echo
+         echo "*** For more help type: 'man lshw'"
+         echo "                'lshw --help'"
+         echo
+         echo "Display short report."
+         echo
+         echo "Now run lshw. Usage: lshw -short"
+         echo
+         echo "Please wait a few moments as the report is completed."
+         APP_NAME="lshw -short"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_lshw
+#
+# +----------------------------------------+
+# |            Function f_slabtop          |
+# +----------------------------------------+
+#
+f_slabtop () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "slabtop - Display kernel slab cache information in real time."
+         echo
+         echo "slabtop displays a listing of the top caches sorted by  one  of  the  listed"
+         echo "sort  criteria.   It also displays a statistics header filled with slab"
+         echo "layer information."
+         echo
+         echo "Usage:"
+         echo "slabtop [OPTIONS]"
+         echo
+         echo "slabtop  displays  detailed kernel slab cache information in real time."
+         echo
+         echo "*** For more help type: 'man slabtop'"
+         echo "                        'slabtop --help'"
+         echo
+         echo "If you get error message: 'fopen /proc/slabinfo: Permission denied'"
+         echo "Then try running with sudo command i.e. 'sudo slabtop'."
+         echo
+         f_press_enter_key_to_continue
+      fi
+} # End of f_slabtop
+#
+# +----------------------------------------+
+# |             Function f_uname           |
+# +----------------------------------------+
+#
+f_uname () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "uname - print system information"
+         echo
+         echo "Usage:" 
+         echo "If no options are given, the -s option is assumed."
+         echo
+         echo "uname [OPTIONS]"
+         echo "      -a, --all  print  all  information."
+         echo "      -s, --kernel-name"
+         echo "      -r, --kernel-release"
+         echo "      -v, --kernel-version"
+         echo "      -m, --machine    print the machine hardware name"
+         echo "      -p, --processor"
+         echo "      -i, --hardware-platform"
+         echo "      -o, --operating-system"
+         echo
+         echo "Now run uname. Usage: uname -a"
+         APP_NAME="uname -a"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_uname
+#
+# +----------------------------------------+
 # |    Function f_menu_app_sys_monitors    |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MSM, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_monitors () {
       f_initvars_menu_app
       until [ $MSM -eq 0 ]
       do    # Start of System Monitors until loop.
-            #MSM acpi      - Show acpi information.
-            #MSM acpitail  - Show acpi information in growing tail list.
-            #MSM atsar     - CPU, network, memory & disk I/O, record data for analysis.
-            #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
-            #MSM chkconfig - System update/query run-level processes at boot time.
-            #MSM conky-cli - Versatile, configurable system monitor.
-            #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
-            #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
-            #MSM iostat    - CPU usage and disk I/O process monitor.
-            #MSM iotop     - Disk I/O process monitor.
-            #MSM last      - Users' login/logout times from /var/log/wtmp.
-            #MSM mpstat    - CPU microprocessor usage monitor.
-            #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
-            #MSM rrdtool   - The Round Robin Database Tool stores/displays time-series data.
-            #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
-            #MSM MORE...   - For more system monitor applications.
+#0^0^0^0^0 #MSM acpi      - Show acpi information.
+#0^0^0^0^0 #MSM acpitail  - Show acpi information in growing tail list.
+#0^0^0^0^1 #MSM atsar     - CPU, network, memory & disk I/O, record data for analysis.
+#1^0^0^0^1 #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
+#1^0^0^0^1 #MSM chkconfig - System update/query run-level processes at boot time.
+#0^0^0^1^0 #MSM conky-cli - Versatile, configurable system monitor.
+#1^0^0^0^0 #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
+#0^0^0^1^0 #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
+#0^0^0^0^1 #MSM iostat    - CPU usage and disk I/O process monitor.
+#0^0^0^1^0 #MSM iotop     - Disk I/O process monitor.
+#0^0^0^0^1 #MSM last      - Users' login/logout times from /var/log/wtmp.
+#1^0^0^0^1 #MSM mpstat    - CPU microprocessor usage monitor.
+#0^0^0^0^0 #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
+#0^0^0^0^1 #MSM rrdtool   - The Round Robin Database Tool stores/displays time-series data.
+#0^0^0^1^0 #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
+#f_menu_app_sys_monitors2^0^0^0^1 #MSM MORE...   - For more system monitor applications.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
@@ -1036,257 +673,8 @@ f_menu_app_sys_monitors () {
             #
             read MSM
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSM  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Monitors case statement.
-                 acpi' '* | 'sudo acpi '* | 'sudo acpi')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii])
-                 APP_NAME="acpi"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 acpitail' '* | 'sudo acpitail '* | 'sudo acpitail')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Aa] | [Aa][Cc] | [Aa][Cc][Pp] | [Aa][Cc][Pp][Ii] | [Aa][Cc][Pp][Ii][Tt]*)
-                 APP_NAME="acpitail"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 atsar' '* | 'sudo atsar '* | 'sudo atsar')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Tt] | [Aa][Tt][Ss]*)
-                 APP_NAME="atsar"
-                 f_application_run
-                 ;;
-                 cacti' '* | 'sudo cacti '* | 'sudo cacti')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Aa]*)
-                 APP_NAME="cacti"
-                 clear # Blank the screen.
-                 echo "cacti - Frontend to rrdtool for monitoring systems and services."
-                 echo
-                 echo "Cacti is a complete frontend to rrdtool, it stores all of the necessary"
-                 echo "information to create graphs and populates them with data in a MySQL"
-                 echo "database.  The frontend is completely PHP driven.  Along with being able"
-                 echo "to maintain Graphs, Data Sources, and Round Robin Archives in a"
-                 echo "database, cacti handles the data gathering also.  There is also SNMP"
-                 echo "support for those used to creating traffic graphs with MRTG."
-                 echo
-                 echo "This package requires a functional MySQL database server on either the"
-                 echo "installation host or remotely accessible system.  If you do not already"
-                 echo "have a database server available, you should also install mysql-server."
-                 echo
-                 echo "Homepage: http://www.cacti.net/"
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 chkconfig' '* | 'sudo chkconfig '* | 'sudo chkconfig')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Hh]*)
-                 APP_NAME="chkconfig -l"
-                 clear # Blank the screen.
-                 echo "chkconfig - Manipulate run-level services at boot time."
-                 echo
-                 echo "Usage:"
-                 echo "chkconfig -t|--terse [names]"
-                 echo "chkconfig -s|--set [name state]"
-                 echo "chkconfig -e|--edit [names]"
-                 echo "chkconfig -c|--check name [state]"
-                 echo "chkconfig -l|--list [--deps] [names]"
-                 echo "chkconfig -A|--allservices"
-                 echo "chkconfig -a|--add [names]"
-                 echo "chkconfig -d|--del [names]"
-                 echo
-                 echo "*** For more help type: 'man chkconfig'"
-                 echo "                        'chkconfig --help'"
-                 echo
-                 echo "Now run chkconfig. Usage: chkconfig -l"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 conky-cli' '* | 'sudo conky-cli '* | 'sudo conky-cli')
-                 APP_NAME=$MENU_ITEM
-                 #f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Oo]*)
-                 APP_NAME="conky-cli"
-                 #f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 dstat' '* | 'sudo dstat '* | 'sudo dstat')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Dd] | [Dd][Ss]*)
-                 APP_NAME="dstat 1 10"
-                 clear # Blank the screen.
-                 echo "dstat - Display system resource statistics."
-                 echo
-                 echo "Usage:"
-                 echo "dstat [-afv] [OPTIONS..] [DELAY [COUNT]]"
-                 echo
-                 echo "*** For more help type: 'man dstat'"
-                 echo "                        'dstat --help'"
-                 echo
-                 echo "dstat this PC (localhost) for 10 times as an example."
-                 echo
-                 echo "Now run dstat. Usage: dstat 1 10"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 glances' '* | 'sudo glances '* | 'sudo glances')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Gg] | [Gg][Ll]*)
-                 APP_NAME="glances"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 iotop' '* | 'sudo iotop '* | 'sudo iotop')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ii]| [Ii][Oo] | [Ii][Oo][Tt]*)
-                 APP_NAME="iotop"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 iostat' '* | 'sudo iostat '* | 'sudo iostat')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ii]| [Ii][Oo] | [Ii][Oo][Ss]*)
-                 APP_NAME="iostat"
-                 f_application_run
-                 ;;
-                 last' '* | 'sudo last '* | 'sudo last')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll]| [Ll][Aa]*)
-                 APP_NAME="last"
-                 f_application_run
-                 ;;
-                 mpstat' '* | 'sudo mpstat '* | 'sudo mpstat')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Pp]*)
-                 APP_NAME="mpstat 2 5"
-                 clear # Blank the screen.
-                 echo "mpstat - Display CPU statistics."
-                 echo
-                 echo "Usage:"
-                 echo "mpstat [ -A ] [ -I { SUM | CPU | SCPU | ALL } ] [ -u ]"
-                 echo "[ -P { cpu [,...] | ON | ALL } ] [ -V ] [ interval [ count ] ]"
-                 echo
-                 echo "*** For more help type: 'man mpstat'"
-                 echo "                        'mpstat --help'"
-                 echo
-                 echo "mpstat this PC's CPU (localhost) for 5 times every 2 seconds as an example."
-                 echo
-                 echo "Now run mpstat. Usage: dstat 2 5"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 nmon' '-h* | 'sudo nmon '-h*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 ;;
-                 nmon' '* | 'sudo nmon '* | 'sudo nmon')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Nn] | [Nn][Mm]*)
-                 APP_NAME="nmon"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 rrdtool' '* | 'sudo rrdtool '* | 'sudo rrdtool')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Rr] | [Rr][Rr]*)
-                 APP_NAME="rrdtool"
-                 clear # Blank the screen.
-                 echo "rrdtool   - The Round Robin Database Tool stores/displays time-series data."
-                 echo
-                 echo "The Round Robin Database Tool (RRDtool) is a system to store and display"
-                 echo "time-series data (e.g. network bandwidth, machine-room temperature,"
-                 echo "server load average). It stores the data in Round Robin Databases (RRDs),"
-                 echo "a very compact way that will not expand over time. RRDtool processes the"
-                 echo "extracted data to enforce a certain data density, allowing for useful"
-                 echo "graphical representation of data values."
-                 echo
-                 echo "RRDtool is often used via various wrappers that can poll data from devices"
-                 echo "and feed data into RRDs, as well as provide a friendlier user interface and"
-                 echo "customized graphs."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 saidar' '* | 'sudo saidar '* | 'sudo saidar')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] | [Ss][Aa] | [Ss][Aa][Ii]*)
-                 APP_NAME="saidar"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ee]*)
-                 f_menu_app_sys_monitors2
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-            esac                # End of System Monitors case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSM=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of System Monitors Applications until loop.
             #
@@ -1294,23 +682,150 @@ f_menu_app_sys_monitors () {
 } # End of f_menu_app_sys_monitors
 #
 # +----------------------------------------+
+# |             Function f_cacti           |
+# +----------------------------------------+
+#
+f_cacti () {
+      clear # Blank the screen.
+      echo "cacti - Frontend to rrdtool for monitoring systems and services."
+      echo
+      echo "Cacti is a complete frontend to rrdtool, it stores all of the necessary"
+      echo "information to create graphs and populates them with data in a MySQL"
+      echo "database.  The frontend is completely PHP driven.  Along with being able"
+      echo "to maintain Graphs, Data Sources, and Round Robin Archives in a"
+      echo "database, cacti handles the data gathering also.  There is also SNMP"
+      echo "support for those used to creating traffic graphs with MRTG."
+      echo
+      echo "This package requires a functional MySQL database server on either the"
+      echo "installation host or remotely accessible system.  If you do not already"
+      echo "have a database server available, you should also install mysql-server."
+      echo
+      echo "Homepage: http://www.cacti.net/"
+      echo
+      echo "*** For more help type: 'man cacti'"
+      echo "                        'cacti --help'"
+      echo
+      APP_NAME="cacti"
+      f_press_enter_key_to_continue
+} # End of f_cacti
+#
+# +----------------------------------------+
+# |           Function f_chkconfig         |
+# +----------------------------------------+
+#
+f_chkconfig () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "chkconfig - Manipulate run-level services at boot time."
+         echo
+         echo "Usage:"
+         echo "chkconfig -t|--terse [names]"
+         echo "chkconfig -s|--set [name state]"
+         echo "chkconfig -e|--edit [names]"
+         echo "chkconfig -c|--check name [state]"
+         echo "chkconfig -l|--list [--deps] [names]"
+         echo "chkconfig -A|--allservices"
+         echo "chkconfig -a|--add [names]"
+         echo "chkconfig -d|--del [names]"
+         echo
+         echo "*** For more help type: 'man chkconfig'"
+         echo "                        'chkconfig --help'"
+         echo
+         echo "Now run chkconfig. Usage: chkconfig -l"
+         APP_NAME="chkconfig -l"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_chkconfig
+#
+# +----------------------------------------+
+# |             Function f_dstat           |
+# +----------------------------------------+
+#
+f_dstat () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "dstat - Display system resource statistics."
+         echo
+         echo "Usage:"
+         echo "dstat [-afv] [OPTIONS..] [DELAY [COUNT]]"
+         echo
+         echo "*** For more help type: 'man dstat'"
+         echo "                        'dstat --help'"
+         echo
+         echo "dstat this PC (localhost) for 10 times as an example."
+         echo
+         echo "Now run dstat. Usage: dstat 1 10"
+         APP_NAME="dstat 1 10"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_dstat
+#
+# +----------------------------------------+
+# |             Function f_mpstat          |
+# +----------------------------------------+
+#
+f_mpstat () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "mpstat - Display CPU statistics."
+         echo
+         echo "Usage:"
+         echo "mpstat [ -A ] [ -I { SUM | CPU | SCPU | ALL } ] [ -u ]"
+         echo "[ -P { cpu [,...] | ON | ALL } ] [ -V ] [ interval [ count ] ]"
+         echo
+         echo "*** For more help type: 'man mpstat'"
+         echo "                        'mpstat --help'"
+         echo
+         echo "mpstat this PC's CPU (localhost) for 5 times every 2 seconds as an example."
+         echo
+         echo "Now run mpstat. Usage: dstat 2 5"
+         APP_NAME="mpstat 2 5"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_mpstat
+#
+# +----------------------------------------+
+# |            Function f_rrdtool          |
+# +----------------------------------------+
+#
+f_rrdtool () {
+      clear # Blank the screen.
+      echo "rrdtool   - The Round Robin Database Tool stores/displays time-series data."
+      echo
+      echo "The Round Robin Database Tool (RRDtool) is a system to store and display"
+      echo "time-series data (e.g. network bandwidth, machine-room temperature,"
+      echo "server load average). It stores the data in Round Robin Databases (RRDs),"
+      echo "a very compact way that will not expand over time. RRDtool processes the"
+      echo "extracted data to enforce a certain data density, allowing for useful"
+      echo "graphical representation of data values."
+      echo
+      echo "RRDtool is often used via various wrappers that can poll data from devices"
+      echo "and feed data into RRDs, as well as provide a friendlier user interface and"
+      echo "customized graphs."
+      echo
+      echo "*** For more help type: 'man rrdtool'"
+      echo "                        'rrdtool --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_rrdtool
+#
+# +----------------------------------------+
 # |    Function f_menu_app_sys_monitors2   |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MSN, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_monitors2 () {
       f_initvars_menu_app
       until [ $MSN -eq 0 ]
       do    # Start of System Monitors until loop.
-            #MSN sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
-            #MSN tload     - System load average graphical monitor.
-            #MSN tyload    - Color-coded graphs of CPU load average.
-            #MSN yacpi     - ACPI monitor, ncurses-based.
+#0^0^0^0^1 #MSN sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
+#f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload     - System load average graphical monitor.
+#0^0^0^0^1 #MSN tyload    - Color-coded graphs of CPU load average.
+#0^0^0^1^0 #MSN yacpi     - ACPI monitor, ncurses-based.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSN" #MSN This 3rd field prevents awk from printing this line into menu options. 
@@ -1318,89 +833,9 @@ f_menu_app_sys_monitors2 () {
             #
             read MSN
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSN  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Monitors case statement.
-                 sar' '* | 'sudo sar '* | 'sudo sar')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Aa] | [Ss][Aa][Rr])
-                 APP_NAME="sar"
-                 f_application_run
-                 ;;
-                 tload' '* | 'sudo tload '* | 'sudo tload')
-                 APP_NAME=$MENU_ITEM
-                 clear # Blank the screen.
-                 echo tload - System load average graphical monitor.
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 [Tt] | [Tt][Ll]*)
-                 APP_NAME="tload"
-                 clear # Blank the screen.
-                 echo tload - System load average graphical monitor.
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 tyload' '* | 'sudo tyload '* | 'sudo tyload')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Yy]*)
-                 APP_NAME="tyload"
-                 f_application_run
-                 ;;
-                 yacpi' '* | 'sudo yacpi '* | 'sudo yacpi')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Yy] | [Yy][Aa]*)
-                 APP_NAME="yacpi"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-            esac                # End of System Monitors case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSN=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
+
             #
       done  # End of System Monitors Applications until loop.
             #
@@ -1413,21 +848,20 @@ f_menu_app_sys_monitors2 () {
 #
 #  Inputs: None. 
 #    Uses: MSO, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_other () {
       f_initvars_menu_app
       until [ $MSO -eq 0 ]
       do    # Start of System Other until loop.
-            #MSO colortest - test color capabilities of a terminal.
-            #MSO cpm       - Password manager using PGP-encryption, ncurses-based.
-            #MSO desmume   - Nintendo DS emulator.
-            #MSO dosemu    - DOS emulator.
-            #MSO script    - Records terminal input/output (keystrokes).
-            #MSO scrot     - Screen capture.
-            #MSO ttyrec    - Records terminal input/output and also timing-information.
+#0^0^0^0^1 #MSO colortest - test color capabilities of a terminal.
+#0^0^0^0^1 #MSO cpm       - Password manager using PGP-encryption, ncurses-based.
+#0^0^0^0^1 #MSO desmume   - Nintendo DS emulator.
+#0^0^0^0^1 #MSO dosemu    - DOS emulator.
+#0^0^0^0^1 #MSO script    - Records terminal input/output (keystrokes).
+#0^0^0^0^1 #MSO scrot     - Screen capture.
+#0^0^0^0^1 #MSO ttyrec    - Records terminal input/output and also timing-information.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Other System Applications Menu"
             DELIMITER="#MSO" #MSO This 3rd field prevents awk from printing this line into menu options. 
@@ -1435,77 +869,8 @@ f_menu_app_sys_other () {
             #
             read MSO
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSO  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Other System Applications case statement.
-                 colortest' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc | [Cc][Oo]*)
-                 APP_NAME="colortest"
-                 f_application_run
-                 ;;
-                 cpm' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Pp]*)
-                 APP_NAME="cpm"
-                 f_application_run
-                 ;;
-                 desmume' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ee]*)
-                 APP_NAME="desmume"
-                 f_application_run
-                 ;;
-                 dosemu' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Oo]*)
-                 APP_NAME="dosemu"
-                 f_application_run
-                 ;;
-                 script' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ii]*)
-                 APP_NAME="script"
-                 f_application_run
-                 ;;
-                 scrot' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Oo]*)
-                 APP_NAME="scrot"
-                 f_application_run
-                 ;;
-                 ttyrec' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Yy]*)
-                 APP_NAME="ttyrec"
-                 f_application_run
-                 ;;
-            esac                # End of Other System Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSO=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Other System Applications until loop.
             #
@@ -1518,27 +883,26 @@ f_menu_app_sys_other () {
 #
 #  Inputs: None. 
 #    Uses: MSL, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_peripherals () {
       f_initvars_menu_app
       until [ $MSL -eq 0 ]
       do    # Start of Peripheral System Information until loop.
-            #MSL acpitool  - ACPI power/battery settings.
-            #MSL blkid     - Block devices information.
-            #MSL cdde      - Detects if a CD is inserted, runs specified program.
-            #MSL lsblk     - List block devices (disks).
-            #MSL lsof      - Display information about open files.
-            #MSL lspci     - PCI buses and connected devices.
-            #MSL lspcmcia  - PCMCIA extended debugging information.
-            #MSL lsusb     - USB devices.
-            #MSL pccardctl - PCMCIA card devices.
-            #MSL printenv  - Environmental variables.
-            #MSL setcd     - Control CDROM device, auto-close/eject/locking, set speed.
-            #MSL uptime    - Display how long PC has been running, # users, load average.
-            #MSL w         - A combination of uptime and who commands.
+#0^0^0^0^1 #MSL acpitool  - ACPI power/battery settings.
+#1^0^0^0^1 #MSL blkid     - Block devices information.
+#0^0^0^0^1 #MSL cdde      - Detects if a CD is inserted, runs specified program.
+#0^0^0^0^1 #MSL lsblk     - List block devices (disks).
+#0^0^0^0^1 #MSL lsof      - Display information about open files.
+#1^0^0^0^1 #MSL lspci     - PCI buses and connected devices.
+#0^0^0^0^1 #MSL lspcmcia  - PCMCIA extended debugging information.
+#0^0^0^0^1 #MSL lsusb     - USB devices.
+#1^0^0^0^1 #MSL pccardctl - PCMCIA card devices.
+#0^0^0^0^1 #MSL printenv  - Environmental variables.
+#0^0^0^0^1 #MSL setcd     - Control CDROM device, auto-close/eject/locking, set speed.
+#0^0^0^0^1 #MSL uptime    - Display how long PC has been running, # users, load average.
+#0^0^0^0^1 #MSL w         - A combination of uptime and who commands.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Peripheral System Information Menu"
             DELIMITER="#MSL" #MSL This 3rd field prevents awk from printing this line into menu options. 
@@ -1546,178 +910,8 @@ f_menu_app_sys_peripherals () {
             #
             read MSL
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSL  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Peripheral System Information case statement.
-                 acpitool' '* | 'sudo acpitool '* | 'sudo acpitool')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Cc]*)
-                 APP_NAME="acpitool"
-                 f_application_run
-                 ;;
-                 blkid' '* | 'sudo blkid '* | 'sudo blkid')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Bb] | [Bb][Ll]*)
-                 APP_NAME="blkid"
-                 clear # Blank the screen.
-                 echo "blkid - Locate/print block device attributes"
-                 echo
-                 echo "The blkid program is the command-line interface to working with the libblkid(3)"
-                 echo "library.  It can determine the type of content (e.g. filesystem or swap) that a"
-                 echo "block device holds, and also attributes (tokens, NAME=value pairs) from the"
-                 echo "content metadata (e.g. LABEL or UUID fields)."
-                 echo
-                 echo "blkid has two main forms of operation: either searching for a device with a"
-                 echo "specific NAME=value pair, or displaying NAME=value pairs  for  one  or more"
-                 echo "specified devices."
-                 echo
-                 echo "Usage:"
-                 echo "blkid -L label | -U uuid"
-                 echo "blkid [-dghlv] [-c file] [-w file] [-o format] [-s tag] [-t NAME=value][device]"
-                 echo "blkid -p [-O offset] [-S size] [-o format] [-s tag] [-n list] [-u list] device"
-                 echo "blkid -i [-o format] [-s tag] device ..."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cdde' '* | 'sudo cdde '* | 'sudo cdde')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Cc] | [Cc][Dd]*)
-                 APP_NAME="cdde"
-                 f_application_run
-                 ;;
-                 lsblk' '* | 'sudo lsblk '* | 'sudo lsblk')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Bb]*)
-                 APP_NAME="lsblk"
-                 f_application_run
-                 ;;
-                 lsof' '* | 'sudo lsof '* | 'sudo lsof')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Oo]*)
-                 APP_NAME="lsof"
-                 f_application_run
-                 ;;
-                 lspci' '* | 'sudo lspci '* | 'sudo lspci')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Pp] | [Ll][Ss][Pp][Cc] | [Ll][Ss][Pp][Cc][Ii])
-                 APP_NAME="lspci"
-                 f_application_run
-                 ;;
-                 lspcmcia' '* | 'sudo lspcmcia '* | 'sudo lspcmcia')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Pp] | [Ll][Ss][Pp][Cc] | [Ll][Ss][Pp][Cc][Mm]*)
-                 APP_NAME="lspcmcia"
-                 clear # Blank the screen.
-                 echo "lspcmcia - Display extended PCMCIA debugging information."
-                 echo
-                 echo "lspcmcia is an alias for pccardctl ls, provided for convenience."
-                 echo
-                 echo "Usage:"
-                 echo "lspcmcia [-V] [-v ...] [socket]"
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 lsusb' '* | 'sudo lsusb '* | 'sudo lsusb')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ss] | [Ll][Ss][Uu]*)
-                 APP_NAME="lsusb"
-                 f_application_run
-                 ;;
-                 pccardctl' '* | 'sudo pccardctl '* | 'sudo pccardctl')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Cc]*)
-                 APP_NAME="pccardctl"
-                 clear # Blank the screen.
-                 echo "pccardctl - PCMCIA card control utility."
-                 echo
-                 echo "pccardctl  is  used  to monitor and control the state of PCMCIA sockets."
-                 echo "If a socket number is specified, the command will be applied to just one"
-                 echo "socket; otherwise, all sockets will be affected."
-                 echo
-                 echo "If pccardctl is executed by root, all commands are available."
-                 echo "If it is executed by an unpriviledged user, only the informational commands"
-                 echo "are accessible."
-                 echo
-                 echo "Usage:"
-                 echo "pccardctl [-V] [-v ...] command [socket]"
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "            a combination of uptime and who commands.            '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 printenv' '* | 'sudo printenv '* | 'sudo printenv')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Rr]*)
-                 APP_NAME="printenv"
-                 f_application_run
-                 ;;
-                 setcd' '* | 'sudo setcd '* | 'sudo setcd')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ee]*)
-                 APP_NAME="setcd"
-                 f_application_run
-                 ;;
-                 uptime' '* | 'sudo uptime '* | 'sudo uptime')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Uu] | [Uu][Pp]*)
-                 APP_NAME="uptime"
-                 f_application_run
-                 ;;
-                 w' '* | 'sudo w '* | 'sudo w')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ww])
-                 APP_NAME="w"
-                 f_application_run
-                 ;;
-            esac                # End of Peripheral System Information case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSL=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Peripheral System Information Applications until loop.
             #
@@ -1725,33 +919,104 @@ f_menu_app_sys_peripherals () {
 } # End of f_menu_app_sys_peripherals
 #
 # +----------------------------------------+
+# |             Function f_blkid           |
+# +----------------------------------------+
+#
+f_blkid () {
+      clear # Blank the screen.
+      echo "blkid - Locate/print block device attributes"
+      echo
+      echo "The blkid program is the command-line interface to working with the libblkid(3)"
+      echo "library.  It can determine the type of content (e.g. filesystem or swap) that a"
+      echo "block device holds, and also attributes (tokens, NAME=value pairs) from the"
+      echo "content metadata (e.g. LABEL or UUID fields)."
+      echo
+      echo "blkid has two main forms of operation: either searching for a device with a"
+      echo "specific NAME=value pair, or displaying NAME=value pairs  for  one  or more"
+      echo "specified devices."
+      echo
+      echo "Usage:"
+      echo "blkid -L label | -U uuid"
+      echo "blkid [-dghlv] [-c file] [-w file] [-o format] [-s tag] [-t NAME=value][device]"
+      echo "blkid -p [-O offset] [-S size] [-o format] [-s tag] [-n list] [-u list] device"
+      echo "blkid -i [-o format] [-s tag] device ..."
+      echo
+      echo "*** For more help type: 'man blkid'"
+      echo "                        'blkid --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_blkid
+#
+# +----------------------------------------+
+# |            Function f_lspcmcia         |
+# +----------------------------------------+
+#
+f_lspcmcia () {
+      clear # Blank the screen.
+      echo "lspcmcia - Display extended PCMCIA debugging information."
+      echo
+      echo "lspcmcia is an alias for pccardctl ls, provided for convenience."
+      echo
+      echo "Usage:"
+      echo "lspcmcia [-V] [-v ...] [socket]"
+      echo
+      echo "*** For more help type: 'man lspcmcia'"
+      echo "                        'lspcmcia --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_lspcmcia
+#
+# +----------------------------------------+
+# |            Function f_pccardctl        |
+# +----------------------------------------+
+#
+f_pccardctl () {
+      clear # Blank the screen.
+      echo "pccardctl - PCMCIA card control utility."
+      echo
+      echo "pccardctl  is  used  to monitor and control the state of PCMCIA sockets."
+      echo "If a socket number is specified, the command will be applied to just one"
+      echo "socket; otherwise, all sockets will be affected."
+      echo
+      echo "If pccardctl is executed by root, all commands are available."
+      echo "If it is executed by an unpriviledged user, only the informational commands"
+      echo "are accessible."
+      echo
+      echo "Usage:"
+      echo "pccardctl [-V] [-v ...] command [socket]"
+      echo
+      echo "*** For more help type: 'man pccardctl'"
+      echo "           'pccardctl --help'"
+      f_press_enter_key_to_continue
+} # End of f_pccardctl
+#
+# +----------------------------------------+
 # |     Function f_menu_app_sys_process    |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MSR, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_process () {
       f_initvars_menu_app
       until [ $MSR -eq 0 ]
       do    # Start of System Process Applications until loop.
-            #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
-            #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
-            #MSR killall   - Kill processes based on full-name of process.
-            #MSR pgrep     - Search ps output for full/partial name of process.
-            #MSR pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
-            #MSR pkill     - Kill processes based on partial name of process.
-            #MSR pmap      - View process memory usage.
-            #MSR ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
-            #MSR pstree    - Tree view system processes/resources, like "ps" command.
-            #MSR pswatcher - Execute commands when certain processes are run.
-            #MSR pwdx      - Report current working directory of a process.
-            #MSR strace    - Trace process system calls and signals.
-            #MSR sysctl    - Configure kernel parameters at runtime.
-            #MSR top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
+#0^0^0^1^0 #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
+#0^0^0^3^0 #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
+#0^0^0^0^1 #MSR killall   - Kill processes based on full-name of process.
+#0^0^0^0^1 #MSR pgrep     - Search ps output for full/partial name of process.
+#1^0^0^0^1 #MSR pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
+#0^0^0^0^1 #MSR pkill     - Kill processes based on partial name of process.
+#0^0^0^0^1 #MSR pmap      - View process memory usage.
+#0^0^0^0^1 #MSR ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
+#0^0^0^0^1 #MSR pstree    - Tree view system processes/resources, like "ps" command.
+#0^0^0^0^1 #MSR pswatcher - Execute commands when certain processes are run.
+#0^0^0^0^1 #MSR pwdx      - Report current working directory of a process.
+#0^0^0^0^1 #MSR strace    - Trace process system calls and signals.
+#0^0^0^0^1 #MSR sysctl    - Configure kernel parameters at runtime.
+#0^0^0^1^0 #MSR top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Process Applications Menu"
             DELIMITER="#MSR" #MSR This 3rd field prevents awk from printing this line into menu options. 
@@ -1759,218 +1024,8 @@ f_menu_app_sys_process () {
             #
             read MSR
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSR  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Process Applications case statement.
-                 atop' '* | 'sudo atop '* | 'sudo atop')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Aa] | [Aa][Tt]*)
-                 APP_NAME="atop"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 htop' '* | 'sudo htop '* | 'sudo htop')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q or <F10>"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Hh] | [Hh][Tt]*)
-                 APP_NAME="htop"
-                 f_how_to_quit_application "q or <F10>"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 killall' '* | 'sudo killall '* | 'sudo killall')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Kk] | [Kk][Ii]*)
-                 APP_NAME="killall"
-                 f_application_run
-                 ;;
-                 pgrep' '* | 'sudo pgrep '* | 'sudo pgrep')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Gg]*)
-                 APP_NAME="pgrep"
-                 f_application_run
-                 ;;
-                 pidstat' '* | 'sudo pidstat '* | 'sudo pidstat')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ii]*)
-                 APP_NAME="pidstat 2 3"
-                 clear # Blank the screen.
-                 echo "pidstat - View system processes/resources, PID/USR/System/Guest/CPU/Cmd."
-                 echo
-                 echo "pidstat this PC's CPU (localhost) for 3 times every 2 seconds as an example."
-                 echo
-                 echo "*** For more help type: 'man pidstat'"
-                 echo "                        'pidstat --help'"
-                 echo
-                 echo "Now run pidstat. Usage: pidstat 2 3"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 pkill' '* | 'sudo pkill '* | 'sudo pkill')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Kk]*)
-                 APP_NAME="pkill"
-                 f_application_run
-                 ;;
-                 pmap' '* | 'sudo pmap '* | 'sudo pmap')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Mm]*)
-                 APP_NAME="pmap"
-                 f_application_run
-                 ;;
-                 ps' '* | 'sudo ps '* | 'sudo ps')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ss])
-                 APP_NAME="ps -ejH"
-                 clear # Blank the screen.
-                 echo "ps - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd."
-                 echo
-                 echo "Usage:"
-                 echo "To see every process on the system using standard syntax:"
-                 echo "[ps -e ] [ ps -ef ] [ ps -eF ] [ ps -ely ]"
-                 echo
-                 echo "To see every process on the system using BSD syntax:"
-                 echo "[ ps ax] [ ps axu ]"
-                 echo
-                 echo "To print a process tree:"
-                 echo "[ ps -ejH ] [ ps axjf ]"
-                 echo
-                 echo "To get info about threads:"
-                 echo "[ ps -eLf ] [ ps axms ]"
-                 echo
-                 echo "To see every process running as root (real & effective ID) in user format:"
-                 echo "[ ps -U root -u root u ]"
-                 echo
-                 echo "*** For more help type: 'man ps'"
-                 echo "                        'ps --help'"
-                 echo
-                 echo "Now run ps. Usage: ps -ejH"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 pstree' '* | 'sudo pstree '* | 'sudo pstree')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ss] | [Pp][Ss][Tt]*)
-                 APP_NAME="pstree"
-                 f_application_run
-                 ;;
-                 pswatcher' '* | 'sudo pswatcher '* | 'sudo pswatcher')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ss] | [Pp][Ss][Ww]*)
-                 APP_NAME="pswatcher"
-                 clear # Blank the screen.
-                 echo "pswatcher - Monitor a system via ps-like commands."
-                 echo
-                 echo "This program runs the ps command periodically and triggers commands on matches."
-                 echo "The match patterns are Perl regular expressions which can refer to the process"
-                 echo "information via variables."
-                 echo "For example it can be used to ensure that a daemon is running, or is not"
-                 echo "running too many times. It can also be used to determine when a process has"
-                 echo "consumed too many resources, perhaps due to a memory leak."
-                 echo "Homepage: http://ps-watcher.sourceforge.net/"
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 pwdx' '* | 'sudo pwdx '* | 'sudo pwdx')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ww]*)
-                 APP_NAME="pwdx"
-                 f_application_run
-                 ;;
-                 strace' '* | 'sudo strace '* | 'sudo strace')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Tt]*)
-                 APP_NAME="strace"
-                 f_application_run
-                 ;;
-                 sysctl' '* | 'sudo sysctl '* | 'sudo sysctl')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Yy]*)
-                 APP_NAME="sysctl"
-                 clear # Blank the screen.
-                 echo "sysctl - Configure kernel parameters at runtime."
-                 echo
-                 echo "sysctl is used to modify kernel parameters at runtime."
-                 echo "The parameters available are those listed under /proc/sys/."
-                 echo "Procfs is required for sysctl support in Linux.  You can use sysctl to both"
-                 echo "read and write sysctl data."
-                 echo
-                 echo "Usage:"
-                 echo "       sysctl [-n] [-e] variable ..."
-                 echo "       sysctl [-n] [-e] [-q] -w variable=value ..."
-                 echo "       sysctl [-n] [-e] [-q] -p [filename]"
-                 echo "       sysctl [-n] [-e] -a"
-                 echo "       sysctl [-n] [-e] -A"
-                 echo
-                 echo "EXAMPLES"
-                 echo "       /sbin/sysctl -a"
-                 echo "       /sbin/sysctl -n kernel.hostname"
-                 echo "       /sbin/sysctl -w kernel.domainname='example.com'"
-                 echo "       /sbin/sysctl -p /etc/sysctl.conf"
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 top' '* | 'sudo top '* | 'sudo top')
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Tt] | [Tt][Oo]*)
-                 APP_NAME="top"
-                 f_how_to_quit_application "q"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-            esac                # End of System Process Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSR=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of System Process Applications until loop.
             #
@@ -1978,30 +1033,136 @@ f_menu_app_sys_process () {
 } # End of function f_menu_app_sys_process
 #
 # +----------------------------------------+
+# |             Function f_pidstat         |
+# +----------------------------------------+
+#
+f_pidstat () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "pidstat - View system processes/resources, PID/USR/System/Guest/CPU/Cmd."
+         echo
+         echo "pidstat this PC's CPU (localhost) for 3 times every 2 seconds as an example."
+         echo
+         echo "*** For more help type: 'man pidstat'"
+         echo "                        'pidstat --help'"
+         echo
+         echo "Now run pidstat. Usage: pidstat 2 3"
+         APP_NAME="pidstat 2 3"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_pidstat
+#
+# +----------------------------------------+
+# |              Function f_ps             |
+# +----------------------------------------+
+#
+f_ps () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "ps - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd."
+         echo
+         echo "Usage:"
+         echo "To see every process on the system using standard syntax:"
+         echo "[ps -e ] [ ps -ef ] [ ps -eF ] [ ps -ely ]"
+         echo
+         echo "To see every process on the system using BSD syntax:"
+         echo "[ ps ax] [ ps axu ]"
+         echo
+         echo "To print a process tree:"
+         echo "[ ps -ejH ] [ ps axjf ]"
+         echo
+         echo "To get info about threads:"
+         echo "[ ps -eLf ] [ ps axms ]"
+         echo
+         echo "To see every process running as root (real & effective ID) in user format:"
+         echo "[ ps -U root -u root u ]"
+         echo
+         echo "*** For more help type: 'man ps'"
+         echo "                        'ps --help'"
+         echo
+         echo "Now run ps. Usage: ps -ejH"
+         APP_NAME="ps -ejH"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_ps
+#
+# +----------------------------------------+
+# |          Function f_pswatcher          |
+# +----------------------------------------+
+#
+f_pswatcher () {
+      clear # Blank the screen.
+      echo "pswatcher - Monitor a system via ps-like commands."
+      echo
+      echo "This program runs the ps command periodically and triggers commands on matches."
+      echo "The match patterns are Perl regular expressions which can refer to the process"
+      echo "information via variables."
+      echo "For example it can be used to ensure that a daemon is running, or is not"
+      echo "running too many times. It can also be used to determine when a process has"
+      echo "consumed too many resources, perhaps due to a memory leak."
+      echo "Homepage: http://ps-watcher.sourceforge.net/"
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_pswatcher
+#
+# +----------------------------------------+
+# |            Function f_sysctl           |
+# +----------------------------------------+
+#
+f_sysctl () {
+      clear # Blank the screen.
+      echo "sysctl - Configure kernel parameters at runtime."
+      echo
+      echo "sysctl is used to modify kernel parameters at runtime."
+      echo "The parameters available are those listed under /proc/sys/."
+      echo "Procfs is required for sysctl support in Linux.  You can use sysctl to both"
+      echo "read and write sysctl data."
+      echo
+      echo "Usage:"
+      echo "       sysctl [-n] [-e] variable ..."
+      echo "       sysctl [-n] [-e] [-q] -w variable=value ..."
+      echo "       sysctl [-n] [-e] [-q] -p [filename]"
+      echo "       sysctl [-n] [-e] -a"
+      echo "       sysctl [-n] [-e] -A"
+      echo
+      echo "EXAMPLES"
+      echo "       /sbin/sysctl -a"
+      echo "       /sbin/sysctl -n kernel.hostname"
+      echo "       /sbin/sysctl -w kernel.domainname='example.com'"
+      echo "       /sbin/sysctl -p /etc/sysctl.conf"
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      f_press_enter_key_to_continue
+} # End of f_sysctl
+#
+# +----------------------------------------+
 # |    Function f_menu_app_sys_screens     |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MSC, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_screens () {
       f_initvars_menu_app
       until [ $MSC -eq 0 ]
       do    # Start of System Screens until loop.
-            #MSC away     - Locks terminal with password and checks for new email.
-            #MSC byobu    - Multiple sessions.
-            #MSC dtach    - Emulates detach feature of screen.
-            #MSC dvtm     - dwm-style (tiling) window manager.
-            #MSC fbterm   - Fast terminal emulator, multiple fonts, multiple windows.
-            #MSC screen   - Multiple sessions via split or pager screens.
-            #MSC screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
-            #MSC splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
-            #MSC tmux     - Multiple sessions with multiplexing.
-            #MSC twin     - A text mode window environment for multiple windows on screen.
-            #MSC vlock    - Locks virtual console or current terminal.
+#0^0^0^0^0 #MSC away     - Locks terminal with password and checks for new email.
+#0^0^0^0^0 #MSC byobu    - Multiple sessions.
+#0^0^0^0^0 #MSC dtach    - Emulates detach feature of screen.
+#0^0^0^0^0 #MSC dvtm     - dwm-style (tiling) window manager.
+#0^0^0^0^0 #MSC fbterm   - Fast terminal emulator, multiple fonts, multiple windows.
+#1^0^0^0^0 #MSC screen   - Multiple sessions via split or pager screens.
+#f_screen^0^0^0^0 #MSC screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
+#1^0^0^0^0 #MSC splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
+#0^0^0^0^0 #MSC tmux     - Multiple sessions with multiplexing.
+#0^0^0^0^0 #MSC twin     - A text mode window environment for multiple windows on screen.
+#0^0^0^0^0 #MSC vlock    - Locks virtual console or current terminal.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Screens Menu"
             DELIMITER="#MSC" #MSC This 3rd field prevents awk from printing this line into menu options. 
@@ -2009,145 +1170,8 @@ f_menu_app_sys_screens () {
             #
             read MSC
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSC  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of System Screens case statement.
-                 away' '* | 'sudo away '* | 'sudo away')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Ww]*)
-                 APP_NAME="away"
-                 f_application_run
-                 ;;
-                 byobu' '* | 'sudo byobu '* | 'sudo byobu')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Bb] | [Bb][Yy]*)
-                 APP_NAME="byobu"
-                 f_application_run
-                 ;;
-                 dtach' '* | 'sudo dtach '* | 'sudo dtach')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Tt]*)
-                 APP_NAME="dtach"
-                 f_application_run
-                 ;;
-                 dvtm' '* | 'sudo dvtm '* | 'sudo dvtm')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Vv]*)
-                 APP_NAME="dvtm"
-                 f_application_run
-                 ;;
-                 fbterm' '* | 'sudo fbterm '* | 'sudo fbterm')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ff] | [Ff][Bb]*)
-                 APP_NAME="fbterm"
-                 f_application_run
-                 ;;
-                 screen' '* | 'sudo screen '* | 'sudo screen')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn])
-                 APP_NAME="screen"
-                 clear # Blank the screen.
-                 echo "screen - Multiple screen-window sessions."
-                 echo 
-                 echo "Usage:"
-                 echo "<Ctrl>-A <double-quote> List all windows."
-                 echo "<Ctrl>-A N     Show window title."
-                 echo "<Ctrl>-A a     Name title of the window."
-                 echo
-                 echo "<Ctrl>-A c     Create new window."
-                 echo "<Ctrl>-A n     Switch to next window."
-                 echo "<Ctrl>-A p     Switch to previous window."
-                 echo "<Ctrl>-A l     Refresh window."
-                 echo "<Ctrl>-A <single-quote> Prompt window number to use."
-                 echo "<Ctrl>-A (0-9 or -)  Switch to window number to use."
-                 echo
-                 echo "<Ctrl>-A k     Kill window."
-                 echo "<Ctrl>-A S     Split window horizontally."
-                 echo "<Ctrl>-A <tab> Toggle between split window areas."
-                 echo "<Ctrl>-A x     Kill split window area."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 screenie' '* | 'sudo screenie '* | 'sudo screenie')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Cc] | [Ss][Cc][Rr] | [Ss][Cc][Rr][Ee] | [Ss][Cc][Rr][Ee][Ee] | [Ss][Cc][Rr][Ee][Ee][Nn] | [Ss][Cc][Rr][Ee][Ee][Nn][Ii]*)
-                 APP_NAME="screenie"
-                 f_application_run
-                 ;;
-                 splitvt' '* | 'sudo splitvt '* | 'sudo splitvt')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Ss] | [Ss][Pp]*)
-                 APP_NAME="splitvt"
-                 clear # Blank the screen.
-                 echo "splitvt - Split screen horizontally into two upper/lower."
-                 echo
-                 echo "Usage:"
-                 echo "splitvt [OPTION]... [INPUT [PREFIX]]"
-                 echo
-                 echo "*** For more help type: 'man splitvt'" 
-                 echo "                        'splitvt --help'"
-                 echo
-                 echo "Now run splitvt. Usage: splitvt"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 tmux' '* | 'sudo tmux '* | 'sudo tmux')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Mm]*)
-                 APP_NAME="tmux"
-                 f_application_run
-                 ;;
-                 twin' '* | 'sudo twin '* | 'sudo twin')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Ww]*)
-                 APP_NAME="twin"
-                 f_application_run
-                 ;;
-                 vlock' '* | 'sudo vlock '* | 'sudo vlock')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Vv] | [Vv][Ll]*)
-                 APP_NAME="vlock"
-                 f_application_run
-                 ;;
-            esac                # End of System Screens case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSC=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of System Screens Applications until loop.
             #
@@ -2155,32 +1179,81 @@ f_menu_app_sys_screens () {
 } # End of f_menu_app_sys_screens
 #
 # +----------------------------------------+
+# |            Function f_screen           |
+# +----------------------------------------+
+#
+f_screen () {
+      clear # Blank the screen.
+      echo "screen - Multiple screen-window sessions."
+      echo 
+      echo "Usage:"
+      echo "<Ctrl>-A <double-quote> List all windows."
+      echo "<Ctrl>-A N     Show window title."
+      echo "<Ctrl>-A a     Name title of the window."
+      echo
+      echo "<Ctrl>-A c     Create new window."
+      echo "<Ctrl>-A n     Switch to next window."
+      echo "<Ctrl>-A p     Switch to previous window."
+      echo "<Ctrl>-A l     Refresh window."
+      echo "<Ctrl>-A <single-quote> Prompt window number to use."
+      echo "<Ctrl>-A (0-9 or -)  Switch to window number to use."
+      echo
+      echo "<Ctrl>-A k     Kill window."
+      echo "<Ctrl>-A S     Split window horizontally."
+      echo "<Ctrl>-A <tab> Toggle between split window areas."
+      echo "<Ctrl>-A x     Kill split window area."
+      echo
+      echo "*** For more help type: 'man screen'"
+      echo "                        '$screen --help'"
+      f_press_enter_key_to_continue
+} # End of f_screen
+#
+# +----------------------------------------+
+# |            Function f_splitvt          |
+# +----------------------------------------+
+#
+f_splitvt () {
+      clear # Blank the screen.
+      echo "splitvt - Split screen horizontally into two upper/lower."
+      echo
+      echo "Usage:"
+      echo "splitvt [OPTION]... [INPUT [PREFIX]]"
+      echo
+      echo "*** For more help type: 'man splitvt'" 
+      echo "             'splitvt --help'"
+      echo
+      echo "Now run splitvt. Usage: splitvt"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_splitvt
+#
+# +----------------------------------------+
 # |    Function f_menu_app_sys_software    |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MSF, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_software () {
       f_initvars_menu_app
       until [ $MSF -eq 0 ]
       do    # Start of System Software Applications until loop.
-            #MSF alien    - Converts rpm to deb packages.
-            #MSF apt      - Debian package manager.
-            #MSF apt-file - Search/List files in the Debian package manager w/o installing.
-            #MSF aptitude - Debian package manager.
-            #MSF aptoncd  - GUI makes a CD of Debian packages for installation w/o Internet.
-            #MSF dpkg     - Debian package manager.
-            #MSF rpm      - RPM (Red Hat) package manager.
-            #MSF synaptic - GUI Debian package manager.
-            #MSF unshield - Extracts CAB files from InstallShield installers for MS Windows.
-            #MSF urpmi    - Mandriva, Mageia package manager.
-            #MSF YaST     - GUI OpenSUSE package manager.
-            #MSF yum      - "Yellow Dog Updated" package manager.
-            #MSF zypper   - OpenSUSE package manager on which is based YaST GUI.
+#0^0^0^0^1 #MSF alien     - Converts rpm to deb packages.
+#1^0^0^0^1 #MSF apt       - Debian package manager.
+#0^0^0^0^1 #MSF apt-cache - Show package information, (reverse)/dependency information.
+#0^0^0^0^1 #MSF apt-file  - Search/List files in the Debian package manager w/o installing.
+#1^0^0^0^0 #MSF aptitude  - Debian package manager.
+#0^0^0^0^1 #MSF aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
+#0^0^0^0^1 #MSF dpkg      - Debian package manager.
+#0^0^0^0^1 #MSF rpm       - RPM (Red Hat) package manager.
+#0^0^0^0^0 #MSF synaptic  - GUI Debian package manager.
+#0^0^0^0^1 #MSF unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
+#0^0^0^0^1 #MSF urpmi     - Mandriva, Mageia package manager.
+#0^0^0^0^1 #MSF YaST      - GUI OpenSUSE package manager.
+#0^0^0^0^1 #MSF yum       - "Yellow Dog Updated" package manager.
+#0^0^0^0^1 #MSF zypper    - OpenSUSE package manager on which is based YaST GUI.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Software Applications Menu"
             DELIMITER="#MSF" #MSF This 3rd field prevents awk from printing this line into menu options. 
@@ -2188,25 +1261,19 @@ f_menu_app_sys_software () {
             #
             read MSF
             #
+            . lib_cli-common.lib
             f_menu_item_process $MSF  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $MENU_ITEM in # Start of System Software Applications case statement.
-                 alien' '* | 'sudo alien '* | 'sudo alien')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Ll]*)
-                 APP_NAME="alien"
-                 f_application_run
-                 ;;
-                 apt' '* | 'apt-'* | 'sudo apt' | 'sudo apt '* | 'sudo apt-'*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Tt])
+      done  # End of System Software Applications until loop.
+            #
+      unset MSF MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_sys_software
+#
+# +----------------------------------------+
+# |              Function f_apt            |
+# +----------------------------------------+
+#
+f_apt () {
                  APP_NAME="apt"
                  clear # Blank the screen.
                  echo "apt - Debian package manager."
@@ -2230,23 +1297,13 @@ f_menu_app_sys_software () {
                  echo "*** For more help type: man apt / man apt-cache / man apt-get"
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 apt-file' '* | 'apt-file -'* | 'sudo apt-file' | 'sudo apt-file '* | 'sudo apt-file-'*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt]- | [Aa][Pp][Tt]-[F]*)
-                 APP_NAME="apt-file"
-                 f_application_run
-                 ;;
-                 aptitude' '* | 'sudo aptitude '* | 'sudo aptitude')
-                 APP_NAME=$MENU_ITEM
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Ii]*)
-                 APP_NAME="aptitude"
+} # End of function f_apt
+#
+# +----------------------------------------+
+# |            Function f_aptitude         |
+# +----------------------------------------+
+#
+f_aptitude () {
                  clear # Blank the screen.
                  echo "aptitude - Debian package manager."
                  echo 
@@ -2271,15 +1328,14 @@ f_menu_app_sys_software () {
                  echo
                  echo "*** For more help type: man apt / man apt-cache / man apt-get"
                  f_press_enter_key_to_continue
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 f_application_run
-                 ;;
+} # End of function f_aptitude
+#
+# +----------------------------------------+
+# |            Function f_aptoncd          |
+# +----------------------------------------+
+#
+f_aptoncd () {
                  'aptoncd '* | 'sudo aptoncd '* | 'sudo aptoncd')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Tt] | [Aa][Pp][Tt][Oo]*)
-                 APP_NAME="aptoncd"
                  clear # Blank the screen.
                  echo "APTonCD - A GUI application and is in the menu for reference only."
                  echo
@@ -2294,13 +1350,13 @@ f_menu_app_sys_software () {
                  echo "APTonCD is fully supported in Ubuntu and works in Debian Etch and Sid."
                  echo
                  f_press_enter_key_to_continue
-                 ;;
-                 dpkg' '* | 'dpkg-'* | 'sudo dpkg '* | 'sudo dpkg' | 'sudo dpkg-'*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Pp]*)
-                 APP_NAME="dpkg"
+} # End of function f_aptoncd
+#
+# +----------------------------------------+
+# |              Function f_dpkg           |
+# +----------------------------------------+
+#
+f_dpkg () {
                  clear # Blank the screen.
                  echo "dpkg - Debian package manager."
                  echo
@@ -2315,14 +1371,13 @@ f_menu_app_sys_software () {
                  echo "*** For more help type: man dpkg / man dpkg-query"
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 rpm' '* | 'sudo rpm '* | 'sudo rpm')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Rr] | [Rr][Pp]*)
-                 APP_NAME="rpm"
+} # End of function f_dpkg
+#
+# +----------------------------------------+
+# |              Function f_rpm            |
+# +----------------------------------------+
+#
+f_rpm () {
                  clear # Blank the screen.
                  echo "rpm - RPM (Red Hat) package manager."
                  echo
@@ -2346,14 +1401,13 @@ f_menu_app_sys_software () {
                  echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 synaptic' '* | 'sudo synaptic '* | 'sudo synaptic')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Yy]*)
-                 APP_NAME="synaptic"
+} # End of function f_rpm
+#
+# +----------------------------------------+
+# |            Function f_synaptic         |
+# +----------------------------------------+
+#
+f_synaptic () {
                  clear # Blank the screen.
                  echo "Synaptic - A GUI package manager and is in the menu for reference only."
                  echo
@@ -2361,29 +1415,13 @@ f_menu_app_sys_software () {
                  echo "Synaptic can be launched from the command line with the 'synaptic' command."
                  echo
                  f_press_enter_key_to_continue
-                 ;;
-                 unshield' '* | 'sudo unshield '* | 'sudo unshield')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Uu] | Uu][Nn]*)
-                 APP_NAME="unshield"
-                 f_application_run
-                 ;;
-                 urpmi' '* |  'sudo urpmi '* | 'sudo urpmi')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Uu] | [Uu][Rr]*)
-                 APP_NAME="urpmi"
-                 f_application_run
-                 ;;
-                 yast' '* | 'sudo yast '* | 'sudo yast')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Yy] | [Yy][Aa]*)
-                 APP_NAME="yast"
+} # End of function f_synaptic
+#
+# +----------------------------------------+
+# |              Function f_yast           |
+# +----------------------------------------+
+#
+f_yast () {
                  clear # Blank the screen.
                  echo "YaST - A GUI package manager and is in the menu for reference only."
                  echo
@@ -2391,13 +1429,13 @@ f_menu_app_sys_software () {
                  echo "YaST can be launched from the command line with the 'yast' command."
                  echo
                  f_press_enter_key_to_continue
-                 ;;
-                 yum' '* | 'sudo yum '* | 'sudo yum')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Yy] | [Yy][Uu]*)
-                 APP_NAME="yum"
+} # End of function f_yast
+#
+# +----------------------------------------+
+# |              Function f_yum            |
+# +----------------------------------------+
+#
+f_yum () {
                  clear # Blank the screen.
                  echo "yum - 'Yellow Dog Updated' package manager."
                  echo
@@ -2415,14 +1453,13 @@ f_menu_app_sys_software () {
                  echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 zypper' '* | 'sudo zypper '* | 'sudo zypper')
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Zz] | [Zz][Yy]*)
-                 APP_NAME="zypper"
+} # End of function f_yum
+#
+# +----------------------------------------+
+# |             Function f_zypper          |
+# +----------------------------------------+
+#
+f_zypper () {
                  clear # Blank the screen.
                  echo "zypper - Zypper package manager."
                  echo
@@ -2441,19 +1478,5 @@ f_menu_app_sys_software () {
                  echo
                  f_press_enter_key_to_continue
                  f_application_run
-                 ;;
-            esac                # End of System Software Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MSF=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
-            #
-      done  # End of System Software Applications until loop.
-            #
-      unset MSF MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_sys_software
+} # End of function f_zypper
 #

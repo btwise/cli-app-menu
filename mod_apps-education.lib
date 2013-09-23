@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-10-2013 15:39"
+# REVDATE="September-20-2013 02:05"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
@@ -11,26 +11,25 @@
 #
 #  Inputs: None. 
 #    Uses: MED, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_education () {
       f_initvars_menu_app
       until [ $MED -eq 0 ]
       do    # Start of Education Applications until loop.
-            #MED diatheke    - Holy Bible research tool.
-            #MED grass       - GIS Map utility (Geographic Information System).
-            #MED gtypist     - Typing tutor displays a sentence for practice.
-            #MED Ham radio   - Morse code and Ham Radio applications.
-            #MED kon2        - Japanese Kanji characters on Linux Console.
-            #MED lifelines   - Geneology.
-            #MED Mathematics - Mathematics, problems.
-            #MED metar       - Download METAR weather reports from NOAA HTTP servers.
-            #MED seesat5     - Compute the location of a satellite.
-            #MED tide        - CLI XTide gives tide/current forecasts. May need xtide-data.
-            #MED typespeed   - Typing tutor shows flying words arcade-style across screen.
-            #MED weather     - current weather conditions and forecasts.
+#0^0^0^0^1 #MED diatheke    - Holy Bible research tool.
+#0^0^0^0^1 #MED grass       - GIS Map utility (Geographic Information System).
+#0^0^0^0^0 #MED gtypist     - Typing tutor displays a sentence for practice.
+#f_menu_app_hamradio^0^0^0^1 #MED Ham radio   - Morse code and Ham Radio applications.
+#0^0^0^0^1 #MED kon2        - Japanese Kanji characters on Linux Console.
+#0^0^0^0^1 #MED lifelines   - Geneology.
+#f_menu_app_math^0^0^0^1 #MED Mathematics - Mathematics, problems.
+#1^0^0^0^1 #MED metar       - Download METAR weather reports from NOAA HTTP servers.
+#0^0^0^0^1 #MED seesat5     - Compute the location of a satellite.
+#1^0^0^0^1 #MED tide        - CLI XTide gives tide/current forecasts. May need xtide-data.
+#0^0^0^0^1 #MED typespeed   - Typing tutor shows flying words arcade-style across screen.
+#1^0^0^0^1 #MED weather     - current weather conditions and forecasts.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-education.lib"
             MENU_TITLE="Education/Hobby Applications Menu"
             DELIMITER="#MED" #MED This 3rd field prevents awk from printing this line into menu options. 
@@ -38,169 +37,89 @@ f_menu_app_education () {
             #
             read MED
             #
+            . lib_cli-common.lib
             f_menu_item_process $MED  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Education Applications case statement.
-                 diatheke' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ii]*)
-                 APP_NAME="diatheke"
-                 f_application_run
-                 ;;
-                 grass' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Gg] | [Gg][Rr]*)
-                 APP_NAME="grass"
-                 f_application_run
-                 ;;
-                 gtypist' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Gg] | [Gg][Tt]*)
-                 APP_NAME="gtypist"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Hh] | [Hh][Aa]*)
-                 f_menu_app_hamradio
-                 ;;
-                 kon2' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Kk] | [Kk][Oo]*)
-                 APP_NAME="kon2"
-                 f_application_run
-                 ;;
-                 lifelines' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ll] | [Ll][Ii]*)
-                 APP_NAME="lifelines"
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Aa]*)
-                 f_menu_app_math
-                 ;;
-                 metar' '*)
-                 APP_NAME=$MENU_ITEM
-                 clear # Blank the screen.
-                 echo "metar - Weather conditions from NOAA."
-                 echo
-                 echo "Usage:"
-                 echo "metar [-dvh] stations"
-                 echo
-                 echo "For a list of stations go to URL:"
-                 echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
-                 echo
-                 echo "*** For more help type: 'man metar'"
-                 echo "                        'metar --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Ee]*)
-                 APP_NAME="metar"
-                 f_application_run
-                 ;;
-                 seesat5' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Ee]*)
-                 APP_NAME="seesat5"
-                 f_application_run
-                 ;;
-                 tide' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Ii]*)
-                 APP_NAME="tide"
-                 clear # Blank the screen.
-                 echo "tide - Schedule of high/low tides."
-                 echo
-                 echo "Usage:"
-                 echo "tide -l <location name> [OPTIONS]"
-                 echo
-                 echo "tide -l Boston -f t -m g"
-                 echo
-                 echo "[OPTIONS]"
-                 echo "-f t - output format is text."
-                 echo "-m g - mode is graphical."
-                 echo
-                 echo "*** For more help type: 'man tide'"
-                 echo "                        'tide --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-                 typespeed' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Yy]*)
-                 APP_NAME="typespeed"
-                 f_application_run
-                 ;;
-                 weather' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ww] | [Ww][Ee]*)
-                 APP_NAME="weather"
-                 clear # Blank the screen.
-                 echo "weather - Weather conditions from NOAA." 
-                 echo
-                 echo "Home web page: http://fungi.yuggoth.org/weather/"
-                 echo
-                 echo "Usage:"
-                 echo "weather [OPTIONS] stations"
-                 echo
-                 echo  "Stations:"
-                 echo 
-                 echo  "U.S. ZIP Code"
-                 echo  "<longitude, latitude> i.e. '35-52n, 78-43w'"
-                 echo
-                 echo "[OPTIONS]"
-                 echo "-a  --alert     Alerts"
-                 echo "-f              Local forcast"
-                 echo "    --imperial  Convert between metric and imperial units"
-                 echo "-m              metric units"
-                 echo
-                 echo "For a list of stations go to URL:"
-                 echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
-                 echo
-                 echo "*** For more help type: 'man weather'"
-                 echo "                        'weather --help'"
-                 echo
-                 f_press_enter_key_to_continue
-                 f_application_run
-                 ;;
-            esac                # End of Education Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MED=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Education Applications until loop.
             #
       unset MED MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_education
+} # End of function f_menu_app_education
+#
+# +----------------------------------------+
+# |            Function f_metar            |
+# +----------------------------------------+
+#
+f_metar () {
+      clear # Blank the screen.
+      echo "metar - Weather conditions from NOAA."
+      echo
+      echo "Usage:"
+      echo "metar [-dvh] stations"
+      echo
+      echo "For a list of stations go to URL:"
+      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
+      echo
+      echo "*** For more help type: 'man metar'"
+      echo "                        'metar --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_metar
+#
+# +----------------------------------------+
+# |            Function f_tide             |
+# +----------------------------------------+
+#
+f_tide () {
+      clear # Blank the screen.
+      echo "tide - Schedule of high/low tides."
+      echo
+      echo "Usage:"
+      echo "tide -l <location name> [OPTIONS]"
+      echo
+      echo "tide -l Boston -f t -m g"
+      echo
+      echo "[OPTIONS]"
+      echo "-f t - output format is text."
+      echo "-m g - mode is graphical."
+      echo
+      echo "*** For more help type: 'man tide'"
+      echo "                        'tide --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_tide
+#
+# +----------------------------------------+
+# |           Function f_weather           |
+# +----------------------------------------+
+#
+f_weather () {
+      clear # Blank the screen.
+      echo "weather - Weather conditions from NOAA." 
+      echo
+      echo "Home web page: http://fungi.yuggoth.org/weather/"
+      echo
+      echo "Usage:"
+      echo "weather [OPTIONS] stations"
+      echo
+      echo  "Stations:"
+      echo 
+      echo  "U.S. ZIP Code"
+      echo  "<longitude, latitude> i.e. '35-52n, 78-43w'"
+      echo
+      echo "[OPTIONS]"
+      echo "-a  --alert     Alerts"
+      echo "-f              Local forcast"
+      echo "    --imperial  Convert between metric and imperial units"
+      echo "-m              metric units"
+      echo
+      echo "For a list of stations go to URL:"
+      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
+      echo
+      echo "*** For more help type: 'man weather'"
+      echo "                        'weather --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_weather
 #
 # +----------------------------------------+
 # |      Function f_menu_app_hamradio      |
@@ -208,133 +127,31 @@ f_menu_app_education () {
 #
 #  Inputs: None.
 #    Uses: MHR, MENU_ITEM, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_hamradio () {
       f_initvars_menu_app
       until [ $MHR -eq 0 ]
-      do    # Start of Ham Radio Application Category until loop.
-            #MHR aldo     - Morse code training.
-            #MHR cw       - Morse code training.
-            #MHR cwcp     - Morse code training.
-            #MHR ebook2cw - Converts plain text ebooks to  morse code mp3/ogg audio files.
-            #MHR morse    - Morse code training.
-            #MHR morsegen - Converts text file to ASCII morse code.
-            #MHR qrq      - High-speed morse code trainer.
-            #MHR tlf      - Morse code cw keyer, logging and contest program.
+      do    # Start of Ham Radio Applications until loop.
+#0^0^0^0^0 #MHR aldo     - Morse code training.
+#0^0^0^10^0 #MHR cw       - Morse code training.
+#0^0^0^0^0 #MHR cwcp     - Morse code training; ncurses-based.
+#0^0^0^0^1 #MHR ebook2cw - Converts plain text ebooks to  morse code mp3/ogg audio files.
+#0^0^0^10^0 #MHR morse    - Morse code training.
+#0^0^0^0^1 #MHR morsegen - Converts text file to ASCII morse code.
+#0^0^0^0^1 #MHR qrq      - High-speed morse code trainer.
+#0^0^0^0^1 #MHR tlf      - Morse code cw keyer, logging and contest program.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Ham Radio Application Category Menu"
+            MENU_TITLE="Ham Radio Applications Menu"
             DELIMITER="#MHR" #MHR This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
             read MHR
             #
+            . lib_cli-common.lib
             f_menu_item_process $MHR  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $MENU_ITEM in # Start of Ham Radio Application Category case statement.
-                 aldo' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Aa] | [Aa][Ll]*)
-                 APP_NAME="aldo"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cw' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_how_to_quit_application "<Ctrl>-d"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Ww])
-                 APP_NAME="cw"
-                 f_how_to_quit_application "<Ctrl>-d"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 cwcp' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Cc] | [Cc][Ww] | [Cc][Ww][Cc]*)
-                 APP_NAME="cwcp"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 ebook2cw' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ee] | [Ee][Bb]*)
-                 APP_NAME="ebook2cw"
-                 f_application_run
-                 ;;
-                 morse' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee])
-                 APP_NAME="morse"
-                 clear # Blank the screen.
-                 echo "morse - text to morse code."
-                 echo
-                 echo "To quit $APP_NAME, type <Ctrl>-Z or <Ctrl>-C."
-                 echo "(There is no way to cleanly return to the menu)."
-                 echo "Running $APP_NAME will exit this menu script."
-                 echo
-                 echo -n "Run $APP_NAME and exit script? (y/N)? "
-                 read ANS
-                 case $ANS in
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                      f_application_run
-                      ;;
-                      [Nn] | [Nn][Oo] | *)
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac
-                 ;;
-                 morsegen' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Oo] | [Mm][Oo][Rr] | [Mm][Oo][Rr][Ss] | [Mm][Oo][Rr][Ss][Ee] | [Mm][Oo][Rr][Ss][Ee][Gg]*)
-                 APP_NAME="morsegen"
-                 f_application_run
-                 ;;
-                 qrq' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Qq] | [Qq][Rr]*)
-                 APP_NAME="qrq"
-                 f_application_run
-                 ;;
-                 tlf' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Tt] | [Tt][Ll]*)
-                 APP_NAME="tlf"
-                 f_application_run
-                 ;;
-            esac                 # End of Ham Radio Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MHR=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
-            #
-      done  # End of Ham Radio Application Category until loop.
+      done  # End of Ham Radio Applications until loop.
             #
       unset MHR MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_hamradio
@@ -345,155 +162,34 @@ f_menu_app_hamradio () {
 #
 #  Inputs: None.
 #    Uses: MAA, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_math () {
       f_initvars_menu_app
       until [ $MMA -eq 0 ]
       do    # Start of Mathematic Applications until loop.
-            #MMA axiom          - General purpose computer algebra system.
-            #MMA dicelab        - evaluate the statistical distribution of dice rolls.
-            #MMA mathomatic     - Portable CAS (Computer Algebra System)
-            #MMA ministat       - Fundamental statistical comparison of 1 or 2 data sets.
-            #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
-            #MMA open-axiom     - Open scientific computation platform.
-            #MMA plotutils      - Plot 2-dimensional scientific data.
-            #MMA pi             - Calculate Archimedes constant Pi to arbitrary precision.
-            #MMA primes         - Prime number calculator.
-            #MMA pspp           - Statistical analysis tool.
-            #MMA relational-cli - relational algebra and relational database.
-            #MMA stda           - Simple tools for data analysis.
+#0^0^0^10^0 #MMA arithmetic     - Basic arithmetic quiz.
+#0^0^0^0^1 #MMA axiom          - General purpose computer algebra system.
+#0^0^0^0^1 #MMA dicelab        - evaluate the statistical distribution of dice rolls.
+#0^0^0^0^1 #MMA mathomatic     - Portable CAS (Computer Algebra System)
+#0^0^0^0^1 #MMA ministat       - Fundamental statistical comparison of 1 or 2 data sets.
+#0^0^0^0^1 #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
+#0^0^0^0^1 #MMA open-axiom     - Open scientific computation platform.
+#0^0^0^0^1 #MMA plotutils      - Plot 2-dimensional scientific data.
+#0^0^0^0^1 #MMA pi             - Calculate Archimedes constant Pi to arbitrary precision.
+#0^0^0^0^1 #MMA primes         - Prime number calculator.
+#0^0^0^0^1 #MMA pspp           - Statistical analysis tool.
+#0^0^0^0^0 #MMA relational-cli - relational algebra and relational database.
+#0^0^0^0^1 #MMA stda           - Simple tools for data analysis.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             MENU_TITLE="Mathematic Applications Menu"
             DELIMITER="#MMA" #MMA This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu $MENU_TITLE $DELIMITER 
             #
             read MMA
             #
+            . lib_cli-common.lib
             f_menu_item_process $MMA  # Outputs $MENU_ITEM.
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $MENU_ITEM in # Start of Mathematic Applications case statement.
-                 'axiom '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Aa] | [Aa][Xx] | [Aa][Xx]*)
-                 APP_NAME="axiom"
-                 f_application_run
-                 ;;
-                 'dicelab '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Dd] | [Dd][Ii]*)
-                 APP_NAME="dicelab"
-                 f_application_run
-                 ;;
-                 'mathomatic '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Aa] | [Mm][Aa][Tt] | [Mm][Aa][Tt][Hh] | [Mm][Aa][Tt][Hh][Oo] | [Mm][Aa][Tt][Hh][Oo][Mm] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa][Tt] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa][Tt][Ii] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa][Tt][Ii][Cc])
-                 APP_NAME="mathomatic"
-                 f_application_run
-                 ;;
-                 #'mathomatic-primes '*)
-                 #APP_NAME=$MENU_ITEM
-                 #f_application_run
-                 #;;
-                 #[Mm] | [Mm][Aa] | [Mm][Aa][Tt] | [Mm][Aa][Tt][Hh] | [Mm][Aa][Tt][Hh][Oo] | [Mm][Aa][Tt][Hh][Oo][Mm] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa][Tt] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa][Tt][Ii] | [Mm][Aa][Tt][Hh][Oo][Mm][Aa][Tt][Ii][Cc] |  | [Mm][Aa][Tt][Hh][Oo][Mm][Aa][Tt][Ii][Cc]-*)
-                 #APP_NAME="mathomatic-primes"
-                 #f_application_run
-                 #;;
-                 'ministat '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Mm] | [Mm][Ii]*)
-                 APP_NAME="ministat"
-                 f_application_run
-                 ;;
-                 'numutils '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Nn] | [Nn][Uu]*)
-                 APP_NAME="numutils"
-                 f_application_run
-                 ;;
-                 'open-axiom '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Oo] | [Oo][Pp]*)
-                 APP_NAME="open-axiom"
-                 f_application_run
-                 ;;
-                 'plotutils '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ll]*)
-                 APP_NAME="plotutils"
-                 f_application_run
-                 ;;
-                 'pi '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp]| [Pp][Ii])
-                 APP_NAME="pi"
-                 f_application_run
-                 ;;
-                 primes' '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Rr]*)
-                 APP_NAME="primes"
-                 f_application_run
-                 ;;
-                 'pspp '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Pp] | [Pp][Ss]*)
-                 APP_NAME="pspp"
-                 f_application_run
-                 ;;
-                 'relational-cli '*)
-                 f_how_to_quit_application "<Ctrl>-D"
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 [Rr] | [Rr][Ee]*)
-                 APP_NAME="relational-cli"
-                 f_how_to_quit_application "<Ctrl>-D"
-                 f_application_run
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
-                 'stda '*)
-                 APP_NAME=$MENU_ITEM
-                 f_application_run
-                 ;;
-                 [Ss] | [Ss][Tt]*)
-                 APP_NAME="stda"
-                 f_application_run
-                 ;;
-            esac                # End of Mathematic Applications case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            MMA=$MENU_ITEM
-            #
-            # If application displays information, allow user to read it.
-            f_option_press_enter_key
             #
       done  # End of Mathematic Applications until loop.
             #

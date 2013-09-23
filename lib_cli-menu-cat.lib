@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-06-2013 14:21"
+# REVDATE="September-20-2013 02:05"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -39,7 +39,7 @@ f_menu_cat_applications () {
             #
             read AAB
             #
-            f_menu_item_process $AAB  # Outputs $MENU_ITEM.
+            f_cat_menu_item_process $AAB  # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
             #
             case $MENU_ITEM in  # Start of Application Category case statement.
