@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="September-24-2013 01:39"
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -17,6 +17,17 @@ f_initvars_menu_app () {
       TCOLOR="black"
       ERROR=0        # Initialize to 0 to indicate success at running last
                      # command.
+      # THIS_DIR does not need a trailing forward slash "/".
+      THIS_DIR="/home/<user>/bin"
+      if [ ! -d $THIS_DIR ] ; then
+         echo
+         echo "The directory $THIS_DIR is not a valid existing directory."
+         echo "Edit function f_initvars_menu_app in file, lib_cli-common.lib and set the"
+         echo "variable THIS_DIR to a valid existing writable directory."
+         echo
+         echo "Press Ctrl-C to exit mangled Main Menu."
+         f_press_enter_key_to_continue
+      fi
       #
       # Initialize variables to "" or null.
       for INIT_VAR in APP_NAME WEB_BROWSER TEXT_EDITOR
@@ -35,7 +46,7 @@ f_initvars_menu_app () {
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
-#  Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
+#  Inputs: MENU_TITLE, DELIMITER, THIS_DIR, THIS_FILE, MAX.
 #    Uses: XNUM
 # Outputs: MAX, XNUM.
 #
@@ -56,7 +67,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # Count number of lines containing special comment marker string to get
       # maximum item number.
       #
-      MAX=$(grep $DELIMITER -c $THIS_FILE)
+      MAX=$(grep $DELIMITER -c $THIS_DIR/$THIS_FILE)
       #
       # Subtract 1 since the line DELIMITER=<string> contains the 
       # special comment marker but is not part of menu display.
@@ -101,22 +112,22 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       #
       if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
          XNUM=0
-         for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_FILE | awk -F "#" '{print $2}'`
+         for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
          do
              let XNUM++
              # Setting XSTR=$(...) strips the whitespace from the menu item. It's not grep/awk's fault.
-             # XSTR=$(grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
+             # XSTR=$(grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
              #
-             if [ -r $X ] ; then  # X=<module file name> <Followed by whitespace>
-                echo -n $(tput bold) $XNUM" - " ; grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+             if [ -r $THIS_DIR/$X ] ; then  # X=<module file name> <Followed by whitespace>
+                echo -n $(tput bold) $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
                 # echo $(tput bold) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
              else
-                echo -n $(tput sgr0) $XNUM" - " ; grep $X $THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                echo -n $(tput sgr0) $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
                 # echo $(tput sgr0) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
              fi
          done
       else
-         awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
+         awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_DIR/$THIS_FILE
       fi
       #
       f_choice_array  # Create array to handle numeric answer to menu choices.
@@ -194,7 +205,7 @@ f_choice_array () {
       #    If not, CHOICE[n]="Help", CHOICE[n+1]="and"
       #    rather than CHOICE[n]="Help and" (after substituting <space> for "%").
       #                    
-      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'` # Use back-ticks to redirect, not single quotes.
+      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_DIR/$THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'` # Use back-ticks to redirect, not single quotes.
       #
       # When creating CHOICE array, change XSTR="Help%and" to "Help and".
       do
@@ -414,7 +425,7 @@ f_menu_item_info () {
       # grep needs -i because my convention is any sub-menus start with an upper-case letter.
       # grep needs "$DELIMITER<SPACE>$MENU_ITEM_NAME because some names are in the descriptions
       # of multiple menu choices i.e. grep -i "morse" would give several hits (results).
-      MENU_ITEM_OPT=$(awk -F $DELIMITER '{if ($2&&!$3){print $0}}' $THIS_FILE | grep -i "$DELIMITER $MENU_ITEM_NAME" | awk -F $DELIMITER '{print $1}')
+      MENU_ITEM_OPT=$(awk -F $DELIMITER '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -i "$DELIMITER $MENU_ITEM_NAME" | awk -F $DELIMITER '{print $1}')
 
 #echo "MENU_ITEM_OPT2=$MENU_ITEM_OPT"  #test diagnostic line.
 #echo -n "Press Enter key to continue."  #test diagnostic line.

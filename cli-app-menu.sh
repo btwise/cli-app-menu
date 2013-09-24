@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-23-2013 00:53"
+REVDATE="September-24-2013 01:39"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -166,8 +166,9 @@ f_menu_main_configure () {
                  ;;
                  [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
                  clear # Blank the screen.
-                 if [ -r EDIT_HISTORY ] ; then
-                    APP_NAME="jed EDIT_HISTORY"
+                 if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+                    APP_NAME=$THIS_DIR
+                    APP_NAME="jed $THIS_DIR/EDIT_HISTORY"
                     f_application_run
                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  else
@@ -212,7 +213,7 @@ f_menu_main_configure () {
                  f_term_color # Set terminal color.
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-                 ;;  
+                 ;;
             esac                # End of Configuration Menu case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
@@ -359,7 +360,7 @@ do    # Start of CLI Menu util loop.
            # Display Help (all lines beginning with "#@" but do not print "#@").
            # sed substitutes null for "#@" at the beginning of each line so it is not printed.
            # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-           sed -n 's/^#@//'p $THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           sed -n 's/^#@//'p $THIS_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
@@ -368,8 +369,8 @@ do    # Start of CLI Menu util loop.
            # grep ^ (carot sign) means grep any lines beginning with "##2013".
            # grep -c means count the lines that match the pattern.
            #
-           PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-           PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= EDIT_HISTORY | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+           PROJECT_REVISION=$(grep ^"## 2013" -c $THIS_DIR"/EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
+           PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= $THIS_DIR"/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
            # grep finds line beginning with "PROJECT_REVDATE=" in file EDIT_HISTORY
            # The first awk results in the date in quotes as a string.
            # The second awk strips the quotation marks from the date string.
@@ -391,7 +392,7 @@ do    # Start of CLI Menu util loop.
            [Dd] | [Dd][Oo] | [Dd][Oo][Cc]*)  # Main Menu item, "Documentation".
            X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ ! -r README ] ; then
+           if [ ! -r $THIS_DIR"/README" ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -415,11 +416,11 @@ do    # Start of CLI Menu util loop.
               done
            fi
            #
-           if [ -r README ] ; then
+           if [ -r $THIS_DIR"/README" ] ; then
               # Display README Documentation (all lines beginning with "#:" but do not print "#:").
               # sed substitutes null for "#:" at the beginning of each line so it is not printed.
               # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-              sed -n 's/^#://'p README | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+              sed -n 's/^#://'p $THIS_DIR"/README" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
@@ -431,7 +432,7 @@ do    # Start of CLI Menu util loop.
            [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
            X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ ! -r EDIT_HISTORY ] ; then
+           if [ ! -r $THIS_DIR"/EDIT_HISTORY" ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -454,11 +455,11 @@ do    # Start of CLI Menu util loop.
                     esac         # End of git download case statement.
               done
            fi
-           if [ -r EDIT_HISTORY ] ; then
+           if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
               # Display Edit History (all lines beginning with "##" but do not print "##").
               # sed substitutes null for "##" at the beginning of each line so it is not printed.
               # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-              sed -n 's/^##//'p EDIT_HISTORY | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+              sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
@@ -468,7 +469,7 @@ do    # Start of CLI Menu util loop.
            # Display License (all lines beginning with "#LIC" but do not print "#LIC").
            # sed substitutes null for "#LIC" at the beginning of each line so it is not printed.
            # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-           sed -n 's/^#LIC//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           sed -n 's/^#LIC//'p $THIS_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            X="" # Initialize scratch variable.
            while [  "$X" != "YES" -a "$X" != "NO" ]
@@ -480,7 +481,7 @@ do    # Start of CLI Menu util loop.
                       ""| [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                       X="YES"
                       echo
-                      if [ ! -r COPYING ] ; then
+                      if [ ! -r $THIS_DIR"/COPYING" ] ; then
                          X="" # Initialize scratch variable.
                          while [  "$X" != "YES" -a "$X" != "NO" ]
                          do
@@ -523,8 +524,8 @@ do    # Start of CLI Menu util loop.
                                esac         # End of git download case statement.
                          done
                       fi
-                      if [ -r COPYING ] ; then
-                         less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' COPYING
+                      if [ -r $THIS_DIR"/COPYING" ] ; then
+                         less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/COPYING"
                          PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       fi
                       X="YES"
@@ -540,7 +541,7 @@ do    # Start of CLI Menu util loop.
            ;;
            [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)  # Main Menu item, "List Applications".
            X="" # Initialize scratch variable.
-           if [ ! -r LIST_APPS ] ; then
+           if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -557,16 +558,13 @@ do    # Start of CLI Menu util loop.
                          X="YES"
                          ;;
                          [Nn] | [Nn][Oo])
-                         echo
-                         echo "The file LIST_APPS may be automatically created/updated by:"
-                         echo
-                         echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
-                         echo
-                         echo "2. Type the command below:"
-                         echo
-                         echo ". lib_cli-common.lib; f_create_LIST_APPS"
-                         echo "<dot> <space> lib_cli-common.lib <semi-colon> <space> f_create_LIST_APPS."
-                         echo
+                              echo
+                              echo "The file LIST_APPS may be automatically created/updated by:"
+                              echo
+                              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
+                              echo
+                              echo "2. Select Main Menu item 'Update LIST_APPS'"
+                              echo
                          X="NO"
                          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                          ;;
@@ -574,8 +572,8 @@ do    # Start of CLI Menu util loop.
               done
            fi
            # display LIST_APPS
-           if [ -r LIST_APPS ] ; then
-           less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' LIST_APPS
+           if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+           less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
@@ -584,7 +582,7 @@ do    # Start of CLI Menu util loop.
            [Ss] | [Ss][Ee]*)  # Main Menu item, "Search Applications".
            X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ ! -r LIST_APPS ] ; then
+           if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
               while [  "$X" != "YES" -a "$X" != "NO" ]
               do
                     clear # Blank the screen.
@@ -615,7 +613,7 @@ do    # Start of CLI Menu util loop.
               done
            fi
            #
-           if [ -r LIST_APPS ] ; then
+           if [ -r $THIS_DIR"/LIST_APPS" ] ; then
               XSTR="-1"
               while [ -n "$XSTR" ]
               do
@@ -639,7 +637,7 @@ do    # Start of CLI Menu util loop.
                        f_press_enter_key_to_continue
                        #
                        # Search LIST_APPS
-                       grep --ignore-case -C 9 --color=always $XSTR LIST_APPS | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+                       grep --ignore-case -C 9 --color=always $XSTR $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
                     fi
               done
            unset XSTR  # Throw out this variable.
