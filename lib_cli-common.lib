@@ -3,44 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2013 01:39"
-#
-# +----------------------------------------+
-# |      Function f_initvars_menu_app      |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: None.
-# Outputs: APP_NAME, MENU_ITEM, CHOICE_MAIN, ERROR, PRESS_KEY, TCOLOR.
-#
-f_initvars_menu_app () {
-      TCOLOR="black"
-      ERROR=0        # Initialize to 0 to indicate success at running last
-                     # command.
-      # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/<user>/bin"
-      if [ ! -d $THIS_DIR ] ; then
-         echo
-         echo "The directory $THIS_DIR is not a valid existing directory."
-         echo "Edit function f_initvars_menu_app in file, lib_cli-common.lib and set the"
-         echo "variable THIS_DIR to a valid existing writable directory."
-         echo
-         echo "Press Ctrl-C to exit mangled Main Menu."
-         f_press_enter_key_to_continue
-      fi
-      #
-      # Initialize variables to "" or null.
-      for INIT_VAR in APP_NAME WEB_BROWSER TEXT_EDITOR
-      do
-          eval $INIT_VAR="" # eval sets the variables to "" or null.
-      done
-      #
-      # Initialize variables to -1 to force looping in until loop(s).
-      for INIT_VAR in CHOICE_MAIN MENU_ITEM
-      do
-          eval $INIT_VAR=-1 # eval sets the variables to "-1".
-      done
-} # End of f_initvars_menu_app
+# REVDATE="September-24-2013 012:02"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1414,13 +1377,13 @@ f_download_file () {
       #
       case $MOD_FILE in
            mod_apps*.lib)  # Module files only
-           if [ -r $MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
+           if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
            . $MOD_FILE # Invoke module library.
                        # $MOD_FILE exists in current directory so make it accessible.
            else  # $MOD_FILE is not in current directory.
               # Ask download from which branch and wget.
               f_wget_file
-              . $MOD_FILE # Invoke module library.
+              . $THIS_DIR/$MOD_FILE # Invoke module library.
                           # $MOD_FILE exists in current directory so make it accessible.
            fi
            ;;
@@ -1590,7 +1553,7 @@ f_ask_which_module_download () {
          do
             f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
             XXSTR=$XSTR
-            if [ -n "$MOD_FILE" ]  ; then   # If MOD_FILE is not null, then wget.
+            if [ -n "$THIS_DIR/$MOD_FILE" ]  ; then   # If MOD_FILE is not null, then wget.
                                             # "ALL" menu item sets $MOD_FILE to null because
                                             # "ALL" has already downloaded all modules prior.
                wget $WEB_SITE$MOD_FILE # Download the module.
@@ -1685,7 +1648,7 @@ f_module_match () {
 # |       Function f_create_LIST_APPS      |
 # +----------------------------------------+
 #
-#  Inputs: None
+#  Inputs: THIS_DIR
 #    Uses: MOD_FILE, XSTR
 # Outputs: File LIST_APPS
 #
@@ -1693,20 +1656,21 @@ f_module_match () {
 # Prerequisite: ALL module files, mod_apps-*.lib MUST BE in the same directory
 #               as this lib_cli-common.lib file.
 #
-# Type this command (without the double-quote marks) at the command line prompt:
+# To recreate LIST_APPS manually:
+# Type this command (without double-quotation marks) at the CLI prompt:
 # ". lib_cli-common.lib; f_create_LIST_APPS"
 #  <dot><space>lib_cli-common.lib<semi-colon><space>f_create_LIST_APPS.
 #
 f_create_LIST_APPS () {
       # Generate file LIST_APPS by using grep on each module file.
       # Assumes all module files are present in current directory.
-      if [ -r LIST_APPS ] ; then
-         rm LIST_APPS # Remove old LIST_APPS file.
+      if [ -r $THIS_DIR/LIST_APPS ] ; then
+         rm $THIS_DIR/LIST_APPS # Remove old LIST_APPS file.
       fi
       #
-      echo "________________________________________________" >> LIST_APPS
-      echo -n "Last updated: " >> LIST_APPS 
-      date +%Y-%m-%d" "%H:%M" "%A >> LIST_APPS
+      echo "________________________________________________" >> $THIS_DIR/LIST_APPS
+      echo -n "Last updated: " >> $THIS_DIR/LIST_APPS 
+      date +%Y-%m-%d" "%H:%M" "%A >> $THIS_DIR/LIST_APPS
       # Explanation of the "for XSTR in" loop:
       #
       # 1. grep [#]:M[A-Z][A-Z] README
@@ -1728,13 +1692,13 @@ f_create_LIST_APPS () {
       #    Appends "***" at the end: "Accounting Applications Menu ***"
       #
       # Set XSTR to the Special Menu Item Marker.
-      for XSTR in $(grep [#]:M[A-Z][A-Z] README | awk '{print $1}')
+      for XSTR in $(grep [#]:M[A-Z][A-Z] $THIS_DIR/README | awk '{print $1}')
       do
-          echo >> LIST_APPS
+          echo >> $THIS_DIR/LIST_APPS
           # Print application category menu title.
-          echo "________________________________________________" >> LIST_APPS
-          echo -n "*** " >> LIST_APPS
-          grep $XSTR README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> LIST_APPS
+          echo "________________________________________________" >> $THIS_DIR/LIST_APPS
+          echo -n "*** " >> $THIS_DIR/LIST_APPS
+          grep $XSTR $THIS_DIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> $THIS_DIR/LIST_APPS
           #
           # Explanation of the "for MOD_FILE in" loop.
           #
@@ -1781,10 +1745,10 @@ f_create_LIST_APPS () {
           do
               # Human readable list without special comment markers.
               # Indents one space before application name.
-              grep $XSTR $MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> LIST_APPS
+              grep $XSTR $MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> $THIS_DIR/LIST_APPS
               #
               # Leaves no space before application name.
-              # grep $XSTR $MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> LIST_APPS
+              # grep $XSTR $MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> $THIS_DIR/LIST_APPS
 
           done
       done
@@ -1806,21 +1770,21 @@ f_show_max_menu_items () {
       # maximum item number.
       #
       # Set XSTR to the Special Menu Item Marker.
-      for XSTR in $(grep [#]:M[A-Z][A-Z] README | awk '{print $1}')
-      # for XSTR in $(grep --silent [#]:M[A-Z][A-Z] README)
+      for XSTR in $(grep [#]:M[A-Z][A-Z] "$THIS_DIR/README" | awk '{print $1}')
+      # for XSTR in $(grep --silent [#]:M[A-Z][A-Z] $THIS_DIR/README)
       do
           echo
           # Print application category menu title.
           #echo -n "*** "
           #grep $XSTR README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}'
-          grep $XSTR README
+          grep $XSTR $THIS_DIR/README
           XSTR=${XSTR/:/} # Use string substitution.
           #
           for MOD_FILE in mod_apps-audio.lib mod_apps-databases.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib
           do
               # Human readable list without special comment markers.
               # Indents one space before application name.
-              MAX=$(grep $XSTR -c $MOD_FILE)
+              MAX=$(grep $XSTR -c $THIS_DIR/$MOD_FILE)
               # Subtract 1 since the line DELIMITER=<string> contains the 
               # special comment marker but is not part of menu display.
               #

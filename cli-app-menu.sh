@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-24-2013 01:39"
+REVDATE="September-24-2013 12:02"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -122,10 +122,48 @@ f_test_dash () {
          echo "You can invoke the BASH environment by typing"
          echo "'bash cli-app-menu.sh' at the command line."
          echo
-         echo ">>>The errors below disappear in the BASH environment.<<<"
-         echo
+         exit 1 # Exit with value $?=1 indicating an error condition
+                # and stop running script.
       fi
 } # End of function f_test_dash
+#
+# +----------------------------------------+
+# |      Function f_initvars_menu_app      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: APP_NAME, MENU_ITEM, CHOICE_MAIN, ERROR, PRESS_KEY, TCOLOR.
+#
+f_initvars_menu_app () {
+      TCOLOR="black"
+      ERROR=0        # Initialize to 0 to indicate success at running last
+                     # command.
+      # THIS_DIR does not need a trailing forward slash "/".
+      THIS_DIR="/home/robert/bin"
+      if [ ! -d $THIS_DIR ] ; then
+         echo
+         echo "The directory $THIS_DIR is not a valid existing directory."
+         echo "Edit function f_initvars_menu_app in file, cli-app-menu.sh and set the"
+         echo "variable THIS_DIR to a valid existing writable directory."
+         echo "______________________________"
+         echo ">>> Press Ctrl-C to exit. <<<"
+         echo "______________________________"
+         f_press_enter_key_to_continue
+      fi
+      #
+      # Initialize variables to "" or null.
+      for INIT_VAR in APP_NAME WEB_BROWSER TEXT_EDITOR
+      do
+          eval $INIT_VAR="" # eval sets the variables to "" or null.
+      done
+      #
+      # Initialize variables to -1 to force looping in until loop(s).
+      for INIT_VAR in CHOICE_MAIN MENU_ITEM
+      do
+          eval $INIT_VAR=-1 # eval sets the variables to "-1".
+      done
+} # End of f_initvars_menu_app
 #
 # +----------------------------------------+
 # |     Function f_menu_main_configure     |
@@ -167,7 +205,6 @@ f_menu_main_configure () {
                  [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
                  clear # Blank the screen.
                  if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
-                    APP_NAME=$THIS_DIR
                     APP_NAME="jed $THIS_DIR/EDIT_HISTORY"
                     f_application_run
                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -252,7 +289,7 @@ f_menu_main_download () {
                  #
                  read AAD
                  #
-                 f_menu_item_process $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 f_cat_menu_item_process $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
                  ERROR=0 # Reset error flag.
                  #
                  case $AAD in  # Start of git download case statement.
@@ -302,9 +339,16 @@ f_menu_main_download () {
 #
 # Test the environment for DASH and if in BASH invoke the common library.
 f_test_dash
+#
+# Initialize variables.
+# This function sets the $THIS_DIR variable so that lib_cli-common.lib and
+# the module libraries may reside in any directory and still be invoked from
+# the Main Menu script, cli-app-menu.sh. Please refer to README for more
+# instructions on how to set the $PATH environmental variable to do this.
+f_initvars_menu_app
+#
 # Invoke the common library to display menus.
-. lib_cli-common.lib # If in DASH environment, then will program halt execution 
-                     # with error ".: lib_cli-common.lib: not found".
+. $THIS_DIR/lib_cli-common.lib
 #
 # **************************************
 # ***           Main Menu            ***

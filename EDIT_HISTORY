@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="September-24-2013 01:38"
+PROJECT_REVDATE="September-24-2013 12:02"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -54,6 +54,7 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 ##
 ## 2013-09-24 *cli-app-menu.sh, lib_cli-common.lib added variable THIS_DIR to
 ##             allow scripts and libraries to be run from other directories. 
+##            *README updated.
 ##
 ## 2013-09-23 *f_menu_main_configure "LIST_APPS" menu item clarify instructions.
 ##            *f_mod_apps-office.lib rework finished.

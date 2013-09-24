@@ -62,6 +62,24 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: cli-app-menu.sh, EDIT_HISTORY, COPYING, README, LIST_APPS,
 #: lib_cli-common.lib, and lib_cli-menu-cat.lib.
 #: 
+#: Specify the folder/directory where the script and module library files
+#: reside by setting $THIS_DIR variable within function f_initvars_menu_app
+#: in the script file, cli-app-menu.sh.
+#:
+#: The folder/directory must have owner read/write/execute permissions.
+#: A sub-directory under the user's home directory is sufficient for this
+#: purpose, such as "/home/<username here>/bin/cli-app-menu".
+#:
+#: The owner should have write access to update the files EDIT_HISTORY and
+#: APP_LIST and be able to download new module library files into the folder
+#: along with deleting any unneeded module library files.
+#: 
+#: Append the directory name to your environment $PATH:
+#: Edit your /home/<username here>/.bashrc file and add the directory by
+#: adding the lines to the end of the .bashrc file,
+#:                   PATH=$PATH:~/bin/cli-app-menu
+#:                   export PATH
+#:
 #: When cli-app-menu.sh is run i.e. "bash cli-app-menu.sh",
 #: then you can download selected module files, "mod_apps-*.lib."
 #: The module files contain sub-menus of various applications.
@@ -89,7 +107,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="September-23-2013 00:53"
+#:REVDATE="September-24-2013 12:02"
 #:
 #:
 #: +----------------------------------------+
