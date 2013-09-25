@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-09-24 23:56 Tuesday
+Last updated: 2013-09-25 13:18 Wednesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -77,11 +77,13 @@ ________________________________________________
 
 ________________________________________________
 *** Audio Editor Applications Menu ***
- avconv   - Audio/Video converter.
- avinfo   - Audio/Video information automatic extractor/file list generator.
- ecasound - Multitrack audio processing, record, convert, playback, mixing.
- ffmpeg   - Multimedia Record, convert, stream and playback.
- sox      - Audio file cut/paste and combine, speed playback.
+ avconv    - Audio/Video converter.
+ avinfo    - Audio/Video information automatic extractor/file list generator.
+ exiftool  - Display audio/video/image file properties (ls-like format).
+ ecasound  - Multitrack audio processing, record, convert, playback, mixing.
+ ffmpeg    - Multimedia Record, convert, stream and playback.
+ mediainfo - Display audio/video file properties and metadata. 
+ sox       - Audio file cut/paste and combine, speed playback.
 
 ________________________________________________
 *** Bin-Hex Editor Applications Menu ***
@@ -498,7 +500,7 @@ ________________________________________________
  aview      - Image and ascii art image viewer.
  bb         - ASCII-art movie demo based on AAlib.
  caca-utils - Image viewer and converter jpg to ascii images.
- exiftool   - Display jpeg file properties in ls-like format.
+ exiftool   - Display audio/video/image file properties (ls-like format).
  fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
  fbv        - Image viewer framebuffer console.
  fim        - Image and ascii art image viewer.
@@ -1089,8 +1091,10 @@ ________________________________________________
 *** Video Editor Applications Menu ***
  avconv        - Audio/Video converter.
  avidemux      - Editor for simple cutting, filtering, encoding.
+ exiftool      - Display audio/video/image file properties (ls-like format).
  ffmpeg        - Multimedia Record, convert, stream and play. 
  handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
+ mediainfo     - Display audio/video file properties and metadata. 
  melt          - Multi-track video editor, also plays audio/video files.
  mencoder      - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
  mjpegtools    - MJPEG video playback, editing, video capture.
