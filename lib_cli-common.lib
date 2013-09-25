@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-25-2013 12:09"
+# REVDATE="September-25-2013 12:35"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1492,6 +1492,7 @@ f_ask_which_module_download () {
       echo " (Q)uit"
       echo " (ALL) modules"
       #
+      # Display Download Menu item options, if module exists then bold font, if module missing then normal font.
       for X in "(AU)dio" "(D)atabases" "(E)ducation" "(F)iledir" "(G)ames" "(IM)age" "(IN)ternet" "(NE)twork" "(O)ffice" "(SA)mple Templates" "(SC)reensaver" "(SY)stem" "(V)ideo"
       do
           XXSTR=$(echo $X | awk -F ")" '{print $2}')
@@ -1598,11 +1599,12 @@ f_module_match () {
       XSTR=$1
       case $XSTR in
            ALL)
-          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
-
-               do
+           if [ -n "$WEB_SITE" ] ; then
+              for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+              do
                   wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE  # Download all modules.
-               done
+              done
+           fi
            MOD_FILE=""  # This acts as a flag so download does not occur again at end of function.
            XSTR=${XSTR/ALL/} # Strip off "ALL" from XSTR.
            ;;
