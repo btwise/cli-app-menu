@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-24-2013 23:59"
+REVDATE="September-25-2013 12:09"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -140,7 +140,7 @@ f_initvars_menu_app () {
       ERROR=0        # Initialize to 0 to indicate success at running last
                      # command.
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/<user name goes here>/bin/cli-app-menu"
+      THIS_DIR="/home/robert/bin/cli-app-menu"
       if [ ! -d "$THIS_DIR" ] ; then
          echo
          echo $(tput bold)"The directory $THIS_DIR"
@@ -300,11 +300,11 @@ f_menu_main_download () {
                       echo
                       for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib README COPYING EDIT_HISTORY LIST_APPS
                       do
-                         if [ "$BRANCH" != "QUIT" ] ; then
+                         #if [ "$BRANCH" != "QUIT" ] ; then
                             echo
                             echo "File to be downloaded is $MOD_FILE."
                             f_download_file  # BRANCH is set here. Download each file one at a time.
-                         fi
+                         #fi
                       done
                       echo "________________________________________________________________"
                       echo
@@ -314,12 +314,16 @@ f_menu_main_download () {
                       echo "and you will have to MANUALLY COPY THEM to their original names."
                       PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                       #
-                      if [ "$BRANCH"="QUIT" ] ; then 
-                         BRANCH=""
-                      fi
+                      #if [ "$BRANCH" = "QUIT" ] ; then 
+                      #   BRANCH=""
+                      #fi
                       ;;
                       [Mm] | [Mm][Oo]*) 
                       f_ask_which_module_download
+                      #
+                      if [ "$BRANCH" = "QUIT" ] ; then 
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      fi
                       ;;
                  esac          # End of git download case statement.
                  #

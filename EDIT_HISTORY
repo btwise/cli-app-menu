@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="September-25-2013 00:28"
+PROJECT_REVDATE="September-25-2013 12:09"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -55,6 +55,8 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 ## 2013-09-25 *f_menu_app_video_editors added exiftool, mediainfo.
 ##            *f_menu_app_audio_editors added exiftool, mediainfo.
 ##            *f_menu_app_image added exiftool.
+##            *f_ask_which_module_download fixed downloading. 
+##            *f_menu_main_download fixed module downloading.
 ##
 ## 2013-09-24 *cli-app-menu.sh, lib_cli-common.lib added variable THIS_DIR to
 ##             allow scripts and libraries to be run from other directories. 

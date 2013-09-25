@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2013 23:59"
+# REVDATE="September-25-2013 12:09"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1413,7 +1413,7 @@ f_wget_file () {
 # |  Function f_ask_which_branch_download  |
 # +----------------------------------------+
 #
-#  Inputs: None
+#  Inputs: BRANCH
 #    Uses: ANS, XSTR.
 # Outputs: BRANCH, WEB_SITE, PRESS_KEY
 #
@@ -1471,7 +1471,7 @@ f_ask_which_branch_download () {
                  ;;
             esac
       done
-      BRANCH=$ANS
+      BRANCH=$ANS  # Output $BRANCH.
       unset ANS XSTR  # Throw out this variable.
 } # End of function f_ask_which_branch_download
 #
@@ -1528,7 +1528,7 @@ f_ask_which_module_download () {
            ;;
       esac
       #
-      if [ "$XXSTR" != "QUIT" -a "$BRANCH" != "QUIT" ] ; then
+      if [ "$XXSTR" != "QUIT" ] ; then
          # Prepare format of XXSTR for processing by f_module_match.
          # Change case of XXSTR to all upper-case to make substition easier.
          XXSTR=$(echo $XXSTR | tr '[:lower:]' '[:upper:]')
@@ -1536,12 +1536,12 @@ f_ask_which_module_download () {
          XXSTR="${XXSTR//[[:space:]]/}" # Strip off any spaces in XSTR.
          ANS=$XXSTR  # Save result.
          #
-         # Validate XXSTR.
+         # Validate $XXSTR.
          while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
          do
             f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
             XXSTR=$XSTR
-            if [ "$MOD_FILE"="BAD_CHOICE_INPUT" ]  ; then
+            if [ "$MOD_FILE" = "BAD_CHOICE_INPUT" ]  ; then
                # f_module_match sets MOD_FILE="BAD_CHOICE_INPUT" for invalid choices.
                # "ALL" menu item sets $MOD_FILE to null after it finishes downloading all modules.
                #
@@ -1550,14 +1550,20 @@ f_ask_which_module_download () {
          done
          #
          XXSTR=$ANS # ANS is original XXSTR or null if bad choice.
+         #
+         # If $XXSTR is validated so ask which branch.
          if [ "$XXSTR" != "QUIT" -a "$XXSTR" != "" ] ; then
             echo
             echo "Choose the branch from where you want to download the software modules."
             echo
             f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
                                          # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE, PRESS_KEY=0/1
+            if [ "$BRANCH" = "QUIT" ] ; then
+               XXSTR=""  # When Quit at git branch, then quit out of downloading.
+            fi
          fi
          #
+         # If $XXSTR is validated so download modules.
          while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
          do
             f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
@@ -1571,10 +1577,12 @@ f_ask_which_module_download () {
                wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE # Download the module.
             fi
          done
-         f_press_enter_key_to_continue
+         if [ "$BRANCH" != "QUIT" -o "$MOD_FILE" = "BAD_CHOICE_INPUT" ] ; then
+            f_press_enter_key_to_continue
+         fi
       fi      
       #
-      unset XXSTR ANS  # Throw out this variable.
+      unset XXSTR XSTR ANS  # Throw out this variable.
 } # End of function f_ask_which_module_download
 #
 # +----------------------------------------+
