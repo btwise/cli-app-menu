@@ -1,3 +1,4 @@
+#!/bin/bash
 # ©2013 Copyright 2013 Robert D. Chin
 #
 # +----------------------------------------+
@@ -20,14 +21,14 @@
 #:   Known problems and limitations
 #:   For more help
 #:   List of variables
-#:   List of Special Menu Option Markers
+#:   List of Special Menu Item Markers
 #
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="August-08-2013 12:00"
+REVDATE="September-25-2013 16:00"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -101,6 +102,7 @@ REVDATE="August-08-2013 12:00"
 #@
 #@ Just remember --help (after the name) or man (before the name).
 #@
+#
 # +----------------------------------------+
 # |          Function f_test_dash          |
 # +----------------------------------------+
@@ -110,32 +112,248 @@ REVDATE="August-08-2013 12:00"
 # Outputs: None
 #
 f_test_dash () {
-#
-if [ "$BASH_VERSION" = '' ]; then
-   echo
-   echo "You are using the DASH environment."
-   echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
-   echo
-   echo "*** This script cannot be run in the DASH environment. ***"
-   echo
-   echo "You can invoke the BASH environment by typing"
-   echo "'bash cli-app-menu.sh' at the command line."
-   echo
-   exit # Quit script if not in BASH environment. 
-fi
+      if [ "$BASH_VERSION" = '' ]; then
+         echo
+         echo "You are using the DASH environment."
+         echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
+         echo
+         echo $(tput bold)"*** This script cannot be run in the DASH environment. ***"
+         echo $(tput sgr0)
+         echo "You can invoke the BASH environment by typing:"
+         echo "'bash cli-app-menu.sh' at the command line."
+         echo
+         exit 1 # Exit with value $?=1 indicating an error condition
+                # and stop running script.
+      fi
 } # End of function f_test_dash
-##
+#
+# +----------------------------------------+
+# |      Function f_initvars_menu_app      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: APP_NAME, MENU_ITEM, CHOICE_MAIN, ERROR, PRESS_KEY, TCOLOR.
+#
+f_initvars_menu_app () {
+      TCOLOR="black"
+      ERROR=0        # Initialize to 0 to indicate success at running last
+                     # command.
+      # THIS_DIR does not need a trailing forward slash "/".
+      THIS_DIR="/home/<username goes here>/bin/cli-app-menu"
+      if [ ! -d "$THIS_DIR" ] ; then
+         echo
+         echo $(tput bold)"The directory $THIS_DIR"
+         echo "is not a valid existing directory."
+         echo "Edit function f_initvars_menu_app in file, cli-app-menu.sh"
+         echo "and set the variable THIS_DIR to a valid, existing, writable directory."
+         echo "______________________________"
+         echo ">>> Press Ctrl-C to exit. <<<"
+         echo "______________________________"
+         echo $(tput sgr0)
+      fi
+      #
+      # Initialize variables to "" or null.
+      for INIT_VAR in APP_NAME WEB_BROWSER TEXT_EDITOR
+      do
+          eval $INIT_VAR="" # eval sets the variables to "" or null.
+      done
+      #
+      # Initialize variables to -1 to force looping in until loop(s).
+      for INIT_VAR in CHOICE_MAIN MENU_ITEM
+      do
+          eval $INIT_VAR=-1 # eval sets the variables to "-1".
+      done
+} # End of f_initvars_menu_app
+#
+# +----------------------------------------+
+# |     Function f_menu_main_configure     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: AAC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_main_configure () {
+      f_initvars_menu_app
+      until [ $AAC -eq 0 ]
+      do    # Start of <Sample Template> Applications until loop.
+            #AAC Edit History - Make changes to the Edit History.
+            #AAC LIST_APPS    - Re-create/Update file list of all applications.
+            #AAC ------------ - --------------------------------------------------------
+            #AAC Black        - Set display white on black (works in X-terminals).
+            #AAC White        - Set display black on white (except in X-terminals).
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            MENU_TITLE="Configuration Menu"
+            DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read AAC
+            #
+            f_cat_menu_item_process $AAC  # Outputs $MENU_ITEM.
+            f_application_help
+            ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
+            #
+            case $MENU_ITEM in # Start of Configuration Menu case statement.
+                 [Bb] | [Bb][Ll]*)  # Main Menu item, "Black".
+                 TCOLOR="black"
+                 f_term_color # Set terminal color.
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
+                 clear # Blank the screen.
+                 if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+                    APP_NAME="jed $THIS_DIR/EDIT_HISTORY"
+                    f_application_run
+                    PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 else
+                    echo
+                    echo "The file EDIT_HISTORY is either missing or cannot be read."
+                    echo
+                    PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 fi
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)  # Main Menu item, "Update LIST_APPS".
+                 X="" # Initialize scratch variable.
+                 while [  "$X" != "YES" -a "$X" != "NO" ]
+                 do
+                       clear # Blank the screen.
+                       echo
+                       echo "For a COMPLETE listing of ALL applications available in ALL modules,"
+                       echo "ALL modules MUST be downloaded into this directory."
+                       echo
+                       echo "Otherwise, list the applications available only in the modules"
+                       echo "currently downloaded into this directory."
+                       echo 
+                       echo -n "Are you ready to update LIST_APPS? (y/N) "
+                       read X
+                            case $X in
+                                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                                 . lib_cli-common.lib ;  f_create_LIST_APPS
+                                 echo ; echo "LIST_APPS is updated."
+                                 X="YES"
+                                 ;;
+                                 "" | [Nn] | [Nn][Oo])
+                                 echo ; echo "LIST_APPS is not updated."
+                                 X="NO"
+                                 ;;
+                            esac
+                 done
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ww] | [Ww][Hh]*)  # Main Menu item, "White".
+                 TCOLOR="white"
+                 f_term_color # Set terminal color.
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+            esac                # End of Configuration Menu case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
+            AAC=$MENU_ITEM
+            #
+            # If application displays information, allow user to read it.
+            f_option_press_enter_key
+            #
+      done  # End of Configuration Menu until loop.
+            #
+      unset AAC MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_main_configure
+#
+# +----------------------------------------+
+# |      Function f_menu_main_download     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: AAC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_main_download () {
+           f_initvars_menu_app
+           AAD=""    # Initialize variable.
+           until [ $AAD -eq 0 ] 
+           do    # Start of Download Software Menu until loop.
+                 #AAD Script program.
+                 #AAD Modules of applications.
+                 #
+                 PRESS_KEY=0 # Display "Press 'Enter' key to continue."
+                 MENU_TITLE="Download Software Menu"
+                 DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
+                 f_show_menu $MENU_TITLE $DELIMITER 
+                 #
+                 read AAD
+                 #
+                 f_cat_menu_item_process $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 ERROR=0 # Reset error flag.
+                 #
+                 case $AAD in  # Start of git download case statement.
+                      [Ss] | [Ss][Cc]*)
+                      echo
+                      echo "Choose the branch from where you want to download the script program."
+                      echo
+                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib README COPYING EDIT_HISTORY LIST_APPS
+                      do
+                         #if [ "$BRANCH" != "QUIT" ] ; then
+                            echo
+                            echo "File to be downloaded is $MOD_FILE."
+                            f_download_file  # BRANCH is set here. Download each file one at a time.
+                         #fi
+                      done
+                      echo "________________________________________________________________"
+                      echo
+                      echo "Any downloaded files are in the same folder as this script."
+                      echo
+                      echo "The file names will be appended with a '.1'"
+                      echo "and you will have to MANUALLY COPY THEM to their original names."
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      #
+                      #if [ "$BRANCH" = "QUIT" ] ; then 
+                      #   BRANCH=""
+                      #fi
+                      ;;
+                      [Mm] | [Mm][Oo]*) 
+                      f_ask_which_module_download
+                      #
+                      if [ "$BRANCH" = "QUIT" ] ; then 
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      fi
+                      ;;
+                 esac          # End of git download case statement.
+                 #
+                 # Trap bad menu choices, do not echo Press enter key to continue.
+                 f_bad_menu_choice $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 #
+           done  # End of Download Software Menu until loop.
+           unset AAD  # Throw out this variable.
+} # End of function f_menu_main_download
+#
 # **************************************
 # ***     Start of Main Program      ***
 # **************************************
+# Since the DASH environment does not recognize the ". <library> command,
+# the function f_test_dash must be included in this cli-app-menu.sh script file
+# rather than in the library file lib_cli-common.lib, but once in BASH, then
+# common library file may be invoked.
 #
-# Test the environment for DASH.
+# Test the environment for DASH and if in BASH invoke the common library.
 f_test_dash
 #
-# Invoke libraries.
-. lib_cli-common.lib
-. lib_cli-menu-apps.lib
-. lib_cli-menu-cat.lib
+# Initialize variables.
+# This function sets the $THIS_DIR variable so that lib_cli-common.lib and
+# the module libraries may reside in any directory and still be invoked from
+# the Main Menu script, cli-app-menu.sh. Please refer to README for more
+# instructions on how to set the $PATH environmental variable to do this.
+f_initvars_menu_app
+#
+# Invoke the common library to display menus.
+. $THIS_DIR/lib_cli-common.lib
 #
 # **************************************
 # ***           Main Menu            ***
@@ -144,24 +362,23 @@ f_test_dash
 # Inputs: CHOICE_MAIN, MAX, THIS_FILE, REVISION, REVDATE.
 #
 f_initvars_menu_app
+#
 until [ $CHOICE_MAIN -eq 0 ]
 do    # Start of CLI Menu util loop.
       #AAA Applications        - Launch a command-line application.
       #AAA Help and Features   - How to use and what can it do.
       #AAA About CLI Menu      - What version am I using.
+      #AAA Configure           - Change default settings; terminal, browser etc.
       #AAA Documentation       - Script documentation, programmer notes, licensing.
-      #AAA Download            - Download the STABLE released version of this script.
+      #AAA Download            - Download script program and/or software modules.
       #AAA Edit History        - All the craziness behind the scenes.
       #AAA License             - Licensing, GPL.
       #AAA List Applications   - List of all CLI applications in this menu.
       #AAA Search Applications - Is an application featured in this menu script?
-      #AAA Update Edit History - Make changes to the Edit History.
-      #AAA Black               - Set display white on black (works in X-terminals).
-      #AAA White               - Set display black on white (except in X-terminals).
       #
       THIS_FILE="cli-app-menu.sh"
       MENU_TITLE="Main Menu"
-      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu options. 
+      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu items.
       f_show_menu $MENU_TITLE $DELIMITER 
       read CHOICE_MAIN
       case $CHOICE_MAIN in 
@@ -181,250 +398,269 @@ do    # Start of CLI Menu util loop.
            ;;
       esac
       #
-      case $CHOICE_MAIN in # Start of CLI Menu case statement.
-           [Aa] | [Aa][Pp]*)
+      case $CHOICE_MAIN in  # Start of CLI Menu case statement.
+           [Aa] | [Aa][Pp]*)  # Main Menu item, "Applications".
+           . lib_cli-menu-cat.lib # invoke module/library.
            f_menu_cat_applications
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           [Hh] | [Hh][Ee]*)
+           [Hh] | [Hh][Ee]*)  # Main Menu item, "Help and Features".
            clear # Blank the screen.
-           sed -n 's/^#@//'p $THIS_FILE | more -d
-           # display Help Applications (all lines beginning with #@ but
-           # substitute "" for "#@" so "#@" is not printed).
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           # Display Help (all lines beginning with "#@" but do not print "#@").
+           # sed substitutes null for "#@" at the beginning of each line so it is not printed.
+           # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+           sed -n 's/^#@//'p $THIS_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Aa] | [Aa][Bb]*)
+           [Aa] | [Aa][Bb]*)  # Main Menu item, "About CLI Menu".
            # Calculate project revision number by counting all lines starting with "## 2013".
            # grep ^ (carot sign) means grep any lines beginning with "##2013".
            # grep -c means count the lines that match the pattern.
            #
-           PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
-           PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= EDIT_HISTORY | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+           PROJECT_REVISION=$(grep ^"## 2013" -c $THIS_DIR"/EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
+           PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= $THIS_DIR"/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
            # grep finds line beginning with "PROJECT_REVDATE=" in file EDIT_HISTORY
            # The first awk results in the date in quotes as a string.
            # The second awk strips the quotation marks from the date string.
            #
-           clear
+           clear # Blank the screen.
            echo "Project version: $PROJECT_REVISION"
            echo " Last edited on: $PROJECT_REVDATE"
            echo
-           echo "Project file '"'cli-app-menu.sh'"' last edited on: $REVDATE"
+           echo "   Project file: cli-app-menu.sh"
+           echo " Last edited on: $REVDATE"
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Dd] | [Dd][Oo] | [Dd][Oo][Cc]*)
+           [Cc] | [Cc][Oo]*)  # Main Menu item, "Configure".
+           f_menu_main_configure
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           #
+           ;;
+           [Dd] | [Dd][Oo] | [Dd][Oo][Cc]*)  # Main Menu item, "Documentation".
+           X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ -r README ] ; then
-           # display Documentation (all lines beginning with #: but
-           # substitute "" for "#:" so "#:" is not printed).
-              sed -n 's/^#://'p README | more -d
+           if [ ! -r $THIS_DIR"/README" ] ; then
+              while [  "$X" != "YES" -a "$X" != "NO" ]
+              do
+                    clear # Blank the screen.
+                    echo
+                    echo ">>>The file README is either missing or cannot be read.<<<"
+                    echo
+                    echo -n "Download README from www.git.com? (Y/n) "
+                    read X
+                    case $X in # Start of git download case statement.
+                         "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                         ANS=""
+                         MOD_FILE="README"
+                         f_download_file
+                         X="YES"
+                         ;;
+                         [Nn] | [Nn][Oo])
+                         X="NO"
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                         ;;
+                    esac         # End of git download case statement.
+              done
+           fi
+           #
+           if [ -r $THIS_DIR"/README" ] ; then
+              # Display README Documentation (all lines beginning with "#:" but do not print "#:").
+              # sed substitutes null for "#:" at the beginning of each line so it is not printed.
+              # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+              sed -n 's/^#://'p $THIS_DIR"/README" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           else
-              echo
-              echo "The file README is either missing or cannot be read."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
-           echo -n "Download from which branch? (STABLE/testing/quit): "
-           read ANS
-           case $ANS in
-                [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-                [Tt] | [Tt][Ee] | [Tt][Ee][Ss]| [Tt][Ee][Ss][Tt]*)
-                
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/cli-app-menu.sh"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-common.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-menu-apps.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/lib_cli-menu-cat.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/README"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/COPYING"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/EDIT_HISTORY"
-                wget $WEB_SITE
-                ANS="TESTING"
-                echo "Downloaded files from github $ANS branch." 
-                echo "Downloaded files are in the same folder as this script."
-                echo
-                echo "The file names will be appended with a '.1'"
-                echo "and you will have to MANUALLY COPY THEM to the original names."
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;                  
-                "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa] | [Ss][Tt][Aa][Bb]*)  
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/cli-app-menu.sh"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-common.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-menu-apps.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/lib_cli-menu-cat.lib"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/README"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/COPYING"
-                wget $WEB_SITE
-                WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/EDIT_HISTORY"
-                wget $WEB_SITE
-                ANS="STABLE"
-                echo "Downloaded files from github $ANS branch." 
-                echo "Downloaded files are in the same folder as this script."
-                echo
-                echo "The file names will be appended with a '.1'"
-                echo "and you will have to MANUALLY COPY THEM to the original names."
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;
-           esac
+           [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)  # Main Menu item, "Download".
+           f_menu_main_download
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Ee] | [Ee][Dd]*)
+           [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
+           X="" # Initialize scratch variable.
            clear # Blank the screen.
-           if [ -r EDIT_HISTORY ] ; then
-              # display Edit History (all lines beginning with ## but
-              # substitute "" for "##" so "##" is not printed).
-              sed -n 's/^##//'p EDIT_HISTORY | more -d
+           if [ ! -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+              while [  "$X" != "YES" -a "$X" != "NO" ]
+              do
+                    clear # Blank the screen.
+                    echo
+                    echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
+                    echo
+                    echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
+                    read X
+                    case $X in # Start of git download case statement.
+                         "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                         ANS=""
+                         MOD_FILE="EDIT_HISTORY"
+                         f_download_file
+                         X="YES"
+                         ;;
+                         [Nn] | [Nn][Oo])
+                         X="NO"
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                         ;;
+                    esac         # End of git download case statement.
+              done
+           fi
+           if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+              # Display Edit History (all lines beginning with "##" but do not print "##").
+              # sed substitutes null for "##" at the beginning of each line so it is not printed.
+              # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+              sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           else
-              echo
-              echo "The file EDIT_HISTORY is either missing or cannot be read."
-              echo
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Ll] | [Ll][Ii] | [Ll][Ii][Cc]*)
+           [Ll] | [Ll][Ii] | [Ll][Ii][Cc]*)  # Main Menu item, "License".
            clear # Blank the screen.
-           # display License (all lines beginning with #LIC but
-           # substitute "" for "#LIC" so "#LIC" is not printed).
-           sed -n 's/^#LIC//'p $THIS_FILE | more -d
-           echo
-           echo -n "Read the full license text contained in file 'COPYING'? (N/y) "
-           read ANS
-           case $ANS in # Start of license case statment.
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                echo
-                if [ -r COPYING ] ; then
-                   cat COPYING | more -d
-                else
-                   echo
-                   echo "The file COPYING is either missing or cannot be read."
-                   echo 
-                   echo -n "Read the full license text at http://www.gnu.org/licenses/ ? (N/y) "
-                   read ANS
-                   case $ANS in # Start of gnu.org case statement.
-                        [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                        echo
-                         APP_NAME="w3m"
-                        WEB_SITE="http://www.gnu.org/licenses/gpl.html"
-                        APP_NAME="$APP_NAME $WEB_SITE"
-                        f_application_run
-                        ;;
-                        [Nn] | [Nn][Oo])
-                        ;;
-                   esac         # End of gnu.org case statement.
-               fi
-               ;;
-               [Nn] | [Nn][Oo])
-               ;;
-           esac         # End of license case statment.
+           # Display License (all lines beginning with "#LIC" but do not print "#LIC").
+           # sed substitutes null for "#LIC" at the beginning of each line so it is not printed.
+           # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+           sed -n 's/^#LIC//'p $THIS_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           X="" # Initialize scratch variable.
+           while [  "$X" != "YES" -a "$X" != "NO" ]
+           do
+                 clear # Blank the screen.
+                 echo -n "Read the full license text contained in file 'COPYING'? (Y/n) "
+                 read X
+                 case $X in # Start of license case statment.
+                      ""| [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      X="YES"
+                      echo
+                      if [ ! -r $THIS_DIR"/COPYING" ] ; then
+                         X="" # Initialize scratch variable.
+                         while [  "$X" != "YES" -a "$X" != "NO" ]
+                         do
+                               clear # Blank the screen.
+                               echo
+                               echo ">>>The file COPYING is either missing or cannot be read.<<<"
+                               echo 
+                               echo -n "Download COPYING from www.git.com? (Y/n) "
+                               read X
+                               case $X in # Start of git download case statement.
+                                    "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                                    ANS=""
+                                    MOD_FILE="COPYING"
+                                    f_download_file
+                                    X="YES"
+                                    ;;
+                                    [Nn] | [Nn][Oo])
+                                    X="" # Initialize scratch variable.
+                                    while [  "$X" != "YES" -a "$X" != "NO" ]
+                                    do
+                                          clear # Blank the screen.
+                                          echo -n "Read the full license text at http://www.gnu.org/licenses/ ? (Y/n) "
+                                          read X
+                                          case $X in # Start of gnu.org case statement.
+                                               "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                                               clear # Blank the screen.
+                                               APP_NAME="elinks"
+                                               WEB_SITE="http://www.gnu.org/licenses/gpl.html"
+                                               APP_NAME="$APP_NAME $WEB_SITE"
+                                               f_application_run
+                                               X="YES"
+                                               ;;
+                                               [Nn] | [Nn][Oo])
+                                               X="NO"
+                                               ;;
+                                          esac         # End of gnu.org case statement.
+                                    done
+                                    X="NO"
+                                               ;;
+                               esac         # End of git download case statement.
+                         done
+                      fi
+                      if [ -r $THIS_DIR"/COPYING" ] ; then
+                         less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/COPYING"
+                         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      fi
+                      X="YES"
+                      ;;
+                      [Nn] | [Nn][Oo])
+                      X="NO"
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac         # End of license case statment.
+           done
+           #
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
-           clear # Blank the screen.
-           #
-           # 1. grep finds all lines containing "#M" followed by two letters in
-           #    this script.
-           #    .i.e. "            #MGF bastet         - Tetris-like game." #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #
-           #    Lines starting with "#M" are applications listed in menus.
-           #    The string "#M" followed by 2 letters are the special menu
-           #    option marker. i.e. #MGF is the marker for Puzzle Games. #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #
-           # 2. The first awk parses results and chosen if lines contain only
-           #    one "#M"*. Results are printed, showing everything after "#M".
-           #    i.e. Selected: "#MGF bastet         - Tetris-like game." #MGF This 3rd field prevents awk from  printing this line into menu options.
-           #              print $2: "GF bastet         - Tetris-like game."
-           #
-           # 3. The second awk substitutes "" for only the first word and
-           #    prints all the rest of the words.
-           #    'sub' string function substitutes only the first match (word).
-           #    i.e.  Piped result: "GF bastet         - Tetris-like game."
-           #         result of sub: "bastet         - Tetris-like game."
-           #
-           # 4. 'print $0' I/O statement prints all the rest of the words.
-           #         i.e. print $0: "bastet         - Tetris-like game." 
-           #    (Where "GF" substituted by "".)
-           #
-           THIS_FILE="lib_cli-menu-apps.lib"
-           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | more -d
-           #
-           # The code below will work but is less elegant.
-           #
-           # 3. The second awk prints out the 2nd to the 15th words in the
-           #    resultant string. The 1st word is skipped because it is the
-           #    last 2 letters of the special menu option marker.
-           #    i.e. "GF bastet         - Tetris-like game."
-           #
-           #    2nd to 15th words printed.
-           #    i.e. "bastet - Tetris-like game."
-           #
-           # grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{print $2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15}' | more -d
-           #
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           [Ss] | [Ss][Ee]*)
-           clear # Blank the screen.
-           echo -n "Enter name of software package or search string: "
-           read XSTR
-           echo "If it is found, it will be listed below."
-           echo "No listing means that it is not featured in this menu."
-           echo
-           echo "For list of results of search for '$XSTR':"
-           f_press_enter_key_to_continue
-           #
-           clear # Blank the screen.
-           THIS_FILE="lib_cli-menu-apps.lib"
-           grep [#][M][A-Z][A-Z] $THIS_FILE | awk -F '#M' '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' | grep -i $XSTR | more -d
-           f_press_enter_key_to_continue
-           ;;
-           [Uu] | [Uu][Pp]*)
-           clear # Blank the screen.
-           if [ -r EDIT_HISTORY ] ; then
-              APP_NAME="joe EDIT_HISTORY"
-              echo "To get help within the joe editor, type 'Ctrl-K h'"
-              f_press_enter_key_to_continue
-              f_application_run
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           else
+           [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)  # Main Menu item, "List Applications".
+           if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
+              clear # Blank the screen.
               echo
-              echo "The file EDIT_HISTORY is either missing or cannot be read."
+              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+              echo
+              echo "The file LIST_APPS may be automatically created/updated by:"
+              echo
+              echo "Select Main Menu item:"
+              echo "Configure - Change default settings; terminal, browser etc."
+              echo
+              echo "Select Configuration Menu item:"
+              echo "LIST_APPS - Re-create/Update file list of all applications."
               echo
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
+           # display LIST_APPS
+           if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+              less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           fi
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+           #
+           ;;
+           [Ss] | [Ss][Ee]*)  # Main Menu item, "Search Applications".
+           clear # Blank the screen.
+           if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
+              clear # Blank the screen.
+              echo
+              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+              echo
+              echo "The file LIST_APPS may be automatically created/updated by:"
+              echo
+              echo "Select Main Menu item:"
+              echo "Configure - Change default settings; terminal, browser etc."
+              echo
+              echo "Select Configuration Menu item:"
+              echo "LIST_APPS - Re-create/Update file list of all applications."
+              echo
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           fi
+           #
+           if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+              XSTR="-1"
+              while [ -n "$XSTR" ]
+              do
+                    clear # Blank the screen.
+                    echo "Search for a software package featured in this menu script."
+                    echo
+                    echo "To quit, press 'Enter' key."
+                    echo -n "Enter name of software package or search string: "
+                    read XSTR
+                    if [ -n "$XSTR" ] ;then
+                       echo
+                       echo "Please note:"
+                       echo "Even if '$XSTR' is found, it may not be available for your Linux distribution."
+                       echo
+                       echo "Not all Linux distributions will have all packages featured in this menu."
+                       echo "i.e. A software package available in Red Hat may not be available in Debian,"
+                       echo "     and vice versa."
+                       echo
+                       echo
+                       echo "To start search:"
+                       f_press_enter_key_to_continue
+                       #
+                       # Search LIST_APPS
+                       grep --ignore-case -C 9 --color=always $XSTR $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+                    fi
+              done
+              unset XSTR  # Throw out this variable.
+           fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
-           [Bb] | [Bb][Ll]*)
-           TCOLOR="black"
-           f_term_color # Set terminal color.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;
-           [Ww] | [Ww][Hh]*)
-           TCOLOR="white"
-           f_term_color # Set terminal color.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
-           ;;  
       esac # End of CLI Menu case statement.
       #
       case $CHOICE_MAIN in
@@ -445,4 +681,7 @@ do    # Start of CLI Menu util loop.
       fi
       f_option_press_enter_key
 done  # End of CLI Menu until loop.
+exit 0  # This cleanly closes the process generated by #!bin/bash. 
+        # Otherwise every time this script is run, another instance of
+        # process /bin/bash is created using up resources.
 # all dun dun noodles.

@@ -1,0 +1,93 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="September-20-2013 02:05"
+#
+# +----------------------------------------+
+# |  Function f_menu_scat_sample_template  |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: BXX, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+# Note: The variable "BXX" is similar to the special comment marker "#BXX".
+#       Both must be unique to each (new) menu.
+#
+f_menu_scat_sample_template () {
+      f_initvars_menu_app
+      #BXX="" # Initialize variable.
+      until [ $BXX -eq 0 ]
+      do    # Start of <Sample Template> Application Category until loop.
+#^f_menu_cat_name1 #BXX App1 - This is application category #1.
+#^f_menu_cat_name2 #BXX App2 - This is application category #2.
+            #
+            MENU_TITLE="<Sample Template> Application Category Menu"
+            DELIMITER="#BXX" #BXX This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read BXX
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $BXX  # Outputs $MENU_ITEM.
+            #
+      done  # End of <Sample Template> Application Category until loop.
+            #
+      unset BXX MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_scat_sample_template
+#
+# +----------------------------------------+
+# |   Function f_menu_app_sample_template  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MXX, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+# You do not have to include these comments in your menu.
+# They are here for your convenient reference.
+#
+# Format of Menu: 
+#<Menu item options> <SPACE> <Special menu item marker> <SPACE> - <SPACE> <Description>.
+#
+# Format of menu item options: 
+# "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY^APP_NAME #MXX"
+#
+# Field 1-3 are function fields. f_funct1, f_funct2,and f_funct3.
+# Name of function or the number "1".
+# The number 1 defaults to a standard naming convention for application functions.
+# 1="f_<MENU_ITEM_NAME>" lower-case function name.
+#
+# f_funct1 and f_funct2 are called before the display of the Quit Code.
+# f_funct3 is called after the display of the Quit Code.
+#
+# Field 4 is the number of the Quit Code used by f_quit_app_clause.
+# This will display the custom "How to quit" the application message.
+#
+# Field 5 sets the variable "PRESS_KEY" 1=Displays "Press 'Enter' key to continue."
+#
+f_menu_app_sample_template () {
+      f_initvars_menu_app
+      until [ $MXX -eq 0 ]
+      do    # Start of <Sample Template> Applications until loop.
+#0^0^0^0^1 #MXX appname  - Description Application1 name.
+#0^0^0^0^1 #MXX app2name - Description Application2 name.
+#0^0^0^0^1 #MXX MORE...  - For more <Description Applications>.
+            #
+            THIS_FILE="<Name of this file or library>"
+            MENU_TITLE="<Sample Template> Applications Menu"
+            DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MXX
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MXX  # Outputs $MENU_ITEM.
+            #
+      done  # End of <Sample Template> Applications until loop.
+            #
+      unset MXX MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_sample_template
+#

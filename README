@@ -6,7 +6,10 @@
 # Usage: sh README
 #
 clear
-sed -n 's/^#://'p README |more -d
+THIS_FILE="README"
+# sed substitutes null for #: at beginning of each line so it is not printed..
+# less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_FILE
 #
 # The "#:" at the beginning of lines below are used 
 # to delineate the Help Instructions.
@@ -27,7 +30,8 @@ sed -n 's/^#://'p README |more -d
 #:   Known problems and limitations
 #:   For more help
 #:   List of variables
-#:   List of Special Menu Option Markers
+#:   List of Special Menu Item Markers
+#:
 #:
 #: +----------------------------------------+
 #: |            Brief Description           |
@@ -36,20 +40,54 @@ sed -n 's/^#://'p README |more -d
 #: Script cli-app-menu.sh is a menu of CLI applications and commands
 #: to help CLI newbies to discover what a command line can do.
 #:
+#: Start by downloading cli-app-menu.sh, EDIT_HISTORY, COPYING, README,
+#: LIST_APPS, lib_cli-common.lib, and lib_cli-menu-cat.lib.
+#:
+#: Then download optional modules as needed when you run the script:
+#: # bash cli-app-menu.sh
+#: You will be asked if you want to download additional modules (files)
+#: that contain sub-menus for more CLI applications.
+#:
+#: Any unneeded module files, mod_apps-*.lib may be deleted at any time.
+#:
 #: File naming convention for archiving:
 #: $THIS_FILE_<YYYY-MM-DD_HHMM>.sh
+#:
 #:
 #: +----------------------------------------+
 #: | FILE LOCATIONS of cli-app-menu project |
 #: +----------------------------------------+
 #:
-#: The files EDIT_HISTORY, COPYING, README must be in the same folder/directory
-#: as cli-app-menu.sh so the Main Menu options to view/edit 'Edit History' or
-#: to view 'License' can work.
+#: The following files must be in the same folder/directory.
+#: cli-app-menu.sh, EDIT_HISTORY, COPYING, README, LIST_APPS,
+#: lib_cli-common.lib, and lib_cli-menu-cat.lib.
+#: 
+#: Specify the folder/directory where the script and module library files
+#: reside by setting $THIS_DIR variable within function f_initvars_menu_app
+#: in the script file, cli-app-menu.sh.
 #:
-#: The library files lib_cli-common.lib, lib_cli-menu-cat.lib, 
-#: lib_cli-menu-apps.lib must be in the same folder/directory as cli-app-menu.sh
-#: file/script so the script can run.
+#: The folder/directory must have owner read/write/execute permissions.
+#: A sub-directory under the user's home directory is sufficient for this
+#: purpose, such as "/home/<username goes here>/bin/cli-app-menu".
+#:
+#: The owner should have write access to update the files EDIT_HISTORY and
+#: APP_LIST and be able to download new module library files into the folder
+#: along with deleting any unneeded module library files.
+#: 
+#: Append the directory name to your environment $PATH:
+#: Edit your /home/<username goes here>/.bashrc file and add the directory by
+#: adding the lines to the end of the .bashrc file,
+#:                   PATH=$PATH:~/bin/cli-app-menu
+#:                   export PATH
+#:
+#: When cli-app-menu.sh is run i.e. "bash cli-app-menu.sh",
+#: then you can download selected module files, "mod_apps-*.lib."
+#: The module files contain sub-menus of various applications.
+#: A list of applications is in LIST_APPS.
+#:
+#: You may download all or as few module files as you wish.
+#: You may delete any module files that you do not need.
+#:
 #:
 #: +----------------------------------------+
 #: |        HOW-TO Update this script       |
@@ -58,6 +96,7 @@ sed -n 's/^#://'p README |more -d
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
 #: Also update the edit history text in the EDIT_HISTORY file.
+#:
 #:
 #: +----------------------------------------+
 #: |    Revision number and Revision Date   |
@@ -68,7 +107,8 @@ sed -n 's/^#://'p README |more -d
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="August-13-2013 00:42"
+#:REVDATE="September-25-2013 00:28"
+#:
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -83,6 +123,7 @@ sed -n 's/^#://'p README |more -d
 #:
 #: Please enjoy . . . bob chin (2013).
 #:                    rdchin at yahoo.com.
+#:
 #:
 #: +----------------------------------------+
 #: |      Why is this menu so complex?      |
@@ -104,7 +145,18 @@ sed -n 's/^#://'p README |more -d
 #:  was to try to break programs. So that's why I tried to make pattern matching
 #:  so robust rather than use wild-cards.
 #:
-#:       Update: Wildcards are now used to help reduce the size of the script.
+#:       Update: Now instead of case statements, I am using wild-cards with this
+#:               expression that I found when searching the internet.
+#:
+#:       i.e. "nslookup" contains "nsl"*.
+#:       [[ "$MENU_ITEM_NAME" == "$MENU_ITEM"* ]]
+#:
+#:       i.e. "nslookup www.distrowatch.com" contains "nslookup".
+#:       i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
+#:       [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]]
+#:
+#:       Please see function "f_menu_item_valid"
+#:       in library module "lib_cli-common.lib."
 #:
 #: *My QA background also explains this crazy documentation of everything along
 #:  with the fact that I am just learning bash scripting.
@@ -116,7 +168,7 @@ sed -n 's/^#://'p README |more -d
 #:
 #: *Optimized for 80x24 display or 640x480 pixel displays.
 #:  Run-time displayed text is no wider than 80-columns across.
-#:  Run-time menus are no longer than 17 items for 24 row displays.
+#:  Run-time menus are no longer than 16 items for 24 row displays.
 #:  Although the game, "Pacman for Console" needs 32 rows minimum to play.
 #:
 #: *Limited to 4 menu levels below the Main Menu to run any application.
@@ -129,10 +181,10 @@ sed -n 's/^#://'p README |more -d
 #:
 #: *If an application needs sudo, script will automatically give a sudo option.
 #:
-#: *Designed for ease of extensibility and menu editing.
+#: *Designed for ease of extensibility and menu editing. No menu item numbers,
+#:  and no custom pattern matching is required for each menu item added.
 #:
 #: *Option numbers in menu display are automatically generated.
-#:  (However, case pattern matching are hand-written).
 #:
 #: *More fun than just a list of CLI applications!!!
 #:
@@ -152,27 +204,63 @@ sed -n 's/^#://'p README |more -d
 #
 #: 1. The menu code is contained in functions with example templates. 
 #:
-#: 2. If you are adding a new application within an application menu, 
-#:    a) decide what row in the menu that you want to place the new menu item.
-#:    b) Add the item string: <Special Menu Option Marker beginning with #> 
-#:       <name of item> <space><dash><space> <description>
-#:    c) Each Special Menu Option Marker MUST be unique for each menu.
+#: 2. If you are adding a NEW APPLICATION within an application menu,
+#:    a) An application menu can have a **MAXIMUM OF 16** applications.
+#:       If you have more, please create a new sub-menu or sub-category menu.
+#:       This is to comply with a 80x24 line screen which is standard.
+#:    b) decide what row in the menu that you want to place the new menu item.
+#:    c) Add the new menu item see below for menu format details.
+#:    d) Each Special Menu Option Marker MUST be unique for each menu.
 #:
 #:    Note: Please see bottom of this document
-#:          for a list of Special Menu Option Markers.
+#:          for a list of Special Menu Item Markers.
 #:
-#:    d) Create a new case statement for the new item.
-#:    e) Adjust the case statement patterns of menu items below the new item.
+#:    e) Create a new case statement for the new item.
+#:       There is no need to include an item number in the pattern matching.
+#:       It is generated by the program itself by the function f_choice_array
+#:       in lib_cli-common.lib.
 #:
-#:    The case patterns will accept both the menu option number, or all or part
-#:    of the menu item name in upper or lower case or any mixture of case.
+#:    f) Format of Menu: 
+#: <Menu item options> <SPACE> <Special menu item marker> <SPACE> 
+#: <Application name> <SPACE> - <SPACE> <Description>.
 #:
-#: 3. If you are adding a new category or sub-category menu, please use the
-#:    templates for this very purpose.
-#:    f_menu_cat_sample_template or f_menu_scat_sample_template.
+#: Format of menu item options: 
+#: "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY^APP_NAME #MXX"
 #:
-#: 4. If you are adding a new application menu, please use the template for
-#:    this very purpose, f_menu_app_sample_template.
+#: Field 1-3 are function fields. f_funct1, f_funct2,and f_funct3.
+#: Name of function or the number "1".
+#: The number 1 defaults to a standard naming convention for functions.
+#: 1="f_<MENU_ITEM_NAME>" lower-case function name.
+#:
+#: f_funct1 and f_funct2 are called before the display of the Quit Code.
+#: f_funct3 is called after the display of the Quit Code.
+#:
+#: Field 4 is the number of the Quit Code used by f_quit_app_clause.
+#: This will display the custom "How to quit" the application message.
+#: For a list of Quit Codes, see f_quit_app_clause in file lib_cli-common.lib.
+#:
+#: Field 5 sets the variable "PRESS_KEY" 1=Displays "Press 'Enter' key" message.
+#:       #0^0^0^0^1 #MXX appname  - Description Application1 name.
+#:
+#:    f) Update the file LIST_APPS by selecting "Configure" THEN "LIST_APPS"
+#:       in the Main Menu. LIST_APPS is used by the Main Menu item "List
+#:       Applications" to show a list of all applications available whether
+#:       the app module is downloaded or not.
+#:
+#: 3. If you are adding a NEW CATEGORY or SUB-CATEGORY menu, please create them
+#:    within the appropriate module file mod_apps-*.lib and please use the
+#:    templates for this very purpose available in mod_apps_sample_template.
+#:    Template: f_menu_scat_sample_template.
+#:
+#: 4. If you are creating a NEW MAJOR CATEGORY, create a new corresponding 
+#:    module file, mod_apps-*.lib and use template f_menu_scat_sample_template
+#:    to create the menu structure. ALSO UPDATE the README file and update the
+#:    function f_create_LIST_APPS within lib_cli-common.lib with the name of the
+#:    new module file so that the text file LIST_APPS can be re-created.
+#:
+#: 5. The file LIST_APPS may be automatically updated by copying all the 
+#:    mod_apps-*.lib files to the current directory and by selecting
+#:    "Configure" then "LIST_APPS" in the Main Menu.
 #:
 #:
 #: +----------------------------------------+
@@ -182,7 +270,7 @@ sed -n 's/^#://'p README |more -d
 #: 1. Some or all of the menu items are missing.
 #:
 #:    If you copied from a template or another menu, check the Special Menu
-#:    Option Markers for consistency.
+#:    Item Markers for consistency.
 #:    In the example below, #MXX is before each menu item and in DELIMITER.
 #:    Note: DELIMITER has #MXX twice, separating it into 3 fields for awk.
 #:
@@ -193,16 +281,22 @@ sed -n 's/^#://'p README |more -d
 #:            MENU_TITLE="<Sample Template> Applications Menu"
 #:            DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options.
 #:
-#: 2. Menu items only display when the number is selected, not letters.
+#: 2. Impossible to exit a menu.
 #:
-#:    Check the case patterns of the letters.
-#:    Wrong! [Tt][Ee][Ss][Tt]) or [Tt][Ee][Ss][[Tt]) 
-#:    Right! [Tt] | [Tt][Ee] | [Tt][Ee][Ss] | [Tt][Ee][Ss][Tt])
+#:    *Somewhere in the mod_apps-*.lib file, there is a syntax error.
+#:    "read MXX" may be the wrong variable name, especially if you copied from
+#:    the template.
 #:
-#: 3. Only a few of the Menu items display when the number or letter is selected.
+#: 3. Strange menu results, menu does not display.
+#:    *If you forget the closing "}" to a function, you'll get strange results.
+#:    *If you forget a comment "#" marker i.e. "} End of function", then menu
+#:     may not even display.
+#:
+#: 4. Only a few of the Menu items display when the number or letter is selected.
 #:    Check any instance of echo with only a single double-quotation mark.
 #:    Change from: echo "I forgot to type in the trailing double-quote.
 #:    Change   to: echo "I forgot to type in the trailing double-quote."
+#:
 #:
 #: +----------------------------------------+
 #: |     Known problems and limitations     |
@@ -215,16 +309,21 @@ sed -n 's/^#://'p README |more -d
 #:
 #:    i.e. Acceptable names for a menu    Unacceptable names for a menu 
 #:
-#:      LAN/WAN Applications Menu      LAN/WAN Applications Menu
-#:      ip link                        ip route list
-#:      ip route                       ip route flush
+#:      WAN Applications Menu          WAN Applications Menu
+#:      ip route                       ip route list
+#:                                     ip route flush
 #:
 #: 3. Option for automatic software installation only for distributions which
 #:    use apt, rpm, slackpkg, and pacman; all others must install manually.
 #:
-#: 4. For Slackware-based distros which use slackpkg, I have not figured out a
-#:    way to determine if "slackpkg install <package name> was successful. 
-#:    As a result, I commented out the code for further processing.
+#: 4. For Slackware-based distros which use slackpkg, even though you can
+#:    install software, I have not figured out a way to determine if
+#:    "slackpkg install <package name> was successful or not. 
+#:    The command results in error code zero $?=0 even if install fails.
+#:    As a result, I commented out the code which traps slackpkg installation
+#:    errors, shows an error message and asks if you want to download the
+#:    source code from the developer's web site.
+#:
 #:
 #: +----------------------------------------+
 #: |               For more help            |
@@ -238,6 +337,7 @@ sed -n 's/^#://'p README |more -d
 #:
 #: *There are also example templates to create additional category and app menus
 #:  within the script.
+#:
 #:
 #: +----------------------------------------+
 #: |            List of variables           |
@@ -255,21 +355,15 @@ sed -n 's/^#://'p README |more -d
 #:               actually also includes name of web site to browse.
 #: CHOICE[XNUM] - Array of string elements. User choice in Applications and
 #:               Category Menus where XNUM is a number.
-#: CHOICE_APP  - String; User choice in Applications Menu (alpha-numeric).
+#: M[A-Z][A-Z]  - String; User choice in Applications Menu (alpha-numeric).
 #:               First few letters of user choice from menu.
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, display "Press enter key to continue."
-#: CHOICE_CAT  - String; User choice in Applications Category Menu (alpha-
+#: B[A-Z][A-Z]  - String; User choice in Applications Category Menu (alpha-
 #:                    numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
 #: CHOICE_MAIN - String; User choice in Main Menu (alpha-numeric).
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, legitimate choice.
-#: CHOICE_SCAT - String; User choice in Sub-Category Menu (alpha-numeric).
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, legitimate choice.
-#: CHOICE_TCAT - String; User choice in 3rd-level Category Menu (alpha-numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
 #: DELIMITER   - String; Delimiter prefix of menu option string.
@@ -277,7 +371,11 @@ sed -n 's/^#://'p README |more -d
 #: INSTALL_ANS - String; YES/NO Does user want to install app?
 #:               Passed from f_application_error to f_application_run.
 #: MAX         - Number; Maximum option choice number in menu.
+#: MENU_ITEM   - String; User choice, f_menu_item_process (alpha-numeric).
+#:               ' 0' means quit menu.
+#:               '-1' stay in menu loop, legitimate choice.
 #: MENU_TITLE  - String; Title of menu.
+#: MOD_FILE    - Module file name.
 #: PRESSKEY    - Number: Ask "Press Enter key to continue".
 #:               '0' Do not ask "Press Enter key to continue".
 #:               '1' Ask "Press Enter key to continue".
@@ -287,17 +385,21 @@ sed -n 's/^#://'p README |more -d
 #: THIS_FILE   - String; name of shell script.
 #: WEB_SITE    - String; name of web site used when application is a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
+#: X           - String; Scratch variable.
 #: XNUM        - Number; Scratch variable used in awk statement in f_show_menu
 #:               and in CHOICE[XNUM] array.
 #: XSTR        - String; Scratch variable.
+#: XXSTR       - String; Scratch variable.
 #:
 #:
 #: +----------------------------------------+
-#: |   List of Special Menu Option Markers  |
+#: |   List of Special Menu Item Markers    |
 #: +----------------------------------------+
 #:
 #:AAA - Main Menu
 #:AAB - Application Categories Menu
+#:AAC - Configure Menu
+#:AAD - Download Menu
 #:
 #:BAU - Audio Categories Menu
 #:BFM - File Management Categories Menu
@@ -315,44 +417,54 @@ sed -n 's/^#://'p README |more -d
 #:MAA - Accounting Applications Menu
 #:MAC - Audio CD Ripper Applications Menu
 #:MAP - Audio Player Applications Menu
+#:MAQ - Audio Player2 Applications Menu
 #:MAR - Audio Radio Applications Menu
 #:MAS - Audio Speech Synthesis Applications Menu
+#:MAT - Audio Music Tagger Applications Menu
 #:MAU - Audio Editor Applications Menu
+#:MBH - Bin-Hex Editor Applications Menu
 #:MBT - Bittorrent Applications Menu
-#:MCA - Calendar-ToDo Applications Menu
+#:MCA - Calendar Applications Menu
+#:MCB - Calendar2 Applications Menu
 #:MCC - Calculator Applications Menu
 #:MCL - Clock Applications Menu
+#:MCO - Contact List Applications Menu
+#:MDB - Database Applications Menu
 #:MDL - Dowloader Applications Menu
 #:MED - Education Applications Menu
 #:MEM - E-mail Applications Menu
-#:MFB - File Burn CD/DVD Applications Menu
-#:MFC - File Compression Applications Menu
-#:MFD - File Deletion Applications Menu
+#:MFA - File Burn CD/DVD Applications Menu
+#:MFB - File Compression Applications Menu
+#:MFC - File Compression2 Applications Menu
+#:MFD - File Deletion/Undeletion Applications Menu
 #:MFE - File Encryption Applications Menu
 #:MFF - File Search and find Applications Menu
-#:MFI - File Manager Applications Menu
-#:MFR - File Recovery/Deletion Applications Menu
+#:MFG - File Checksum Applications Menu
+#:MFM - File Manager Applications Menu
+#:MFO - File Operations Applications Menu
 #:MFS - File Splitter Applications Menu
 #:MFT - File Transfer Applications Menu
 #:MFV - File Viewer Applications Menu
 #:MFX - FAX Applications Menu
-#:MGB - Arcade Games
-#:MGC - Board Games
-#:MGD - Card Games
-#:MGE - MUD (Multi-user Dungeons)
-#:MGF - Puzzles
-#:MGG - Quiz
-#:MGH - RPG (Role-Playing Games)
-#:MGI - Simulation Games
-#:MGJ - Strategy Games
-#:MGK - Word Games
+#:MGB - Arcade Games Menu
+#:MGC - Board Games Menu
+#:MGD - Card Games Menu
+#:MGE - MUD (Multi-user Dungeons) Menu
+#:MGF - Puzzles Menu
+#:MGG - Quiz Menu
+#:MGH - RPG (Role-Playing Games) Menu
+#:MGI - Simulation Games Menu
+#:MGJ - Strategy Games Menu
+#:MGK - Word Games Menu
+#:MHR - Ham Radio Applications Menu
 #:MIG - Image-Graphics Applications Menu
 #:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu
 #:MIR - Internet Relay Chat (IRC) Applications Menu
+#:MMA - Mathematics Application Menu
 #:MNC - LAN Chat Applications Menu
 #:MNF - Firewalls Applications Menu
-#:MNL - LAN/WAN Applications Menu
+#:MNL - LAN Applications Menu
 #:MNB - Network Bandwidth Applications Menu
 #:MNM - Network Monitor Applications Menu
 #:MNN - NIC Diagnostic Tools Applications Menu
@@ -360,12 +472,14 @@ sed -n 's/^#://'p README |more -d
 #:MNP - Network Packet Applications Menu
 #:MNR - News Reader Applications Menu
 #:MNS - Network Sharing Applications Menu
+#:MNW - WAN Applications Menu
 #:MPO - Podcatcher Applications Menu
 #:MPR - Presentation Applications Menu
 #:MPS - PDF-PS Applications Menu
+#:MPT - PDF-PS2 Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
-# MSB - System Backup Applications Menu
+#:MSB - System Backup Applications Menu
 #:MSC - System Screen Applications Menu
 #:MSD - System Disk Information Applications Menu
 #:MSF - System Software Package Applications Menu
@@ -373,6 +487,7 @@ sed -n 's/^#://'p README |more -d
 #:MSI - System Mainboard Information Applications Menu
 #:MSL - System Peripherals Information Applications Menu
 #:MSM - System Monitor Applications Menu
+#:MSN - System Monitor2 Applications Menu
 #:MSP - Spreadsheet Applications Menu
 #:MSR - System Process Applications Menu
 #:MSS - Screen-saver Applications Menu
@@ -381,8 +496,13 @@ sed -n 's/^#://'p README |more -d
 #:MTC - Text Compare Applications Menu
 #:MTD - To-Do Applications Menu
 #:MTE - Text Editor Applications Menu
+#:MTF - Text Editor2 Applications Menu
+#:MTG - Text Editor3 Applications Menu
+#:MTH - Text File Editor Applications Menu
+#:MTM - Text Markup Language Applications Menu
 #:MTT - Text Tool Applications Menu
 #:MTV - Text Converter Applications Menu
+#:MTW - Text File Conversion Applications Menu
 #:MVE - Video Editor Applications Menu
 #:MVI - Video Player/Downloader Applications Menu
 #:MWB - Web Browser Applications Menu
