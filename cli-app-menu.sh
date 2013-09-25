@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-25-2013 12:09"
+REVDATE="September-25-2013 16:00"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -140,7 +140,7 @@ f_initvars_menu_app () {
       ERROR=0        # Initialize to 0 to indicate success at running last
                      # command.
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/robert/bin/cli-app-menu"
+      THIS_DIR="/home/<username goes here>/bin/cli-app-menu"
       if [ ! -d "$THIS_DIR" ] ; then
          echo
          echo $(tput bold)"The directory $THIS_DIR"
