@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-25-2013 12:35"
+# REVDATE="September-25-2013 14:10"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1538,6 +1538,7 @@ f_ask_which_module_download () {
          ANS=$XXSTR  # Save result.
          #
          # Validate $XXSTR.
+         WEB_SITE="" # Initialize to null so if "ALL" then f_module_match will not download.
          while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
          do
             f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
