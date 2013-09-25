@@ -1,0 +1,485 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="September-20-2013 02:05"
+#
+# +----------------------------------------+
+# |       Function f_menu_cat_games        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: BGA, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_cat_games () {
+      f_initvars_menu_app
+      until [ $BGA -eq 0 ]
+      do    # Start of Application Category until loop.
+#^f_menu_app_games_arcade #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
+#^f_menu_app_games_board #BGA Board Games    - Classic board games.
+#^f_menu_app_games_card #BGA Card Games     - Played with a deck of playing cards.
+#^f_menu_app_games_mud #BGA MUD Games      - Multi-user dungeon adventure games.
+#^f_menu_app_games_puzzle #BGA Puzzles        - Tetris-clones, create punch card/paper tape codes.
+#^f_menu_app_games_quiz #BGA Quiz Games     - Challenge your mind.
+#^f_menu_app_games_rpg #BGA RPG Games      - Single-player role-playing games.
+#^f_menu_app_games_simulation #BGA Sims/Anims     - Simulations and animations. ASCII movies.
+#^f_menu_app_games_strategy #BGA Strategy Games - 1-2 Players.
+#^f_menu_app_games_word #BGA Word Games     - Boggle, hangman, pig-latin, create banners.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Games Category Menu"
+            DELIMITER="#BGA" #BGA This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read BGA
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $BGA  # Outputs $MENU_ITEM.
+            #
+      done  # End of Game Category until loop.
+            #
+      unset BGA MENU_ITEM  # Throw out this variable.
+
+} # End of function f_menu_cat_games
+#
+# +----------------------------------------+
+# |    Function f_menu_app_games_arcade    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_arcade () {
+      f_initvars_menu_app
+      until [ $MGB -eq 0 ]
+      do    # Start of Arcade Games until loop.
+#0^0^0^0^0 #MGB asciijump      - Ski jump game.
+#0^0^0^0^0 #MGB bastet         - Tetris-like game.
+#0^0^0^0^1 #MGB freesweep      - Minesweeper game.
+#0^0^0^0^0 #MGB moon-buggy     - Drive a moon buggy on the moon.
+#0^0^0^0^1 #MGB myman          - Pac-Man clone, ncurses-based.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGB netris         - Tetris-like game.
+#0^0^0^1^1 #MGB ninvaders      - Space invaders-like game ncurses-based.
+#0^0^0^0^0 #MGB nsnake         - Variation of BSD's snake game.
+#0^0^0^0^1 #MGB pacman4console - Pacman-like game ncurses-based.
+#0^0^0^5^0 #MGB petris         - Tetris-like game.
+#0^0^0^0^0 #MGB robots         - Be chased by killer robots.
+#0^0^0^18^0 #MGB snake          - Be chased by a snake while collecting money.
+#0^0^0^9^0 #MGB worm           - Be a growing worm, don't crash into yourself.
+#0^0^0^18^0 #MGB zsnake         - Variation of BSD's snake game.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Arcade Game Menu"
+            DELIMITER="#MGB" #MGB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGB
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGB  # Outputs $MENU_ITEM.
+            #
+      done  # End of Arcade Games until loop.
+            #
+      unset MGB MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_arcade
+#
+# +----------------------------------------+
+# |     Function f_menu_app_games_board    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_board () {
+      f_initvars_menu_app
+      until [ $MGC -eq 0 ]
+      do    # Start of Board Games until loop.
+#1^0^0^1^0 #MGC atom4      - Board game strategy 2-player ncurses-based.
+#0^0^0^1^0 #MGC backgammon - Backgammon.
+#0^0^0^1^0 #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
+#0^0^0^2^1 #MGC monop      - Monopoly-like game.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Board Games Menu"
+            DELIMITER="#MGC" #MGC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGC
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGC  # Outputs $MENU_ITEM.
+            #
+      done  # End of Board Games until loop.
+            #
+      unset MGC MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_board
+#
+# +----------------------------------------+
+# |            Function f_atom4            |
+# +----------------------------------------+
+#
+f_atom4 () {
+      APP_NAME="atom4 -mt"
+} # End of f_atom4
+#
+# +----------------------------------------+
+# |     Function f_menu_app_games_card     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGD, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_card () {
+      f_initvars_menu_app
+      until [ $MGD -eq 0 ]
+      do    # Start of Card Games until loop.
+#0^0^0^0^0 #MGD canfield - Solitaire card game with betting.
+#f_run_and_exit "Cribbage" "cribbage"^0^0^0^0 #MGD cribbage - Cribbage Card game.
+#0^0^0^0^0 #MGD freecell - Freecell card game.
+#0^0^0^0^0 #MGD go-fish  - Go Fish card game.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Card Game Menu"
+            DELIMITER="#MGD" #MGD This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGD
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGD  # Outputs $MENU_ITEM.
+            #
+      done  # End of Card Games until loop.
+            #
+      unset MGD MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_card
+#
+# +----------------------------------------+      
+# |      Function f_menu_app_games_mud     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGE, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_mud () {
+      f_initvars_menu_app
+      until [ $MGE -eq 0 ]
+      do    # Start of MUD Games until loop.
+#0^0^0^0^1 #MGE crawl    - Explore a cave, retrieve the Orb of Zot.
+#0^0^0^0^1 #MGE tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="MUD Game Menu"
+            DELIMITER="#MGE" #MGE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGE
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGE  # Outputs $MENU_ITEM.
+            #
+      done  # End of MUD Games until loop.
+            #
+      unset MGE MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_mud
+#
+# +----------------------------------------+
+# |    Function f_menu_app_games_puzzle    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGF, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_puzzle () {
+      f_initvars_menu_app
+      until [ $MGF -eq 0 ]
+      do    # Start of Puzzle Games until loop.
+#0^0^0^0^0 #MGF bastet   - Tetris-like game.
+#f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd      - Reformat input as a punch card.
+#0^0^0^0^1 #MGF dab      - 2-players try to complete the most boxes.
+#0^0^0^0^0 #MGF greed    - Greed numbers game, ncurses-based.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGF netris   - Tetris-like game.
+#0^0^0^0^0 #MGF nsuduko  - Suduko game.
+#0^0^0^5^0 #MGF petris   - Tetris-like game.
+#f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt      - Reformat input as a paper tape.
+#0^0^0^5^0 #MGF vitetris - tetris clone; 1-2 players, network play, custom graphics etc.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Puzzle Game Menu"
+            DELIMITER="#MGF" #MGF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGF
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGF  # Outputs $MENU_ITEM.
+            #
+      done  # End of Puzzle Games Applications until loop.
+            #
+      unset MGF MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_puzzle
+#
+# +----------------------------------------+
+# |      Function f_menu_app_games_quiz    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGG, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_quiz () {
+      f_initvars_menu_app
+      until [ $MGG -eq 0 ]
+      do    # Start of Quiz Games until loop.
+#0^0^0^10^0 #MGG arithmetic - Basic arithmetic quiz.
+#0^0^0^0^0 #MGG geekcode   - Code tells others how geeky you are.
+#0^0^0^10^0 #MGG morse      - Morse code training.
+#0^0^0^1^1 #MGG quiz       - Quiz with choice of assorted topics.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Quiz Game Menu"
+            DELIMITER="#MGG" #MGG This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGG
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGG  # Outputs $MENU_ITEM.
+            #
+      done  # End of Quiz Games until loop.
+            #
+      unset MGG MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_quiz
+#
+# +----------------------------------------+
+# |      Function f_menu_app_games_rpg     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGH, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_rpg () {
+      f_initvars_menu_app
+      until [ $MGH -eq 0 ]
+      do    # Start of RPG Games until loop.
+#0^0^0^7^1 #MGH adventure  - Explore Colossal Cave. 
+#0^0^0^0^1 #MGH battlestar - Tropical adventure game.
+#0^0^0^0^1 #MGH GearHead   - Post-nuclear apocalyptic game with 150 machines of destruction.
+#0^0^0^0^1 #MGH hack       - Explore the Dungeons of Doom.
+#0^0^0^0^1 #MGH nethack    - Retrieve the Amulet of Yendor in the  20th dungeon level.
+#0^0^0^0^1 #MGH overkill   - 2D ASCII shooter game.
+#0^0^0^0^1 #MGH phantasia  - Fight monsters and other players.
+#0^0^0^0^1 #MGH slashem    - Enter the Dungeons of Doom.
+#0^0^0^0^1 #MGH wump       - Hunt the Wumpus, watch out for bats, pits.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="RPG Game Menu"
+            DELIMITER="#MGH" #MGH This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGH
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGH  # Outputs $MENU_ITEM.
+            #
+      done  # End of RPG Games until loop.
+            #
+      unset MGH MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_rpg
+#
+# +----------------------------------------+
+# |  Function f_menu_app_games_simulation  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGI, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_simulation () {
+      f_initvars_menu_app
+      until [ $MGI -eq 0 ]
+      do    # Start of Simulation Games until loop.
+#f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
+#0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
+#0^0^0^1^0 #MGI sail      - Command a Man O'War fighting ship.
+#0^0^0^0^0 #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
+#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MIG star wars  - Star Wars movie in ASCII.
+#0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
+#0^0^0^0^1 #MGI ztrack    - First-person car racing game.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Simulation Games and Animation Menu"
+            DELIMITER="#MGI" #MGI This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGI
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGI  # Outputs $MENU_ITEM.
+            #
+      done  # End of Simulation Games until loop.
+            #
+      unset MGI MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_simulation
+#
+# +----------------------------------------+
+# |           Function f_starwars          |
+# +----------------------------------------+
+#
+f_starwars () {
+      clear # Blank the screen.
+      echo "Star Wars ASCII Movie"
+      echo
+      echo The movie is played by running command:
+      echo telnet towel.blinkenlights.nl
+      echo
+      echo If telnet hangs while trying the ip-address,
+      echo then re-run this program and try again.
+      echo
+}  #End of function f_starwars
+#
+# +----------------------------------------+
+# |   Function f_menu_app_games_strategy   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGJ, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_strategy () {
+      f_initvars_menu_app
+      until [ $MGJ -eq 0 ]
+      do    # Start of Strategy Games until loop.
+#0^0^0^1^0 #MGJ empire   - war game build armies, planes, ships, capture cities.
+#0^0^0^0^0 #MGJ gomoku   - 2-player game of 5-in-a-row.
+#0^0^0^0^0 #MGJ hunt     - Multi-user game. Kill everyone else.
+#0^0^0^0^0 #MGJ mille    - Travel 700 miles card game.
+#1^0^0^0^1 #MGJ wargames - Computer prompt from movie "War Games". 
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Strategy Game Menu"
+            DELIMITER="#MGJ" #MGJ This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGJ
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGJ  # Outputs $MENU_ITEM.
+            #
+      done  # End of Strategy Games until loop.
+            #
+      unset MGJ MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_strategy
+#
+# +----------------------------------------+
+# |            Function f_wargames         |
+# +----------------------------------------+
+#
+f_wargames () {
+      clear # Blank the screen.
+      echo "wargames - Question asked by the WOPR super-computer."
+      echo
+      echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
+      echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
+      echo "the backdoor of a top-secret U.S. Air Force super-computer."
+      echo "The WOPR (War Operation Planned Response) controls the U.S. nuclear arsenal."
+      echo
+      echo "Notice the computer equipment David uses, the acoustic modem, and floppy drive."
+      echo
+      echo "WOPR asks this question when David first hacks the backdoor, making David think"
+      echo "that it is simply a recreational program."
+      echo
+      f_press_enter_key_to_continue
+} # End of f_wargames
+#
+# +----------------------------------------+
+# |     Function f_menu_app_games_word     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGK, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_word () {
+      f_initvars_menu_app
+      until [ $MGK -eq 0 ]
+      do    # Start of Word Games until loop.
+#0^0^0^10^0 #MGK boggle  - Word search game.
+#0^0^0^10^0 #MGK figlet  - Creates banner with outline font.
+#0^0^0^0^1 #MGK hangman - Classic hangman word game.
+#0^0^0^10^1 #MGK hodie   - Date and time in Latin.
+#0^0^0^10^0 #MGK pig     - Converts text into pig-latin.
+#1^0^0^0^1 #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
+#0^0^0^0^1 #MGK rl      - Randomize Lines scrambles words of a text file.
+#0^0^0^10^0 #MGK toilet  - Creates banner with bold font.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Word Game Menu"
+            DELIMITER="#MGK" #MGK This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MGK
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MGK  # Outputs $MENU_ITEM.
+            #
+      done  # End of Word Games until loop.
+            #
+      unset MGK MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_word
+#
+# +----------------------------------------+
+# |             Function f_rev             |
+# +----------------------------------------+
+#
+f_rev () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "rev - takes a text file or standard input (keyboard) and reverses the words."
+         echo
+         echo "Usage:" 
+         echo "rev [-V] [-h] file ..."
+         echo
+         echo "*** For more help type: 'man $APP_NAME'"
+         echo "                        '$APP_NAME --help'"
+         echo
+         echo -n "Enter name of text file to reverse: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            clear # Blank the screen.
+            echo "Missing filename."
+            echo "Usage: rev <filename>"
+            echo
+            echo "Since no filename, now run 'rev' in interactive mode."
+            echo
+            echo "Interactive usage:"
+            echo "Now type the word(s) or sentence to reverse."
+            echo
+            f_how_to_quit_application "<Ctrl>-D" "no-clear"
+            APP_NAME="rev"
+            f_application_run
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="rev $ANS"
+            f_application_run
+         else
+            echo "The file $ANS is either missing or cannot be read."
+            APP_NAME=-1 # Usually f_application_run sets APP_NAME=-1
+                        # for valid menu choices but it's not run here.
+                        # If not -1, then f_application_bad_menu_choice
+                        # below will consider it a bad choice and will
+                        # set PRESS_KEY=0 whereas we need it set to 1.
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+         fi
+      fi
+      APP_NAME=""
+} # End of function f_rev
+#

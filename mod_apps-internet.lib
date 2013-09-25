@@ -1,0 +1,655 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="September-20-2013 02:05"
+#
+# +----------------------------------------+
+# |      Function f_menu_cat_internet      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: BIN, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_cat_internet () {
+      f_initvars_menu_app
+      until [ $BIN -eq 0 ]
+      do    # Start of Internet Application Category until loop.
+#^f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
+#^f_menu_app_downloaders #BIN Downloaders       - Download files and calculate file checksums. 
+#^f_menu_app_email #BIN Email             - Email clients.
+#^f_menu_app_fax #BIN FAX               - FAX clients.
+#^f_menu_app_file_transfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
+#^f_menu_app_instant_messaging #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
+#^f_menu_app_irc_clients #BIN IRC Clients       - Internet Relay Chat clients.
+#^f_menu_app_lan_chat #BIN LAN Chat          - Local Area Network Chat (not IRC).
+#^f_menu_app_news_readers #BIN News Readers      - Read USEnet news.
+#^f_menu_app_podcatchers #BIN Podcatcher        - Podcaster readers.
+#^f_menu_app_remote_connection #BIN Remote Connection - Connect to other PCs remotely, cloud services.
+#^f_menu_app_rssfeeders #BIN RSS Feeders       - RSS news, messages.
+#^f_menu_app_web_browsers #BIN Web Browsers      - Internet web  browsers.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Internet Category Menu"
+            DELIMITER="#BIN" #BIN This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read BIN
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $BIN  # Outputs $MENU_ITEM.
+            #
+      done  # End of Internet Application Category until loop.
+            #
+      unset BIN MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_cat_internet
+#
+# +----------------------------------------+
+# |      Function f_menu_app_bittorrent    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MBT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_bittorrent () {
+      f_initvars_menu_app
+      until [ $MBT -eq 0 ]
+      do    # Start of Bittorrent Applications until loop.
+#0^0^0^0^1 #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
+#0^0^0^0^1 #MBT bitflu       - Daemon includes web GUI interface, telnet, plugins.
+#0^0^0^0^1 #MBT bittornado   - Torrent file transfer.
+#0^0^0^0^1 #MBT bittorrent   - Torrent file transfer.
+#0^0^0^0^1 #MBT ctorrent     - Torrent file transfer.
+#0^0^0^0^1 #MBT deluge       - Torrent downloader, user-interfaces GTK+, web, console.
+#0^0^0^0^1 #MBT mldonkey     - Downloader supports BitTorrent/eDonkey/HTTP/FTP.
+#0^0^0^0^1 #MBT rtorrent     - Torrent file transfer.
+#0^0^0^0^1 #MBT transmission - Torrent client web, console, Mac, GTK+ and Qt GUI clients.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Bittorrent Applications Menu"
+            DELIMITER="#MBT" #MBT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MBT
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MBT  # Outputs $MENU_ITEM.
+            #
+      done  # End of Bittorrent Applications until loop.
+            #
+      unset MBT MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_bittorrent
+#
+# +----------------------------------------+
+# |     Function f_menu_app_downloaders    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MDL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_downloaders () {
+      f_initvars_menu_app
+      until [ $MDL -eq 0 ]
+      do    # Start of Downloaders Applications until loop.
+#0^0^0^0^1 #MDL axel     - Downloader accelerator using multiple connections/mirrors.
+#0^0^0^0^1 #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+#0^0^0^0^1 #MDL cfv      - create/verify many types of checksum files.
+#1^0^0^0^1 #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+#1^0^0^0^1 #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+#1^0^0^0^1 #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+#1^0^0^0^1 #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Downloader-Checksum Applications Menu"
+            DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MDL
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MDL  # Outputs $MENU_ITEM.
+            #
+      done  # End of Downloader Applications until loop.
+            #
+      unset MDL MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_downloaders
+#
+# +----------------------------------------+
+# |           Function f_md5pass           |
+# +----------------------------------------+
+#
+f_md5pass () {
+      clear # Blank the screen.
+      echo "md5pass - Create a password hash."
+      echo
+      echo "Usage:"
+      echo "md5pass [PASSWORD] [SALT]"
+      echo
+      echo "*** For more help type: 'man md5pass'"
+      echo
+      echo "md5pass without any SALT value causes a random salt value to be generated."
+      echo "Now run md5pass. Usage: 'md5pass'."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_md5pass
+#
+# +----------------------------------------+
+# |           Function f_md5sum            |
+# +----------------------------------------+
+#
+f_md5sum () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "md5sum - Display md5 checksum."
+         echo
+         echo "Usage:"
+         echo "md5sum [OPTION]... [FILE]..."
+         echo
+         echo "*** For more help type: 'man md5sum'"
+         echo "                        'md5sum --help'"
+         echo
+         echo "Now show help. Usage: man md5sum"
+         f_press_enter_key_to_continue
+         APP_NAME="man md5sum"
+      fi
+} # End of function f_md5sum
+#
+# +----------------------------------------+
+# |           Function f_sha1pass          |
+# +----------------------------------------+
+#
+f_sha1pass () {
+      clear # Blank the screen.
+      echo "sha1pass - Create a password hash."
+      echo
+      echo "Usage:"
+      echo "sha1pass [PASSWORD] [SALT]"
+      echo "*** For more help type: 'man sha1pass'"
+      echo
+      echo "sha1pass without any SALT value causes a random salt value to be generated."
+      echo "Now run sha1pass. Usage: 'sha1pass'."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_sha1pass
+#
+# +----------------------------------------+
+# |           Function f_sha1sum           |
+# +----------------------------------------+
+#
+f_sha1sum () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "sha1sum - Display sha1 checksum."
+         echo
+         echo "Usage:"
+         echo "sha1sum [OPTION]... [FILE]..."
+         echo
+         echo "*** For more help type: 'man sha1sum'"
+         echo "                        'sha1sum --help'"
+         echo
+         echo "Now show help. Usage: man sha1sum"
+         echo
+         f_press_enter_key_to_continue
+         APP_NAME="man sha1sum"
+      fi
+} # End of function f_sha1sum
+#
+# +----------------------------------------+
+# |        Function f_menu_app_email       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MEM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_email () {
+      f_initvars_menu_app
+      until [ $MEM -eq 0 ]
+      do    # Start of E-mail Applications until loop.
+#0^0^0^0^1 #MEM alpine         - E-mail client, FOSS version of pine.
+#0^0^0^0^1 #MEM cone           - E-mail client.
+#0^0^0^0^1 #MEM elmo           - E-mail client.
+#0^0^0^0^1 #MEM fetchyahoo     - E-mail client.
+#0^0^0^0^1 #MEM gnus           - Email, NNTP, RSS client for Emacs.
+#0^0^0^0^1 #MEM heirloom-mailx - E-mail client.
+#0^0^0^0^1 #MEM mu4e           - Email client for Emacs.
+#0^0^0^0^1 #MEM mutt           - E-mail client.
+#0^0^0^0^1 #MEM abook          - Address book with or w/o mutt, features tabbed fields.
+#0^0^0^0^1 #MEM lbdb           - Little Brother's Database for mutt mail reader.
+#0^0^0^0^1 #MEM nedmail        - E-mail client.
+#0^0^0^0^1 #MEM pine           - E-mail client.
+#0^0^0^0^1 #MEM sup            - E-mail client.
+#0^0^0^0^1 #MEM urlview        - Extracts URL from email text.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="E-mail Applications Menu"
+            DELIMITER="#MEM" #MEM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MEM
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MEM  # Outputs $MENU_ITEM.
+            #
+      done  # End of E-mail Applications until loop.
+            #
+      unset MEM MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_email
+#
+# +----------------------------------------+
+# |         Function f_menu_app_fax        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFX, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_fax () {
+      f_initvars_menu_app
+      until [ $MFX -eq 0 ]
+      do    # Start of FAX Applications until loop.
+#0^0^0^0^1 #MFX efax           - FAX over modem.
+#0^0^0^0^1 #MFX hylafax-client - Works with HylaFAX server software.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="FAX Applications Menu"
+            DELIMITER="#MFX" #MFX This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFX
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFX  # Outputs $MENU_ITEM.
+            #
+      done  # End of FAX Applications until loop.
+            #
+      unset MFX MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_fax
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_tranfer     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_app_file_transfer () {
+      f_initvars_menu_app
+      until [ $MFT -eq 0 ]
+      do    # Start of File Transfer Applications until loop.
+#0^0^0^0^1 #MFT cmdftp - File transfer client.
+#0^0^0^0^1 #MFT curl   - File transfer.
+#0^0^0^0^1 #MFT ftp    - File transfer.
+#0^0^0^0^1 #MFT ftpfs  - File transfer client.
+#0^0^0^0^1 #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
+#0^0^0^0^1 #MFT ncftp  - File transfer client.
+#0^0^0^0^1 #MFT scp    - File transfer.
+#0^0^0^0^1 #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="File Transfer Applications Menu"
+            DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFT
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFT  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Transfer Applications until loop.
+            #
+      unset MFT MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_transfer
+#
+# +----------------------------------------+
+# | Function f_menu_app_instant_messaging  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MIM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_app_instant_messaging () {
+      f_initvars_menu_app
+      until [ $MIM -eq 0 ]
+      do    # Start of Internet Messaging Applications until loop.
+#0^0^0^4:NC^1 #MIM barnowl      - BarnOwl supports AIM, IRC, Jabber, Zephyr.
+#0^0^0^0^1 #MIM bitlbee      - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
+#0^0^0^0^1 #MIM bti          - Tweet to Twitter.com, Identi.ca or any other StatusNet.
+#0^0^0^0^1 #MIM centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+#0^0^0^0^1 #MIM centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
+#0^0^0^0^1 #MIM climm        - Supports ICQ, Jabber, XMPP, GoogleTalk.
+#0^0^0^0^1 #MIM emacs-jabber - Jabber client for Emacs.
+#0^0^0^0^0 #MIM finch        - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster.
+#0^0^0^0^1 #MIM freetalk     - Jabber client.
+#0^0^0^0^1 #MIM mcabber      - Jabber client.          	
+#0^0^0^0^1 #MIM naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Instant Messaging Applications Menu"
+            DELIMITER="#MIM" #MIM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MIM
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MIM  # Outputs $MENU_ITEM.
+            #
+      done  # End of Instant Messaging Applications until loop.
+            #
+      unset MIM MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_instant_messaging
+#
+# +----------------------------------------+
+# |           Function f_barnowl           |
+# +----------------------------------------+
+#
+f_barnowl () {
+      clear # Blank the screen.
+      echo "BarnOwl - Internet Messenger."
+      echo
+      echo "Usage:"
+      echo "barnowl"
+      echo "Inside barnowl type ':help' (colon help) for built-in help page."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      f_how_to_quit_application ":q (colon q)" "no-clear"
+} # End of function f_barnowl
+#
+# +----------------------------------------+
+# |    Function f_menu_app_irc_clients     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MIR, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_irc_clients () {
+      f_initvars_menu_app
+      until [ $MIR -eq 0 ]
+      do    # Start of IRC Clients Applications until loop.
+#0^0^0^0^1 #MIR epic5   - IRC client based on ircI.
+#0^0^0^0^1 #MIR erc     - IRC client for Emacs, powerful, modular, and extensible.
+#0^0^0^0^1 #MIR ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.
+#0^0^0^0^1 #MIR ircii   - Termcap based interface. Supports "/encrypt -cast".
+#0^0^0^0^1 #MIR irssi   - Supports SILC and ICB protocols via plugins.
+#0^0^0^0^0 #MIR pork    - Ncurses-based AOL Instant Messenger and IRC client.
+#0^0^0^0^1 #MIR scrollz - An advanced, faster IRC client based on ircII code.
+#0^0^0^0^1 #MIR sic     - Fast small IRC client.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="IRC Clients Applications Menu"
+            DELIMITER="#MIR" #MIR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MIR
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MIR  # Outputs $MENU_ITEM.
+            #
+      done  # End of IRC Clients Applications until loop.
+            #
+      unset MIR MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_irc_clients
+#
+# +----------------------------------------+
+# |      Function f_menu_app_lan_chat      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MNC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_lan_chat () {
+      f_initvars_menu_app
+      until [ $MNC -eq 0 ]
+      do    # Start of LAN Chat Applications until loop.
+#0^0^0^0^1 #MNC talk    - Copies lines from your terminal to that of another user.
+#0^0^0^0^1 #MNC weechat - WeeChat (Wee Enhanced Environment for Chat) fast, light client.
+#0^0^0^0^1 #MNC ytalk   - Multi-user chat program can do multiple connections.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="LAN Chat Applications Menu"
+            DELIMITER="#MNC" #MNC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MNC
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MNC  # Outputs $MENU_ITEM.
+            #
+      done  # End of LAN Chat Applications until loop.
+            #
+      unset MNC MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_lan_chat
+#
+# +----------------------------------------+
+# |     Function f_menu_app_news_readers   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MNR, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_news_readers () {
+      f_initvars_menu_app
+      until [ $MNR -eq 0 ]
+      do    # Start of RSS Feeder Applications until loop.
+#0^0^0^0^1 #MNR cortex     - Dump news web page to text.
+#0^0^0^0^1 #MNR gnus       - News reader and E-mail client for Emacs.
+#0^0^0^0^1 #MNR hacker-top - Dump news web page to text.
+#0^0^0^0^1 #MNR nn         - News reader.
+#0^0^0^0^1 #MNR reddit-top - Dump news web page to text.
+#0^0^0^0^1 #MNR rn         - News reader.
+#0^0^0^0^1 #MNR slrn       - News reader.
+#0^0^0^0^1 #MNR tin        - News reader.
+#0^0^0^0^1 #MNR trn        - News reader.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="News Reader Applications Menu"
+            DELIMITER="#MNR" #MNR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MNR
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MNR  # Outputs $MENU_ITEM.
+            #
+      done  # End of News Reader Applications until loop.
+            #
+      unset MNR MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_news_readers
+#
+# +----------------------------------------+
+# |     Function f_menu_app_podcatchers     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MPO, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_podcatchers () {
+      f_initvars_menu_app
+      until [ $MPO -eq 0 ]
+      do    # Start of Podcatcher Applications until loop.
+#0^0^0^0^1 #MPO bashpodder - Podcatcher.
+#0^0^0^0^1 #MPO goldenpod  - Podcatcher.
+#0^0^0^0^1 #MPO hpodder    - Podcatcher.
+#0^0^0^0^1 #MPO podget     - Podcatcher.
+#0^0^0^0^1 #MPO podracer   - Podcatcher.
+#0^0^0^0^1 #MPO uraniacast - Podcatcher.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Podcatcher Applications Menu"
+            DELIMITER="#MPO" #MPO This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MPO
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MPO  # Outputs $MENU_ITEM.
+            #
+      done  # End of Podcatcher Applications until loop.
+            #
+      unset MPO MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_podcatchers
+#
+# +----------------------------------------+
+# |  Function f_menu_app_remote_connection |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MRC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_remote_connection () {
+      f_initvars_menu_app
+      until [ $MRC -eq 0 ]
+      do    # Start of Remote Connection Applications until loop.
+#0^0^0^0^1 #MRC cpu     - Remote connection.
+#0^0^0^0^1 #MRC openssh - Remote connection.
+#0^0^0^0^1 #MRC grive   - Google Drive client for cloud storage on Google.
+#0^0^0^0^1 #MRC ssh     - Remote connection.
+#0^0^0^0^1 #MRC sslh    - Remote connection.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Remote Connection Applications Menu"
+            DELIMITER="#MRC" #MRC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MRC
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MRC  # Outputs $MENU_ITEM.
+            #
+      done  # End of Remote Connection Applications until loop.
+            #
+      unset MRC MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_remote_connection
+#
+# +----------------------------------------+
+# |     Function f_menu_app_rssfeeders      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MRS, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_rssfeeders () {
+      f_initvars_menu_app
+      until [ $MRS -eq 0 ]
+      do    # Start of RSS Feeder Applications until loop.
+            #MRS canto      - RSS feeder.
+            #MRS newsbeuter - RSS feeder.
+            #MRS nrss       - RSS feeder.
+            #MRS olive      - RSS feeder.
+            #MRS raggle     - RSS feeder.
+            #MRS rawdog     - RSS feeder.
+            #MRS rsstail    - RSS feeder.
+            #MRS snownews   - RSS feeder.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="RSS Feeder Applications Menu"
+            DELIMITER="#MRS" #MRS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MRS
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MRS  # Outputs $MENU_ITEM.
+            #
+      done  # End of RSS Feeder Applications until loop.
+            #
+      unset MRS MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_rssfeeders
+#
+# +----------------------------------------+
+# |    Function f_menu_app_web_browsers    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MWB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_menu_app_web_browsers () {
+      f_initvars_menu_app
+      until [ $MWB -eq 0 ]
+      do    # Start of Web Browsers Applications until loop.
+#f_web_site^0^0^1^0 #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
+#f_web_site^0^0^1^0 #MWB links   - Web browser, no graphics mode.
+#f_web_site^0^0^1^0 #MWB links2  - Web browser, has graphics mode.
+#f_web_site^0^0^1^0 #MWB lynx    - Web browser, NLS support.
+#f_web_site^0^0^1^0 #MWB retawq  - Web browser, multi-threaded.
+#0^0^0^0^0 #MWB surfraw - Search the web using a web search site.
+#f_web_site^0^0^1^0 #MWB w3m     - Web browser, tables, frames support, IPv6 support.
+            #
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Web Browser Applications Menu"
+            DELIMITER="#MWB" #MWB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MWB
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MWB  # Outputs $MENU_ITEM.
+            #
+      done  # End of Web Browsers Applications until loop.
+            #
+      unset MWB MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_web_browsers
+#
+# +----------------------------------------+
+# |          Function f_web_site           |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME.
+# Outputs: APP_NAME, WEB_SITE, PRESS_KEY.
+#
+f_web_site () {
+case $APP_NAME in # Start of case statement.
+     #
+     # The order of the case pattern matching clauses is necessary.
+     #
+     # Does $APP_NAME start with 'sudo'?
+     # Does $APP_NAME have no spaces?
+     # If so, treat as a web browser without a specified web site.
+     #
+     'sudo '*' '* | *' '*) # Command has at least one space.
+     # It is assumed that users who do "sudo <application name> <options>"
+     # know what they are doing and do not need to be prompted to provide
+     # a web site and do not call f_web_site in the application case statments.
+     # i.e. "sudo nslookup www.lxer.com"
+     #
+     # This case pattern matching statement will allow any other sudo formats
+     # i.e. For links browser, "sudo -width 80 links -driver atheos -html-images 0".
+     #
+     ;;
+     *[!' ']*) # It has no spaces in name. No spaces means no web site specified.
+     echo
+     echo "When using a web browser or network application directly from the command line,"
+     echo "use the syntax: $APP_NAME WEB_SITE"
+     echo
+     echo -n "Enter the name of the web site: (i.e. www.lxer.com) "
+     read WEB_SITE
+     #
+     # If no web site specified, default to a web site. Note the test command
+     # has $WEB_SITE in quotes because it may not be set prior to this test.
+     if [ -z "$WEB_SITE" ] ; then
+         WEB_SITE="http://www.lxer.com"
+     fi
+     #
+     APP_NAME="$APP_NAME $WEB_SITE"
+     ;;
+esac # End of case statement.
+} # End of function f_web_site
+#

@@ -1,0 +1,1266 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="September-24-2013 23:59"
+#
+# +----------------------------------------+
+# |  Function f_menu_cat_file_management   |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: BFM, MAX, MENU_ITEM
+# Outputs: ERROR, MENU_TITLE, DELIMITER
+#
+f_menu_cat_file_management () {
+      f_initvars_menu_app
+      until [ $BFM -eq 0 ]
+      do    # Start of File Management Application Category until loop.
+#^f_menu_app_binhex_editors #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
+#^f_menu_app_file_burn #BFM CD/DVD Burn - Write files to CD/DVD.
+#^f_menu_app_file_checksum #BFM Checksum    - Display/Create file checksums to verify file integrity.
+#^f_menu_app_text_compare #BFM Compare     - Show differences between text files.
+#^f_menu_app_file_compression #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
+#^f_menu_app_file_conversion #BFM Convert     - Convert between different file formats.
+#^f_menu_app_text_file_editors #BFM Edit        - Create/Edit text files.
+#^f_menu_app_file_encryption #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
+#^f_menu_app_file_find #BFM Find        - File search.
+#^f_menu_app_file_transfer #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
+#^f_menu_app_file_managers #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
+#^f_menu_app_file_operations #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
+#^f_menu_app_file_splitters #BFM Splitters   - File splitters.
+#^f_menu_app_file_viewers #BFM Viewers     - View files a page at a time.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Management Application Category Menu"
+            DELIMITER="#BFM" #BFM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read BFM
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $BFM  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Management Applications until loop.
+            #
+      unset BFM MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_cat_file_management
+#
+# +----------------------------------------+
+# |   Function f_menu_app_binhex_editors   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MBH, MAX, MENU_ITEM.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_binhex_editors () {
+      f_initvars_menu_app
+      until [ $MBH -eq 0 ]
+      do    # Start of Bin-Hex Editor Applications until loop.
+#0^0^0^0^1 #MBH bbe      - sed-like editor for binary files.
+#0^0^0^0^1 #MBH beav     - Binary file editor and viewer.
+#0^0^0^0^1 #MBH bvi      - Binary file editor and viewer with vi-like key bindings.
+#0^0^0^0^0 #MBH dhex     - Hexadecimal editor with diff mode, ncurses-based.
+#0^0^0^0^0 #MBH hexedit  - Hexadecimal editor.
+#0^0^0^0^0 #MBH hexer    - Hex editor with vi-like bindings.
+#0^0^0^0^0 #MBH tweak    - Hex editor with emacs-like keybindings, ncurses-based.
+#0^0^0^0^1 #MBH vbindiff - Displays in hexadecimal and ASCII, works with up to 4GB files.
+#0^0^0^0^1 #MBH xdelta   - diff binary files, results can be applied to original bin file.
+#0^0^0^0^1 #MBH xdelta3  - diff binary files. "Delta files" in RFC3284 (VCDIFF) format.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="Binary-Hexadecimal File Editor Applications Menu"
+            DELIMITER="#MBH" #MBH This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MBH
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MBH  # Outputs $MENU_ITEM.
+
+            #
+      done  # End of Bin-Hex Editor Applications until loop.
+            #
+      unset MBH MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_binhex_editors
+#
+# +----------------------------------------+
+# |      Function f_menu_app_file_burn     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFA, MAX, MENU_ITEM
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_burn () {
+      f_initvars_menu_app
+      until [ $MFA -eq 0 ]
+      do    # Start of Backup Applications until loop.
+#0^0^0^0^0 #MFA bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
+#0^0^0^0^0 #MFA burn         - Write audio/data/iso image or copy CDs.
+#0^0^0^0^0 #MFA cdck         - Check the quality of a written CD.
+#1^0^0^0^0 #MFA cdrecord     - CD burning. Obsoleted by wodim. May be hard-linked to wodim.
+#0^0^0^0^0 #MFA lsdvd        - Reads contents of DVDs.
+#0^0^0^0^0 #MFA mkcd         - CD burning.
+#0^0^0^0^0 #MFA mybashburn   - CD burning.
+#0^0^0^0^0 #MFA simpleburner - CD burning.
+#1^0^0^0^0 #MFA wodim        - CD/DVD Write audio/data/iso image. Single line command.
+#0^0^0^0^0 #MFA xorriso      - CD/DVD Write iso images to Rock Ridge ISO 9660 filesystems.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="CD/DVD File Burning Applications Menu"
+            DELIMITER="#MFA" #MFA This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFA
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFA  # Outputs $MENU_ITEM.
+            #
+      done  # End of CD/DVD File Burning Applications until loop.
+            #
+      unset MFA MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_burn
+#
+# +----------------------------------------+
+# |           Function f_cdrecord          |
+# +----------------------------------------+
+#
+f_cdrecord () {
+      clear # Blank the screen.
+      echo "cdrecord - Write files/iso image to CD-R."
+      echo "***OBSOLETED by wodim***"
+      echo
+      echo "Example: Find cdrom designation."
+      echo
+      echo "$ cdrecord --devices"
+      echo "wodim: Overview of accessible drives (2 found) :"
+      echo "-------------------------------------------------------------------------"
+      echo " 0  dev='/dev/sg0'	rwrw-- : 'SONY' 'DVD-ROM DDU1615'"
+      echo " 1  dev='/dev/sg1'	rwrw-- : 'HL-DT-ST' 'DVD+-RW GSA-H21N'"
+      echo "-------------------------------------------------------------------------"
+      echo
+      echo "Example: Burn an iso image file to a CD-R disk."
+      echo "In some modern linux distributions, cdrecord really runs wodim."
+      echo
+      echo "$ sudo cdrecord dev=/dev/sg1 -pad -v -eject /home/public/iso/<insert name of iso-file>.iso "
+      echo
+      echo "*** For more help type: 'man cdrecord'"
+      echo "                        'cdrecord --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_cdrecord
+#
+# +----------------------------------------+
+# |            Function f_wodim            |
+# +----------------------------------------+
+#
+f_wodim () {
+      clear # Blank the screen.
+      echo "wodim - Write files/iso image to an optical disk."
+      echo
+      echo "Example: Find cdrom designation."
+      echo
+      echo "$ wodim --devices"
+      echo "wodim: Overview of accessible drives (2 found) :"
+      echo "-------------------------------------------------------------------------"
+      echo " 0  dev='/dev/sg0'	rwrw-- : 'SONY' 'DVD-ROM DDU1615'"
+      echo " 1  dev='/dev/sg1'	rwrw-- : 'HL-DT-ST' 'DVD+-RW GSA-H21N'"
+      echo "-------------------------------------------------------------------------"
+      echo
+      echo "Example: Burn an iso image file to a CD-R disk."
+      echo
+      echo "$ sudo wodim -v dev=/dev/sg1 -eject -data /home/public/iso/<iso-file>.iso"
+      echo "      -v     Verbose."
+      echo "      -eject Eject CD/DVD media after burning."
+      echo "      -speed Integer of speed factor x16 x32 x50, if none, then maximum."
+      echo
+      echo "*** For more help type: 'man wodim'"
+      echo "                        'wodim --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_wodim
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_checksum    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFG, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_checksum () {
+      f_initvars_menu_app
+      until [ $MFG -eq 0 ]
+      do    # Start of File Checksum Applications until loop.
+#0^0^0^0^0 #MFG cdck     - Check the quality of a written CD.
+#0^0^0^0^0 #MFG cfv      - One application to create/verify many types of checksum files.
+#1^0^0^0^1 #MFG md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+#1^0^0^0^1 #MFG md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+#1^0^0^0^1 #MFG sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+#1^0^0^0^1 #MFG sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+            #
+            MENU_TITLE="File Checksum Applications Menu"
+            DELIMITER="#MFG" #MFG This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFG
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFG  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Checksum Applications until loop.
+            #
+      unset MFG MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_checksum
+#
+# +----------------------------------------+
+# |           Function f_md5pass           |
+# +----------------------------------------+
+#
+f_md5pass () {
+      clear # Blank the screen.
+      echo "md5pass - Create a password hash."
+      echo
+      echo "Usage:"
+      echo "md5pass [PASSWORD] [SALT]"
+      echo
+      echo "*** For more help type: 'man md5pass'"
+      echo
+      echo "md5pass without any SALT value causes a random salt value to be generated."
+      echo "Now run md5pass. Usage: 'md5pass'."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_md5pass
+#
+# +----------------------------------------+
+# |           Function f_md5sum            |
+# +----------------------------------------+
+#
+f_md5sum () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "md5sum - Display md5 checksum."
+         echo
+         echo "Usage:"
+         echo "md5sum [OPTION]... [FILE]..."
+         echo
+         echo "*** For more help type: 'man md5sum'"
+         echo "                        'md5sum --help'"
+         echo
+         echo "Now show help. Usage: man md5sum"
+         f_press_enter_key_to_continue
+         APP_NAME="man md5sum"
+      fi
+} # End of function f_md5sum
+#
+# +----------------------------------------+
+# |           Function f_sha1pass          |
+# +----------------------------------------+
+#
+f_sha1pass () {
+      clear # Blank the screen.
+      echo "sha1pass - Create a password hash."
+      echo
+      echo "Usage:"
+      echo "sha1pass [PASSWORD] [SALT]"
+      echo "*** For more help type: 'man sha1pass'"
+      echo
+      echo "sha1pass without any SALT value causes a random salt value to be generated."
+      echo "Now run sha1pass. Usage: 'sha1pass'."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_sha1pass
+#
+# +----------------------------------------+
+# |           Function f_sha1sum           |
+# +----------------------------------------+
+#
+f_sha1sum () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "sha1sum - Display sha1 checksum."
+         echo
+         echo "Usage:"
+         echo "sha1sum [OPTION]... [FILE]..."
+         echo
+         echo "*** For more help type: 'man sha1sum'"
+         echo "                        'sha1sum --help'"
+         echo
+         echo "Now show help. Usage: man sha1sum"
+         echo
+         f_press_enter_key_to_continue
+         APP_NAME="man sha1sum"
+      fi
+} # End of function f_sha1sum
+#
+# +----------------------------------------+
+# |    Function f_menu_app_text_compare    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTC, MAX, MENU_ITEM.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_text_compare () {
+      f_initvars_menu_app
+      until [ $MTC -eq 0 ]
+      do    # Start of Text Compare Applications until loop.
+#0^0^0^0^1 #MTC cmp       - Compares 2 text files.
+#0^0^0^0^1 #MTC colordiff - Differences between 2 text files shown in color.
+#1^0^0^0^1 #MTC comm      - Compares 2 sorted files line by line.
+#0^0^0^0^1 #MTC diff      - Differences between 2 text files shown using <> signs.
+#0^0^0^0^1 #MTC diff3     - Differences between 3 text files
+#0^0^0^0^1 #MTC dwdiff    - Like wdiff but allows whitespace to be included.
+#0^0^0^0^1 #MTC imediff2  - Interactive 2-way file merge.
+#0^0^0^0^1 #MTC vimdiff   - Differences between 2 text files shown in color highlights.
+#0^0^0^0^1 #MTC wdiff     - Differences between 2 text files shown using +/- signs.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="Text Compare Applications Menu"
+            DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MTC
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MTC  # Outputs $MENU_ITEM.
+            #
+      done  # End of Text Compare Applications until loop.
+            #
+      unset MTC MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_text_compare
+#
+# +----------------------------------------+
+# |            Function f_comm             |
+# +----------------------------------------+
+#
+f_comm () {
+      clear # Blank the screen.
+      echo "comm - compare two sorted files line by line." 
+      echo
+      echo "Usage:"
+      echo "comm [OPTION]... FILE1 FILE2"
+      echo
+      echo "Output is in three columns of quoted lines."
+      echo
+      echo "  Column 1      Column 2          Column 3"
+      echo "Lines unique  Lines unique      Lines common"
+      echo "  to FILE1      to FILE2     to FILE1 and FILE2"
+      echo
+      echo "OPTIONS:"
+      echo "         -1                 Suppress column 1."
+      echo "         -2                 Suppress column 2."
+      echo "         -3                 Suppress column 3."
+      echo "         --no-check order   Do not check files for sort order."
+      echo 
+      echo "*** For more help type: 'man comm'"
+      echo "                        'comm --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_comm
+#
+# +----------------------------------------+
+# |  Function f_menu_app_file_compression  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_compression () {
+      f_initvars_menu_app
+      until [ $MFB -eq 0 ]
+      do    # Start of Backup Applications until loop.
+#0^0^0^0^1 #MFB acat    - Exract files in archives to standard output (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB als     - List files in archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB apack   - File compress create archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB atool   - Manages file archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB aunpack - File decompress extract from archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB dtrx    - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
+#0^0^0^0^1 #MFB gunzip  - File decompress gzip files.
+#0^0^0^0^1 #MFB gzip    - File compress, to gzip files.
+#0^0^0^0^1 #MFB lhasa   - Decompresses LHA (.lzh) archive files.
+#0^0^0^0^1 #MFB lzma    - Compress/Decompress files in the LZMA format.
+#0^0^0^0^1 #MFB lzip    - Compress files based on the LZMA algorithm.
+#0^0^0^0^1 #MFB lzop    - Compress files gzip-like but faster.
+#0^0^0^0^1 #MFB p7zip   - File compress, to 7z files, 7z better than zip compression.
+#0^0^0^0^1 #MFB pdlzip  - Simpler,compress files based on the LZMA algorithm.
+#0^0^0^0^1 #MFB rzip    - Compresses large files, history buffer up to 900MB.
+#f_menu_app_file_compression2^0^0^0^0 #MFB MORE... - For more file compression applications.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Compression Applications Menu"
+            DELIMITER="#MFB" #MFB This 3rd field prevents awk from printing this line into menu options. 
+            . lib_cli-common.lib
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFB
+            #
+            f_menu_item_process $MFB  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Compression Applications until loop.
+            #
+      unset MFB MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_compression
+#
+# +----------------------------------------+
+# |  Function f_menu_app_file_compression2 |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_compression2 () {
+      f_initvars_menu_app
+      until [ $MFC -eq 0 ]
+      do    # Start of Backup Applications until loop.
+#0^0^0^0^1 #MFC unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
+#0^0^0^0^1 #MFC unxc    - File decompress xz files.
+#0^0^0^0^1 #MFC unzip   - File decompress zip files.
+#0^0^0^0^1 #MFC unp     - Extract many kinds of archive files with one command.
+#0^0^0^0^1 #MFC xz      - File compress xz files.
+#0^0^0^0^1 #MFC xzcat   - File cat xz files.
+#0^0^0^0^1 #MFC xzgrep  - File grep xz files.
+#0^0^0^0^1 #MFC zip     - File compress files to zip files. 
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Compression #2 Applications Menu"
+            DELIMITER="#MFC" #MFC This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFC
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFC  # Outputs $MENU_ITEM.
+            f_application_help
+            #
+      done  # End of File Compression #2 Applications until loop.
+            #
+      unset MFC MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_compression2
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_conversion  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTW, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_conversion () {
+      f_initvars_menu_app
+      until [ $MTW -eq 0 ]
+      do    # Start of File Format Conversion Applications until loop.
+#0^0^0^0^1 #MTW ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
+#1^0^0^0^1 #MTW txt2html   - Converts plain ASCII text to HTML format.
+#1^0^0^0^1 #MTW txt2man    - Converts plain ASCII text to man format.
+#1^0^0^0^1 #MTW txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
+#1^0^0^0^1 #MTW txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+#1^0^0^0^1 #MTW txt2tags   - Converts plain ASCII text to a variety of formats.
+#0^0^0^0^1 #MTW unoconv    - Converts any document format that LibreOffice imports/exports.
+#0^0^0^0^1 #MTW unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
+#0^0^0^0^1 #MTW wp2x       - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+#0^0^0^0^1 #MTW xmlto      - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Format Conversion Applications Menu"
+            DELIMITER="#MTW" #MTW This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MTW
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MTW  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Format Conversion Applications until loop.
+            #
+      unset MTW MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_file_conversion
+#
+# +----------------------------------------+
+# |           Function f_txt2html          |
+# +----------------------------------------+
+#
+f_txt2html () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2html - Convert plain text files to html." 
+         echo
+         echo "Usage:"
+         echo "txt2html [ --append_file filename ] [ --append_head filename ]"
+         echo "         [ --body_deco string ] [ --bold_delimiter string ]"
+         echo "         [ --bullets string ] [ --bullets_ordered string ]"
+         echo "         [ --caps_tag tag ]"
+         echo
+         echo "*** For more help type: 'man txt2html'"
+         echo "                        'txt2html --help'"
+         echo
+         echo "Now show help. Usage: man txt2html"
+         APP_NAME="man txt2html"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2html
+#
+# +----------------------------------------+
+# |           Function f_txt2man           |
+# +----------------------------------------+
+#
+f_txt2man () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2man - Convert plain text files to man pages." 
+         echo
+         echo "Usage:"
+         echo "txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
+         echo "        [-I txt] [-B txt] [-d date] [ifile]"
+         echo
+         echo "*** For more help type: 'man txt2man'"
+         echo "                        'txt2man --help'"
+         echo
+         echo "Now show help. Usage: man txt2man"
+         APP_NAME="man txt2man"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2man
+#
+# +----------------------------------------+
+# |          Function f_txt2pdbdoc         |
+# +----------------------------------------+
+#
+f_txt2pdbdoc () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2pdbdoc - Convert plain text files to (Palm Pilot Database) Doc file *.pdb."
+         echo "             for PalmPilots & DocReaders. (Does anyone still have a PalmPilot?)"
+         echo
+         echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
+         echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
+         echo "       txt2pdbdoc -V"
+         echo
+         echo "*** For more help type: 'man txt2pdbdoc'"
+         echo "                        'txt2pdbdoc --help'"
+         echo
+         echo "Now show help. Usage: man txt2pdbdoc"
+         APP_NAME="man txt2pdbdoc"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2pdbdoc
+#
+# +----------------------------------------+
+# |          Function f_txt2regex          |
+# +----------------------------------------+
+#
+f_txt2regex () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2regex - Convert human sentences to regex." 
+         echo
+         echo "Usage:"
+         echo "txt2regex --all|--prog <p1,p2,...,pN>"
+         echo
+         echo "*** For more help type: 'man txt2regex'"
+         echo "                        'txt2regex --help'"
+         echo
+         echo "Now show help. Usage: man txt2regex"
+         APP_NAME="man txt2regex"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2regex
+#
+# +----------------------------------------+
+# |          Function f_txt2tags           |
+# +----------------------------------------+
+#
+f_txt2tags () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2tags - Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook,"
+         echo "           DokuWiki, Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page,"
+         echo "           MoinMoin, PageMaker, Plain Text, PmWiki, SGML, Wikipedia and XHTML."
+         echo 
+         echo "Usage:"
+         echo "txt2tags [OPTIONS] [FILE]... "
+         echo
+         echo "*** For more help type: 'man txt2tags'"
+         echo "                        'txt2tags --help'"
+         echo
+         echo "Now show help. Usage: man txt2tags"
+         APP_NAME="man txt2tags"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2tags
+#
+# +----------------------------------------+
+# |  Function f_menu_app_text_file_editors |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTH, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_text_file_editors () {
+      f_initvars_menu_app
+      until [ $MTH -eq 0 ]
+      do    # Start of Text Editor Applications until loop.
+#0^0^0^15^0 #MTH dav   - Text editor.
+#0^0^0^0^1 #MTH ed    - Classic CLI text editor.
+#0^0^0^0^0 #MTH emacs - Full screen text editor with plugins.
+#1^0^0^0^0 #MTH jed   - JED text editor.
+#1^0^0^11^0 #MTH joe   - Text editor. <Ctrl>-K H for help.
+#0^0^0^0^0 #MTH nano  - Simple full-screen text editor.
+#0^0^0^0^0 #MTH pico  - Simple full-screen text editor.
+#0^0^0^0^0 #MTH pyp   - "Pyed Piper" awk-sed-like features using Python-based sub-commands.
+#0^0^0^0^0 #MTH rrep  - Replace text in files.
+#0^0^0^14^0 #MTH vi    - Classic full-screen text editor.
+#0^0^0^14^0 #MTH vim   - vi "Improved" text editor.
+#0^0^0^12^0 #MTH zile  - Very small Emacs-subset editor.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="Text File Editor Applications Menu"
+            DELIMITER="#MTH" #MTH This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MTH
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MTH  # Outputs $MENU_ITEM.
+            #
+      done  # End of Text Editor Applications until loop.
+            #
+      unset MTH MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_text_editors
+#
+# +----------------------------------------+
+# |             Function f_jed             |
+# +----------------------------------------+
+#
+f_jed () {
+      APP_NAME_TMP=$MENU_ITEM # Save jed <OPTIONS>.
+      APP_NAME="jed-extra"  # Install jed-extra package before running/installing jed.
+      f_application_install_question
+      APP_NAME=$APP_NAME_TMP
+} # End of function f_jed
+#
+# +----------------------------------------+
+# |             Function f_joe             |
+# +----------------------------------------+
+#
+f_joe () {
+      clear # Blank the screen.
+      echo "joe - Text editor with 5 emulations of other text editors"
+      echo
+      echo "Usage:" 
+      echo "Regular Usage mode : joe [global-options] [ [local-options] filename ]..."
+      echo " WordStar emulation: jstar [global-options] [ [local-options] filename ]..."
+      echo "GNU-Emacs emulation: jmacs [global-options] [ [local-options] filename ]..."
+      echo "    Restricted mode: rjoe [global-options] [ [local-options] filename ]..."
+      echo "     PICO emulation: jpico [global-options] [ [local-options] filename ]..."
+      echo
+      echo "Available at: www.sourceforge.net/projects/joe-editor."
+      echo
+      echo "*** For more help type: 'man joe'"
+      echo "                        'joe --help'"
+      f_press_enter_key_to_continue
+} # End of function f_joe
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_encryption  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFE, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_encryption () {
+      f_initvars_menu_app
+      until [ $MFE -eq 0 ]
+      do    # Start of File Encryption Applications until loop.
+#0^0^0^0^1 #MFE bcrypt    - Uses the blowfish encryption algorithm.
+#0^0^0^0^1 #MFE ccrypt    - Uses the Rijndael cipher algorithm.
+#0^0^0^0^1 #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
+#0^0^0^0^1 #MFE gnupg     - Gnu Privacy Guard symmetetric encryption/decryption.
+#0^0^0^0^1 #MFE lspgpot   - Extracts ownertrust values from PGP keyrings.
+#0^0^0^0^1 #MFE mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
+#0^0^0^0^1 #MFE nasty     - Helps you to recover forgotten PGP/GPG pass-phrase.
+#0^0^0^0^1 #MFE pgp       - Pretty Good Privacy (pgp).
+#0^0^0^0^1 #MFE rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
+#0^0^0^0^1 #MFE scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
+#0^0^0^0^0 #MFE truecrypt - Program released under TrueCrypt License (not Open-source).
+#0^0^0^0^1 #MFE zcrypt    - Another crypt program.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Encryption Applications Menu"
+            DELIMITER="#MFE" #MFE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFE
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFE  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Encryption Applications until loop.
+            #
+      unset MFE MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_encryption
+#
+# +----------------------------------------+
+# |      Function f_menu_app_file_find     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFF, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_find () {
+      f_initvars_menu_app
+      until [ $MFF -eq 0 ]
+      do    # Start of Find File Applications until loop.
+#0^0^0^0^1 #MFF duff         - Duplicate file finder.
+#0^0^0^0^1 #MFF fdupes       - Finds duplicate files uses md5sum and byte comparisons.
+#0^0^0^0^1 #MFF file         - Determines file type.
+#1^0^0^0^1 #MFF find         - Find files using pattern matching.
+#1^0^0^0^1 #MFF locate       - Find files using an internal database, mlocate.
+#0^0^0^0^1 #MFF missidentify - Finds win32 applications.
+#0^0^0^0^1 #MFF rdfind       - Find duplicate files.
+#0^0^0^0^1 #MFF rrep         - Replace text in files.
+#0^0^0^0^1 #MFF updatedb     - Update the internal database, mlocate, used by locate.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="Find File Applications Menu"
+            DELIMITER="#MFF" #MFF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFF
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFF  # Outputs $MENU_ITEM.
+            #
+      done  # End of Find File Applications until loop.
+            #
+      unset MFF MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_find
+#
+# +----------------------------------------+
+# |            Function f_find             |
+# +----------------------------------------+
+#
+f_find () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "find - Find and search for files."
+         echo
+         echo "Usage:"
+         echo "find [-H] [-L] [-P] [-D debugopts] [-Olevel] [path...] [expression]"
+         echo
+         echo "Example: find file with name *test-file* in directory /home/user/."
+         echo "find -iname /home/user/ *\"test-file1\"*"
+         echo
+         echo "Example: find file and then delete it."
+         echo "find  -iname /home/user/ *\"test-file\"* -exec rm '{}' +"
+         echo
+         echo "*** For more help type: 'man find'"
+         echo "                        'find --help'"
+         echo
+         echo "Now run find. Usage: find --help"
+         APP_NAME="find --help"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_find
+#
+# +----------------------------------------+
+# |           Function f_locate            |
+# +----------------------------------------+
+#
+f_locate () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "locate - Find and search for files."
+         echo
+         echo "The locate command is dependent on an up-to-date database, mlocate."
+         echo "To update the mlocate database, run the command, 'updatedb'."
+         echo
+         echo "Usage: locate [OPTION]... [PATTERN]..."
+         echo "Search for entries in a mlocate database (/var/lib/mlocate/mlocate.db)"
+         echo
+         echo "Example: find all text files in the /usr directory."
+         echo "locate /usr/*.txt"
+         echo
+         echo "Example: find file with name *test-file* in directory /home/user/."
+         echo "locate /home/user/*test-file*"
+         echo
+         echo "*** For more help type: 'man locate'" 
+         echo "                        'locate --help'"
+         echo
+         echo "Now run find. Usage: locate --help"
+         APP_NAME="locate --help"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_locate
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_tranfer     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFT, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_transfer () {
+      f_initvars_menu_app
+      until [ $MFT -eq 0 ]
+      do    # Start of File Transfer Applications until loop.
+#0^0^0^0^1 #MFT cmdftp - File transfer client.
+#0^0^0^0^1 #MFT curl   - File transfer.
+#0^0^0^0^1 #MFT ftp    - File transfer.
+#0^0^0^0^1 #MFT ftpfs  - File transfer client.
+#0^0^0^0^1 #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
+#0^0^0^0^1 #MFT ncftp  - File transfer client.
+#0^0^0^0^1 #MFT scp    - File transfer.
+#0^0^0^0^1 #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Transfer Applications Menu"
+            DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFT
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFT  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Transfer Applications until loop.
+            #
+      unset MFT MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_transfer
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_managers   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_managers () {
+      f_initvars_menu_app
+      until [ $MFM -eq 0 ]
+      do    # Start of File Manager Applications until loop.
+#0^0^0^17^1 #MFM clex     - File manager.
+#0^0^0^0^1 #MFM detox    - File name clean up.
+#0^0^0^0^1 #MFM dired    - File manager for Emacs.
+#0^0^0^0^1 #MFM exiftool - Display jpeg file properties in ls-like format.
+#0^0^0^0^1 #MFM findmnt  - Find a filesystem.
+#0^0^0^0^1 #MFM jhead    - Display jpeg file properties.
+#0^0^0^0^0 #MFM lfm      - "Last File Manager", "Midnight Commander"-like.
+#0^0^0^0^0 #MFM mc       - File Manager, "Midnight Commander".
+#0^0^0^0^0 #MFM ncdt     - Display directory tree with tree summary, MP3 file information.
+#0^0^0^0^0 #MFM pilot    - Simple file browser from Aline.
+#0^0^0^1^0 #MFM ranger   - File manager.
+#0^0^0^0^1 #MFM smbc     - Samba file manager for folder shares with Microsoft Windows.
+#0^0^0^0^0 #MFM vfu      - File manager, ncurses-based.
+#0^0^0^14^0 #MFM vifm     - File manager with vi-like commands.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Manager Applications Menu"
+            DELIMITER="#MFM" #MFM This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFM
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFM  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Manager Applications until loop.
+            #
+      unset MFM MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_file_managers
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_operations  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFO, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_operations () {
+      f_initvars_menu_app
+      until [ $MFO -eq 0 ]
+      do    # Start of File Operations Applications until loop.
+#0^0^0^0^1 #MFO dtrx      - Use tar without remembering which flags for each file to use.
+#0^0^0^0^1 #MFO rsync     - File backup, mirror, directories and files.
+#0^0^0^0^1 #MFO tar       - File backup, compress files.
+#0^0^0^0^1 #MFO --------- - ---------------------------------------------------------------
+#0^0^0^0^1 #MFO advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+#0^0^0^0^1 #MFO cdargs    - 'cd' with bookmarks, can bookmark paths of directories.
+#0^0^0^0^1 #MFO mmv       - Move/copy/append/link multiple files using wildcard patterns.
+#0^0^0^0^1 #MFO mrename   - Scripts to rename many files automatically.
+#0^0^0^0^1 #MFO xd        - Smart 'cd' change directory; uses abbreviated directory names.
+#0^0^0^0^1 #MFO --------- - ---------------------------------------------------------------
+#f_menu_app_file_delundel^0^0^0^1 #MFO Del/Undel - Delete/Undelete utilities for disks and files.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Operations Applications Menu"
+            DELIMITER="#MFO" #MFO This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFO
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFO  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Operations Applications until loop.
+            #
+      unset MFO MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_operations
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_delundel   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFD, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_delundel () {
+      f_initvars_menu_app
+      until [ $MFD -eq 0 ]
+      do    # Start of File Deletion/Undeletion Applications until loop.
+#0^0^0^0^1 #MFD shred       - Delete files securely without recovery.
+#0^0^0^0^1 #MFD scrub       - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
+#0^0^0^0^1 #MFD wipe        - Secure file deletion.
+#0^0^0^0^0 #MFD ----------- - -------------------------------------------------------------
+#0^0^0^0^1 #MFD dares       - Rescue data from damaged CDs/DVDs, ncurses-based.
+#0^0^0^0^1 #MFD ddrescue    - Rescue readable data from failing hard disk drives.
+#1^0^0^0^1 #MFD foremost    - File recovery from within a *.img disk image file.
+#0^0^0^0^1 #MFD magicrescue - Scans a block device, rescues files, partitions, disks.
+#0^0^0^0^1 #MFD myrescue    - Rescue data from failing disk drives; read good sectors first.
+#1^0^0^0^1 #MFD photorec    - File recovery.
+#1^0^0^0^1 #MFD safecopy    - File recovery.
+#0^0^0^0^1 #MFD safe-rm     - Protect files from rm deletion.
+#0^0^0^0^1 #MFD scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
+#0^0^0^0^1 #MFD trash-cli   - Remembers name, path, date, permissions of each trashed file.
+            #
+            MENU_TITLE="File Deletion/Undeletion Applications Menu"
+            DELIMITER="#MFD" #MFD This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFD
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFD  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Deletion/Undeletion Applications until loop.
+            #
+      unset MFD MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_delundel
+#
+# +----------------------------------------+
+# |          Function f_foremost           |
+# +----------------------------------------+
+#
+f_foremost () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "foremost - Recover deleted files."
+         echo
+         echo "Usage:"
+         echo "foremost [-h] [-V] [-d] [-vqwQT] [-b <blocksize>] [-o <dir>] [-t <type>]"
+         echo "         [-s <num>] [-i <file>]"
+         echo
+         echo "Recovers these file-types: jpg, gif, png, bmp, avi, exe, mpg, wav, riff," 
+         echo "wmv, mov, pdf, ole, doc, zip, rar, htm, cpp."
+         echo
+         echo "Run the default case"
+         echo "foremost image.dd"
+         echo
+         echo "Search all defined types"
+         echo "foremost -t all -i image.dd"
+         echo
+         echo "Search for gif and pdf's"
+         echo "foremost -t gif,pdf -i image.dd"
+         echo
+         echo "*** For more help type: 'man foremost'"
+         echo "                        'foremost --help'"
+         echo
+         echo "Now run find. Usage: foremost --help"
+         APP_NAME="foremost --help"
+         f_press_enter_key_to_continue
+      fi
+} #End of function f_foremost
+#
+# +----------------------------------------+
+# |          Function f_photorec           |
+# +----------------------------------------+
+#
+f_photorec () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "photorec - Recover lost files from harddisk, digital camera and cdrom."
+         echo
+         echo "Usage:"
+         echo "photorec [/log] [/debug] [/d recup_dir] [device|image.dd|image.e01]"
+         echo
+         echo           "OPTIONS"
+         echo "         /log   create a photorec.log file"
+         echo "         /debug add debug information"
+         echo
+         echo "*** For more help type: 'man photorec'"
+         echo "                        'photorec --help'"
+         echo
+         echo "Now run photorec. Usage: photorec --help"
+         APP_NAME="photorec --help"
+         f_press_enter_key_to_continue
+      fi
+} #End of function f_photorec
+#
+# +----------------------------------------+
+# |          Function f_safecopy           |
+# +----------------------------------------+
+#
+f_safecopy () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "safecopy - Recover lost data."
+         echo
+         echo "Usage:"
+         echo "safecopy [OPTIONS] <SOURCE> <TARGET>"
+         echo
+         echo "*** For more help type: 'man safecopy'" 
+         echo "                        'safecopy --help'"
+         echo
+         echo "Now run safecopy. Usage: safecopy --help"
+         APP_NAME="safecopy --help"
+         f_press_enter_key_to_continue
+      fi
+} #End of function f_safecopy
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_splitters   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFS, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_splitters () {
+      f_initvars_menu_app
+      until [ $MFS -eq 0 ]
+      do    # Start of File Splitter Applications until loop.
+#0^0^0^0^1 #MFS hoz     - File splitter using hacha file format.
+#0^0^0^0^1 #MFS lxsplit - Splits/Joins files even greater than 2GB.
+#0^0^0^0^1 #MFS slice   - Divides ASCII file w/delimiters into possibly overlapping slices.
+#1^0^0^0^1 #MFS split   - Splits/Joins files.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Splitter Applications Menu"
+            DELIMITER="#MFS" #MFS This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFS
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFS  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Splitter Applications until loop.
+            #
+      unset MFS MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_splitters
+#
+# +----------------------------------------+
+# |           Function f_split             |
+# +----------------------------------------+
+#
+f_split () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "split - Split files into smaller pieces."
+         echo
+         echo "Usage:"
+         echo "split [OPTION]... [FILENAME] [PREFIX]"
+         echo "split --bytes=1K LIST_APPS LIST_APPS_"
+         echo       "will result in LIST_APPS_aa, LIST_APPS_ab, LIST_APPS_ac ..." 
+         echo       "with each resulting file size being 1024 bytes."
+         echo
+         echo "Output  fixed-size  pieces of INPUT to PREFIXaa, PREFIXab, ...; default"
+         echo "size is 1000 lines, and default PREFIX is 'x'.  With no INPUT, or  when"
+         echo "INPUT is -, read standard input."
+         echo
+         echo "*** For more help type: 'man split'" 
+         echo "                        'split --help'"
+         echo
+         echo -n "Enter name of text file to split: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            echo
+            echo "Missing filename."
+            echo "Usage: split <filename> <filename><prefix>"
+            echo
+            echo "Now run split. Usage: split --help"
+            # When run without a filename, usage instructions appear.
+            APP_NAME="split --help"
+            f_press_enter_key_to_continue
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="split $ANS"
+            X="$ANS"
+            echo
+            echo -n "Enter [OPTIONS] \"-n 3\" (split into 3 parts); \"--bytes=1KB\" (split into 1000 byte parts)."
+            read ANS
+            APP_NAME="$APP_NAME $ANS"
+            echo
+            echo -n "Enter name of prefix: ( '$ANS_' ) "
+            read ANS
+            if [ -z $ANS ] ; then   #String has zero length.
+               APP_NAME="$APP_NAME $X_"
+            else
+               APP_NAME="$APP_NAME $ANS"
+            fi
+         else
+            echo "The file $ANS is either missing or cannot be read."
+            f_press_enter_key_to_continue
+            APP_NAME=""
+         fi
+      fi
+} #End of function f_split
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_viewers    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFV, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER
+#
+f_menu_app_file_viewers () {
+      f_initvars_menu_app
+      until [ $MFV -eq 0 ]
+      do    # Start of File Viewer Applications until loop.
+#1^0^0^0^0 #MFV less - File viewer and bi-directional pager.
+#1^0^0^0^0 #MFV more - File viewer pager.
+#0^0^0^0^1 #MFV most - File viewer and bi-directional pager.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Viewer Applications Menu"
+            DELIMITER="#MFV" #MFV This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MFV
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MFV  # Outputs $MENU_ITEM.
+            #
+      done  # End of File Viewer Applications until loop.
+            #
+      unset MFV MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_viewers
+#
+# +----------------------------------------+
+# |           Function f_less              |
+# +----------------------------------------+
+#
+f_less () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "less - Bi-directional pager for viewing text files."
+         echo
+         echo "Usage:"
+         echo "less [OPTION]... [FILENAME]"
+         echo
+         echo "Usage:"
+         echo "less -P 'Page '%dB' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' LIST_APPS"
+         echo
+         echo "*** For more help type: 'man less'" 
+         echo "                        'less --help'"
+         echo
+         echo "Now run less (without options). Usage: less <filename>."
+         echo
+         echo -n "Enter name of text file to view: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            echo
+            echo "Missing filename."
+            echo "Usage: less <filename>"
+            echo
+            echo "Now run less. Usage: less --help"
+            echo
+            APP_NAME="less --help"
+            f_press_enter_key_to_continue
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="less $ANS"
+         else
+            echo "The file $ANS is either missing or cannot be read."
+            f_press_enter_key_to_continue
+         fi
+      fi
+} #End of function f_less
+#
+#
+# +----------------------------------------+
+# |           Function f_more              |
+# +----------------------------------------+
+#
+f_more () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "more - Uni-directional pager for viewing text files."
+         echo
+         echo "Options:"
+         echo "  -d        display help instead of ring bell"
+         echo "  -f        count logical, rather than screen lines"
+         echo "  -l        suppress pause after form feed"
+         echo "  -p        suppress scroll, clean screen and disblay text"
+         echo "  -c        suppress scroll, display text and clean line ends"
+         echo "  -u        suppress underlining"
+         echo "  -s        squeeze multiple blank lines into one"
+         echo "  -NUM      specify the number of lines per screenful"
+         echo "  +NUM      display file beginning from line number NUM"
+         echo "  +/STRING  display file beginning from search string match"
+         echo "  -V        output version information and exit"
+         echo
+         echo "Usage:"
+         echo "more [OPTION]... [FILENAME]"
+         echo
+         echo "*** For more help type: 'man more'" 
+         echo "                        'more --help'"
+         echo
+         echo "Now run more (without options). Usage: more <filename>."
+         echo
+         echo -n "Enter name of text file to view: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            echo
+            echo "Missing filename."
+            echo "Usage: more <filename>"
+            echo
+            echo "Now run more. Usage: more --help"
+            echo
+            # When run without a filename, usage instructions appear.
+            f_press_enter_key_to_continue
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="more $ANS"
+         else
+            echo "The file $ANS is either missing or cannot be read."
+            f_press_enter_key_to_continue
+         fi
+      fi
+} #End of function f_more
+#

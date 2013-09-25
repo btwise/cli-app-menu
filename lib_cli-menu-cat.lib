@@ -1,936 +1,117 @@
+
 # ©2013 Copyright 2013 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-07-2013 12:56"
+# REVDATE="September-20-2013 02:05"
 #
-# +----------------------------------------+
-# |  Function f_menu_scat_sample_template  |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_scat_sample_template () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
-      do    # Start of <Sample Template> Application Category until loop.
-            #BXC App Cat1
-            #BXC App Cat2
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="<Sample Template> Application Category Menu"
-            DELIMITER="#BXC" #BXC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            ERROR=0 # Reset error flag.
-            #
-            case $CHOICE_SCAT in # Start of <Sample Template> Application Category case statement.
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
-                 f_menu_cat_name1             # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][2]) 
-                 f_menu_cat_name2             # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of <Sample Template> Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of <Sample Template> Application Category until loop.
-} # End of function f_menu_scat_sample_template
-#
-# +----------------------------------------+
-# |  Function f_menu_tcat_sample_template  |
-# +----------------------------------------+
+# ******************************************
+# *****   Application Categories Menu  *****
+# ******************************************
 #
 #  Inputs: None
-#    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
-#
-f_menu_tcat_sample_template () {
-      f_initvars_menu_app
-      until [ $CHOICE_TCAT -eq 0 ] 
-      do    # Start of <Sample Template> Application Category until loop.
-            #BXC App Cat1
-            #BXC App Cat2
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="<Sample Template> Application Category Menu"
-            DELIMITER="#BXC" #BXC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_TCAT
-            #
-            f_common_tcat_menu
-            ERROR=0 # Reset error flag.
-            #
-            case $CHOICE_TCAT in # Start of <Sample Template> Application Category case statement.
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][1])
-                 f_menu_cat_name1             # Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Aa] | [Aa][Pp] | [Aa][Pp][Pp] | [Aa][Pp][Pp]' ' | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa] | [Aa][Pp][Pp]' '[Cc][Aa][Tt] | [Aa][Pp][Pp]' '[Cc][Aa][Tt][2]) 
-                 f_menu_cat_name2             # Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of <Sample Template> Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_tcat_bad_menu_choice
-      done  # End of <Sample Template> Application Category until loop.
-} # End of function f_menu_tcat_sample_template
-#
-# **************************************
-# ***   Application Categories Menu  ***
-# **************************************
-#
-# Inputs: CHOICE_CAT, MAX.
+#    Uses: AAB, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
 #
 f_menu_cat_applications () {
       f_initvars_menu_app
-      until [ $CHOICE_CAT -eq 0 ]
+      until [ $AAB -eq 0 ]
       do    # Start of Application Category until loop.
-            #AAB Audio        - Music players, editors, utilities.
-            #AAB Education    - Learn something.
-            #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
-            #AAB Games        - Fun time!
-            #AAB Image        - View images and graphics files.
-            #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
-            #AAB Network      - Wireless connection, network monitoring, tools.
-            #AAB Office       - Editors, spreadsheets, presenters, organizers, calcs, acctg.
-            #AAB Screen-saver - For when you're away.
-            #AAB System       - Monitor system processes, resources, utilities, etc.
-            #AAB Video        - Video players, editors, utilities.
+            #mod_apps-audio.lib       #AAB Audio        - Music players, editors, utilities.
+            #mod_apps-databases.lib   #AAB Databases    - General and specialized databases.
+            #mod_apps-education.lib   #AAB Education    - Learn something.
+            #mod_apps-filedir.lib     #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
+            #mod_apps-games.lib       #AAB Games        - Fun time!
+            #mod_apps-image.lib       #AAB Image        - View images and graphics files.
+            #mod_apps-internet.lib    #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
+            #mod_apps-network.lib     #AAB Network      - Wireless connection, network monitoring, tools.
+            #mod_apps-office.lib      #AAB Office       - Editors, spreadsheets, presenter, organize, calcs, acctg.
+            #mod_apps-screensaver.lib #AAB Screen-saver - For when you're away.
+            #mod_apps-system.lib      #AAB System       - Monitor system processes, resources, utilities, etc.
+            #mod_apps-video.lib       #AAB Video        - Video players, editors, utilities.
             #
             THIS_FILE="lib_cli-menu-cat.lib"
             MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
+            . lib_cli-common.lib
             f_show_menu $MENU_TITLE $DELIMITER 
             #
-            read CHOICE_CAT
+            read AAB
             #
-            f_application_help
+            f_cat_menu_item_process $AAB  # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
             #
-            case $CHOICE_CAT in 
-                 # Quit?
-                 0) 
-                 CHOICE_CAT=0
-                 ;;
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-                 CHOICE_CAT=0
-                 ;;
-                 [1-9] | [1-9][0-9])
-                 if [  $CHOICE_CAT -ge 1 -a $CHOICE_CAT -le $MAX ] ; then
-                    CHOICE_CAT=${CHOICE[$CHOICE_CAT]}
-                 fi
-                 ;;
-            esac
-            #
-            case $CHOICE_CAT in # Start of Application Category case statement.
+            case $MENU_ITEM in  # Start of Application Category case statement.
                  [Aa] | [Aa][Uu]*)
+                 MOD_FILE="mod_apps-audio.lib"
+                 f_download_file
                  f_menu_cat_audio             # Audio Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Dd] | [Dd][Aa]*)
+                 MOD_FILE="mod_apps-databases.lib"
+                 f_download_file
+                 f_menu_app_databases         # Database Applications Menu.
                  ;;
                  [Ee] | [Ee][Dd]*)
+                 MOD_FILE="mod_apps-education.lib"
+                 f_download_file
                  f_menu_app_education         # Education Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ff] | [Ff][Ii]*)
+                 MOD_FILE="mod_apps-filedir.lib"
+                 f_download_file
                  f_menu_cat_file_management   # File Management Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Gg] | [Gg][Aa]*)
+                 MOD_FILE="mod_apps-games.lib"
+                 f_download_file
                  f_menu_cat_games             # Games Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ii] | [Ii][Mm]*)
+                 MOD_FILE="mod_apps-image.lib"
+                 f_download_file
                  f_menu_cat_image             # Image-Graphics Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ii] | [Ii][Nn]*)
+                 MOD_FILE="mod_apps-internet.lib"
+                 f_download_file
                  f_menu_cat_internet          # Internet Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Nn] | [Nn][Ee]*)
+                 MOD_FILE="mod_apps-network.lib"
+                 f_download_file
                  f_menu_cat_network           # Network Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Oo] | [Oo][Ff]*)
+                 MOD_FILE="mod_apps-office.lib"
+                 f_download_file
                  f_menu_cat_office            # Office Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Cc]*)
+                 MOD_FILE="mod_apps-screensaver.lib"
+                 f_download_file
                  f_menu_app_screen_savers     # Screen-saver Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Ss] | [Ss][Yy]*)
+                 MOD_FILE="mod_apps-system.lib"
+                 f_download_file
                  f_menu_cat_system            # System Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
                  [Vv] | [Vv][Ii]*)
+                 MOD_FILE="mod_apps-video.lib"
+                 f_download_file
                  f_menu_cat_video             # Video Applications Menu.
-                 CHOICE_CAT=-1                # Legitimate response. Stay in menu loop.
                  ;;
             esac # End of Application Category case statement.
             #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM
+            #
+            AAB=$MENU_ITEM  # Outputs $MENU_ITEM.
+            #
       done  # End of Application Category until loop.
+            #
+      unset AAB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_applications
 #
-# +----------------------------------------+
-# |        Function f_menu_cat_audio       |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_audio () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
-      do    # Start of Audio Application Category until loop.
-            #BAU CD Rippers         - Copy music off CD-ROM to files.
-            #BAU Editors/Converters - Edit music files and convert to different file formats.
-            #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
-            #BAU Radio              - Listen to Internet radio stations.
-            #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Audio Application Category Menu"
-            DELIMITER="#BAU" #BAU This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            ERROR=0 # Reset error flag.
-            #
-            case $CHOICE_SCAT in # Start of Audio Application Category case statement.
-                 [Cc] | [Cc][Dd]*)
-                 f_menu_app_cdrippers         # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ee] | [Ee][Dd]*)
-                 f_menu_app_audio_editors     # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Mm] | [Mm][Uu]*)
-                 f_menu_app_music_players     # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Rr] | [Rr][Aa]*)
-                 f_menu_app_radio             # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Pp]*)
-                 f_menu_app_speech_synthesis  # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Audio Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Audio Application Category until loop.
-} # End of function f_menu_cat_audio
-#
-# +----------------------------------------+
-# |  Function f_menu_cat_file_management   |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_file_management () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
-      do    # Start of File Management Application Category until loop.
-            #BFM Backup      - File Backup/archive.
-            #BFM CD/DVD Burn - Write files to CD/DVD.
-            #BFM Compare     - Show differences between text files.
-            #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
-            #BFM Delete      - Secure deletion of files without recovery.
-            #BFM Edit        - Create/Edit text files.
-            #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
-            #BFM Find        - File search.
-            #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
-            #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
-            #BFM Splitters   - File splitters.
-            #BFM Undelete    - Recover deleted files.
-            #BFM Viewers     - View files a page at a time.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="File Management Application Category Menu"
-            DELIMITER="#BFM" #BFM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of Application Category case statement.
-                 [Bb] | [Bb][Aa]*)
-                 f_menu_app_sys_backup        # System Backup Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Cc] | [Cc][Dd]*)
-                 f_menu_app_file_burn         # File Burn Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Aa]*)
-                 f_menu_app_text_compare      # Text Compare Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;               
-                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm] | [Cc][Oo][Mm][Pp] | [Cc][Oo][Mm][Pp][Rr]*)
-                 f_menu_app_file_compression  # File Burn Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Dd] | [Dd][Ee]*)
-                 f_menu_app_file_deletion     # File Deletion Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ee] | [Ee][Dd]*)
-                 f_menu_app_text_editors      # Text Editor Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ee] | [Ee][Nn]*)
-                 f_menu_app_file_encryption   # File Encryption Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ff] | [Ff][Ii]*)
-                 f_menu_app_file_find         # File Find Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ff] | [Ff][Tt]*)
-                 f_menu_app_file_transfer     # File Transfer Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Mm] | [Mm][Aa]*)
-                 f_menu_app_file_managers     # File Manager Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Pp]*) 
-                 f_menu_app_file_splitters    # File Viewers Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Uu] | [Uu][Nn]*)
-                 f_menu_app_file_recover      # File Recovery Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Vv] | [Vv][Ii]*)
-                 f_menu_app_file_viewers      # File Viewers Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of File Management Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of File Management Application Category until loop.
-} # End of function f_menu_cat_file_management
-#
-# +----------------------------------------+
-# |       Function f_menu_cat_games        |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_games () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ]
-      do    # Start of Application Category until loop.
-            #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
-            #BGA Board Games    - Classic board games.
-            #BGA Card Games     - Played with a deck of playing cards.
-            #BGA MUD Games      - Multi-user dungeon adventure games.
-            #BGA Puzzles        - Tetris-clones, create punch card/paper tape codes.
-            #BGA Quiz Games     - Challenge your mind.
-            #BGA RPG Games      - Single-player role-playing games.
-            #BGA Sims/Anims     - Simulations and animations. ASCII movies.
-            #BGA Strategy Games - 1-2 Players.
-            #BGA Word Games     - Boggle, hangman, pig-latin, create banners.
-            #
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Games Category Menu"
-            DELIMITER="#BGA" #BGA This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of Game Category case statement.
-                 [Aa] | [Aa][Rr]*)
-                 f_menu_app_games_arcade      # Arcade Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Bb] | [Bb][Oo]*)
-                 f_menu_app_games_board       # Board Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Cc] | [Cc][Aa]*)
-                 f_menu_app_games_card        # Card Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Mm] | [Mm][Uu]*)
-                 f_menu_app_games_mud         # Mud Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Uu]*)
-                 f_menu_app_games_puzzle      # Puzzle Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Qq] | [Qq][Uu]*)
-                 f_menu_app_games_quiz        # Quiz Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Rr] | [Rr][Pp]*)
-                 f_menu_app_games_rpg         # Role Playing Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Ii]*)
-                 f_menu_app_games_simulation  # Simulation Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Tt]*)
-                 f_menu_app_games_strategy    # Strategy Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ww] | [Ww][Oo]*)
-                 f_menu_app_games_word        # Word Games Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Game Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Game Category until loop.
-} # End of function f_menu_cat_games
-#
-# +----------------------------------------+
-# |       Function f_menu_cat_image        |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_image () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
-      do    # Start of Image Application Category until loop.
-            #BIG ImageMagick - Tools to manipulate images.
-            #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Image Application Category Menu"
-            DELIMITER="#BIG" #BIG This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of Image Application Category case statement.
-                 [Ii] | [Ii][Mm]*)
-                 f_menu_app_imagemagick       # ImageMagic Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Tt] | [Tt][Oo]*)
-                 f_menu_app_image_graphics    # Image Graphics Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Image Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Image Application Category until loop.
-} # End of function f_menu_cat_image
-#
-# +----------------------------------------+
-# |      Function f_menu_cat_internet      |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_internet () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ]
-      do    # Start of Internet Category until loop.
-            #BIN Bittorrent        - File transfer.
-            #BIN Downloaders       - Download files and calculate file checksums. 
-            #BIN Email             - Email clients.
-            #BIN FAX               - FAX clients.
-            #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
-            #BIN Instant Messaging - AIM/ICQ, Yahoo!, MSN, IRC, Jabber/XMPP/Google Talk...
-            #BIN IRC Clients       - Internet Relay Chat clients.
-            #BIN LAN Chat          - Local Area Network Chat (not IRC).
-            #BIN News Readers      - Read USEnet news.
-            #BIN Podcatcher        - Podcaster readers.
-            #BIN Remote Connection - Connect to other PCs remotely.
-            #BIN RSS Feeders       - RSS news, messages.
-            #BIN Web Browsers      - Internet web  browsers.
-            #
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Internet Category Menu"
-            DELIMITER="#BIN" #BIN This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of Internet Category case statement.
-                 [Bb] | [Bb][Ii]*)
-                 f_menu_app_bittorrent        # Bittorrent Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Dd] | [Dd][Oo]*)
-                 f_menu_app_downloaders       # Downloaders Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ee] | [Ee][Mm]*)
-                 f_menu_app_email             # Email Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop. 
-                 ;;
-                 [Ff] | [Ff][Aa]*)
-                 f_menu_app_fax               # FAX Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ff] | [Ff][Tt]*)
-                 f_menu_app_file_transfer     # File Transfer Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ii] | [Ii][Nn]*)
-                 f_menu_app_instant_messaging #Instant Messaging Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ii] | [Ii][Rr]*)
-                 f_menu_app_irc_clients       # IRC Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ll] | [Ll][Aa]*)
-                 f_menu_app_lan_chat          # LAN Chat Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Nn] | [Nn][Ee]*)
-                 f_menu_app_news_readers      # News Readers Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Oo]*)
-                 f_menu_app_podcatchers       # Podcatcher Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
-                 f_menu_app_remote_connection # Remote Connection Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Rr] | [Rr][Ss]*)
-                 f_menu_app_rssfeeders        # RSS Feeder Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ww] | [Ww][Ee]*)
-                 f_menu_app_web_browsers      # Web Browser Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                # End of Internet Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Internet Category until loop.
-} # End of function f_menu_cat_internet
-#
-# +----------------------------------------+
-# |       Function f_menu_cat_network      |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_network () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ]
-      do    # Start of Network Application Category until loop.
-            #BNE Firewalls    - Configure firewalls.
-            #BNE LAN-WAN      - Test network connectivity, speed, routing.
-            #BNE Monitors     - LAN monitors, network mappers.
-            #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
-            #BNE Packet Tools - Packet sniffers, packet analyzers.
-            #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
-            #
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Network Application Category Menu"
-            DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of Network Application Category case statement.
-                 [Ff] | [Ff][Ii]*)
-                 f_menu_app_firewalls         # Firewall Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ll] | [Ll][Aa]*)
-                 f_menu_app_lanwan            # LANWAN Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 f_menu_tcat_network_monitors # Network Monitors Category Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Nn] | [Nn][Ii]*)
-                 f_menu_app_nic_tools         # NIC Tools Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Aa]*)
-                 f_menu_app_packet_tools      # Packet Tools Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Hh]*)
-                 f_menu_app_network_sharing   # Network Sharing Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                # End of Network Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Network Application Category until loop.
-} # End of function f_menu_cat_network
-#
-# +----------------------------------------+
-# |  Function f_menu_tcat_network_monitors |
-# +----------------------------------------+
-#
-#  Inputs: None
-#    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
-#
-f_menu_tcat_network_monitors () {
-      f_initvars_menu_app
-      until [ $CHOICE_TCAT -eq 0 ] 
-      do    # Start of Network Monitor Application Category until loop.
-            #BNM Bandwidth - Bandwidth monitors.
-            #BNM Structure - Management, status, connections, devices, hosts.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Network Monitor Application Category Menu"
-            DELIMITER="#BNM" #BNM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_TCAT
-            #
-            f_common_tcat_menu
-            ERROR=0 # Reset error flag.
-            #
-            case $CHOICE_TCAT in # Start of Network Monitor Application Category case statement.
-                 [Bb] | [Bb][Aa]*) 
-                 f_menu_app_network_bandwidth # Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Tt]*) 
-                 f_menu_app_network_monitors  # Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Network Monitor Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_tcat_bad_menu_choice
-      done  # End of Network Monitor Application Category until loop.
-} # End of function f_menu_tcat_network_monitors
-#
-# +----------------------------------------+
-# |       Function f_menu_cat_office       |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_office () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
-      do    # Start of Office Application Category until loop.
-            #BOF Accounting   - Accounting (with with double-entry).
-            #BOF Calculators  - Simple "pocket" calculators.
-            #BOF Calendar     - Calendars.
-            #BOF Clocks       - Alarm clocks, specialized clocks.
-            #BOF Notebooks    - Write notes in a "notebook".
-            #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
-            #BOF Presenters   - Text slideshow presentation.
-            #BOF Spreadsheets - Basic spreadsheet.
-            #BOF Text         - Create/Edit text files, text format converters, etc.        
-            #BOF ToDo         - To-Do lists.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Office Application Category Menu"
-            DELIMITER="#BOF" #BOF This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of Office Application Category case statement.
-                 [Aa] | [Aa][Cc]*)
-                 f_menu_app_accounting        # Accounting Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Cc]*)
-                 f_menu_app_calculators       # Calculator Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Cc] | [Cc][Aa] | [Cc][Aa][Ll] | [Cc][Aa][Ll][Ee]*)
-                 f_menu_app_calendar          # Calendar Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Cc] | [Cc][Ll]*)
-                 f_menu_app_clocks            # Clock Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Nn] | [Nn][Oo]*)
-                 f_menu_app_note              # Note Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Dd]*)
-                 f_menu_app_pdfps             # PDF-PS Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Rr]*)
-                 f_menu_app_presentation      # Presentation Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Pp]*)
-                 f_menu_app_spreadsheets      # Spreadsheet Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Tt] | [Tt][Ee]*)
-                 f_menu_cat_text              # Text Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Tt] | [Tt][Oo]*)
-                 f_menu_app_todo
-                 CHOICE_SCAT=-1  # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Office Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Office Application Category until loop.
-} # End of function f_menu_cat_office
-#
-# +----------------------------------------+
-# |        Function f_menu_cat_system      |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_system () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ]
-      do    # Start of System Category until loop.
-            #BSY Backup      - File Backup.
-            #BSY Disks       - Disk information.
-            #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
-            #BSY Logs        - Log file viewers.
-            #BSY Mainboard   - Information on PC mainboard, memory, etc.
-            #BSY Monitors    - Resources, and disk I/O monitors.
-            #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
-            #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
-            #BSY Process     - System process monitoring, killing.
-            #BSY Screens     - Multiple screen sessions and terminal emulators.
-            #BSY Software    - (Un)Install and manage software packages (programs).
-            #
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="System Category Menu"
-            DELIMITER="#BSY" #BSY This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            f_application_help
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_SCAT in # Start of System Category case statement.
-                 [Bb] | [Bb][Aa]*)
-                 f_menu_app_sys_backup        # System Backup Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Dd] | [Dd][Ii]*)
-                 f_menu_app_sys_disks         # System Disks Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Hh] | [Hh][Ee]*)
-                 f_menu_app_sys_health        # System Health Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ll] | [Ll][Oo]*)
-                 f_menu_app_sys_logs          # System Logs Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Mm] | [Mm][Aa]*)
-                 f_menu_app_sys_mainboard     # System Mainboard Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Mm] | [Mm][Oo]*)
-                 f_menu_app_sys_monitors      # System Monitors Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Oo] | [Oo][Tt]*)
-                 f_menu_app_sys_other         # System Other Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Ee]*)
-                 f_menu_app_sys_peripherals   # System Peripherals Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Rr]*)
-                 f_menu_app_sys_process       # System Process Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Cc]*)
-                 f_menu_app_sys_screens       # System Screens Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ss] | [Ss][Oo]*)
-                 f_menu_app_sys_software      # System Software Applications Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of System Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of System Category until loop.
-} # End of function f_menu_cat_system
-#
-# +----------------------------------------+
-# |         Function f_menu_cat_text       |
-# +----------------------------------------+
-#
-#  Inputs: None
-#    Uses: CHOICE_TCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_TCAT
-#
-f_menu_cat_text () {
-      f_initvars_menu_app
-      until [ $CHOICE_TCAT -eq 0 ] 
-      do    # Start of Text Application Category until loop.
-            #BTX Compare    - Show differences between text files.
-            #BTX Converters - Convert between text document/file formats.
-            #BTX Editors    - Create/Edit text documents/files.
-            #BTX Tools      - Viewers,text markup language.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Text Application Category Menu"
-            DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_TCAT
-            #
-            f_common_tcat_menu
-            ERROR=0 # Reset error flag.
-            APP_NAME="" # Set application name to null value.
-            #
-            case $CHOICE_TCAT in # Start of Text Application Category case statement.
-                 [Cc] | [Cc][Oo] | [Cc][Oo][Mm]*)
-                 f_menu_app_text_compare      # Text Compare Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;               
-                 [Cc] | [Cc][Oo] | [Cc][Oo][Nn]*)
-                 f_menu_app_text_converters   # Text Converter Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Ee] | [Ee][Dd]*)
-                 f_menu_app_text_editors      # Text Editor Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Tt] | [Tt][Oo]*)
-                 f_menu_app_text_tools        # Text Tool Application Menu.
-                 CHOICE_TCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Text Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_tcat_bad_menu_choice
-      done  # End of Text Application Category until loop.
-} # End of function f_menu_cat_text
-#
-# +----------------------------------------+
-# |        Function f_menu_cat_video       |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: CHOICE_SCAT, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY, CHOICE_SCAT
-#
-f_menu_cat_video () {
-      f_initvars_menu_app
-      until [ $CHOICE_SCAT -eq 0 ] 
-      do    # Start of Video Application Category until loop.
-            #BVI Editors - Video editors, transcoders, converters.
-            #BVI Players - Video players/downloaders.
-            #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Video Application Category Menu"
-            DELIMITER="#BVI" #BVI This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
-            read CHOICE_SCAT
-            #
-            f_common_scat_menu
-            ERROR=0 # Reset error flag.
-            #
-            case $CHOICE_SCAT in # Start of Video Application Category case statement.
-                 [Ee] | [Ee][Dd]*)
-                 f_menu_app_video_editors     # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-                 [Pp] | [Pp][Ll]*)
-                 f_menu_app_video_players     # Application Menu.
-                 CHOICE_SCAT=-1               # Legitimate response. Stay in menu loop.
-                 ;;
-            esac                 # End of Video Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_scat_bad_menu_choice
-      done  # End of Video Application Category until loop.
-} # End of function f_menu_cat_video

@@ -1,0 +1,198 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="September-20-2013 02:05"
+#
+# +----------------------------------------+
+# |     Function f_menu_app_education      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MED, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_education () {
+      f_initvars_menu_app
+      until [ $MED -eq 0 ]
+      do    # Start of Education Applications until loop.
+#0^0^0^0^1 #MED diatheke    - Holy Bible research tool.
+#0^0^0^0^1 #MED grass       - GIS Map utility (Geographic Information System).
+#0^0^0^0^0 #MED gtypist     - Typing tutor displays a sentence for practice.
+#f_menu_app_hamradio^0^0^0^1 #MED Ham radio   - Morse code and Ham Radio applications.
+#0^0^0^0^1 #MED kon2        - Japanese Kanji characters on Linux Console.
+#0^0^0^0^1 #MED lifelines   - Geneology.
+#f_menu_app_math^0^0^0^1 #MED Mathematics - Mathematics, problems.
+#1^0^0^0^1 #MED metar       - Download METAR weather reports from NOAA HTTP servers.
+#0^0^0^0^1 #MED seesat5     - Compute the location of a satellite.
+#1^0^0^0^1 #MED tide        - CLI XTide gives tide/current forecasts. May need xtide-data.
+#0^0^0^0^1 #MED typespeed   - Typing tutor shows flying words arcade-style across screen.
+#1^0^0^0^1 #MED weather     - current weather conditions and forecasts.
+            #
+            THIS_FILE="mod_apps-education.lib"
+            MENU_TITLE="Education/Hobby Applications Menu"
+            DELIMITER="#MED" #MED This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER
+            #
+            read MED
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MED  # Outputs $MENU_ITEM.
+            #
+      done  # End of Education Applications until loop.
+            #
+      unset MED MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_education
+#
+# +----------------------------------------+
+# |            Function f_metar            |
+# +----------------------------------------+
+#
+f_metar () {
+      clear # Blank the screen.
+      echo "metar - Weather conditions from NOAA."
+      echo
+      echo "Usage:"
+      echo "metar [-dvh] stations"
+      echo
+      echo "For a list of stations go to URL:"
+      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
+      echo
+      echo "*** For more help type: 'man metar'"
+      echo "                        'metar --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_metar
+#
+# +----------------------------------------+
+# |            Function f_tide             |
+# +----------------------------------------+
+#
+f_tide () {
+      clear # Blank the screen.
+      echo "tide - Schedule of high/low tides."
+      echo
+      echo "Usage:"
+      echo "tide -l <location name> [OPTIONS]"
+      echo
+      echo "tide -l Boston -f t -m g"
+      echo
+      echo "[OPTIONS]"
+      echo "-f t - output format is text."
+      echo "-m g - mode is graphical."
+      echo
+      echo "*** For more help type: 'man tide'"
+      echo "                        'tide --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_tide
+#
+# +----------------------------------------+
+# |           Function f_weather           |
+# +----------------------------------------+
+#
+f_weather () {
+      clear # Blank the screen.
+      echo "weather - Weather conditions from NOAA." 
+      echo
+      echo "Home web page: http://fungi.yuggoth.org/weather/"
+      echo
+      echo "Usage:"
+      echo "weather [OPTIONS] stations"
+      echo
+      echo  "Stations:"
+      echo 
+      echo  "U.S. ZIP Code"
+      echo  "<longitude, latitude> i.e. '35-52n, 78-43w'"
+      echo
+      echo "[OPTIONS]"
+      echo "-a  --alert     Alerts"
+      echo "-f              Local forcast"
+      echo "    --imperial  Convert between metric and imperial units"
+      echo "-m              metric units"
+      echo
+      echo "For a list of stations go to URL:"
+      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
+      echo
+      echo "*** For more help type: 'man weather'"
+      echo "                        'weather --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_weather
+#
+# +----------------------------------------+
+# |      Function f_menu_app_hamradio      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: MHR, MENU_ITEM, MAX
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_hamradio () {
+      f_initvars_menu_app
+      until [ $MHR -eq 0 ]
+      do    # Start of Ham Radio Applications until loop.
+#0^0^0^0^0 #MHR aldo     - Morse code training.
+#0^0^0^10^0 #MHR cw       - Morse code training.
+#0^0^0^0^0 #MHR cwcp     - Morse code training; ncurses-based.
+#0^0^0^0^1 #MHR ebook2cw - Converts plain text ebooks to  morse code mp3/ogg audio files.
+#0^0^0^10^0 #MHR morse    - Morse code training.
+#0^0^0^0^1 #MHR morsegen - Converts text file to ASCII morse code.
+#0^0^0^0^1 #MHR qrq      - High-speed morse code trainer.
+#0^0^0^0^1 #MHR tlf      - Morse code cw keyer, logging and contest program.
+            #
+            MENU_TITLE="Ham Radio Applications Menu"
+            DELIMITER="#MHR" #MHR This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MHR
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MHR  # Outputs $MENU_ITEM.
+            #
+      done  # End of Ham Radio Applications until loop.
+            #
+      unset MHR MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_hamradio
+#
+# +----------------------------------------+
+# |        Function f_menu_app_math        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: MAA, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_math () {
+      f_initvars_menu_app
+      until [ $MMA -eq 0 ]
+      do    # Start of Mathematic Applications until loop.
+#0^0^0^10^0 #MMA arithmetic     - Basic arithmetic quiz.
+#0^0^0^0^1 #MMA axiom          - General purpose computer algebra system.
+#0^0^0^0^1 #MMA dicelab        - evaluate the statistical distribution of dice rolls.
+#0^0^0^0^1 #MMA mathomatic     - Portable CAS (Computer Algebra System)
+#0^0^0^0^1 #MMA ministat       - Fundamental statistical comparison of 1 or 2 data sets.
+#0^0^0^0^1 #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
+#0^0^0^0^1 #MMA open-axiom     - Open scientific computation platform.
+#0^0^0^0^1 #MMA plotutils      - Plot 2-dimensional scientific data.
+#0^0^0^0^1 #MMA pi             - Calculate Archimedes constant Pi to arbitrary precision.
+#0^0^0^0^1 #MMA primes         - Prime number calculator.
+#0^0^0^0^1 #MMA pspp           - Statistical analysis tool.
+#0^0^0^0^0 #MMA relational-cli - relational algebra and relational database.
+#0^0^0^0^1 #MMA stda           - Simple tools for data analysis.
+            #
+            MENU_TITLE="Mathematic Applications Menu"
+            DELIMITER="#MMA" #MMA This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu $MENU_TITLE $DELIMITER 
+            #
+            read MMA
+            #
+            . lib_cli-common.lib
+            f_menu_item_process $MMA  # Outputs $MENU_ITEM.
+            #
+      done  # End of Mathematic Applications until loop.
+            #
+      unset MMA MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_math
+#

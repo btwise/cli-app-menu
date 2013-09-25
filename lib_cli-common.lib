@@ -3,111 +3,129 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="August-19-2013 18:29"
-#
-# +----------------------------------------+
-# |      Function f_initvars_menu_app      |
-# +----------------------------------------+
-#
-f_initvars_menu_app () {
-      TCOLOR="black"
-      ERROR=0        # Initialize to 0 to indicate success at running last
-                     # command.
-      APP_NAME=""    # Initialize to null. String variable contains
-                     # application name.
-      CHOICE_MAIN=-1 # Initialize to -1 to force until loop without exiting
-                     # Main Menu.
-      CHOICE_CAT=-1  # Initialize to -1 to force until loop without exiting
-                     # Category Menu.
-      CHOICE_SCAT=-1 # Initialize to -1 to force until loop without exiting 
-                     # Sub-Category Menu.
-      CHOICE_TCAT=-1 # Initialize to -1 to force until loop without exiting 
-                     # 3rd-level Category Menu.
-      CHOICE_APP=-1  # Initialize to -1 to force until loop without exiting 
-                     # Applications Menu.
-      PRESS_KEY=1    # Display "Press 'Enter' key to continue."
-} # End of f_initvars_menu_app
+# REVDATE="September-25-2013 14:10"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
-#  Inputs: MENU_TITLE, DELIMITER, THIS_FILE, MAX.
+#  Inputs: MENU_TITLE, DELIMITER, THIS_DIR, THIS_FILE, MAX.
+#    Uses: XNUM
 # Outputs: MAX, XNUM.
 #
-f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
-#
+f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       clear # Blank the screen.
       f_term_color # Set terminal color.
       echo "--- $MENU_TITLE ---"
       echo
-      if [ $DELIMITER = "#AAA" ] ; then #AAA This 3rd field prevents awk from  printing this line into menu options.
+      if [ "$DELIMITER" = "#AAA" ] ; then
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
+      elif [ "$DELIMITER" = "#AAB" ] ; then 
+         echo " 0 - Return to Main Menu." # Option for Application Category Menu.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
       fi
       #
-      # The following command grep <pattern> <filename> | awk '{<if condition>{print field}}
+      # Calculate $MAX, the number of menu items using grep -c(ount) option.
+      # Count number of lines containing special comment marker string to get
+      # maximum item number.
+      #
+      MAX=$(grep $DELIMITER -c $THIS_DIR/$THIS_FILE)
+      #
+      # Subtract 1 since the line DELIMITER=<string> contains the 
+      # special comment marker but is not part of menu display.
+      #
+      MAX=$((MAX=$MAX-1))
+      #
+      # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
+      #
+      # The following command awk '{<if condition>{print field}}
       # will print the menu items. The command automatically calculates the
       # menu option numbers for you.
       #
-      # Search (grep) for all lines in this file containing the special comment
-      # marker string.
-      # Pass (pipe) results to awk which prints the second field delimited by
-      # the special comment string.
-      # awk will not print the second field if there is a third field (lines
-      # containing 2 special comment strings).
-      # The if statement conditional "($2&&!$3)" means if 2nd field exists and
-      # not a 3rd field, then print.
+      # if $DELIMITER is "#AAB" when the Application Category Menu is
+      # displayed, any modules that are not in the same directory as the menu
+      # script are in lighter font (normal font versus bold font).
+      # Else any other menu always has bold font and does not change fonts.
+      #
+      # To make the Application Category Menu font change bold/normal depending
+      # if a module is loaded (in the same directory) or not loaded:
+      # The for X in loop cycles through all the module file names.
+      # The for X in loop has awk which looks for "#AAB" 1 marker only, in file
+      # lib_cli-menu-cat.lib. The result is "# mod_apps_<module>.lib" and then
+      # this is piped to the second awk which strips away the "#" leaving only
+      # the file name.
+      #
+      # If the module file name exists/readable in the directory, then apply
+      # bold font, echo the item number and grep "AAB" which finds a single
+      # menu item, which is then piped to awk which prints out the item name
+      # and description. Else the module file name does not exist/not readable
+      # in the directory, then apply normal font and print menu item.
+      #
+      # if statement conditional "($2&&!$3)":
+      # Since the $DELIMITER is the special comment marker, then:
+      # if there is 1 marker (2 fields) then awk will print the menu item.
+      # if there are 2 markers (3 fields), then awk will not print anything.
       # This prevents the lines of code which set the $ DELIMITER variable from
-      # being printed as part of the menu.
+      # being printed as a menu item, because they purposely have 2 markers.
       #
-      # The menu option numbers are incremented by using any unset variable name
-      # (such as "XNUM") followed by "++",
-      # However, because XNUM is unset, it will increment from zero, whereas we
-      # want it to increment from one.
-      # To do this, we add one before XNUM so the expression is now "1+XNUM++".
-      # so numbering will always start at one. Interestingly the "++" increment
-      # command is only valid from within awk.
+      # The menu option numbers are incremented using a "let" command.
+      # First set XNUM=0 then in the for-loop, let "XNUM++".
+      # 
       #
-      MAX=$(grep $DELIMITER -c $THIS_FILE)
-      # Count number of lines containing special comment marker string to get
-      # maximum item number.
-      awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_FILE
+      if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
+         XNUM=0
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+         for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
+         do
+             let XNUM++
+             # Setting XSTR=$(...) strips the whitespace from the menu item. It's not grep/awk's fault.
+             # XSTR=$(grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
+             #
+             if [ -r $THIS_DIR/$X ] ; then  # X=<module file name> <Followed by whitespace>
+                echo -n $(tput bold) $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                # echo $(tput bold) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
+             else
+                echo -n $(tput sgr0) $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                # echo $(tput sgr0) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
+             fi
+         done
+      else
+         awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_DIR/$THIS_FILE
+      fi
+      #
       f_choice_array  # Create array to handle numeric answer to menu choices.
+                      # Caution: Also uses $XNUM which is used in for loop above.
       #
-      case $DELIMITER in
-           # Application Menu?
-           "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-3)) 
-              # Subtract 3 total since 3 lines of code not part of menu display,
-              # contain the special comment marker.
-              echo
-              echo "'0', Q/quit, to quit this script, $THIS_FILE."
-           ;; 
-           "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-2))
-              # Subtract 2 total since 2 lines of code not part of menu display,
-              # contain the special comment marker.
-           ;;
-           "#MWB") #MWB This 3rd field prevents awk from printing this line into menu options.
-              MAX=$((MAX=$MAX-3))
-              # Subtract 3 total since 3 lines of code not part of menu display,
-              # contain the special comment marker.
-              echo
-              echo "For help, type: '<application name> --help' or 'man <application name>'"
-              echo "Also accepts application options i.e. <application name> --version"
-           ;; 
-           "#M"* | "#B"*) # Only display help message in application menus.
-              # Do not display in application category menus or main menu.
-              MAX=$((MAX=$MAX-1))
-              # Subtract 1 total since 1 line of code to set $DELIMITER where
-              # contains the special comment marker.
-              echo
-              echo "For help, type: '<application name> --help' or 'man <application name>'"
-              echo "Also accepts application options i.e. <application name> --version"
-           ;;
-      esac
+         case $DELIMITER in
+              # Main Menu.
+              "#AAA")
+                 echo
+                 echo "'0', (Q)uit, to quit this script."
+              ;;
+              # Application Category Menus.
+              "#AAB")
+                 echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
+                 echo
+                 echo "'0', (R)eturn, to go back to Main Menu."
+              ;;
+              # Download Menu.
+              "#AAC")
+                 echo
+                 echo "'0', (R)eturn, to go back to Main Menu."
+              ;;
+              # Application Sub-category Menus
+              "#B"*) # Only display help message in Sub-category menus.
+                 echo
+                 echo "For help, type: '<application name> --help' or 'man <application name>'"
+              ;;
+              # Application Sub-category Menus or Application Menus.
+              "#M"* | "#B"*) # Only display help message in application menus.
+                 echo
+                 echo "For help, type: '<application name> --help' or 'man <application name>'"
+                 echo "Also accepts application options i.e. <application name> --version"
+              ;;
+         esac
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
 } # End of function f_show_menu
@@ -122,158 +140,493 @@ f_show_menu () { # function where $1=$MENU_TITLE $2=$DELIMITER
 #
 f_choice_array () {
       # declare -A CHOICE  # Commented out; do not need to declare the array.
-      unset CHOICE
+      unset CHOICE  # Throw out this variable.
       XNUM=1 # Initialize XNUM.
-      X=" "
-      # Code below rewritten to allow menu choice names consisting of 2 words. i.e. "ip addr", "ip route".
       #
-      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
-      # Set XSTR to first two words (delimited by "%" of menu choice name. 
-      # Example: Main menu option, "About CLI Menu" then XSTR="About%CLI" 
+      # 1. The 1st awk:
+      #    if-statement conditional "($2&&!$3)":
+      #    Since the $DELIMITER is the special comment marker, then:
+      #    if there is 1 marker (2 fields) then awk will print the 2nd field.
+      #    if there are 2 markers (3 fields), then awk will not print anything.
+      #    This prevents the lines of code which set the $ DELIMITER variable
+      #    from being printed as a menu item, since they have 2 markers.
+      #
+      # 2. The 2nd awk:
+      #    Prints the name of the menu item but not the description.
+      #
+      # 3. The 3rd awk:
+      #    If the name of the menu item is 2 or more words, just print the
+      #    first 2 words into array CHOICE[$XNUM] which is sufficient for case
+      #    pattern matching on that menu item choice.
+      #    Allow app names consisting of 2 words. i.e. "ip addr", "ip route".
+
+      #    The <space> between the words needs a substitution { print $1"%"$2 }
+      #    of a "%" for the <space> so awk will not separate the words into 2
+      #    different menu items, rather than 1 menu item having 2 words.
+      # 
+      #    Set XSTR to first two words (delimited by "%" of menu choice name).
+      #    Example: Main menu item, "Help and Features"
+      #    If not, CHOICE[n]="Help", CHOICE[n+1]="and"
+      #    rather than CHOICE[n]="Help and" (after substituting <space> for "%").
+      #                    
+      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_DIR/$THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'` # Use back-ticks to redirect, not single quotes.
+      #
+      # When creating CHOICE array, change XSTR="Help%and" to "Help and".
       do
-           XSTR=${XSTR/[%]/ }   # Substitute <space> for "%".
-           CHOICE[$XNUM]=$XSTR  # If Ubuntu or Ubuntu derived distro errors here,
-                                # cause is Ubuntu uses DASH instead of BASH shell.
-                                # Use "bash cli-menu-app.sh" 
-                                # instead of "sh cli-menu-app.sh".
-           XNUM=`expr $XNUM + 1`
+           XSTR=${XSTR/[%]/ }    # Substitute <space> for "%" to restore name.
+           CHOICE[$XNUM]=$XSTR   # 
+           XNUM=`expr $XNUM + 1` # Use back-ticks to redirect, not single quotes.
       done
+      #
+      unset XSTR  # Throw out this variable.
+      #
 } # End of f_choice_array
 #
 # +----------------------------------------+
-# |       Function f_common_scat_menu      |
+# |    Function f_cat_menu_item_process    |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_SCAT.
-# Outputs: CHOICE_SCAT.
+#  Inputs: $1, CHOICE[$MENU_ITEM], MAX.
+#    Uses: None.
+# Outputs: MENU_ITEM, PRESS_KEY.
 #
-f_common_scat_menu () {
-#
-      case $CHOICE_SCAT in
+f_cat_menu_item_process () {
+      MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
+                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+      case $MENU_ITEM in
            # Quit?
            0)
-           CHOICE_SCAT=0
-           PRESS_KEY=0
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           [1-9] | [1-9][0-9])
-           if [  $CHOICE_SCAT -ge 1 -a $CHOICE_SCAT -le $MAX ] ; then
-              CHOICE_SCAT=${CHOICE[$CHOICE_SCAT]}
+           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
+           if [  $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
            fi
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-           CHOICE_SCAT=0
-           PRESS_KEY=0
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
-} # End of function f_common_scat_menu
+} # End of f_cat_menu_item_process
 #
 # +----------------------------------------+
-# |       Function f_common_tcat_menu      |
+# |      Function f_menu_item_process      |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_TCAT, MAX, CHOICE[XNUM].
-# Outputs: CHOICE_TCAT.
+#  Inputs: $*, CHOICE[$MENU_ITEM], MAX.
+#          $* is the complete user-entered string passed as a set of arguments.
+#    Uses: None.
+# Outputs: None.
 #
-f_common_tcat_menu () {
-#
-      case $CHOICE_TCAT in
+f_menu_item_process () {
+      MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
+                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+                    #
+      case $MENU_ITEM in
            # Quit?
            0)
-           CHOICE_TCAT=0
-           PRESS_KEY=0
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           [1-9] | [1-9][0-9])
-           if [  $CHOICE_TCAT -ge 1 -a $CHOICE_TCAT -le $MAX ] ; then
-              CHOICE_TCAT=${CHOICE[$CHOICE_TCAT]}
+           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
+           if [  $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
            fi
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-           CHOICE_TCAT=0
-           PRESS_KEY=0
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
-} # End of function f_common_tcat_menu
+      f_application_help
+      ERROR=0 # Reset error flag.
+      #
+      if [ "$MENU_ITEM" != 0 -a -n "$MENU_ITEM" ] ; then
+         # Is MENU_ITEM a valid choice?
+         f_menu_item_valid # APP_NAME="" for invalid name.
+                           # APP_NAME=$MENU_ITEM_NAME for valid name.
+         #
+         if [ -n "$APP_NAME" ] ; then
+            f_menu_item_info
+            #
+            # Set PRESS_KEY default before any custom functions since they may also set PRESS_KEY.
+            f_press_key
+            #
+            # Specify 1st field of $MENU_ITEM_OPT for function #1.
+            f_eval_funct "$MENU_ITEM_OPT" 1
+            #
+            # Specify 2nd field of $MENU_ITEM_OPT for function #2.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            #
+            # How to quit?
+            # Do not check for Quit Clause if quitting out of
+            # a sub-menu after running an application.
+            if [ -n "$APP_NAME" ] ; then
+               f_quit_app_clause
+            fi
+            #
+            # Specify 3rd field of $MENU_ITEM_OPT for function #3.
+            f_eval_funct "$MENU_ITEM_OPT" 3
+            # Run application program.
+            # $APP_NAME="" when f_run_and_exit is run prior within function #1, #2, or #3.
+            if [ -n "$APP_NAME" ] ; then
+               f_application_run
+               MENU_ITEM_NAME="" # Null so f_application_run is not run twice
+               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
+            fi
+         fi
+      fi
+      # Trap bad menu choices, do not echo Press enter key to continue.
+      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+      #
+      DELIM=${DELIMITER/\#/}   # Strip off leading "#" of DELIMITER "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
+                               # The "\" treats "#" as a literal hash mark, not as a comment.
+      eval $DELIM=$MENU_ITEM   # Set M[A-Z][A-Z] = $MENU_ITEM
+                               # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
+                               #            0 if "Return to previous menu." Exit Menu loop.
+      #
+      # If application displays information, allow user to read it.
+      f_option_press_enter_key
+      #
+      unset X DELIM RUN MENU_ITEM PRESS_KEY
+      #
+} # End of function f_menu_item_process
 #
 # +----------------------------------------+
-# |       Function f_common_app_menu       |
+# |       Function f_menu_item_valid       |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_APP, MAX, CHOICE[XNUM].
-# Outputs: CHOICE_APP.
-f_common_app_menu () {
-      case $CHOICE_APP in
-           # Quit?
-           0)
-           CHOICE_APP=0
-           PRESS_KEY=0
+#  Inputs: DELIMITER, THIS_FILE, MENU_ITEM.
+#    Uses: XNUM, MENU_ITEM, MENU_ITEM_NAME.
+# Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME. (If invalid, then APPNAME is null).
+#
+f_menu_item_valid () {
+      # Get application name from menu.
+      XNUM=1
+      APP_NAME="" # Set application name to null value.
+      # Cycle through entire CHOICE[$XNUM] array to find matching $MENU_ITEM_NAME.
+      while [ $XNUM -ge 1 -a $XNUM -le $MAX ]
+      do
+            # If no "sudo" or any [OPTIONS] in command then convert MENU_ITEM to lower case.
+            # If command contains "sudo" or any [OPTIONS] then don't touch.
+            # Assume any sudo-user knows what to type because [OPTIONS] are case-sensitive.
+            if [[ ! "$MENU_ITEM" == *" -"* ]] ; then
+               if [[ ! "$MENU_ITEM" == "sudo"* ]] ; then
+                  # Convert to lower-case.
+                  MENU_ITEM=$(echo $MENU_ITEM | tr '[:upper:]' '[:lower:]')
+               fi
+            fi
+            # Set (next) MENU_ITEM_NAME from CHOICE array.
+            MENU_ITEM_NAME=${CHOICE[$XNUM]}
+            # Convert MENU_ITEM_NAME to lower-case. (Sub-menus choice "MORE..." are in upper-case).
+            MENU_ITEM_NAME=$(echo $MENU_ITEM_NAME | tr '[:upper:]' '[:lower:]')
+            #
+            # Does MENU_ITEM begin with sudo?
+            if [[ "$MENU_ITEM" == "sudo"* ]] ; then
+               # if grep -q $MENU_ITEM_NAME <<<$MENU_ITEM ; then
+               # Yes, sudo
+               # Is MENU_ITEM a valid choice?
+               # This pattern matching statement will allow any other sudo formats
+               # i.e. links web browser, "sudo -width 80 links -driver atheos -html-images 0".       
+               if [[ "$MENU_ITEM" == *"$MENU_ITEM_NAME"* ]] ; then 
+                  APP_NAME=$MENU_ITEM
+                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+               else
+                  let XNUM++  # Not valid, try next menu item.
+               fi
+            else              
+               # No, no sudo
+               # Is MENU_ITEM a valid choice?
+               # Does MENU_ITEM_NAME contain MENU_ITEM?
+               # i.e. "nslookup" contains "nsl"*.
+               if [[ "$MENU_ITEM_NAME" == "$MENU_ITEM"* ]] ; then
+               # if grep -q $MENU_ITEM_NAME <<<$MENU_ITEM ; then
+                  # Valid choice, extract APP_NAME.
+                  MENU_ITEM=$MENU_ITEM_NAME
+                  APP_NAME=$MENU_ITEM_NAME
+                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+               # Does MENU_ITEM contain MENU_ITEM_NAME? 
+               # i.e. "nslookup www.distrowatch.com" contains "nslookup".
+               # i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
+               elif [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]] ; then 
+                  # Valid choice, extract APP_NAME.
+                  APP_NAME=$MENU_ITEM
+                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+               else
+                  let XNUM++  # Not valid, try next menu item, force stay in menu loop.
+               fi
+             fi
+      done
+      #
+      export MENU_ITEM MENU_ITEM_NAME APP_NAME
+      unset XNUM
+      #
+} # End of function f_menu_item_process
+#
+# +----------------------------------------+
+# |        Function f_menu_item_info       |
+# +----------------------------------------+
+#
+#  Inputs: DELIMITER, MENU_ITEM_NAME, THIS_FILE.
+#    Uses: None.
+# Outputs: MENU_ITEM_OPT.
+#
+f_menu_item_info () {
+      # Extract MENU_ITEM_OPT string.
+      # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+      #
+      MENU_ITEM_OPT=""
+      #
+      # grep "$MENU_ITEM_NAME" is in quotes because some menu items have 2 words i.e. "star wars".
+      # grep needs -i because my convention is any sub-menus start with an upper-case letter.
+      # grep needs "$DELIMITER<SPACE>$MENU_ITEM_NAME because some names are in the descriptions
+      # of multiple menu choices i.e. grep -i "morse" would give several hits (results).
+      MENU_ITEM_OPT=$(awk -F $DELIMITER '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -i "$DELIMITER $MENU_ITEM_NAME" | awk -F $DELIMITER '{print $1}')
+      MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F $DELIMITER '{print $1}')
+      MENU_ITEM_OPT=${MENU_ITEM_OPT/\#/} # Strip off leading "#".
+      # The "\" treats "#" as a literal hash mark, not as a comment.
+      #
+      # if grep -i finds 2 or more matches,
+      # i.e. $MENU_ITEM_NAME="morse" matches both "morse", "morsegen".
+      # there will be several strings containing "n^n^n^n^n"
+      # i.e. "n^n^n^n^n #n^n^n^n^n"
+      # only the first one is valid, use the " #" as a delimiter and take only the first one.
+      MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
+      export MENU_ITEM_OPT
+      #
+} # End of function f_menu_item_info
+#
+# +----------------------------------------+
+# |          Function f_eval_funct         |
+# +----------------------------------------+
+#
+#  Inputs: $1, $2.
+#          $1=$MENU_ITEM_OPT.
+#          $2=$Field number.
+#    Uses: X, XSTR.
+# Outputs: None.
+#
+f_eval_funct () {
+      MENU_ITEM_OPT=$1
+      #
+      # The 1st awk:
+      # Extracts the $2 field from $MENU_ITEM_OPT.
+      #
+      XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
+      #
+      if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
+         if [ "$XSTR" = 1 ] ; then
+            XSTR=f_$MENU_ITEM_NAME
+         fi
+         eval $XSTR  # Invoke (run) the function.
+         if [ $? -ne 0 ] ; then
+            echo "Command or function not found: $XSTR."
+            f_press_enter_key_to_continue
+         fi
+      fi
+      #
+      # MENU_ITEM_OPT_FIELD=$XSTR
+      # export MENU_ITEM_OPT_FIELD  # Make variables available after exiting function.
+      unset X XSTR
+      #
+} # End of function f-sub_menu
+#
+# +----------------------------------------+
+# |       Function f_quit_app_clause       |
+# +----------------------------------------+
+#
+#  Inputs: MENU_ITEM_OPT.
+#    Uses: XSTR, QUIT_FIELD, NO_CLEAR.
+# Outputs: None.
+#
+f_quit_app_clause () {
+      #
+      # Example string in Quit field of MENU_ITEM_OPT:
+      #         <##><NC> 13:NC (for "no clear" or <##> 13 (clears screen).
+      #
+      #%%1. "Q"
+      #%%2. "Q" or "quit"
+      #%%3. "Q" or <F10>
+      #%%4. ":q" <colon> q (which is the vi command for 'quit')
+      #%%5. (lose game and then) type "Q"
+      #%%6. "(quit)" including the parenthesis
+      #%%7. "quit"
+      #%%8. <Ctrl>-C
+      #%%9. <Ctrl>-C or crash into wall
+      #%%10. <Ctrl>-D
+      #%%11. <Ctrl>-K X
+      #%%12. <Ctrl>-X <Ctrl>-C
+      #%%13. <Ctrl>-Z
+      #%%14. <Esc> :q!
+      #%%15. <F5>
+      #%%16. at the prompt Command: "terminate"
+      #%%17. Alt-Q
+      #%%18. "X"
+      #%%19. <Ctrl>-Z or <Ctrl>-C
+      #%%20. "exit"
+      #%%21. "quit" or "exit"
+      #%% # End of list marker (and awk field marker), DO NOT remove.
+          # This marker prevents awk from printing any more lines found by grep "#%%" below
+          # and including this line.
+      #
+      # Does MENU_ITEM_OPT Quit field contain string?
+      # Extract Quit field, 4th field.
+      QUIT_FIELD=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $4}')
+      if [ "$QUIT_FIELD" != "0" -a -n "$QUIT_FIELD" ] ; then  # If Quit field is non-zero.
+         #
+         NO_CLEAR=""
+         # Convert QUIT_FIELD "nc to upper-case.
+         QUIT_FIELD=$(echo $QUIT_FIELD | tr '[:lower:]' '[:upper:]')
+         #
+         if [[ "$QUIT_FIELD" == *":NC"* ]] ; then
+            NO_CLEAR="no-clear"  # "no-clear" string exists.
+            # Strip ":NC" from QUIT_FIELD.
+            QUIT_FIELD=$(echo $QUIT_FIELD | awk -F ":" '{print $1}')
+         else
+            NO_CLEAR=""  # "no-clear" string is null.
+         fi
+         # QUIT_FIELD is now the number designation from the list above, corresponding to the
+         # keystroke sequence needed to quit the application.
+         # i.e. QUIT_FIELD=1 for keystroke sequence "Q", =2 for "Q or quit", =3 for "Q or <F10>"...
+         QUIT_FIELD=`expr $QUIT_FIELD + 1` # Use backticks with expr to increment QUIT_FIELD by 1
+                                           # to get field number for awk (since field #1 is null).
+         XSTR=$(grep "#%%" $THIS_DIR/lib_cli-common.lib)  # Get list of Quit Fields in a single big string.
+         # Match integer of QUIT_FIELD to grepped XSTR containg that value.
+         #
+         # Extract keystroke sequence from matching grepped string and set QUIT_FIELD to that string.
+         # 1st awk gets "NN. <Keystroke sequence>" i.e "13. <Ctrl>-Z".
+         # 2nd awk strips away numbers "NN." leaving " <Keystroke sequence>" i.e. "<Ctrl>-Z".
+         #         To pass QUIT_FIELD into awk so that field is printed by awk,
+         #         insert "QUIT_FIELD=$QUIT_FIELD" after '{print $QUIT_FIELD}'.
+         QUIT_FIELD=$(echo $XSTR | awk -F "#%%" '{print $QUIT_FIELD}' QUIT_FIELD=$QUIT_FIELD | awk -F "." '{print $2}')
+         #QUIT_FIELD="\"$QUIT_FIELD\""  # Add quotation marks around string.
+         f_how_to_quit_application "$QUIT_FIELD" $NO_CLEAR
+      fi
+      #
+      unset XSTR QUIT_FIELD NO_CLEAR
+      #
+} # End of function f_quit_app_clause
+#
+# +----------------------------------------+
+# |          Function f_press_key          |
+# +----------------------------------------+
+#
+#  Inputs: MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: PRESS_KEY.
+#
+f_press_key () { 
+      XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $5}')
+      if [ "$XSTR" != 0 -a -n "XSTR" ] ; then
+         PRESS_KEY=1
+      else
+         PRESS_KEY=0
+      fi
+      export PRESS_KEY
+      unset X XSTR
+      #
+} # End of function f_press_key
+#
+# +----------------------------------------+
+# |         Function f_run_and_exit        |
+# +----------------------------------------+
+#
+#  Inputs: $1 $2. 
+#          $1=application name
+#          $2=$APP_NAME 
+#    Uses: X.
+# Outputs: APP_NAME.
+#
+f_run_and_exit () {
+      echo "To quit $1, type <Ctrl>-Z or <Ctrl>-C."
+      echo "(There is no way to cleanly return to the menu)."
+      echo "Running $1 will exit this menu script."
+      echo
+      echo -n "Run $1 and exit script? (y/N)? "
+      read X
+      case $X in
+           [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+           APP_NAME=$2
+           f_application_run
+           APP_NAME=""
            ;;
-           [1-9] | [1-9][0-9])
-           if [  $CHOICE_APP -ge 1 -a $CHOICE_APP -le $MAX ] ; then
-              CHOICE_APP=${CHOICE[$CHOICE_APP]}
-           fi
-           ;;
-           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-           CHOICE_APP=0
-           PRESS_KEY=0
+           [Nn] | [Nn][Oo] | *)
+           APP_NAME=""
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
       esac
-} # End of function f_common_app_menu
+      unset X
+      #
+} # End of function f_run_and_exit
 #
 # +----------------------------------------+
 # |   Function f_how_to_quit_application   |
 # +----------------------------------------+
 #
-# Inputs: $1, $2, APP_NAME.
+#  Inputs: $1, $2, APP_NAME.
+#          $1 typed key to quit. 
+#          $2 string "no-clear" if screen should not be cleared.
+#    Uses: None.
+# Outputs: None.
 #
 f_how_to_quit_application () { 
-      # $1 typed key to quit. 
-      # $2 string "no-clear" if screen should not be cleared.
       #
       if [ -z $2 ] ; then
-      # if [ $2 != "no-clear" ] ; then
          clear # Blank the screen.
       fi
       echo
-      echo "To quit $APP_NAME, type $1."
+      echo "To quit \"$APP_NAME\", type $1."
       f_press_enter_key_to_continue
+      #
 } # End of function how_to_quit_application
 #
 # +----------------------------------------+
 # |          Function f_term_color         |
 # +----------------------------------------+
 #
-# Inputs: TCOLOR.
+#  Inputs: TCOLOR.
+#    Uses: None.
+# Outputs: None.
 #
-f_term_color () { # Set terminal display properties.
+f_term_color () {  # Set terminal display properties.
       case $TCOLOR in
            [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
-              setterm -reset -bold on
+              setterm -reset -bold on -store
            ;;
            [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
               setterm -reset
-              setterm -foreground white -background black -inverse
+              setterm -foreground white -background black -inverse -store
            ;;  
       esac
+      #
 } # End of function f_term_color
 #
 # +----------------------------------------+
 # | Function f_press_enter_key_to_continue |
 # +----------------------------------------+
 #
-# Inputs: None.
+#  Inputs: None.
+#    Uses: X.
+# Outputs: None.
 #
 f_press_enter_key_to_continue () { # Display message and wait for user input.
-      . lib_cli-common.lib
+      . lib_cli-common.lib # Invoke the common library.
       echo
       echo -n "Press '"Enter"' key to continue."
-      read ANS
+      read X
+      unset X  # Throw out this variable.
+      #
 } # End of function f_press_enter_key_to_continue
 #
 # +----------------------------------------+
 # |   Function f_option_press_enter_key    |
 # +----------------------------------------+
 #
-# Inputs: PRESS_KEY.
+#  Inputs: PRESS_KEY.
+#    Uses: None.
+# Outputs: MENU_ITEM=-1 (If "--version" or "--help" or "man").
 #
 f_option_press_enter_key () { # Display message and wait for user input.
       # $PRESS_KEY = 0 means Do not display "Press 'Enter' key to continue."
@@ -288,75 +641,83 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # |       Function f_application_help      |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_APP, ERROR.
-# Outputs: PRESS_KEY, CHOICE_APP=-1, APP_NAME
+#  Inputs: MENU_ITEM, ERROR.
+#          MENU_ITEM="<Application name> --help"
+#          MENU_ITEM="man <Application name>"
+#    Uses: ANS.
+# Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
 #
-f_application_help () { # function where $CHOICE_APP="<Application name> --help"
-                        # or "man <Application name>"
-      case $CHOICE_APP in
+f_application_help () {
+
+      case $MENU_ITEM in
+           *--version)
+           # if application has no option --version then this will generate an error message.
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           ;;
            *--help)
-              clear # Blank screen
-              # Use awk to grab only the application's name to use for APP_NAME.
-              APP_NAME=$(echo $CHOICE_APP | awk '{print $1;}')
+           clear # Blank screen
+           # awk extracts only the application's name to use for APP_NAME.
+           APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
+           #
+           # Test to see if the application is installed.
+           command -v $APP_NAME
+           ERROR=$? # Save error flag condition.
+           # If there are no --help pages, ask user if wants to install app.
+           # Function f_application_install needs APP_NAME as input
+           #
+           if [ $ERROR -ne 0 ] ; then
+              # Error code 1 $?=1 means no --help available.
+              # Error code 0 (zero) where $?=0 means no error.
+              echo "No '--help' option available for $APP_NAME."
+              echo
+              echo "This $APP_NAME application is either not installed"
+              echo "or is installed but help pages were never written for it."
+              echo
               #
-              # Test to see if the application is installed.
-              command -v $APP_NAME
-              ERROR=$? # Save error flag condition.
-              # If there are no --help pages, ask user if wants to install app.
-              # Function f_application_install needs APP_NAME as input
+              # Note: the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
               #
-              if [ $ERROR -ne 0 ] ; then
-                 # Error code 1 $?=1 means no --help available.
-                 # Error code 0 (zero) where $?=0 means no error.
-                 echo "No '--help' option available for $APP_NAME."
-                 echo
-                 echo "This $APP_NAME application is either not installed"
-                 echo "or is installed but help pages were never written for it."
-                 echo
-                 #
-                 # Note: the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
-                 #
-                 echo "To install under Debian-based Linux use command:"
-                 echo "                           sudo apt-get install <application package name>" 
-                 echo
-                 echo "To install under Red Hat-based Linux use command:"
-                 echo "                           sudo rpm -ivh <application package name>"
-                 echo
-                 echo "To install under Arch-bashed Linux use command:"
-                 echo "                           sudo pacman -S <application package name>"
-                 echo
-                 echo "To install under Slackware-based Linux use command:"
-                 echo "                           sudo installpkg <application package name>"
-                 echo "                           sudo slackpkg <application package name>"
-                 echo 
-                 echo -n "Do you want to install $APP_NAME (y/N)? "
-                 read ANS
-                 case $ANS in # Start of Install Application Option case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                      f_application_install
-                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                      ;;              
-                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                      ERROR=0
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac # End of Install Application Option case statement.
-              else
-                 $CHOICE_APP # Run <Application name> --help
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-              fi
-              CHOICE_APP=-1 # Force stay in menu until loop.
-              # Convert string to integer -1. Also indicates valid menu choice.
-              # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+              echo "To install under Debian-based Linux use command:"
+              echo "                           sudo apt-get install <application package name>" 
+              echo
+              echo "To install under Red Hat-based Linux use command:"
+              echo "                           sudo rpm -ivh <application package name>"
+              echo
+              echo "To install under Arch-bashed Linux use command:"
+              echo "                           sudo pacman -S <application package name>"
+              echo
+              echo "To install under Slackware-based Linux use command:"
+              echo "                           sudo installpkg <application package name>"
+              echo "                           sudo slackpkg <application package name>"
+              echo 
+              echo -n "Do you want to install $APP_NAME (y/N)? "
+              read ANS
+              case $ANS in # Start of Install Application Option case statement.
+                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                   f_application_install
+                   PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                   ;;              
+                   [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                   ERROR=0
+                   PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                   ;;
+              esac # End of Install Application Option case statement.
+              unset ANS  # Throw out this variable.
+           else
+              $MENU_ITEM # Run <Application name> --help
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           fi
+           MENU_ITEM=-1 # Force stay in menu until loop.
+           # Convert string to integer -1. Also indicates valid menu choice.
+           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
            man' '*)
               clear # Blank screen
-              $CHOICE_APP # CHOICE_APP = man <Application name>.
+              $MENU_ITEM # MENU_ITEM = man <Application name>.
               ERROR=$? # Save error flag condition.
               # If there are no man pages, ask user if wants to install app.
               # Function f_application_install needs APP_NAME as input
-              # so use awk to grab only the application's name to use for APP_NAME.
-              APP_NAME=$(echo $CHOICE_APP | awk '{print $2;}')
+              # awk extracts only the application's name to use for APP_NAME.
+              APP_NAME=$(echo $MENU_ITEM | awk '{print $2;}')
               #
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
               #
@@ -396,8 +757,9 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
                       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac # End of Install Application Option case statement.
+                 unset ANS  # Throw out this variable.
               fi
-              CHOICE_APP=-1 # Force stay in menu until loop.
+              MENU_ITEM=-1 # Force stay in menu until loop.
               # Convert string to integer -1. Also indicates valid menu choice.
               # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
@@ -410,10 +772,11 @@ f_application_help () { # function where $CHOICE_APP="<Application name> --help"
 # +----------------------------------------+
 #
 #  Inputs: APP_NAME, INSTALL_ANS.
-# Outputs: CHOICE_APP=-1.
+#    Uses: ERROR.
+# Outputs: MENU_ITEM=-1.
 #
 f_application_run () {
-      CHOICE_APP=-1 # Force stay in menu until loop.
+      MENU_ITEM=-1 # Force stay in menu until loop.
       # Convert string to integer -1. Also indicates valid menu choice.
       # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
       #
@@ -440,98 +803,50 @@ f_application_run () {
 } # End of function f_application_run
 #
 # +----------------------------------------+
-# | Function f_application_bad_menu_choice |
+# | Function f_bad_menu_choice             |
 # +----------------------------------------+
 #
-#  Inputs: CHOICE_APP, APP_NAME.
-# Outputs: CHOICE_APP, PRESS_KEY.
+#  Inputs: $1, MAX.
+#          $1=$MENU_ITEM
+#    Uses: None.
+# Outputs: MENU_ITEM, PRESS_KEY.
 #
-# Always set CHOICE_APP from string to an integer because menu until loop
-# tests until [ CHOICE_APP -eq 0 ] and will error if CHOICE_APP is a string.
+# Always set MENU_ITEM from string to an integer because menu until loop
+# tests until [ MENU_ITEM -eq 0 ] and will error if MENU_ITEM is a string.
 #
 # Function f_application_run is always called before this function.
-# If valid menu choice, f_application_run sets CHOICE_APP=-1 then leave alone.
-# If CHOICE_APP=0 to quit menu, then leave alone.
-# If invalid menu choice, CHOICE_APP is bad string or bad integer,
-#    then set CHOICE_APP=-1 and do not display "Press 'Enter' key to continue."
+# If valid menu choice, f_application_run sets MENU_ITEM=-1 then leave alone.
+# If MENU_ITEM=0 to quit menu, then leave alone.
+# If invalid menu choice, MENU_ITEM is bad string or bad integer,
+#    then set MENU_ITEM=-1 and do not display "Press 'Enter' key to continue."
 #
-f_application_bad_menu_choice () {
-      case $CHOICE_APP in
+f_bad_menu_choice () {
+      MENU_ITEM=$1
+      case $MENU_ITEM in
            "")
-           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
            PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
            ;;
            [A-Za-z]*)
-           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
+           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
            PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
                          # Specifically for alpha nonsense responses.
            ;;
       esac
-      if [ $CHOICE_APP -le -2 -o $CHOICE_APP -gt $MAX ] ; then
-         CHOICE_APP=-1   # Convert string to integer -1 forcing stay in until loop.
+      if [ $MENU_ITEM -le -2 -o $MENU_ITEM -gt $MAX ] ; then
+         MENU_ITEM=-1   # Convert string to integer -1 forcing stay in until loop.
          PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
                          # Specifically for out-of-bounds numeric response.
       fi
-} # End of function f_application_bad_menu_choice
-#
-# +----------------------------------------+
-# |    Function f_scat_bad_menu_choice     |
-# +----------------------------------------+
-#
-#  Inputs: CHOICE_SCAT.
-# Outputs: CHOICE_SCAT, PRESS_KEY.
-#
-f_scat_bad_menu_choice () {
-      case $CHOICE_SCAT in
-           "")
-           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
-           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-           ;;
-           [A-Za-z]*)
-           CHOICE_SCAT=-1 # Convert string to integer -1 forcing stay in until loop.
-           PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
-                          # Specifically for alpha nonsense responses.
-           ;;
-      esac
-      if [ $CHOICE_SCAT -le -2 -o $CHOICE_SCAT -gt $MAX ] ; then
-         CHOICE_SCAT=-1   # Convert string to integer -1 forcing stay in until loop.
-         PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
-                          # Specifically for out-of-bounds numeric response.
-      fi
-} # End of function f_scat_bad_menu_choice
-#
-# +----------------------------------------+
-# |    Function f_tcat_bad_menu_choice     |
-# +----------------------------------------+
-#
-#  Inputs: CHOICE_TCAT.
-# Outputs: CHOICE_TCAT, PRESS_KEY.
-#
-f_tcat_bad_menu_choice () {
-      case $CHOICE_TCAT in
-           "")
-           CHOICE_APP=-1 # Convert string to integer -1 forcing stay in until loop.
-           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-           ;;
-           [A-Za-z]*)
-           CHOICE_TCAT=-1 # Convert string to integer -1 forcing stay in until loop.
-           PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
-                          # Specifically for alpha nonsense responses.
-           ;;
-      esac
-      if [ $CHOICE_TCAT -le -2 -o $CHOICE_TCAT -gt $MAX ] ; then
-         CHOICE_TCAT=-1   # Convert string to integer -1 forcing stay in until loop.
-         PRESS_KEY=0      # Do not display "Press 'Enter' key to continue."
-                          # Specifically for out-of-bounds numeric response.
-      fi
-} # End of function f_tcat_bad_menu_choice
+} # End of function f_bad_menu_choice
 #
 # +----------------------------------------+
 # |       Function f_application_error     |
 # +----------------------------------------+
 #
 #  Inputs: ERROR, APP_NAME. 
-# Outputs: CHOICE_MAIN, CHOICE_CAT, CHOICE_SCAT, CHOICE_APP, INSTALL_ANS
+#    Uses: APP_NAME_TMP.
+# Outputs: CHOICE_MAIN, INSTALL_ANS, MENU_ITEM
 #          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL, APP_NAME_TMP.
 #
 f_application_error () {
@@ -543,9 +858,9 @@ f_application_error () {
               ;;
               *)
               # If string APP_NAME/APP_NAME_INSTALL includes spaces for
-              # run-time parameters, then just extract package name. 
-              # i.e. "dstat 1 10", then just grab "dstat" as package name.
-              # i.e. "dstat --version", then just grab "dstat" as package name.
+              # run-time parameters, then just extract package name.
+              # i.e. "dstat 1 10", then extract "dstat" as package name.
+              # i.e. "dstat --version", then extract "dstat" as package name.
               APP_NAME_TMP=$(echo $APP_NAME | awk '{print $1;}')
               ;;
          esac             # End of AppName case statement.
@@ -553,14 +868,8 @@ f_application_error () {
          # Be sure variable is set to redisplay current menu afterwards.
          CHOICE_MAIN=-1 # Initialize to -1 to force until loop
                         # without exiting Main Menu.
-         CHOICE_CAT=-1  # Initialize to -1 to force until loop
-                        # without exiting Category Menu.
-         CHOICE_SCAT=-1 # Initialize to -1 to force until loop 
+         MENU_ITEM=-1   # Initialize to -1 to force until loop 
                         # without exiting Sub-Category Menu.
-         CHOICE_TCAT=-1 # Initialize to -1 to force until loop 
-                        # without exiting 3rd-level Category Menu.
-         CHOICE_APP=-1  # Initialize to -1 to force until loop
-                        # without exiting Applications Menu.
       fi
       #
       case $ERROR in # Start of Error Number case statement.
@@ -583,45 +892,19 @@ f_application_error () {
            # Display error message.
            f_display_error_code
            echo "This $APP_NAME_TMP application is not installed."
+           echo 
+           echo "Not all applications in this menu are available on all linux distributions."
            echo
-           echo -n "Do you want to install $APP_NAME_TMP (y/N)? "
-           read INSTALL_ANS
-           case $INSTALL_ANS in # Start of Install Application Option case statement.
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                INSTALL_ANS="YES"
-                f_application_install
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                ;;              
-                [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                INSTALL_ANS="NO"
-                ERROR=0
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-           esac # End of Install Application Option case statement.
+           f_application_install_question
            ;;
-           1) # Error code 1 is a general error code. But it may be a result output rather than error.
-              # Some applications (i.e. file compare) exit with error code 1 even if successfully run.
+           1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
+              # Some applications exit with error code 1 even if successfully run.
               # The Error Code 1 Number Exceptions case statement, takes care of those weird applications.
            case $APP_NAME in # Start of Error Code Number 1 Exceptions case statement.
-                *diff* | cmp' '* | comm' '*)
-                # Exceptions: Do not display error message if error code 1 when
-                # applications are colordiff, diff, imediff2, vimdiff, wdiff, cmp, comm.
-                # For these applications, error code 1 means compared files are different, not a real error.
-                ;;
-                comm) # Error code 1 means operand or files is missing.
-                # Display error message.
-                f_display_error_code
-                echo "Missing operand (file name(s) or names)."
-                echo "Try running $APP_NAME_TMP again this time using operands."
-                echo
-                echo "Operands may be filenames as in the examples below."
-                echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
-                echo "Example: locate test1.txt     or diff test1.txt test2.txt"
-                echo
-                echo "Or operands may be a combination of parameters, options, and filenames."
-                echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
-                echo "Example: find /home -iname test1.txt -print"
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                *diff*)
+                # Do not display error message if error code 1
+                # and apps colordiff, diff, imediff2, vimdiff, wdiff.
+                # For diff apps, error code 1 means compared files are different, not a real error.
                 ;;
                 sudo' '*)
                 # Display error message.
@@ -710,6 +993,7 @@ f_application_error () {
                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                      ;;
                 esac     # End of Use SUDO case statement.
+                unset ANS  # Throw out this variable.
                 ;;
            esac   # End of sudo-error case statement
            ;;
@@ -717,13 +1001,13 @@ f_application_error () {
       # This function needs to be followed by a f_press_enter_key_to_continue 
       # or by a f_option_press_enter_key so that messages are displayed.
 } # End of function f_application_error
-
 #
 # +----------------------------------------+
 # |     Function f_display_error_code      |
 # +----------------------------------------+
 #
-#  Inputs: ERROR, APP_NAME_TMP. 
+#  Inputs: ERROR, APP_NAME_TMP.
+#    Uses: None.
 # Outputs: None.
 #
 f_display_error_code () {
@@ -739,10 +1023,37 @@ f_display_error_code () {
 } # End of function f_display_error_code
 #
 # +----------------------------------------+
+# | Function f_application_install_question|
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME
+#    Uses: INSTALL_ANS.
+# Outputs: ERROR, PRESS_KEY.
+#
+f_application_install_question () {
+                 echo -n "Do you want to install $APP_NAME (y/N)? "
+                 read INSTALL_ANS
+                 case $INSTALL_ANS in # Start of Install Application Option case statement.
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                      INSTALL_ANS="YES"
+                      f_application_install
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;              
+                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                      INSTALL_ANS="NO"
+                      ERROR=0
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                 esac # End of Install Application Option case statement.
+                 unset INSTALL_ANS  # Throw out this variable.
+} # End of function f_application_install_question
+#
+# +----------------------------------------+
 # |     Function f_application_install     |
 # +----------------------------------------+
 #
-#  Inputs: ERROR, APP_NAME. 
+#  Inputs: APP_NAME.
+#    Uses: ERROR.
 # Outputs: APP_NAME_INSTALL.
 #
 f_application_install () {
@@ -754,9 +1065,9 @@ f_application_install () {
       case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
            *' '*)  
            # If string APP_NAME/APP_NAME_INSTALL includes spaces for
-           # run-time parameters, then just extract package name. 
-           # i.e. "dstat 1 10", then just grab "dstat" as package name.
-           # i.e. "dstat --version", then just grab "dstat" as package name.
+           # run-time parameters, then just extract package name.
+           # i.e. "dstat 1 10", then extract "dstat" as package name.
+           # i.e. "dstat --version", then extract "dstat" as package name.
            #
            APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
            ;;
@@ -767,8 +1078,17 @@ f_application_install () {
       # i.e. The game 'trek' is installed using the package called 'bsdgames'.
       #
       case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+           aaxine | cacaxine | fbxine)
+           APP_NAME_INSTALL="xine-console"
+           ;;
            acat| als | apack | atool | aunpack)
            APP_NAME_INSTALL="atool"
+           ;;
+           adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
+           APP_NAME_INSTALL="bsdgames"
+           ;;
+           animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
+           APP_NAME_INSTALL="imagemagick"
            ;;
            aria2c)
            APP_NAME_INSTALL="aria2"
@@ -776,14 +1096,14 @@ f_application_install () {
            barnowl | zcrypt)
            APP_NAME_INSTALL="barnowl"
            ;;
-           adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
-           APP_NAME_INSTALL="bsdgames"
-           ;;
            clamscan)
            APP_NAME_INSTALL="clamav"
            ;;
-           todo)
-           APP_NAME_INSTALL="devtodo"
+           exiftool)
+           APP_NAME_INSTALL="libimage-exiftool-perl"
+           ;;
+           e3*) # covers e3em, e3vi, e3pi, e3ne, e3ws.
+           APP_NAME_INSTALL="e3"
            ;;
            fbgs)
            APP_NAME_INSTALL="fbi"
@@ -795,29 +1115,35 @@ f_application_install () {
            ifplugstatus)
            APP_NAME_INSTALL="ifplugd"
            ;;
-           animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
-           APP_NAME_INSTALL="imagemagick"
-           ;;
-           moc)
-           APP_NAME_INSTALL="libqt4-dev"
+           jstar | jmacs | jpico | rjoe)
+           APP_NAME_INSTALL="joe"
            ;;
            lynx)
            APP_NAME_INSTALL="lynx-cur"
            ;;
-           nagios3)
-           APP_NAME_INSTALL="nagios3-core"
+           moc)
+           APP_NAME_INSTALL="libqt4-dev"
            ;;
-           tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
-           APP_NAME_INSTALL="netdiag"
-           ;; 
            mpstat | iostat | pidstat | sadf | sar)
            APP_NAME_INSTALL="sysstat"
+           ;;
+           nagios3)
+           APP_NAME_INSTALL="nagios3-core"
            ;;
            photorec)
            APP_NAME_INSTALL="testdisk"
            ;;
-           aaxine | cacaxine | fbxine)
-           APP_NAME_INSTALL="xine-console"
+           tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
+           APP_NAME_INSTALL="netdiag"
+           ;;
+           tide)
+           APP_NAME_INSTALL="xtide"
+           ;;
+           todo)
+           APP_NAME_INSTALL="devtodo"
+           ;;
+           weather)
+           APP_NAME_INSTALL="weather-util"
            ;;
            xz | unxz | xzcat | xzgrep)
            APP_NAME_INSTALL="xz-utils"
@@ -834,7 +1160,8 @@ f_application_install () {
             echo
             echo "Installation of $APP_NAME_INSTALL failed."
             echo "Command sudo apt-get install $APP_NAME_INSTALL failed."
-            echo "May be a failure downloading package. Bad Internet connection?"
+            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "is not available for this linux distribution."
             echo
             f_application_web_install
          fi
@@ -845,15 +1172,23 @@ f_application_install () {
          sudo slackpkg install $APP_NAME_INSTALL
          ERROR=$? # Save error flag condition.
          # 
-         # This if statement is commented out because slackpkg has error code $?=0 even if install fails.
+         # 
+         # This if statement is commented out because slackpkg has error code $?=0 even
+         # if install fails.
+         # 
+         # COMMENTED OUT FOR SLACKPKG BECAUSE ERROR CODE IS ALWAYS 0 WHETHER OR NOT IT 
+         # INSTALLED OK.
+         #
          # To Do List: find a way to indicate a failed install and alter if statement below.
+         #
          #if [ $ERROR -ne 0 ] ; then
          #   # Error code 1 $?=1 means installation failed.
          #   # Error code 0 (zero) where $?=0 means no error.
          #   echo
          #   echo "Installation of $APP_NAME_INSTALL failed."
          #   echo "Command sudo slackpkg $APP_NAME_INSTALL failed."
-         #   echo "May be a failure downloading package. Bad Internet connection"
+         #   echo "Perhaps the software package $APP_NAME_INSTALL"
+         #   echo "is not available for this linux distribution."
          #   echo
          #   f_application_web_install
          #fi
@@ -869,7 +1204,9 @@ f_application_install () {
             echo
             echo "Installation of $APP_NAME_INSTALL failed."
             echo "Command sudo pacman -S $APP_NAME_INSTALL failed."
-            echo "May be a failure downloading package. Bad Internet connection"
+            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "is not available for this linux distribution."
+
             echo
             f_application_web_install
          fi
@@ -887,7 +1224,8 @@ f_application_install () {
             echo
             echo "Installation of $APP_NAME_INSTALL failed."
             echo "Command sudo rpm -ivh $APP_NAME_INSTALL failed."
-            echo "May be a failure downloading package. Bad Internet connection"
+            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "is not available for this linux distribution."
             echo
             f_application_web_install
          fi
@@ -900,43 +1238,19 @@ f_application_install () {
       #
 } # End of function f_application_install
 #
-#
 # +----------------------------------------+
 # | Function f_application_web_install     |
 # +----------------------------------------+
 #
 #  Inputs: APP_NAME_INSTALL.
-#    Uses: WEB_SITE_INSTALL
+#    Uses: ANS.
+# Outputs: APP_NAME, WEB_SITE_INSTALL.
 #
 f_application_web_install () {
       WEB_SITE_INSTALL=""
       case $APP_NAME_INSTALL in # Start of Web Site case statement.
-      herrie)
-      WEB_SITE_INSTALL="http://herrie.info/#obtaining"
-      ;;
-      edbrowse)
-      WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
-      ;;
-      fbv)
-      WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
-      ;;
-      jfbview)
-      WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
-      ;;
-      retawq)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
-      ;;
-      portbunny)
-      WEB_SITE_INSTALL="http://portbunny.recurity.com/"
-      ;;
-      clcal)
-      WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
-      ;;
-      mencal)
-      WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
-      ;;
-      jed)
-      WEB_SITE_INSTALL="http://www.jedsoft.org/jed/download.html"
+      asciiaquarium)
+      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/html/"
       ;;
       binary-clock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
@@ -944,20 +1258,65 @@ f_application_web_install () {
       cclock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
       ;;
+      clcal)
+      WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
+      ;;
       clockywock)
       WEB_SITE_INSTALL="http://soomka.com/"
-      ;;
-      grandfatherclock)
-      WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
-      ;;
-      asciiaquarium)
-      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/html/"
       ;;
       desmume)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
       ;;
+      diary)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/diary/"
+      ;;
+      diary-f)
+      WEB_SITE_INSTALL="https://github.com/earshinov/diary-f"
+      ;;
+      edbrowse)
+      WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
+      ;;
+      fbv)
+      WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
+      ;;
+      grandfatherclock)
+      WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
+      ;;
       handbrake-cli)
       WEB_SITE_INSTALL="http://handbrake.fr/downloads2.php"
+      ;;
+      herrie)
+      WEB_SITE_INSTALL="http://herrie.info/#obtaining"
+      ;;
+      jed)
+      WEB_SITE_INSTALL="http://www.jedsoft.org/jed/download.html"
+      ;;
+      jfbview)
+      WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
+      ;;
+      lnav)
+      WEB_SITE_INSTALL="http://tstack.github.io/lnav/"
+      ;;
+      mencal)
+      WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
+      ;;
+      ne)
+      WEB_SITE_INSTALL="http://ne.dsi.unimi.it/#downloads"
+      ;;
+      opencubicplayer)
+      WEB_SITE_INSTALL="http://stian.cubic.org/project-ocp.php"
+      ;;
+      retawq)
+      WEB_SITE_INSTALL="http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
+      ;;
+      portbunny)
+      WEB_SITE_INSTALL="http://portbunny.recurity.com/"
+      ;;
+      todo2)
+      WEB_SITE_INSTALL="http://swapoff.org/devtodo.html"
+      ;;
+      vtclock)
+      WEB_SITE_INSTALL="http://webonastick.com/vtclock/"
       ;;
       yougrabber)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/yougrabber/files/"
@@ -969,43 +1328,516 @@ f_application_web_install () {
       ;;
       *) # if web site is specified, then go there.
          echo
-         echo "If application did not install properly, do want to use the w3m web browser"
+         echo "If application did not install properly, do want to use the elinks web browser"
          echo -n "to visit the project's web site to download manually (y/N)? "
          read ANS
          case $ANS in        # Start of Install case statement.
               [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-              APP_NAME="w3m $WEB_SITE_INSTALL"
+              APP_NAME="elinks $WEB_SITE_INSTALL"
               f_how_to_quit_application "q"
               f_application_run
               ;;
               [Nn] | [Nn][Oo])
               ;;
          esac                # End of Install case statement.
+         unset ANS  # Throw out this variable.
       ;;
       esac                         # End of Web Install case statement.
 } # End of function f_application_web_install
 #
 # +----------------------------------------+
-# |          Function f_test_dash          |
+# |       Function f_download_file         |
 # +----------------------------------------+
 #
-#  Inputs: $BASH_VERSION (System variable)
-#    Uses: None
-# Outputs: None
+#  Inputs: BRANCH, MOD_FILE
+#    Uses: BRANCH, WEB_SITE.
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY
 #
-f_test_dash () {
+# Download a single file $MOD_FILE from $WEB_SITE.
 #
-if [ "$BASH_VERSION" = '' ]; then
-   echo
-   echo "You are using the DASH environment."
-   echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
-   echo
-   echo "*** This script cannot be run in the DASH environment. ***"
-   echo
-   echo "You can invoke the BASH environment by typing"
-   echo "'bash cli-app-menu.sh' at the command line."
-   echo
-   f_press_enter_key_to_continue
-fi
-} # End of function f_test_dash
+f_download_file () {
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      . lib_cli-common.lib # Invoke the common library.
+
+      #
+      case $MOD_FILE in
+           mod_apps*.lib)  # Module files only
+           if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
+           . $MOD_FILE # Invoke module library.
+                       # $MOD_FILE exists in current directory so make it accessible.
+           else  # $MOD_FILE is not in current directory.
+              # Ask download from which branch and wget.
+              f_wget_file
+              . $THIS_DIR/$MOD_FILE # Invoke module library.
+                          # $MOD_FILE exists in current directory so make it accessible.
+           fi
+           ;;
+           *)  # All other files.
+           # Ask download from which branch and wget.
+           f_wget_file
+           ;;
+      esac
+} # End of f_download_file
+#
+# +----------------------------------------+
+# |       Function f_wget_file             |
+# +----------------------------------------+
+#
+#  Inputs: BRANCH, MOD_FILE
+#    Uses: BRANCH, WEB_SITE.
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY
+#
+# wget a single file $MOD_FILE from $WEB_SITE.
+#
+f_wget_file () {
+      #if [ "$BRANCH" != "STABLE" -a "$BRANCH" != "TESTING" -a "$BRANCH" != "QUIT" ] ; then
+      #   f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
+      #                                # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE,
+      #                                # PRESS_KEY=0/1
+      #fi
+      #
+      # Always ask what branch from which to download.
+      . lib_cli-common.lib # Invoke the common library.
+      f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
+                                   # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE,
+                                   # PRESS_KEY=0/1
+      if [ "$BRANCH" != "QUIT" ] ; then
+         wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
+         echo "Downloaded file, $MOD_FILE from github $BRANCH branch." 
+         echo
+         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+      fi
+} # End of f_wget_file
+#
+# +----------------------------------------+
+# |  Function f_ask_which_branch_download  |
+# +----------------------------------------+
+#
+#  Inputs: BRANCH
+#    Uses: ANS, XSTR.
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY
+#
+f_ask_which_branch_download () {
+      XSTR="(STABLE/testing/quit)"  # Set default prompt options.
+      case $BRANCH in
+           [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+           XSTR="(stable/testing/QUIT)"
+           ;;
+           [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
+           XSTR="(stable/TESTING/quit)"
+           ;;                  
+           "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
+           XSTR="(STABLE/testing/quit)"
+           ;;
+      esac
+      #
+      ANS=""
+      while [  "$ANS" != "STABLE" -a "$ANS" != "TESTING" -a "$ANS" != "QUIT" ]
+      do
+            echo -n "Download from which branch? $XSTR: "
+            read ANS
+            case $ANS in
+                 [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+                 ANS="QUIT"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
+                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/"
+                 ANS="TESTING"
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;                  
+                 [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
+                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/"
+                 ANS="STABLE"
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 "")  # When null answer, default to previous branch choice.
+                 case $BRANCH in
+                      [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+                      ANS="QUIT"
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
+                      [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
+                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/"
+                      ANS="TESTING"
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;                  
+                      ""| [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
+                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/"
+                      ANS="STABLE"
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;                
+                 esac
+                 ;;
+            esac
+      done
+      BRANCH=$ANS  # Output $BRANCH.
+      unset ANS XSTR  # Throw out this variable.
+} # End of function f_ask_which_branch_download
+#
+# +----------------------------------------+
+# |  Function f_ask_which_module_download  |
+# +----------------------------------------+
+#
+#  Inputs: BRANCH (STABLE, TESTING, QUIT)
+#    Uses: MOD_FILE, XXSTR, X, ANS, PRESS_KEY.
+# Outputs: None (modules downloaded)
+#
+# Download a multiple $MOD_FILE files one at a time from $WEB_SITE.
+#
+f_ask_which_module_download () {
+      clear # Blank the screen.
+      echo "Here is a list of downloadable modules."
+      echo
+      echo " (Q)uit"
+      echo " (ALL) modules"
+      #
+      # Display Download Menu item options, if module exists then bold font, if module missing then normal font.
+      for X in "(AU)dio" "(D)atabases" "(E)ducation" "(F)iledir" "(G)ames" "(IM)age" "(IN)ternet" "(NE)twork" "(O)ffice" "(SA)mple Templates" "(SC)reensaver" "(SY)stem" "(V)ideo"
+      do
+          XXSTR=$(echo $X | awk -F ")" '{print $2}')
+          #
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+          do
+              # Match module library file name with each menu item in Download Menu.
+              if [[ $MOD_FILE == *$XXSTR* ]] ; then
+                 # Does the module library file exist in $THIS_DIR directory? Yes/No, bold/std font.
+                 if [ -r "$THIS_DIR/$MOD_FILE" ] ; then  # X=<module file name>
+                    echo $(tput bold) $X $MOD_FILE
+                 else
+                    echo $(tput sgr0) $X $MOD_FILE
+                 fi
+              fi
+          done
+      done
+      #
+      echo
+      echo "For example: 'GIMOSY' will download Games, Image, Office, System modules."
+      echo "          or 'G im OsY' (not case sensitive and spaces allowed)."
+      echo
+      echo -n "Download which modules? Enter letters or (Q)UIT: "
+      read XXSTR
+      case $XXSTR in
+           [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+           XXSTR="QUIT"
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+           "")
+           XXSTR="QUIT"
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+      esac
+      #
+      if [ "$XXSTR" != "QUIT" ] ; then
+         # Prepare format of XXSTR for processing by f_module_match.
+         # Change case of XXSTR to all upper-case to make substition easier.
+         XXSTR=$(echo $XXSTR | tr '[:lower:]' '[:upper:]')
+         # Strip off any spaces in XXSTR.
+         XXSTR="${XXSTR//[[:space:]]/}" # Strip off any spaces in XSTR.
+         ANS=$XXSTR  # Save result.
+         #
+         # Validate $XXSTR.
+         WEB_SITE="" # Initialize to null so if "ALL" then f_module_match will not download.
+         while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
+         do
+            f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
+            XXSTR=$XSTR
+            if [ "$MOD_FILE" = "BAD_CHOICE_INPUT" ]  ; then
+               # f_module_match sets MOD_FILE="BAD_CHOICE_INPUT" for invalid choices.
+               # "ALL" menu item sets $MOD_FILE to null after it finishes downloading all modules.
+               #
+               ANS=""  # Force ANS to null for bad choice.
+            fi 
+         done
+         #
+         XXSTR=$ANS # ANS is original XXSTR or null if bad choice.
+         #
+         # If $XXSTR is validated so ask which branch.
+         if [ "$XXSTR" != "QUIT" -a "$XXSTR" != "" ] ; then
+            echo
+            echo "Choose the branch from where you want to download the software modules."
+            echo
+            f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
+                                         # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE, PRESS_KEY=0/1
+            if [ "$BRANCH" = "QUIT" ] ; then
+               XXSTR=""  # When Quit at git branch, then quit out of downloading.
+            fi
+         fi
+         #
+         # If $XXSTR is validated so download modules.
+         while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
+         do
+            f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
+            XXSTR=$XSTR
+            if [ -n "$MOD_FILE" ]  ; then   # If MOD_FILE is not null, then wget.
+                                            # f_module_match sets MOD_FILE to null
+                                            # for invalid choices.
+                                            # "ALL" menu item sets $MOD_FILE to null
+                                            # after it finishes downloading all modules.
+                                            #
+               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE # Download the module.
+            fi
+         done
+         if [ "$BRANCH" != "QUIT" -o "$MOD_FILE" = "BAD_CHOICE_INPUT" ] ; then
+            f_press_enter_key_to_continue
+         fi
+      fi      
+      #
+      unset XXSTR XSTR ANS  # Throw out this variable.
+} # End of function f_ask_which_module_download
+#
+# +----------------------------------------+
+# |         Function f_module_match        |
+# +----------------------------------------+
+#
+#  Inputs: $1
+#          $1=XSTR
+#    Uses: MOD_FILE, XSTR
+# Outputs: MOD_FILE, XSTR
+#
+f_module_match () {
+      XSTR=$1
+      case $XSTR in
+           ALL)
+           if [ -n "$WEB_SITE" ] ; then
+              for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+              do
+                  wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE  # Download all modules.
+              done
+           fi
+           MOD_FILE=""  # This acts as a flag so download does not occur again at end of function.
+           XSTR=${XSTR/ALL/} # Strip off "ALL" from XSTR.
+           ;;
+           AU*)
+           MOD_FILE="mod_apps-audio.lib"
+           XSTR=${XSTR/AU/} # Strip off first letters AU of XSTR.
+           ;;
+           D*)
+           MOD_FILE="mod_apps-databases.lib"
+           XSTR=${XSTR/D/} # Strip off first letter D of XSTR.
+           ;;
+           E*)
+           MOD_FILE="mod_apps-education.lib"
+           XSTR=${XSTR/E/} # Strip off first letter E of XSTR.
+           ;;
+           F*)
+           MOD_FILE="mod_apps-filedir.lib"
+           XSTR=${XSTR/F/} # Strip off first letter F of XSTR.
+           ;;
+           G*)
+           MOD_FILE="mod_apps-games.lib"
+           XSTR=${XSTR/G/} # Strip off first letter G of XSTR.
+           ;;
+           IM*)
+           MOD_FILE="mod_apps-image.lib"
+           XSTR=${XSTR/IM/} # Strip off first letters IM of XSTR.
+           ;;
+           IN*)
+           MOD_FILE="mod_apps-internet.lib"
+           XSTR=${XSTR/IN/} # Strip off first letters IN of XSTR.
+           ;;
+           NE*)
+           MOD_FILE="mod_apps-network.lib"
+           XSTR=${XSTR/NE/} # Strip off first letters NE of XSTR.
+           ;;
+           O*)
+           MOD_FILE="mod_apps-office.lib"
+           XSTR=${XSTR/O/} # Strip off first letter O of XSTR.
+           ;;
+           SA*)
+           MOD_FILE="mod_apps-sample-template.lib"
+           XSTR=${XSTR/SA/} # Strip off first letters SA of XSTR.
+           ;;
+           SC*)
+           MOD_FILE="mod_apps-screensaver.lib"
+           XSTR=${XSTR/SC/} # Strip off first letters SC of XSTR.
+           ;;
+           SY*)
+           MOD_FILE="mod_apps-system.lib"
+           XSTR=${XSTR/SY/} # Strip off first letters SY of XSTR.
+           ;;
+           V*)
+           MOD_FILE="mod_apps-video.lib"
+           XSTR=${XSTR/V/} # Strip off first letter V of XSTR.
+           ;;
+           *)
+           MOD_FILE="BAD_CHOICE_INPUT"
+           XSTR=""
+           echo
+           echo ">>>Error Bad choice input.<<<"
+           echo "       Exiting now."
+      esac
+} # End of function f_ask_which_module_download
+#
+# +----------------------------------------+
+# |       Function f_create_LIST_APPS      |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR
+#    Uses: MOD_FILE, XSTR
+# Outputs: File LIST_APPS
+#
+# File LIST_APPS may be recreated at any time from the command line.
+# Prerequisite: README file and ALL module files, mod_apps-*.lib
+#               MUST BE in the same directory as this lib_cli-common.lib file.
+#
+# General notes: 1. README file is read for #MXX (Special Menu Item Marker)
+#                   type comments which includethe menu name.
+#                2. The Application Category Menu in file lib_cli-menu-cat.lib
+#                   has the module library file names needed.
+#                3. Search grep all module library files for the Special Menu
+#                   Item Markers #MXX which are unique for each application menu.
+#                4. Print result of application menu names with application names.
+#
+# To recreate LIST_APPS manually:
+# Type this command (without double-quotation marks) at the CLI prompt:
+# ". lib_cli-common.lib; f_create_LIST_APPS"
+#  <dot><space>lib_cli-common.lib<semi-colon><space>f_create_LIST_APPS.
+#
+f_create_LIST_APPS () {
+      # Generate file LIST_APPS by using grep on each module file.
+      # Assumes all module files are present in current directory.
+      if [ -r $THIS_DIR/LIST_APPS ] ; then
+         rm $THIS_DIR/LIST_APPS # Remove old LIST_APPS file.
+      fi
+      #
+      echo "________________________________________________" >> $THIS_DIR/LIST_APPS
+      echo -n "Last updated: " >> $THIS_DIR/LIST_APPS 
+      date +%Y-%m-%d" "%H:%M" "%A >> $THIS_DIR/LIST_APPS
+      # Explanation of the "for XSTR in" loop:
+      #
+      # 1. grep [#]:M[A-Z][A-Z] README
+      #    Find all lines matching "#:M[A-Z][A-Z]" in the file README.
+      #    This will find strings like "#:MAA - Accounting Applications Menu"
+      #
+      # 2. awk '{print $1}'
+      #    Prints just the Special Menu Item Marker, "#:MAA" and XSTR="#:MAA".
+      #
+      # 3. grep $XSTR README
+      #    Search README for all occurrences of the Special Menu Item Marker.
+      #    Find all lines matching "#:MAA" in the file README.
+      #    This will find strings like "#:MAA - Accounting Applications Menu"
+      #
+      # 4. awk -F " - " '{print $2}'
+      #    Strips the ":#MAA - " from it: "Accounting Applications Menu"
+      #
+      # 6. awk '{sub("Menu","Menu ***"); print $0}'
+      #    Appends "***" at the end: "Accounting Applications Menu ***"
+      #
+      # Set XSTR to the Special Menu Item Marker.
+      for XSTR in $(grep [#]:M[A-Z][A-Z] $THIS_DIR/README | awk '{print $1}')
+      do
+          echo >> $THIS_DIR/LIST_APPS
+          # Print application category menu title.
+          echo "________________________________________________" >> $THIS_DIR/LIST_APPS
+          echo -n "*** " >> $THIS_DIR/LIST_APPS
+          grep $XSTR $THIS_DIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> $THIS_DIR/LIST_APPS
+          #
+          # Explanation of the "for MOD_FILE in" loop.
+          #
+          # 1. grep $XSTR $MOD_FILE
+          #    Search the files mod_apps-*.lib one at a time for the Special
+          #    Menu Item Marker.
+          #    Find all lines matching "#MAA " in the files.
+          #    This will find strings like:
+          #    "#MAA ledger        - Ledger using double-entry."
+          #
+          # 2. awk -F $XSTR '{if ($2&&!$3){print $2}}' 
+          #    awk -F "#M" '{if ($2&&!$3){print $2}}'
+          #    if-statement conditional "($2&&!$3)":
+          #    Since the $DELIMITER is part/all of the special comment marker,
+          #    if there is 1 marker (2 fields) then print the 2nd field.
+          #    if there are 2 markers (3 fields), then do not print anything.
+          #    This prevents the lines of code which set the $ DELIMITER
+          #    variable from being printed as a menu item, because they
+          #    purposely have 2 markers.
+          #    This will result in:
+          #    " ledger        - Ledger using double-entry." w/delimiter $XSTR.
+          #    "AA ledger        - Ledger using double-entry." w/delimiter #M.
+          #
+          # 3. awk '{sub(/[^" "]+ /, ""); print $0}'
+          #    Substitute space for null at beginning of line.
+          #    This will result in:
+          #    "ledger        - Ledger using double-entry." w/delimiter "#M".
+          #
+          # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
+          # XSTR="#:MPS" to grep README file for menu titles.
+          # XSTR="#MPS"  to grep mod_apps*.lib files for application names
+          #              and descriptions.
+          # XSTR="MPS"   almost worked but README contained the word "MUMPS"
+          #              which caused problems when displaying the menu title
+          #              for "#:MPS - PDF-PS Applications Menu". Too much time.
+          # So somehow XSTR had to be modified within the for-loop.
+          #
+          XSTR=${XSTR/:/} # Use string substitution, I just learned how, cool!
+          #
+          # Print application names and descriptions.
+          # Any new mod_apps*.lib files added must be included in the for-loop below.
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+
+          do
+              # Human readable list without special comment markers.
+              # Indents one space before application name.
+              grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> $THIS_DIR/LIST_APPS
+              #
+              # Leaves no space before application name.
+              # grep $XSTR $THIS_DIR/$MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> $THIS_DIR/LIST_APPS
+
+          done
+      done
+      unset XSTR  # Throw out this variable.
+} # End of function f_create_LIST_APPS
+#
+# +----------------------------------------+
+# |      Function f_show_max_menu_items    |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: XSTR, MOD_FILE, MAX
+# Outputs: MAX.
+#
+f_show_max_menu_items () {
+      #
+      # Calculate $MAX, the number of menu items using grep -c(ount) option.
+      # Count number of lines containing special comment marker string to get
+      # maximum item number.
+      #
+      # Set XSTR to the Special Menu Item Marker.
+      for XSTR in $(grep [#]:M[A-Z][A-Z] "$THIS_DIR/README" | awk '{print $1}')
+      # for XSTR in $(grep --silent [#]:M[A-Z][A-Z] $THIS_DIR/README)
+      do
+          echo
+          # Print application category menu title.
+          #echo -n "*** "
+          #grep $XSTR $THISDIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}'
+          grep $XSTR $THIS_DIR/README
+          XSTR=${XSTR/:/} # Use string substitution.
+          #
+          # Get name of module library file from the Application Category Menu lib_cli-menu-cat.lib.
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+          do
+              # Human readable list without special comment markers.
+              # Indents one space before application name.
+              # Is the module library file downloaded in $THIS_DIR?
+              if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
+                 MAX=$(grep $XSTR -c $THIS_DIR/$MOD_FILE)
+                 # Subtract 1 since the line DELIMITER=<string> contains the 
+                 # special comment marker but is not part of menu display.
+                 #
+                 MAX=$((MAX=$MAX-1))
+                 #
+                 # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
+                 #
+                 if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
+                    echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
+                 fi
+              fi
+           #
+          done
+      done
+      unset XSTR  # Throw out this variable.
+} # End of function f_show_max_menu_items
 #
