@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2013 012:02"
+# REVDATE="September-24-2013 22:44"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -18,7 +18,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       f_term_color # Set terminal color.
       echo "--- $MENU_TITLE ---"
       echo
-      if [ "$DELIMITER" = "#AAA" ] ; then #AAA This 3rd field prevents awk from printing this line into menu options.
+      if [ "$DELIMITER" = "#AAA" ] ; then
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
       elif [ "$DELIMITER" = "#AAB" ] ; then 
          echo " 0 - Return to Main Menu." # Option for Application Category Menu.
@@ -75,6 +75,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       #
       if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
          XNUM=0
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
          for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
          do
              let XNUM++
@@ -98,18 +99,18 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       #
          case $DELIMITER in
               # Main Menu.
-              "#AAA") #AAA This 3rd field prevents awk from printing this line into menu options.
+              "#AAA")
                  echo
                  echo "'0', (Q)uit, to quit this script."
               ;;
               # Application Category Menus.
-              "#AAB") #AAB This 3rd field prevents awk from printing this line into menu options.
+              "#AAB")
                  echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
                  echo
                  echo "'0', (R)eturn, to go back to Main Menu."
               ;;
               # Download Menu.
-              "#AAC") #AAC This 3rd field prevents awk from printing this line into menu options.
+              "#AAC")
                  echo
                  echo "'0', (R)eturn, to go back to Main Menu."
               ;;
@@ -356,9 +357,6 @@ f_menu_item_valid () {
                else
                   let XNUM++  # Not valid, try next menu item, force stay in menu loop.
                fi
-#echo "MENU_ITEM_NAME=$MENU_ITEM_NAME"  #test diagnostic line.
-#echo -n "Press Enter key to continue."  #test diagnostic line.
-#read BOBCHIN  #test diagnostic line.
              fi
       done
       #
@@ -378,22 +376,14 @@ f_menu_item_valid () {
 f_menu_item_info () {
       # Extract MENU_ITEM_OPT string.
       # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+      #
       MENU_ITEM_OPT=""
-
-#echo "Just before getting info string, MENU_ITEM_NAME=$MENU_ITEM_NAME"  #test diagnostic line.
-#echo -n "Press Enter key to continue."  #test diagnostic line.
-#read BOBCHIN  #test diagnostic line.
-
+      #
       # grep "$MENU_ITEM_NAME" is in quotes because some menu items have 2 words i.e. "star wars".
       # grep needs -i because my convention is any sub-menus start with an upper-case letter.
       # grep needs "$DELIMITER<SPACE>$MENU_ITEM_NAME because some names are in the descriptions
       # of multiple menu choices i.e. grep -i "morse" would give several hits (results).
       MENU_ITEM_OPT=$(awk -F $DELIMITER '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -i "$DELIMITER $MENU_ITEM_NAME" | awk -F $DELIMITER '{print $1}')
-
-#echo "MENU_ITEM_OPT2=$MENU_ITEM_OPT"  #test diagnostic line.
-#echo -n "Press Enter key to continue."  #test diagnostic line.
-#read BOBCHIN  #test diagnostic line.
-
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F $DELIMITER '{print $1}')
       MENU_ITEM_OPT=${MENU_ITEM_OPT/\#/} # Strip off leading "#".
       # The "\" treats "#" as a literal hash mark, not as a comment.
@@ -404,11 +394,6 @@ f_menu_item_info () {
       # i.e. "n^n^n^n^n #n^n^n^n^n"
       # only the first one is valid, use the " #" as a delimiter and take only the first one.
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
-
-#echo "if grep -i finds >1, MENU_ITEM_OPT=$MENU_ITEM_OPT"  #test diagnostic line.
-#echo -n "Press Enter key to continue."  #test diagnostic line.
-#read BOBCHIN  #test diagnostic line.
-
       export MENU_ITEM_OPT
       #
 } # End of function f_menu_item_info
@@ -430,10 +415,7 @@ f_eval_funct () {
       # Extracts the $2 field from $MENU_ITEM_OPT.
       #
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
-
-#echo -n "Press Enter key to eval \"$XSTR\" DELIMITER=$DELIMITER MENU_ITEM=$MENU_ITEM MENU_ITEM_NAME=$MENU_ITEM_NAME APP_NAME=$APP_NAME"  #test diagnostic line.
-#read BOBCHIN  #test diagnostic line.
-
+      #
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
          if [ "$XSTR" = 1 ] ; then
             XSTR=f_$MENU_ITEM_NAME
@@ -510,7 +492,7 @@ f_quit_app_clause () {
          # i.e. QUIT_FIELD=1 for keystroke sequence "Q", =2 for "Q or quit", =3 for "Q or <F10>"...
          QUIT_FIELD=`expr $QUIT_FIELD + 1` # Use backticks with expr to increment QUIT_FIELD by 1
                                            # to get field number for awk (since field #1 is null).
-         XSTR=$(grep "#%%" lib_cli-common.lib)  # Get list of Quit Fields in a single big string.
+         XSTR=$(grep "#%%" $THIS_DIR/lib_cli-common.lib)  # Get list of Quit Fields in a single big string.
          # Match integer of QUIT_FIELD to grepped XSTR containg that value.
          #
          # Extract keystroke sequence from matching grepped string and set QUIT_FIELD to that string.
@@ -1417,7 +1399,7 @@ f_wget_file () {
                                    # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE,
                                    # PRESS_KEY=0/1
       if [ "$BRANCH" != "QUIT" ] ; then
-         wget $WEB_SITE$MOD_FILE      # Download the module.
+         wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
          echo "Downloaded file, $MOD_FILE from github $BRANCH branch." 
          echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -1495,7 +1477,7 @@ f_ask_which_branch_download () {
 # +----------------------------------------+
 #
 #  Inputs: BRANCH (STABLE, TESTING, QUIT)
-#    Uses: MOD_FILE, XXSTR
+#    Uses: MOD_FILE, XXSTR, X, ANS, PRESS_KEY.
 # Outputs: None (modules downloaded)
 #
 # Download a multiple $MOD_FILE files one at a time from $WEB_SITE.
@@ -1504,20 +1486,28 @@ f_ask_which_module_download () {
       clear # Blank the screen.
       echo "Here is a list of downloadable modules."
       echo
-      echo "0 - Quit"
-      echo "(ALL) modules"
-      echo "(AU)udio"
-      echo "(E)ducation"
-      echo "(F)ileDir"
-      echo "(G)ames"
-      echo "(IM)mage"
-      echo "(IN)ternet"
-      echo "(NE)etwork"
-      echo "(O)ffice"
-      echo "(SA)mple Templates"
-      echo "(SC)reensavers"
-      echo "(SY)stem"
-      echo "(V)ideo"
+      echo " (Q)uit"
+      echo " (ALL) modules"
+      #
+      for X in "(AU)dio" "(D)atabases" "(E)ducation" "(F)iledir" "(G)ames" "(IM)age" "(IN)ternet" "(NE)twork" "(O)ffice" "(SA)mple Templates" "(SC)reensaver" "(SY)stem" "(V)ideo"
+      do
+          XXSTR=$(echo $X | awk -F ")" '{print $2}')
+          #
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+          do
+              # Match module library file name with each menu item in Download Menu.
+              if [[ $MOD_FILE == *$XXSTR* ]] ; then
+                 # Does the module library file exist in $THIS_DIR directory? Yes/No, bold/std font.
+                 if [ -r "$THIS_DIR/$MOD_FILE" ] ; then  # X=<module file name>
+                    echo $(tput bold) $X $MOD_FILE
+                 else
+                    echo $(tput sgr0) $X $MOD_FILE
+                 fi
+              fi
+          done
+      done
+      #
       echo
       echo "For example: 'GIMOSY' will download Games, Image, Office, System modules."
       echo "          or 'G im OsY' (not case sensitive and spaces allowed)."
@@ -1535,36 +1525,53 @@ f_ask_which_module_download () {
            ;;
       esac
       #
-      if [ "$XXSTR" != "QUIT" ] ; then
-            echo
-            echo "Choose the branch from where you want to download the software modules."
-            echo
-            f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
-                                         # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE, PRESS_KEY=0/1
-      fi
-      #
       if [ "$XXSTR" != "QUIT" -a "$BRANCH" != "QUIT" ] ; then
          # Prepare format of XXSTR for processing by f_module_match.
          # Change case of XXSTR to all upper-case to make substition easier.
          XXSTR=$(echo $XXSTR | tr '[:lower:]' '[:upper:]')
          # Strip off any spaces in XXSTR.
-         XXSTR="${XXSTR//[[:space:]]/}"     # Strip off any spaces in XSTR.
+         XXSTR="${XXSTR//[[:space:]]/}" # Strip off any spaces in XSTR.
+         ANS=$XXSTR  # Save result.
+         #
+         # Validate XXSTR.
          while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
          do
             f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
             XXSTR=$XSTR
-            if [ -n "$THIS_DIR/$MOD_FILE" ]  ; then   # If MOD_FILE is not null, then wget.
-                                            # "ALL" menu item sets $MOD_FILE to null because
-                                            # "ALL" has already downloaded all modules prior.
-               wget $WEB_SITE$MOD_FILE # Download the module.
+            if [ "$MOD_FILE"="BAD_CHOICE_INPUT" ]  ; then
+               # f_module_match sets MOD_FILE="BAD_CHOICE_INPUT" for invalid choices.
+               # "ALL" menu item sets $MOD_FILE to null after it finishes downloading all modules.
+               #
+               ANS=""  # Force ANS to null for bad choice.
+            fi 
+         done
+         #
+         XXSTR=$ANS # ANS is original XXSTR or null if bad choice.
+         if [ "$XXSTR" != "QUIT" -a "$XXSTR" != "" ] ; then
+            echo
+            echo "Choose the branch from where you want to download the software modules."
+            echo
+            f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
+                                         # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE, PRESS_KEY=0/1
+         fi
+         #
+         while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
+         do
+            f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
+            XXSTR=$XSTR
+            if [ -n "$MOD_FILE" ]  ; then   # If MOD_FILE is not null, then wget.
+                                            # f_module_match sets MOD_FILE to null
+                                            # for invalid choices.
+                                            # "ALL" menu item sets $MOD_FILE to null
+                                            # after it finishes downloading all modules.
+                                            #
+               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE # Download the module.
             fi
          done
+         f_press_enter_key_to_continue
       fi      
-      echo
-      echo -n "Press Enter key to continue."
-      read X
-         unset XXSTR X  # Throw out this variable.
       #
+      unset XXSTR ANS  # Throw out this variable.
 } # End of function f_ask_which_module_download
 #
 # +----------------------------------------+
@@ -1580,9 +1587,10 @@ f_module_match () {
       XSTR=$1
       case $XSTR in
            ALL)
-           for MOD_FILE in mod_apps-audio.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib mod_apps-sample-template.lib
+          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+
                do
-                  wget $WEB_SITE$MOD_FILE  # Download all modules.
+                  wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE  # Download all modules.
                done
            MOD_FILE=""  # This acts as a flag so download does not occur again at end of function.
            XSTR=${XSTR/ALL/} # Strip off "ALL" from XSTR.
@@ -1590,6 +1598,10 @@ f_module_match () {
            AU*)
            MOD_FILE="mod_apps-audio.lib"
            XSTR=${XSTR/AU/} # Strip off first letters AU of XSTR.
+           ;;
+           D*)
+           MOD_FILE="mod_apps-databases.lib"
+           XSTR=${XSTR/D/} # Strip off first letter D of XSTR.
            ;;
            E*)
            MOD_FILE="mod_apps-education.lib"
@@ -1636,7 +1648,7 @@ f_module_match () {
            XSTR=${XSTR/V/} # Strip off first letter V of XSTR.
            ;;
            *)
-           MOD_FILE=""
+           MOD_FILE="BAD_CHOICE_INPUT"
            XSTR=""
            echo
            echo ">>>Error Bad choice input.<<<"
@@ -1653,8 +1665,16 @@ f_module_match () {
 # Outputs: File LIST_APPS
 #
 # File LIST_APPS may be recreated at any time from the command line.
-# Prerequisite: ALL module files, mod_apps-*.lib MUST BE in the same directory
-#               as this lib_cli-common.lib file.
+# Prerequisite: README file and ALL module files, mod_apps-*.lib
+#               MUST BE in the same directory as this lib_cli-common.lib file.
+#
+# General notes: 1. README file is read for #MXX (Special Menu Item Marker)
+#                   type comments which includethe menu name.
+#                2. The Application Category Menu in file lib_cli-menu-cat.lib
+#                   has the module library file names needed.
+#                3. Search grep all module library files for the Special Menu
+#                   Item Markers #MXX which are unique for each application menu.
+#                4. Print result of application menu names with application names.
 #
 # To recreate LIST_APPS manually:
 # Type this command (without double-quotation marks) at the CLI prompt:
@@ -1740,15 +1760,16 @@ f_create_LIST_APPS () {
           #
           # Print application names and descriptions.
           # Any new mod_apps*.lib files added must be included in the for-loop below.
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
 
-          for MOD_FILE in mod_apps-audio.lib mod_apps-databases.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib
           do
               # Human readable list without special comment markers.
               # Indents one space before application name.
-              grep $XSTR $MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> $THIS_DIR/LIST_APPS
+              grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> $THIS_DIR/LIST_APPS
               #
               # Leaves no space before application name.
-              # grep $XSTR $MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> $THIS_DIR/LIST_APPS
+              # grep $XSTR $THIS_DIR/$MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> $THIS_DIR/LIST_APPS
 
           done
       done
@@ -1776,25 +1797,30 @@ f_show_max_menu_items () {
           echo
           # Print application category menu title.
           #echo -n "*** "
-          #grep $XSTR README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}'
+          #grep $XSTR $THISDIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}'
           grep $XSTR $THIS_DIR/README
           XSTR=${XSTR/:/} # Use string substitution.
           #
-          for MOD_FILE in mod_apps-audio.lib mod_apps-databases.lib mod_apps-education.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-image.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-screensaver.lib mod_apps-system.lib mod_apps-video.lib
+          # Get name of module library file from the Application Category Menu lib_cli-menu-cat.lib.
+          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
           do
               # Human readable list without special comment markers.
               # Indents one space before application name.
-              MAX=$(grep $XSTR -c $THIS_DIR/$MOD_FILE)
-              # Subtract 1 since the line DELIMITER=<string> contains the 
-              # special comment marker but is not part of menu display.
-              #
-              MAX=$((MAX=$MAX-1))
-              #
-              # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
-              #
-              if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
-                 echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
-              fi   
+              # Is the module library file downloaded in $THIS_DIR?
+              if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
+                 MAX=$(grep $XSTR -c $THIS_DIR/$MOD_FILE)
+                 # Subtract 1 since the line DELIMITER=<string> contains the 
+                 # special comment marker but is not part of menu display.
+                 #
+                 MAX=$((MAX=$MAX-1))
+                 #
+                 # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
+                 #
+                 if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
+                    echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
+                 fi
+              fi
            #
           done
       done

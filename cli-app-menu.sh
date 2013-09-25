@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-24-2013 12:02"
+REVDATE="September-24-2013 21:46"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -117,9 +117,9 @@ f_test_dash () {
          echo "You are using the DASH environment."
          echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
          echo
-         echo "*** This script cannot be run in the DASH environment. ***"
-         echo
-         echo "You can invoke the BASH environment by typing"
+         echo $(tput bold)"*** This script cannot be run in the DASH environment. ***"
+         echo $(tput sgr0)
+         echo "You can invoke the BASH environment by typing:"
          echo "'bash cli-app-menu.sh' at the command line."
          echo
          exit 1 # Exit with value $?=1 indicating an error condition
@@ -140,16 +140,17 @@ f_initvars_menu_app () {
       ERROR=0        # Initialize to 0 to indicate success at running last
                      # command.
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/robert/bin"
-      if [ ! -d $THIS_DIR ] ; then
+      THIS_DIR="/home/<username here>/bin/cli-app-menu"
+      if [ ! -d "$THIS_DIR" ] ; then
          echo
-         echo "The directory $THIS_DIR is not a valid existing directory."
-         echo "Edit function f_initvars_menu_app in file, cli-app-menu.sh and set the"
-         echo "variable THIS_DIR to a valid existing writable directory."
+         echo $(tput bold)"The directory $THIS_DIR"
+         echo "is not a valid existing directory."
+         echo "Edit function f_initvars_menu_app in file, cli-app-menu.sh"
+         echo "and set the variable THIS_DIR to a valid, existing, writable directory."
          echo "______________________________"
          echo ">>> Press Ctrl-C to exit. <<<"
          echo "______________________________"
-         f_press_enter_key_to_continue
+         echo $(tput sgr0)
       fi
       #
       # Initialize variables to "" or null.
@@ -584,79 +585,47 @@ do    # Start of CLI Menu util loop.
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
            [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)  # Main Menu item, "List Applications".
-           X="" # Initialize scratch variable.
            if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
-              while [  "$X" != "YES" -a "$X" != "NO" ]
-              do
-                    clear # Blank the screen.
-                    echo
-                    echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
-                    echo
-                    echo -n "Download LIST_APPS from www.git.com? (Y/n) "
-                    read X
-                    case $X in # Start of gnu.org case statement.
-                         "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                         ANS=""
-                         MOD_FILE="LIST_APPS"
-                         f_download_file
-                         X="YES"
-                         ;;
-                         [Nn] | [Nn][Oo])
-                              echo
-                              echo "The file LIST_APPS may be automatically created/updated by:"
-                              echo
-                              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
-                              echo
-                              echo "2. Select Main Menu item 'Update LIST_APPS'"
-                              echo
-                         X="NO"
-                         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                         ;;
-                    esac         # End of gnu.org case statement.
-              done
+              clear # Blank the screen.
+              echo
+              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+              echo
+              echo "The file LIST_APPS may be automatically created/updated by:"
+              echo
+              echo "Select Main Menu item:"
+              echo "Configure - Change default settings; terminal, browser etc."
+              echo
+              echo "Select Configuration Menu item:"
+              echo "LIST_APPS - Re-create/Update file list of all applications."
+              echo
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
            # display LIST_APPS
            if [ -r $THIS_DIR"/LIST_APPS" ] ; then
-           less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            fi
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            #
            ;;
            [Ss] | [Ss][Ee]*)  # Main Menu item, "Search Applications".
-           X="" # Initialize scratch variable.
            clear # Blank the screen.
            if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
-              while [  "$X" != "YES" -a "$X" != "NO" ]
-              do
-                    clear # Blank the screen.
-                    echo
-                    echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
-                    echo
-                    echo -n "Download LIST_APPS from www.git.com? (Y/n) "
-                    read X
-                         case $X in # Start of gnu.org case statement.
-                              "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                              ANS=""
-                              MOD_FILE="LIST_APPS"
-                              f_download_file
-                              X="YES"
-                              ;;
-                              [Nn] | [Nn][Oo])
-                              echo
-                              echo "The file LIST_APPS may be automatically created/updated by:"
-                              echo
-                              echo "1. Copy ALL the mod_apps-*.lib files to the current directory."
-                              echo
-                              echo "2. Select Main Menu item 'Update LIST_APPS'"
-                              echo
-                              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                              X="NO"
-                              ;;
-                         esac         # End of gnu.org case statement.
-              done
+              clear # Blank the screen.
+              echo
+              echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+              echo
+              echo "The file LIST_APPS may be automatically created/updated by:"
+              echo
+              echo "Select Main Menu item:"
+              echo "Configure - Change default settings; terminal, browser etc."
+              echo
+              echo "Select Configuration Menu item:"
+              echo "LIST_APPS - Re-create/Update file list of all applications."
+              echo
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            fi
-           #
+           
            if [ -r $THIS_DIR"/LIST_APPS" ] ; then
               XSTR="-1"
               while [ -n "$XSTR" ]
@@ -684,8 +653,9 @@ do    # Start of CLI Menu util loop.
                        grep --ignore-case -C 9 --color=always $XSTR $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
                     fi
               done
-           unset XSTR  # Throw out this variable.
+              unset XSTR  # Throw out this variable.
            fi
+           CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
       esac # End of CLI Menu case statement.
       #

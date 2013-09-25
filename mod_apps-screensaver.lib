@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="September-24-2013 22:26"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -11,21 +11,20 @@
 #
 #  Inputs: None. 
 #    Uses: MSS, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_screen_savers () {
       f_initvars_menu_app
       until [ $MSS -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
-            #0^0^0^0^0 #MSS asciiaquarium - Aquarium on screen.
-            #0^0^0^0^0 #MSS cmatrix       - Matrix-like screen-saver.
-            #0^0^0^0^0 #MSS rain          - Rain on screen.
-            #0^0^0^0^0 #MSS termsaver     - screensaver for text terminals.
-            #0^0^0^0^0 #MSS ticker        - scrolls text across the screen.
-            #0^0^0^0^0 #MSS tty-clock     - Display a digital clack full-screen.
-            #0^0^0^0^0 #MSS worms         - Worms wiggle on the screen.
+            #0^0^0^8:NC^0 #MSS asciiaquarium - Aquarium on screen.
+            #0^0^0^8:NC^0 #MSS cmatrix       - Matrix-like screen-saver.
+            #0^0^0^8:NC^0 #MSS rain          - Rain on screen.
+            #0^0^0^8:NC^0 #MSS termsaver     - screensaver for text terminals.
+            #0^0^0^8:NC^0 #MSS ticker        - scrolls text across the screen.
+            #0^0^0^8:NC^0 #MSS tty-clock     - Display a digital clack full-screen.
+            #0^0^0^8:NC^0 #MSS worms         - Worms wiggle on the screen.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-screensaver.lib"
             MENU_TITLE="Screen-saver Applications Menu"
             DELIMITER="#MSS" #MSS This 3rd field prevents awk from printing this line into menu options. 
