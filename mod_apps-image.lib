@@ -50,7 +50,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG aview      - Image and ascii art image viewer.
 #0^0^0^1^0 #MIG bb         - ASCII-art movie demo based on AAlib.
 #0^0^0^0^1 #MIG caca-utils - Image viewer and converter jpg to ascii images.
-#0^0^0^0^1 #MIG exiftool   - Display jpeg file properties in ls-like format.
+#0^0^0^0^1 #MIG exiftool   - Display audio/video/image file properties (ls-like format).
 #0^0^0^0^1 #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
 #0^0^0^0^1 #MIG fbv        - Image viewer framebuffer console.
 #0^0^0^0^1 #MIG fim        - Image and ascii art image viewer.

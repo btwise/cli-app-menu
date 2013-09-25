@@ -68,14 +68,14 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #: The folder/directory must have owner read/write/execute permissions.
 #: A sub-directory under the user's home directory is sufficient for this
-#: purpose, such as "/home/<username here>/bin/cli-app-menu".
+#: purpose, such as "/home/<username goes here>/bin/cli-app-menu".
 #:
 #: The owner should have write access to update the files EDIT_HISTORY and
 #: APP_LIST and be able to download new module library files into the folder
 #: along with deleting any unneeded module library files.
 #: 
 #: Append the directory name to your environment $PATH:
-#: Edit your /home/<username here>/.bashrc file and add the directory by
+#: Edit your /home/<username goes here>/.bashrc file and add the directory by
 #: adding the lines to the end of the .bashrc file,
 #:                   PATH=$PATH:~/bin/cli-app-menu
 #:                   export PATH
@@ -107,7 +107,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="September-24-2013 12:02"
+#:REVDATE="September-25-2013 00:28"
 #:
 #:
 #: +----------------------------------------+

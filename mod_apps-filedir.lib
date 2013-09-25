@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="September-24-2013 23:59"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -951,6 +951,7 @@ f_menu_app_file_delundel () {
 #1^0^0^0^1 #MFD photorec    - File recovery.
 #1^0^0^0^1 #MFD safecopy    - File recovery.
 #0^0^0^0^1 #MFD safe-rm     - Protect files from rm deletion.
+#0^0^0^0^1 #MFD scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
 #0^0^0^0^1 #MFD trash-cli   - Remembers name, path, date, permissions of each trashed file.
             #
             MENU_TITLE="File Deletion/Undeletion Applications Menu"

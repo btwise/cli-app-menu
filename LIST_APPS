@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-09-23 00:37 Monday
+Last updated: 2013-09-24 23:56 Tuesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -279,6 +279,7 @@ ________________________________________________
  photorec    - File recovery.
  safecopy    - File recovery.
  safe-rm     - Protect files from rm deletion.
+ scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
  trash-cli   - Remembers name, path, date, permissions of each trashed file.
 
 ________________________________________________

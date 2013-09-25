@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2013 22:44"
+# REVDATE="September-24-2013 23:59"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1098,6 +1098,9 @@ f_application_install () {
            ;;
            clamscan)
            APP_NAME_INSTALL="clamav"
+           ;;
+           exiftool)
+           APP_NAME_INSTALL="libimage-exiftool-perl"
            ;;
            e3*) # covers e3em, e3vi, e3pi, e3ne, e3ws.
            APP_NAME_INSTALL="e3"

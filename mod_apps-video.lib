@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="September-25-2013 00:28"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -49,8 +49,10 @@ f_menu_app_video_editors () {
       do    # Start of Video Applications until loop.
 #0^0^0^1^1 #MVE avconv        - Audio/Video converter.
 #0^0^0^1^1 #MVE avidemux      - Editor for simple cutting, filtering, encoding.
+#0^0^0^0^1 #MVE exiftool      - Display audio/video/image file properties (ls-like format).
 #0^0^0^0^1 #MVE ffmpeg        - Multimedia Record, convert, stream and play. 
 #0^0^0^0^1 #MVE handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
+#0^0^0^0^1 #MVE mediainfo     - Display audio/video file properties and metadata. 
 #0^0^0^0^1 #MVE melt          - Multi-track video editor, also plays audio/video files.
 #0^0^0^0^1 #MVE mencoder      - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
 #0^0^0^0^1 #MVE mjpegtools    - MJPEG video playback, editing, video capture.
