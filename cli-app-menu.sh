@@ -259,7 +259,7 @@ f_valid_files () {
 f_menu_main_configure () {
       MENU_TITLE="Configuration Menu"
       DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
-      f_initvars_menu_app
+      f_initvars_menu_app "AAC"
       until [ $AAC -eq 0 ]
       do    # Start of <Sample Template> Applications until loop.
             #AAC Edit History - Make changes to the Edit History.
@@ -357,8 +357,7 @@ f_menu_main_configure () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_main_download () {
-           f_initvars_menu_app
-           let AAD=-1    # Initialize variable.
+           f_initvars_menu_app "AAD"
            until [ $AAD -eq 0 ]
            do    # Start of Download Software Menu until loop.
                  #AAD Script program.
