@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2013 22:26"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_screen_savers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSS"
       until [ $MSS -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
             #0^0^0^8:NC^0 #MSS asciiaquarium - Aquarium on screen.
@@ -28,11 +28,9 @@ f_menu_app_screen_savers () {
             THIS_FILE="mod_apps-screensaver.lib"
             MENU_TITLE="Screen-saver Applications Menu"
             DELIMITER="#MSS" #MSS This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSS
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSS  # Outputs $MENU_ITEM.
      done  # End of Screen-saver Applications until loop.
             #

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-22-2013 23:50"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -14,8 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_office () {
-      f_initvars_menu_app
-      BOF="" # Initialize variable.
+      f_initvars_menu_app "BOF"
       until [ $BOF -eq 0 ]
       do    # Start of Office Application Category until loop.
 #^f_menu_app_accounting #BOF Accounting   - Accounting (with with double-entry).
@@ -33,13 +32,10 @@ f_menu_cat_office () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Office Application Category Menu"
             DELIMITER="#BOF" #BOF This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BOF
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BOF  # Outputs $MENU_ITEM. $BOF
-            #
       done  # End of Office Application Category until loop.
             #
       unset BOF MENU_ITEM  # Throw out this variable.
@@ -54,7 +50,7 @@ f_menu_cat_office () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_accounting () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAA"
       until [ $MAA -eq 0 ]
       do    # Start of Accounting Applications until loop.
 #0^0^0^0^1 #MAA clipf         - Track Your incomes and expenses, written for Python2.
@@ -67,13 +63,10 @@ f_menu_app_accounting () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Accounting Applications Menu"
             DELIMITER="#MAA" #MAA This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAA
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAA  # Outputs $MENU_ITEM.
-            #
       done  # End of Accounting Applications until loop.
             #
       unset MAA MENU_ITEM  # Throw out this variable.
@@ -88,7 +81,7 @@ f_menu_app_accounting () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_calculators () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MCC"
       until [ $MCC -eq 0 ]
       do    # Start of Calculator Applications until loop.
 #0^0^0^0^0 #MCC apcalc   - Arbitrary precision calculator, uses C-like language.
@@ -105,13 +98,10 @@ f_menu_app_calculators () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Calculator Applications Menu"
             DELIMITER="#MCC" #MCC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MCC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MCC  # Outputs $MENU_ITEM.
-            #
       done  # End of Calculator Applications until loop.
             #
       unset MCC MENU_ITEM  # Throw out this variable.
@@ -126,7 +116,7 @@ f_menu_app_calculators () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_calendar () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MCA"
       until [ $MCA -eq 0 ]
       do    # Start of Calendar Applications until loop.
 #0^0^0^0^1 #MCA cal         - Displays a monthly calendar.
@@ -149,13 +139,10 @@ f_menu_app_calendar () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Calendar Applications Menu"
             DELIMITER="#MCA" #MCA This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MCA
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MCA  # Outputs $MENU_ITEM.
-            #
       done  # End of Calendar Applications until loop.
             #
       unset MCA MENU_ITEM  # Throw out this variable.
@@ -170,7 +157,7 @@ f_menu_app_calendar () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_calendar2 () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MCB"
       until [ $MCB -eq 0 ]
       do    # Start of Calendar2 Applications until loop.
 #0^0^0^0^1 #MCB remind - Calendar alarms, Sun rise/set, moon phases.
@@ -180,13 +167,10 @@ f_menu_app_calendar2 () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Calendar #2 Applications Menu"
             DELIMITER="#MCB" #MCB This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MCB
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MCB  # Outputs $MENU_ITEM.
-            #
       done  # End of Calendar2 Applications until loop.
             #
       unset MCB MENU_ITEM  # Throw out this variable.
@@ -201,7 +185,7 @@ f_menu_app_calendar2 () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_clocks () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MCL"
       until [ $MCL -eq 0 ]
       do    # Start of Clock Applications until loop.
 #0^0^0^0^1 #MCL binclock         - Binary clock.
@@ -218,13 +202,10 @@ f_menu_app_clocks () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Clock Applications Menu"
             DELIMITER="#MCL" #MCL This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MCL
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MCL  # Outputs $MENU_ITEM.
-            #
       done  # End of Clock Applications until loop.
             #
       unset MCL MENU_ITEM  # Throw out this variable.
@@ -239,7 +220,7 @@ f_menu_app_clocks () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_contacts () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MCO"
       until [ $MCO -eq 0 ]
       do    # Start of Contact List Applications until loop.
 #0^0^0^0^1 #MCO abook - Address book with or w/o mutt. With tabs for fields of information.
@@ -247,13 +228,10 @@ f_menu_app_contacts () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Contact List Applications Menu"
             DELIMITER="#MCO" #MCO This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MCO
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MCO  # Outputs $MENU_ITEM.
-            #
       done  # End of Contact List Applications until loop.
             #
       unset MCO MENU_ITEM  # Throw out this variable.
@@ -268,7 +246,7 @@ f_menu_app_contacts () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_note () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNO"
       until [ $MNO -eq 0 ]
       do    # Start of Note Applications until loop.
 #0^0^0^0^1 #MNO diary    - Diary and To Do List uses commands date, grep, and text editor.
@@ -283,16 +261,13 @@ f_menu_app_note () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Note Applications Menu"
             DELIMITER="#MNO" #MNO This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNO
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNO  # Outputs $MENU_ITEM.
             #
             # If application displays information, allow user to read it.
             f_option_press_enter_key
-            #
       done  # End of Note Applications until loop.
             #
       unset MNO MENU_ITEM  # Throw out this variable.
@@ -307,7 +282,7 @@ f_menu_app_note () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_pdfps () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MPS"
       until [ $MPS -eq 0 ]
       do    # Start of PDF and PS Applications until loop.
 #0^0^0^0^1 #MPS comparepdf - Compare two PDF files.
@@ -330,13 +305,10 @@ f_menu_app_pdfps () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="PDF and PS Applications Menu"
             DELIMITER="#MPS" #MPS This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MPS
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MPS  # Outputs $MENU_ITEM.
-            #
       done  # End of PDF and PS Applications until loop.
             #
       unset MPS MENU_ITEM  # Throw out this variable.
@@ -351,7 +323,7 @@ f_menu_app_pdfps () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_pdfps2 () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MPT"
       until [ $MPT -eq 0 ]
       do    # Start of PDF and PS #2 Applications until loop.
 #0^0^0^0^1 #MPT sdf        - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
@@ -360,13 +332,10 @@ f_menu_app_pdfps2 () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="PDF and PS #2 Applications Menu"
             DELIMITER="#MPT" #MPT This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MPT
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MPT  # Outputs $MENU_ITEM.
-            #
       done  # End of PDF and PS #2 Applications until loop.
             #
       unset MPT MENU_ITEM  # Throw out this variable.
@@ -381,7 +350,7 @@ f_menu_app_pdfps2 () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_presentation () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MPR"
       until [ $MPR -eq 0 ]
       do    # Start of Presentation Applications until loop.
 #0^0^0^0^0 #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
@@ -389,13 +358,10 @@ f_menu_app_presentation () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Presentation Applications Menu"
             DELIMITER="#MPR" #MPR This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MPR
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MPR  # Outputs $MENU_ITEM.
-            #
       done  # End of Presentation Applications until loop.
             #
       unset MPR MENU_ITEM  # Throw out this variable.
@@ -410,7 +376,7 @@ f_menu_app_presentation () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_spreadsheets () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSP"
       until [ $MSP -eq 0 ]
       do    # Start of Spreadsheet Applications until loop.
 #0^0^0^0^1 #MSP oleo - Full-screen spreadsheet having a more Emacs-like feel.
@@ -420,13 +386,10 @@ f_menu_app_spreadsheets () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Spreadsheet Applications Menu"
             DELIMITER="#MSP" #MSP This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSP
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSP  # Outputs $MENU_ITEM.
-            #
       done  # End of Spreadsheet Applications until loop.
             #
       unset MSP MENU_ITEM  # Throw out this variable.
@@ -441,8 +404,7 @@ f_menu_app_spreadsheets () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_text () {
-      f_initvars_menu_app
-      BTX="" # Initialize variable.
+      f_initvars_menu_app "BTX"
       until [ $BTX -eq 0 ]
       do    # Start of Text Application Category until loop.
 #^f_menu_app_text_compare #BTX Compare     - Show differences between text files.
@@ -454,13 +416,10 @@ f_menu_cat_text () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Application Category Menu"
             DELIMITER="#BTX" #BTX This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BTX
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BTX  # Outputs $MENU_ITEM. $BTX
-            #
       done  # End of Text Application Category until loop.
             #
       unset BTX MENU_ITEM  # Throw out this variable.
@@ -475,7 +434,7 @@ f_menu_cat_text () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_compare () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTC"
       until [ $MTC -eq 0 ]
       do    # Start of Text Compare Applications until loop.
 #0^0^0^0^1 #MTC cmp       - Compares 2 text files.
@@ -491,13 +450,10 @@ f_menu_app_text_compare () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Compare Applications Menu"
             DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTC  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Compare Applications until loop.
             #
       unset MTC MENU_ITEM  # Throw out this variable.
@@ -541,7 +497,7 @@ f_comm () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_converters () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTV"
       until [ $MTV -eq 0 ]
       do    # Start of Text Converter Applications until loop.
 #1^0^0^0^1 #MTV txt2html   - Converts plain ASCII text to HTML format.
@@ -560,13 +516,10 @@ f_menu_app_text_converters () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Converter Applications Menu"
             DELIMITER="#MTV" #MTV This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTV
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTV  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Converter Applications until loop.
             #
       unset MTV MENU_ITEM  # Throw out this variable.
@@ -699,7 +652,7 @@ f_txt2tags () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_editors () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTE"
       until [ $MTE -eq 0 ]
       do    # Start of Text Editor Applications until loop.
 #0^0^0^0^0 #MTE aoeui         - Very small editor for Dvorak layout keyboards.
@@ -722,13 +675,10 @@ f_menu_app_text_editors () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Editor #1 Applications Menu"
             DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTE
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTE  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Editor Applications until loop.
             #
       unset MTE MENU_ITEM  # Throw out this variable.
@@ -770,7 +720,7 @@ f_f_groff () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_editors2 () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTF"
       until [ $MTF -eq 0 ]
       do    # Start of Text Editor Applications2 until loop.
 #1^0^0^0^0 #MTF jed       - JED ncurses-based. Also consider package: jed-extra.
@@ -793,13 +743,10 @@ f_menu_app_text_editors2 () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Editor #2 Applications Menu"
             DELIMITER="#MTF" #MTF This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTF
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTF  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Editor2 Applications until loop.
             #
       unset MTF MENU_ITEM  # Throw out this variable.
@@ -847,7 +794,7 @@ f_joe () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_editors3 () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTG"
       until [ $MTG -eq 0 ]
       do    # Start of Text Editor Applications until loop.
 #f_joe^0^0^11:NC^0 #MTG rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
@@ -865,13 +812,10 @@ f_menu_app_text_editors3 () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Editor #3 Applications Menu"
             DELIMITER="#MTG" #MTG This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTG
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTG  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Editor Applications until loop.
             #
       unset MTG MENU_ITEM  # Throw out this variable.
@@ -886,7 +830,7 @@ f_menu_app_text_editors3 () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_markup_language () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTM"
       until [ $MTM -eq 0 ]
       do    # Start of Text Markup Language Applications until loop.
 #0^0^0^0^0 #MTM doconce  - Markup language to manipulate, transform, and convert text.
@@ -898,13 +842,10 @@ f_menu_app_text_markup_language () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Markup Language Applications Menu"
             DELIMITER="#MTM" #MTM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTM  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Markup Applications until loop.
             #
       unset MTM MENU_ITEM  # Throw out this variable.
@@ -919,7 +860,7 @@ f_menu_app_text_markup_language () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_tools () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTT"
       until [ $MTT -eq 0 ]
       do    # Start of Text Tool Applications until loop.
 #0^0^0^0^1 #MTT acheck   - Check grammar.
@@ -936,13 +877,10 @@ f_menu_app_text_tools () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Tool Applications Menu"
             DELIMITER="#MTT" #MTT This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTT
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTT  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Tool Applications until loop.
             #
       unset MTT MENU_ITEM  # Throw out this variable.
@@ -1237,7 +1175,7 @@ f_wc () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_todo () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTD"
       until [ $MTD -eq 0 ]
       do    # Start of ToDo Applications until loop.
 #0^0^0^0^1 #MTD diary    - Diary & To Do List uses grep, date, etc. with your text editor.
@@ -1256,13 +1194,10 @@ f_menu_app_todo () {
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="To-Do Applications Menu"
             DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTD
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTD  # Outputs $MENU_ITEM.
-            #
       done  # End of ToDo Applications until loop.
             #
       unset MTD MENU_ITEM  # Throw out this variable.

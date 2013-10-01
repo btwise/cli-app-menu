@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_internet () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BIN"
       until [ $BIN -eq 0 ]
       do    # Start of Internet Application Category until loop.
 #^f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
@@ -34,13 +34,10 @@ f_menu_cat_internet () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Internet Category Menu"
             DELIMITER="#BIN" #BIN This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BIN
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BIN  # Outputs $MENU_ITEM.
-            #
       done  # End of Internet Application Category until loop.
             #
       unset BIN MENU_ITEM  # Throw out this variable.
@@ -55,7 +52,7 @@ f_menu_cat_internet () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_bittorrent () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MBT"
       until [ $MBT -eq 0 ]
       do    # Start of Bittorrent Applications until loop.
 #0^0^0^0^1 #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
@@ -71,13 +68,10 @@ f_menu_app_bittorrent () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Bittorrent Applications Menu"
             DELIMITER="#MBT" #MBT This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MBT
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MBT  # Outputs $MENU_ITEM.
-            #
       done  # End of Bittorrent Applications until loop.
             #
       unset MBT MENU_ITEM  # Throw out this variable.
@@ -92,7 +86,7 @@ f_menu_app_bittorrent () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_downloaders () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MDL"
       until [ $MDL -eq 0 ]
       do    # Start of Downloaders Applications until loop.
 #0^0^0^0^1 #MDL axel     - Downloader accelerator using multiple connections/mirrors.
@@ -106,13 +100,10 @@ f_menu_app_downloaders () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Downloader-Checksum Applications Menu"
             DELIMITER="#MDL" #MDL This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MDL
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MDL  # Outputs $MENU_ITEM.
-            #
       done  # End of Downloader Applications until loop.
             #
       unset MDL MENU_ITEM  # Throw out this variable.
@@ -209,7 +200,7 @@ f_sha1sum () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_email () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MEM"
       until [ $MEM -eq 0 ]
       do    # Start of E-mail Applications until loop.
 #0^0^0^0^1 #MEM alpine         - E-mail client, FOSS version of pine.
@@ -230,13 +221,10 @@ f_menu_app_email () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="E-mail Applications Menu"
             DELIMITER="#MEM" #MEM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MEM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MEM  # Outputs $MENU_ITEM.
-            #
       done  # End of E-mail Applications until loop.
             #
       unset MEM MENU_ITEM  # Throw out this variable.
@@ -251,7 +239,7 @@ f_menu_app_email () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_fax () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFX"
       until [ $MFX -eq 0 ]
       do    # Start of FAX Applications until loop.
 #0^0^0^0^1 #MFX efax           - FAX over modem.
@@ -260,13 +248,10 @@ f_menu_app_fax () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="FAX Applications Menu"
             DELIMITER="#MFX" #MFX This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFX
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFX  # Outputs $MENU_ITEM.
-            #
       done  # End of FAX Applications until loop.
             #
       unset MFX MENU_ITEM  # Throw out this variable.
@@ -278,10 +263,10 @@ f_menu_app_fax () {
 #
 #  Inputs: None. 
 #    Uses: MFT, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_transfer () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFT"
       until [ $MFT -eq 0 ]
       do    # Start of File Transfer Applications until loop.
 #0^0^0^0^1 #MFT cmdftp - File transfer client.
@@ -296,13 +281,10 @@ f_menu_app_file_transfer () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="File Transfer Applications Menu"
             DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFT
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFT  # Outputs $MENU_ITEM.
-            #
       done  # End of File Transfer Applications until loop.
             #
       unset MFT MENU_ITEM  # Throw out this variable.
@@ -314,10 +296,10 @@ f_menu_app_file_transfer () {
 #
 #  Inputs: None. 
 #    Uses: MIM, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_instant_messaging () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MIM"
       until [ $MIM -eq 0 ]
       do    # Start of Internet Messaging Applications until loop.
 #0^0^0^4:NC^1 #MIM barnowl      - BarnOwl supports AIM, IRC, Jabber, Zephyr.
@@ -335,13 +317,10 @@ f_menu_app_instant_messaging () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Instant Messaging Applications Menu"
             DELIMITER="#MIM" #MIM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MIM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MIM  # Outputs $MENU_ITEM.
-            #
       done  # End of Instant Messaging Applications until loop.
             #
       unset MIM MENU_ITEM  # Throw out this variable.
@@ -374,7 +353,7 @@ f_barnowl () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_irc_clients () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MIR"
       until [ $MIR -eq 0 ]
       do    # Start of IRC Clients Applications until loop.
 #0^0^0^0^1 #MIR epic5   - IRC client based on ircI.
@@ -389,13 +368,10 @@ f_menu_app_irc_clients () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="IRC Clients Applications Menu"
             DELIMITER="#MIR" #MIR This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MIR
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MIR  # Outputs $MENU_ITEM.
-            #
       done  # End of IRC Clients Applications until loop.
             #
       unset MIR MENU_ITEM  # Throw out this variable.
@@ -410,7 +386,7 @@ f_menu_app_irc_clients () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_lan_chat () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNC"
       until [ $MNC -eq 0 ]
       do    # Start of LAN Chat Applications until loop.
 #0^0^0^0^1 #MNC talk    - Copies lines from your terminal to that of another user.
@@ -420,13 +396,10 @@ f_menu_app_lan_chat () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="LAN Chat Applications Menu"
             DELIMITER="#MNC" #MNC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNC  # Outputs $MENU_ITEM.
-            #
       done  # End of LAN Chat Applications until loop.
             #
       unset MNC MENU_ITEM  # Throw out this variable.
@@ -441,7 +414,7 @@ f_menu_app_lan_chat () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_news_readers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNR"
       until [ $MNR -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
 #0^0^0^0^1 #MNR cortex     - Dump news web page to text.
@@ -457,13 +430,10 @@ f_menu_app_news_readers () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="News Reader Applications Menu"
             DELIMITER="#MNR" #MNR This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNR
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNR  # Outputs $MENU_ITEM.
-            #
       done  # End of News Reader Applications until loop.
             #
       unset MNR MENU_ITEM  # Throw out this variable.
@@ -478,7 +448,7 @@ f_menu_app_news_readers () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_podcatchers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MPO"
       until [ $MPO -eq 0 ]
       do    # Start of Podcatcher Applications until loop.
 #0^0^0^0^1 #MPO bashpodder - Podcatcher.
@@ -491,13 +461,10 @@ f_menu_app_podcatchers () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Podcatcher Applications Menu"
             DELIMITER="#MPO" #MPO This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MPO
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MPO  # Outputs $MENU_ITEM.
-            #
       done  # End of Podcatcher Applications until loop.
             #
       unset MPO MENU_ITEM  # Throw out this variable.
@@ -512,7 +479,7 @@ f_menu_app_podcatchers () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_remote_connection () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MRC"
       until [ $MRC -eq 0 ]
       do    # Start of Remote Connection Applications until loop.
 #0^0^0^0^1 #MRC cpu     - Remote connection.
@@ -524,13 +491,10 @@ f_menu_app_remote_connection () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Remote Connection Applications Menu"
             DELIMITER="#MRC" #MRC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MRC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MRC  # Outputs $MENU_ITEM.
-            #
       done  # End of Remote Connection Applications until loop.
             #
       unset MRC MENU_ITEM  # Throw out this variable.
@@ -545,7 +509,7 @@ f_menu_app_remote_connection () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_rssfeeders () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MRS"
       until [ $MRS -eq 0 ]
       do    # Start of RSS Feeder Applications until loop.
             #MRS canto      - RSS feeder.
@@ -560,13 +524,10 @@ f_menu_app_rssfeeders () {
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="RSS Feeder Applications Menu"
             DELIMITER="#MRS" #MRS This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MRS
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MRS  # Outputs $MENU_ITEM.
-            #
       done  # End of RSS Feeder Applications until loop.
             #
       unset MRS MENU_ITEM  # Throw out this variable.
@@ -578,10 +539,10 @@ f_menu_app_rssfeeders () {
 #
 #  Inputs: None. 
 #    Uses: MWB, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_web_browsers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MWB"
       until [ $MWB -eq 0 ]
       do    # Start of Web Browsers Applications until loop.
 #f_web_site^0^0^1^0 #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
@@ -592,17 +553,13 @@ f_menu_app_web_browsers () {
 #0^0^0^0^0 #MWB surfraw - Search the web using a web search site.
 #f_web_site^0^0^1^0 #MWB w3m     - Web browser, tables, frames support, IPv6 support.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Web Browser Applications Menu"
             DELIMITER="#MWB" #MWB This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MWB
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MWB  # Outputs $MENU_ITEM.
-            #
       done  # End of Web Browsers Applications until loop.
             #
       unset MWB MENU_ITEM  # Throw out this variable.
@@ -613,7 +570,7 @@ f_menu_app_web_browsers () {
 # +----------------------------------------+
 #
 #  Inputs: APP_NAME.
-# Outputs: APP_NAME, WEB_SITE, PRESS_KEY.
+# Outputs: APP_NAME, WEB_SITE.
 #
 f_web_site () {
 case $APP_NAME in # Start of case statement.
