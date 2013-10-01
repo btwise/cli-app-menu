@@ -144,14 +144,14 @@ f_initvars_menu_app () {
       # This may be the same directory as $THIS_DIR or may be
       # any other directory you choose.
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/home/<username goes here>/"
+      MAINMENU_DIR="/home/<username_goes_here>/"
       #
       f_valid_dir "$MAINMENU_DIR"
       #
       # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
       # README, and COPYING and (optionally) cli-app-menu.sh.
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/<username goes here>/bin/cli-app-menu"
+      THIS_DIR="/home/<username_goes_here>/bin/cli-app-menu"
       #
       f_valid_dir "$THIS_DIR"
       f_valid_files "$THIS_DIR" "lib_cli-menu-cat.lib"
@@ -204,7 +204,7 @@ f_valid_dir () {
             echo
             echo $(tput bold)'Append the directory name to your environment $PATH.'
             echo $(tput sgr0)
-            echo "Edit your /home/<username goes here>/.bashrc file and add the directory"
+            echo "Edit your /home/<username_goes_here>/.bashrc file and add the directory"
             echo "by adding these lines to the end of the .bashrc file:"
             echo
             echo $(tput bold)'PATH=$PATH'":$1"
