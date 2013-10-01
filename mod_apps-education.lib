@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_education () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MED"
       until [ $MED -eq 0 ]
       do    # Start of Education Applications until loop.
 #0^0^0^0^1 #MED diatheke    - Holy Bible research tool.
@@ -33,13 +33,10 @@ f_menu_app_education () {
             THIS_FILE="mod_apps-education.lib"
             MENU_TITLE="Education/Hobby Applications Menu"
             DELIMITER="#MED" #MED This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
             read MED
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MED  # Outputs $MENU_ITEM.
-            #
       done  # End of Education Applications until loop.
             #
       unset MED MENU_ITEM  # Throw out this variable.
@@ -130,7 +127,7 @@ f_weather () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_hamradio () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MHR"
       until [ $MHR -eq 0 ]
       do    # Start of Ham Radio Applications until loop.
 #0^0^0^0^0 #MHR aldo     - Morse code training.
@@ -142,15 +139,13 @@ f_menu_app_hamradio () {
 #0^0^0^0^1 #MHR qrq      - High-speed morse code trainer.
 #0^0^0^0^1 #MHR tlf      - Morse code cw keyer, logging and contest program.
             #
+            THIS_FILE="mod_apps-education.lib"
             MENU_TITLE="Ham Radio Applications Menu"
             DELIMITER="#MHR" #MHR This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MHR
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MHR  # Outputs $MENU_ITEM.
-            #
       done  # End of Ham Radio Applications until loop.
             #
       unset MHR MENU_ITEM  # Throw out this variable.
@@ -165,7 +160,7 @@ f_menu_app_hamradio () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_math () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MMA"
       until [ $MMA -eq 0 ]
       do    # Start of Mathematic Applications until loop.
 #0^0^0^10^0 #MMA arithmetic     - Basic arithmetic quiz.
@@ -182,15 +177,13 @@ f_menu_app_math () {
 #0^0^0^0^0 #MMA relational-cli - relational algebra and relational database.
 #0^0^0^0^1 #MMA stda           - Simple tools for data analysis.
             #
+            THIS_FILE="mod_apps-education.lib"
             MENU_TITLE="Mathematic Applications Menu"
             DELIMITER="#MMA" #MMA This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MMA
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MMA  # Outputs $MENU_ITEM.
-            #
       done  # End of Mathematic Applications until loop.
             #
       unset MMA MENU_ITEM  # Throw out this variable.

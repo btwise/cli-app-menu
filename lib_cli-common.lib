@@ -3,17 +3,27 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-25-2013 14:10"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
 #  Inputs: MENU_TITLE, DELIMITER, THIS_DIR, THIS_FILE, MAX.
-#    Uses: XNUM
+#    Uses: X, XNUM, XXSTR, XSTR.
 # Outputs: MAX, XNUM.
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
+      MENU_TITLE=$1 ; DELIMITER=$2
+      # If displaying Main Menu or Download Menu both in file cli-app-menu.sh
+      # then this if statement allows for cli-app-menu.sh to be in a different
+      # directory from all other files.
+      # i.e. /home/<username>/cli-app-menu.sh
+      #      /home/<username>/bin/cli-app-menu/<All other module library files>.
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" ] ; then
+         XXSTR=$THIS_DIR  # Save $THIS_DIR.
+         THIS_DIR=$MAINMENU_DIR
+      fi
       clear # Blank the screen.
       f_term_color # Set terminal color.
       echo "--- $MENU_TITLE ---"
@@ -128,6 +138,10 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
          esac
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
+      #
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" ] ; then
+         THIS_DIR=$XXSTR  # Restore $THIS_DIR.
+      fi
 } # End of function f_show_menu
 #
 # +----------------------------------------+
@@ -1401,8 +1415,13 @@ f_wget_file () {
       f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
                                    # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE,
                                    # PRESS_KEY=0/1
+      # The wget --directory-prefix allows file to be downloaded into a specific directory.
       if [ "$BRANCH" != "QUIT" ] ; then
-         wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
+         if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
+            wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
+         else
+            wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
+         fi   
          echo "Downloaded file, $MOD_FILE from github $BRANCH branch." 
          echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -1683,7 +1702,7 @@ f_module_match () {
 #               MUST BE in the same directory as this lib_cli-common.lib file.
 #
 # General notes: 1. README file is read for #MXX (Special Menu Item Marker)
-#                   type comments which includethe menu name.
+#                   type comments which include the menu name.
 #                2. The Application Category Menu in file lib_cli-menu-cat.lib
 #                   has the module library file names needed.
 #                3. Search grep all module library files for the Special Menu

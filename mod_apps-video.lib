@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-25-2013 00:28"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_video () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BVI"
       until [ $BVI -eq 0 ]
       do    # Start of Video Application Category until loop.
 #^f_menu_app_video_editors #BVI Editors - Video editors, transcoders, converters.
@@ -23,13 +23,10 @@ f_menu_cat_video () {
             THIS_FILE="mod_apps-video.lib"
             MENU_TITLE="Video Application Category Menu"
             DELIMITER="#BVI" #BVI This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BVI
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BVI  # Outputs $MENU_ITEM.
-            #
       done  # End of Video Application Category until loop.
             #
       unset BVI MENU_ITEM  # Throw out this variable.
@@ -41,10 +38,10 @@ f_menu_cat_video () {
 #
 #  Inputs: None. 
 #    Uses: MVE, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_video_editors () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MVE"
       until [ $MVE -eq 0 ]
       do    # Start of Video Applications until loop.
 #0^0^0^1^1 #MVE avconv        - Audio/Video converter.
@@ -58,17 +55,13 @@ f_menu_app_video_editors () {
 #0^0^0^0^1 #MVE mjpegtools    - MJPEG video playback, editing, video capture.
 #0^0^0^0^1 #MVE mpgtx         - Editor splits/joins MPEG, MP3. video/audio files.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-video.lib"
             MENU_TITLE="Video Editor Applications Menu"
             DELIMITER="#MVE" #MVE This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MVE
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MVE  # Outputs $MENU_ITEM.
-            #
       done  # End of Video Editor Applications until loop.
             #
       unset MVE MENU_ITEM  # Throw out this variable.
@@ -80,10 +73,10 @@ f_menu_app_video_editors () {
 #
 #  Inputs: None. 
 #    Uses: MVI, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_video_players () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MVI"
       until [ $MVI -eq 0 ]
       do    # Start of Video Applications until loop.
 #0^0^0^0^1 #MVI aaxine       - Xine video player.
@@ -99,17 +92,13 @@ f_menu_app_video_players () {
 #0^0^0^0^1 #MVI yougrabber   - Download/Play Youtube videos.
 #0^0^0^0^1 #MVI youtube-dl   - Download/Play Youtube videos.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-video.lib"
             MENU_TITLE="Video Player/Downloader Applications Menu"
             DELIMITER="#MVI" #MVI This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MVI
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MVI  # Outputs $MENU_ITEM.
-            #
       done  # End of Video Player/Downloader Applications until loop.
             #
       unset MVI MENU_ITEM  # Throw out this variable.

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_network () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BNE"
       until [ $BNE -eq 0 ]
       do    # Start of Network Application Category until loop.
 #^f_menu_app_firewalls #BNE Firewalls    - Configure firewalls.
@@ -28,13 +28,10 @@ f_menu_cat_network () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Application Category Menu"
             DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BNE
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BNE  # Outputs $MENU_ITEM. $BNE
-            #
       done  # End of Network Application Category until loop.
             #
       unset BNE MENU_ITEM  # Throw out this variable.
@@ -82,7 +79,7 @@ unset ANS XSTR
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_firewalls () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNF"
       until [ $MNF -eq 0 ]
       do    # Start of Firewall Applications until loop.
 #1^0^0^0^1 #MNF arptables - Firewall configuration rules for an ARP chain.
@@ -96,13 +93,10 @@ f_menu_app_firewalls () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Firewall Applications Menu"
             DELIMITER="#MNF" #MNF This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNF
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNF  # Outputs $MENU_ITEM.
-            #
       done  # End of Firewall Applications until loop.
             #
       unset MNF MENU_ITEM  # Throw out this variable.
@@ -216,7 +210,7 @@ f_ufw () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_lan () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNL"
       until [ $MNL -eq 0 ]
       do    # Start of LAN Applications until loop.
 #1^0^0^0^1 #MNL arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
@@ -233,13 +227,10 @@ f_menu_app_lan () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="LAN Applications Menu"
             DELIMITER="#MNL" #MNL This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNL
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNL  # Outputs $MENU_ITEM.
-            #
       done  # End of LAN Applications until loop.
             #
       unset MNL MENU_ITEM  # Throw out this variable.
@@ -376,7 +367,7 @@ f_ss () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_wan () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNW"
       until [ $MNW -eq 0 ]
       do    # Start of WAN Applications until loop.
 #0^0^0^0^1 #MNW dig         - Query Internet domain name servers.
@@ -394,13 +385,10 @@ f_menu_app_wan () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="WAN Applications Menu"
             DELIMITER="#MNW" #MNW This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNW
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNW  # Outputs $MENU_ITEM.
-            #
       done  # End of WAN Applications until loop.
             #
       unset MNW MENU_ITEM  # Throw out this variable.
@@ -541,8 +529,7 @@ f_traceroute () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_scat_network_monitors () {
-      f_initvars_menu_app
-      BNM="" # Initialize variable.
+      f_initvars_menu_app "BNM"
       until [ $BNM -eq 0 ]
       do    # Start of Network Monitor Application Category until loop.
 #^f_menu_app_network_bandwidth #BNM Bandwidth - Bandwidth monitors.
@@ -551,13 +538,10 @@ f_menu_scat_network_monitors () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Monitor Application Category Menu"
             DELIMITER="#BNM" #BNM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BNM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BNM  # Outputs $MENU_ITEM. $BNM
-            #
       done  # End of Network Monitors Application Category until loop.
             #
       unset BNM MENU_ITEM  # Throw out this variable.
@@ -572,7 +556,7 @@ f_menu_scat_network_monitors () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_network_bandwidth () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNB"
       until [ $MNB -eq 0 ]
       do    # Start of Network Bandwidth Applications until loop.
 #0^0^0^0^0 #MNB bmon     - Bandwidth monitor and rate estimator.
@@ -589,13 +573,10 @@ f_menu_app_network_bandwidth () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Bandwidth Applications Menu"
             DELIMITER="#MNB" #MNB This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
             #
             read MNB
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNB  # Outputs $MENU_ITEM.
-            #
       done  # End of Network Bandwidth Applications until loop.
             #
       unset MNB MENU_ITEM  # Throw out this variable.
@@ -672,7 +653,7 @@ f_pktstat () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_network_monitors () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNM"
       until [ $MNM -eq 0 ]
       do    # Start of Network Monitor Applications until loop.
 #0^0^0^0^0 #MNM iptraf   - IP LAN monitor, ncurses based display.
@@ -690,13 +671,10 @@ f_menu_app_network_monitors () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Monitor Applications Menu"
             DELIMITER="#MNM" #MNM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNM  # Outputs $MENU_ITEM.
-            #
       done  # End of Network Monitor Applications until loop.
             #
       unset MNM MENU_ITEM  # Throw out this variable.
@@ -836,7 +814,7 @@ f_sntop () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_nic_tools () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNN"
       until [ $MNN -eq 0 ]
       do    # Start of NIC Tools Applications until loop.
 #1^0^0^0^1 #MNN ethtool      - NIC configuration.
@@ -857,13 +835,10 @@ f_menu_app_nic_tools () {
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="NIC Tools Applications Menu"
             DELIMITER="#MNN" #MNN This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNN
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNN  # Outputs $MENU_ITEM.
-            #
       done  # End of NIC Tools Applications until loop.
             #
       unset MNN MENU_ITEM  # Throw out this variable.
@@ -973,7 +948,7 @@ f_netload () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_packet_tools () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNP"
       until [ $MNP -eq 0 ]
       do    # Start of Packet Tools Applications until loop.
 #0^0^0^0^1 #MNP kismet    - Wireless network detector, packet sniffer, auditor.
@@ -984,17 +959,13 @@ f_menu_app_packet_tools () {
 #1^0^0^0^1 #MNP tcpdump   - Packet sniffer/logger.
 #0^0^0^0^1 #MNP wireshark - Packet sniffer/logger.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Packet Tools Applications Menu"
             DELIMITER="#MNP" #MNP This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNP
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNP  # Outputs $MENU_ITEM.
-            #
       done  # End of Packet Tools Applications until loop.
             #
       unset MNP MENU_ITEM  # Throw out this variable.
@@ -1042,7 +1013,7 @@ f_tcpdump () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_app_network_sharing () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MNS"
       until [ $MNS -eq 0 ]
       do    # Start of Network Configuration Applications until loop.
 #0^0^0^0^1 #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
@@ -1052,17 +1023,13 @@ f_menu_app_network_sharing () {
 #0^0^0^0^1 #MNS testparm  - Samba configuration display.
 #0^0^0^0^1 #MNS woof      - Woof (Web Offer One File) copies files via the HTTP protocol.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Sharing Applications Menu"
             DELIMITER="#MNS" #MNS This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNS
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MNS  # Outputs $MENU_ITEM.
-            #
       done  # End of Network Sharing Applications until loop.
             #
       unset MNS MENU_ITEM  # Throw out this variable.
@@ -1088,7 +1055,7 @@ f_smbc () {
 # +----------------------------------------+
 #
 #  Inputs: APP_NAME.
-# Outputs: APP_NAME, WEB_SITE, PRESS_KEY.
+# Outputs: APP_NAME, WEB_SITE.
 #
 f_web_site () {
 case $APP_NAME in # Start of case statement.

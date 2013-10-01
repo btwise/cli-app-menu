@@ -3,9 +3,9 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-25-2013 00:28"
+# REVDATE="October-01-2013 00:35"
 #
-## +----------------------------------------+
+# +----------------------------------------+
 # |        Function f_menu_cat_audio       |
 # +----------------------------------------+
 #
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_audio () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BAU"
       until [ $BAU -eq 0 ]
       do    # Start of Audio Application Category until loop.
 #^f_menu_app_cdrippers #BAU CD Rippers         - Copy music off CD-ROM to files.
@@ -26,12 +26,10 @@ f_menu_cat_audio () {
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Audio Application Category Menu"
             DELIMITER="#BAU" #BAU This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BAU
-            #
             f_menu_item_process $BAU  # Outputs $MENU_ITEM.
-            #
       done  # End of Audio Application Category until loop.
             #
       unset BAU MENU_ITEM # Throw out this variable.
@@ -46,7 +44,7 @@ f_menu_cat_audio () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_cdrippers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAC"
       until [ $MAC -eq 0 ]
       do    # Start of CD Rippers Applications until loop.
 #0^0^0^0^1 #MAC abcde      - Audio CD ripper.
@@ -61,13 +59,10 @@ f_menu_app_cdrippers () {
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="CD Rippers Applications Menu"
             DELIMITER="#MAC" #MAC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAC  # Outputs $MENU_ITEM.
-            #
       done  # End of CD Rippers Applications until loop.
             #
       unset MAC MENU_ITEM  # Throw out this variable.
@@ -82,7 +77,7 @@ f_menu_app_cdrippers () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_audio_editors () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAU"
       until [ $MAU -eq 0 ]
       do    # Start of Audio Editor Applications until loop.
 #0^0^0^0^0 #MAU avconv    - Audio/Video converter.
@@ -96,13 +91,10 @@ f_menu_app_audio_editors () {
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Audio Editor Applications Menu"
             DELIMITER="#MAU" #MAU This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAU
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAU  # Outputs $MENU_ITEM.
-            #
       done  # End of Audio Editor Applications until loop.
             #
       unset MAU MENU_ITEM  # Throw out this variable.
@@ -117,7 +109,7 @@ f_menu_app_audio_editors () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_music_taggers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAT"
       until [ $MAT -eq 0 ]
       do    # Start of Music Tagger Applications until loop.
 #0^0^0^0^0 #MAT audiotag - Music tagger.
@@ -127,13 +119,10 @@ f_menu_app_music_taggers () {
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Music Tagger Applications Menu"
             DELIMITER="#MAT" #MAT This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAT
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAT  # Outputs $MENU_ITEM.
-            #
       done  # End of Music Tagger Applications until loop.
             #
       unset MAT MENU_ITEM  # Throw out this variable.
@@ -145,10 +134,10 @@ f_menu_app_music_taggers () {
 #
 #  Inputs: None. 
 #    Uses: MENU_ITEM, MAP, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_music_players () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAP"
       until [ $MAP -eq 0 ]
       do    # Start of Music Player Applications until loop.
 #0^0^0^0^0 #MAP dcd             - CD player.
@@ -167,17 +156,13 @@ f_menu_app_music_players () {
 #0^0^0^0^0 #MAP pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
 #f_menu_app_music_players2^0^0^0^0 #MAP MORE...         - For more music player applications.
             #
-            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Music Player Applications Menu"
             DELIMITER="#MAP" #MAP This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAP
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAP  # Outputs $MENU_ITEM.
-            #
       done  # End of Music Player Applications until loop.
             #
       unset MAP MENU_ITEM  # Throw out this variable.
@@ -192,7 +177,7 @@ f_menu_app_music_players () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_music_players2 () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAQ"
       until [ $MAQ -eq 0 ]
       do    # Start of Music Player Applications2 until loop.
 #0^0^0^0^1 #MAQ mpd     - Music Player Daemon server-side app for playing music.
@@ -212,13 +197,10 @@ f_menu_app_music_players2 () {
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Music Player Applications2 Menu"
             DELIMITER="#MAQ" #MAQ This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAQ
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAQ  # Outputs $MENU_ITEM.
-            #
       done  # End of Music Player Applications2 until loop.
             #
       unset MAQ MENU_ITEM  # Throw out this variable.
@@ -230,10 +212,10 @@ f_menu_app_music_players2 () {
 #
 #  Inputs: None. 
 #    Uses: MENU_ITEM, MAR, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_radio () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAR"
       until [ $MAR -eq 0 ]
       do    # Start of Radio Applications until loop.
 #0^0^0^1^0 #MAR dradio   - Streaming radio on world-wide web.
@@ -244,13 +226,10 @@ f_menu_app_radio () {
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Radio Applications Menu"
             DELIMITER="#MAR" #MAR This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAR
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAR  # Outputs $MENU_ITEM.
-            #
       done  # End of Radio Applications until loop.
             #
       unset MAR MENU_ITEM  # Throw out this variable.
@@ -265,7 +244,7 @@ f_menu_app_radio () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_speech_synthesis () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MAS"
       until [ $MAS -eq 0 ]
       do    # Start of Speech Synthesis Applications until loop.
 #0^0^0^0^1 #MAS ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
@@ -276,13 +255,10 @@ f_menu_app_speech_synthesis () {
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Speech Synthesis Applications Menu"
             DELIMITER="#MAS" #MAS This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MAS
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MAS  # Outputs $MENU_ITEM.
-           #
       done  # End of Speech Synthesis Applications until loop.
             #
       unset MAS MENU_ITEM  # Throw out this variable.

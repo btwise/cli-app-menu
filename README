@@ -59,12 +59,18 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: +----------------------------------------+
 #:
 #: The following files must be in the same folder/directory.
-#: cli-app-menu.sh, EDIT_HISTORY, COPYING, README, LIST_APPS,
+#: EDIT_HISTORY, COPYING, README, LIST_APPS,
 #: lib_cli-common.lib, and lib_cli-menu-cat.lib.
-#: 
-#: Specify the folder/directory where the script and module library files
+#:
+#: Specify the folder/directory where the library and module library files
 #: reside by setting $THIS_DIR variable within function f_initvars_menu_app
 #: in the script file, cli-app-menu.sh.
+#:
+#: cli-app-menu.sh may be in a separate folder/directory.
+#: 
+#: Specify the folder/directory where the script cli-app-menu.sh file
+#: resides by setting $MAINMENU_DIR variable within function
+#: f_initvars_menu_app in the script file, cli-app-menu.sh.
 #:
 #: The folder/directory must have owner read/write/execute permissions.
 #: A sub-directory under the user's home directory is sufficient for this
@@ -107,7 +113,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="September-25-2013 00:28"
+#:REVDATE="September-26-2013 13:32"
 #:
 #:
 #: +----------------------------------------+
@@ -366,6 +372,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: CHOICE_MAIN - String; User choice in Main Menu (alpha-numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
+#: DELIM       - String; Delimiter prefix without the hash "#" mark.
 #: DELIMITER   - String; Delimiter prefix of menu option string.
 #: ERROR       - Number; Save error code number from $? function.
 #: INSTALL_ANS - String; YES/NO Does user want to install app?
