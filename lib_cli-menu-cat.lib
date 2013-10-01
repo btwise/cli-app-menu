@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -15,7 +15,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
 #
 f_menu_cat_applications () {
-      f_initvars_menu_app
+      f_initvars_menu_app "AAB"
       until [ $AAB -eq 0 ]
       do    # Start of Application Category until loop.
             #mod_apps-audio.lib       #AAB Audio        - Music players, editors, utilities.
@@ -31,14 +31,11 @@ f_menu_cat_applications () {
             #mod_apps-system.lib      #AAB System       - Monitor system processes, resources, utilities, etc.
             #mod_apps-video.lib       #AAB Video        - Video players, editors, utilities.
             #
-            THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Application Categories Menu"
-            DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
-            . lib_cli-common.lib
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
+      THIS_FILE="lib_cli-menu-cat.lib"
+      MENU_TITLE="Application Categories Menu"
+      DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAB
-            #
             f_cat_menu_item_process $AAB  # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
             #

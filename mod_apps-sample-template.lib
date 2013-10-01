@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |  Function f_menu_scat_sample_template  |
@@ -17,22 +17,19 @@
 #       Both must be unique to each (new) menu.
 #
 f_menu_scat_sample_template () {
-      f_initvars_menu_app
-      #BXX="" # Initialize variable.
+      f_initvars_menu_app "BXX"
       until [ $BXX -eq 0 ]
       do    # Start of <Sample Template> Application Category until loop.
 #^f_menu_cat_name1 #BXX App1 - This is application category #1.
 #^f_menu_cat_name2 #BXX App2 - This is application category #2.
             #
+            THIS_FILE="<Name of this file or library>"
             MENU_TITLE="<Sample Template> Application Category Menu"
             DELIMITER="#BXX" #BXX This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BXX
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BXX  # Outputs $MENU_ITEM.
-            #
       done  # End of <Sample Template> Application Category until loop.
             #
       unset BXX MENU_ITEM  # Throw out this variable.
@@ -67,9 +64,10 @@ f_menu_scat_sample_template () {
 # This will display the custom "How to quit" the application message.
 #
 # Field 5 sets the variable "PRESS_KEY" 1=Displays "Press 'Enter' key to continue."
+#                                       0=Do not display "Press 'Enter' key to continue."
 #
 f_menu_app_sample_template () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MXX"
       until [ $MXX -eq 0 ]
       do    # Start of <Sample Template> Applications until loop.
 #0^0^0^0^1 #MXX appname  - Description Application1 name.
@@ -79,13 +77,9 @@ f_menu_app_sample_template () {
             THIS_FILE="<Name of this file or library>"
             MENU_TITLE="<Sample Template> Applications Menu"
             DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MXX
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MXX  # Outputs $MENU_ITEM.
-            #
       done  # End of <Sample Template> Applications until loop.
             #
       unset MXX MENU_ITEM  # Throw out this variable.

@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="September-25-2013 16:00"
+PROJECT_REVDATE="October-01-2013 00:35"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,15 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-10-01 *f_initvars_menu_app reworked to allow directory and file verification.
+##            *f_valid_dir added to allow directory verification.
+##            *f_valid_files added to allow directory/file verification.
+##
+## 2013-09-26 *cli-app-menu.sh, lib_cli-common.lib and all f_mod_apps* files
+##             changed to allow cli-app-menu.sh to reside in a different
+##             folder/directory and to correct a f_show_menu parameter
+##             passing bug.
 ##
 ## 2013-09-25 *f_menu_app_video_editors added exiftool, mediainfo.
 ##            *f_menu_app_audio_editors added exiftool, mediainfo.

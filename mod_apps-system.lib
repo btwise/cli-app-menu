@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_system () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BSY"
       until [ $BSY -eq 0 ]
       do    # Start of System Application Category until loop.
 #^f_menu_app_sys_backup #BSY Backup      - File Backup.
@@ -32,13 +32,10 @@ f_menu_cat_system () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Category Menu"
             DELIMITER="#BSY" #BSY This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BSY
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BSY  # Outputs $MENU_ITEM.
-            #
       done  # End of System Application Category until loop.
             #
       unset BSY MENU_ITEM  # Throw out this variable.
@@ -53,7 +50,7 @@ f_menu_cat_system () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_backup () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSB"
       until [ $MSB -eq 0 ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^1 #MSB dtrx  - Use tar without remembering which flags for each file to use.
@@ -63,13 +60,10 @@ f_menu_app_sys_backup () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Backup/Archive Applications Menu"
             DELIMITER="#MSB" #MSB This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSB
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSB  # Outputs $MENU_ITEM.
-            #
       done  # End of Backup Applications until loop.
             #
       unset MSB MENU_ITEM  # Throw out this variable.
@@ -84,7 +78,7 @@ f_menu_app_sys_backup () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_disks () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSD"
       until [ $MSD -eq 0 ]
       do    # Start of System Disks Information Applications until loop.
 #0^0^0^0^1 #MSD agedu  - Find wasted disk space.
@@ -107,13 +101,10 @@ f_menu_app_sys_disks () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Disks Information Menu"
             DELIMITER="#MSD" #MSD This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
             read MSD
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSD  # Outputs $MENU_ITEM.
-            #
       done  # End of System Disks Information Applications until loop.
             #
       unset MSD MENU_ITEM  # Throw out this variable.
@@ -220,7 +211,7 @@ f_uuid () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_health () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSH"
       until [ $MSH -eq 0 ]
       do    # Start of System Health Applications until loop.
 #0^0^0^0^1 #MSH aide       - Advanced Intrusion Detection Environment check file integrity.
@@ -240,13 +231,10 @@ f_menu_app_sys_health () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Health Applications Menu"
             DELIMITER="#MSH" #MSH This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSH
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSH  # Outputs $MENU_ITEM.
-            #
       done  # End of System Health Applications until loop.
             #
       unset MSH MENU_ITEM  # Throw out this variable.
@@ -409,7 +397,7 @@ f_tripwire () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_logs () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MLO"
       until [ $MLO -eq 0 ]
       do    # Start of System Logs until loop.
 #0^0^0^0^1 #MLO ccze       - A robust and modular log coloriser, with plugins.
@@ -424,13 +412,10 @@ f_menu_app_sys_logs () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Logs Menu"
             DELIMITER="#MLO" #MLO This 3rd field prevents awk from printing this line into menu options.
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MLO
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MLO  # Outputs $MENU_ITEM.
-            #
       done  # End of System Logs Applications until loop.
             #
       unset MLO MENU_ITEM  # Throw out this variable.
@@ -445,7 +430,7 @@ f_menu_app_sys_logs () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_mainboard () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSI"
       until [ $MSI -eq 0 ]
       do    # Start of System Information until loop.
 #0^0^0^0^1 #MSI dmidecode   - Main board information.
@@ -463,13 +448,10 @@ f_menu_app_sys_mainboard () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Mainboard Information Menu"
             DELIMITER="#MSI" #MSI This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSI
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSI  # Outputs $MENU_ITEM.
-            #
       done  # End of Mainboard System Information Applications until loop.
             #
       unset MSI MENU_ITEM  # Throw out this variable.
@@ -646,7 +628,7 @@ f_uname () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_monitors () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSM"
       until [ $MSM -eq 0 ]
       do    # Start of System Monitors until loop.
 #0^0^0^0^0 #MSM acpi      - Show acpi information.
@@ -669,13 +651,10 @@ f_menu_app_sys_monitors () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSM" #MSM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSM  # Outputs $MENU_ITEM.
-            #
       done  # End of System Monitors Applications until loop.
             #
       unset MSM MENU_ITEM  # Throw out this variable.
@@ -818,7 +797,7 @@ f_rrdtool () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_monitors2 () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSN"
       until [ $MSN -eq 0 ]
       do    # Start of System Monitors until loop.
 #0^0^0^0^1 #MSN sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
@@ -829,14 +808,10 @@ f_menu_app_sys_monitors2 () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Monitors Menu"
             DELIMITER="#MSN" #MSN This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSN
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSN  # Outputs $MENU_ITEM.
-
-            #
       done  # End of System Monitors Applications until loop.
             #
       unset MSN MENU_ITEM  # Throw out this variable.
@@ -851,7 +826,7 @@ f_menu_app_sys_monitors2 () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_other () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSO"
       until [ $MSO -eq 0 ]
       do    # Start of System Other until loop.
 #0^0^0^0^1 #MSO colortest - test color capabilities of a terminal.
@@ -865,13 +840,10 @@ f_menu_app_sys_other () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Other System Applications Menu"
             DELIMITER="#MSO" #MSO This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSO
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSO  # Outputs $MENU_ITEM.
-            #
       done  # End of Other System Applications until loop.
             #
       unset MSO MENU_ITEM  # Throw out this variable.
@@ -886,7 +858,7 @@ f_menu_app_sys_other () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_peripherals () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSL"
       until [ $MSL -eq 0 ]
       do    # Start of Peripheral System Information until loop.
 #0^0^0^0^1 #MSL acpitool  - ACPI power/battery settings.
@@ -906,13 +878,10 @@ f_menu_app_sys_peripherals () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Peripheral System Information Menu"
             DELIMITER="#MSL" #MSL This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSL
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSL  # Outputs $MENU_ITEM.
-            #
       done  # End of Peripheral System Information Applications until loop.
             #
       unset MSL MENU_ITEM  # Throw out this variable.
@@ -999,7 +968,7 @@ f_pccardctl () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_process () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSR"
       until [ $MSR -eq 0 ]
       do    # Start of System Process Applications until loop.
 #0^0^0^1^0 #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
@@ -1020,13 +989,10 @@ f_menu_app_sys_process () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Process Applications Menu"
             DELIMITER="#MSR" #MSR This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSR
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSR  # Outputs $MENU_ITEM.
-            #
       done  # End of System Process Applications until loop.
             #
       unset MSR MENU_ITEM  # Throw out this variable.
@@ -1148,7 +1114,7 @@ f_sysctl () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_screens () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSC"
       until [ $MSC -eq 0 ]
       do    # Start of System Screens until loop.
 #0^0^0^0^0 #MSC away     - Locks terminal with password and checks for new email.
@@ -1166,13 +1132,10 @@ f_menu_app_sys_screens () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Screens Menu"
             DELIMITER="#MSC" #MSC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSC  # Outputs $MENU_ITEM.
-            #
       done  # End of System Screens Applications until loop.
             #
       unset MSC MENU_ITEM  # Throw out this variable.
@@ -1236,7 +1199,7 @@ f_splitvt () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_software () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MSF"
       until [ $MSF -eq 0 ]
       do    # Start of System Software Applications until loop.
 #0^0^0^0^1 #MSF alien     - Converts rpm to deb packages.
@@ -1257,13 +1220,10 @@ f_menu_app_sys_software () {
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Software Applications Menu"
             DELIMITER="#MSF" #MSF This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSF
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MSF  # Outputs $MENU_ITEM.
-            #
       done  # End of System Software Applications until loop.
             #
       unset MSF MENU_ITEM  # Throw out this variable.

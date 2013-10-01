@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="September-25-2013 16:00"
+REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -131,27 +131,31 @@ f_test_dash () {
 # |      Function f_initvars_menu_app      |
 # +----------------------------------------+
 #
-#  Inputs: None.
-#    Uses: None.
+#  Inputs: $1=Until-Loop variable.
+#    Uses: X, UNTILVAR.
 # Outputs: APP_NAME, MENU_ITEM, CHOICE_MAIN, ERROR, PRESS_KEY, TCOLOR.
 #
 f_initvars_menu_app () {
       TCOLOR="black"
       ERROR=0        # Initialize to 0 to indicate success at running last
                      # command.
+      #
+      # MAINMENU_DIR contains the script file cli-app-menu.sh.
+      # This may be the same directory as $THIS_DIR or may be
+      # any other directory you choose.
+      # MAINMENU_DIR does not need a trailing forward slash "/".
+      MAINMENU_DIR="/home/<username goes here>/"
+      #
+      f_valid_dir "$MAINMENU_DIR"
+      #
+      # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
+      # README, and COPYING and (optionally) cli-app-menu.sh.
       # THIS_DIR does not need a trailing forward slash "/".
       THIS_DIR="/home/<username goes here>/bin/cli-app-menu"
-      if [ ! -d "$THIS_DIR" ] ; then
-         echo
-         echo $(tput bold)"The directory $THIS_DIR"
-         echo "is not a valid existing directory."
-         echo "Edit function f_initvars_menu_app in file, cli-app-menu.sh"
-         echo "and set the variable THIS_DIR to a valid, existing, writable directory."
-         echo "______________________________"
-         echo ">>> Press Ctrl-C to exit. <<<"
-         echo "______________________________"
-         echo $(tput sgr0)
-      fi
+      #
+      f_valid_dir "$THIS_DIR"
+      f_valid_files "$THIS_DIR" "lib_cli-menu-cat.lib"
+      f_valid_files "$THIS_DIR" "lib_cli-common.lib"
       #
       # Initialize variables to "" or null.
       for INIT_VAR in APP_NAME WEB_BROWSER TEXT_EDITOR
@@ -160,11 +164,89 @@ f_initvars_menu_app () {
       done
       #
       # Initialize variables to -1 to force looping in until loop(s).
-      for INIT_VAR in CHOICE_MAIN MENU_ITEM
+      for INIT_VAR in CHOICE_MAIN MENU_ITEM $1
       do
           eval $INIT_VAR=-1 # eval sets the variables to "-1".
       done
-} # End of f_initvars_menu_app
+      unset X
+} # End of function f_initvars_menu_app
+#
+# +----------------------------------------+
+# |           Function f_valid_dir         |
+# +----------------------------------------+
+#
+#  Inputs: $1, $2. Where $1=Directory
+#    Uses: X.
+# Outputs: None.
+#
+f_valid_dir () {
+      if [ ! -d "$1" ] ; then
+         echo
+         echo $(tput bold)"The directory $1"
+         echo "is not a valid existing directory."
+         echo $(tput sgr0)
+         echo "Edit function f_initvars_menu_app in file, cli-app-menu.sh"
+         echo "and set the variable MAINMENU_DIR to a valid, existing, writable directory."
+         # Display brief comments where $1 is set in this file.
+         echo $(tput bold)
+         grep -m 1 $1 $THIS_FILE # Stop grep after 1st matching string.
+         echo
+         echo "______________________________"
+         echo ">>> Press Ctrl-C to exit. <<<"
+         echo "______________________________"
+         echo $(tput sgr0)
+         echo
+         echo "Press 'Enter' key to continue."
+         read X
+      else
+      # Check the $PATH
+         if [[ ! "$PATH" == *":$1"* ]] ; then
+            echo
+            echo $(tput bold)'Append the directory name to your environment $PATH.'
+            echo $(tput sgr0)
+            echo "Edit your /home/<username goes here>/.bashrc file and add the directory"
+            echo "by adding these lines to the end of the .bashrc file:"
+            echo
+            echo $(tput bold)'PATH=$PATH'":$1"
+            echo "export PATH"
+            echo
+            echo "______________________________"
+            echo ">>> Press Ctrl-C to exit. <<<"
+            echo "______________________________"
+            echo $(tput sgr0)
+            echo
+            echo "Press 'Enter' key to continue."
+            read X
+         fi
+      fi
+      unset X
+} # End of function f_valid_dir
+#
+# +----------------------------------------+
+# |          Function f_valid_files        |
+# +----------------------------------------+
+#
+#  Inputs: $1, $2. Where $1=Directory $2=File.
+#    Uses: X.
+# Outputs: None.
+#
+f_valid_files () {
+      # Check for required files. Skip if directory does not exist.
+      # If directory exists and file is not readable.
+      if [ ! -r "$1/$2" -a -d "$1" ] ; then
+         echo
+         echo $(tput bold) "Required file '$2' is missing from $1."
+         echo
+         echo "______________________________"
+         echo ">>> Press Ctrl-C to exit. <<<"
+         echo "______________________________"
+         echo $(tput sgr0)
+         echo
+         echo "Press 'Enter' key to continue."
+         read X
+      fi
+      unset X
+} # End of function f_valid_files
 #
 # +----------------------------------------+
 # |     Function f_menu_main_configure     |
@@ -175,6 +257,8 @@ f_initvars_menu_app () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_menu_main_configure () {
+      MENU_TITLE="Configuration Menu"
+      DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
       f_initvars_menu_app
       until [ $AAC -eq 0 ]
       do    # Start of <Sample Template> Applications until loop.
@@ -185,10 +269,7 @@ f_menu_main_configure () {
             #AAC White        - Set display black on white (except in X-terminals).
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-            MENU_TITLE="Configuration Menu"
-            DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
-            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAC
             #
             f_cat_menu_item_process $AAC  # Outputs $MENU_ITEM.
@@ -277,8 +358,8 @@ f_menu_main_configure () {
 #
 f_menu_main_download () {
            f_initvars_menu_app
-           AAD=""    # Initialize variable.
-           until [ $AAD -eq 0 ] 
+           let AAD=-1    # Initialize variable.
+           until [ $AAD -eq 0 ]
            do    # Start of Download Software Menu until loop.
                  #AAD Script program.
                  #AAD Modules of applications.
@@ -286,7 +367,7 @@ f_menu_main_download () {
                  PRESS_KEY=0 # Display "Press 'Enter' key to continue."
                  MENU_TITLE="Download Software Menu"
                  DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
-                 f_show_menu $MENU_TITLE $DELIMITER 
+                 f_show_menu "$MENU_TITLE" "$DELIMITER"
                  #
                  read AAD
                  #
@@ -350,7 +431,7 @@ f_test_dash
 # the module libraries may reside in any directory and still be invoked from
 # the Main Menu script, cli-app-menu.sh. Please refer to README for more
 # instructions on how to set the $PATH environmental variable to do this.
-f_initvars_menu_app
+f_initvars_menu_app "AAA"
 #
 # Invoke the common library to display menus.
 . $THIS_DIR/lib_cli-common.lib
@@ -360,8 +441,6 @@ f_initvars_menu_app
 # **************************************
 #
 # Inputs: CHOICE_MAIN, MAX, THIS_FILE, REVISION, REVDATE.
-#
-f_initvars_menu_app
 #
 until [ $CHOICE_MAIN -eq 0 ]
 do    # Start of CLI Menu util loop.
@@ -379,7 +458,7 @@ do    # Start of CLI Menu util loop.
       THIS_FILE="cli-app-menu.sh"
       MENU_TITLE="Main Menu"
       DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu items.
-      f_show_menu $MENU_TITLE $DELIMITER 
+      f_show_menu "$MENU_TITLE" "$DELIMITER"
       read CHOICE_MAIN
       case $CHOICE_MAIN in 
            # Quit?
@@ -409,7 +488,7 @@ do    # Start of CLI Menu util loop.
            # Display Help (all lines beginning with "#@" but do not print "#@").
            # sed substitutes null for "#@" at the beginning of each line so it is not printed.
            # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-           sed -n 's/^#@//'p $THIS_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
            ;;
@@ -518,7 +597,7 @@ do    # Start of CLI Menu util loop.
            # Display License (all lines beginning with "#LIC" but do not print "#LIC").
            # sed substitutes null for "#LIC" at the beginning of each line so it is not printed.
            # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-           sed -n 's/^#LIC//'p $THIS_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            X="" # Initialize scratch variable.
            while [  "$X" != "YES" -a "$X" != "NO" ]

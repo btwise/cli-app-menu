@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_databases     |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER, MENU_ITEM.
 #
 f_menu_app_databases () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MDB"
       until [ $MDB -eq 0 ]
       do    # Start of Database Applications until loop.
 #0^0^0^0^1 #MDB ara               - Search Debian package databases.
@@ -35,13 +35,10 @@ f_menu_app_databases () {
             THIS_FILE="mod_apps-databases.lib"
             MENU_TITLE="Database Applications Menu"
             DELIMITER="#MDB" #MDB This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MDB
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MDB  # Outputs $MENU_ITEM.
-            #
       done  # End of <Sample Template> Applications until loop.
             #
       unset MDB MENU_ITEM  # Throw out this variable.
