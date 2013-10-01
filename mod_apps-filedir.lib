@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2013 23:59"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER
 #
 f_menu_cat_file_management () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BFM"
       until [ $BFM -eq 0 ]
       do    # Start of File Management Application Category until loop.
 #^f_menu_app_binhex_editors #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
@@ -35,13 +35,10 @@ f_menu_cat_file_management () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Management Application Category Menu"
             DELIMITER="#BFM" #BFM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BFM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BFM  # Outputs $MENU_ITEM.
-            #
       done  # End of File Management Applications until loop.
             #
       unset BFM MENU_ITEM  # Throw out this variable.
@@ -56,7 +53,7 @@ f_menu_cat_file_management () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_binhex_editors () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MBH"
       until [ $MBH -eq 0 ]
       do    # Start of Bin-Hex Editor Applications until loop.
 #0^0^0^0^1 #MBH bbe      - sed-like editor for binary files.
@@ -73,14 +70,10 @@ f_menu_app_binhex_editors () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Binary-Hexadecimal File Editor Applications Menu"
             DELIMITER="#MBH" #MBH This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MBH
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MBH  # Outputs $MENU_ITEM.
-
-            #
       done  # End of Bin-Hex Editor Applications until loop.
             #
       unset MBH MENU_ITEM  # Throw out this variable.
@@ -95,7 +88,7 @@ f_menu_app_binhex_editors () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_burn () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFA"
       until [ $MFA -eq 0 ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^0 #MFA bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
@@ -112,13 +105,10 @@ f_menu_app_file_burn () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="CD/DVD File Burning Applications Menu"
             DELIMITER="#MFA" #MFA This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFA
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFA  # Outputs $MENU_ITEM.
-            #
       done  # End of CD/DVD File Burning Applications until loop.
             #
       unset MFA MENU_ITEM  # Throw out this variable.
@@ -192,7 +182,7 @@ f_wodim () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_checksum () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFG"
       until [ $MFG -eq 0 ]
       do    # Start of File Checksum Applications until loop.
 #0^0^0^0^0 #MFG cdck     - Check the quality of a written CD.
@@ -204,13 +194,10 @@ f_menu_app_file_checksum () {
             #
             MENU_TITLE="File Checksum Applications Menu"
             DELIMITER="#MFG" #MFG This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFG
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFG  # Outputs $MENU_ITEM.
-            #
       done  # End of File Checksum Applications until loop.
             #
       unset MFG MENU_ITEM  # Throw out this variable.
@@ -307,7 +294,7 @@ f_sha1sum () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_compare () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTC"
       until [ $MTC -eq 0 ]
       do    # Start of Text Compare Applications until loop.
 #0^0^0^0^1 #MTC cmp       - Compares 2 text files.
@@ -323,13 +310,10 @@ f_menu_app_text_compare () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Text Compare Applications Menu"
             DELIMITER="#MTC" #MTC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTC  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Compare Applications until loop.
             #
       unset MTC MENU_ITEM  # Throw out this variable.
@@ -373,7 +357,7 @@ f_comm () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_compression () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFB"
       until [ $MFB -eq 0 ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^1 #MFB acat    - Exract files in archives to standard output (tar, gzip, zip etc.).
@@ -396,13 +380,10 @@ f_menu_app_file_compression () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Compression Applications Menu"
             DELIMITER="#MFB" #MFB This 3rd field prevents awk from printing this line into menu options. 
-            . lib_cli-common.lib
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFB
-            #
             f_menu_item_process $MFB  # Outputs $MENU_ITEM.
-            #
       done  # End of File Compression Applications until loop.
             #
       unset MFB MENU_ITEM  # Throw out this variable.
@@ -417,7 +398,7 @@ f_menu_app_file_compression () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_compression2 () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFC"
       until [ $MFC -eq 0 ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^1 #MFC unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
@@ -432,14 +413,10 @@ f_menu_app_file_compression2 () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Compression #2 Applications Menu"
             DELIMITER="#MFC" #MFC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFC  # Outputs $MENU_ITEM.
-            f_application_help
-            #
       done  # End of File Compression #2 Applications until loop.
             #
       unset MFC MENU_ITEM  # Throw out this variable.
@@ -454,7 +431,7 @@ f_menu_app_file_compression2 () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_conversion () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTW"
       until [ $MTW -eq 0 ]
       do    # Start of File Format Conversion Applications until loop.
 #0^0^0^0^1 #MTW ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
@@ -471,13 +448,10 @@ f_menu_app_file_conversion () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Format Conversion Applications Menu"
             DELIMITER="#MTW" #MTW This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTW
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTW  # Outputs $MENU_ITEM.
-            #
       done  # End of File Format Conversion Applications until loop.
             #
       unset MTW MENU_ITEM  # Throw out this variable.
@@ -610,7 +584,7 @@ f_txt2tags () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_file_editors () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MTH"
       until [ $MTH -eq 0 ]
       do    # Start of Text Editor Applications until loop.
 #0^0^0^15^0 #MTH dav   - Text editor.
@@ -629,13 +603,10 @@ f_menu_app_text_file_editors () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Text File Editor Applications Menu"
             DELIMITER="#MTH" #MTH This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MTH
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MTH  # Outputs $MENU_ITEM.
-            #
       done  # End of Text Editor Applications until loop.
             #
       unset MTH MENU_ITEM  # Throw out this variable.
@@ -683,7 +654,7 @@ f_joe () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_encryption () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFE"
       until [ $MFE -eq 0 ]
       do    # Start of File Encryption Applications until loop.
 #0^0^0^0^1 #MFE bcrypt    - Uses the blowfish encryption algorithm.
@@ -702,13 +673,10 @@ f_menu_app_file_encryption () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Encryption Applications Menu"
             DELIMITER="#MFE" #MFE This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFE
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFE  # Outputs $MENU_ITEM.
-            #
       done  # End of File Encryption Applications until loop.
             #
       unset MFE MENU_ITEM  # Throw out this variable.
@@ -723,7 +691,7 @@ f_menu_app_file_encryption () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_find () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFF"
       until [ $MFF -eq 0 ]
       do    # Start of Find File Applications until loop.
 #0^0^0^0^1 #MFF duff         - Duplicate file finder.
@@ -739,13 +707,10 @@ f_menu_app_file_find () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Find File Applications Menu"
             DELIMITER="#MFF" #MFF This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFF
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFF  # Outputs $MENU_ITEM.
-            #
       done  # End of Find File Applications until loop.
             #
       unset MFF MENU_ITEM  # Throw out this variable.
@@ -819,7 +784,7 @@ f_locate () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_transfer () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFT"
       until [ $MFT -eq 0 ]
       do    # Start of File Transfer Applications until loop.
 #0^0^0^0^1 #MFT cmdftp - File transfer client.
@@ -834,13 +799,10 @@ f_menu_app_file_transfer () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Transfer Applications Menu"
             DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFT
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFT  # Outputs $MENU_ITEM.
-            #
       done  # End of File Transfer Applications until loop.
             #
       unset MFT MENU_ITEM  # Throw out this variable.
@@ -855,7 +817,7 @@ f_menu_app_file_transfer () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_managers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFM"
       until [ $MFM -eq 0 ]
       do    # Start of File Manager Applications until loop.
 #0^0^0^17^1 #MFM clex     - File manager.
@@ -876,13 +838,10 @@ f_menu_app_file_managers () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Manager Applications Menu"
             DELIMITER="#MFM" #MFM This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFM
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFM  # Outputs $MENU_ITEM.
-            #
       done  # End of File Manager Applications until loop.
             #
       unset MFM MENU_ITEM  # Throw out this variable.
@@ -897,7 +856,7 @@ f_menu_app_file_managers () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_operations () {
-      f_initvars_menu_app
+      f_initvars_menu_app"MFO"
       until [ $MFO -eq 0 ]
       do    # Start of File Operations Applications until loop.
 #0^0^0^0^1 #MFO dtrx      - Use tar without remembering which flags for each file to use.
@@ -915,13 +874,10 @@ f_menu_app_file_operations () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Operations Applications Menu"
             DELIMITER="#MFO" #MFO This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFO
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFO  # Outputs $MENU_ITEM.
-            #
       done  # End of File Operations Applications until loop.
             #
       unset MFO MENU_ITEM  # Throw out this variable.
@@ -936,7 +892,7 @@ f_menu_app_file_operations () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_delundel () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFD"
       until [ $MFD -eq 0 ]
       do    # Start of File Deletion/Undeletion Applications until loop.
 #0^0^0^0^1 #MFD shred       - Delete files securely without recovery.
@@ -954,15 +910,13 @@ f_menu_app_file_delundel () {
 #0^0^0^0^1 #MFD scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
 #0^0^0^0^1 #MFD trash-cli   - Remembers name, path, date, permissions of each trashed file.
             #
+            THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Deletion/Undeletion Applications Menu"
             DELIMITER="#MFD" #MFD This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFD
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFD  # Outputs $MENU_ITEM.
-            #
       done  # End of File Deletion/Undeletion Applications until loop.
             #
       unset MFD MENU_ITEM  # Throw out this variable.
@@ -1060,7 +1014,7 @@ f_safecopy () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_splitters () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFS"
       until [ $MFS -eq 0 ]
       do    # Start of File Splitter Applications until loop.
 #0^0^0^0^1 #MFS hoz     - File splitter using hacha file format.
@@ -1071,13 +1025,10 @@ f_menu_app_file_splitters () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Splitter Applications Menu"
             DELIMITER="#MFS" #MFS This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFS
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFS  # Outputs $MENU_ITEM.
-            #
       done  # End of File Splitter Applications until loop.
             #
       unset MFS MENU_ITEM  # Throw out this variable.
@@ -1149,7 +1100,7 @@ f_split () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER
 #
 f_menu_app_file_viewers () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MFV"
       until [ $MFV -eq 0 ]
       do    # Start of File Viewer Applications until loop.
 #1^0^0^0^0 #MFV less - File viewer and bi-directional pager.
@@ -1159,13 +1110,10 @@ f_menu_app_file_viewers () {
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Viewer Applications Menu"
             DELIMITER="#MFV" #MFV This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFV
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MFV  # Outputs $MENU_ITEM.
-            #
       done  # End of File Viewer Applications until loop.
             #
       unset MFV MENU_ITEM  # Throw out this variable.

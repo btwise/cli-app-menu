@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -11,10 +11,10 @@
 #
 #  Inputs: None.
 #    Uses: BGA, MENU_ITEM, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_games () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BGA"
       until [ $BGA -eq 0 ]
       do    # Start of Application Category until loop.
 #^f_menu_app_games_arcade #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
@@ -31,14 +31,11 @@ f_menu_cat_games () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Games Category Menu"
             DELIMITER="#BGA" #BGA This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BGA
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BGA  # Outputs $MENU_ITEM.
-            #
-      done  # End of Game Category until loop.
+            done  # End of Game Category until loop.
             #
       unset BGA MENU_ITEM  # Throw out this variable.
 
@@ -53,7 +50,7 @@ f_menu_cat_games () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_arcade () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGB"
       until [ $MGB -eq 0 ]
       do    # Start of Arcade Games until loop.
 #0^0^0^0^0 #MGB asciijump      - Ski jump game.
@@ -74,14 +71,11 @@ f_menu_app_games_arcade () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade Game Menu"
             DELIMITER="#MGB" #MGB This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGB
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGB  # Outputs $MENU_ITEM.
-            #
-      done  # End of Arcade Games until loop.
+            done  # End of Arcade Games until loop.
             #
       unset MGB MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_arcade
@@ -95,7 +89,7 @@ f_menu_app_games_arcade () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_board () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGC"
       until [ $MGC -eq 0 ]
       do    # Start of Board Games until loop.
 #1^0^0^1^0 #MGC atom4      - Board game strategy 2-player ncurses-based.
@@ -106,14 +100,11 @@ f_menu_app_games_board () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Board Games Menu"
             DELIMITER="#MGC" #MGC This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGC
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGC  # Outputs $MENU_ITEM.
-            #
-      done  # End of Board Games until loop.
+            done  # End of Board Games until loop.
             #
       unset MGC MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_board
@@ -135,7 +126,7 @@ f_atom4 () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_card () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGD"
       until [ $MGD -eq 0 ]
       do    # Start of Card Games until loop.
 #0^0^0^0^0 #MGD canfield - Solitaire card game with betting.
@@ -146,14 +137,11 @@ f_menu_app_games_card () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Card Game Menu"
             DELIMITER="#MGD" #MGD This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGD
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGD  # Outputs $MENU_ITEM.
-            #
-      done  # End of Card Games until loop.
+            done  # End of Card Games until loop.
             #
       unset MGD MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_card
@@ -167,7 +155,7 @@ f_menu_app_games_card () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_mud () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGE"
       until [ $MGE -eq 0 ]
       do    # Start of MUD Games until loop.
 #0^0^0^0^1 #MGE crawl    - Explore a cave, retrieve the Orb of Zot.
@@ -176,14 +164,11 @@ f_menu_app_games_mud () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="MUD Game Menu"
             DELIMITER="#MGE" #MGE This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGE
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGE  # Outputs $MENU_ITEM.
-            #
-      done  # End of MUD Games until loop.
+            done  # End of MUD Games until loop.
             #
       unset MGE MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_mud
@@ -197,7 +182,7 @@ f_menu_app_games_mud () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_puzzle () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGF"
       until [ $MGF -eq 0 ]
       do    # Start of Puzzle Games until loop.
 #0^0^0^0^0 #MGF bastet   - Tetris-like game.
@@ -213,14 +198,11 @@ f_menu_app_games_puzzle () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"
             DELIMITER="#MGF" #MGF This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGF
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGF  # Outputs $MENU_ITEM.
-            #
-      done  # End of Puzzle Games Applications until loop.
+            done  # End of Puzzle Games Applications until loop.
             #
       unset MGF MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_puzzle
@@ -234,7 +216,7 @@ f_menu_app_games_puzzle () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_quiz () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGG"
       until [ $MGG -eq 0 ]
       do    # Start of Quiz Games until loop.
 #0^0^0^10^0 #MGG arithmetic - Basic arithmetic quiz.
@@ -245,14 +227,11 @@ f_menu_app_games_quiz () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Quiz Game Menu"
             DELIMITER="#MGG" #MGG This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGG
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGG  # Outputs $MENU_ITEM.
-            #
-      done  # End of Quiz Games until loop.
+            done  # End of Quiz Games until loop.
             #
       unset MGG MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_quiz
@@ -266,7 +245,7 @@ f_menu_app_games_quiz () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_rpg () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGH"
       until [ $MGH -eq 0 ]
       do    # Start of RPG Games until loop.
 #0^0^0^7^1 #MGH adventure  - Explore Colossal Cave. 
@@ -282,14 +261,11 @@ f_menu_app_games_rpg () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="RPG Game Menu"
             DELIMITER="#MGH" #MGH This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGH
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGH  # Outputs $MENU_ITEM.
-            #
-      done  # End of RPG Games until loop.
+            done  # End of RPG Games until loop.
             #
       unset MGH MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_rpg
@@ -303,7 +279,7 @@ f_menu_app_games_rpg () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_simulation () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGI"
       until [ $MGI -eq 0 ]
       do    # Start of Simulation Games until loop.
 #f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
@@ -317,14 +293,11 @@ f_menu_app_games_simulation () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Simulation Games and Animation Menu"
             DELIMITER="#MGI" #MGI This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGI
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGI  # Outputs $MENU_ITEM.
-            #
-      done  # End of Simulation Games until loop.
+            done  # End of Simulation Games until loop.
             #
       unset MGI MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_simulation
@@ -354,7 +327,7 @@ f_starwars () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_strategy () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGJ"
       until [ $MGJ -eq 0 ]
       do    # Start of Strategy Games until loop.
 #0^0^0^1^0 #MGJ empire   - war game build armies, planes, ships, capture cities.
@@ -366,14 +339,11 @@ f_menu_app_games_strategy () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Strategy Game Menu"
             DELIMITER="#MGJ" #MGJ This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGJ
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGJ  # Outputs $MENU_ITEM.
-            #
-      done  # End of Strategy Games until loop.
+            done  # End of Strategy Games until loop.
             #
       unset MGJ MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_strategy
@@ -408,7 +378,7 @@ f_wargames () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_word () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MGK"
       until [ $MGK -eq 0 ]
       do    # Start of Word Games until loop.
 #0^0^0^10^0 #MGK boggle  - Word search game.
@@ -423,14 +393,11 @@ f_menu_app_games_word () {
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Word Game Menu"
             DELIMITER="#MGK" #MGK This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGK
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MGK  # Outputs $MENU_ITEM.
-            #
-      done  # End of Word Games until loop.
+            done  # End of Word Games until loop.
             #
       unset MGK MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_word

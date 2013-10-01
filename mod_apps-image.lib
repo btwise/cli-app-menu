@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-20-2013 02:05"
+# REVDATE="October-01-2013 00:35"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -14,7 +14,7 @@
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_cat_image () {
-      f_initvars_menu_app
+      f_initvars_menu_app "BIG"
       until [ $BIG -eq 0 ]
       do    # Start of Image Application Category until loop.
 #^f_menu_app_imagemagick #BIG ImageMagick - Tools to manipulate images.
@@ -23,13 +23,10 @@ f_menu_cat_image () {
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="Image Application Category Menu"
             DELIMITER="#BIG" #BIG This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BIG
-            #
-            . lib_cli-common.lib
             f_menu_item_process $BIG  # Outputs $MENU_ITEM.
-            #
       done  # End of Image Application Category until loop.
             #
       unset BIG MENU_ITEM  # Throw out this variable.
@@ -44,7 +41,7 @@ f_menu_cat_image () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_image_graphics () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MIG"
       until [ $MIG -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
 #0^0^0^0^1 #MIG aview      - Image and ascii art image viewer.
@@ -66,13 +63,10 @@ f_menu_app_image_graphics () {
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="Image-Graphics Applications Menu"
             DELIMITER="#MIG" #MIG This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MIG
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MIG  # Outputs $MENU_ITEM.
-            #
       done  # End of Image-Graphics Applications until loop.
             #
       unset MIG MENU_ITEM  # Throw out this variable.
@@ -122,7 +116,7 @@ f_starwars () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_imagemagick () {
-      f_initvars_menu_app
+      f_initvars_menu_app "MIK"
       until [ $MIK -eq 0 ]
       do    # Start of ImageMagick Applications until loop.
 #0^0^0^0^1 #MIK animate   - ImageMagick tool animates an image sequence on X-windows GUI.
@@ -140,13 +134,10 @@ f_menu_app_imagemagick () {
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="ImageMagick Applications Menu"
             DELIMITER="#MIK" #MIK This 3rd field prevents awk from printing this line into menu options. 
-            f_show_menu $MENU_TITLE $DELIMITER 
             #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MIK
-            #
-            . lib_cli-common.lib
             f_menu_item_process $MIK  # Outputs $MENU_ITEM.
-            #
       done  # End of ImageMagick Applications until loop.
             #
       unset MIK MENU_ITEM  # Throw out this variable.
