@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-7-2013 21:05"
+REVDATE="October-05-2013 01:11"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -263,22 +263,35 @@ f_menu_main_configure () {
       DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
       f_initvars_menu_app "AAC"
       until [ $AAC -eq 0 ]
-      do    # Start of Configuration Menu until loop.
-            #AAC Colors       - Set display font/background colors.
+      do    # Start of <Sample Template> Applications until loop.
             #AAC Edit History - Make changes to the Edit History.
             #AAC LIST_APPS    - Re-create/Update file list of all applications.
+            #AAC ------------ - --------------------------------------------------------
+            #AAC Colors       - Set display font/background colors.
+            #AAC Black        - Set display black on white.
+            #AAC Red          - Set display red on black.
+	    #AAC Green        - Set display green on black.
+	    #AAC Yellow       - Set display yellow on black.
+            #AAC Blue         - Set display blue on black.
+            #AAC Magenta      - Set display magenta on black.
+            #AAC Cyan         - Set display cyan on black.
+            #AAC White        - Set display white on black.
             #
             PRESS_KEY=1 # Display "Press 'Enter' key to continue."
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAC
             #
             f_cat_menu_item_process $AAC  # Outputs $MENU_ITEM.
+            f_application_help
             ERROR=0 # Reset error flag.
+            APP_NAME="" # Set application name to null value.
             #
             case $MENU_ITEM in # Start of Configuration Menu case statement.
-                 [Cc] | [Cc][Oo]*)
-                 f_menu_term_color
+                 [Bb] | [Bb][Ll] | [Bb][Ll][Aa]*)  # Main Menu item, "Black".
+                 FCOLOR="Black"
+                 f_term_color $FCOLOR "White" # Set terminal color.
                  PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  [Ee] | [Ee][Dd]*)  # Main Menu item, "Edit History".
                  clear # Blank the screen.
@@ -318,6 +331,13 @@ f_menu_main_configure () {
                     echo
                     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  fi
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Gg] | [Gg][Rr]*)  # Main Menu item, "Green".
+                 FCOLOR="Green"
+                 f_term_color $FCOLOR "Black" # Set terminal color.
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
                  ;;
                  [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)  # Main Menu item, "Update LIST_APPS".
                  X="" # Initialize scratch variable.
@@ -346,6 +366,19 @@ f_menu_main_configure () {
                             esac
                  done
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Ww] | [Ww][Hh]*)  # Main Menu item, "White".
+                 FCOLOR="White"
+                 f_term_color "$FCOLOR" "Black" # Set terminal color.
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
+                 ;;
+                 [Yy] | [Yy][Ee]*)  # Main Menu item, "Yellow".
+                 FCOLOR="Yellow"
+                 f_term_color $FCOLOR "Black" # Set terminal color.
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 CHOICE_MAIN=-1 # Legitimate response. Stay in menu loop.
                  ;;
             esac                # End of Configuration Menu case statement.
             #
@@ -361,86 +394,6 @@ f_menu_main_configure () {
             #
       unset AAC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_main_configure
-#
-#
-# +----------------------------------------+
-# |        Function f_menu_term_color      |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: AAE, MENU_ITEM, MAX, COLOR.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_term_color () {
-      MENU_TITLE="Terminal Colors Menu"
-      DELIMITER="#AAE" #AAE This 3rd field prevents awk from printing this line into menu options. 
-      f_initvars_menu_app "AAE"
-      until [ $AAE -eq 0 ]
-      do    # Start of Terminal Colors Applications until loop.
-            #AAE Red     - Red     on black.
-	    #AAE Green   - Green   on black.
-	    #AAE Yellow  - Yellow  on black.
-            #AAE Blue    - Blue    on black.
-            #AAE Magenta - Magenta on black.
-            #AAE Cyan    - Cyan    on black.
-            #AAE White   - White   on black.
-            #AAE ------- - -----------------
-            #AAE BW      - Black   on white.
-            #AAE RW      - Red     on white.
-            #AAE WB      - White   on blue (Classic "Blueprint").
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read AAE
-            #
-            f_cat_menu_item_process $AAE ; AAE=$MENU_ITEM # Outputs $MENU_ITEM.
-            ERROR=0 # Reset error flag.
-            #
-            case $MENU_ITEM in # Start of Configuration Menu case statement.
-                 [Bb] | [Bb][Ww])
-                 FCOLOR="Black" ; BCOLOR="White"
-                 ;;
-                 [Bb] | [Bb][Ll] | [Bb][Ll][Uu] | [Bb][Ll][Uu][Ee])
-                 FCOLOR="Blue" ; BCOLOR="Black"
-                 ;;
-                 [Rr] | [Rr][Ww])
-                 FCOLOR="Red" ; BCOLOR="White"
-                 ;;
-                 [Cc] | [Cc][Yy]*)
-                 FCOLOR="Cyan" ; BCOLOR="Black"
-                 ;;
-                 [Gg] | [Gg][Rr]*)
-                 FCOLOR="Green" ; BCOLOR="Black"
-                 ;;
-                 [Mm] | [Mm][Aa]*)
-                 FCOLOR="Magenta" ; BCOLOR="Black"
-                 ;;
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
-                 FCOLOR="Red" ; BCOLOR="Black"
-                 ;;
-                 [Ww] | [Ww][Hh] | [Ww][Hh][Ii]*)
-                 FCOLOR="White" ; BCOLOR="Black"
-                 ;;
-                 [Ww] | [Ww][Bb])
-                 FCOLOR="White" ; BCOLOR="Blue"
-                 ;;
-                 [Yy] | [Yy][Ee]*)
-                 FCOLOR="Yellow" ; BCOLOR="Black"
-                 ;;
-            esac                # End of Configuration Menu case statement.
-            #
-            echo -n $(tput bold) # set bold font.
-            f_term_color $FCOLOR $BCOLOR # Set terminal color.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            #f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-            AAE=$MENU_ITEM
-            #
-            AAE=0
-      done  # End of Configuration Menu until loop.
-            #
-      unset AAE MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_term_color
 #
 # +----------------------------------------+
 # |      Function f_menu_main_download     |
@@ -503,8 +456,6 @@ f_menu_main_download () {
                  #
                  # Trap bad menu choices, do not echo Press enter key to continue.
                  f_bad_menu_choice $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
-                 #
-                 AAD=$MENU_ITEM
                  #
            done  # End of Download Software Menu until loop.
            unset AAD  # Throw out this variable.
