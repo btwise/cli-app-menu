@@ -52,12 +52,17 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-10-07 *f_initvars_menu_app reworked to allow directory and 
+## 2013-10-07 *f_menu_main_configure added code to download EDIT_HISTORY
+##             if file is missing.
+##            *f_menu_term_color added to change font/background colors.
+##            *f_term_color added to change font/background colors.
+##            *Main Menu item "About CLI menu" added code to download
+##             EDIT_HISTORY if file is missing.
+##
+## 2013-10-01 *f_initvars_menu_app reworked to allow directory and 
 ##             file verification.
 ##            *f_valid_dir added to allow directory verification.
 ##            *f_valid_files added to allow directory/file verification.
-##            *f_menu_term_color added to change font/background colors.
-##            *f_term_color added to change font/background colors.
 ##
 ## 2013-09-26 *cli-app-menu.sh, lib_cli-common.lib and all f_mod_apps* files
 ##             changed to allow cli-app-menu.sh to reside in a different
