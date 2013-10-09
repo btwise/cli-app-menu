@@ -1680,6 +1680,7 @@ f_module_match () {
       case $XSTR in
            ALL)
            if [ -n "$WEB_SITE" ] ; then
+              # for-loop awk command uses back-ticks to execute resulting in (MOD_FILE) name of mod_apps-*.lib.
               for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
               do
                   wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE  # Download all modules.

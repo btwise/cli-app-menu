@@ -1,8 +1,11 @@
 ________________________________________________
-Last updated: 2013-10-07 21:04 Monday
+Last updated: 2013-10-09 14:03 Wednesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
+ brinance      - Personal finance.
+ chkbk         - Personal finance.
+ clacct        - Account management for multiple users and accounts.
  clipf         - Track Your incomes and expenses, written for Python2.
  hledger       - Same as "ledger" but using the Haskell Programming Language.
  hledger-chart - Hledger pie chart generator.
@@ -15,11 +18,21 @@ ________________________________________________
  abcde      - Audio CD ripper.
  acripper   - Audio CD ripper.
  cdparanoia - Audio CD ripper.
- crip       - Audio CD ripper.
+ cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
+ cdrskin    - CD/DVD/BD writing tool.
+ cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
+ crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
  jack       - Audio CD ripper.
  lxdvdrip   - Audio CD ripper.
  ripit      - Audio CD ripper.
  rubyripper - Audio CD ripper.
+
+________________________________________________
+*** Audio Player3 Applications Menu ***
+ ccx2             - Front-end to XMMS music player.
+ clxmms           - Front-end to XMMS music player.
+ ncxmms2          - Front-end to XMMS music player.
+ xmms2-client-cli - Front-end to XMMS music player.
 
 ________________________________________________
 *** Audio Player Applications Menu ***
@@ -37,6 +50,7 @@ ________________________________________________
  opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
  orpheus         - Music player ncurses-based.
  pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
+ MORE...         - For more music player applications.
  MORE...         - For more music player applications.
 
 ________________________________________________
@@ -60,6 +74,7 @@ ________________________________________________
  dradio   - Streaming radio on world-wide web.
  radio    - Streaming radio, ncurses-based.
  pianobar - Streaming radio player for Pandora Radio.
+ pyradio    - Streaming radio, written in python.
  shell-fm - Streaming radio player for last.fm radio.
 
 ________________________________________________
@@ -79,6 +94,7 @@ ________________________________________________
 *** Audio Editor Applications Menu ***
  avconv    - Audio/Video converter.
  avinfo    - Audio/Video information automatic extractor/file list generator.
+ cutmp3    - MP3 file editor dependent on mpg123. Save selections to a file.
  exiftool  - Display audio/video/image file properties (ls-like format).
  ecasound  - Multitrack audio processing, record, convert, playback, mixing.
  ffmpeg    - Multimedia Record, convert, stream and playback.
@@ -97,6 +113,10 @@ ________________________________________________
  vbindiff - Displays in hexadecimal and ASCII, works with up to 4GB files.
  xdelta   - diff binary files, results can be applied to original bin file.
  xdelta3  - diff binary files. "Delta files" in RFC3284 (VCDIFF) format.
+
+________________________________________________
+*** Blog Client Menu ***
+ charm - Blogging client.
 
 ________________________________________________
 *** Bittorrent Applications Menu ***
@@ -353,6 +373,8 @@ ________________________________________________
 
 ________________________________________________
 *** File Splitter Applications Menu ***
+ csplit  - Splits/Joins files.
+ cut     - carve up files by character count, byte count, delimited fields.
  hoz     - File splitter using hacha file format.
  lxsplit - Splits/Joins files even greater than 2GB.
  slice   - Divides ASCII file w/delimiters into possibly overlapping slices.
@@ -870,16 +892,19 @@ ________________________________________________
  last      - Users' login/logout times from /var/log/wtmp.
  mpstat    - CPU microprocessor usage monitor.
  nmon      - CPU usage, memory, network, disk usage, processes, resources.
- rrdtool   - The Round Robin Database Tool stores/displays time-series data.
- saidar    - Monitor system processes, network I/O, disks I/O, free space.
+ rcconf    - Debian enable/disable startup scripts/services; ncurses-based.
+ ntsysd    - RedHat view/enable/disable startup scripts/services.
  MORE...   - For more system monitor applications.
 
 ________________________________________________
 *** System Monitor2 Applications Menu ***
- sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
- tload     - System load average graphical monitor.
- tyload    - Color-coded graphs of CPU load average.
- yacpi     - ACPI monitor, ncurses-based.
+ rrdtool      - The Round Robin Database Tool stores/displays time-series data.
+ saidar       - Monitor system processes, network I/O, disks I/O, free space.
+ sysv-rc-conf - Debian view/enable/disable startup scripts/services.
+ sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
+ tload        - System load average graphical monitor.
+ tyload       - Color-coded graphs of CPU load average.
+ yacpi        - ACPI monitor, ncurses-based.
 
 ________________________________________________
 *** Spreadsheet Applications Menu ***
@@ -916,7 +941,7 @@ ________________________________________________
 
 ________________________________________________
 *** System Log Applications Menu ***
- ccze       - A robust and modular log coloriser, with plugins.
+ ccze       - A robust and modular log colorizer, with plugins.
  colortail  - log colorizer.
  inotail    - Tail command replacement uses the inotify API to re-read files.
  lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.

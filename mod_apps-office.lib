@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-09-2013 14:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -53,6 +53,9 @@ f_menu_app_accounting () {
       f_initvars_menu_app "MAA"
       until [ $MAA -eq 0 ]
       do    # Start of Accounting Applications until loop.
+#0^0^0^0^1 #MAA brinance      - Personal finance.
+#0^0^0^0^1 #MAA chkbk         - Personal finance.
+#0^0^0^0^1 #MAA clacct        - Account management for multiple users and accounts.
 #0^0^0^0^1 #MAA clipf         - Track Your incomes and expenses, written for Python2.
 #0^0^0^0^1 #MAA hledger       - Same as "ledger" but using the Haskell Programming Language.
 #0^0^0^0^1 #MAA hledger-chart - Hledger pie chart generator.

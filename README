@@ -113,7 +113,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="October-08-2013 19:40"
+#:REVDATE="October-09-2013 14:00"
 #:
 #:
 #: +----------------------------------------+
@@ -308,7 +308,8 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: |     Known problems and limitations     |
 #: +----------------------------------------+
 #:
-#: 1. All associated files for this script must be in the same folder. 
+#: 1. All associated files for this script must be in the same folder,
+#:    except for cli-app-menu.sh which may be in a separate folder. 
 #:
 #: 2. f_choice_array needs all menu items to have 1 or 2 unique words in a name
 #:    within the same menu.
@@ -421,6 +422,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #:MAA - Accounting Applications Menu
 #:MAC - Audio CD Ripper Applications Menu
+#:MAO - Audio Player3 Applications Menu
 #:MAP - Audio Player Applications Menu
 #:MAQ - Audio Player2 Applications Menu
 #:MAR - Audio Radio Applications Menu
@@ -428,6 +430,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MAT - Audio Music Tagger Applications Menu
 #:MAU - Audio Editor Applications Menu
 #:MBH - Bin-Hex Editor Applications Menu
+#:MBL - Blog Client Menu
 #:MBT - Bittorrent Applications Menu
 #:MCA - Calendar Applications Menu
 #:MCB - Calendar2 Applications Menu

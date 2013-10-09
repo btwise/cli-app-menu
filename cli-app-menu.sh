@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-08-2013 19:40"
+REVDATE="October-09-2013 14:00"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -366,6 +366,7 @@ f_main_configure () {
 #^f_menu_term_color #AAC Colors       - Set display font/background colors.
 #^f_updat_edit_hist #AAC Edit History - Make changes to the Edit History.
 #^f_updat_list_apps #AAC LIST_APPS    - Re-create/Update file list of all applications.
+#^f_ls_this_dir #AAC Module files - List module library files in library directory.
             #
             MENU_TITLE="Configuration Menu"
             DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
@@ -838,6 +839,19 @@ f_updat_list_apps () {
 } # End of function f_updat_list_apps
 #
 # +----------------------------------------+
+# |         Function f_ls_this_dir         |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: THIS_DIR.
+# Outputs: None.
+#
+f_ls_this_dir () {
+      clear # Blank the screen.
+      ls -gGh --group-directories-first --color=auto $THIS_DIR | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+} # End of function f_ls_this_dir
+#
+# +----------------------------------------+
 # |        Function f_main_download        |
 # +----------------------------------------+
 #
@@ -849,7 +863,7 @@ f_main_download () {
            f_initvars_menu_app "AAD"
            until [ $AAD -eq 0 ]
            do    # Start of Download Software Menu until loop.
-                 #AAD Script program.
+                 #AAD Script program (choose any one or more files including the sample template).
                  #AAD Modules of applications.
                  #
                  MENU_TITLE="Download Software Menu"
@@ -866,7 +880,7 @@ f_main_download () {
                       echo
                       echo "Choose the branch from where you want to download the script program."
                       echo
-                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib README COPYING EDIT_HISTORY LIST_APPS
+                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
                       do
                          #if [ "$BRANCH" != "QUIT" ] ; then
                             echo

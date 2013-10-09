@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-08-2013 19:40"
+# REVDATE="October-09-2013 14:00"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -1017,6 +1017,8 @@ f_menu_app_file_splitters () {
       f_initvars_menu_app "MFS"
       until [ $MFS -eq 0 ]
       do    # Start of File Splitter Applications until loop.
+#1^0^0^0^1 #MFS csplit  - Splits/Joins files.
+#0^0^0^0^1 #MFS cut     - carve up files by character count, byte count, delimited fields.
 #0^0^0^0^1 #MFS hoz     - File splitter using hacha file format.
 #0^0^0^0^1 #MFS lxsplit - Splits/Joins files even greater than 2GB.
 #0^0^0^0^1 #MFS slice   - Divides ASCII file w/delimiters into possibly overlapping slices.
