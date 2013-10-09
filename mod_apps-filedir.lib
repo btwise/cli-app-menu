@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-08-2013 19:40"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -856,7 +856,7 @@ f_menu_app_file_managers () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_operations () {
-      f_initvars_menu_app"MFO"
+      f_initvars_menu_app "MFO"
       until [ $MFO -eq 0 ]
       do    # Start of File Operations Applications until loop.
 #0^0^0^0^1 #MFO dtrx      - Use tar without remembering which flags for each file to use.

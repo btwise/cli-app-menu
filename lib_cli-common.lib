@@ -283,9 +283,11 @@ f_menu_item_process () {
             #
             # Specify 3rd field of $MENU_ITEM_OPT for function #3.
             f_eval_funct "$MENU_ITEM_OPT" 3
+            #
             # Run application program.
-            # $APP_NAME="" when f_run_and_exit is run prior within function #1, #2, or #3.
-            if [ -n "$APP_NAME" ] ; then
+            # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
+            # Don't run "applications" in Main Menu or any of its sub-menus.
+            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
                APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
@@ -431,8 +433,8 @@ f_eval_funct () {
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
       #
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
-         if [ "$XSTR" = 1 ] ; then
-            XSTR=f_$MENU_ITEM_NAME
+         if [ "$XSTR" = 1 ] ; then  # 1st field "1"=<f_app-name>
+            XSTR=f_$MENU_ITEM_NAME   # 2nd and 3rd fields have an unrestricted naming convention for functions.
          fi
          eval $XSTR  # Invoke (run) the function.
          if [ $? -ne 0 ] ; then
@@ -441,8 +443,6 @@ f_eval_funct () {
          fi
       fi
       #
-      # MENU_ITEM_OPT_FIELD=$XSTR
-      # export MENU_ITEM_OPT_FIELD  # Make variables available after exiting function.
       unset X XSTR
       #
 } # End of function f-sub_menu
@@ -1426,7 +1426,6 @@ f_application_web_install () {
 f_download_file () {
       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
       . lib_cli-common.lib # Invoke the common library.
-
       #
       case $MOD_FILE in
            mod_apps*.lib)  # Module files only
@@ -1737,8 +1736,13 @@ f_module_match () {
            *)
            MOD_FILE="BAD_CHOICE_INPUT"
            XSTR=""
-           echo $(tput bold)
-           echo $(tput setaf 3)  # Yellow font for error message.
+            # If background color is black or blue, then use yellow font.
+            echo -n $(tput bold)
+            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
+               echo $(tput setaf 3)  # Yellow font for error message.
+            else
+               echo $(tput setaf 1)  # Red font for error message.
+            fi
            echo ">>>Error Bad choice input.<<<"
            echo "       Exiting now."
            echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
@@ -1908,7 +1912,13 @@ f_show_max_menu_items () {
                  #
                  if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
                     echo $(tput bold)
-                    echo $(tput setaf 3)  # Yellow font for error message.
+            # If background color is black or blue, then use yellow font.
+            echo -n $(tput bold)
+            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
+               echo $(tput setaf 3)  # Yellow font for error message.
+            else
+               echo $(tput setaf 1)  # Red font for error message.
+            fi
                     echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
                     echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
                  fi
