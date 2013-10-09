@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-08-2013 19:40"
+PROJECT_REVDATE="October-08-2013 22:22"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -55,6 +55,8 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 ## 2013-10-08 *Main Menu rework menu structure to be consistent with other
 ##             menus, see 9/15, 9/16 entries.
 ##            *f_menu_item_process changed for compatibility with Main Menu.
+##            *f_menu_item_info changed to fix directory not found error when
+##             cli-app-menu.sh is not in same directory as module libraries.
 ##
 ## 2013-10-07 *f_menu_main_configure added code to download EDIT_HISTORY
 ##             if file is missing.

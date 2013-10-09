@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-07-2013 21:05"
+# REVDATE="October-08-2013 22:22"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -385,8 +385,8 @@ f_menu_item_valid () {
 # |        Function f_menu_item_info       |
 # +----------------------------------------+
 #
-#  Inputs: DELIMITER, MENU_ITEM_NAME, THIS_FILE.
-#    Uses: None.
+#  Inputs: DELIMITER, MENU_ITEM_NAME, THIS_DIR, THIS_FILE.
+#    Uses: XXSTR.
 # Outputs: MENU_ITEM_OPT.
 #
 f_menu_item_info () {
@@ -394,6 +394,10 @@ f_menu_item_info () {
       # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
       #
       MENU_ITEM_OPT=""
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" ] ; then
+         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
+         THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
+      fi
       #
       # grep "$MENU_ITEM_NAME" is in quotes because some menu items have 2 words i.e. "star wars".
       # grep needs -i because my convention is any sub-menus start with an upper-case letter.
@@ -412,6 +416,9 @@ f_menu_item_info () {
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
       export MENU_ITEM_OPT
       #
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" ] ; then
+         THIS_DIR=$XXSTR  # Restore $THIS_DIR.
+      fi
 } # End of function f_menu_item_info
 #
 # +----------------------------------------+
