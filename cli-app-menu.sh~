@@ -149,7 +149,7 @@ f_initvars_menu_app () {
          # This may be the same directory as $THIS_DIR or may be
          # any other directory you choose.
          # MAINMENU_DIR does not need a trailing forward slash "/".
-         MAINMENU_DIR="/home/<username_goes_here>"
+         MAINMENU_DIR="/home/<username_goes_hERE>"
          #
          f_valid_dir "$MAINMENU_DIR"
          f_valid_files "$MAINMENU_DIR" "cli-app-menu.sh"
