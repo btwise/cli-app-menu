@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-11-2013 00:45"
+REVDATE="October-11-2013 13:54"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -152,8 +152,28 @@ f_main_init_once () {
       # MAINMENU_DIR contains the script file cli-app-menu.sh.
       # This may be the same directory as $THIS_DIR or may be
       # any other directory you choose.
+      #
+      # If you are using a single-user PC/laptop, you may simply put the 
+      # script in your personal home directory.
+      #
+      # If multiple users login to the PC/laptop, you may want to put
+      # the script in a /usr or an /opt folder with permissions set so 
+      # other users may run the script, (rwx-rx-rx) or (755) permissions.
+      #
+      # i.e. /home/<username_goes_here>
+      #      Just put script cli-app-menu.sh in home folder. 
+      #      Other users will have to do the same with their separate copy.
+      #
+      # i.e. /usr/local/bin/cli-app-menu 
+      #      Or create this folder for a single copy of the script accessible 
+      #      to all users. /usr folder holds applications for users to run.
+      #
+      # i.e. /opt/cli-app-menu
+      #      Or create this folder for a single copy of the  script accessible 
+      #      to all users. /opt folder is another location for user apps.
+      #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/home/robert"
+      MAINMENU_DIR="<directory_containing_the_script_cli-app-menu.sh>"
       #
       # Validate file names and directories.
       f_valid_dir "$MAINMENU_DIR"
@@ -161,8 +181,17 @@ f_main_init_once () {
       #
       # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
       # README, and COPYING and (optionally) cli-app-menu.sh.
+      #
+      # THIS_DIR may or may not be the same folder as MAINMENU_DIR.
+      # However it should be writable by the user maintaining it so that
+      # additional software library modules may be downloaded as they are
+      # updated or needed and LIST_APPS can be updated accordingly.
+      # 
+      # Since this folder will contain multiple files for this project,
+      # it may help to name it "cli-app-menu" to use it for only project files.
+      #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/public/cli-app-menu"
+      THIS_DIR="<Some_directory/cli-app-menu>"
       #
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"
@@ -273,9 +302,15 @@ f_valid_dir () {
             echo $(tput sgr0)
             echo "Edit your /home/<username_goes_here>/.bashrc file and add the directory"
             echo "by adding these lines to the end of the .bashrc file:"
-            echo
+            echo 
             echo $(tput bold)'PATH=$PATH'":$1"
             echo "export PATH"
+	    echo
+	    echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+	    echo "Either logout or exit from Terminal and re-launch Terminal."
+	    echo
             # If background color is black or blue, then use yellow font.
             if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
                echo $(tput setaf 3)  # Yellow font for error message.
@@ -283,7 +318,7 @@ f_valid_dir () {
                echo $(tput setaf 1)  # Red font for error message.
             fi
             echo "______________________________"
-            echo "    >>> Exiting script<<<"
+            echo "    >>> Exiting script <<<"
             echo "______________________________"
             echo $(tput sgr0)
             echo
