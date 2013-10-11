@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-09-2013 14:00"
+REVDATE="October-11-2013 00:45"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -133,6 +133,81 @@ f_test_dash () {
 } # End of function f_test_dash
 #
 # +----------------------------------------+
+# |        Function f_main_init_once       |
+# +----------------------------------------+
+#
+#  Inputs: $BASH_VERSION (System variable)
+#    Uses: None
+# Outputs: None
+#
+f_main_init_once () {
+      # Initialize variables.
+      # This function sets the $THIS_DIR variable so that lib_cli-common.lib and
+      # the module libraries may reside in any directory and still be invoked from
+      # the Main Menu script, cli-app-menu.sh. Please refer to README for more
+      # instructions on how to set the $PATH environmental variable to do this.
+      #
+      # This function is called before displaying any menu.
+      #
+      # MAINMENU_DIR contains the script file cli-app-menu.sh.
+      # This may be the same directory as $THIS_DIR or may be
+      # any other directory you choose.
+      # MAINMENU_DIR does not need a trailing forward slash "/".
+      MAINMENU_DIR="/home/robert"
+      #
+      # Validate file names and directories.
+      f_valid_dir "$MAINMENU_DIR"
+      f_valid_files "$MAINMENU_DIR" "cli-app-menu.sh"
+      #
+      # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
+      # README, and COPYING and (optionally) cli-app-menu.sh.
+      # THIS_DIR does not need a trailing forward slash "/".
+      THIS_DIR="/home/public/cli-app-menu"
+      #
+      # Validate file names and directories.
+      f_valid_dir "$THIS_DIR"
+      f_valid_files "$THIS_DIR" "lib_cli-common.lib"
+      f_valid_files "$THIS_DIR" "lib_cli-menu-cat.lib"
+      #
+      # Invoke the common library to display menus.
+      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
+      #
+      # Each user may store default settings in a configuration file
+      # in the user's home folder.
+      #
+      # Does configuration file exist and is readable?
+      if [ ! -r ~/.cli-app-menu.cfg ] ; then
+         # No, configuration file does not exist. Create file.
+         # If background color is black or blue, then use yellow font.
+         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
+            echo $(tput setaf 3)  # Yellow font for error message.
+         else
+            echo $(tput setaf 1)  # Red font for error message.
+         fi
+         echo
+         echo $(tput bold) "Configuration file is missing from user's home directory."
+         echo "Creating configuration file: /home/<username_goes_here>/.cli-app-menu.cfg"
+         echo "f_main_config () {" > ~/.cli-app-menu.cfg
+         echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\"" >> ~/.cli-app-menu.cfg
+         echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
+         f_press_enter_key_to_continue
+      fi
+      #
+      if [ -r ~/.cli-app-menu.cfg ] ; then
+         # Yes. read file contents.
+         . ~/.cli-app-menu.cfg
+         f_main_config
+     else
+         # No. Use default settings.
+         FCOLOR="Green" ; BCOLOR="Black"
+      fi
+      #
+      echo -n $(tput bold) # set bold font.
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+} # End of function f_main_init_once
+#
+# +----------------------------------------+
 # |      Function f_initvars_menu_app      |
 # +----------------------------------------+
 #
@@ -141,28 +216,6 @@ f_test_dash () {
 # Outputs: MAINMENU_DIR, THIS_DIR, APP_NAME, WEB_BROWSER, TEXT_EDITOR, MENU_ITEM, ERROR.
 #
 f_initvars_menu_app () {
-      # This function is called before displaying any menu.
-      #
-      if [ $1 = "AAA" ] ; then  # Validate dirs/files only once,before Main Menu.
-         #
-         # MAINMENU_DIR contains the script file cli-app-menu.sh.
-         # This may be the same directory as $THIS_DIR or may be
-         # any other directory you choose.
-         # MAINMENU_DIR does not need a trailing forward slash "/".
-         MAINMENU_DIR="/home/<username_goes_here>"
-         #
-         f_valid_dir "$MAINMENU_DIR"
-         f_valid_files "$MAINMENU_DIR" "cli-app-menu.sh"
-         #
-         # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
-         # README, and COPYING and (optionally) cli-app-menu.sh.
-         # THIS_DIR does not need a trailing forward slash "/".
-         THIS_DIR="/home/public/cli-app-menu"
-         f_valid_dir "$THIS_DIR"
-         f_valid_files "$THIS_DIR" "lib_cli-common.lib"
-         f_valid_files "$THIS_DIR" "lib_cli-menu-cat.lib"
-      fi
-      #
       echo $(tput bold) # Display bold font for all menus.
       ERROR=0        # Initialize to 0 to indicate success at running last
                      # command.
@@ -740,7 +793,12 @@ f_menu_term_color () {
             AAE=$MENU_ITEM
             #
       done  # End of Configuration Menu until loop.
-            #
+      #
+      # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
+      echo "f_main_config () {" > ~/.cli-app-menu.cfg
+      echo "      FCOLOR=$FCOLOR ; BCOLOR=$BCOLOR" >> ~/.cli-app-menu.cfg
+      echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
+      #
       unset AAE MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_term_color
 #
@@ -848,7 +906,7 @@ f_updat_list_apps () {
 #
 f_ls_this_dir () {
       clear # Blank the screen.
-      ls -gGh --group-directories-first --color=auto $THIS_DIR | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+      ls -gGh --group-directories-first --color=always $THIS_DIR | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 } # End of function f_ls_this_dir
 #
 # +----------------------------------------+
@@ -927,20 +985,7 @@ f_main_download () {
 # Test the environment for DASH and if in BASH invoke the common library.
 f_test_dash
 #
-# Initialize variables.
-# This function sets the $THIS_DIR variable so that lib_cli-common.lib and
-# the module libraries may reside in any directory and still be invoked from
-# the Main Menu script, cli-app-menu.sh. Please refer to README for more
-# instructions on how to set the $PATH environmental variable to do this.
-f_initvars_menu_app "AAA"
-#
-# Invoke the common library to display menus.
-. $THIS_DIR/lib_cli-common.lib    # invoke module/library.
-. $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
-#
-FCOLOR="Green" ; BCOLOR="Black"
-echo -n $(tput bold) # set bold font.
-f_term_color $FCOLOR $BCOLOR # Set terminal color.
+f_main_init_once
 #
 # **************************************
 # ***           Main Menu            ***
@@ -950,6 +995,7 @@ f_term_color $FCOLOR $BCOLOR # Set terminal color.
 #    Uses: AAA, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
+f_initvars_menu_app "AAA"
 until [ $AAA -eq 0 ]
 do    # Start of CLI Menu util loop.
 #^f_menu_cat_applications #AAA Applications        - Launch a command-line application.
