@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-09-2013 23:18"
+PROJECT_REVDATE="October-11-2013 00:45"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,9 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-10-11 *f_main_init_once created, changed f_initvars_menu_app to
+##             allow user-chosen terminal colors to be saved.
 ##
 ## 2013-10-09 *f_main_configure added item option to list module directory.
 ##            *f_main_download added ability to download Sample Template.
