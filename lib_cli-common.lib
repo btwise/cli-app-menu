@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-08-2013 22:22"
+# REVDATE="October-12-2013 01:33"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -98,10 +98,23 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
              # Display menu items in bold font if module exists or standard font if module does not exist.
              if [ -r $THIS_DIR/$X ] ; then  # X=<module file name> <Followed by whitespace>
                 # Module exists, display menu item in bold font.
-                echo -n $(tput bold); echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                echo -n $(tput bold) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
              else
-                # Module missing, display menu item in standard font, then set display back to bold font.
-                echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                # If terminal only can do 8-colors, then use standard font for missing module.
+                if [ $NUMCOLORS -eq 8 ] ; then
+                   # Module missing, display menu item in standard font, then return to bold font.
+                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                else
+                   # If terminal can do more than 8-colors, then use gray or light gray font
+                   # for missing module.
+                   if [ $FCOLOR = "Black" -a $BCOLOR = "White" ] ; then
+                      # Module missing, display menu item in light gray font.
+                      echo -n $(tput setaf 246) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR ; 
+                   else
+                      # Module missing, display menu item in gray font.
+                      echo -n $(tput setaf 240) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR ; 
+                   fi
+                fi
              fi
          done
       else   #All other application/sub-menus display menu items in default bold font.

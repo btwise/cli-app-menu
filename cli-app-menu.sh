@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-11-2013 13:54"
+REVDATE="October-12-2013 01:33"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -173,7 +173,7 @@ f_main_init_once () {
       #      to all users. /opt folder is another location for user apps.
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="<directory_containing_the_script_cli-app-menu.sh>"
+      MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
       #
       # Validate file names and directories.
       f_valid_dir "$MAINMENU_DIR"
@@ -191,7 +191,7 @@ f_main_init_once () {
       # it may help to name it "cli-app-menu" to use it for only project files.
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="<Some_directory/cli-app-menu>"
+      THIS_DIR="/Some_directory/cli-app-menu"
       #
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"
@@ -234,6 +234,10 @@ f_main_init_once () {
       #
       echo -n $(tput bold) # set bold font.
       f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      #
+      # Set terminal colors from 8 to 256 colors.
+      export TERM=xterm-256color
+      NUMCOLORS=$(tput colors)
 } # End of function f_main_init_once
 #
 # +----------------------------------------+

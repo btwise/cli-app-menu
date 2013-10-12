@@ -113,7 +113,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="October-09-2013 14:00"
+#:REVDATE="October-12-2013 01:33"
 #:
 #:
 #: +----------------------------------------+
@@ -383,6 +383,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:               '-1' stay in menu loop, legitimate choice.
 #: MENU_TITLE  - String; Title of menu.
 #: MOD_FILE    - Module file name.
+#: NUMCOLORS   - Number of colors terminal can support (usually 8-colors or 256-colors).
 #: PRESSKEY    - Number: Ask "Press Enter key to continue".
 #:               '0' Do not ask "Press Enter key to continue".
 #:               '1' Ask "Press Enter key to continue".
