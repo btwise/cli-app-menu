@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-12-2013 01:33"
+PROJECT_REVDATE="October-13-2013 23:37"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,8 +52,13 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-10-12 *f_main_init_once added detection for 256-color terminals.
-##            *f_show_menu added display font in gray/light gray for a missing module.
+## 2013-10-13 *f_main_init_once added detection for 256-color terminals.
+##            *f_show_menu added display font in different colors for a 
+##             missing module.
+##            *f_menu_item_process fixed case pattern matching menu item 
+##             option "Quit", "Return",
+##            *f_menu_uncolor created to set font color for unavailable
+##             library modules in Application Category Menu.
 ##
 ## 2013-10-11 *f_main_init_once created, changed f_initvars_menu_app to
 ##             allow user-chosen terminal colors to be saved.

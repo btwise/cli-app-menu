@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2013 01:33"
+# REVDATE="October-13-2013 23:37"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -21,7 +21,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # directory from all other files.
       # i.e. /home/<username>/cli-app-menu.sh
       #      /home/<username>/bin/cli-app-menu/<All other module library files>.
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
          XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
@@ -88,7 +88,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       #
       if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
          XNUM=0
-          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+         # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
          for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
          do
              let XNUM++
@@ -98,22 +98,15 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
              # Display menu items in bold font if module exists or standard font if module does not exist.
              if [ -r $THIS_DIR/$X ] ; then  # X=<module file name> <Followed by whitespace>
                 # Module exists, display menu item in bold font.
-                echo -n $(tput bold) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                echo -n $(tput bold) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
              else
-                # If terminal only can do 8-colors, then use standard font for missing module.
-                if [ $NUMCOLORS -eq 8 ] ; then
+                # If UCOLOR="" is unset, then use standard (not bold) font for missing module.
+                if [ -z $UCOLOR ] ; then
                    # Module missing, display menu item in standard font, then return to bold font.
                    echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
                 else
-                   # If terminal can do more than 8-colors, then use gray or light gray font
-                   # for missing module.
-                   if [ $FCOLOR = "Black" -a $BCOLOR = "White" ] ; then
-                      # Module missing, display menu item in light gray font.
-                      echo -n $(tput setaf 246) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR ; 
-                   else
-                      # Module missing, display menu item in gray font.
-                      echo -n $(tput setaf 240) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR ; 
-                   fi
+                   # Module missing, display menu item in standard gray font, then return to bold font.
+                   echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR
                 fi
              fi
          done
@@ -125,34 +118,39 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       f_choice_array  # Create array to handle numeric answer to menu choices.
                       # Caution: Also uses $XNUM which is used in for loop above.
       #
-         case $DELIMITER in
-              # Main Menu.
-              "#AAA")
-                 echo
-                 echo "'0', (Q)uit, to quit this script."
-              ;;
-              # Application Category Menus.
-              "#AAB" | "#AAC" | "#AAD" | "#AAE")
-                 echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
-                 echo
-                 echo "'0', (R)eturn, to go back to Main Menu."
-              ;;
-              # Application Sub-category Menus
-              "#B"*) # Only display help message in Sub-category menus.
-                 echo
-                 echo "For help, type: '<application name> --help' or 'man <application name>'"
-              ;;
-              # Application Sub-category Menus or Application Menus.
-              "#M"* | "#B"*) # Only display help message in application menus.
-                 echo
-                 echo "For help, type: '<application name> --help' or 'man <application name>'"
-                 echo "Also accepts application options i.e. <application name> --version"
-              ;;
-         esac
+      case $DELIMITER in
+           # Main Menu.
+           "#AAA")
+           echo
+           echo "'0', (Q)uit, to quit this script."
+           ;;
+           # Application Category Menus.
+           "#AAB" | "#AAC" | "#AAD" | "#AAE")
+           echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
+           echo
+           echo "'0', (R)eturn, to go back to Main Menu."
+           ;;
+           # Un-color Menu.
+           "#AAF")
+           echo
+           echo "If a library module is unavailable or not downloaded,"
+           echo "the application category menu will display it in a different color font."
+           echo
+           echo "Current font color for unavailable/not downloaded library modules is: "
+           echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo "Missing library module."
+           echo $(tput bold) ; f_term_color $FCOLOR $BCOLOR
+           ;;
+           # Application Sub-category Menus or Application Menus.
+           "#M"* | "#B"*)
+           echo
+           echo "For help, type: '<application name> --help' or 'man <application name>'"
+           echo "Also accepts application options i.e. <application name> --version"
+           ;;
+      esac
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
       #
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
          THIS_DIR=$XXSTR  # Restore $THIS_DIR.
       fi
 } # End of function f_show_menu
@@ -262,11 +260,25 @@ f_menu_item_process () {
               MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
            fi
            ;;
-           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-           MENU_ITEM=0
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
       esac
+      # Main Menu item option "Quit" to exit.
+      if [ $DELIMITER = "#AAA" ] ;then
+         case $MENU_ITEM in
+              [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+              MENU_ITEM=0
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              ;;
+	 esac
+      else
+         # All other menus item option "Return" to exit.
+         case $MENU_ITEM in
+              [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+              MENU_ITEM=0
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              ;;
+         esac
+      fi 
+      #
       f_application_help
       ERROR=0 # Reset error flag.
       #
@@ -299,8 +311,8 @@ f_menu_item_process () {
             #
             # Run application program.
             # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
-            # Don't run "applications" in Main Menu or any of its sub-menus.
-            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" ] ; then
+            # Don't run "applications" in Main Menu or any of its sub-menus because there are none.
+            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
                APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
@@ -407,7 +419,7 @@ f_menu_item_info () {
       # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
       #
       MENU_ITEM_OPT=""
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" != "#AAF" ] ; then
          XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
@@ -429,7 +441,7 @@ f_menu_item_info () {
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
       export MENU_ITEM_OPT
       #
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" != "#AAF" ] ; then
          THIS_DIR=$XXSTR  # Restore $THIS_DIR.
       fi
 } # End of function f_menu_item_info
@@ -668,8 +680,11 @@ f_term_color () {  # Set terminal display properties.
                [Cc] | [Cc][Yy]*)
                echo -n $(tput $TPUTX 6)  # Cyan font/background selected.
                ;;
-               [Gg] | [Gg][Rr]*)
+               [Gg] | [Gg][Rr] | [Gg][Rr][Ee]*)
                echo -n $(tput $TPUTX 2)  # Green font/background selected.
+               ;;
+               [Gg] | [Gg][Rr] | [Gg][Rr][Aa]*)
+               echo -n $(tput $TPUTX 246)  # Gray font/background selected.
                ;;
                [Mm] | [Mm][Aa]*)
                echo -n $(tput $TPUTX 5)  # Magenta font/background selected.

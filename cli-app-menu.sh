@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-12-2013 01:33"
+REVDATE="October-13-2013 23:37"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -173,7 +173,7 @@ f_main_init_once () {
       #      to all users. /opt folder is another location for user apps.
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
+      MAINMENU_DIR="/home/robert"
       #
       # Validate file names and directories.
       f_valid_dir "$MAINMENU_DIR"
@@ -191,7 +191,7 @@ f_main_init_once () {
       # it may help to name it "cli-app-menu" to use it for only project files.
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/Some_directory/cli-app-menu"
+      THIS_DIR="/home/stuff/cli-app-menu"
       #
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"
@@ -229,15 +229,12 @@ f_main_init_once () {
          f_main_config
      else
          # No. Use default settings.
-         FCOLOR="Green" ; BCOLOR="Black"
+         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR=""
       fi
       #
       echo -n $(tput bold) # set bold font.
       f_term_color $FCOLOR $BCOLOR # Set terminal color.
       #
-      # Set terminal colors from 8 to 256 colors.
-      export TERM=xterm-256color
-      NUMCOLORS=$(tput colors)
 } # End of function f_main_init_once
 #
 # +----------------------------------------+
@@ -455,7 +452,8 @@ f_main_configure () {
       f_initvars_menu_app "AAC"
       until [ $AAC -eq 0 ]
       do    # Start of Configuration Menu until loop.
-#^f_menu_term_color #AAC Colors       - Set display font/background colors.
+#^f_menu_term_color #AAC Colors       - Set default font/background colors.
+#^f_menu_uncolor    #AAC Un-colors    - Set font color for unavailable library modules.
 #^f_updat_edit_hist #AAC Edit History - Make changes to the Edit History.
 #^f_updat_list_apps #AAC LIST_APPS    - Re-create/Update file list of all applications.
 #^f_ls_this_dir #AAC Module files - List module library files in library directory.
@@ -768,7 +766,7 @@ f_menu_term_color () {
       DELIMITER="#AAE" #AAE This 3rd field prevents awk from printing this line into menu options. 
       f_initvars_menu_app "AAE"
       until [ $AAE -eq 0 ]
-      do    # Start of Terminal Colors Applications until loop.
+      do    # Start of Terminal Colors until loop.
             #AAE Red     - Red     on black.
 	    #AAE Green   - Green   on black.
 	    #AAE Yellow  - Yellow  on black.
@@ -788,7 +786,7 @@ f_menu_term_color () {
             f_cat_menu_item_process $AAE ; AAE=$MENU_ITEM # Outputs $MENU_ITEM.
             ERROR=0 # Reset error flag.
             #
-            case $MENU_ITEM in # Start of Configuration Menu case statement.
+            case $MENU_ITEM in  # Start of Terminal Colors Menu case statement.
                  [Bb] | [Bb][Ww])
                  FCOLOR="Black" ; BCOLOR="White"
                  ;;
@@ -822,24 +820,101 @@ f_menu_term_color () {
                  [Yy] | [Yy][Bb])
                  FCOLOR="Yellow" ; BCOLOR="Blue"
                  ;;
-            esac                # End of Configuration Menu case statement.
-            #
-            echo -n $(tput bold) # set bold font.
-            f_term_color $FCOLOR $BCOLOR # Set terminal color.
+            esac                # End of Terminal Colors Menu case statement.
             #
             # Trap bad menu choices, do not echo Press enter key to continue.
             f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
             AAE=$MENU_ITEM
             #
-      done  # End of Configuration Menu until loop.
+      done  # End of Terminal Colors Menu until loop.
       #
       # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
       echo "f_main_config () {" > ~/.cli-app-menu.cfg
-      echo "      FCOLOR=$FCOLOR ; BCOLOR=$BCOLOR" >> ~/.cli-app-menu.cfg
+      echo "      FCOLOR=$FCOLOR ; BCOLOR=$BCOLOR ; UCOLOR=$UCOLOR" >> ~/.cli-app-menu.cfg
       echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
       #
       unset AAE MENU_ITEM  # Throw out this variable.
+      #
 } # End of function f_menu_term_color
+#
+# +----------------------------------------+
+# |          Function f_menu_uncolor       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: AAE, MENU_ITEM, MAX, COLOR.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_uncolor () {
+      MENU_TITLE="Colors for Unavailable Menu Items"
+      DELIMITER="#AAF" #AAF This 3rd field prevents awk from printing this line into menu options. 
+      f_initvars_menu_app "AAF"
+      until [ $AAF -eq 0 ]
+      do    # Start of Unavailable Colors until loop.
+            #AAF Red        - Red.
+	    #AAF Green      - Green.
+	    #AAF Yellow     - Yellow.
+            #AAF Blue       - Blue.
+            #AAF Magenta    - Magenta.
+            #AAF Cyan       - Cyan.
+            #AAF White      - White.
+            #AAF Gray       - Gray (not available in 8-color terminals).
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read AAF
+            #
+            f_cat_menu_item_process $AAF ; AAF=$MENU_ITEM # Outputs $MENU_ITEM.
+            ERROR=0 # Reset error flag.
+            #
+            case $MENU_ITEM in # Start of Unavailable Colors case statement.
+                 [Bb] | [Bb][Ww])
+                 UCOLOR="Black"
+                 ;;
+                 [Bb] | [Bb][Ll] | [Bb][Ll][Uu] | [Bb][Ll][Uu][Ee])
+                 UCOLOR="Blue"
+                 ;;
+                 [Cc] | [Cc][Yy]*)
+                 UCOLOR="Cyan"
+                 ;;
+                 [Gg] | [Gg][Rr]*)
+                 UCOLOR="Green"
+                 ;;
+                 [Mm] | [Mm][Aa]*)
+                 UCOLOR="Magenta"
+                 ;;
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
+                 UCOLOR="Red"
+                 ;;
+                 [Rr] | [Rr][Ww])
+                 UCOLOR="Red"
+                 ;;
+                 [Ww] | [Ww][Hh] | [Ww][Hh][Ii]*)
+                 UCOLOR="White"
+                 ;;
+                 [Gg] | [Gg][Rr])
+                 UCOLOR="Gray"
+                 ;;
+                 [Yy] | [Yy][Ee]*)
+                 UCOLOR="Yellow"
+                 ;;
+            esac                # End of Unavailable Colors case statement.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            AAF=$MENU_ITEM
+            #
+            echo $(tput bold) # set bold font.
+            f_term_color $FCOLOR $BCOLOR # Set terminal color.
+            #
+      done  # End of Unavailable Colors until loop.
+      #
+      # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
+      echo "f_main_config () {" > ~/.cli-app-menu.cfg
+      echo "      FCOLOR=$FCOLOR ; BCOLOR=$BCOLOR ; UCOLOR=$UCOLOR" >> ~/.cli-app-menu.cfg
+      echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
+      #
+      unset AAF MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_uncolor
 #
 # +----------------------------------------+
 # |       Function f_updat_edit_hist       |  
