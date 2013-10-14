@@ -113,7 +113,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="October-13-2013 23:37"
+#:REVDATE="October-14-2013 13:22"
 #:
 #:
 #: +----------------------------------------+

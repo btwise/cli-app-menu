@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-13-2013 23:37"
+PROJECT_REVDATE="October-14-2013 13:22"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,13 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-10-14 *f_ask_which_module_download changed so that f_term_color
+##             is called before the "echo -n $(tput bold)" command to assure
+##             bold font is displayed.
+##            *f_main_init_once changed to assure bold font is displayed.
+##            *f_menu_uncolor changed to assure bold font is displayed.
+##            *f_show_menu  changed to assure bold font is displayed.
 ##
 ## 2013-10-13 *f_main_init_once added detection for 256-color terminals.
 ##            *f_show_menu added display font in different colors for a 

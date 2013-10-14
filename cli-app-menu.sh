@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-13-2013 23:37"
+REVDATE="October-14-2013 13:22"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -173,7 +173,7 @@ f_main_init_once () {
       #      to all users. /opt folder is another location for user apps.
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/home/robert"
+      MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
       #
       # Validate file names and directories.
       f_valid_dir "$MAINMENU_DIR"
@@ -191,7 +191,7 @@ f_main_init_once () {
       # it may help to name it "cli-app-menu" to use it for only project files.
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/stuff/cli-app-menu"
+      THIS_DIR="/Some_directory/cli-app-menu"
       #
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"
@@ -232,8 +232,12 @@ f_main_init_once () {
          FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR=""
       fi
       #
-      echo -n $(tput bold) # set bold font.
       f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo -n $(tput bold) # set bold font.
+      #
+      # Enable 256 colors for terminal, if possible.
+      # Set terminal colors from 8 to 256 colors.
+        export TERM=xterm-256color       
       #
 } # End of function f_main_init_once
 #
@@ -275,10 +279,10 @@ f_initvars_menu_app () {
 f_valid_dir () {
       if [ ! -d "$1" ] ; then
          echo
-         echo $(tput bold)"The directory $1"
+         echo $(tput bold)"The directory: \"$1\""
          echo "is not a valid existing directory."
          echo $(tput sgr0)
-         echo "Edit function f_initvars_menu_app in file, cli-app-menu.sh"
+         echo "Edit function \"f_main_init_once\" in file, cli-app-menu.sh"
          echo "and set the variable MAINMENU_DIR to a valid, existing, writable directory."
          # Display brief comments where $1 is set in this file.
          echo $(tput bold)
@@ -876,7 +880,7 @@ f_menu_uncolor () {
                  [Cc] | [Cc][Yy]*)
                  UCOLOR="Cyan"
                  ;;
-                 [Gg] | [Gg][Rr]*)
+                 [Gg] | [Gg][Rr] | [Gg][Rr][Ee]*)
                  UCOLOR="Green"
                  ;;
                  [Mm] | [Mm][Aa]*)
@@ -891,7 +895,7 @@ f_menu_uncolor () {
                  [Ww] | [Ww][Hh] | [Ww][Hh][Ii]*)
                  UCOLOR="White"
                  ;;
-                 [Gg] | [Gg][Rr])
+                 [Gg] | [Gg][Rr] | [Gg][Rr][Aa]*)
                  UCOLOR="Gray"
                  ;;
                  [Yy] | [Yy][Ee]*)
@@ -903,8 +907,8 @@ f_menu_uncolor () {
             f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
             AAF=$MENU_ITEM
             #
-            echo $(tput bold) # set bold font.
             f_term_color $FCOLOR $BCOLOR # Set terminal color.
+            echo $(tput bold) # set bold font.
             #
       done  # End of Unavailable Colors until loop.
       #
