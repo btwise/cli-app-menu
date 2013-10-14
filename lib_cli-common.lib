@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-14-2013 13:22"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -15,23 +15,26 @@
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
-      # If displaying Main Menu or Download Menu both in file cli-app-menu.sh
+      # If displaying any menus existing in cli-app-menu.sh
+      # i.e. Main Menu, Download Menu, Configuration Menu, Terminal Colors Menu.
       # then this if statement allows for cli-app-menu.sh to be in a different
       # directory from all other files.
       # i.e. /home/<username>/cli-app-menu.sh
       #      /home/<username>/bin/cli-app-menu/<All other module library files>.
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" ] ; then
-         XXSTR=$THIS_DIR  # Save $THIS_DIR.
-         THIS_DIR=$MAINMENU_DIR
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
+         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
+         THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
       clear # Blank the screen.
-      f_term_color # Set terminal color.
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo -n $(tput bold)
       echo "--- $MENU_TITLE ---"
       echo
       if [ "$DELIMITER" = "#AAA" ] ; then
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
-      elif [ "$DELIMITER" = "#AAB" ] ; then 
-         echo " 0 - Return to Main Menu." # Option for Application Category Menu.
+      # Display message for Application Category Menu, Configuration Menu, and Download Menu.
+      elif [ "$DELIMITER" = "#AAB" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" ] ; then 
+         echo "0 - Return to Main Menu." # Option for Application Category, Configuration, Download Menus.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
       fi
@@ -85,61 +88,69 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       #
       if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
          XNUM=0
-          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+         # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
          for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
          do
              let XNUM++
              # Setting XSTR=$(...) strips the whitespace from the menu item. It's not grep/awk's fault.
              # XSTR=$(grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
              #
+             # Display menu items in bold font if module exists or standard font if module does not exist.
              if [ -r $THIS_DIR/$X ] ; then  # X=<module file name> <Followed by whitespace>
-                echo -n $(tput bold) $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
-                # echo $(tput bold) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
+                # Module exists, display menu item in bold font.
+                f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
              else
-                echo -n $(tput sgr0) $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
-                # echo $(tput sgr0) $XNUM" - "$XSTR  # Using echo $XSTR strips away whitespace. I don't know why.
+                # If UCOLOR="" is unset, then use same color font, but not bold font for missing module.
+                if [ -z $UCOLOR ] ; then
+                   # Module missing, display menu item in same color font but not bold font, then return to bold font.
+                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                else
+                   # Module missing, display menu item in different color font but not bold font, then return to bold font.
+                   echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR
+                fi
              fi
          done
-      else
+      else   #All other application/sub-menus display menu items in default bold font.
+         echo -n $(tput bold)
          awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_DIR/$THIS_FILE
       fi
       #
       f_choice_array  # Create array to handle numeric answer to menu choices.
                       # Caution: Also uses $XNUM which is used in for loop above.
       #
-         case $DELIMITER in
-              # Main Menu.
-              "#AAA")
-                 echo
-                 echo "'0', (Q)uit, to quit this script."
-              ;;
-              # Application Category Menus.
-              "#AAB")
-                 echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
-                 echo
-                 echo "'0', (R)eturn, to go back to Main Menu."
-              ;;
-              # Download Menu.
-              "#AAC")
-                 echo
-                 echo "'0', (R)eturn, to go back to Main Menu."
-              ;;
-              # Application Sub-category Menus
-              "#B"*) # Only display help message in Sub-category menus.
-                 echo
-                 echo "For help, type: '<application name> --help' or 'man <application name>'"
-              ;;
-              # Application Sub-category Menus or Application Menus.
-              "#M"* | "#B"*) # Only display help message in application menus.
-                 echo
-                 echo "For help, type: '<application name> --help' or 'man <application name>'"
-                 echo "Also accepts application options i.e. <application name> --version"
-              ;;
-         esac
+      case $DELIMITER in
+           # Main Menu.
+           "#AAA")
+           echo
+           echo "'0', (Q)uit, to quit this script."
+           ;;
+           # Application Category Menus.
+           "#AAB" | "#AAC" | "#AAD" | "#AAE")
+           echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
+           echo
+           echo "'0', (R)eturn, to go back to Main Menu."
+           ;;
+           # Un-color Menu.
+           "#AAF")
+           echo
+           echo "If a library module is unavailable or not downloaded,"
+           echo "the application category menu will display it in a different color font."
+           echo
+           echo "Current font color for unavailable/not downloaded library modules is: "
+           echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo "Missing library module."
+           f_term_color $FCOLOR $BCOLOR ; echo $(tput bold)
+           ;;
+           # Application Sub-category Menus or Application Menus.
+           "#M"* | "#B"*)
+           echo
+           echo "For help, type: '<application name> --help' or 'man <application name>'"
+           echo "Also accepts application options i.e. <application name> --version"
+           ;;
+      esac
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
       #
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
          THIS_DIR=$XXSTR  # Restore $THIS_DIR.
       fi
 } # End of function f_show_menu
@@ -249,11 +260,25 @@ f_menu_item_process () {
               MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
            fi
            ;;
-           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-           MENU_ITEM=0
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
       esac
+      # Main Menu item option "Quit" to exit.
+      if [ $DELIMITER = "#AAA" ] ;then
+         case $MENU_ITEM in
+              [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+              MENU_ITEM=0
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              ;;
+	 esac
+      else
+         # All other menus item option "Return" to exit.
+         case $MENU_ITEM in
+              [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+              MENU_ITEM=0
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              ;;
+         esac
+      fi 
+      #
       f_application_help
       ERROR=0 # Reset error flag.
       #
@@ -283,9 +308,11 @@ f_menu_item_process () {
             #
             # Specify 3rd field of $MENU_ITEM_OPT for function #3.
             f_eval_funct "$MENU_ITEM_OPT" 3
+            #
             # Run application program.
-            # $APP_NAME="" when f_run_and_exit is run prior within function #1, #2, or #3.
-            if [ -n "$APP_NAME" ] ; then
+            # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
+            # Don't run "applications" in Main Menu or any of its sub-menus because there are none.
+            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
                APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
@@ -383,8 +410,8 @@ f_menu_item_valid () {
 # |        Function f_menu_item_info       |
 # +----------------------------------------+
 #
-#  Inputs: DELIMITER, MENU_ITEM_NAME, THIS_FILE.
-#    Uses: None.
+#  Inputs: DELIMITER, MENU_ITEM_NAME, THIS_DIR, THIS_FILE.
+#    Uses: XXSTR.
 # Outputs: MENU_ITEM_OPT.
 #
 f_menu_item_info () {
@@ -392,6 +419,10 @@ f_menu_item_info () {
       # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
       #
       MENU_ITEM_OPT=""
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" != "#AAF" ] ; then
+         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
+         THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
+      fi
       #
       # grep "$MENU_ITEM_NAME" is in quotes because some menu items have 2 words i.e. "star wars".
       # grep needs -i because my convention is any sub-menus start with an upper-case letter.
@@ -410,6 +441,9 @@ f_menu_item_info () {
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
       export MENU_ITEM_OPT
       #
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" != "#AAF" ] ; then
+         THIS_DIR=$XXSTR  # Restore $THIS_DIR.
+      fi
 } # End of function f_menu_item_info
 #
 # +----------------------------------------+
@@ -431,8 +465,8 @@ f_eval_funct () {
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
       #
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
-         if [ "$XSTR" = 1 ] ; then
-            XSTR=f_$MENU_ITEM_NAME
+         if [ "$XSTR" = 1 ] ; then  # 1st field "1"=<f_app-name>
+            XSTR=f_$MENU_ITEM_NAME   # 2nd and 3rd fields have an unrestricted naming convention for functions.
          fi
          eval $XSTR  # Invoke (run) the function.
          if [ $? -ne 0 ] ; then
@@ -441,8 +475,6 @@ f_eval_funct () {
          fi
       fi
       #
-      # MENU_ITEM_OPT_FIELD=$XSTR
-      # export MENU_ITEM_OPT_FIELD  # Make variables available after exiting function.
       unset X XSTR
       #
 } # End of function f-sub_menu
@@ -600,20 +632,77 @@ f_how_to_quit_application () {
 # |          Function f_term_color         |
 # +----------------------------------------+
 #
-#  Inputs: TCOLOR.
-#    Uses: None.
+#  Inputs: $1=$FCOLOR. $2=$BCOLOR
+#    Uses: CNT, TPUTX.
 # Outputs: None.
 #
 f_term_color () {  # Set terminal display properties.
-      case $TCOLOR in
-           [Bb] | [Bb][Ll] | [Bb][Ll][Aa] | [Bb][Ll][Aa][Cc] | [Bb][Ll][Aa][Cc][Kk])
-              setterm -reset -bold on -store
-           ;;
-           [Ww] | [Ww][Hh] | [Ww][Hh][Ii] | [Ww][Hh][Ii][Tt] | [Ww][Hh][Ii][Tt][Ee])
-              setterm -reset
-              setterm -foreground white -background black -inverse -store
-           ;;  
-      esac
+      #
+      # BASH commands to change the color of characters in a terminal.
+      # bold    "$(tput bold)"
+      # black   "$(tput setaf 0)"
+      # red     "$(tput setaf 1)"
+      # green   "$(tput setaf 2)"
+      # yellow  "$(tput setaf 3)"
+      # blue    "$(tput setaf 4)"
+      # magenta "$(tput setaf 5)"
+      # cyan    "$(tput setaf 6)"
+      # white   "$(tput setaf 7)"
+      # reset   "$(tput sgr0)"
+      #
+      # setterm does not work in X-window virtual terminals.
+      # setterm -foreground white -background black -bold on -store
+      #
+      # set background first because you must reset colors first to get true black background in some
+      # virtual X-terminals. Since "tput setab 0" appears light gray, use "tput sgr0" to reset colors.
+      # set CNT=1 background color then set CNT=2 font color.
+      for CNT in 1 2
+      do
+          if [ $CNT -eq 1 ] ; then
+             
+             TPUTX="setab"  # Background color.
+             COLOR=$2
+          else
+             TPUTX="setaf"  #  Font color (Fore-ground color).
+             COLOR=$1
+          fi
+          case $COLOR in
+               [Bb] | [Bb][Ll] | [Bb][Ll][Aa]*)
+               if [ $CNT -eq 1 ] ; then
+                  echo -n $(tput sgr0)  # Black background selected. Reset colors to get true black.
+               else
+                  echo -n $(tput $TPUTX 0)  # Black font selected.
+               fi
+               ;;
+               [Bb] | [Bb][Ll] | [Bb][Ll][Uu]*)
+               echo -n $(tput $TPUTX 4)  # Blue font/background selected.
+               ;;
+               [Cc] | [Cc][Yy]*)
+               echo -n $(tput $TPUTX 6)  # Cyan font/background selected.
+               ;;
+               [Gg] | [Gg][Rr] | [Gg][Rr][Ee]*)
+               echo -n $(tput $TPUTX 2)  # Green font/background selected.
+               ;;
+               [Gg] | [Gg][Rr] | [Gg][Rr][Aa]*)
+               echo -n $(tput $TPUTX 237)  # Gray font/background selected.
+               ;;
+               [Mm] | [Mm][Aa]*)
+               echo -n $(tput $TPUTX 5)  # Magenta font/background selected.
+               ;;
+               [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
+               echo -n $(tput $TPUTX 1)  # Red font/background selected.
+               ;;
+               [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
+               echo -n $(tput sgr0)  # Reset selected.
+               ;;
+               [Ww] | [Ww][Hh]*)
+               echo -n $(tput $TPUTX 7)  # White font/background selected.
+               ;;
+               [Yy] | [Yy][Ee]*)
+               echo -n $(tput $TPUTX 3)  # Yellow font/background selected.
+               ;;
+          esac
+      done
       #
 } # End of function f_term_color
 #
@@ -1372,7 +1461,6 @@ f_application_web_install () {
 f_download_file () {
       PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
       . lib_cli-common.lib # Invoke the common library.
-
       #
       case $MOD_FILE in
            mod_apps*.lib)  # Module files only
@@ -1525,13 +1613,13 @@ f_ask_which_module_download () {
                  if [ -r "$THIS_DIR/$MOD_FILE" ] ; then  # X=<module file name>
                     echo $(tput bold) $X $MOD_FILE
                  else
-                    echo $(tput sgr0) $X $MOD_FILE
+                    echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo " $X $MOD_FILE" ; f_term_color $FCOLOR $BCOLOR
                  fi
               fi
           done
       done
       #
-      echo
+      echo $(tput bold)
       echo "For example: 'GIMOSY' will download Games, Image, Office, System modules."
       echo "          or 'G im OsY' (not case sensitive and spaces allowed)."
       echo
@@ -1620,6 +1708,7 @@ f_module_match () {
       case $XSTR in
            ALL)
            if [ -n "$WEB_SITE" ] ; then
+              # for-loop awk command uses back-ticks to execute resulting in (MOD_FILE) name of mod_apps-*.lib.
               for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
               do
                   wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE  # Download all modules.
@@ -1683,9 +1772,16 @@ f_module_match () {
            *)
            MOD_FILE="BAD_CHOICE_INPUT"
            XSTR=""
-           echo
+            # If background color is black or blue, then use yellow font.
+            echo -n $(tput bold)
+            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
+               echo $(tput setaf 3)  # Yellow font for error message.
+            else
+               echo $(tput setaf 1)  # Red font for error message.
+            fi
            echo ">>>Error Bad choice input.<<<"
            echo "       Exiting now."
+           echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
       esac
 } # End of function f_ask_which_module_download
 #
@@ -1851,7 +1947,16 @@ f_show_max_menu_items () {
                  # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
                  #
                  if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
+                    echo $(tput bold)
+            # If background color is black or blue, then use yellow font.
+            echo -n $(tput bold)
+            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
+               echo $(tput setaf 3)  # Yellow font for error message.
+            else
+               echo $(tput setaf 1)  # Red font for error message.
+            fi
                     echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
+                    echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
                  fi
               fi
            #

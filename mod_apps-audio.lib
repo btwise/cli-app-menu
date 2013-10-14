@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-09-2013 14:00"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_audio       |
@@ -50,7 +50,10 @@ f_menu_app_cdrippers () {
 #0^0^0^0^1 #MAC abcde      - Audio CD ripper.
 #0^0^0^0^1 #MAC acripper   - Audio CD ripper.
 #0^0^0^0^1 #MAC cdparanoia - Audio CD ripper.
-#0^0^0^0^1 #MAC crip       - Audio CD ripper.
+#0^0^0^0^1 #MAC cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
+#0^0^0^0^1 #MAC cdrskin    - CD/DVD/BD writing tool.
+#0^0^0^0^0 #MAC cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
+#0^0^0^0^1 #MAC crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
 #0^0^0^0^1 #MAC jack       - Audio CD ripper.
 #0^0^0^0^1 #MAC lxdvdrip   - Audio CD ripper.
 #0^0^0^0^1 #MAC ripit      - Audio CD ripper.
@@ -82,6 +85,7 @@ f_menu_app_audio_editors () {
       do    # Start of Audio Editor Applications until loop.
 #0^0^0^0^0 #MAU avconv    - Audio/Video converter.
 #0^0^0^0^1 #MAU avinfo    - Audio/Video information automatic extractor/file list generator.
+#0^0^0^0^1 #MAU cutmp3    - MP3 file editor dependent on mpg123. Save selections to a file.
 #0^0^0^0^1 #MAU exiftool  - Display audio/video/image file properties (ls-like format).
 #0^0^0^0^1 #MAU ecasound  - Multitrack audio processing, record, convert, playback, mixing.
 #0^0^0^0^1 #MAU ffmpeg    - Multimedia Record, convert, stream and playback.
@@ -193,6 +197,7 @@ f_menu_app_music_players2 () {
 #0^0^0^0^1 #MAQ vimpc   - vi-like music player. List playlists with vi keybindings.
 #0^0^0^0^1 #MAQ vitunes - vi-like music player.
 #0^0^0^0^1 #MAQ yauap   - Music player based on Gstreamer, MP3, network streams.
+#f_menu_app_music_players3^0^0^0^0 #MAQ MORE... - For more music player applications.
             #
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Music Player Applications2 Menu"
@@ -205,6 +210,35 @@ f_menu_app_music_players2 () {
             #
       unset MAQ MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_music_players2
+#
+# +----------------------------------------+
+# |    Function f_menu_app_music_players3  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MENU_ITEM, MAQ, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_music_players3 () {
+      f_initvars_menu_app "MAO"
+      until [ $MAO -eq 0 ]
+      do    # Start of Music Player Applications3 until loop.
+#0^0^0^0^1 #MAO ccx2             - Front-end to XMMS music player.
+#0^0^0^0^1 #MAO clxmms           - Front-end to XMMS music player.
+#0^0^0^0^1 #MAO ncxmms2          - Front-end to XMMS music player.
+#0^0^0^0^1 #MAO xmms2-client-cli - Front-end to XMMS music player.
+            #
+            THIS_FILE="mod_apps-audio.lib"
+            MENU_TITLE="Music Player Applications3 Menu"
+            DELIMITER="#MAO" #MAO This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MAO
+            f_menu_item_process $MAO  # Outputs $MENU_ITEM.
+      done  # End of Music Player Applications3 until loop.
+            #
+      unset MAO MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_music_players3
 #
 # +----------------------------------------+
 # |        Function f_menu_app_radio       |
@@ -221,6 +255,7 @@ f_menu_app_radio () {
 #0^0^0^1^0 #MAR dradio   - Streaming radio on world-wide web.
 #0^0^0^0^0 #MAR radio    - Streaming radio, ncurses-based.
 #0^0^0^0^1 #MAR pianobar - Streaming radio player for Pandora Radio.
+#0^0^0^0^0 #MAR pyradio    - Streaming radio, written in python.
 #0^0^0^0^1 #MAR shell-fm - Streaming radio player for last.fm radio.
             #
             THIS_FILE="mod_apps-audio.lib"

@@ -113,7 +113,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="September-26-2013 13:32"
+#:REVDATE="October-14-2013 13:22"
 #:
 #:
 #: +----------------------------------------+
@@ -308,7 +308,8 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: |     Known problems and limitations     |
 #: +----------------------------------------+
 #:
-#: 1. All associated files for this script must be in the same folder. 
+#: 1. All associated files for this script must be in the same folder,
+#:    except for cli-app-menu.sh which may be in a separate folder. 
 #:
 #: 2. f_choice_array needs all menu items to have 1 or 2 unique words in a name
 #:    within the same menu.
@@ -359,6 +360,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: APP_NAME_TMP - String; just app name when APP_NAME has options-params.
 #: APP_RUN     - String; Command to run when application is a web browser,
 #:               actually also includes name of web site to browse.
+#: BCOLOR      - String; Background color of display terminal; Black, blue, white.
 #: CHOICE[XNUM] - Array of string elements. User choice in Applications and
 #:               Category Menus where XNUM is a number.
 #: M[A-Z][A-Z]  - String; User choice in Applications Menu (alpha-numeric).
@@ -369,12 +371,10 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:                    numeric).
 #:               ' 0' means quit menu.
 #:               '-1' stay in menu loop, legitimate choice.
-#: CHOICE_MAIN - String; User choice in Main Menu (alpha-numeric).
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, legitimate choice.
 #: DELIM       - String; Delimiter prefix without the hash "#" mark.
 #: DELIMITER   - String; Delimiter prefix of menu option string.
 #: ERROR       - Number; Save error code number from $? function.
+#: FCOLOR      - String; Font color of display terminal.
 #: INSTALL_ANS - String; YES/NO Does user want to install app?
 #:               Passed from f_application_error to f_application_run.
 #: MAX         - Number; Maximum option choice number in menu.
@@ -388,8 +388,8 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:               '1' Ask "Press Enter key to continue".
 #: REVDATE     - String; Revision date of shell script.
 #: REVISION    - String; Revision number of shell script.
-#: TCOLOR      - String; Background color of display terminal; Black or White.
 #: THIS_FILE   - String; name of shell script.
+#: UCOLOR      - Font color for unavailable library modules in Application Category Menu.
 #: WEB_SITE    - String; name of web site used when application is a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
 #: X           - String; Scratch variable.
@@ -407,6 +407,8 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:AAB - Application Categories Menu
 #:AAC - Configure Menu
 #:AAD - Download Menu
+#:AAE - Terminal Colors Menu
+#:AAF - Colors for Unavailable Menu Items
 #:
 #:BAU - Audio Categories Menu
 #:BFM - File Management Categories Menu
@@ -423,6 +425,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #:MAA - Accounting Applications Menu
 #:MAC - Audio CD Ripper Applications Menu
+#:MAO - Audio Player3 Applications Menu
 #:MAP - Audio Player Applications Menu
 #:MAQ - Audio Player2 Applications Menu
 #:MAR - Audio Radio Applications Menu
@@ -430,6 +433,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MAT - Audio Music Tagger Applications Menu
 #:MAU - Audio Editor Applications Menu
 #:MBH - Bin-Hex Editor Applications Menu
+#:MBL - Blog Client Menu
 #:MBT - Bittorrent Applications Menu
 #:MCA - Calendar Applications Menu
 #:MCB - Calendar2 Applications Menu

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-09-2013 23:18"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -788,13 +788,14 @@ f_menu_app_file_transfer () {
       until [ $MFT -eq 0 ]
       do    # Start of File Transfer Applications until loop.
 #0^0^0^0^1 #MFT cmdftp - File transfer client.
-#0^0^0^0^1 #MFT curl   - File transfer.
-#0^0^0^0^1 #MFT ftp    - File transfer.
+#0^0^0^0^1 #MFT curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
+#0^0^0^0^1 #MFT ftp    - File transfer via Internet standard File Transfer Protocol.
 #0^0^0^0^1 #MFT ftpfs  - File transfer client.
 #0^0^0^0^1 #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
-#0^0^0^0^1 #MFT ncftp  - File transfer client.
-#0^0^0^0^1 #MFT scp    - File transfer.
+#0^0^0^0^1 #MFT ncftp  - Powerful file transfer client, download directory trees etc.
+#0^0^0^0^1 #MFT scp    - Secure Copy file transfer via ssh, asks for password if needed.
 #0^0^0^0^1 #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+#0^0^0^0^1 #MFT wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Transfer Applications Menu"
@@ -856,7 +857,7 @@ f_menu_app_file_managers () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_file_operations () {
-      f_initvars_menu_app"MFO"
+      f_initvars_menu_app "MFO"
       until [ $MFO -eq 0 ]
       do    # Start of File Operations Applications until loop.
 #0^0^0^0^1 #MFO dtrx      - Use tar without remembering which flags for each file to use.
@@ -1017,6 +1018,8 @@ f_menu_app_file_splitters () {
       f_initvars_menu_app "MFS"
       until [ $MFS -eq 0 ]
       do    # Start of File Splitter Applications until loop.
+#1^0^0^0^1 #MFS csplit  - Splits/Joins files.
+#0^0^0^0^1 #MFS cut     - carve up files by character count, byte count, delimited fields.
 #0^0^0^0^1 #MFS hoz     - File splitter using hacha file format.
 #0^0^0^0^1 #MFS lxsplit - Splits/Joins files even greater than 2GB.
 #0^0^0^0^1 #MFS slice   - Divides ASCII file w/delimiters into possibly overlapping slices.

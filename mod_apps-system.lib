@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-09-2013 14:00"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -400,7 +400,7 @@ f_menu_app_sys_logs () {
       f_initvars_menu_app "MLO"
       until [ $MLO -eq 0 ]
       do    # Start of System Logs until loop.
-#0^0^0^0^1 #MLO ccze       - A robust and modular log coloriser, with plugins.
+#0^0^0^0^1 #MLO ccze       - A robust and modular log colorizer, with plugins.
 #0^0^0^0^1 #MLO colortail  - log colorizer.
 #0^0^0^0^1 #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
 #0^0^0^0^1 #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
@@ -644,8 +644,8 @@ f_menu_app_sys_monitors () {
 #0^0^0^0^1 #MSM last      - Users' login/logout times from /var/log/wtmp.
 #1^0^0^0^1 #MSM mpstat    - CPU microprocessor usage monitor.
 #0^0^0^0^0 #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
-#0^0^0^0^1 #MSM rrdtool   - The Round Robin Database Tool stores/displays time-series data.
-#0^0^0^1^0 #MSM saidar    - Monitor system processes, network I/O, disks I/O, free space.
+#0^0^0^0^0 #MSM rcconf    - Debian enable/disable startup scripts/services; ncurses-based.
+#0^0^0^0^0 #MSM ntsysd    - RedHat view/enable/disable startup scripts/services.
 #f_menu_app_sys_monitors2^0^0^0^1 #MSM MORE...   - For more system monitor applications.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -659,6 +659,38 @@ f_menu_app_sys_monitors () {
             #
       unset MSM MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_sys_monitors
+#
+# +----------------------------------------+
+# |    Function f_menu_app_sys_monitors2   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSN, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_sys_monitors2 () {
+      f_initvars_menu_app "MSN"
+      until [ $MSN -eq 0 ]
+      do    # Start of System Monitors until loop.
+#0^0^0^0^1 #MSN rrdtool      - Round Robin Database Tool stores/displays time-series data.
+#0^0^0^1^0 #MSN saidar       - Monitor system processes, network I/O, disks I/O, free space.
+#0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
+#0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
+#f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
+#0^0^0^0^1 #MSN tyload       - Color-coded graphs of CPU load average.
+#0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.
+            #
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="System Monitors Menu"
+            DELIMITER="#MSN" #MSN This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MSN
+            f_menu_item_process $MSN  # Outputs $MENU_ITEM.
+      done  # End of System Monitors Applications until loop.
+            #
+      unset MSN MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_sys_monitors2
 #
 # +----------------------------------------+
 # |             Function f_cacti           |
@@ -787,35 +819,6 @@ f_rrdtool () {
       echo
       f_press_enter_key_to_continue
 } # End of f_rrdtool
-#
-# +----------------------------------------+
-# |    Function f_menu_app_sys_monitors2   |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MSN, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_sys_monitors2 () {
-      f_initvars_menu_app "MSN"
-      until [ $MSN -eq 0 ]
-      do    # Start of System Monitors until loop.
-#0^0^0^0^1 #MSN sar       - CPU usage statistics, user/nice/system/iowait/steal/idle.
-#f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload     - System load average graphical monitor.
-#0^0^0^0^1 #MSN tyload    - Color-coded graphs of CPU load average.
-#0^0^0^1^0 #MSN yacpi     - ACPI monitor, ncurses-based.
-            #
-            THIS_FILE="mod_apps-system.lib"
-            MENU_TITLE="System Monitors Menu"
-            DELIMITER="#MSN" #MSN This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MSN
-            f_menu_item_process $MSN  # Outputs $MENU_ITEM.
-      done  # End of System Monitors Applications until loop.
-            #
-      unset MSN MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_sys_monitors2
 #
 # +----------------------------------------+
 # |     Function f_menu_app_sys_other      |
