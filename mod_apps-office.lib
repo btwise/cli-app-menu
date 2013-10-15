@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-09-2013 14:00"
+# REVDATE="October-14-2013 23:23"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -764,6 +764,7 @@ f_jed () {
       APP_NAME="jed-extra"  # Install jed-extra package before running/installing jed.
       f_application_install_question
       APP_NAME=$APP_NAME_TMP
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
 } # End of function f_jed
 
 # +----------------------------------------+
