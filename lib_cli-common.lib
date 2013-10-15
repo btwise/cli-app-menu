@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-14-2013 13:22"
+# REVDATE="October-14-2013 23:23"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -419,7 +419,7 @@ f_menu_item_info () {
       # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
       #
       MENU_ITEM_OPT=""
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" != "#AAF" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
          XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
@@ -441,7 +441,7 @@ f_menu_item_info () {
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
       export MENU_ITEM_OPT
       #
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" != "#AAF" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
          THIS_DIR=$XXSTR  # Restore $THIS_DIR.
       fi
 } # End of function f_menu_item_info
