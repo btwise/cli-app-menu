@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-14-2013 23:23"
+# REVDATE="October-16-2013 00:01"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -302,6 +302,7 @@ f_menu_item_process () {
             # How to quit?
             # Do not check for Quit Clause if quitting out of
             # a sub-menu after running an application.
+            # APP_NAME is set to null if application is already run.
             if [ -n "$APP_NAME" ] ; then
                f_quit_app_clause
             fi
@@ -312,15 +313,17 @@ f_menu_item_process () {
             # Run application program.
             # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
             # Don't run "applications" in Main Menu or any of its sub-menus because there are none.
+            #
+            # Trap bad menu choices, do not echo Press enter key to continue.
+            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+            #
             if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
-               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
+               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. Also prevents checking for Quit Clause.
             fi
          fi
       fi
-      # Trap bad menu choices, do not echo Press enter key to continue.
-      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
       #
       DELIM=${DELIMITER/\#/}   # Strip off leading "#" of DELIMITER "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
                                # The "\" treats "#" as a literal hash mark, not as a comment.
@@ -935,12 +938,18 @@ f_bad_menu_choice () {
            PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
                          # Specifically for alpha nonsense responses.
            ;;
+           [1-9]*)
+           if [ $MENU_ITEM -le -2 -o $MENU_ITEM -gt $MAX ] ; then
+              MENU_ITEM=-1   # Convert string to integer -1 forcing stay in until loop.
+              PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                             # Specifically for out-of-bounds numeric response.
+           fi
+           ;;
+           *)
+           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+           ;;
       esac
-      if [ $MENU_ITEM -le -2 -o $MENU_ITEM -gt $MAX ] ; then
-         MENU_ITEM=-1   # Convert string to integer -1 forcing stay in until loop.
-         PRESS_KEY=0     # Do not display "Press 'Enter' key to continue."
-                         # Specifically for out-of-bounds numeric response.
-      fi
 } # End of function f_bad_menu_choice
 #
 # +----------------------------------------+
