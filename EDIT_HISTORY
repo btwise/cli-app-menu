@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-16-2013 01:15"
+PROJECT_REVDATE="October-16-2013 03:03"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -53,6 +53,7 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
 ## 2013-10-16 *Main Menu fixed unary expected error.
+##            *f_adcpmvsrc fix code that appends alias to .bashrc.
 ##
 ## 2013-10-15 *f_menu_app_file_operations added adcpmvsrc.
 ##            *f_adcpmvsrc created.
