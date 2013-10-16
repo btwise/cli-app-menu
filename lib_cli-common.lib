@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-16-2013 00:01"
+# REVDATE="October-16-2013 01:15"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -944,10 +944,6 @@ f_bad_menu_choice () {
               PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
                              # Specifically for out-of-bounds numeric response.
            fi
-           ;;
-           *)
-           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
-           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
            ;;
       esac
 } # End of function f_bad_menu_choice
