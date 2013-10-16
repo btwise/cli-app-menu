@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-15-2013 16:11"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -31,10 +31,10 @@ f_menu_cat_applications () {
             #mod_apps-system.lib      #AAB System       - Monitor system processes, resources, utilities, etc.
             #mod_apps-video.lib       #AAB Video        - Video players, editors, utilities.
             #
-      THIS_FILE="lib_cli-menu-cat.lib"
-      MENU_TITLE="Application Categories Menu"
-      DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
-            . lib_cli_common.lib
+            THIS_FILE="lib_cli-menu-cat.lib"
+            MENU_TITLE="Application Categories Menu"
+            DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
+            . $THIS_DIR/lib_cli_common.lib
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAB
             f_cat_menu_item_process $AAB  # Outputs $MENU_ITEM.
