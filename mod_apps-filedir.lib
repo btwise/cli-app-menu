@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-09-2013 23:18"
+# REVDATE="October-15-2013 16:11"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -864,6 +864,7 @@ f_menu_app_file_operations () {
 #0^0^0^0^1 #MFO rsync     - File backup, mirror, directories and files.
 #0^0^0^0^1 #MFO tar       - File backup, compress files.
 #0^0^0^0^1 #MFO --------- - ---------------------------------------------------------------
+#1^0^0^0^1 #MFO adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
 #0^0^0^0^1 #MFO advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
 #0^0^0^0^1 #MFO cdargs    - 'cd' with bookmarks, can bookmark paths of directories.
 #0^0^0^0^1 #MFO mmv       - Move/copy/append/link multiple files using wildcard patterns.
@@ -882,6 +883,64 @@ f_menu_app_file_operations () {
       done  # End of File Operations Applications until loop.
             #
       unset MFO MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_operations
+#
+# +----------------------------------------+
+# |           Function adcpmvsrc           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: XNUM.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_adcpmvsrc () {
+      cd ~
+      wget http://ftp.gnu.org/gnu/coreutils/coreutils-8.21.tar.xz
+      tar xvJf coreutils-8.21.tar.xz
+      cd coreutils-8.21/
+      wget http://zwicke.org/web/advcopy/advcpmv-0.5-8.21.patch
+      patch -p1 -i advcpmv-0.5-8.21.patch
+      ./configure
+      make
+      make install
+      sudo cp ~/coreutils-*/src/cp /usr/local/bin/cp
+      sudo mv ~/coreutils-*/src/cp /usr/local/bin/mv
+      #
+      # Add alias cp to ~/.bashrc if needed.
+      XNUM=$(grep "/usr/local/bin/cp -g" -c ~/.bashrc)
+      if [ $XNUM -eq 0 ] ; then
+         # Edit file ~/.bashrc and add alias for "cp".
+         echo \n "alias cp=\"/usr/local/bin/cp -g\"" >> ~/.bashrc
+      fi
+      #
+      # Add alias mv to ~/.bashrc if needed.
+      XNUM=$(grep "/usr/local/bin/mv -g" -c ~/.bashrc)
+      if [ $XNUM -eq 0 ] ; then
+         # Edit file ~/.bashrc and add alias for "mv".
+         echo \n "alias mv=\"/usr/local/bin/mv -g\"" >> ~/.bashrc
+      fi
+      #
+      echo
+      echo "Is the directory \"/usr/local/bin\" in your PATH of directories?"
+      which cp
+      echo "Your PATH is: $PATH"
+      echo
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      MENU_ITEM_NAME="" # Null so f_application_run is not run twice
+      APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
+
 } # End of function f_menu_app_file_operations
 #
 # +----------------------------------------+

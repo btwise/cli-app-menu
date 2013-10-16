@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-14-2013 23:23"
+PROJECT_REVDATE="October-16-2013 00:01"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,11 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-10-16 *Main Menu fixed unary expected error.
+##
+## 2013-10-15 *f_menu_app_file_operations added adcpmvsrc.
+##            *f_adcpmvsrc created.
 ##
 ## 2013-10-14 *f_ask_which_module_download changed so that f_term_color
 ##             is called before the "echo -n $(tput bold)" command to assure
