@@ -58,8 +58,10 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 ##            *f-asciiquarium_install added to automate installation.
 ##            *f-curses_install added but incomplete. The command-line
 ##             installation had many options and was too complex to script
-##             for different linux distros. So the menu item option to install
-##             libcurses-perl package was added to the Screen-Savers Menu.
+##             for different linux distros. But keep it around because it
+##             can still wget download the source code from the web site.
+##             So let f_asciiquarium use f_application_install to install
+##             Curses instead.
 ##            *f_menu_app_image_graphics add asciitopgm.
 ##            *f_menu_app_screen_savers added menu item option libcurses-perl
 ##             since it is a dependency of ASCIIQuarium.
