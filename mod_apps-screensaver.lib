@@ -18,7 +18,6 @@ f_menu_app_screen_savers () {
       until [ $MSS -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
             #1^0^0^22^0 #MSS asciiquarium   - Aquarium on screen.
-            #0^0^0^0^0 #MSS libcurses-perl - Prerequisite for ASCIIQuarium.
             #0^0^0^8:NC^0 #MSS cmatrix        - Matrix-like screen-saver.
             #0^0^0^8:NC^0 #MSS rain           - Rain on screen.
             #0^0^0^8:NC^0 #MSS termsaver      - screensaver for text terminals.
