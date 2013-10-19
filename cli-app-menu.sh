@@ -173,7 +173,7 @@ f_main_init_once () {
       #      to all users. /opt folder is another location for user apps.
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/home/robert"
+      MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
       #
       # Validate file names and directories.
       f_valid_dir "$MAINMENU_DIR"
@@ -191,7 +191,7 @@ f_main_init_once () {
       # it may help to name it "cli-app-menu" to use it for only project files.
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/public/cli-app-menu"
+      THIS_DIR="/some_directory/cli-app-menu"
       #
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"

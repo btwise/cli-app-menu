@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-15-2013 16:11"
+# REVDATE="October-18-2013 20:20"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -34,7 +34,7 @@ f_menu_cat_applications () {
             THIS_FILE="lib_cli-menu-cat.lib"
             MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
-            . $THIS_DIR/lib_cli_common.lib
+            . $THIS_DIR/lib_cli-common.lib
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAB
             f_cat_menu_item_process $AAB  # Outputs $MENU_ITEM.

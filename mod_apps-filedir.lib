@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-15-2013 16:11"
+# REVDATE="October-18-2013 20:20"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -890,41 +890,92 @@ f_menu_app_file_operations () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: XNUM.
+#    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null).
 #
 f_adcpmvsrc () {
+      clear  # blank screen
+      echo "The commands \"cp\" and \"mv\" will be replaced by new customized versions"
+      echo "However, the original commands are still in their original directories."
+      echo "The new customized versions of the commands will be in the \"/usr/local/bin\""
+      echo "directories."
+      echo
+      echo "Please be patient!!! This script will take a few minutes to complete its run."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"coreutils\" from ftp.gnu.org by using wget."
+      echo "3. Decompress and create the installation subdirectory ~/coreutils-x.xx"
+      echo "4. Download the customized commands via a patch from zwicke.org."
+      echo "5. Install new customized commands via \"make\", \"make install\"."
+      echo "6. Copy new commands to /usr/local/bin directory."
+      echo "7. Add \"alias cp\" and \"alias mv\" to ~/.bashrc, if needed."
+      echo "8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         f_adcpmvsrc_install
+      fi
+      #
+      MENU_ITEM_NAME="" # Null so f_application_run is not run twice
+      APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. Also prevents checking for Quit Clause.
+      unset ANS
+      } # End of function f_adcpmvsrc
+#
+# +----------------------------------------+
+# |       Function f-adcpmvsrc_install     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: None.
+#
+f_adcpmvsrc_install () {
+      # 1. Change directory to your home folder.
       cd ~
+      #
+      # 2. Download "coreutils" from ftp.gnu.org by using wget.
       wget http://ftp.gnu.org/gnu/coreutils/coreutils-8.21.tar.xz
+      #
+      # 3. Decompress and create the installation subdirectory ~/coreutils-x.xx
       tar xvJf coreutils-8.21.tar.xz
       cd coreutils-8.21/
+      #
+      # 4. Download the customized commands via a patch from zwicke.org.
       wget http://zwicke.org/web/advcopy/advcpmv-0.5-8.21.patch
+      #
+      # 5. Install new customized commands via "make", "make install".
       patch -p1 -i advcpmv-0.5-8.21.patch
       ./configure
       make
       make install
-      sudo cp ~/coreutils-*/src/cp /usr/local/bin/cp
-      sudo mv ~/coreutils-*/src/cp /usr/local/bin/mv
       #
+      # 6. Copy new commands to /usr/local/bin directory.
+      if [ ! -d "/usr/local/bin" ] ; then
+         # Target directory is missing, so create it.
+	 sudo mkdir -p /usr/local/bin
+      fi
+      sudo cp ~/coreutils-*/src/cp /usr/local/bin/cp
+      sudo cp ~/coreutils-*/src/mv /usr/local/bin/mv
+      #
+      # 7. Add \"alias cp\" and \"alias mv\" to ~/.bashrc, if needed.
       # Add alias cp to ~/.bashrc if needed.
       XNUM=$(grep "/usr/local/bin/cp -g" -c ~/.bashrc)
       if [ $XNUM -eq 0 ] ; then
          # Edit file ~/.bashrc and add alias for "cp".
-         echo \n "alias cp=\"/usr/local/bin/cp -g\"" >> ~/.bashrc
+         echo -e "\nalias cp=\"/usr/local/bin/cp -g\"" >> ~/.bashrc
       fi
       #
       # Add alias mv to ~/.bashrc if needed.
       XNUM=$(grep "/usr/local/bin/mv -g" -c ~/.bashrc)
       if [ $XNUM -eq 0 ] ; then
          # Edit file ~/.bashrc and add alias for "mv".
-         echo \n "alias mv=\"/usr/local/bin/mv -g\"" >> ~/.bashrc
+         echo -e "\nalias mv=\"/usr/local/bin/mv -g\"" >> ~/.bashrc
       fi
       #
-      echo
-      echo "Is the directory \"/usr/local/bin\" in your PATH of directories?"
-      which cp
-      echo "Your PATH is: $PATH"
-      echo
+      # 8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?"
       # Check the $PATH
       if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
          echo "If needed, edit file \"~/.bashrc\" PATH."
@@ -937,11 +988,11 @@ f_adcpmvsrc () {
          echo "Close Terminal for changes to take effect."
          echo "Either logout or exit from Terminal and re-launch Terminal."
          echo
+         f_press_enter_key_to_continue
       fi
       MENU_ITEM_NAME="" # Null so f_application_run is not run twice
       APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
-
-} # End of function f_menu_app_file_operations
+} # End of function f_adcpmvsrc_install
 #
 # +----------------------------------------+
 # |    Function f_menu_app_file_delundel   |
@@ -1260,8 +1311,8 @@ f_more () {
             echo
             echo "Missing filename."
             echo "Usage: more <filename>"
-            echo
             echo "Now run more. Usage: more --help"
+            echo
             echo
             # When run without a filename, usage instructions appear.
             f_press_enter_key_to_continue
