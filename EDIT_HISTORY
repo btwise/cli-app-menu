@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-18-2013 02:07"
+PROJECT_REVDATE="October-18-2013 20:20"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -54,6 +54,17 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 ##
 ## 2013-10-18 *f_adcpmvsrc_install added to do the actual installation.
 ##            *f_adcpmvsrc changed to call f_adcpmvsrc_install.
+##            *f_asciiquarium added automatic installation.
+##            *f-asciiquarium_install added to automate installation.
+##            *f-curses_install added but incomplete. The command-line
+##             installation had many options and was too complex to script
+##             for different linux distros. So the menu item option to install
+##             libcurses-perl package was added to the Screen-Savers Menu.
+##            *f_menu_app_image_graphics add asciitopgm.
+##            *f_menu_app_screen_savers added menu item option libcurses-perl
+##             since it is a dependency of ASCIIQuarium.
+##            *f_term-animation_install added since it is a dependency
+##             of ASCIIQuarium.
 ##
 ## 2013-10-16 *Main Menu fixed unary expected error.
 ##            *f_adcpmvsrc fix code that appends alias to .bashrc.

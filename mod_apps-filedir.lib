@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 02:07"
+# REVDATE="October-18-2013 20:20"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -945,13 +945,13 @@ f_adcpmvsrc_install () {
       # 4. Download the customized commands via a patch from zwicke.org.
       wget http://zwicke.org/web/advcopy/advcpmv-0.5-8.21.patch
       #
-      5. Install new customized commands via "make", "make install".
+      # 5. Install new customized commands via "make", "make install".
       patch -p1 -i advcpmv-0.5-8.21.patch
       ./configure
       make
       make install
       #
-      6. Copy new commands to /usr/local/bin directory.
+      # 6. Copy new commands to /usr/local/bin directory.
       if [ ! -d "/usr/local/bin" ] ; then
          # Target directory is missing, so create it.
 	 sudo mkdir -p /usr/local/bin
@@ -974,12 +974,8 @@ f_adcpmvsrc_install () {
          echo -e "\nalias mv=\"/usr/local/bin/mv -g\"" >> ~/.bashrc
       fi
       #
-      8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
-      echo
-      echo "Is the directory \"/usr/local/bin\" in your PATH of directories?"
-      which cp
-      echo "Your PATH is: $PATH"
-      echo
+      # 8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?"
       # Check the $PATH
       if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
          echo "If needed, edit file \"~/.bashrc\" PATH."
@@ -992,6 +988,7 @@ f_adcpmvsrc_install () {
          echo "Close Terminal for changes to take effect."
          echo "Either logout or exit from Terminal and re-launch Terminal."
          echo
+         f_press_enter_key_to_continue
       fi
       MENU_ITEM_NAME="" # Null so f_application_run is not run twice
       APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.

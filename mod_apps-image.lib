@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-18-2013 20:20"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -44,13 +44,14 @@ f_menu_app_image_graphics () {
       f_initvars_menu_app "MIG"
       until [ $MIG -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
-#0^0^0^0^1 #MIG aview      - Image and ascii art image viewer.
+#0^0^0^0^1 #MIG asciitopgm - Convert ASCII graphics into a portable graymap.
+#0^0^0^0^1 #MIG aview      - Image and ASCII art image viewer.
 #0^0^0^1^0 #MIG bb         - ASCII-art movie demo based on AAlib.
 #0^0^0^0^1 #MIG caca-utils - Image viewer and converter jpg to ascii images.
 #0^0^0^0^1 #MIG exiftool   - Display audio/video/image file properties (ls-like format).
 #0^0^0^0^1 #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
 #0^0^0^0^1 #MIG fbv        - Image viewer framebuffer console.
-#0^0^0^0^1 #MIG fim        - Image and ascii art image viewer.
+#0^0^0^0^1 #MIG fim        - Image and ASCII art image viewer.
 #0^0^0^0^1 #MIG hasciicam  - ASCII web camera images.
 #0^0^0^0^1 #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
 #0^0^0^0^1 #MIG jhead      - Display jpeg file properties.
