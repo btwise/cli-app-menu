@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-16-2013 01:15"
+# REVDATE="October-18-2013 20:20"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -491,9 +491,27 @@ f_eval_funct () {
 # Outputs: None.
 #
 f_quit_app_clause () {
+      # 
+      # Field 4 is the number of the Quit Code used by f_quit_app_clause.
+      # This will display the custom "How to quit" the application message.
       #
-      # Example string in Quit field of MENU_ITEM_OPT:
-      #         <##><NC> 13:NC (for "no clear" or <##> 13 (clears screen).
+      # Format of menu item options: 
+      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+      #   field-1  field-2  field-3  field-4   field-5
+      # 
+      # Example 1:
+      # String in Quit field of MENU_ITEM_OPT.
+      # #0^0^0^13:NC^0
+      # "13:NC" or format is "##:NC"
+      # This will not clear the screen and display message:
+      # To quit "$APP_NAME", type <Ctrl>-Z.
+      #
+      # Example 2:
+      # String in Quit field of MENU_ITEM_OPT.
+      # #0^0^0^6^0
+      # "6" or format is "##"
+      # This will clear the screen and display message:
+      # To quit "$APP_NAME", type "(quit)" including the parenthesis.
       #
       #%%1. "Q"
       #%%2. "Q" or "quit"
@@ -516,6 +534,7 @@ f_quit_app_clause () {
       #%%19. <Ctrl>-Z or <Ctrl>-C
       #%%20. "exit"
       #%%21. "quit" or "exit"
+      #%%22. "q or to pause press "p"
       #%% # End of list marker (and awk field marker), DO NOT remove.
           # This marker prevents awk from printing any more lines found by grep "#%%" below
           # and including this line.
@@ -877,8 +896,8 @@ f_application_help () {
 # |       Function f_application_run       |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME, INSTALL_ANS.
-#    Uses: ERROR.
+#  Inputs: APP_NAME.
+#    Uses: ERROR, INSTALL_ANS.
 # Outputs: MENU_ITEM=-1.
 #
 f_application_run () {
@@ -1258,6 +1277,13 @@ f_application_install () {
            ;;
       esac # End of Install Package Name case statement.
       #
+      # 1. Determine which application installation manager is used 
+      #    by checking if the requisite directory exists.
+      # 2. If it does exist, then use the corresponding application
+      #    installation manager.
+      # 3. If the installation fails (error code 1), then try to install
+      #    by downloading either compiled or source code from the project's web site.
+      #
       if [ -d /etc/apt ] ; then 
          # if /etc/apt directory exists, then use apt-get install
          # for Debian-based packages.
@@ -1357,9 +1383,14 @@ f_application_install () {
 f_application_web_install () {
       WEB_SITE_INSTALL=""
       case $APP_NAME_INSTALL in # Start of Web Site case statement.
-      asciiaquarium)
-      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/html/"
-      ;;
+      # A custom script is now used to install asciiaquarium. See the Screensavers Menu.
+      # Although if custom script is broken, uncomment WEB_SITE_INSTALL and it should work.
+      # The first refers to general project page, the second to the download link on that
+      # project page. Both links should work OK.
+      # asciiaquarium)
+      # WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/
+      # WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
+      #;;
       binary-clock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
       ;;
@@ -1371,6 +1402,9 @@ f_application_web_install () {
       ;;
       clockywock)
       WEB_SITE_INSTALL="http://soomka.com/"
+      ;;
+      curses)
+      WEB_SITE_INSTALL="http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz"
       ;;
       desmume)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
