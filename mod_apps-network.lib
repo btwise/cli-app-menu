@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-22-2013 01:34"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -372,6 +372,7 @@ f_menu_app_wan () {
       do    # Start of WAN Applications until loop.
 #0^0^0^0^1 #MNW dig         - Query Internet domain name servers.
 #0^0^0^0^1 #MNW dnstop      - Analyze and display tables of DNS traffic.
+#0^0^0^0^1 #MNW dnstracer   - Trace URL back to referencing DNS servers.
 #1^0^0^0^1 #MNW ip          - Shows routing, devices, policy routing and tunnels.
 #f_ip^0^0^0^1 #MNW ip route    - Shows routing.
 #1^0^0^0^1 #MNW mtr         - Traceroute tool, has features of ping and traceroute.
@@ -381,6 +382,8 @@ f_menu_app_wan () {
 #1^0^0^1:NC^0 #MNW speedometer - Check LAN/WAN connectivity speed.
 #1^0^0^0^1 #MNW ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
 #1^0^0^0^1 #MNW traceroute  - Traceroute tool, trace network path to destination. 
+#1^0^0^0^1 #MNW tracepath   - Traceroute tool, trace network path to destination, show MTU.
+#1^0^0^0^1 #MNW traceproto  - Traceroute tool, trace network path to destination. 
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="WAN Applications Menu"
@@ -560,6 +563,7 @@ f_menu_app_network_bandwidth () {
       until [ $MNB -eq 0 ]
       do    # Start of Network Bandwidth Applications until loop.
 #0^0^0^0^0 #MNB bmon     - Bandwidth monitor and rate estimator.
+#0^0^0^0^0 #MNB bwm-ng   - Bandwidth graphical monitor.
 #0^0^0^0^0 #MNB cbm      - Color Bandwidth Meter, ncurses based display.
 #1^0^0^0^1 #MNB ifstat   - Bandwidth statistics. (See also dstat, System Monitors Menu).
 #1^0^0^1:NC^0 #MNB iftop    - Bandwidth statistics.
@@ -569,6 +573,7 @@ f_menu_app_network_bandwidth () {
 #0^0^0^1:NC^0 #MNB pktstat  - Display active connections and bandwidth in real-time.
 #0^0^0^0^1 #MNB statnet  - Bandwidth statistics.
 #0^0^0^1^0 #MNB trafshow - Bandwidth statistics; ncurses based.
+#0^0^0^1^0 #MNB wavemon  - Wireless bandwidth, signal strength histogram.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Bandwidth Applications Menu"

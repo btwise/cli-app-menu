@@ -113,7 +113,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="October-14-2013 13:22"
+#:REVDATE="October-20-2013 01:22"
 #:
 #:
 #: +----------------------------------------+
@@ -425,9 +425,10 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #:MAA - Accounting Applications Menu
 #:MAC - Audio CD Ripper Applications Menu
-#:MAO - Audio Player3 Applications Menu
-#:MAP - Audio Player Applications Menu
-#:MAQ - Audio Player2 Applications Menu
+#:MAN - Audio Player1 Applications Menu
+#:MAO - Audio Player2 Applications Menu
+#:MAP - Audio Player3 Applications Menu
+#:MAQ - Audio Player4 Applications Menu
 #:MAR - Audio Radio Applications Menu
 #:MAS - Audio Speech Synthesis Applications Menu
 #:MAT - Audio Music Tagger Applications Menu

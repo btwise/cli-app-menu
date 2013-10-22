@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 20:20"
+# REVDATE="October-22-2013 01:34"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -57,6 +57,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jhead      - Display jpeg file properties.
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
 #f_linux_logo^0^0^0^1 #MIG linuxlogo  - Color ANSI system logo
+#0^0^0^0^1 #MIG mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
 #0^0^0^0^0 #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
 #f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MIG star wars  - Star Wars movie in ASCII.
 #0^0^0^0^1 #MIG welcome21  - ANSI logo on login screen.

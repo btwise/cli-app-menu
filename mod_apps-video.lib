@@ -47,6 +47,7 @@ f_menu_app_video_editors () {
 #0^0^0^1^1 #MVE avconv        - Audio/Video converter.
 #0^0^0^1^1 #MVE avidemux      - Editor for simple cutting, filtering, encoding.
 #0^0^0^0^1 #MVE exiftool      - Display audio/video/image file properties (ls-like format).
+#0^0^0^0^1 #MVE flip          - FLI Player for ASCII art.
 #0^0^0^0^1 #MVE ffmpeg        - Multimedia Record, convert, stream and play. 
 #0^0^0^0^1 #MVE handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
 #0^0^0^0^1 #MVE mediainfo     - Display audio/video file properties and metadata. 

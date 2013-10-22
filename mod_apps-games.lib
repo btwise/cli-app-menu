@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-22-2013 01:34"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -66,6 +66,7 @@ f_menu_app_games_arcade () {
 #0^0^0^0^0 #MGB robots         - Be chased by killer robots.
 #0^0^0^18^0 #MGB snake          - Be chased by a snake while collecting money.
 #0^0^0^9^0 #MGB worm           - Be a growing worm, don't crash into yourself.
+#0^0^0^9^0 #MGB xorcurses      - based on Xor released in 1987 by Astral Software.
 #0^0^0^18^0 #MGB zsnake         - Variation of BSD's snake game.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -185,15 +186,18 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
       until [ $MGF -eq 0 ]
       do    # Start of Puzzle Games until loop.
-#0^0^0^0^0 #MGF bastet   - Tetris-like game.
-#f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd      - Reformat input as a punch card.
-#0^0^0^0^1 #MGF dab      - 2-players try to complete the most boxes.
-#0^0^0^0^0 #MGF greed    - Greed numbers game, ncurses-based.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGF netris   - Tetris-like game.
-#0^0^0^0^0 #MGF nsuduko  - Suduko game.
-#0^0^0^5^0 #MGF petris   - Tetris-like game.
-#f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt      - Reformat input as a paper tape.
-#0^0^0^5^0 #MGF vitetris - tetris clone; 1-2 players, network play, custom graphics etc.
+#0^0^0^0^0 #MGF bastet      - Tetris-like game.
+#f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd         - Reformat input as a punch card.
+#0^0^0^0^1 #MGF dab         - 2-players try to complete the most boxes.
+#0^0^0^0^0 #MGF braincurses - Guess the pattern of 4 pegs in 4 colors.
+#0^0^0^0^0 #MGF greed       - Greed numbers game, ncurses-based.
+#0^0^0^0^0 #MGF masterm     - Guess the pattern of 4 pegs in 5 colors.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGF netris      - Tetris-like game.
+#0^0^0^0^0 #MGF nsuduko     - Suduko game.
+#0^0^0^5^0 #MGF petris      - Tetris-like game.
+#f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt         - Reformat input as a paper tape.
+#0^0^0^0^0 #MGF textmaze   - Find the exit to the maze.
+#0^0^0^5^0 #MGF vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"
@@ -388,6 +392,7 @@ f_menu_app_games_word () {
 #0^0^0^10^0 #MGK pig     - Converts text into pig-latin.
 #1^0^0^0^1 #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
 #0^0^0^0^1 #MGK rl      - Randomize Lines scrambles words of a text file.
+#0^0^0^0^1 #MGK shuf    - Randomize Lines scrambles words of a text file.
 #0^0^0^10^0 #MGK toilet  - Creates banner with bold font.
             #
             THIS_FILE="mod_apps-games.lib"

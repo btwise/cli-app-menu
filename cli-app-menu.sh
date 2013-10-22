@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-16-2013 01:15"
+REVDATE="October-22-2013 01:34"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -439,6 +439,12 @@ f_main_about () {
       echo
       echo "   Project file: cli-app-menu.sh"
       echo " Last edited on: $REVDATE"
+      echo
+      echo "Main Menu script cli-app-menu.sh is located in:"
+      echo "$MAINMENU_DIR"
+      echo
+      echo "Module library files and documentation is located in:"
+      echo "$THIS_DIR"
       f_press_enter_key_to_continue
       #
       unset X

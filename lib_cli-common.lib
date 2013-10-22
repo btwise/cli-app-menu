@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 20:20"
+# REVDATE="October-22-2013 01:34"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1208,6 +1208,9 @@ f_application_install () {
            aaxine | cacaxine | fbxine)
            APP_NAME_INSTALL="xine-console"
            ;;
+           abc2midi | midi2abc | abc2abc | mftext | midicopy)
+           APP_NAME_INSTALL="abcmidi"
+           ;;
            acat| als | apack | atool | aunpack)
            APP_NAME_INSTALL="atool"
            ;;
@@ -1226,6 +1229,9 @@ f_application_install () {
            clamscan)
            APP_NAME_INSTALL="clamav"
            ;;
+           dadd | dconv | ddiff | dgrep | dround | dseq | dtest)
+           APP_NAME_INSTALL="dateutils"
+           ;;
            exiftool)
            APP_NAME_INSTALL="libimage-exiftool-perl"
            ;;
@@ -1234,6 +1240,9 @@ f_application_install () {
            ;;
            fbgs)
            APP_NAME_INSTALL="fbi"
+           ;;
+           fd)
+           APP_NAME_INSTALL="fdclone"
            ;;
            glances) # Add repository for glances application.
            sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
@@ -1284,10 +1293,10 @@ f_application_install () {
       # 3. If the installation fails (error code 1), then try to install
       #    by downloading either compiled or source code from the project's web site.
       #
-      if [ -d /etc/apt ] ; then 
          # if /etc/apt directory exists, then use apt-get install
          # for Debian-based packages.
          sudo apt-get install $APP_NAME_INSTALL
+      if [ -d /etc/apt ] ; then 
          ERROR=$? # Save error flag condition.
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
@@ -1394,6 +1403,12 @@ f_application_web_install () {
       binary-clock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
       ;;
+      blogger-cli)
+      WEB_SITE_INSTALL="http://code.google.com/p/blogger-cli/downloads/detail?name=blogger-cli-0.5.tar.gz&can=2&q="
+      ;;
+      bsod)
+      WEB_SITE_INSTALL="http://www.vanheusden.com/bsod/"
+      ;;
       cclock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
       ;;
@@ -1403,8 +1418,14 @@ f_application_web_install () {
       clockywock)
       WEB_SITE_INSTALL="http://soomka.com/"
       ;;
+      consolecandy)
+      WEB_SITE_INSTALL="http://www.vanheusden.com/consolecandy/"
+      ;;
       curses)
       WEB_SITE_INSTALL="http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz"
+      ;;
+      dateutils)
+      WEB_SITE_INSTALL="https://bitbucket.org/hroptatyr/dateutils/downloads"
       ;;
       desmume)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
@@ -1460,8 +1481,14 @@ f_application_web_install () {
       vtclock)
       WEB_SITE_INSTALL="http://webonastick.com/vtclock/"
       ;;
+      wp-cli)
+      WEB_SITE_INSTALL="https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh"
+      ;;
       yougrabber)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/yougrabber/files/"
+      ;;
+      xorcurses)
+      WEB_SITE_INSTALL="https://github.com/jwm-art-net/XorCurses.git"
       ;;
       esac                      # End of Web Site case statement.
       #
