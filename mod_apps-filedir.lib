@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="October-22-2013 12:00"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -406,7 +406,7 @@ f_menu_app_file_compression2 () {
       f_initvars_menu_app "MFC"
       until [ $MFC -eq 0 ]
       do    # Start of Backup Applications until loop.
-#0^0^0^0^1 #MFB rzip    - Compresses large files, history buffer up to 900MB.
+#0^0^0^0^1 #MFC rzip    - Compresses large files, history buffer up to 900MB.
 #0^0^0^0^1 #MFC unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
 #0^0^0^0^1 #MFC unxc    - File decompress xz files.
 #0^0^0^0^1 #MFC unzip   - File decompress zip files.
@@ -417,13 +417,13 @@ f_menu_app_file_compression2 () {
 #0^0^0^0^1 #MFC zip     - File compress files to zip files. 
             #
             THIS_FILE="mod_apps-filedir.lib"
-            MENU_TITLE="File Compression #2 Applications Menu"
+            MENU_TITLE="File Compression2 Applications Menu"
             DELIMITER="#MFC" #MFC This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFC
             f_menu_item_process $MFC  # Outputs $MENU_ITEM.
-      done  # End of File Compression #2 Applications until loop.
+      done  # End of File Compression2 Applications until loop.
             #
       unset MFC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_compression2
@@ -449,10 +449,10 @@ f_menu_app_file_conversion () {
 #1^0^0^0^1 #MTW txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
 #1^0^0^0^1 #MTW txt2regex   - Converts human sentences to regex. Regular Expression Wizard.
 #1^0^0^0^1 #MTW txt2tags    - Converts plain ASCII text to a variety of formats.
-#0^0^0^0^1 #MTW unoconv     - Converts any document format that LibreOffice imports/exports.
+#0^0^0^0^1 #MTW unoconv     - Converts any document that LibreOffice imports or exports.
 #0^0^0^0^1 #MTW unrtf       - Converts RTF to HTML, LaTeX, txt, PS.
 #0^0^0^0^1 #MTW vilistextum - Strips HTML code from text.
-#0^0^0^0^1 #MTW wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+#0^0^0^0^1 #MTW wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, troff...
 #0^0^0^0^1 #MTW xmlto       - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
             #
             THIS_FILE="mod_apps-filedir.lib"

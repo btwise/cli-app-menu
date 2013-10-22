@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="October-22-2013 12:00"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1915,7 +1915,19 @@ f_create_LIST_APPS () {
           echo -n "*** " >> $THIS_DIR/LIST_APPS
           grep $XSTR $THIS_DIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> $THIS_DIR/LIST_APPS
           #
-          # Explanation of the "for MOD_FILE in" loop.
+          # Example for setting XSTR within the "for XSTR in" loop:
+          # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
+          # XSTR="#:MPS" to grep README file for menu titles.
+          # XSTR="#MPS"  to grep mod_apps*.lib files for application names
+          #              and descriptions.
+          # XSTR="MPS"   almost worked but README contained the word "MUMPS"
+          #              which caused problems when displaying the menu title
+          #              for "#:MPS - PDF-PS Applications Menu".
+          #
+          # So somehow XSTR had to be modified within the "for XSTR in" loop.
+          XSTR=${XSTR/:/} # Use string substitution, I just learned how, cool!
+          #
+          # Explanation of the "for MOD_FILE in" loop below.
           #
           # 1. grep $XSTR $MOD_FILE
           #    Search the files mod_apps-*.lib one at a time for the Special
@@ -1942,17 +1954,6 @@ f_create_LIST_APPS () {
           #    This will result in:
           #    "ledger        - Ledger using double-entry." w/delimiter "#M".
           #
-          # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
-          # XSTR="#:MPS" to grep README file for menu titles.
-          # XSTR="#MPS"  to grep mod_apps*.lib files for application names
-          #              and descriptions.
-          # XSTR="MPS"   almost worked but README contained the word "MUMPS"
-          #              which caused problems when displaying the menu title
-          #              for "#:MPS - PDF-PS Applications Menu". Too much time.
-          # So somehow XSTR had to be modified within the for-loop.
-          #
-          XSTR=${XSTR/:/} # Use string substitution, I just learned how, cool!
-          #
           # Print application names and descriptions.
           # Any new mod_apps*.lib files added must be included in the for-loop below.
           # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
@@ -1962,6 +1963,8 @@ f_create_LIST_APPS () {
               # Human readable list without special comment markers.
               # Indents one space before application name.
               grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> $THIS_DIR/LIST_APPS
+              echo -n "." # Elipse to indicate function is running displayed on screen display.
+
               #
               # Leaves no space before application name.
               # grep $XSTR $THIS_DIR/$MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> $THIS_DIR/LIST_APPS

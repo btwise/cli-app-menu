@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="October-22-2013 12:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -137,7 +137,6 @@ f_menu_app_calendar () {
 #0^0^0^0^1 #MCA etm         - Event and task manager.
 #0^0^0^0^1 #MCA gcal        - Calendar, almost the same as cal.
 #0^0^0^0^1 #MCA gcalcli     - Google calendar.
-#0^0^0^0^1 #MCA hebcal      - Perpetual Jewish calendar.
 #f_menu_app_calendar2^0^0^0^0 #MCA MORE...     - More calendar applications.
             #
             THIS_FILE="mod_apps-office.lib"
@@ -164,6 +163,7 @@ f_menu_app_calendar2 () {
       f_initvars_menu_app "MCB"
       until [ $MCB -eq 0 ]
       do    # Start of Calendar2 Applications until loop.
+#0^0^0^0^1 #MCB hebcal   - Perpetual Jewish calendar.
 #0^0^0^0^1 #MCB jcal     - Display Jalali (Persian) calendar.
 #0^0^0^0^1 #MCB lunar    - Converts Gregorian date to Chinese lunar calendar.
 #0^0^0^0^1 #MCB mencal   - Calendar to track repeating periodic events every nn days.
@@ -177,7 +177,7 @@ f_menu_app_calendar2 () {
 #0^0^0^1^0 #MCB wyrd     - Calendar, ncurses-based.
             #
             THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="Calendar #2 Applications Menu"
+            MENU_TITLE="Calendar2 Applications Menu"
             DELIMITER="#MCB" #MCB This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -315,7 +315,7 @@ f_menu_app_pdfps () {
 #f_menu_app_pdfps2^0^0^0^0 #MPS MORE...    - For more PDF and PS applications.
             #
             THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="PDF and PS Applications Menu"
+            MENU_TITLE="PDF/PS File Applications Menu"
             DELIMITER="#MPS" #MPS This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -342,7 +342,7 @@ f_menu_app_pdfps2 () {
 #0^0^0^0^1 #MPT sdop       - Converts a Simplified Docbook XML file to PS (PostScript).
             #
             THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="PDF and PS #2 Applications Menu"
+            MENU_TITLE="PDF/PS File2 Applications Menu"
             DELIMITER="#MPT" #MPT This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -685,7 +685,7 @@ f_menu_app_text_editors () {
 #f_menu_app_text_editors2^0^0^0^0 #MTE MORE...       - For more text editor applications.
             #
             THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="Text Editor #1 Applications Menu"
+            MENU_TITLE="Text Editor Applications Menu"
             DELIMITER="#MTE" #MTE This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -753,7 +753,7 @@ f_menu_app_text_editors2 () {
 #f_menu_app_text_editors3^0^0^0^0 #MTF MORE...   - For more text editor applications.
             #
             THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="Text Editor #2 Applications Menu"
+            MENU_TITLE="Text Editor2 Applications Menu"
             DELIMITER="#MTF" #MTF This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 

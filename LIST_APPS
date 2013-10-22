@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-10-22 01:42 Tuesday
+Last updated: 2013-10-22 10:45 Tuesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -44,13 +44,15 @@ ________________________________________________
  moc             - Music player, ncurses-based.
  ncmpc           - Music player, ncurses-based.
  ncmpcpp         - Music player and visualizer, ncurses-based.
- opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
  MORE...         - For more music player applications.
+ MORE...         - For more image-graphics applications.
 
 ________________________________________________
 *** Audio Player2 Applications Menu ***
+ opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
  orpheus         - Music player ncurses-based.
  pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
+ MORE...         - For more music player applications.
 
 ________________________________________________
 *** Audio Player3 Applications Menu ***
@@ -67,10 +69,10 @@ ________________________________________________
  vimpc   - vi-like music player. List playlists with vi keybindings.
  vitunes - vi-like music player.
  yauap   - Music player based on Gstreamer, MP3, network streams.
+ MORE... - For more music player applications.
 
 ________________________________________________
 *** Audio Player4 Applications Menu ***
- MORE... - For more music player applications.
  ccx2             - Front-end to XMMS music player.
  clxmms           - Front-end to XMMS music player.
  ncxmms2          - Front-end to XMMS music player.
@@ -171,11 +173,11 @@ ________________________________________________
  etm         - Event and task manager.
  gcal        - Calendar, almost the same as cal.
  gcalcli     - Google calendar.
- hebcal      - Perpetual Jewish calendar.
  MORE...     - More calendar applications.
 
 ________________________________________________
 *** Calendar2 Applications Menu ***
+ hebcal   - Perpetual Jewish calendar.
  jcal     - Display Jalali (Persian) calendar.
  lunar    - Converts Gregorian date to Chinese lunar calendar.
  mencal   - Calendar to track repeating periodic events every nn days.
@@ -220,6 +222,20 @@ ________________________________________________
 
 ________________________________________________
 *** Database Applications Menu ***
+ ara               - Search Debian package databases.
+ couchdb           - Apache CouchDB document-oriented databsae.
+ edb               - Database program for GNU Emacs.
+ freecdb           - Create and read constant databases (up to 4 GB).
+ lbdb              - Little Brother's Database for mutt mail reader.
+ mysql-client      - MySQL database client, (latest recommended version).
+ mysql-server      - MySQL database server, (latest recommended version).
+ postgresql        - Metapackage for object-relational SQL database.
+ postgresql-client - PostgreSQL database client, (latest version).
+ postgresql-doc    - Documentation for PostgreSQL database.
+ sqlite            - C Library allows SQL access w/o separate RDBMS process.
+ task-database     - Selects PostgreSQL database client and server packages.
+ tokyocabinet      - Tokyo Cabinet Database.
+ tokyocabinet-doc  - Documentation for the Tokyo Cabinet Database.
 
 ________________________________________________
 *** Dowloader Applications Menu ***
@@ -294,10 +310,10 @@ ________________________________________________
  p7zip   - File compress, to 7z files, 7z better than zip compression.
  pdlzip  - Simpler,compress files based on the LZMA algorithm.
  MORE... - For more file compression applications.
- rzip    - Compresses large files, history buffer up to 900MB.
 
 ________________________________________________
 *** File Compression2 Applications Menu ***
+ rzip    - Compresses large files, history buffer up to 900MB.
  unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
  unxc    - File decompress xz files.
  unzip   - File decompress zip files.
@@ -564,6 +580,9 @@ ________________________________________________
  linuxlogo  - Color ANSI system logo
  mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
  sl         - Steam locomotive (when you mis-type 'ls' command).
+
+________________________________________________
+*** Image-Graphics2 Applications Menu ***
  star wars  - Star Wars movie in ASCII.
  welcome21  - ANSI logo on login screen.
 
@@ -1167,10 +1186,10 @@ ________________________________________________
  txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
  txt2regex   - Converts human sentences to regex. Regular Expression Wizard.
  txt2tags    - Converts plain ASCII text to a variety of formats.
- unoconv     - Converts any document format that LibreOffice imports/exports.
+ unoconv     - Converts any document that LibreOffice imports or exports.
  unrtf       - Converts RTF to HTML, LaTeX, txt, PS.
  vilistextum - Strips HTML code from text.
- wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+ wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, troff...
  xmlto       - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
 
 ________________________________________________

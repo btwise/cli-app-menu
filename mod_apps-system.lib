@@ -682,7 +682,7 @@ f_menu_app_sys_monitors2 () {
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.
             #
             THIS_FILE="mod_apps-system.lib"
-            MENU_TITLE="System Monitors Menu"
+            MENU_TITLE="System Monitors2 Menu"
             DELIMITER="#MSN" #MSN This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 

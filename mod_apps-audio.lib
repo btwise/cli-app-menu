@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="October-22-2013 12:00"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_audio       |
@@ -151,7 +151,7 @@ f_menu_app_music_taggers () {
 #
 f_menu_app_music_players () {
       f_initvars_menu_app "MAN"
-      until [ $MAP -eq 0 ]
+      until [ $MAN -eq 0 ]
       do    # Start of Music Player Applications until loop.
 #0^0^0^0^0 #MAN adcd            - Very simple CD player.
 #0^0^0^0^0 #MAN camp            - Music player with Graphic visualizer.
@@ -168,7 +168,6 @@ f_menu_app_music_players () {
 #0^0^0^0^0 #MAN moc             - Music player, ncurses-based.
 #0^0^0^1^0 #MAN ncmpc           - Music player, ncurses-based.
 #0^0^0^1^0 #MAN ncmpcpp         - Music player and visualizer, ncurses-based.
-#0^0^0^0^0 #MAN opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
 #f_menu_app_music_players2^0^0^0^0 #MAN MORE...         - For more music player applications.
             #
             THIS_FILE="mod_apps-audio.lib"
@@ -195,8 +194,11 @@ f_menu_app_music_players2 () {
       f_initvars_menu_app "MAO"
       until [ $MAO -eq 0 ]
       do    # Start of Music Player Applications2 until loop.
+#0^0^0^0^0 #MAO opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
 #0^0^0^0^0 #MAO orpheus         - Music player ncurses-based.
 #0^0^0^0^0 #MAO pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
+#f_menu_app_music_players3^0^0^0^0 #MAO MORE...         - For more music player applications.
+
             #
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Music Player2 Applications Menu"
@@ -236,7 +238,7 @@ f_menu_app_music_players3 () {
 #0^0^0^0^1 #MAP vimpc   - vi-like music player. List playlists with vi keybindings.
 #0^0^0^0^1 #MAP vitunes - vi-like music player.
 #0^0^0^0^1 #MAP yauap   - Music player based on Gstreamer, MP3, network streams.
-#f_menu_app_music_players4^0^0^0^0 #MAQ MORE... - For more music player applications.
+#f_menu_app_music_players4^0^0^0^0 #MAP MORE... - For more music player applications.
             #
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Music Player3 Applications Menu"
