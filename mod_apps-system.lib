@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-09-2013 14:00"
+# REVDATE="October-22-2013 01:34"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -404,6 +404,7 @@ f_menu_app_sys_logs () {
 #0^0^0^0^1 #MLO colortail  - log colorizer.
 #0^0^0^0^1 #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
 #0^0^0^0^1 #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
+#0^0^0^0^1 #MLO logtailer  - Monitor logs for updates and display them.
 #0^0^0^0^1 #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
 #0^0^0^0^1 #MLO multitail  - View multiple log files using multiple panes.
 #0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail work-alike.
@@ -681,7 +682,7 @@ f_menu_app_sys_monitors2 () {
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.
             #
             THIS_FILE="mod_apps-system.lib"
-            MENU_TITLE="System Monitors Menu"
+            MENU_TITLE="System Monitors2 Menu"
             DELIMITER="#MSN" #MSN This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -832,7 +833,9 @@ f_menu_app_sys_other () {
       f_initvars_menu_app "MSO"
       until [ $MSO -eq 0 ]
       do    # Start of System Other until loop.
-#0^0^0^0^1 #MSO colortest - test color capabilities of a terminal.
+#0^0^0^0^1 #MSO apg       - Password generator that can specify a pattern.
+#0^0^0^0^1 #MSO apropos   - Search linux man(ual) files for a forgotten command.
+#0^0^0^0^1 #MSO colortest - Test color capabilities of a terminal.
 #0^0^0^0^1 #MSO cpm       - Password manager using PGP-encryption, ncurses-based.
 #0^0^0^0^1 #MSO desmume   - Nintendo DS emulator.
 #0^0^0^0^1 #MSO dosemu    - DOS emulator.
@@ -867,6 +870,7 @@ f_menu_app_sys_peripherals () {
 #0^0^0^0^1 #MSL acpitool  - ACPI power/battery settings.
 #1^0^0^0^1 #MSL blkid     - Block devices information.
 #0^0^0^0^1 #MSL cdde      - Detects if a CD is inserted, runs specified program.
+#0^0^0^0^1 #MSL inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
 #0^0^0^0^1 #MSL lsblk     - List block devices (disks).
 #0^0^0^0^1 #MSL lsof      - Display information about open files.
 #1^0^0^0^1 #MSL lspci     - PCI buses and connected devices.
@@ -981,6 +985,7 @@ f_menu_app_sys_process () {
 #1^0^0^0^1 #MSR pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
 #0^0^0^0^1 #MSR pkill     - Kill processes based on partial name of process.
 #0^0^0^0^1 #MSR pmap      - View process memory usage.
+#0^0^0^0^1 #MSR powertop  - Find software components which consume the most power.
 #0^0^0^0^1 #MSR ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
 #0^0^0^0^1 #MSR pstree    - Tree view system processes/resources, like "ps" command.
 #0^0^0^0^1 #MSR pswatcher - Execute commands when certain processes are run.
@@ -1211,6 +1216,7 @@ f_menu_app_sys_software () {
 #0^0^0^0^1 #MSF apt-file  - Search/List files in the Debian package manager w/o installing.
 #1^0^0^0^0 #MSF aptitude  - Debian package manager.
 #0^0^0^0^1 #MSF aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
+#0^0^0^0^1 #MSF cupt      - Debian front-end to dpkg package manager.
 #0^0^0^0^1 #MSF dpkg      - Debian package manager.
 #0^0^0^0^1 #MSF rpm       - RPM (Red Hat) package manager.
 #0^0^0^0^0 #MSF synaptic  - GUI Debian package manager.

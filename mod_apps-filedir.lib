@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 20:20"
+# REVDATE="October-22-2013 18:18"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -56,16 +56,20 @@ f_menu_app_binhex_editors () {
       f_initvars_menu_app "MBH"
       until [ $MBH -eq 0 ]
       do    # Start of Bin-Hex Editor Applications until loop.
-#0^0^0^0^1 #MBH bbe      - sed-like editor for binary files.
-#0^0^0^0^1 #MBH beav     - Binary file editor and viewer.
-#0^0^0^0^1 #MBH bvi      - Binary file editor and viewer with vi-like key bindings.
-#0^0^0^0^0 #MBH dhex     - Hexadecimal editor with diff mode, ncurses-based.
-#0^0^0^0^0 #MBH hexedit  - Hexadecimal editor.
-#0^0^0^0^0 #MBH hexer    - Hex editor with vi-like bindings.
-#0^0^0^0^0 #MBH tweak    - Hex editor with emacs-like keybindings, ncurses-based.
-#0^0^0^0^1 #MBH vbindiff - Displays in hexadecimal and ASCII, works with up to 4GB files.
-#0^0^0^0^1 #MBH xdelta   - diff binary files, results can be applied to original bin file.
-#0^0^0^0^1 #MBH xdelta3  - diff binary files. "Delta files" in RFC3284 (VCDIFF) format.
+#0^0^0^0^1 #MBH bbe       - sed-like editor for binary files.
+#0^0^0^0^1 #MBH beav      - Binary file editor and viewer.
+#0^0^0^0^1 #MBH biew      - Hex and Binary file editor and viewer.
+#0^0^0^0^1 #MBH bvi       - Binary file editor and viewer with vi-like key bindings.
+#0^0^0^0^1 #MBH bviplus   - Binary file editor and viewer with vi-like key bindings.
+#0^0^0^0^1 #MBH codemetre - Count lines of code w/o comments in source code.
+#0^0^0^0^1 #MBH colout    - Colorize matching text pattern in a text file.
+#0^0^0^0^0 #MBH dhex      - Hexadecimal editor with diff mode, ncurses-based.
+#0^0^0^0^0 #MBH hexedit   - Hexadecimal editor.
+#0^0^0^0^0 #MBH hexer     - Hex editor with vi-like bindings.
+#0^0^0^0^0 #MBH tweak     - Hex editor with emacs-like keybindings, ncurses-based.
+#0^0^0^0^1 #MBH vbindiff  - Displays in hexadecimal and ASCII, works with up to 4GB files.
+#0^0^0^0^1 #MBH xdelta    - diff binary files, results can be applied to original bin file.
+#0^0^0^0^1 #MBH xdelta3   - diff binary files. "Delta files" in RFC3284 (VCDIFF) format.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Binary-Hexadecimal File Editor Applications Menu"
@@ -302,6 +306,7 @@ f_menu_app_text_compare () {
 #1^0^0^0^1 #MTC comm      - Compares 2 sorted files line by line.
 #0^0^0^0^1 #MTC diff      - Differences between 2 text files shown using <> signs.
 #0^0^0^0^1 #MTC diff3     - Differences between 3 text files
+#0^0^0^0^1 #MTC diffh     - Differences between 2 text files in a color HTML page.
 #0^0^0^0^1 #MTC dwdiff    - Like wdiff but allows whitespace to be included.
 #0^0^0^0^1 #MTC imediff2  - Interactive 2-way file merge.
 #0^0^0^0^1 #MTC vimdiff   - Differences between 2 text files shown in color highlights.
@@ -360,6 +365,7 @@ f_menu_app_file_compression () {
       f_initvars_menu_app "MFB"
       until [ $MFB -eq 0 ]
       do    # Start of Backup Applications until loop.
+#0^0^0^0^1 #MFB 2a      - Archive manager uses only ncurses and libarchive.
 #0^0^0^0^1 #MFB acat    - Exract files in archives to standard output (tar, gzip, zip etc.).
 #0^0^0^0^1 #MFB als     - List files in archives (tar, gzip, zip etc.).
 #0^0^0^0^1 #MFB apack   - File compress create archives (tar, gzip, zip etc.).
@@ -374,7 +380,6 @@ f_menu_app_file_compression () {
 #0^0^0^0^1 #MFB lzop    - Compress files gzip-like but faster.
 #0^0^0^0^1 #MFB p7zip   - File compress, to 7z files, 7z better than zip compression.
 #0^0^0^0^1 #MFB pdlzip  - Simpler,compress files based on the LZMA algorithm.
-#0^0^0^0^1 #MFB rzip    - Compresses large files, history buffer up to 900MB.
 #f_menu_app_file_compression2^0^0^0^0 #MFB MORE... - For more file compression applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
@@ -401,6 +406,7 @@ f_menu_app_file_compression2 () {
       f_initvars_menu_app "MFC"
       until [ $MFC -eq 0 ]
       do    # Start of Backup Applications until loop.
+#0^0^0^0^1 #MFC rzip    - Compresses large files, history buffer up to 900MB.
 #0^0^0^0^1 #MFC unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
 #0^0^0^0^1 #MFC unxc    - File decompress xz files.
 #0^0^0^0^1 #MFC unzip   - File decompress zip files.
@@ -411,13 +417,13 @@ f_menu_app_file_compression2 () {
 #0^0^0^0^1 #MFC zip     - File compress files to zip files. 
             #
             THIS_FILE="mod_apps-filedir.lib"
-            MENU_TITLE="File Compression #2 Applications Menu"
+            MENU_TITLE="File Compression2 Applications Menu"
             DELIMITER="#MFC" #MFC This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFC
             f_menu_item_process $MFC  # Outputs $MENU_ITEM.
-      done  # End of File Compression #2 Applications until loop.
+      done  # End of File Compression2 Applications until loop.
             #
       unset MFC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_compression2
@@ -434,16 +440,20 @@ f_menu_app_file_conversion () {
       f_initvars_menu_app "MTW"
       until [ $MTW -eq 0 ]
       do    # Start of File Format Conversion Applications until loop.
-#0^0^0^0^1 #MTW ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
-#1^0^0^0^1 #MTW txt2html   - Converts plain ASCII text to HTML format.
-#1^0^0^0^1 #MTW txt2man    - Converts plain ASCII text to man format.
-#1^0^0^0^1 #MTW txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
-#1^0^0^0^1 #MTW txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
-#1^0^0^0^1 #MTW txt2tags   - Converts plain ASCII text to a variety of formats.
-#0^0^0^0^1 #MTW unoconv    - Converts any document format that LibreOffice imports/exports.
-#0^0^0^0^1 #MTW unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
-#0^0^0^0^1 #MTW wp2x       - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
-#0^0^0^0^1 #MTW xmlto      - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
+#0^0^0^0^0 #MTW abcm2ps     - Converts ABC music source files to PS sheet music format.
+#0^0^0^0^1 #MTW dehtml      - Strips HTML code from text.
+#0^0^0^0^1 #MTW ebook2cw    - Converts plain text ebooks to  morse code mp3/ogg audio files.
+#0^0^0^0^1 #MTW html2txt    - Strips HTML code from text.
+#1^0^0^0^1 #MTW txt2html    - Converts plain ASCII text to HTML format.
+#1^0^0^0^1 #MTW txt2man     - Converts plain ASCII text to man format.
+#1^0^0^0^1 #MTW txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
+#1^0^0^0^1 #MTW txt2regex   - Converts human sentences to regex. Regular Expression Wizard.
+#1^0^0^0^1 #MTW txt2tags    - Converts plain ASCII text to a variety of formats.
+#0^0^0^0^1 #MTW unoconv     - Converts any document that LibreOffice imports or exports.
+#0^0^0^0^1 #MTW unrtf       - Converts RTF to HTML, LaTeX, txt, PS.
+#0^0^0^0^1 #MTW vilistextum - Strips HTML code from text.
+#0^0^0^0^1 #MTW wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, troff...
+#0^0^0^0^1 #MTW xmlto       - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Format Conversion Applications Menu"
@@ -587,6 +597,7 @@ f_menu_app_text_file_editors () {
       f_initvars_menu_app "MTH"
       until [ $MTH -eq 0 ]
       do    # Start of Text Editor Applications until loop.
+#0^0^0^0^1 #MTH aee   - Advanced Easy Editor.
 #0^0^0^15^0 #MTH dav   - Text editor.
 #0^0^0^0^1 #MTH ed    - Classic CLI text editor.
 #0^0^0^0^0 #MTH emacs - Full screen text editor with plugins.
@@ -826,6 +837,7 @@ f_menu_app_file_managers () {
 #0^0^0^0^1 #MFM dired    - File manager for Emacs.
 #0^0^0^0^1 #MFM exiftool - Display jpeg file properties in ls-like format.
 #0^0^0^0^1 #MFM findmnt  - Find a filesystem.
+#0^0^0^0^1 #MFM fd       - File and directory management tool.
 #0^0^0^0^1 #MFM jhead    - Display jpeg file properties.
 #0^0^0^0^0 #MFM lfm      - "Last File Manager", "Midnight Commander"-like.
 #0^0^0^0^0 #MFM mc       - File Manager, "Midnight Commander".
@@ -833,6 +845,7 @@ f_menu_app_file_managers () {
 #0^0^0^0^0 #MFM pilot    - Simple file browser from Aline.
 #0^0^0^1^0 #MFM ranger   - File manager.
 #0^0^0^0^1 #MFM smbc     - Samba file manager for folder shares with Microsoft Windows.
+#0^0^0^0^1 #MFM tree     - Display directory tree.
 #0^0^0^0^0 #MFM vfu      - File manager, ncurses-based.
 #0^0^0^14^0 #MFM vifm     - File manager with vi-like commands.
             #

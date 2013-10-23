@@ -58,6 +58,15 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: | FILE LOCATIONS of cli-app-menu project |
 #: +----------------------------------------+
 #:
+#: The main script, cli-app-menu.sh may be located in a different directory
+#: from the rest of the files, if you wish. Or you can put all files in the
+#: same folder/directory.
+#:
+#: Specify the folder/directory where the script cli-app-menu.sh file
+#: resides by setting $MAINMENU_DIR variable within function
+#: f_initvars_menu_app in the script file, cli-app-menu.sh.
+#: _______________________________
+#:
 #: The following files must be in the same folder/directory.
 #: EDIT_HISTORY, COPYING, README, LIST_APPS,
 #: lib_cli-common.lib, and lib_cli-menu-cat.lib.
@@ -65,21 +74,21 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: Specify the folder/directory where the library and module library files
 #: reside by setting $THIS_DIR variable within function f_initvars_menu_app
 #: in the script file, cli-app-menu.sh.
+#: _______________________________
 #:
-#: cli-app-menu.sh may be in a separate folder/directory.
-#: 
-#: Specify the folder/directory where the script cli-app-menu.sh file
-#: resides by setting $MAINMENU_DIR variable within function
-#: f_initvars_menu_app in the script file, cli-app-menu.sh.
+#: The configuration file: .cli-app-menu.cfg 
+#: is a hidden file which resides in the user's home directory.
+#: _______________________________
 #:
 #: The folder/directory must have owner read/write/execute permissions.
 #: A sub-directory under the user's home directory is sufficient for this
-#: purpose, such as "/home/<username goes here>/bin/cli-app-menu".
+#: purpose, such as "/home/<username goes here>/cli-app-menu".
 #:
 #: The owner should have write access to update the files EDIT_HISTORY and
-#: APP_LIST and be able to download new module library files into the folder
+#: LIST_APPS and be able to download new module library files into the folder
 #: along with deleting any unneeded module library files.
-#: 
+#: _______________________________
+#:
 #: Append the directory name to your environment $PATH:
 #: Edit your /home/<username goes here>/.bashrc file and add the directory by
 #: adding the lines to the end of the .bashrc file,
@@ -113,7 +122,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="October-14-2013 13:22"
+#:REVDATE="October-22-2013 18:18"
 #:
 #:
 #: +----------------------------------------+
@@ -425,9 +434,10 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #:MAA - Accounting Applications Menu
 #:MAC - Audio CD Ripper Applications Menu
-#:MAO - Audio Player3 Applications Menu
-#:MAP - Audio Player Applications Menu
-#:MAQ - Audio Player2 Applications Menu
+#:MAN - Audio Player1 Applications Menu
+#:MAO - Audio Player2 Applications Menu
+#:MAP - Audio Player3 Applications Menu
+#:MAQ - Audio Player4 Applications Menu
 #:MAR - Audio Radio Applications Menu
 #:MAS - Audio Speech Synthesis Applications Menu
 #:MAT - Audio Music Tagger Applications Menu
@@ -457,7 +467,8 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MFT - File Transfer Applications Menu
 #:MFV - File Viewer Applications Menu
 #:MFX - FAX Applications Menu
-#:MGB - Arcade Games Menu
+#:MGA - Arcade Games Menu
+#:MGB - Arcade2 Games Menu
 #:MGC - Board Games Menu
 #:MGD - Card Games Menu
 #:MGE - MUD (Multi-user Dungeons) Menu
@@ -469,6 +480,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MGK - Word Games Menu
 #:MHR - Ham Radio Applications Menu
 #:MIG - Image-Graphics Applications Menu
+#:MIH - Image-Graphics2 Applications Menu
 #:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu
 #:MIR - Internet Relay Chat (IRC) Applications Menu

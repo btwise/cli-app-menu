@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 20:20"
+# REVDATE="October-22-2013 18:18"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -57,9 +57,9 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jhead      - Display jpeg file properties.
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
 #f_linux_logo^0^0^0^1 #MIG linuxlogo  - Color ANSI system logo
+#0^0^0^0^1 #MIG mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
 #0^0^0^0^0 #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
-#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MIG star wars  - Star Wars movie in ASCII.
-#0^0^0^0^1 #MIG welcome21  - ANSI logo on login screen.
+#f_menu_app_image_graphics2^0^0^0^0 #MAN MORE...         - For more image-graphics applications.
             #
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="Image-Graphics Applications Menu"
@@ -71,6 +71,34 @@ f_menu_app_image_graphics () {
       done  # End of Image-Graphics Applications until loop.
             #
       unset MIG MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_image_graphics
+#
+#
+# +----------------------------------------+
+# |   Function f_menu_app_image_graphics2  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MIH, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_image_graphics2 () {
+      f_initvars_menu_app "MIH"
+      until [ $MIH -eq 0 ]
+      do    # Start of Image-Graphics Applications until loop.
+#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MIH star wars  - Star Wars movie in ASCII.
+#0^0^0^0^1 #MIH welcome21  - ANSI logo on login screen.
+            #
+            THIS_FILE="mod_apps-image.lib"
+            MENU_TITLE="Image-Graphics2 Applications Menu"
+            DELIMITER="#MIH" #MIH This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MIH
+            f_menu_item_process $MIH  # Outputs $MENU_ITEM.
+      done  # End of Image-Graphics Applications until loop.
+            #
+      unset MIH MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_image_graphics
 #
 # +----------------------------------------+

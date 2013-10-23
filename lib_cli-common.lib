@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 20:20"
+# REVDATE="October-22-2013 18:18"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -287,7 +287,7 @@ f_menu_item_process () {
          f_menu_item_valid # APP_NAME="" for invalid name.
                            # APP_NAME=$MENU_ITEM_NAME for valid name.
          #
-         if [ -n "$APP_NAME" ] ; then
+         if [ -n "$APP_NAME" ] ; then # if $MENU_ITEM is a valid choice.
             f_menu_item_info
             #
             # Set PRESS_KEY default before any custom functions since they may also set PRESS_KEY.
@@ -314,9 +314,6 @@ f_menu_item_process () {
             # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
             # Don't run "applications" in Main Menu or any of its sub-menus because there are none.
             #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
-            #
             if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
@@ -331,10 +328,13 @@ f_menu_item_process () {
                                # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
                                #            0 if "Return to previous menu." Exit Menu loop.
       #
+      # Trap bad menu choices, do not echo Press enter key to continue.
+      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
+      #
       # If application displays information, allow user to read it.
       f_option_press_enter_key
       #
-      unset X DELIM RUN MENU_ITEM PRESS_KEY
+      unset X DELIM RUN MENU_ITEM
       #
 } # End of function f_menu_item_process
 #
@@ -587,7 +587,7 @@ f_quit_app_clause () {
 #
 f_press_key () { 
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $5}')
-      if [ "$XSTR" != 0 -a -n "XSTR" ] ; then
+      if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
          PRESS_KEY=1
       else
          PRESS_KEY=0
@@ -757,7 +757,7 @@ f_option_press_enter_key () { # Display message and wait for user input.
       # $PRESS_KEY = 0 means Do not display "Press 'Enter' key to continue."
       # $PRESS_KEY = 1 means Display "Press 'Enter' key to continue."
       #
-      if [ $PRESS_KEY -eq 1 ] ; then
+      if [ "$PRESS_KEY" -eq 1 ] ; then
          f_press_enter_key_to_continue
       fi
 } # End of function f_option_press_enter_key
@@ -1019,8 +1019,6 @@ f_application_error () {
            # Display error message.
            f_display_error_code
            echo "This $APP_NAME_TMP application is not installed."
-           echo 
-           echo "Not all applications in this menu are available on all linux distributions."
            echo
            f_application_install_question
            ;;
@@ -1033,6 +1031,10 @@ f_application_error () {
                 # and apps colordiff, diff, imediff2, vimdiff, wdiff.
                 # For diff apps, error code 1 means compared files are different, not a real error.
                 ;;
+                xorcurses)
+                # Do not display error message if error code 1
+                # Application always exits with error code 1 for some bizarre reason.
+                ;;             
                 sudo' '*)
                 # Display error message.
                 f_display_error_code
@@ -1208,6 +1210,9 @@ f_application_install () {
            aaxine | cacaxine | fbxine)
            APP_NAME_INSTALL="xine-console"
            ;;
+           abc2midi | midi2abc | abc2abc | mftext | midicopy)
+           APP_NAME_INSTALL="abcmidi"
+           ;;
            acat| als | apack | atool | aunpack)
            APP_NAME_INSTALL="atool"
            ;;
@@ -1226,6 +1231,9 @@ f_application_install () {
            clamscan)
            APP_NAME_INSTALL="clamav"
            ;;
+           dadd | dconv | ddiff | dgrep | dround | dseq | dtest)
+           APP_NAME_INSTALL="dateutils"
+           ;;
            exiftool)
            APP_NAME_INSTALL="libimage-exiftool-perl"
            ;;
@@ -1234,6 +1242,9 @@ f_application_install () {
            ;;
            fbgs)
            APP_NAME_INSTALL="fbi"
+           ;;
+           fd)
+           APP_NAME_INSTALL="fdclone"
            ;;
            glances) # Add repository for glances application.
            sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
@@ -1292,10 +1303,15 @@ f_application_install () {
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
             echo
-            echo "Installation of $APP_NAME_INSTALL failed."
-            echo "Command sudo apt-get install $APP_NAME_INSTALL failed."
-            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "Installation of \"$APP_NAME_INSTALL\" failed."
+            echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
+            echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
+            echo
+            echo 
+            echo "Not all applications in this menu are available on all linux distributions."
+            echo "                       >>>Try doing a web search <<<"
+            echo "                  for the application and its source code."
             echo
             f_application_web_install
          fi
@@ -1305,7 +1321,6 @@ f_application_install () {
          # for slackware packages.
          sudo slackpkg install $APP_NAME_INSTALL
          ERROR=$? # Save error flag condition.
-         # 
          # 
          # This if statement is commented out because slackpkg has error code $?=0 even
          # if install fails.
@@ -1319,10 +1334,14 @@ f_application_install () {
          #   # Error code 1 $?=1 means installation failed.
          #   # Error code 0 (zero) where $?=0 means no error.
          #   echo
-         #   echo "Installation of $APP_NAME_INSTALL failed."
-         #   echo "Command sudo slackpkg $APP_NAME_INSTALL failed."
-         #   echo "Perhaps the software package $APP_NAME_INSTALL"
+         #   echo "Installation of \"$APP_NAME_INSTALL\" failed."
+         #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
+         #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
          #   echo "is not available for this linux distribution."
+         #   echo
+         #   echo "Not all applications in this menu are available on all linux distributions."
+         #   echo "                       >>>Try doing a web search <<<"
+         #   echo "                  for the application and its source code."
          #   echo
          #   f_application_web_install
          #fi
@@ -1336,11 +1355,14 @@ f_application_install () {
             # Error code 1 $?=1 means installation failed.
             # Error code 0 (zero) where $?=0 means no error.
             echo
-            echo "Installation of $APP_NAME_INSTALL failed."
-            echo "Command sudo pacman -S $APP_NAME_INSTALL failed."
-            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "Installation of \"$APP_NAME_INSTALL\" failed."
+            echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
+            echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
-
+            echo 
+            echo "Not all applications in this menu are available on all linux distributions."
+            echo "                       >>>Try doing a web search <<<"
+            echo "                  for the application and its source code."
             echo
             f_application_web_install
          fi
@@ -1356,10 +1378,14 @@ f_application_install () {
             # Error code 1 $?=1 means installation failed.
             # Error code 0 (zero) where $?=0 means no error.
             echo
-            echo "Installation of $APP_NAME_INSTALL failed."
-            echo "Command sudo rpm -ivh $APP_NAME_INSTALL failed."
-            echo "Perhaps the software package $APP_NAME_INSTALL"
+            echo "Installation of \"$APP_NAME_INSTALL\" failed."
+            echo "Command \"sudo rpm -ivh $APP_NAME_INSTALL\" failed."
+            echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
+            echo
+            echo "Not all applications in this menu are available on all linux distributions."
+            echo "                       >>>Try doing a web search <<<"
+            echo "                  for the application and its source code."
             echo
             f_application_web_install
          fi
@@ -1367,6 +1393,11 @@ f_application_install () {
          echo
          echo "You will have to install the $APP_NAME_INSTALL package manually."
          echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
+         echo
+         echo "Not all applications in this menu are available on all linux distributions."
+         echo "                       >>>Try doing a web search <<<"
+         echo "                  for the application and its source code."
+         echo
          f_press_enter_key_to_continue
       fi
       #
@@ -1394,6 +1425,12 @@ f_application_web_install () {
       binary-clock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
       ;;
+      blogger-cli)
+      WEB_SITE_INSTALL="http://code.google.com/p/blogger-cli/downloads/detail?name=blogger-cli-0.5.tar.gz&can=2&q="
+      ;;
+      bsod)
+      WEB_SITE_INSTALL="http://www.vanheusden.com/bsod/"
+      ;;
       cclock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
       ;;
@@ -1403,8 +1440,14 @@ f_application_web_install () {
       clockywock)
       WEB_SITE_INSTALL="http://soomka.com/"
       ;;
+      consolecandy)
+      WEB_SITE_INSTALL="http://www.vanheusden.com/consolecandy/"
+      ;;
       curses)
       WEB_SITE_INSTALL="http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz"
+      ;;
+      dateutils)
+      WEB_SITE_INSTALL="https://bitbucket.org/hroptatyr/dateutils/downloads"
       ;;
       desmume)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
@@ -1414,6 +1457,9 @@ f_application_web_install () {
       ;;
       diary-f)
       WEB_SITE_INSTALL="https://github.com/earshinov/diary-f"
+      ;;
+      dsol)
+      WEB_SITE_INSTALL="http://www.lgdb.org/game/dsol"
       ;;
       edbrowse)
       WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
@@ -1460,8 +1506,14 @@ f_application_web_install () {
       vtclock)
       WEB_SITE_INSTALL="http://webonastick.com/vtclock/"
       ;;
+      wp-cli)
+      WEB_SITE_INSTALL="https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh"
+      ;;
       yougrabber)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/yougrabber/files/"
+      ;;
+      xorcurses)
+      WEB_SITE_INSTALL="http://jwm-art.net/?p=XorCurses"
       ;;
       esac                      # End of Web Site case statement.
       #
@@ -1888,7 +1940,19 @@ f_create_LIST_APPS () {
           echo -n "*** " >> $THIS_DIR/LIST_APPS
           grep $XSTR $THIS_DIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> $THIS_DIR/LIST_APPS
           #
-          # Explanation of the "for MOD_FILE in" loop.
+          # Example for setting XSTR within the "for XSTR in" loop:
+          # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
+          # XSTR="#:MPS" to grep README file for menu titles.
+          # XSTR="#MPS"  to grep mod_apps*.lib files for application names
+          #              and descriptions.
+          # XSTR="MPS"   almost worked but README contained the word "MUMPS"
+          #              which caused problems when displaying the menu title
+          #              for "#:MPS - PDF-PS Applications Menu".
+          #
+          # So somehow XSTR had to be modified within the "for XSTR in" loop.
+          XSTR=${XSTR/:/} # Use string substitution, I just learned how, cool!
+          #
+          # Explanation of the "for MOD_FILE in" loop below.
           #
           # 1. grep $XSTR $MOD_FILE
           #    Search the files mod_apps-*.lib one at a time for the Special
@@ -1915,17 +1979,6 @@ f_create_LIST_APPS () {
           #    This will result in:
           #    "ledger        - Ledger using double-entry." w/delimiter "#M".
           #
-          # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
-          # XSTR="#:MPS" to grep README file for menu titles.
-          # XSTR="#MPS"  to grep mod_apps*.lib files for application names
-          #              and descriptions.
-          # XSTR="MPS"   almost worked but README contained the word "MUMPS"
-          #              which caused problems when displaying the menu title
-          #              for "#:MPS - PDF-PS Applications Menu". Too much time.
-          # So somehow XSTR had to be modified within the for-loop.
-          #
-          XSTR=${XSTR/:/} # Use string substitution, I just learned how, cool!
-          #
           # Print application names and descriptions.
           # Any new mod_apps*.lib files added must be included in the for-loop below.
           # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
@@ -1935,6 +1988,8 @@ f_create_LIST_APPS () {
               # Human readable list without special comment markers.
               # Indents one space before application name.
               grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}'  >> $THIS_DIR/LIST_APPS
+              echo -n "." # Elipse to indicate function is running displayed on screen display.
+
               #
               # Leaves no space before application name.
               # grep $XSTR $THIS_DIR/$MOD_FILE | awk -F "#M" '{if ($2&&!$3){print $2}}' | awk '{sub(/[^" "]+ /, ""); print $0}' >> $THIS_DIR/LIST_APPS

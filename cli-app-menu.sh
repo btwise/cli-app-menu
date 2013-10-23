@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-16-2013 01:15"
+REVDATE="October-22-2013 18:18"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -439,6 +439,12 @@ f_main_about () {
       echo
       echo "   Project file: cli-app-menu.sh"
       echo " Last edited on: $REVDATE"
+      echo
+      echo "Main Menu script cli-app-menu.sh is located in:"
+      echo "$MAINMENU_DIR"
+      echo
+      echo "Module library files and documentation is located in:"
+      echo "$THIS_DIR"
       f_press_enter_key_to_continue
       #
       unset X
@@ -1135,7 +1141,7 @@ do    # Start of CLI Menu util loop.
       read AAA
       f_menu_item_process $AAA  # Outputs $MENU_ITEM. Sets AAA=0 for item option Quit.
       #
-      # Force AAA to be -1 numeric for the until loop.
+      # Force AAA to be -1 numeric for the until loop. Handles even <F1-F12> keys.
       if [ "$AAA" != 0 ] ; then
          case AAA in
               [A-Za-z]*)
