@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 20:20"
+# REVDATE="October-22-2013 18:18"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -108,6 +108,14 @@ f_menu_cat_applications () {
             #
             AAB=$MENU_ITEM  # Outputs $MENU_ITEM.
             #
+      # Force AAB to be -1 numeric for the until loop. Handles even <F1-F12> keys.
+      if [ "$AAB" != 0 ] ; then
+         case AAB in
+              [A-Za-z]*)
+              AAB=-1
+  	      ;;
+         esac   
+      fi
       done  # End of Application Category until loop.
             #
       unset AAB MENU_ITEM  # Throw out this variable.

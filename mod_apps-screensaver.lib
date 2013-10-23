@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2013 20:20"
+# REVDATE="October-22-2013 18:18"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -17,13 +17,18 @@ f_menu_app_screen_savers () {
       f_initvars_menu_app "MSS"
       until [ $MSS -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
-            #1^0^0^22^0 #MSS asciiquarium   - Aquarium on screen.
-            #0^0^0^8:NC^0 #MSS cmatrix        - Matrix-like screen-saver.
-            #0^0^0^8:NC^0 #MSS rain           - Rain on screen.
-            #0^0^0^8:NC^0 #MSS termsaver      - screensaver for text terminals.
-            #0^0^0^8:NC^0 #MSS ticker         - scrolls text across the screen.
-            #0^0^0^8:NC^0 #MSS tty-clock      - Display a digital clack full-screen.
-            #0^0^0^8:NC^0 #MSS worms          - Worms wiggle on the screen.
+            #0^0^0^8:NC^0 #MSS aafire       - Fire on screen.
+            #1^0^0^22^0 #MSS asciiquarium - Aquarium on screen.
+            #0^0^0^8:NC^0 #MSS boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
+            #0^0^0^8:NC^0 #MSS bsod         - Simulate Microsoft XP "Blue screen of death".
+            #0^0^0^8:NC^0 #MSS cmatrix      - Matrix-like screen-saver.
+            #0^0^0^8:NC^0 #MSS mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
+            #0^0^0^8:NC^0 #MSS rain         - Rain on screen.
+            #0^0^0^8:NC^0 #MSS termsaver    - screensaver for text terminals.
+            #0^0^0^8:NC^0 #MSS ticker       - scrolls text across the screen.
+            #0^0^0^8:NC^0 #MSS tty-clock    - Display a digital clack full-screen.
+            #0^0^0^8:NC^0 #MSS weatherspect - Displays weather information with wallpaper.
+            #0^0^0^8:NC^0 #MSS worms        - Worms wiggle on the screen.
             #
             THIS_FILE="mod_apps-screensaver.lib"
             MENU_TITLE="Screen-saver Applications Menu"
@@ -64,6 +69,7 @@ f_asciiquarium () {
             f_application_install
             if [ $ERROR -ne 0 ] ; then
                # Failure to install Curses.
+               echo
                echo "Installation of \"Curses\" failed."
                echo " Skipping installation of \"Term::Animation\" and \"ASCIIQuarium\"."
                echo
@@ -77,7 +83,6 @@ f_asciiquarium () {
                APP_NAME=""       # Also prevents checking for Quit Clause.
             else
                # Success at installing Curses.
-               echo
                echo
                echo "Installation of \"Curses\" is successful."
                echo
@@ -104,48 +109,6 @@ f_asciiquarium () {
 
       fi
 } # End of function f_asciiquarium
-#
-# +----------------------------------------+
-# |        Function f-curses_install       |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: None.
-#
-f_curses_install () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"Curses\"."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
-      echo "2. Download \"Curses\" from:"
-      echo "   \"http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz\""
-      echo "   by using wget."
-      echo "3. Decompress and create the installation subdirectory ~/Curses*"
-      echo "4. You must manually install \"Curses\" from source code in ~/Curses*"
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home folder.
-      cd ~
-      #
-      # 2. Download "Curses" from "http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz" by using wget.
-      wget http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz
-      #
-      # 3. Decompress and create the installation subdirectory ~/curses*
-      tar -xvzf Curses-1.28.tgz
-      #
-      echo
-      echo "Downloading of \"Curses\" is complete."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-} # End of function f_curses_install
 #
 # +----------------------------------------+
 # |    Function f_term-animation_install   |
@@ -176,15 +139,20 @@ f_term-animation_install () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home folder.
+      # 1. Change directory to your home/bin folder.
       cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
       #
       # 2. Download "Term::Animation" from:
       #    http://search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz
       # by using wget.
       wget http://search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz
       #
-      # 3. Decompress and create the installation subdirectory ~/Term-Animation*
+      # 3. Decompress and create the installation subdirectory ~/bin/Term-Animation*
       tar -xvzf Term-Animation-2.6.tar.gz
       cd Term-Animation-2.6
       #
@@ -228,22 +196,27 @@ f_asciiquarium_install () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home folder.
+      # 1. Change directory to your home/bin folder.
       cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
       #
-      # 2. Download "coreutils" from ftp.gnu.org by using wget.
+      # 2. Download "asciiaquarium" from robobunny.com by using wget.
       wget http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz
       #
-      # 3. Decompress and create the installation subdirectory ~/asciiquarium
+      # 3. Decompress and create the installation subdirectory ~/bin/asciiquarium
       tar -xvzf asciiquarium.tar.gz
-      cd asciiquarium*/
+      cd ~/bin/asciiquarium*/
       #
       # 4. Copy asciiquarium to /usr/local/bin directory.
       if [ ! -d "/usr/local/bin" ] ; then
          # Target directory is missing, so create it.
 	 sudo mkdir -p /usr/local/bin
       fi
-      sudo cp ~/asciiquarium*/asciiquarium /usr/local/bin/
+      sudo cp ~/bin/asciiquarium*/asciiquarium /usr/local/bin/
       #
       # 5. Allow users to run asciiquarium by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/local/bin/asciiquarium

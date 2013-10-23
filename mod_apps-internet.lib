@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-09-2013 23:18"
+# REVDATE="October-22-2013 01:34"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -90,7 +90,11 @@ f_menu_app_bloggers () {
       f_initvars_menu_app "MBL"
       until [ $MBL -eq 0 ]
       do    # Start of Downloaders Applications until loop.
-#0^0^0^0^1 #MBL charm - Blogging client.
+#0^0^0^0^1 #MBL blazeblogger - Blogger content management system.
+#0^0^0^0^1 #MBL blogger-cli  - Google blogging client.
+#0^0^0^0^1 #MBL charm        - Blogging client.
+#1^0^0^0^1 #MBL nanoblogger  - Blogger.
+#0^0^0^0^1 #MBL wp-cli       - WordPress blogging client.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Blog Applications Menu"
@@ -103,6 +107,18 @@ f_menu_app_bloggers () {
             #
       unset MBL MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_bloggers
+#
+# +----------------------------------------+
+# |         Function f_nanoblogger         |
+# +----------------------------------------+
+#
+f_nanblogger () {
+      APP_NAME_TMP=$MENU_ITEM # Save jed <OPTIONS>.
+      APP_NAME="nanoblogger-extra"  # Install jed-extra package before running/installing jed.
+      f_application_install_question
+      APP_NAME=$APP_NAME_TMP
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+} # End of function f_nanoblogger
 #
 # +----------------------------------------+
 # |     Function f_menu_app_downloaders    |
@@ -384,6 +400,7 @@ f_menu_app_irc_clients () {
       f_initvars_menu_app "MIR"
       until [ $MIR -eq 0 ]
       do    # Start of IRC Clients Applications until loop.
+#0^0^0^0^1 #MIR bitchx  - IRC client.
 #0^0^0^0^1 #MIR epic5   - IRC client based on ircI.
 #0^0^0^0^1 #MIR erc     - IRC client for Emacs, powerful, modular, and extensible.
 #0^0^0^0^1 #MIR ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.

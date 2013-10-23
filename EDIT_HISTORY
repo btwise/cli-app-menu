@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-18-2013 20:20"
+PROJECT_REVDATE="October-22-2013 18:18"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,37 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-10-22 *f_menu_app_audio_editors added abc2abc, abc2midi, abcm2ps,
+##             mftext, midi2abc, midicopy.
+##            *f_menu_app_binhex_editors added biew, codemetre, colout.
+##            *f_menu_app_bloggers added blazeblogger, blogger-cli,
+##             nanoblogger, wp-cli.
+##            *f_menu_app_calendar added dadd, dconv, ddiff, dgrep, dround,
+##             deseq, dtest, etm, strptime.
+##            *f_menu_app_text_compare added diffh.
+##            *f_menu_app_file_compression added 2a.
+##            *f_menu_app_file_conversion added abcm2ps, dehtml, html2txt,
+##             and vilistextum.
+##            *f_menu_app_file_managers added fd, tree.
+##            *f_menu_app_games_arcade added XorCurses with automatic install,
+##             asciiportal, spacezero, ztrack.
+##            *f_menu_app_games_puzzle added braincurses, masterm, textmaze,
+##             and XorCurses.
+##            *f_menu_app_games_word added shuf.
+##            *f_menu_app_image_graphics added mrzoom.
+##            *f_menu_app_music_players added adcd, camp, consolecandy, ncmpcpp.
+##            *f_menu_app_music_taggers added beets, dagger, id3ed.
+##            *f_menu_app_network_bandwidth added bwm-ng, wavemon.
+##            *f_menu_app_screen_savers added aafire, boinctui, bsod, mrzoom,
+##             and weatherspect.
+##            *f_menu_app_sys_other added apg, apropos.
+##            *f_menu_app_sys_peripherals added inxi.
+##            *f_menu_app_sys_process added powertop.
+##            *f_menu_app_sys_software added cupt.
+##            *f_menu_app_todo added beeswax, ikog.
+##            *f_menu_app_text_editors added aae.
+##            *f_menu_app_wan added dnstracer, tracepath, traceproto.
 ##
 ## 2013-10-18 *f_adcpmvsrc_install added to do the actual installation.
 ##            *f_adcpmvsrc changed to call f_adcpmvsrc_install.
