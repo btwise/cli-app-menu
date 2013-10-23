@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-10-22 18:30 Tuesday
+Last updated: 2013-10-22 22:00 Tuesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -454,6 +454,7 @@ ________________________________________________
 ________________________________________________
 *** Arcade Games Menu ***
  asciijump      - Ski jump game.
+ asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
  bastet         - Tetris-like game.
  freesweep      - Minesweeper game.
  moon-buggy     - Drive a moon buggy on the moon.
@@ -465,9 +466,15 @@ ________________________________________________
  petris         - Tetris-like game.
  robots         - Be chased by killer robots.
  snake          - Be chased by a snake while collecting money.
+ spacezero      - Space combat in real-time, 2-player network game.
  worm           - Be a growing worm, don't crash into yourself.
- xorcurses      - based on Xor released in 1987 by Astral Software.
- zsnake         - Variation of BSD's snake game.
+ MORE...        - For more arcade game applications.
+
+________________________________________________
+*** Arcade2 Games Menu ***
+ xorcurses - based on Xor released in 1987 by Astral Software.
+ zsnake    - Variation of BSD's snake game.
+ ztrack    - First-person car racing game in amazing 3-D ASCII.
 
 ________________________________________________
 *** Board Games Menu ***
@@ -480,6 +487,7 @@ ________________________________________________
 *** Card Games Menu ***
  canfield - Solitaire card game with betting.
  cribbage - Cribbage Card game.
+ dsol     - dSol Solitaire card game.
  freecell - Freecell card game.
  go-fish  - Go Fish card game.
 
@@ -490,6 +498,7 @@ ________________________________________________
 
 ________________________________________________
 *** Puzzles Menu ***
+ asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
  bastet      - Tetris-like game.
  bcd         - Reformat input as a punch card.
  dab         - 2-players try to complete the most boxes.
@@ -500,9 +509,9 @@ ________________________________________________
  nsuduko     - Suduko game.
  petris      - Tetris-like game.
  ppt         - Reformat input as a paper tape.
- textmaze   - Find the exit to the maze.
+ textmaze    - Find the exit to the maze.
  vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
- xorcurses      - based on Xor released in 1987 by Astral Software.
+ xorcurses   - based on Xor released in 1987 by Astral Software.
 
 ________________________________________________
 *** Quiz Menu ***
@@ -529,6 +538,7 @@ ________________________________________________
  bb        - ASCII-art movie demo based on AAlib.
  sail      - Command a Man O'War fighting ship.
  sl        - Steam locomotive (when you mis-type 'ls' command).
+ star wars - Star Wars movie in ASCII.
  trek      - Star Trek blast Klingons.
  ztrack    - First-person car racing game.
 
@@ -565,7 +575,6 @@ ________________________________________________
 
 ________________________________________________
 *** Image-Graphics Applications Menu ***
- star wars  - Star Wars movie in ASCII.
  asciitopgm - Convert ASCII graphics into a portable graymap.
  aview      - Image and ASCII art image viewer.
  bb         - ASCII-art movie demo based on AAlib.

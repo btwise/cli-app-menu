@@ -59,7 +59,7 @@ f_menu_app_games_arcade () {
 #0^0^0^0^1 #MGA freesweep      - Minesweeper game.
 #0^0^0^0^0 #MGA moon-buggy     - Drive a moon buggy on the moon.
 #0^0^0^0^1 #MGA myman          - Pac-Man clone, ncurses-based.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGB netris         - Tetris-like game.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGA netris         - Tetris-like game.
 #0^0^0^1^1 #MGA ninvaders      - Space invaders-like game ncurses-based.
 #0^0^0^0^0 #MGA nsnake         - Variation of BSD's snake game.
 #0^0^0^0^1 #MGA pacman4console - Pacman-like game ncurses-based.
@@ -94,9 +94,9 @@ f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
       until [ $MGB -eq 0 ]
       do    # Start of Arcade2 Games until loop.
-#1^0^0^1^0 #MGB xorcurses      - based on Xor released in 1987 by Astral Software.
-#0^0^0^18^0 #MGB zsnake         - Variation of BSD's snake game.
-#0^0^0^0^1 #MGB ztrack         - First-person car racing game in amazing 3-D ASCII.
+#1^0^0^1^0 #MGB xorcurses - based on Xor released in 1987 by Astral Software.
+#0^0^0^18^0 #MGB zsnake    - Variation of BSD's snake game.
+#0^0^0^0^1 #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade2 Game Menu"
@@ -395,9 +395,9 @@ f_menu_app_games_puzzle () {
 #0^0^0^0^0 #MGF nsuduko     - Suduko game.
 #0^0^0^5^0 #MGF petris      - Tetris-like game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt         - Reformat input as a paper tape.
-#0^0^0^0^0 #MGF textmaze   - Find the exit to the maze.
+#0^0^0^0^0 #MGF textmaze    - Find the exit to the maze.
 #0^0^0^5^0 #MGF vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
-#1^0^0^1^0 #MGF xorcurses      - based on Xor released in 1987 by Astral Software.
+#1^0^0^1^0 #MGF xorcurses   - based on Xor released in 1987 by Astral Software.
 
             #
             THIS_FILE="mod_apps-games.lib"
@@ -491,7 +491,7 @@ f_menu_app_games_simulation () {
 #0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
 #0^0^0^1^0 #MGI sail      - Command a Man O'War fighting ship.
 #0^0^0^0^0 #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
-#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MIG star wars  - Star Wars movie in ASCII.
+#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MGI star wars - Star Wars movie in ASCII.
 #0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
 #0^0^0^0^1 #MGI ztrack    - First-person car racing game.
             #
