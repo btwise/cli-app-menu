@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="October-22-2013 18:18"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -46,41 +46,238 @@ f_menu_cat_games () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MGB, MENU_ITEM, MAX.
+#    Uses: MGA, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_games_arcade () {
-      f_initvars_menu_app "MGB"
-      until [ $MGB -eq 0 ]
+      f_initvars_menu_app "MGA"
+      until [ $MGA -eq 0 ]
       do    # Start of Arcade Games until loop.
-#0^0^0^0^0 #MGB asciijump      - Ski jump game.
-#0^0^0^0^0 #MGB bastet         - Tetris-like game.
-#0^0^0^0^1 #MGB freesweep      - Minesweeper game.
-#0^0^0^0^0 #MGB moon-buggy     - Drive a moon buggy on the moon.
-#0^0^0^0^1 #MGB myman          - Pac-Man clone, ncurses-based.
+#0^0^0^0^0 #MGA asciijump      - Ski jump game.
+#0^0^0^0^0 #MGA asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^0 #MGA bastet         - Tetris-like game.
+#0^0^0^0^1 #MGA freesweep      - Minesweeper game.
+#0^0^0^0^0 #MGA moon-buggy     - Drive a moon buggy on the moon.
+#0^0^0^0^1 #MGA myman          - Pac-Man clone, ncurses-based.
 #f_run_and_exit "netris" "netris"^0^0^0^0 #MGB netris         - Tetris-like game.
-#0^0^0^1^1 #MGB ninvaders      - Space invaders-like game ncurses-based.
-#0^0^0^0^0 #MGB nsnake         - Variation of BSD's snake game.
-#0^0^0^0^1 #MGB pacman4console - Pacman-like game ncurses-based.
-#0^0^0^5^0 #MGB petris         - Tetris-like game.
-#0^0^0^0^0 #MGB robots         - Be chased by killer robots.
-#0^0^0^18^0 #MGB snake          - Be chased by a snake while collecting money.
-#0^0^0^9^0 #MGB worm           - Be a growing worm, don't crash into yourself.
-#0^0^0^9^0 #MGB xorcurses      - based on Xor released in 1987 by Astral Software.
-#0^0^0^18^0 #MGB zsnake         - Variation of BSD's snake game.
+#0^0^0^1^1 #MGA ninvaders      - Space invaders-like game ncurses-based.
+#0^0^0^0^0 #MGA nsnake         - Variation of BSD's snake game.
+#0^0^0^0^1 #MGA pacman4console - Pacman-like game ncurses-based.
+#0^0^0^5^0 #MGA petris         - Tetris-like game.
+#0^0^0^0^0 #MGA robots         - Be chased by killer robots.
+#0^0^0^18^0 #MGA snake          - Be chased by a snake while collecting money.
+#0^0^0^0^0 #MGA spacezero      - Space combat in real-time, 2-player network game.
+#0^0^0^9^0 #MGA worm           - Be a growing worm, don't crash into yourself.
+#f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...        - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade Game Menu"
+            DELIMITER="#MGA" #MGA This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGA
+            f_menu_item_process $MGA  # Outputs $MENU_ITEM.
+            done  # End of Arcade Games until loop.
+            #
+      unset MGA MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_arcade
+#
+# +----------------------------------------+
+# |    Function f_menu_app_games_arcade2   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_arcade2 () {
+      f_initvars_menu_app "MGB"
+      until [ $MGB -eq 0 ]
+      do    # Start of Arcade2 Games until loop.
+#1^0^0^1^0 #MGB xorcurses      - based on Xor released in 1987 by Astral Software.
+#0^0^0^18^0 #MGB zsnake         - Variation of BSD's snake game.
+#0^0^0^0^1 #MGB ztrack         - First-person car racing game in amazing 3-D ASCII.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Arcade2 Game Menu"
             DELIMITER="#MGB" #MGB This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MGB
             f_menu_item_process $MGB  # Outputs $MENU_ITEM.
-            done  # End of Arcade Games until loop.
+            done  # End of Arcade2 Games until loop.
             #
       unset MGB MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_games_arcade
+} # End of f_menu_app_games_arcade2
 #
+# +----------------------------------------+
+# |             Function f_xorcurses       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_xorcurses () {
+      if [ ! -r "/usr/local/share/XorCurses" ] ; then
+         clear  # blank screen
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"XorCurses\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install XorCurses.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            clear  # blank screen
+            echo "This script will automatically install \"libncurses-dev\"."
+            echo
+            # Install libncurses-dev as a prerequisite.
+            APP_NAME="libncurses-dev"
+            f_application_install
+            if [ $ERROR -ne 0 ] ; then
+               # Failure to install libncurses-dev.
+               echo
+               echo "Installation of \"libncurses-dev\" failed."
+               echo " Skipping installation of \"ncurses-dev\" and \"XorCurses\"."
+               echo
+               echo -n "Press '"Enter"' key to continue."
+               read X
+               unset X  # Throw out this variable.
+               #
+               # Do not install ncurses-dev and XorCurses.
+               MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
+                                 # when it's not installed.
+               APP_NAME=""       # Also prevents checking for Quit Clause.
+            else
+               # Success at installing libncurses-dev.
+               echo
+               echo "Installation of \"libncurses-dev\" is successful."
+               echo
+               echo -n "Press '"Enter"' key to continue."
+               read X
+               unset X  # Throw out this variable.
+               #
+               # Install ncurses-dev as a prerequisite.
+               APP_NAME="ncurses-dev"
+               f_application_install
+               if [ $ERROR -ne 0 ] ; then
+                  # Failure to install ncurses-dev.
+                  echo
+                  echo "Installation of \"ncurses-dev\" failed."
+                  echo " Skipping installation of \"XorCurses\"."
+                  echo
+                  echo -n "Press '"Enter"' key to continue."
+                  read X
+                  unset X  # Throw out this variable.
+                  #
+                  # Do not install XorCurses.
+                  MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
+                                    # when it's not installed.
+                  APP_NAME=""       # Also prevents checking for Quit Clause.
+               else
+                  # Success at installing ncurses-dev.
+                  echo
+                  echo "Installation of \"ncurses-dev\" is successful."
+                  echo
+                  echo -n "Press '"Enter"' key to continue."
+                  read X
+                  unset X  # Throw out this variable.
+                  #
+                  # Since dependencies are installed, now install XorCurses.
+                  f_xorcurses_install
+               fi
+            fi
+         else
+            # No, Do not install ASCIIQuarium.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+         fi
+         unset ANS
+      fi
+} # End of function f_xorcurses
+#
+# +----------------------------------------+
+# |       Function f_xorcurses_install     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_xorcurses_install () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"XorCurses\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"XorCurses\" from \"http://jwm-art.net/art/archive\" by using wget."
+      echo "3. Decompress and create the installation subdirectory ~/xorcurses*"
+      echo "4. Install XorCurses via:"
+      echo "                           make"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to /usr/local/bin/ and /usr/local/share/XorCurses."
+      echo
+      echo "5. Allow users to run XorCurses by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      # 
+      # 2. Download "XorCurses" from "http://jwm-art.net/art/archive" by using wget.
+      wget http://jwm-art.net/art/archive/XorCurses-0.2.2.tar.bz2
+      #
+      # 3. Decompress and create the installation subdirectory ~/xorcurses*.
+      tar -jxf XorCurses-0.2.2.tar.bz2
+      cd ~/bin/XorCurses-0.2.2
+      #
+      # 4. Make and install XorCurses.
+      make
+      sudo make install
+      # 
+      # 5. Allow users to run XorCurses by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/local/bin/xorcurses
+      #
+      # 6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Installation of \"XorCurses\" is complete."
+      echo
+      echo "To run \"XorCurses\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      APP_NAME="xorcurses" # Set to correct name for f_application_run.
+} # End of function f_xorcurses_install
+#
+
 # +----------------------------------------+
 # |     Function f_menu_app_games_board    |
 # +----------------------------------------+
@@ -132,6 +329,7 @@ f_menu_app_games_card () {
       do    # Start of Card Games until loop.
 #0^0^0^0^0 #MGD canfield - Solitaire card game with betting.
 #f_run_and_exit "Cribbage" "cribbage"^0^0^0^0 #MGD cribbage - Cribbage Card game.
+#0^0^0^0^0 #MGD dsol     - dSol Solitaire card game.
 #0^0^0^0^0 #MGD freecell - Freecell card game.
 #0^0^0^0^0 #MGD go-fish  - Go Fish card game.
             #
@@ -186,6 +384,7 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
       until [ $MGF -eq 0 ]
       do    # Start of Puzzle Games until loop.
+#0^0^0^0^0 #MGF asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
 #0^0^0^0^0 #MGF bastet      - Tetris-like game.
 #f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd         - Reformat input as a punch card.
 #0^0^0^0^1 #MGF dab         - 2-players try to complete the most boxes.
@@ -198,6 +397,8 @@ f_menu_app_games_puzzle () {
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt         - Reformat input as a paper tape.
 #0^0^0^0^0 #MGF textmaze   - Find the exit to the maze.
 #0^0^0^5^0 #MGF vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
+#1^0^0^1^0 #MGF xorcurses      - based on Xor released in 1987 by Astral Software.
+
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"

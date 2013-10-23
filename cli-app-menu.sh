@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-22-2013 01:34"
+REVDATE="October-22-2013 18:18"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -1141,7 +1141,7 @@ do    # Start of CLI Menu util loop.
       read AAA
       f_menu_item_process $AAA  # Outputs $MENU_ITEM. Sets AAA=0 for item option Quit.
       #
-      # Force AAA to be -1 numeric for the until loop.
+      # Force AAA to be -1 numeric for the until loop. Handles even <F1-F12> keys.
       if [ "$AAA" != 0 ] ; then
          case AAA in
               [A-Za-z]*)

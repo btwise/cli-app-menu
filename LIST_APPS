@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-10-22 10:45 Tuesday
+Last updated: 2013-10-22 18:30 Tuesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -502,6 +502,7 @@ ________________________________________________
  ppt         - Reformat input as a paper tape.
  textmaze   - Find the exit to the maze.
  vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
+ xorcurses      - based on Xor released in 1987 by Astral Software.
 
 ________________________________________________
 *** Quiz Menu ***
