@@ -66,7 +66,8 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 ##            *f_menu_app_file_managers added fd, tree.
 ##            *f_menu_app_games_arcade added XorCurses with automatic install,
 ##             asciiportal, spacezero, ztrack.
-##            *f_menu_app_games_puzzle added braincurses, masterm, textmaze, XorCurses.
+##            *f_menu_app_games_puzzle added braincurses, masterm, textmaze,
+##             and XorCurses.
 ##            *f_menu_app_games_word added shuf.
 ##            *f_menu_app_image_graphics added mrzoom.
 ##            *f_menu_app_music_players added adcd, camp, consolecandy, ncmpcpp.
