@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-22-2013 18:18"
+REVDATE="October-25-2013 10:00"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -112,20 +112,35 @@ REVDATE="October-22-2013 18:18"
 # Outputs: None
 #
 f_test_dash () {
+      # Set default colors in case configuration file is not readable or does not exist.
+      FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+      #
       if [ "$BASH_VERSION" = '' ]; then
+         clear # Clear screen.
          echo $(tput bold)
          echo "You are using the DASH environment."
          echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
-         # If background color is black or blue, then use yellow font.
-         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-            echo $(tput setaf 3)  # Yellow font for error message.
-         else
-            echo $(tput setaf 1)  # Red font for error message.
-         fi
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
          echo "*** This script cannot be run in the DASH environment. ***"
+         #
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
          echo "You can invoke the BASH environment by typing:"
          echo "'bash cli-app-menu.sh' at the command line."
+         echo
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo "______________________________"
+         echo "    >>> Exiting script<<<"
+         echo "______________________________"
+         echo $(tput sgr0)
          echo
          exit 1 # Exit with value $?=1 indicating an error condition
                 # and stop running script.
@@ -142,6 +157,51 @@ f_test_dash () {
 #
 f_main_init_once () {
       # Initialize variables.
+      #
+      # Each user may store default settings in a configuration file
+      # in the user's home folder.
+      #
+      # Set default colors in case configuration file is not readable or does not exist.
+      FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+      #
+      # Does configuration file exist and is readable?
+      if [ ! -r ~/.cli-app-menu.cfg ] ; then
+         # No, configuration file does not exist. Create file.
+         # If background color is black or blue, then use yellow font.
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo
+         echo "Configuration file is missing from user's home directory."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "Creating configuration file: /home/<username_goes_here>/.cli-app-menu.cfg"
+         echo "f_main_config () {" > ~/.cli-app-menu.cfg
+         echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cli-app-menu.cfg
+         echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+      fi
+      #
+      if [ -r ~/.cli-app-menu.cfg ] ; then
+         # Yes. read file contents.
+         . ~/.cli-app-menu.cfg
+         f_main_config
+      else
+         # No. Use default settings.
+         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+      fi
+      #
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo -n $(tput bold) # set bold font.
+      #
+      # Enable 256 colors for terminal, if possible.
+      # Set terminal colors from 8 to 256 colors.
+        export TERM=xterm-256color       
+      #
       # This function sets the $THIS_DIR variable so that lib_cli-common.lib and
       # the module libraries may reside in any directory and still be invoked from
       # the Main Menu script, cli-app-menu.sh. Please refer to README for more
@@ -172,8 +232,14 @@ f_main_init_once () {
       #      Or create this folder for a single copy of the  script accessible 
       #      to all users. /opt folder is another location for user apps.
       #
+      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
+      #
       # MAINMENU_DIR does not need a trailing forward slash "/".
       MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
+      #
+      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # Validate file names and directories.
       f_valid_dir "$MAINMENU_DIR"
@@ -190,8 +256,14 @@ f_main_init_once () {
       # Since this folder will contain multiple files for this project,
       # it may help to name it "cli-app-menu" to use it for only project files.
       #
+      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
+      #
       # THIS_DIR does not need a trailing forward slash "/".
       THIS_DIR="/some_directory/cli-app-menu"
+      #
+      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"
@@ -201,43 +273,6 @@ f_main_init_once () {
       # Invoke the common library to display menus.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
-      #
-      # Each user may store default settings in a configuration file
-      # in the user's home folder.
-      #
-      # Does configuration file exist and is readable?
-      if [ ! -r ~/.cli-app-menu.cfg ] ; then
-         # No, configuration file does not exist. Create file.
-         # If background color is black or blue, then use yellow font.
-         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-            echo $(tput setaf 3)  # Yellow font for error message.
-         else
-            echo $(tput setaf 1)  # Red font for error message.
-         fi
-         echo
-         echo $(tput bold) "Configuration file is missing from user's home directory."
-         echo "Creating configuration file: /home/<username_goes_here>/.cli-app-menu.cfg"
-         echo "f_main_config () {" > ~/.cli-app-menu.cfg
-         echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\"" >> ~/.cli-app-menu.cfg
-         echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
-         f_press_enter_key_to_continue
-      fi
-      #
-      if [ -r ~/.cli-app-menu.cfg ] ; then
-         # Yes. read file contents.
-         . ~/.cli-app-menu.cfg
-         f_main_config
-     else
-         # No. Use default settings.
-         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR=""
-      fi
-      #
-      f_term_color $FCOLOR $BCOLOR # Set terminal color.
-      echo -n $(tput bold) # set bold font.
-      #
-      # Enable 256 colors for terminal, if possible.
-      # Set terminal colors from 8 to 256 colors.
-        export TERM=xterm-256color       
       #
 } # End of function f_main_init_once
 #
@@ -278,21 +313,24 @@ f_initvars_menu_app () {
 #
 f_valid_dir () {
       if [ ! -d "$1" ] ; then
-         echo
-         echo $(tput bold)"The directory: \"$1\""
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         echo "The directory: \"$1\""
          echo "is not a valid existing directory."
          echo $(tput sgr0)
-         echo "Edit function \"f_main_init_once\" in file, cli-app-menu.sh"
-         echo "and set the variable MAINMENU_DIR to a valid, existing, writable directory."
-         # Display brief comments where $1 is set in this file.
+         echo "Edit file cli-app-menu.sh and scroll down to function \"f_main_init_once\"."
+         echo
+         echo "Set the variable to a valid, existing, writable directory."
          echo $(tput bold)
+         echo "Change from:"
          grep -m 1 $1 $THIS_FILE # Stop grep after 1st matching string.
-         # If background color is black or blue then use yellow font.
-         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-            echo $(tput setaf 3)  # Yellow font for error message.
-         else
-            echo $(tput setaf 1)  # Red font for error message.
-         fi
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
          echo "______________________________"
          echo "    >>> Exiting script<<<"
          echo "______________________________"
@@ -316,12 +354,11 @@ f_valid_dir () {
             echo "Close Terminal for changes to take effect."
 	    echo "Either logout or exit from Terminal and re-launch Terminal."
 	    echo
-            # If background color is black or blue, then use yellow font.
-            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-               echo $(tput setaf 3)  # Yellow font for error message.
-            else
-               echo $(tput setaf 1)  # Red font for error message.
-            fi
+            #
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            #
             echo "______________________________"
             echo "    >>> Exiting script <<<"
             echo "______________________________"
@@ -344,14 +381,14 @@ f_valid_files () {
       # Check for required files. Skip if directory does not exist.
       # If directory exists and file is not readable.
       if [ ! -r "$1/$2" -a -d "$1" ] ; then
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo "Required file '$2' is missing from $1."
          echo
-         echo $(tput bold) "Required file '$2' is missing from $1."
-         # If background color is black or blue, then use yellow font.
-         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-            echo $(tput setaf 3)  # Yellow font for error message.
-         else
-            echo $(tput setaf 1)  # Red font for error message.
-         fi
+         echo
          echo "______________________________"
          echo "    >>> Exiting script<<<"
          echo "______________________________"
@@ -397,14 +434,13 @@ f_main_about () {
          while [  "$X" != "YES" -a "$X" != "NO" ]
          do
                clear # Blank the screen.
+               #
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
                echo $(tput bold)
-               # If background color is black or blue, then use yellow font.
-               if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-                  echo $(tput setaf 3)  # Yellow font for error message.
-               else
-                  echo $(tput setaf 1)  # Red font for error message.
-              fi
+               #
                echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
                echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
                read X
@@ -494,14 +530,13 @@ f_main_documentation () {
          while [  "$X" != "YES" -a "$X" != "NO" ]
          do
                clear # Blank the screen.
+               #
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
                echo $(tput bold)
-               # If background color is black or blue, then use yellow font.
-               if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-                  echo $(tput setaf 3)  # Yellow font for error message.
-               else
-                  echo $(tput setaf 1)  # Red font for error message.
-               fi
+               #
                echo ">>>The file README is either missing or cannot be read.<<<"
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
                echo -n "Download README from www.git.com? (Y/n) "
                read X
@@ -543,14 +578,13 @@ f_main_edit_history () {
          while [  "$X" != "YES" -a "$X" != "NO" ]
          do
                clear # Blank the screen.
+               #
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
                echo $(tput bold)
-               # If background color is black or blue, then use yellow font.
-               if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-                  echo $(tput setaf 3)  # Yellow font for error message.
-               else
-                  echo $(tput setaf 1)  # Red font for error message.
-               fi
+               #
                echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
                echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
                read X
@@ -606,14 +640,13 @@ f_main_license () {
                     while [  "$X" != "YES" -a "$X" != "NO" ]
                     do
                           clear # Blank the screen.
+                          #
+                          # Use different color font for error messages.
+                          f_term_color $ECOLOR $BCOLOR
                           echo $(tput bold)
-                          # If background color is black or blue, then use yellow font.
-                          if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-                             echo $(tput setaf 3)  # Yellow font for error message.
-                          else
-                             echo $(tput setaf 1)  # Red font for error message.
-                          fi
+                          #
                           echo ">>>The file COPYING is either missing or cannot be read.<<<"
+                          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                           echo
                           echo -n "Download COPYING from www.git.com? (Y/n) "
                           read X
@@ -675,14 +708,13 @@ f_main_license () {
 f_main_list_apps () {
       if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
          clear # Blank the screen.
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
-         # If background color is black or blue, then use yellow font.
-         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-            echo $(tput setaf 3)  # Yellow font for error message.
-         else
-            echo $(tput setaf 1)  # Red font for error message.
-         fi
+         #
          echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
          echo "The file LIST_APPS may be automatically created/updated by:"
          echo
@@ -712,14 +744,13 @@ f_main_search_apps () {
       clear # Blank the screen.
       if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
          clear # Blank the screen.
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
-         # If background color is black or blue, then use yellow font.
-         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-            echo $(tput setaf 3)  # Yellow font for error message.
-         else
-            echo $(tput setaf 1)  # Red font for error message.
-         fi
+         #
          echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
          echo "The file LIST_APPS may be automatically created/updated by:"
          echo
@@ -764,6 +795,84 @@ f_main_search_apps () {
 } # End of function f_main_search_apps
 #
 # +----------------------------------------+
+# |          Function f_term_color         |
+# +----------------------------------------+
+#
+#  Inputs: $1=$FCOLOR. $2=$BCOLOR
+#    Uses: CNT, TPUTX.
+# Outputs: None.
+#
+f_term_color () {  # Set terminal display properties.
+      #
+      # BASH commands to change the color of characters in a terminal.
+      # bold    "$(tput bold)"
+      # black   "$(tput setaf 0)"
+      # red     "$(tput setaf 1)"
+      # green   "$(tput setaf 2)"
+      # yellow  "$(tput setaf 3)"
+      # blue    "$(tput setaf 4)"
+      # magenta "$(tput setaf 5)"
+      # cyan    "$(tput setaf 6)"
+      # white   "$(tput setaf 7)"
+      # reset   "$(tput sgr0)"
+      #
+      # setterm does not work in X-window virtual terminals.
+      # setterm -foreground white -background black -bold on -store
+      #
+      # set background first because you must reset colors first to get true black background in some
+      # virtual X-terminals. Since "tput setab 0" appears light gray, use "tput sgr0" to reset colors.
+      # set CNT=1 background color then set CNT=2 font color.
+      for CNT in 1 2
+      do
+          if [ $CNT -eq 1 ] ; then
+             
+             TPUTX="setab"  # Background color.
+             COLOR=$2
+          else
+             TPUTX="setaf"  #  Font color (Fore-ground color).
+             COLOR=$1
+          fi
+          case $COLOR in
+               [Bb] | [Bb][Ll] | [Bb][Ll][Aa]*)
+               if [ $CNT -eq 1 ] ; then
+                  echo -n $(tput sgr0)  # Black background selected. Reset colors to get true black.
+               else
+                  echo -n $(tput $TPUTX 0)  # Black font selected.
+               fi
+               ;;
+               [Bb] | [Bb][Ll] | [Bb][Ll][Uu]*)
+               echo -n $(tput $TPUTX 4)  # Blue font/background selected.
+               ;;
+               [Cc] | [Cc][Yy]*)
+               echo -n $(tput $TPUTX 6)  # Cyan font/background selected.
+               ;;
+               [Gg] | [Gg][Rr] | [Gg][Rr][Ee]*)
+               echo -n $(tput $TPUTX 2)  # Green font/background selected.
+               ;;
+               [Gg] | [Gg][Rr] | [Gg][Rr][Aa]*)
+               echo -n $(tput $TPUTX 237)  # Gray font/background selected.
+               ;;
+               [Mm] | [Mm][Aa]*)
+               echo -n $(tput $TPUTX 5)  # Magenta font/background selected.
+               ;;
+               [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
+               echo -n $(tput $TPUTX 1)  # Red font/background selected.
+               ;;
+               [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
+               echo -n $(tput sgr0)  # Reset selected.
+               ;;
+               [Ww] | [Ww][Hh]*)
+               echo -n $(tput $TPUTX 7)  # White font/background selected.
+               ;;
+               [Yy] | [Yy][Ee]*)
+               echo -n $(tput $TPUTX 3)  # Yellow font/background selected.
+               ;;
+          esac
+      done
+      #
+} # End of function f_term_color
+#
+# +----------------------------------------+
 # |        Function f_menu_term_color      |
 # +----------------------------------------+
 #
@@ -798,37 +907,37 @@ f_menu_term_color () {
             #
             case $MENU_ITEM in  # Start of Terminal Colors Menu case statement.
                  [Bb] | [Bb][Ww])
-                 FCOLOR="Black" ; BCOLOR="White"
+                 FCOLOR="Black" ; BCOLOR="White" ; ECOLOR="Red"
                  ;;
                  [Bb] | [Bb][Ll] | [Bb][Ll][Uu] | [Bb][Ll][Uu][Ee])
-                 FCOLOR="Blue" ; BCOLOR="Black"
+                 FCOLOR="Blue" ; BCOLOR="Black" ;  ECOLOR="Red"
                  ;;
                  [Cc] | [Cc][Yy]*)
-                 FCOLOR="Cyan" ; BCOLOR="Black"
+                 FCOLOR="Cyan" ; BCOLOR="Black" ; ECOLOR="Red"
                  ;;
                  [Gg] | [Gg][Rr]*)
-                 FCOLOR="Green" ; BCOLOR="Black"
+                 FCOLOR="Green" ; BCOLOR="Black" ; ECOLOR="Red"
                  ;;
                  [Mm] | [Mm][Aa]*)
-                 FCOLOR="Magenta" ; BCOLOR="Black"
+                 FCOLOR="Magenta" ; BCOLOR="Black" ; ECOLOR="Red"
                  ;;
                  [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
-                 FCOLOR="Red" ; BCOLOR="Black"
+                 FCOLOR="Red" ; BCOLOR="Black"  ; ECOLOR="Yellow"
                  ;;
                  [Rr] | [Rr][Ww])
-                 FCOLOR="Red" ; BCOLOR="White"
+                 FCOLOR="Red" ; BCOLOR="White" ; ECOLOR="Blue"
                  ;;
                  [Ww] | [Ww][Hh] | [Ww][Hh][Ii]*)
-                 FCOLOR="White" ; BCOLOR="Black"
+                 FCOLOR="White" ; BCOLOR="Black" ; ECOLOR="Red"
                  ;;
                  [Ww] | [Ww][Bb])
-                 FCOLOR="White" ; BCOLOR="Blue"
+                 FCOLOR="White" ; BCOLOR="Blue" ; ECOLOR="Red"
                  ;;
                  [Yy] | [Yy][Ee]*)
-                 FCOLOR="Yellow" ; BCOLOR="Black"
+                 FCOLOR="Yellow" ; BCOLOR="Black" ; ECOLOR="Red"
                  ;;
                  [Yy] | [Yy][Bb])
-                 FCOLOR="Yellow" ; BCOLOR="Blue"
+                 FCOLOR="Yellow" ; BCOLOR="Blue" ; ECOLOR="Red"
                  ;;
             esac                # End of Terminal Colors Menu case statement.
             #
@@ -840,7 +949,7 @@ f_menu_term_color () {
       #
       # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
       echo "f_main_config () {" > ~/.cli-app-menu.cfg
-      echo "      FCOLOR=$FCOLOR ; BCOLOR=$BCOLOR ; UCOLOR=$UCOLOR" >> ~/.cli-app-menu.cfg
+      echo "      FCOLOR=\"$FCOLOR\" ; BCOLOR=\"$BCOLOR\" ; UCOLOR=\"$UCOLOR\" ; ECOLOR=\"$ECOLOR\"" >> ~/.cli-app-menu.cfg
       echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
       #
       unset AAE MENU_ITEM  # Throw out this variable.
@@ -920,7 +1029,7 @@ f_menu_uncolor () {
       #
       # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
       echo "f_main_config () {" > ~/.cli-app-menu.cfg
-      echo "      FCOLOR=$FCOLOR ; BCOLOR=$BCOLOR ; UCOLOR=$UCOLOR" >> ~/.cli-app-menu.cfg
+      echo "      FCOLOR=\"$FCOLOR\" ; BCOLOR=\"$BCOLOR\" ; UCOLOR=\"$UCOLOR\" ; ECOLOR=\"$ECOLOR\"" >> ~/.cli-app-menu.cfg
       echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
       #
       unset AAF MENU_ITEM  # Throw out this variable.
@@ -943,41 +1052,39 @@ f_updat_edit_hist () {
       else
          while [  "$X" != "YES" -a "$X" != "NO" ]
          do
-                clear # Blank the screen.
-                echo $(tput bold)
-                # If background color is black or blue, then use yellow font.
-                if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-                   echo $(tput setaf 3)  # Yellow font for error message.
-                else
-                   echo $(tput setaf 1)  # Red font for error message.
-                fi
-                echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
-                echo
-                echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
-                read X
-                case $X in # Start of git download case statement.
-                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                     ANS=""
-                     MOD_FILE="EDIT_HISTORY"
-                     f_download_file
-                     X="YES"
-                     ;;
-                     [Nn] | [Nn][Oo])
-                     X="NO"
-                     ;;
-                esac         # End of git download case statement.
+               clear # Blank the screen.
+               #
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               #
+               echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+               echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
+               read X
+               case $X in # Start of git download case statement.
+                    "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                    ANS=""
+                    MOD_FILE="EDIT_HISTORY"
+                    f_download_file
+                    X="YES"
+                    ;;
+                    [Nn] | [Nn][Oo])
+                    X="NO"
+                    ;;
+               esac         # End of git download case statement.
          done
       fi
       #
       if [ ! -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
-         # If background color is black or blue, then use yellow font.
-         if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-            echo $(tput setaf 3)  # Yellow font for error message.
-         else
-            echo $(tput setaf 1)  # Red font for error message.
-         fi
+         #
          echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
          f_press_enter_key_to_continue
       fi

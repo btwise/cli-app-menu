@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-25-2013 10:00"
+# REVDATE="October-25-2013 17:17"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -282,7 +282,7 @@ f_menu_item_process () {
       f_application_help
       ERROR=0 # Reset error flag.
       #
-      if [ "$MENU_ITEM" != 0 -a -n "$MENU_ITEM" ] ; then
+      if [ "$MENU_ITEM" != 0 -a "$MENU_ITEM" != -1 -a -n "$MENU_ITEM" ] ; then
          # Is MENU_ITEM a valid choice?
          f_menu_item_valid # APP_NAME="" for invalid name.
                            # APP_NAME=$MENU_ITEM_NAME for valid name.
@@ -532,7 +532,7 @@ f_quit_app_clause () {
       #%%6. "(quit)" including the parenthesis
       #%%7. "quit"
       #%%8. <Ctrl>-C
-      #%%9. <Ctrl>-C or crash into wall
+      #%%9. <Ctrl>-C or <Ctrl>-D or crash into wall
       #%%10. <Ctrl>-D
       #%%11. <Ctrl>-K X
       #%%12. <Ctrl>-X <Ctrl>-C
@@ -784,25 +784,81 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
 #
 f_application_help () {
-
       case $MENU_ITEM in
            *--version)
-           # if application has no option --version then this will generate an error message.
+           clear # Blank screen
+           # awk extracts only the application's name to use for APP_NAME.
+           APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
+           #
+           # Test to see if the application is installed. 
+           # This returns path of application's run-time executable command.
+           command -v $APP_NAME
+           ERROR=$? # Save error flag condition.
+           if [ $ERROR -eq 0 ] ; then
+              # Display help message.
+              $MENU_ITEM  # Run <Application name> --help
+           fi
+           #
+           if [ $ERROR -ne 0 ] ; then
+              # Error code 1 $?=1 means no --version option available.
+              # Error code 0 (zero) where $?=0 means no error.
+              #
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              #
+              echo "No '--version' option is available for $APP_NAME."
+              f_application_help_mssg
+           fi
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           MENU_ITEM=-1 # Force stay in menu until loop.
+           # Force f_menu_item_process to not run the application.
+           # Convert string to integer -1. Also indicates valid menu choice.
+           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
            *--help)
            clear # Blank screen
-           $MENU_ITEM  # Run <Application name> --help
-           ERROR=$? # Save error flag condition.
-           # If there are no --help pages, ask user if wants to install app.
-           # Function f_application_install needs APP_NAME as input
            # awk extracts only the application's name to use for APP_NAME.
            APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
+           #
+           # Test to see if the application is installed. 
+           # This returns path of application's run-time executable command.
+           command -v $APP_NAME
+           ERROR=$? # Save error flag condition.
+           if [ $ERROR -eq 0 ] ; then
+              # Display help message.
+              $MENU_ITEM  # Run <Application name> --help
+           fi
            #
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            #
            if [ $ERROR -ne 0 ] ; then
-              # Error code 1 $?=1 means no --help available.
+              # Error code 1 $?=1 means no --help option available.
+              # Error code 0 (zero) where $?=0 means no error.
+              #
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              #
+              echo "No '--help' option is available for $APP_NAME."
+              f_application_help_mssg
+           fi
+           MENU_ITEM=-1 # Force stay in menu until loop.
+           # Force f_menu_item_process to not run the application.
+           # Convert string to integer -1. Also indicates valid menu choice.
+           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+           ;;
+           man' '*)
+           clear # Blank screen
+           # awk extracts only the application's name to use for APP_NAME.
+           APP_NAME=$(echo $MENU_ITEM | awk '{print $2;}')
+           #
+           $MENU_ITEM # MENU_ITEM = man <Application name>.
+           ERROR=$? # Save error flag condition.
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           #
+           if [ $ERROR -ne 0 ] ; then
+              # Error code 16 where $?=16 means no man(ual) entry available.
               # Error code 0 (zero) where $?=0 means no error.
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
               #
@@ -810,83 +866,52 @@ f_application_help () {
               f_term_color $ECOLOR $BCOLOR
               echo $(tput bold)
               #
-              echo "No '--help' option available for $APP_NAME."
-              echo
-              echo "This $APP_NAME application is either not installed"
-              echo "or is installed but help pages were never written for it."
-              echo
-              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
-              #
-              # Note: the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
-              #
-              echo "To install under Debian-based Linux use command:"
-              echo "                           sudo apt-get install <application package name>" 
-              echo
-              echo "To install under Red Hat-based Linux use command:"
-              echo "                           sudo rpm -ivh <application package name>"
-              echo
-              echo "To install under Arch-bashed Linux use command:"
-              echo "                           sudo pacman -S <application package name>"
-              echo
-              echo "To install under Slackware-based Linux use command:"
-              echo "                           sudo installpkg <application package name>"
-              echo "                           sudo slackpkg <application package name>"
-              echo $(tput bold)
+              echo "No manual pages are available for $APP_NAME."
+              f_application_help_mssg
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
+           # Force f_menu_item_process to not run the application.
            # Convert string to integer -1. Also indicates valid menu choice.
            # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
-           ;;
-           man' '*)
-              clear # Blank screen
-              $MENU_ITEM # MENU_ITEM = man <Application name>.
-              ERROR=$? # Save error flag condition.
-              # If there are no man pages, ask user if wants to install app.
-              # Function f_application_install needs APP_NAME as input
-              # awk extracts only the application's name to use for APP_NAME.
-              APP_NAME=$(echo $MENU_ITEM | awk '{print $2;}')
-              #
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-              #
-              if [ $ERROR -ne 0 ] ; then
-                 # Error code 16 where $?=16 means no man(ual) entry.
-                 # Error code 0 (zero) where $?=0 means no error.
-                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                 #
-                 # Use different color font for error messages.
-                 f_term_color $ECOLOR $BCOLOR
-                 echo $(tput bold)
-                 #
-                 echo "No manual pages available for $APP_NAME."
-                 echo
-                 echo "This $APP_NAME application is either not installed"
-                 echo "or is installed but man pages were never written for it."
-                 echo
-                 echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
-                 #
-                 # Note the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
-                 #
-                 echo "To install under Debian-based Linux use command:"
-                 echo "                           sudo apt-get install <application package name>"
-                 echo
-                 echo "To install under Red Hat-based Linux use command:"
-                 echo "                           sudo rpm -ivh <application package name>"
-                 echo
-                 echo "To install under Arch-based Linux use command:"
-                 echo "                           sudo pacman -S <application package name>"
-                 echo
-                 echo "To install under Slackware-based Linux use command:"
-                 echo "                           sudo installpkg <application package name>"
-                 echo "                           sudo slackpkg <application package name>"
-                 echo $(tput bold)
-              fi
-              MENU_ITEM=-1 # Force stay in menu until loop.
-              # Convert string to integer -1. Also indicates valid menu choice.
-              # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
       esac
 #
 } # End of function f_application_help
+#
+# +----------------------------------------+
+# |   Function f_application_help_mssg     |
+# +----------------------------------------+
+#
+#  Inputs: MENU_ITEM, ERROR.
+#          MENU_ITEM="<Application name> --help"
+#          MENU_ITEM="man <Application name>"
+#    Uses: ANS.
+# Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
+#
+f_application_help_mssg () {
+      echo
+      echo "This $APP_NAME application is either not installed"
+      echo "or is installed but help or man pages were never written for it."
+      echo
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
+      #
+      # Note the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
+      #
+      echo "To install under Debian-based Linux use command:"
+      echo "                           sudo apt-get install <application package name>"
+      echo
+      echo "To install under Red Hat-based Linux use command:"
+      echo "                           sudo rpm -ivh <application package name>"
+      echo
+      echo "To install under Arch-based Linux use command:"
+      echo "                           sudo pacman -S <application package name>"
+      echo
+      echo "To install under Slackware-based Linux use command:"
+      echo "                           sudo installpkg <application package name>"
+      echo "                           sudo slackpkg <application package name>"
+      echo $(tput bold)
+      #
+} # End of function f_application_help_mssg
 #
 # +----------------------------------------+
 # |       Function f_application_run       |

@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-22-2013 18:18"
+PROJECT_REVDATE="October-25-2013 17:17"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,15 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-10-25 *All menus changed format so that when 2nd field is equal to 1,
+##             refers to installation function "f_install_<MENU_ITEM_NAME>".
+##            *Have all error messages display in different color font.
+##            *f_application_help fixed --help messages not displaying in
+##             certain cases and optimize code make it more robust.
+##            *f_ncurses added.
+##            *f_install_ztrack changed to use f_ncurses.
+##            *f_install_xorcurses changed to use f_ncurses.
 ##
 ## 2013-10-22 *f_menu_app_audio_editors added abc2abc, abc2midi, abcm2ps,
 ##             mftext, midi2abc, midicopy.
