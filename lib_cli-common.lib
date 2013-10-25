@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-25-2013 10:00"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -468,9 +468,20 @@ f_eval_funct () {
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
       #
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
-         if [ "$XSTR" = 1 ] ; then  # 1st field "1"=<f_app-name>
-            XSTR=f_$MENU_ITEM_NAME   # 2nd and 3rd fields have an unrestricted naming convention for functions.
+         case "$2" in
+         1)  # if 1st field is a "1" then <f_app-name> Custom application function for general usage.
+         if [ "$XSTR" = 1 ] ; then
+            XSTR="f_$MENU_ITEM_NAME"   
          fi
+         ;;
+         2)  # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+         if [ "$XSTR" = 1 ] ; then
+            XSTR="f_install_$MENU_ITEM_NAME"   
+         fi
+         ;;
+             # 3rd field "<f_any_name>" is called after the display of the Quit Code message.
+         esac
+         #
          eval $XSTR  # Invoke (run) the function.
          if [ $? -ne 0 ] ; then
             echo "Command or function not found: $XSTR."
@@ -781,23 +792,30 @@ f_application_help () {
            ;;
            *--help)
            clear # Blank screen
-           # awk extracts only the application's name to use for APP_NAME.
-           APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
-           #
-           # Test to see if the application is installed.
-           command -v $APP_NAME
+           $MENU_ITEM  # Run <Application name> --help
            ERROR=$? # Save error flag condition.
            # If there are no --help pages, ask user if wants to install app.
            # Function f_application_install needs APP_NAME as input
+           # awk extracts only the application's name to use for APP_NAME.
+           APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
+           #
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            #
            if [ $ERROR -ne 0 ] ; then
               # Error code 1 $?=1 means no --help available.
               # Error code 0 (zero) where $?=0 means no error.
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              #
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              #
               echo "No '--help' option available for $APP_NAME."
               echo
               echo "This $APP_NAME application is either not installed"
               echo "or is installed but help pages were never written for it."
               echo
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
               #
               # Note: the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
               #
@@ -813,23 +831,7 @@ f_application_help () {
               echo "To install under Slackware-based Linux use command:"
               echo "                           sudo installpkg <application package name>"
               echo "                           sudo slackpkg <application package name>"
-              echo 
-              echo -n "Do you want to install $APP_NAME (y/N)? "
-              read ANS
-              case $ANS in # Start of Install Application Option case statement.
-                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                   f_application_install
-                   PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                   ;;              
-                   [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                   ERROR=0
-                   PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                   ;;
-              esac # End of Install Application Option case statement.
-              unset ANS  # Throw out this variable.
-           else
-              $MENU_ITEM # Run <Application name> --help
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              echo $(tput bold)
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
            # Convert string to integer -1. Also indicates valid menu choice.
@@ -849,11 +851,18 @@ f_application_help () {
               if [ $ERROR -ne 0 ] ; then
                  # Error code 16 where $?=16 means no man(ual) entry.
                  # Error code 0 (zero) where $?=0 means no error.
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 #
+                 # Use different color font for error messages.
+                 f_term_color $ECOLOR $BCOLOR
+                 echo $(tput bold)
+                 #
                  echo "No manual pages available for $APP_NAME."
                  echo
                  echo "This $APP_NAME application is either not installed"
                  echo "or is installed but man pages were never written for it."
                  echo
+                 echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
                  #
                  # Note the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
                  #
@@ -869,20 +878,7 @@ f_application_help () {
                  echo "To install under Slackware-based Linux use command:"
                  echo "                           sudo installpkg <application package name>"
                  echo "                           sudo slackpkg <application package name>"
-                 echo 
-                 echo -n "Do you want to install $APP_NAME (y/N)? "
-                 read ANS
-                 case $ANS in # Start of Install Application Option case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                      f_application_install
-                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                      ;;              
-                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                      ERROR=0
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac # End of Install Application Option case statement.
-                 unset ANS  # Throw out this variable.
+                 echo $(tput bold)
               fi
               MENU_ITEM=-1 # Force stay in menu until loop.
               # Convert string to integer -1. Also indicates valid menu choice.
@@ -1003,8 +999,14 @@ f_application_error () {
            2) # Error code 2 means operand or files is missing.
            # Display error message.
            f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
            echo "Missing operand (file name(s) or names)."
            echo "Try running $APP_NAME_TMP again this time using operands."
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            echo
            echo "Operands may be filenames as in the examples below."
            echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
@@ -1018,8 +1020,14 @@ f_application_error () {
            127) # Error code 127 means application is not installed.
            # Display error message.
            f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
            echo "This $APP_NAME_TMP application is not installed."
            echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            f_application_install_question
            ;;
            1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
@@ -1061,7 +1069,13 @@ f_application_error () {
                         #
                         # Display error message.
                         f_display_error_code
+                        #
+                        # Use different color font for error messages.
+                        f_term_color $ECOLOR $BCOLOR
+                        echo $(tput bold)
+                        #
                         echo "Running sudo $APP_NAME_SUDO failed."
+                        echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                         echo "May be caused by bad sudo password, or user has no permission to use sudo,"
                         echo "or bad $APP_NAME_TMP syntax."
                         echo "Consult help using man $APP_NAME_TMP."
@@ -1109,7 +1123,13 @@ f_application_error () {
                         #
                         # Display error message.
                         f_display_error_code
+                        #
+                        # Use different color font for error messages.
+                        f_term_color $ECOLOR $BCOLOR
+                        echo $(tput bold)
+                        #
                         echo "Running sudo $APP_NAME_SUDO failed."
+                        echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                         echo "May be caused by bad sudo password, or user has no permission to use sudo,"
                         echo "or bad $APP_NAME_TMP syntax."
                         echo "Consult help using man $APP_NAME_TMP."
@@ -1140,6 +1160,11 @@ f_application_error () {
 # Outputs: None.
 #
 f_display_error_code () {
+      #
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo $(tput bold)
+      #
       echo
       echo "**********************************************************************"
       echo ">>>>>>>>>> SEE ABOVE for application error messages, if any <<<<<<<<<<"
@@ -1149,6 +1174,7 @@ f_display_error_code () {
       echo "Error code >>> $ERROR <<<  from $APP_NAME_TMP application."
       echo "          ***********"
       echo
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
 } # End of function f_display_error_code
 #
 # +----------------------------------------+
@@ -1302,9 +1328,15 @@ f_application_install () {
          ERROR=$? # Save error flag condition.
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+            #
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            #
             echo
             echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo
@@ -1333,9 +1365,16 @@ f_application_install () {
          #if [ $ERROR -ne 0 ] ; then
          #   # Error code 1 $?=1 means installation failed.
          #   # Error code 0 (zero) where $?=0 means no error.
+         #   echo -n $(tput bold)
+         #
+         #   Use different color font for error messages.
+         #   f_term_color $ECOLOR $BCOLOR
+         #   echo $(tput bold)
+         #
          #   echo
          #   echo "Installation of \"$APP_NAME_INSTALL\" failed."
          #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
+         #   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
          #   echo "is not available for this linux distribution."
          #   echo
@@ -1354,9 +1393,15 @@ f_application_install () {
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed.
             # Error code 0 (zero) where $?=0 means no error.
+            #
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            #
             echo
             echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo 
@@ -1377,9 +1422,15 @@ f_application_install () {
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed.
             # Error code 0 (zero) where $?=0 means no error.
+            #
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            #
             echo
             echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo rpm -ivh $APP_NAME_INSTALL\" failed."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo
@@ -1390,8 +1441,14 @@ f_application_install () {
             f_application_web_install
          fi
       else
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
          echo
          echo "You will have to install the $APP_NAME_INSTALL package manually."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
          echo
          echo "Not all applications in this menu are available on all linux distributions."
@@ -1863,13 +1920,11 @@ f_module_match () {
            *)
            MOD_FILE="BAD_CHOICE_INPUT"
            XSTR=""
-            # If background color is black or blue, then use yellow font.
-            echo -n $(tput bold)
-            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-               echo $(tput setaf 3)  # Yellow font for error message.
-            else
-               echo $(tput setaf 1)  # Red font for error message.
-            fi
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
            echo ">>>Error Bad choice input.<<<"
            echo "       Exiting now."
            echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
@@ -2042,13 +2097,11 @@ f_show_max_menu_items () {
                  #
                  if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
                     echo $(tput bold)
-            # If background color is black or blue, then use yellow font.
-            echo -n $(tput bold)
-            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-               echo $(tput setaf 3)  # Yellow font for error message.
-            else
-               echo $(tput setaf 1)  # Red font for error message.
-            fi
+                    #
+                    # Use different color font for error messages.
+                    f_term_color $ECOLOR $BCOLOR
+                    echo $(tput bold)
+                    #
                     echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
                     echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
                  fi

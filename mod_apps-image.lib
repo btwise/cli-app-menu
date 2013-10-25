@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-25-2013 10:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -56,7 +56,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
 #0^0^0^0^1 #MIG jhead      - Display jpeg file properties.
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
-#f_linux_logo^0^0^0^1 #MIG linuxlogo  - Color ANSI system logo
+#1^0^0^0^1 #MIG linuxlogo  - Color ANSI system logo
 #0^0^0^0^1 #MIG mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
 #0^0^0^0^0 #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
 #f_menu_app_image_graphics2^0^0^0^0 #MAN MORE...         - For more image-graphics applications.
@@ -86,7 +86,7 @@ f_menu_app_image_graphics2 () {
       f_initvars_menu_app "MIH"
       until [ $MIH -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
-#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MIH star wars  - Star Wars movie in ASCII.
+#f_starwars^0^0^0^0 #MIH star wars  - Star Wars movie in ASCII.
 #0^0^0^0^1 #MIH welcome21  - ANSI logo on login screen.
             #
             THIS_FILE="mod_apps-image.lib"
@@ -102,10 +102,10 @@ f_menu_app_image_graphics2 () {
 } # End of function f_menu_app_image_graphics
 #
 # +----------------------------------------+
-# |          Function f_linux_logo         |
+# |          Function f_linuxlogo         |
 # +----------------------------------------+
 #
-f_linux_logo () { #
+f_linuxlogo () { #
       ANS=-1 # Initialize $ANS for until loop.
       until [ $ANS -ge 1 -a $ANS -le 26 ]
       do
@@ -118,7 +118,7 @@ f_linux_logo () { #
             #
             APP_NAME="linuxlogo -L "$ANS
             unset ans
-}  #End of function f_linux_logo
+}  #End of function f_linuxlogo
 #
 # +----------------------------------------+
 # |           Function f_starwars          |
@@ -134,6 +134,7 @@ f_starwars () {
       echo If telnet hangs while trying the ip-address,
       echo then re-run this program and try again.
       echo
+      f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
 }  #End of function f_starwars
 #
 # +----------------------------------------+

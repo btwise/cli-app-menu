@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-25-2013 10:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -94,9 +94,9 @@ f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
       until [ $MGB -eq 0 ]
       do    # Start of Arcade2 Games until loop.
-#1^0^0^1^0 #MGB xorcurses - based on Xor released in 1987 by Astral Software.
+#0^1^0^1^0 #MGB xorcurses - based on Xor released in 1987 by Astral Software.
 #0^0^0^18^0 #MGB zsnake    - Variation of BSD's snake game.
-#0^0^0^0^1 #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
+#0^1^0^0^0 #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade2 Game Menu"
@@ -111,14 +111,14 @@ f_menu_app_games_arcade2 () {
 } # End of f_menu_app_games_arcade2
 #
 # +----------------------------------------+
-# |             Function f_xorcurses       |
+# |       Function f_install_xorcurses     |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null).
 #
-f_xorcurses () {
+f_install_xorcurses () {
       if [ ! -r "/usr/local/share/XorCurses" ] ; then
          clear  # blank screen
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
@@ -129,91 +129,41 @@ f_xorcurses () {
          #
          # Yes, Install XorCurses.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            clear  # blank screen
-            echo "This script will automatically install \"libncurses-dev\"."
-            echo
-            # Install libncurses-dev as a prerequisite.
-            APP_NAME="libncurses-dev"
-            f_application_install
-            if [ $ERROR -ne 0 ] ; then
-               # Failure to install libncurses-dev.
-               echo
-               echo "Installation of \"libncurses-dev\" failed."
-               echo " Skipping installation of \"ncurses-dev\" and \"XorCurses\"."
-               echo
-               echo -n "Press '"Enter"' key to continue."
-               read X
-               unset X  # Throw out this variable.
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ $ERROR -eq 0 ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
                #
-               # Do not install ncurses-dev and XorCurses.
-               MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
-                                 # when it's not installed.
-               APP_NAME=""       # Also prevents checking for Quit Clause.
-            else
-               # Success at installing libncurses-dev.
-               echo
-               echo "Installation of \"libncurses-dev\" is successful."
-               echo
-               echo -n "Press '"Enter"' key to continue."
-               read X
-               unset X  # Throw out this variable.
-               #
-               # Install ncurses-dev as a prerequisite.
-               APP_NAME="ncurses-dev"
-               f_application_install
-               if [ $ERROR -ne 0 ] ; then
-                  # Failure to install ncurses-dev.
-                  echo
-                  echo "Installation of \"ncurses-dev\" failed."
-                  echo " Skipping installation of \"XorCurses\"."
-                  echo
-                  echo -n "Press '"Enter"' key to continue."
-                  read X
-                  unset X  # Throw out this variable.
-                  #
-                  # Do not install XorCurses.
-                  MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
-                                    # when it's not installed.
-                  APP_NAME=""       # Also prevents checking for Quit Clause.
-               else
-                  # Success at installing ncurses-dev.
-                  echo
-                  echo "Installation of \"ncurses-dev\" is successful."
-                  echo
-                  echo -n "Press '"Enter"' key to continue."
-                  read X
-                  unset X  # Throw out this variable.
-                  #
-                  # Since dependencies are installed, now install XorCurses.
-                  f_xorcurses_install
-               fi
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_xorcurses
             fi
          else
-            # No, Do not install ASCIIQuarium.
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
+            # No, Do not install XorCurses.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run Ztrack.
                               # when it's not installed.
             APP_NAME=""       # Also prevents checking for Quit Clause.
          fi
          unset ANS
       fi
-} # End of function f_xorcurses
+} # End of function f_install_xorcurses
 #
 # +----------------------------------------+
-# |       Function f_xorcurses_install     |
+# |       Function f_xorcurses_install2    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null).
 #
-f_xorcurses_install () {
+f_install2_xorcurses () {
       clear  # blank screen
       echo "This script will automatically download and install \"XorCurses\"."
       echo
       echo "This script will do the following:"
       echo "1. Change directory to your home folder."
       echo "2. Download \"XorCurses\" from \"http://jwm-art.net/art/archive\" by using wget."
-      echo "3. Decompress and create the installation subdirectory ~/xorcurses*"
+      echo "3. Decompress and create the installation subdirectory ~/bin/xorcurses*"
       echo "4. Install XorCurses via:"
       echo "                           make"
       echo "                           sudo make install"
@@ -240,7 +190,7 @@ f_xorcurses_install () {
       wget http://jwm-art.net/art/archive/XorCurses-0.2.2.tar.bz2
       #
       # 3. Decompress and create the installation subdirectory ~/xorcurses*.
-      tar -jxf XorCurses-0.2.2.tar.bz2
+      tar -xf XorCurses-0.2.2.tar.bz2
       cd ~/bin/XorCurses-0.2.2
       #
       # 4. Make and install XorCurses.
@@ -275,9 +225,126 @@ f_xorcurses_install () {
       unset X  # Throw out this variable.
       #
       APP_NAME="xorcurses" # Set to correct name for f_application_run.
-} # End of function f_xorcurses_install
+} # End of function f_install2_xorcurses
 #
-
+# +----------------------------------------+
+# |        Function f_install_ztrack       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install_ztrack () {
+      if [ ! -r "/usr/games/ztrack" ] ; then
+         clear  # blank screen
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"Ztrack\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install Ztrack.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ $ERROR -eq 0 ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_ztrack
+            fi
+         else
+            # No, Do not install Ztrack.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run Ztrack.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+         fi
+         unset ANS
+      fi
+} # End of function f_install_ztrack
+#
+# +----------------------------------------+
+# |         Function f_install2_ztrack     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_ztrack () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"Ztrack\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"Ztrack\" from \"http://www.ibiblio.org/pub/Linux/games/arcade\" by using wget."
+      echo "3. Decompress and create the installation subdirectory ~/ztrack*"
+      echo "4. Install Ztrack via:"
+      echo "                           make"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to /usr/local/bin/."
+      echo
+      echo "5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      # 
+      # 2. Download "Ztrack" from "http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz" by using wget.
+      cd ~/bin
+      wget http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz
+      #
+      # 3. Decompress and create the installation subdirectory ~/xorcurses*.
+      tar -xf ztrack-1.0.tar.gz
+      #
+      # 4. Make and install Ztrack.
+      cd ~/bin/ztrack*
+      make
+      sudo make install
+      #
+      # 5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/games/ztrack*
+      #
+      # 6. Add directory \"/usr/games\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/games in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/games"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/games"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Installation of \"Ztrack\" is complete."
+      echo
+      echo "To run \"Ztrack\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      APP_NAME="ztrack" # Set to correct name for f_application_run.
+      # 
+} # End of function f_install2_ztrack
+#
 # +----------------------------------------+
 # |     Function f_menu_app_games_board    |
 # +----------------------------------------+
@@ -293,7 +360,7 @@ f_menu_app_games_board () {
 #1^0^0^1^0 #MGC atom4      - Board game strategy 2-player ncurses-based.
 #0^0^0^1^0 #MGC backgammon - Backgammon.
 #0^0^0^1^0 #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
-#0^0^0^2^1 #MGC monop      - Monopoly-like game.
+#0^0^0^2^0 #MGC monop      - Monopoly-like game.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Board Games Menu"
@@ -397,8 +464,7 @@ f_menu_app_games_puzzle () {
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt         - Reformat input as a paper tape.
 #0^0^0^0^0 #MGF textmaze    - Find the exit to the maze.
 #0^0^0^5^0 #MGF vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
-#1^0^0^1^0 #MGF xorcurses   - based on Xor released in 1987 by Astral Software.
-
+#0^1^0^1^0 #MGF xorcurses   - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"
@@ -491,9 +557,9 @@ f_menu_app_games_simulation () {
 #0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
 #0^0^0^1^0 #MGI sail      - Command a Man O'War fighting ship.
 #0^0^0^0^0 #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
-#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MGI star wars - Star Wars movie in ASCII.
+#f_starwars^0^0^0^0 #MGI star wars - Star Wars movie in ASCII.
 #0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
-#0^0^0^0^1 #MGI ztrack    - First-person car racing game.
+#0^1^0^0^0 #MGI ztrack    - First-person car racing game.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Simulation Games and Animation Menu"
@@ -521,6 +587,7 @@ f_starwars () {
       echo If telnet hangs while trying the ip-address,
       echo then re-run this program and try again.
       echo
+      f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
 }  #End of function f_starwars
 #
 # +----------------------------------------+

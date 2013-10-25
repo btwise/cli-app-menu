@@ -4,7 +4,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-24-2013 00:00"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -120,4 +120,67 @@ f_menu_cat_applications () {
             #
       unset AAB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_applications
+#
+# +----------------------------------------+
+# |           Function f_ncurses           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null), ERROR.
+#
+f_ncurses () {
+      clear  # blank screen
+      echo "This script will automatically install \"libncurses-dev\"."
+      echo
+      # Install libncurses-dev as a prerequisite.
+      APP_NAME="libncurses-dev"
+      f_application_install
+      #
+      if [ $ERROR -ne 0 ] ; then
+         # Failure to install libncurses-dev.
+         echo
+         echo "Installation of \"libncurses-dev\" failed."
+         echo " Skipping installation of \"ncurses-dev\"."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+      else
+         # Success at installing libncurses-dev.
+         echo
+         echo "Installation of \"libncurses-dev\" is successful."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         # Install ncurses-dev as a prerequisite.
+         APP_NAME="ncurses-dev"
+         f_application_install
+         #
+         if [ $ERROR -ne 0 ] ; then
+            # Failure to install ncurses-dev.
+            echo
+            echo "Installation of \"ncurses-dev\" failed."
+            echo
+            echo -n "Press '"Enter"' key to continue."
+            read X
+            unset X  # Throw out this variable.
+         else
+            # Success at installing ncurses-dev.
+            echo
+            echo "Installation of \"ncurses-dev\" is successful."
+            echo
+            echo -n "Press '"Enter"' key to continue."
+            read X
+            unset X  # Throw out this variable.
+           fi
+      fi
+         # Set to null so that f_application_run doesn't try to run libncurses-dev or ncurses-dev as stand-alone applications.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+      unset ANS
+} # End of function f_ncurses
 #
