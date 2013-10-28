@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -17,17 +17,17 @@ f_menu_cat_system () {
       f_initvars_menu_app "BSY"
       until [ $BSY -eq 0 ]
       do    # Start of System Application Category until loop.
-#^f_menu_app_sys_backup #BSY Backup      - File Backup.
-#^f_menu_app_sys_disks #BSY Disks       - Disk information.
-#^f_menu_app_sys_health #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
-#^f_menu_app_sys_logs #BSY Logs        - Log file viewers.
-#^f_menu_app_sys_mainboard #BSY Mainboard   - Information on PC mainboard, memory, etc.
-#^f_menu_app_sys_monitors #BSY Monitors    - Resources, and disk I/O monitors.
-#^f_menu_app_sys_other #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
-#^f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
-#^f_menu_app_sys_process #BSY Process     - System process monitoring, killing.
-#^f_menu_app_sys_screens #BSY Screens     - Multiple screen sessions and terminal emulators.
-#^f_menu_app_sys_software #BSY Software    - (Un)Install and manage software packages (programs).
+#f_menu_app_sys_backup #BSY Backup      - File Backup.
+#f_menu_app_sys_disks #BSY Disks       - Disk information.
+#f_menu_app_sys_health #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
+#f_menu_app_sys_logs #BSY Logs        - Log file viewers.
+#f_menu_app_sys_mainboard #BSY Mainboard   - Information on PC mainboard, memory, etc.
+#f_menu_app_sys_monitors #BSY Monitors    - Resources, and disk I/O monitors.
+#f_menu_app_sys_other #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
+#f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
+#f_menu_app_sys_process #BSY Process     - System process monitoring, killing.
+#f_menu_app_sys_screens #BSY Screens     - Multiple screen sessions and terminal emulators.
+#f_menu_app_sys_software #BSY Software    - (Un)Install and manage software packages (programs).
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Category Menu"

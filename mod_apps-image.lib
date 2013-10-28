@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-25-2013 10:00"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -17,8 +17,8 @@ f_menu_cat_image () {
       f_initvars_menu_app "BIG"
       until [ $BIG -eq 0 ]
       do    # Start of Image Application Category until loop.
-#^f_menu_app_imagemagick #BIG ImageMagick - Tools to manipulate images.
-#^f_menu_app_image_graphics #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
+#f_menu_app_imagemagick #BIG ImageMagick - Tools to manipulate images.
+#f_menu_app_image_graphics #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
             #
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="Image Application Category Menu"

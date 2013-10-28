@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -18,7 +18,7 @@ f_menu_app_screen_savers () {
       until [ $MSS -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
             #0^0^0^8:NC^0 #MSS aafire       - Fire on screen.
-            #1^0^0^22^0 #MSS asciiquarium - Aquarium on screen.
+            #0^1^0^22^0 #MSS asciiquarium - Aquarium on screen.
             #0^0^0^8:NC^0 #MSS boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
             #0^0^0^8:NC^0 #MSS bsod         - Simulate Microsoft XP "Blue screen of death".
             #0^0^0^8:NC^0 #MSS cmatrix      - Matrix-like screen-saver.
@@ -43,14 +43,14 @@ f_menu_app_screen_savers () {
 } # End of f_menu_app_screen_savers
 #
 # +----------------------------------------+
-# |           Function f_asciiquarium      |
+# |     Function f_install_asciiquarium    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null).
 #
-f_asciiquarium () {
+f_install_asciiquarium () {
       if [ ! -r "/usr/local/bin/asciiquarium" ] ; then
          clear  # blank screen
          echo "This script will install \"Curses\" and \"Term::Animation\", if needed."
@@ -98,6 +98,7 @@ f_asciiquarium () {
                # Since dependencies are installed, now install ASCIIQuarium.
                f_asciiquarium_install
                APP_NAME="asciiquarium" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
             fi
          else
             # No, Do not install ASCIIQuarium.
@@ -108,7 +109,7 @@ f_asciiquarium () {
          unset ANS
 
       fi
-} # End of function f_asciiquarium
+} # End of function f_install_asciiquarium
 #
 # +----------------------------------------+
 # |    Function f_term-animation_install   |
@@ -244,7 +245,6 @@ f_asciiquarium_install () {
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-
 } # End of function f-asciiquarium_install
 #
 

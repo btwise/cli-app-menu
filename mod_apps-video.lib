@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -17,8 +17,8 @@ f_menu_cat_video () {
       f_initvars_menu_app "BVI"
       until [ $BVI -eq 0 ]
       do    # Start of Video Application Category until loop.
-#^f_menu_app_video_editors #BVI Editors - Video editors, transcoders, converters.
-#^f_menu_app_video_players #BVI Players - Video players/downloaders.
+#f_menu_app_video_editors #BVI Editors - Video editors, transcoders, converters.
+#f_menu_app_video_players #BVI Players - Video players/downloaders.
             #
             THIS_FILE="mod_apps-video.lib"
             MENU_TITLE="Video Application Category Menu"

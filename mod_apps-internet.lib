@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -17,20 +17,20 @@ f_menu_cat_internet () {
       f_initvars_menu_app "BIN"
       until [ $BIN -eq 0 ]
       do    # Start of Internet Application Category until loop.
-#^f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
-#^f_menu_app_bloggers #BIN Blogging Clients  - Blog clients.
-#^f_menu_app_downloaders #BIN Downloaders       - Download files and calculate file checksums. 
-#^f_menu_app_email #BIN Email             - Email clients.
-#^f_menu_app_fax #BIN FAX               - FAX clients.
-#^f_menu_app_file_transfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
-#^f_menu_app_instant_messaging #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
-#^f_menu_app_irc_clients #BIN IRC Clients       - Internet Relay Chat clients.
-#^f_menu_app_lan_chat #BIN LAN Chat          - Local Area Network Chat (not IRC).
-#^f_menu_app_news_readers #BIN News Readers      - Read USEnet news.
-#^f_menu_app_podcatchers #BIN Podcatcher        - Podcaster readers.
-#^f_menu_app_remote_connection #BIN Remote Connection - Connect to other PCs remotely, cloud services.
-#^f_menu_app_rssfeeders #BIN RSS Feeders       - RSS news, messages.
-#^f_menu_app_web_browsers #BIN Web Browsers      - Internet web  browsers.
+#f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
+#f_menu_app_bloggers #BIN Blogging Clients  - Blog clients.
+#f_menu_app_downloaders #BIN Downloaders       - Download files and calculate file checksums. 
+#f_menu_app_email #BIN Email             - Email clients.
+#f_menu_app_fax #BIN FAX               - FAX clients.
+#f_menu_app_file_transfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
+#f_menu_app_instant_messaging #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
+#f_menu_app_irc_clients #BIN IRC Clients       - Internet Relay Chat clients.
+#f_menu_app_lan_chat #BIN LAN Chat          - Local Area Network Chat (not IRC).
+#f_menu_app_news_readers #BIN News Readers      - Read USEnet news.
+#f_menu_app_podcatchers #BIN Podcatcher        - Podcaster readers.
+#f_menu_app_remote_connection #BIN Remote Connection - Connect to other PCs remotely, cloud services.
+#f_menu_app_rssfeeders #BIN RSS Feeders       - RSS news, messages.
+#f_menu_app_web_browsers #BIN Web Browsers      - Internet web  browsers.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Internet Category Menu"

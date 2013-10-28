@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_audio       |
@@ -17,11 +17,11 @@ f_menu_cat_audio () {
       f_initvars_menu_app "BAU"
       until [ $BAU -eq 0 ]
       do    # Start of Audio Application Category until loop.
-#^f_menu_app_cdrippers #BAU CD Rippers         - Copy music off CD-ROM to files.
-#^f_menu_app_audio_editors #BAU Editors/Converters - Edit music files and convert to different file formats.
-#^f_menu_app_music_players #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
-#^f_menu_app_radio #BAU Radio              - Listen to Internet radio stations.
-#^f_menu_app_speech_synthesis #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
+#f_menu_app_cdrippers #BAU CD Rippers         - Copy music off CD-ROM to files.
+#f_menu_app_audio_editors #BAU Editors/Converters - Edit music files and convert to different file formats.
+#f_menu_app_music_players #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
+#f_menu_app_radio #BAU Radio              - Listen to Internet radio stations.
+#f_menu_app_speech_synthesis #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
             #
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Audio Application Category Menu"

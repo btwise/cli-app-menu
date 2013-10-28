@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-25-2013 17:17"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -296,10 +296,7 @@ f_menu_item_process () {
             # Specify 1st field of $MENU_ITEM_OPT for function #1.
             f_eval_funct "$MENU_ITEM_OPT" 1
             #
-            # Specify 2nd field of $MENU_ITEM_OPT for function #2.
-            f_eval_funct "$MENU_ITEM_OPT" 2
-            #
-            # How to quit?
+            # Specify 4th field of $MENU_ITEM_OPT for Quit Clause.
             # Do not check for Quit Clause if quitting out of
             # a sub-menu after running an application.
             # APP_NAME is set to null if application is already run.
@@ -317,19 +314,21 @@ f_menu_item_process () {
             if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
-               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. Also prevents checking for Quit Clause.
+               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. 
+                                 # Also prevents checking for Quit Clause.
+               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
             fi
          fi
       fi
+      #
+      # Trap bad menu choices, do not echo Press enter key to continue.
+      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
       #
       DELIM=${DELIMITER/\#/}   # Strip off leading "#" of DELIMITER "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
                                # The "\" treats "#" as a literal hash mark, not as a comment.
       eval $DELIM=$MENU_ITEM   # Set M[A-Z][A-Z] = $MENU_ITEM
                                # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
                                #            0 if "Return to previous menu." Exit Menu loop.
-      #
-      # Trap bad menu choices, do not echo Press enter key to continue.
-      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
       #
       # If application displays information, allow user to read it.
       f_option_press_enter_key
@@ -599,9 +598,9 @@ f_quit_app_clause () {
 f_press_key () { 
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $5}')
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
-         PRESS_KEY=1
+         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
       else
-         PRESS_KEY=0
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
       fi
       export PRESS_KEY
       unset X XSTR
@@ -1370,6 +1369,11 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            f_press_enter_key_to_continue
+            # If install via package manager failed then see if there is a custom install function.
+            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            # Try downloading source code from a web site and manually installing.
             f_application_web_install
          fi
          #
@@ -1407,6 +1411,11 @@ f_application_install () {
          #   echo "                       >>>Try doing a web search <<<"
          #   echo "                  for the application and its source code."
          #   echo
+         #   f_press_enter_key_to_continue
+         #   If install via package manager failed then see if there is a custom install function.
+         #   if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+         #   f_eval_funct "$MENU_ITEM_OPT" 2
+         #   Try downloading source code from a web site and manually installing.
          #   f_application_web_install
          #fi
          #
@@ -1434,6 +1443,11 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            f_press_enter_key_to_continue
+            # If install via package manager failed then see if there is a custom install function.
+            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            # Try downloading source code from a web site and manually installing.
             f_application_web_install
          fi
          #
@@ -1463,6 +1477,11 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            f_press_enter_key_to_continue
+            # If install via package manager failed then see if there is a custom install function.
+            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            # Try downloading source code from a web site and manually installing.
             f_application_web_install
          fi
       else
@@ -1481,6 +1500,11 @@ f_application_install () {
          echo "                  for the application and its source code."
          echo
          f_press_enter_key_to_continue
+         # If install via package manager failed then see if there is a custom install function.
+         # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+         f_eval_funct "$MENU_ITEM_OPT" 2
+         # Try downloading source code from a web site and manually installing.
+         f_application_web_install
       fi
       #
 } # End of function f_application_install
@@ -1599,8 +1623,11 @@ f_application_web_install () {
       ;;
       esac                      # End of Web Site case statement.
       #
+      #
+      # Is a web site for install/download specified?
       case $WEB_SITE_INSTALL in # Start of Web Install case statement.
       "")
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
       ;;
       *) # if web site is specified, then go there.
          echo
@@ -1614,6 +1641,7 @@ f_application_web_install () {
               f_application_run
               ;;
               [Nn] | [Nn][Oo])
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
               ;;
          esac                # End of Install case statement.
          unset ANS  # Throw out this variable.

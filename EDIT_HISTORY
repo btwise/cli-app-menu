@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-25-2013 17:17"
+PROJECT_REVDATE="October-28-2013 12:50"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,10 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-10-28 *Some menus changed to conform to new format.
+##            *f_application_install changed to try package manager, then
+##             try any custom install function, then try a web site download.
 ##
 ## 2013-10-25 *All menus changed format so that when 2nd field is equal to 1,
 ##             refers to installation function "f_install_<MENU_ITEM_NAME>".

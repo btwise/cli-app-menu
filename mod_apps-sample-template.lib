@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-25-2013 10:00"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |  Function f_menu_scat_sample_template  |
@@ -20,8 +20,8 @@ f_menu_scat_sample_template () {
       f_initvars_menu_app "BXX"
       until [ $BXX -eq 0 ]
       do    # Start of <Sample Template> Application Category until loop.
-#^f_menu_cat_name1 #BXX App1 - This is application category #1.
-#^f_menu_cat_name2 #BXX App2 - This is application category #2.
+#f_menu_cat_name1 #BXX App1 - This is application category #1.
+#f_menu_cat_name2 #BXX App2 - This is application category #2.
             #
             THIS_FILE="<Name of this file or library>"
             MENU_TITLE="<Sample Template> Application Category Menu"

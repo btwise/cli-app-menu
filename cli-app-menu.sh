@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-25-2013 10:00"
+REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -232,14 +232,14 @@ f_main_init_once () {
       #      Or create this folder for a single copy of the  script accessible 
       #      to all users. /opt folder is another location for user apps.
       #
-      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
-      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
       MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
       #
-      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
-      # >>>>>>>>>>>>>>>>>>>>> Change MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # Validate file names and directories.
       f_valid_dir "$MAINMENU_DIR"
@@ -256,14 +256,14 @@ f_main_init_once () {
       # Since this folder will contain multiple files for this project,
       # it may help to name it "cli-app-menu" to use it for only project files.
       #
-      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
-      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
       THIS_DIR="/some_directory/cli-app-menu"
       #
-      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
-      # >>>>>>>>>>>>>>>>>>>>> Change THIS_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
+      # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"
@@ -498,11 +498,11 @@ f_main_configure () {
       f_initvars_menu_app "AAC"
       until [ $AAC -eq 0 ]
       do    # Start of Configuration Menu until loop.
-#^f_menu_term_color #AAC Colors       - Set default font/background colors.
-#^f_menu_uncolor    #AAC Un-colors    - Set font color for unavailable library modules.
-#^f_updat_edit_hist #AAC Edit History - Make changes to the Edit History.
-#^f_updat_list_apps #AAC LIST_APPS    - Re-create/Update file list of all applications.
-#^f_ls_this_dir #AAC Module files - List module library files in library directory.
+#f_menu_term_color #AAC Colors       - Set default font/background colors.
+#f_menu_uncolor    #AAC Un-colors    - Set font color for unavailable library modules.
+#f_updat_edit_hist #AAC Edit History - Make changes to the Edit History.
+#f_updat_list_apps #AAC LIST_APPS    - Re-create/Update file list of all applications.
+#f_ls_this_dir #AAC Module files - List module library files in library directory.
             #
             MENU_TITLE="Configuration Menu"
             DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
@@ -1229,16 +1229,16 @@ f_main_init_once
 f_initvars_menu_app "AAA"
 until [ $AAA -eq 0 ]
 do    # Start of CLI Menu util loop.
-#^f_menu_cat_applications #AAA Applications        - Launch a command-line application.
-#^f_main_help #AAA Help and Features   - How to use and what can it do.
-#^f_main_about #AAA About CLI Menu      - What version am I using.
-#^f_main_configure #AAA Configure           - Change default settings; terminal, browser etc.
-#^f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
-#^f_main_download #AAA Download            - Download script program and/or software modules.
-#^f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
-#^f_main_license #AAA License             - Licensing, GPL.
-#^f_main_list_apps #AAA List Applications   - List of all CLI applications in this menu.
-#^f_main_search_apps #AAA Search Applications - Is an application featured in this menu script?
+#f_menu_cat_applications #AAA Applications        - Launch a command-line application.
+#f_main_help #AAA Help and Features   - How to use and what can it do.
+#f_main_about #AAA About CLI Menu      - What version am I using.
+#f_main_configure #AAA Configure           - Change default settings; terminal, browser etc.
+#f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
+#f_main_download #AAA Download            - Download script program and/or software modules.
+#f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
+#f_main_license #AAA License             - Licensing, GPL.
+#f_main_list_apps #AAA List Applications   - List of all CLI applications in this menu.
+#f_main_search_apps #AAA Search Applications - Is an application featured in this menu script?
       #
       THIS_FILE="cli-app-menu.sh"
       MENU_TITLE="Main Menu"

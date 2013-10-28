@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -17,17 +17,17 @@ f_menu_cat_office () {
       f_initvars_menu_app "BOF"
       until [ $BOF -eq 0 ]
       do    # Start of Office Application Category until loop.
-#^f_menu_app_accounting #BOF Accounting   - Accounting (with with double-entry).
-#^f_menu_app_calculators #BOF Calculators  - Simple "pocket" calculators.
-#^f_menu_app_calendar #BOF Calendar     - Calendars.
-#^f_menu_app_clocks #BOF Clocks       - Alarm clocks, specialized clocks.
-#^f_menu_app_contacts #BOF Contacts     - Contact/Address book lists.
-#^f_menu_app_note #BOF Notes        - Notebooks, diaries, PIM (personal information manager).
-#^f_menu_app_pdfps #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
-#^f_menu_app_presentation #BOF Presenters   - Text slideshow presentation.
-#^f_menu_app_spreadsheets #BOF Spreadsheets - Basic spreadsheet.
-#^f_menu_cat_text #BOF Text         - Create/Edit text files, text format converters, etc.        
-#^f_menu_app_todo #BOF To Do         - To-Do lists.
+#f_menu_app_accounting #BOF Accounting   - Accounting (with with double-entry).
+#f_menu_app_calculators #BOF Calculators  - Simple "pocket" calculators.
+#f_menu_app_calendar #BOF Calendar     - Calendars.
+#f_menu_app_clocks #BOF Clocks       - Alarm clocks, specialized clocks.
+#f_menu_app_contacts #BOF Contacts     - Contact/Address book lists.
+#f_menu_app_note #BOF Notes        - Notebooks, diaries, PIM (personal information manager).
+#f_menu_app_pdfps #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
+#f_menu_app_presentation #BOF Presenters   - Text slideshow presentation.
+#f_menu_app_spreadsheets #BOF Spreadsheets - Basic spreadsheet.
+#f_menu_cat_text #BOF Text         - Create/Edit text files, text format converters, etc.        
+#f_menu_app_todo #BOF To Do         - To-Do lists.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Office Application Category Menu"
@@ -419,11 +419,11 @@ f_menu_cat_text () {
       f_initvars_menu_app "BTX"
       until [ $BTX -eq 0 ]
       do    # Start of Text Application Category until loop.
-#^f_menu_app_text_compare #BTX Compare     - Show differences between text files.
-#^f_menu_app_text_converters #BTX Converters  - Convert between text document/file formats.
-#^f_menu_app_text_editors #BTX Editors     - Create/Edit text documents/files.
-#^f_menu_app_text_markup_language #BTX Markup Docs - Create a single source document, publish in many formats.
-#^f_menu_app_text_tools #BTX Tools       - Viewers, spell-check, dictionaries.
+#f_menu_app_text_compare #BTX Compare     - Show differences between text files.
+#f_menu_app_text_converters #BTX Converters  - Convert between text document/file formats.
+#f_menu_app_text_editors #BTX Editors     - Create/Edit text documents/files.
+#f_menu_app_text_markup_language #BTX Markup Docs - Create a single source document, publish in many formats.
+#f_menu_app_text_tools #BTX Tools       - Viewers, spell-check, dictionaries.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Application Category Menu"

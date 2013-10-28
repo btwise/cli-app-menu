@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-25-2013 10:00"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -17,13 +17,13 @@ f_menu_cat_network () {
       f_initvars_menu_app "BNE"
       until [ $BNE -eq 0 ]
       do    # Start of Network Application Category until loop.
-#^f_menu_app_firewalls #BNE Firewalls    - Configure firewalls.
-#^f_menu_app_lan #BNE LAN          - Test local area network connectivity, display settings.
-#^f_menu_scat_network_monitors #BNE Monitors     - LAN monitors, network mappers.
-#^f_menu_app_nic_tools #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
-#^f_menu_app_packet_tools #BNE Packet Tools - Packet sniffers, packet analyzers.
-#^f_menu_app_network_sharing #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
-#^f_menu_app_wan #BNE WAN          - Test wide-area network connectivity, speed, routing, DNS.
+#f_menu_app_firewalls #BNE Firewalls    - Configure firewalls.
+#f_menu_app_lan #BNE LAN          - Test local area network connectivity, display settings.
+#f_menu_scat_network_monitors #BNE Monitors     - LAN monitors, network mappers.
+#f_menu_app_nic_tools #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
+#f_menu_app_packet_tools #BNE Packet Tools - Packet sniffers, packet analyzers.
+#f_menu_app_network_sharing #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
+#f_menu_app_wan #BNE WAN          - Test wide-area network connectivity, speed, routing, DNS.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Application Category Menu"
@@ -535,8 +535,8 @@ f_menu_scat_network_monitors () {
       f_initvars_menu_app "BNM"
       until [ $BNM -eq 0 ]
       do    # Start of Network Monitor Application Category until loop.
-#^f_menu_app_network_bandwidth #BNM Bandwidth - Bandwidth monitors.
-#^f_menu_app_network_monitors #BNM Structure - Management, status, connections, devices, hosts.
+#f_menu_app_network_bandwidth #BNM Bandwidth - Bandwidth monitors.
+#f_menu_app_network_monitors #BNM Structure - Management, status, connections, devices, hosts.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Monitor Application Category Menu"

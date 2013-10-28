@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="October-28-2013 12:50"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -17,20 +17,20 @@ f_menu_cat_file_management () {
       f_initvars_menu_app "BFM"
       until [ $BFM -eq 0 ]
       do    # Start of File Management Application Category until loop.
-#^f_menu_app_binhex_editors #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
-#^f_menu_app_file_burn #BFM CD/DVD Burn - Write files to CD/DVD.
-#^f_menu_app_file_checksum #BFM Checksum    - Display/Create file checksums to verify file integrity.
-#^f_menu_app_text_compare #BFM Compare     - Show differences between text files.
-#^f_menu_app_file_compression #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
-#^f_menu_app_file_conversion #BFM Convert     - Convert between different file formats.
-#^f_menu_app_text_file_editors #BFM Edit        - Create/Edit text files.
-#^f_menu_app_file_encryption #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
-#^f_menu_app_file_find #BFM Find        - File search.
-#^f_menu_app_file_transfer #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
-#^f_menu_app_file_managers #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
-#^f_menu_app_file_operations #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
-#^f_menu_app_file_splitters #BFM Splitters   - File splitters.
-#^f_menu_app_file_viewers #BFM Viewers     - View files a page at a time.
+#f_menu_app_binhex_editors #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
+#f_menu_app_file_burn #BFM CD/DVD Burn - Write files to CD/DVD.
+#f_menu_app_file_checksum #BFM Checksum    - Display/Create file checksums to verify file integrity.
+#f_menu_app_text_compare #BFM Compare     - Show differences between text files.
+#f_menu_app_file_compression #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
+#f_menu_app_file_conversion #BFM Convert     - Convert between different file formats.
+#f_menu_app_text_file_editors #BFM Edit        - Create/Edit text files.
+#f_menu_app_file_encryption #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
+#f_menu_app_file_find #BFM Find        - File search.
+#f_menu_app_file_transfer #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
+#f_menu_app_file_managers #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
+#f_menu_app_file_operations #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
+#f_menu_app_file_splitters #BFM Splitters   - File splitters.
+#f_menu_app_file_viewers #BFM Viewers     - View files a page at a time.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Management Application Category Menu"
