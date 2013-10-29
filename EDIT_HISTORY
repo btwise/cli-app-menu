@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-28-2013 12:50"
+PROJECT_REVDATE="October-29-2013 00:50"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -34,7 +34,7 @@ echo -n "Press '"Enter"' key to continue."
 read ANS
 # sed substitutes null for ## at beginning of each line so it is not printed.
 # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_FILE
+sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 #
 #LIC This program, EDIT_HISTORY is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -52,9 +52,13 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-10-29 *f_install_bsod added custom install function.
+##
 ## 2013-10-28 *Some menus changed to conform to new format.
+##            *EDIT_HISTORY changed "less" command to improve readability.
 ##            *f_application_install changed to try package manager, then
 ##             try any custom install function, then try a web site download.
+##             Enable web install option for asciiquarium.
 ##
 ## 2013-10-25 *All menus changed format so that when 2nd field is equal to 1,
 ##             refers to installation function "f_install_<MENU_ITEM_NAME>".

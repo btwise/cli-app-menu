@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="October-29-2013 00:50"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -545,6 +545,7 @@ f_quit_app_clause () {
       #%%20. "exit"
       #%%21. "quit" or "exit"
       #%%22. "q or to pause press "p"
+      #%%23. "any key"
       #%% # End of list marker (and awk field marker), DO NOT remove.
           # This marker prevents awk from printing any more lines found by grep "#%%" below
           # and including this line.
@@ -1358,7 +1359,6 @@ f_application_install () {
             echo $(tput bold)
             #
             echo
-            echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
@@ -1369,6 +1369,7 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            echo "Will now try to automatically download/install from source code, if possible."
             f_press_enter_key_to_continue
             # If install via package manager failed then see if there is a custom install function.
             # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1401,7 +1402,6 @@ f_application_install () {
          #   echo $(tput bold)
          #
          #   echo
-         #   echo "Installation of \"$APP_NAME_INSTALL\" failed."
          #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
          #   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
@@ -1411,6 +1411,7 @@ f_application_install () {
          #   echo "                       >>>Try doing a web search <<<"
          #   echo "                  for the application and its source code."
          #   echo
+         #   echo "Will now try to automatically download/install from source code, if possible."
          #   f_press_enter_key_to_continue
          #   If install via package manager failed then see if there is a custom install function.
          #   if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1433,7 +1434,6 @@ f_application_install () {
             echo $(tput bold)
             #
             echo
-            echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
@@ -1443,6 +1443,7 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            echo "Will now try to automatically download/install from source code, if possible."
             f_press_enter_key_to_continue
             # If install via package manager failed then see if there is a custom install function.
             # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1467,7 +1468,6 @@ f_application_install () {
             echo $(tput bold)
             #
             echo
-            echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo rpm -ivh $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
@@ -1477,6 +1477,7 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            echo "Will now try to automatically download/install from source code, if possible."
             f_press_enter_key_to_continue
             # If install via package manager failed then see if there is a custom install function.
             # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1499,6 +1500,7 @@ f_application_install () {
          echo "                       >>>Try doing a web search <<<"
          echo "                  for the application and its source code."
          echo
+         echo "Will now try to automatically download/install from source code, if possible."
          f_press_enter_key_to_continue
          # If install via package manager failed then see if there is a custom install function.
          # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1520,14 +1522,9 @@ f_application_install () {
 f_application_web_install () {
       WEB_SITE_INSTALL=""
       case $APP_NAME_INSTALL in # Start of Web Site case statement.
-      # A custom script is now used to install asciiaquarium. See the Screensavers Menu.
-      # Although if custom script is broken, uncomment WEB_SITE_INSTALL and it should work.
-      # The first refers to general project page, the second to the download link on that
-      # project page. Both links should work OK.
-      # asciiaquarium)
-      # WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/
-      # WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
-      #;;
+      asciiquarium)
+      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
+      ;;
       binary-clock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
       ;;

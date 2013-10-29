@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="October-29-2013 00:50"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -155,7 +155,7 @@ f_install_xorcurses () {
 } # End of function f_install_xorcurses
 #
 # +----------------------------------------+
-# |       Function f_xorcurses_install2    |
+# |       Function f_install2_xorcurses    |
 # +----------------------------------------+
 #
 #  Inputs: None.
@@ -292,7 +292,7 @@ f_install2_ztrack () {
       echo "This script will do the following:"
       echo "1. Change directory to your home folder."
       echo "2. Download \"Ztrack\" from \"http://www.ibiblio.org/pub/Linux/games/arcade\" by using wget."
-      echo "3. Decompress and create the installation subdirectory ~/ztrack*"
+      echo "3. Decompress and create the installation subdirectory ~/bin/ztrack*"
       echo "4. Install Ztrack via:"
       echo "                           make"
       echo "                           sudo make install"
