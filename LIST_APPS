@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-10-25 17:23 Friday
+Last updated: 2013-10-29 12:21 Tuesday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -641,6 +641,7 @@ ________________________________________________
  arithmetic     - Basic arithmetic quiz.
  axiom          - General purpose computer algebra system.
  dicelab        - evaluate the statistical distribution of dice rolls.
+ factor         - Calculate prime numbers for any whole number.
  mathomatic     - Portable CAS (Computer Algebra System)
  ministat       - Fundamental statistical comparison of 1 or 2 data sets.
  num-utils      - Collection of programs; avg, normal, random, range, etc.
@@ -1007,6 +1008,7 @@ ________________________________________________
  bsod         - Simulate Microsoft XP "Blue screen of death".
  cmatrix      - Matrix-like screen-saver.
  mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
+ ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
  rain         - Rain on screen.
  termsaver    - screensaver for text terminals.
  ticker       - scrolls text across the screen.
@@ -1018,6 +1020,8 @@ ________________________________________________
 *** System Log Applications Menu ***
  ccze       - A robust and modular log colorizer, with plugins.
  colortail  - log colorizer.
+ hash       - Show frequency of commands entered at the prompt.
+ history    - Show history of commands entered at the prompt.
  inotail    - Tail command replacement uses the inotify API to re-read files.
  lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
  logtailer  - Monitor logs for updates and display them.

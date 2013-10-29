@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-29-2013 00:50"
+# REVDATE="October-29-2013 12:18"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1258,6 +1258,9 @@ f_application_install () {
       # i.e. The game 'trek' is installed using the package called 'bsdgames'.
       #
       case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+           aafire | aainfo | aatest | aasavefont)
+           APP_NAME_INSTALL="libaa-bin"
+           ;;
            aaxine | cacaxine | fbxine)
            APP_NAME_INSTALL="xine-console"
            ;;
@@ -1590,6 +1593,9 @@ f_application_web_install () {
       ;;
       mencal)
       WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
+      ;;
+      ncmatrix)
+      WEB_SITE_INSTALL="http://webpages.charter.net/tux/ncmatrix/ncmatrix-1.0.zip"
       ;;
       ne)
       WEB_SITE_INSTALL="http://ne.dsi.unimi.it/#downloads"

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-29-2013 00:50"
+# REVDATE="October-29-2013 12:18"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -17,18 +17,19 @@ f_menu_app_screen_savers () {
       f_initvars_menu_app "MSS"
       until [ $MSS -eq 0 ]
       do    # Start of Screen-saver Applications until loop.
-            #0^0^0^8^0 #MSS aafire       - Fire on screen.
-            #0^1^0^22^0 #MSS asciiquarium - Aquarium on screen.
-            #0^0^0^8^0 #MSS boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
-            #0^1^0^23^0 #MSS bsod         - Simulate Microsoft XP "Blue screen of death".
-            #0^0^0^8^0 #MSS cmatrix      - Matrix-like screen-saver.
-            #0^0^0^8^0 #MSS mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
-            #0^0^0^8^0 #MSS rain         - Rain on screen.
-            #0^0^0^8^0 #MSS termsaver    - screensaver for text terminals.
-            #0^0^0^8^0 #MSS ticker       - scrolls text across the screen.
-            #0^0^0^8^0 #MSS tty-clock    - Display a digital clack full-screen.
-            #0^0^0^8^0 #MSS weatherspect - Displays weather information with wallpaper.
-            #0^0^0^8^0 #MSS worms        - Worms wiggle on the screen.
+            #f_hint^0^0^8:NC^0 #MSS aafire       - Fire on screen.
+            #f_hint^1^0^22:NC^0 #MSS asciiquarium - Aquarium on screen.
+            #f_hint^0^0^8:NC^0 #MSS boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
+            #f_hint^1^0^23:NC^0 #MSS bsod         - Simulate Microsoft XP "Blue screen of death".
+            #f_hint^0^0^8:NC^0 #MSS cmatrix      - Matrix-like screen-saver.
+            #f_hint^0^0^8:NC^0 #MSS mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
+            #f_hint^0^0^8:NC^0 #MSS ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
+            #f_hint^0^0^8:NC^0 #MSS rain         - Rain on screen.
+            #f_hint^0^0^8:NC^0 #MSS termsaver    - screensaver for text terminals.
+            #f_hint^0^0^8:NC^0 #MSS ticker       - scrolls text across the screen.
+            #f_hint^0^0^8:NC^0 #MSS tty-clock    - Display a digital clack full-screen.
+            #f_hint^0^0^8:NC^0 #MSS weatherspect - Displays weather information with wallpaper.
+            #f_hint^0^0^8:NC^0 #MSS worms        - Worms wiggle on the screen.
             #
             THIS_FILE="mod_apps-screensaver.lib"
             MENU_TITLE="Screen-saver Applications Menu"
@@ -374,3 +375,23 @@ f_install2_bsod () {
       APP_NAME="bsod" # Set to correct name for f_application_run.
 } # End of function f_install2_bsod
 #
+f_hint () {
+      clear  # blank screen
+      echo "To use as a screensaver with an inactivity time-out:"
+      echo
+      echo "1. Install application \"screen\" (under System Category Menu/Screens Menu)."
+      echo
+      echo "2. Create file \"~/.screenrc\ in your home directory."
+      echo
+      echo "   File \"~/.screenrc\" should contain the following lines:"
+      echo
+      echo "        blankerprg $APP_NAME"
+      echo "        idle 120 blanker"
+      echo
+      echo "   Where \"idle 120\" is the number of seconds of inactivity time-out."
+      echo "   You can change it from 120 to any number of seconds you want."
+      echo
+      echo
+      # f_press_enter_key_to_continue
+} # End of function f_hint
+
