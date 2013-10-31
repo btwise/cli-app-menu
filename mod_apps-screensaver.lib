@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-29-2013 12:18"
+# REVDATE="October-30-2013 23:30"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -21,6 +21,7 @@ f_menu_app_screen_savers () {
             #f_hint^1^0^22:NC^0 #MSS asciiquarium - Aquarium on screen.
             #f_hint^0^0^8:NC^0 #MSS boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
             #f_hint^1^0^23:NC^0 #MSS bsod         - Simulate Microsoft XP "Blue screen of death".
+            #f_hint^1^0^8:NC^0 #MSS cclock       - Digital clock with huge numbers fills entire screen.
             #f_hint^0^0^8:NC^0 #MSS cmatrix      - Matrix-like screen-saver.
             #f_hint^0^0^8:NC^0 #MSS mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
             #f_hint^0^0^8:NC^0 #MSS ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
@@ -93,11 +94,11 @@ f_install_asciiquarium () {
                # Check if Term::Animation is installed as a prerequisite.
                if [ ! -r "/usr/local/bin/term-animation" ] ; then
                   # Term::Animation not installed, install Term::Animation.
-                  f_term-animation_install
+                  f_install_term-animation
                fi
                #
                # Since dependencies are installed, now install ASCIIQuarium.
-               f_asciiquarium_install
+               f_install2_asciiquarium
                APP_NAME="asciiquarium" # Set to correct name for f_application_run.
                APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
             fi
@@ -107,20 +108,19 @@ f_install_asciiquarium () {
                               # when it's not installed.
             APP_NAME=""       # Also prevents checking for Quit Clause.
          fi
-         unset ANS
-
+         unset ANS # Throw out this variable.
       fi
 } # End of function f_install_asciiquarium
 #
 # +----------------------------------------+
-# |    Function f_term-animation_install   |
+# |    Function f_install_term-animation   |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: None.
 #
-f_term-animation_install () {
+f_install_term-animation () {
       clear  # blank screen
       echo "This script will automatically download and install \"Term::Animation\"."
       echo
@@ -164,23 +164,22 @@ f_term-animation_install () {
       make test
       sudo make install
       echo
-      echo "Installation of \"Term::Animation\" is complete."
+      echo "Finished running installation script for \"Term::Animation\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-      #
-} # End of function f-term-animation_install
+} # End of function f_install_term-animation
 #
 # +----------------------------------------+
-# |     Function f_asciiquarium_install    |
+# |     Function f_install2_asciiquarium   |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: None.
 #
-f_asciiquarium_install () {
+f_install2_asciiquarium () {
       clear  # blank screen
       echo "This script will automatically download and install \"ASCIIQuarium\"."
       echo "The application itself is a single perl script so perl is a prerequisite."
@@ -239,15 +238,14 @@ f_asciiquarium_install () {
          echo
       fi
       echo
-      echo "Installation of \"ASCIIQuarium\" is complete."
+      echo "Finished running installation script for \"ASCIIQuarium\"."
       echo
       echo "To run \"ASCIIQuarium\", select it on the \"Screen-saver Applications Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-      APP_NAME="asciiquarium" # Set to correct name for f_application_run.
-} # End of function f-asciiquarium_install
+} # End of function f_install2_asciiquarium
 #
 # +----------------------------------------+
 # |         Function f_install_bsod        |
@@ -291,7 +289,7 @@ f_install_bsod () {
             APP_NAME=""       # Also prevents checking for Quit Clause.
             PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
          fi
-         unset ANS
+         unset ANS # Throw out this variable.
       fi
 } # End of function f_install_bsod
 #
@@ -365,15 +363,135 @@ f_install2_bsod () {
          echo
       fi
       echo
-      echo "Installation of \"bsod\" is complete."
+      echo "Finished running installation script for \"bsod\"."
       echo
       echo "To run \"bsod\", select it on the \"Screen-saver Applications Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-      APP_NAME="bsod" # Set to correct name for f_application_run.
 } # End of function f_install2_bsod
+#
+# +----------------------------------------+
+# |       Function f_install_cclock        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: None.
+# Outputs: None.
+#
+f_install_cclock () {
+      if [ ! -r "/usr/bin/cclock" ] ; then
+         clear  # blank screen
+         echo "This script will install \"cclock\" without using a software package manager."
+         echo
+         echo "If you wish to de-install \"'cclock\", you will have to delete files manually"
+         echo "by typing: \"sudo rm /usr/bin/cclock /usr/share/man/man1/cclock.1\"."
+         echo
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"cclock\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install cclock.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ $ERROR -eq 0 ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_cclock
+               APP_NAME="cclock" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install cclock.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run cclock.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS
+      fi
+} # End of f_install_cclock
+#
+# +----------------------------------------+
+# |         Function f_install2_cclock     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_cclock () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"cclock\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"cclock\" using wget from:"
+      echo "   http://sourceforge.net/projects/cclock/files/latest/download"
+      echo "3. Decompress and create the installation subdirectory ~/bin/cclock*"
+      echo "4. Install cclock via:"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to \"/usr/bin/\" and \"/usr/share/man/man1/cclock.1\"."
+      echo
+      echo "5. Allow users to run cclock by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      # 
+      # 2. Download "cclock" from "http://sourceforge.net/projects/cclock/files/latest/download"
+      #    by using wget.
+      cd ~/bin
+      wget http://sourceforge.net/projects/cclock/files/latest/download/cclock-0.96.tar.bz2
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/cclock*.
+      tar -xf cclock*
+      #
+      # 4. Make and install cclock.
+      cd ~/bin/cclock*
+      sudo make install
+      #
+      # 5. Allow users to run cclock by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/bin/cclock*
+      #
+      # 6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"cclock\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_cclock
 #
 f_hint () {
       clear  # blank screen

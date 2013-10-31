@@ -168,7 +168,7 @@ f_menu_app_math () {
 #0^0^0^0^1 #MMA dicelab        - evaluate the statistical distribution of dice rolls.
 #0^0^0^0^1 #MMA mathomatic     - Portable CAS (Computer Algebra System)
 #0^0^0^0^1 #MMA ministat       - Fundamental statistical comparison of 1 or 2 data sets.
-#0^0^0^0^1 #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
+#1^0^0^0^1 #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
 #0^0^0^0^1 #MMA open-axiom     - Open scientific computation platform.
 #0^0^0^0^1 #MMA plotutils      - Plot 2-dimensional scientific data.
 #0^0^0^0^1 #MMA pi             - Calculate Archimedes constant Pi to arbitrary precision.
@@ -189,3 +189,27 @@ f_menu_app_math () {
       unset MMA MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_math
 #
+# +----------------------------------------+
+# |          Function f_num-utils          |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_num-utils () {
+      clear # Blank the screen.
+      echo "num-utils - A collection of math programs which takes data from either keyboard or a file."
+      echo
+      echo "Includes these programs:"
+      echo "  * numaverage: A program for calculating the average of numbers."
+      echo "  * numbound: Finds the boundary numbers (min and max) of input."
+      echo "  * numinterval: Shows the numeric intervals between each number in a sequence."
+      echo "  * numnormalize: Normalizes a set of numbers between 0 and 1 by default."
+      echo "  * numgrep: Like normal grep, but for sets of numbers."
+      echo "  * numprocess: Do mathematical operations on numbers."
+      echo "  * numsum: Add up all the numbers."
+      echo "  * numrandom: Generate a random number from a given expression."
+      echo "  * numrange: Generate a set of numbers in a range expression."
+      echo "  * numround: Round each number according to its value."
+} # End of function f_num-utils

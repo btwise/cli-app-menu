@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-29-2013 12:18"
+# REVDATE="October-30-2013 23:30"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1608,6 +1608,9 @@ f_application_web_install () {
       ;;
       portbunny)
       WEB_SITE_INSTALL="http://portbunny.recurity.com/"
+      ;;
+      tbclock)
+      WEB_SITE_INSTALL="http://tamentis.com/projects/tbclock/files/tbclock-1.10.tar.gz"
       ;;
       todo2)
       WEB_SITE_INSTALL="http://swapoff.org/devtodo.html"

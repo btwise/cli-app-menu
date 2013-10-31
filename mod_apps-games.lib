@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-29-2013 00:50"
+# REVDATE="October-30-2013 23:30"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -142,6 +142,8 @@ f_install_xorcurses () {
                #
                # Since dependencies are installed, now install XorCurses.
                f_install2_xorcurses
+               APP_NAME="xorcurses" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
             fi
          else
             # No, Do not install XorCurses.
@@ -150,7 +152,7 @@ f_install_xorcurses () {
             APP_NAME=""       # Also prevents checking for Quit Clause.
             PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
          fi
-         unset ANS
+         unset ANS  # Throw out this variable.
       fi
 } # End of function f_install_xorcurses
 #
@@ -168,7 +170,8 @@ f_install2_xorcurses () {
       echo
       echo "This script will do the following:"
       echo "1. Change directory to your home folder."
-      echo "2. Download \"XorCurses\" from \"http://jwm-art.net/art/archive\" by using wget."
+      echo "2. Download \"XorCurses\" using wget from:"
+      echo "   http://jwm-art.net/art/archive"
       echo "3. Decompress and create the installation subdirectory ~/bin/xorcurses*"
       echo "4. Install XorCurses via:"
       echo "                           make"
@@ -222,15 +225,13 @@ f_install2_xorcurses () {
          echo
       fi
       echo
-      echo "Installation of \"XorCurses\" is complete."
+      echo "Finished running installation script for \"XorCurses\"."
       echo
       echo "To run \"XorCurses\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-      #
-      APP_NAME="xorcurses" # Set to correct name for f_application_run.
 } # End of function f_install2_xorcurses
 #
 # +----------------------------------------+
@@ -265,7 +266,9 @@ f_install_ztrack () {
                #
                # Since dependencies are installed, now install Ztrack.
                f_install2_ztrack
-            fi
+               APP_NAME="ztrack" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+           fi
          else
             # No, Do not install Ztrack.
             MENU_ITEM_NAME="" # Null so f_application_run does not try to run Ztrack.
@@ -273,7 +276,7 @@ f_install_ztrack () {
             APP_NAME=""       # Also prevents checking for Quit Clause.
             PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
          fi
-         unset ANS
+         unset ANS  # Throw out this variable.
       fi
 } # End of function f_install_ztrack
 #
@@ -291,7 +294,8 @@ f_install2_ztrack () {
       echo
       echo "This script will do the following:"
       echo "1. Change directory to your home folder."
-      echo "2. Download \"Ztrack\" from \"http://www.ibiblio.org/pub/Linux/games/arcade\" by using wget."
+      echo "2. Download \"Ztrack\" using wget from:"
+      echo "   http://www.ibiblio.org/pub/Linux/games/arcade"
       echo "3. Decompress and create the installation subdirectory ~/bin/ztrack*"
       echo "4. Install Ztrack via:"
       echo "                           make"
@@ -345,16 +349,13 @@ f_install2_ztrack () {
          echo
       fi
       echo
-      echo "Installation of \"Ztrack\" is complete."
+      echo "Finished running installation script for \"Ztrack\"."
       echo
       echo "To run \"Ztrack\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-      #
-      APP_NAME="ztrack" # Set to correct name for f_application_run.
-      # 
 } # End of function f_install2_ztrack
 #
 # +----------------------------------------+

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="October-30-2013 23:30"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -202,7 +202,7 @@ f_menu_app_clocks () {
       do    # Start of Clock Applications until loop.
 #0^0^0^0^1 #MCL binclock         - Binary clock.
 #0^0^0^0^1 #MCL binary-clock     - Binary numbers 1/0 tells time.
-#0^0^0^0^1 #MCL cclock           - Digital clock with huge numbers fills entire screen.
+#0^1^0^8^0 #MCL cclock           - Digital clock with huge numbers fills entire screen.
 #0^0^0^0^0 #MCL clockywock       - Analog clock, ncurses-based.
 #0^0^0^0^1 #MCL grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
 #0^0^0^0^1 #MCL leave            - Text "alarm" tells you when it's time to leave.
@@ -222,6 +222,127 @@ f_menu_app_clocks () {
             #
       unset MCL MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_clocks
+#
+# +----------------------------------------+
+# |       Function f_install_cclock        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: None.
+# Outputs: None.
+#
+f_install_cclock () {
+      if [ ! -r "/usr/bin/cclock" ] ; then
+         clear  # blank screen
+         echo "This script will install \"cclock\" without using a software package manager."
+         echo
+         echo "If you wish to de-install \"'cclock\", you will have to delete files manually"
+         echo "by typing: \"sudo rm /usr/bin/cclock /usr/share/man/man1/cclock.1\"."
+         echo
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"cclock\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install cclock.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ $ERROR -eq 0 ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_cclock
+               APP_NAME="cclock" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install cclock.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run cclock.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS
+      fi
+} # End of f_install_cclock
+#
+# +----------------------------------------+
+# |         Function f_install2_cclock     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_cclock () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"cclock\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"cclock\" using wget from:"
+      echo "   http://sourceforge.net/projects/cclock/files/latest/download"
+      echo "3. Decompress and create the installation subdirectory ~/bin/cclock*"
+      echo "4. Install cclock via:"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to \"/usr/bin/\" and \"/usr/share/man/man1/cclock.1\"."
+      echo
+      echo "5. Allow users to run cclock by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      # 
+      # 2. Download "cclock" from "http://sourceforge.net/projects/cclock/files/latest/download"
+      #    by using wget.
+      cd ~/bin
+      wget http://sourceforge.net/projects/cclock/files/latest/download/cclock-0.96.tar.bz2
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/cclock*.
+      tar -xf cclock*
+      #
+      # 4. Make and install cclock.
+      cd ~/bin/cclock*
+      sudo make install
+      #
+      # 5. Allow users to run cclock by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/bin/cclock*
+      #
+      # 6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"cclock\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_cclock
 #
 # +----------------------------------------+
 # |      Function f_menu_app_contacts      |

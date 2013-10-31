@@ -760,7 +760,7 @@ f_ntop () {
       echo "To use ntop, open a web browser to URL localhost:3000 or 127.0.0.1:3000"
       echo
       f_press_enter_key_to_continue
-      run_and_exit "ntop" "ntop"
+      f_run_and_exit "ntop" "ntop"
 } # End of function f_ntop
 #
 # +----------------------------------------+
@@ -961,7 +961,7 @@ f_menu_app_packet_tools () {
 #1^0^0^0^1 #MNP ngrep     - Network packet analyzer.
 #0^0^0^0^1 #MNP nmap      - Network Mapper, mapping, auditing, security scanning.
 #0^0^0^0^1 #MNP packit    - Network auditing, spoofing, security testing.
-#run_and_exit "snort" "snort"^0^0^0^1 #MNP snort     - Packet sniffer/logger, Network Intrusion Detection System.
+#f_run_and_exit "snort" "snort"^0^0^0^1 #MNP snort     - Packet sniffer/logger, Network Intrusion Detection System.
 #1^0^0^0^1 #MNP tcpdump   - Packet sniffer/logger.
 #0^0^0^0^1 #MNP wireshark - Packet sniffer/logger.
             #
@@ -988,7 +988,7 @@ f_ngrep () {
        echo "Note: ngrep needs root permissions."
        echo "      You need to use 'sudo ngrep'."
        echo
-       run_and_exit "ngrep" "ngrep"
+       f_run_and_exit "ngrep" "ngrep"
 } # End of function f_ngrep
 #
 # +----------------------------------------+
