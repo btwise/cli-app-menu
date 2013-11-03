@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-10-29 12:21 Tuesday
+Last updated: 2013-11-03 00:53 Sunday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -239,13 +239,17 @@ ________________________________________________
 
 ________________________________________________
 *** Dowloader Applications Menu ***
- axel     - Downloader accelerator using multiple connections/mirrors.
- aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
- cfv      - create/verify many types of checksum files.
- md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
- md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
- sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
- sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+ axel       - Downloader accelerator using multiple connections/mirrors.
+ aria2c     - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+ cfv        - create/verify many types of checksum files.
+ cclive     - Download/Play Youtube videos. Rewrite of 'clive'.
+ md5pass    - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+ md5sum     - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+ quvi       - Downloads Adobe Flash video links, Youtube etc.
+ sha1pass   - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+ sha1sum    - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+ yougrabber - Download/Play Youtube videos.
+ youtube-dl - Download/Play Youtube videos.
 
 ________________________________________________
 *** Education Applications Menu ***
@@ -377,6 +381,23 @@ ________________________________________________
  sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
 
 ________________________________________________
+*** File Move-Copy Applications Menu ***
+ adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+ advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+ icp       - "interactive cp" allows file name to be edited in terminal.
+ imv       - "interactive mv" allows file name to be edited in terminal.
+ mmv       - Move/copy/append/link multiple files using wildcard patterns.
+ mrename   - Scripts to rename many files automatically.
+ qcp       - "quick cp" copies multiple files by using a text editor.
+ qmv       - "quick move" renames multiple files by using a text editor.
+
+________________________________________________
+*** File Backup Applications Menu ***
+ dtrx  - Use tar without remembering which flags for each file to use.
+ rsync - File backup, mirror, directories and files.
+ tar   - File backup, compress files.
+
+________________________________________________
 *** File Manager Applications Menu ***
  clex     - File manager.
  detox    - File name clean up.
@@ -397,18 +418,12 @@ ________________________________________________
 
 ________________________________________________
 *** File Operations Applications Menu ***
- dtrx      - Use tar without remembering which flags for each file to use.
- rsync     - File backup, mirror, directories and files.
- tar       - File backup, compress files.
- --------- - ---------------------------------------------------------------
- adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
- advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
- cdargs    - 'cd' with bookmarks, can bookmark paths of directories.
- mmv       - Move/copy/append/link multiple files using wildcard patterns.
- mrename   - Scripts to rename many files automatically.
- xd        - Smart 'cd' change directory; uses abbreviated directory names.
- --------- - ---------------------------------------------------------------
+ Backup    - Backup utilities for files.
+ cdargs    - "cd" with bookmarks, can bookmark paths of directories.
  Del/Undel - Delete/Undelete utilities for disks and files.
+ deurlname - Removes URL encoded characters from file names.
+ Move-Copy - Rename/Move and copy utilities for files.
+ xd        - Smart 'cd' change directory; uses abbreviated directory names.
 
 ________________________________________________
 *** File Splitter Applications Menu ***
@@ -453,28 +468,25 @@ ________________________________________________
 
 ________________________________________________
 *** Arcade Games Menu ***
- asciijump      - Ski jump game.
- asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
- bastet         - Tetris-like game.
- freesweep      - Minesweeper game.
- moon-buggy     - Drive a moon buggy on the moon.
- myman          - Pac-Man clone, ncurses-based.
- netris         - Tetris-like game.
- ninvaders      - Space invaders-like game ncurses-based.
- nsnake         - Variation of BSD's snake game.
- pacman4console - Pacman-like game ncurses-based.
- petris         - Tetris-like game.
- robots         - Be chased by killer robots.
- snake          - Be chased by a snake while collecting money.
- spacezero      - Space combat in real-time, 2-player network game.
- worm           - Be a growing worm, don't crash into yourself.
- MORE...        - For more arcade game applications.
+ asciijump   - Ski jump game.
+ asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+ freesweep   - Minesweeper game.
+ moon-buggy  - Drive a moon buggy on the moon.
+ ninvaders   - Space invaders-like game ncurses-based.
+ nsnake      - Variation of BSD's snake game.
+ Pac-Man     - "Pac-Man" clones.
+ robots      - Be chased by killer robots.
+ snake       - Be chased by a snake while collecting money.
+ spacezero   - Space combat in real-time, 2-player network game.
+ Tetris      - "Tetris" clones.
+ worm        - Be a growing worm, don't crash into yourself.
+ xorcurses   - based on Xor released in 1987 by Astral Software.
+ MORE...     - For more arcade game applications.
 
 ________________________________________________
 *** Arcade2 Games Menu ***
- xorcurses - based on Xor released in 1987 by Astral Software.
- zsnake    - Variation of BSD's snake game.
- ztrack    - First-person car racing game in amazing 3-D ASCII.
+ zsnake - Variation of BSD's snake game.
+ ztrack - First-person car racing game in amazing 3-D ASCII.
 
 ________________________________________________
 *** Board Games Menu ***
@@ -499,18 +511,14 @@ ________________________________________________
 ________________________________________________
 *** Puzzles Menu ***
  asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
- bastet      - Tetris-like game.
  bcd         - Reformat input as a punch card.
  dab         - 2-players try to complete the most boxes.
  braincurses - Guess the pattern of 4 pegs in 4 colors.
  greed       - Greed numbers game, ncurses-based.
  masterm     - Guess the pattern of 4 pegs in 5 colors.
- netris      - Tetris-like game.
  nsuduko     - Suduko game.
- petris      - Tetris-like game.
  ppt         - Reformat input as a paper tape.
  textmaze    - Find the exit to the maze.
- vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
  xorcurses   - based on Xor released in 1987 by Astral Software.
 
 ________________________________________________
@@ -544,11 +552,12 @@ ________________________________________________
 
 ________________________________________________
 *** Strategy Games Menu ***
- empire   - war game build armies, planes, ships, capture cities.
- gomoku   - 2-player game of 5-in-a-row.
- hunt     - Multi-user game. Kill everyone else.
- mille    - Travel 700 miles card game.
- wargames - Computer prompt from movie "War Games". 
+ empire     - war game build armies, planes, ships, capture cities.
+ gomoku     - 2-player game of 5-in-a-row.
+ hunt       - Multi-user game. Kill everyone else.
+ mille      - Travel 700 miles card game.
+ vms-empire - "Risk"-like game of moving armies to conquer continents.
+ wargames   - Computer prompt from movie "War Games". 
 
 ________________________________________________
 *** Word Games Menu ***
@@ -561,6 +570,20 @@ ________________________________________________
  rl      - Randomize Lines scrambles words of a text file.
  shuf    - Randomize Lines scrambles words of a text file.
  toilet  - Creates banner with bold font.
+
+________________________________________________
+*** Tetris Games Menu ***
+ bastet   - Tetris-like game.
+ ctris    - Tetris-like game.
+ netris   - Tetris-like game.
+ petris   - Tetris-like game.
+ vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
+
+________________________________________________
+*** Pac-Man Games Menu ***
+ myman          - "Pac-Man"-like game, ncurses-based.
+ pacman4console - "Pac-Man"-like game, ncurses-based.
+ yaourt         - "Pac-Man"-like game, ncurses-based.
 
 ________________________________________________
 *** Ham Radio Applications Menu ***
@@ -580,6 +603,7 @@ ________________________________________________
  bb         - ASCII-art movie demo based on AAlib.
  caca-utils - Image viewer and converter jpg to ascii images.
  exiftool   - Display audio/video/image file properties (ls-like format).
+ fbgrab     - Framebuffer screenshot tool.
  fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
  fbv        - Image viewer framebuffer console.
  fim        - Image and ASCII art image viewer.
@@ -589,12 +613,13 @@ ________________________________________________
  jp2a       - Convert jpg images to ascii images.
  linuxlogo  - Color ANSI system logo
  mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
- sl         - Steam locomotive (when you mis-type 'ls' command).
 
 ________________________________________________
 *** Image-Graphics2 Applications Menu ***
- star wars  - Star Wars movie in ASCII.
- welcome21  - ANSI logo on login screen.
+ scanimage - Controls flatbed scanners, cameras. -L list of devices.
+ sl        - Steam locomotive (when you mis-type 'ls' command).
+ star wars - Star Wars movie in ASCII.
+ welcome21 - ANSI logo on login screen.
 
 ________________________________________________
 *** ImageMagick Applications Menu ***
@@ -623,6 +648,7 @@ ________________________________________________
  freetalk     - Jabber client.
  mcabber      - Jabber client.          	
  naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+ twidge       - Twitter and identi.ca client.
 
 ________________________________________________
 *** Internet Relay Chat (IRC) Applications Menu ***
@@ -637,11 +663,24 @@ ________________________________________________
  sic     - Fast small IRC client.
 
 ________________________________________________
+*** System Log Applications Menu ***
+ ccze       - A robust and modular log colorizer, with plugins.
+ colortail  - log colorizer.
+ hash       - Show frequency of commands entered at the prompt.
+ history    - Show history of commands entered at the prompt.
+ inotail    - Tail command replacement uses the inotify API to re-read files.
+ lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
+ logtailer  - Monitor logs for updates and display them.
+ monkeytail - tail variant designed for web developers monitoring logfiles.
+ multitail  - View multiple log files using multiple panes.
+ since      - Shows new changes in log files since last run. Tail work-alike.
+ swatch     - Log file viewer with regexp matching, highlighting & hooks.
+
+________________________________________________
 *** Mathematics Application Menu ***
  arithmetic     - Basic arithmetic quiz.
  axiom          - General purpose computer algebra system.
  dicelab        - evaluate the statistical distribution of dice rolls.
- factor         - Calculate prime numbers for any whole number.
  mathomatic     - Portable CAS (Computer Algebra System)
  ministat       - Fundamental statistical comparison of 1 or 2 data sets.
  num-utils      - Collection of programs; avg, normal, random, range, etc.
@@ -652,6 +691,21 @@ ________________________________________________
  pspp           - Statistical analysis tool.
  relational-cli - relational algebra and relational database.
  stda           - Simple tools for data analysis.
+
+________________________________________________
+*** Network Bandwidth Applications Menu ***
+ bmon     - Bandwidth monitor and rate estimator.
+ bwm-ng   - Bandwidth graphical monitor.
+ cbm      - Color Bandwidth Meter, ncurses based display.
+ ifstat   - Bandwidth statistics. (See also dstat, System Monitors Menu).
+ iftop    - Bandwidth statistics.
+ jnettop  - Bandwidth statistics across streams.
+ nethogs  - Bandwidth statistics by process.
+ nload    - Bandwidth graphical monitor in real-time; ncurses based display.
+ pktstat  - Display active connections and bandwidth in real-time.
+ statnet  - Bandwidth statistics.
+ trafshow - Bandwidth statistics; ncurses based.
+ wavemon  - Wireless bandwidth, signal strength histogram.
 
 ________________________________________________
 *** LAN Chat Applications Menu ***
@@ -681,21 +735,6 @@ ________________________________________________
  ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
  subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
  wuzzah      - LAN user login/out tracker.
-
-________________________________________________
-*** Network Bandwidth Applications Menu ***
- bmon     - Bandwidth monitor and rate estimator.
- bwm-ng   - Bandwidth graphical monitor.
- cbm      - Color Bandwidth Meter, ncurses based display.
- ifstat   - Bandwidth statistics. (See also dstat, System Monitors Menu).
- iftop    - Bandwidth statistics.
- jnettop  - Bandwidth statistics across streams.
- nethogs  - Bandwidth statistics by process.
- nload    - Bandwidth graphical monitor in real-time; ncurses based display.
- pktstat  - Display active connections and bandwidth in real-time.
- statnet  - Bandwidth statistics.
- trafshow - Bandwidth statistics; ncurses based.
- wavemon  - Wireless bandwidth, signal strength histogram.
 
 ________________________________________________
 *** Network Monitor Applications Menu ***
@@ -825,6 +864,17 @@ ________________________________________________
  sdop       - Converts a Simplified Docbook XML file to PS (PostScript).
 
 ________________________________________________
+*** Software QA Applications Menu ***
+ bugz             - Interface to Bugzilla bug tracking tool.
+ cil              - Issue tracker and add/edit, list issues.
+ cmdtest          - Test command-line programs/scripts to check the output.
+ codemetre        - Count lines of code w/o comments in source code.
+ colout           - Colorize matching text pattern in a text file.
+ githubcli        - "ghi" Interface to GitHub's issues API.
+ google-perftools - Analyze performance of C++ programs.
+ shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
+
+________________________________________________
 *** Remote Connection Applications Menu ***
  cpu     - Remote connection.
  openssh - Remote connection.
@@ -943,6 +993,7 @@ ________________________________________________
  lsusb     - USB devices.
  pccardctl - PCMCIA card devices.
  printenv  - Environmental variables.
+ scanimage - Control flatbed scanners, cameras. -L list of devices.
  setcd     - Control CDROM device, auto-close/eject/locking, set speed.
  uptime    - Display how long PC has been running, # users, load average.
  w         - A combination of uptime and who commands.
@@ -973,8 +1024,21 @@ ________________________________________________
  sysv-rc-conf - Debian view/enable/disable startup scripts/services.
  sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
  tload        - System load average graphical monitor.
- tyload       - Color-coded graphs of CPU load average.
+ ttyload      - Color-coded graphs of CPU load average.
  yacpi        - ACPI monitor, ncurses-based.
+
+________________________________________________
+*** System Other Applications Menu ***
+ apg       - Password generator that can specify a pattern.
+ apropos   - Search linux man(ual) files for a forgotten command.
+ colortest - Test color capabilities of a terminal.
+ cpm       - Password manager using PGP-encryption, ncurses-based.
+ desmume   - Nintendo DS emulator.
+ dosemu    - DOS emulator.
+ fbgrab    - Framebuffer screenshot tool.
+ script    - Records terminal input/output (keystrokes).
+ scrot     - Framebuffer screenshot tool.
+ ttyrec    - Records terminal input/output and also timing-information.
 
 ________________________________________________
 *** Spreadsheet Applications Menu ***
@@ -1006,6 +1070,7 @@ ________________________________________________
  asciiquarium - Aquarium on screen.
  boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
  bsod         - Simulate Microsoft XP "Blue screen of death".
+ cclock       - Digital clock with huge numbers fills entire screen.
  cmatrix      - Matrix-like screen-saver.
  mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
  ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
@@ -1015,32 +1080,6 @@ ________________________________________________
  tty-clock    - Display a digital clack full-screen.
  weatherspect - Displays weather information with wallpaper.
  worms        - Worms wiggle on the screen.
-
-________________________________________________
-*** System Log Applications Menu ***
- ccze       - A robust and modular log colorizer, with plugins.
- colortail  - log colorizer.
- hash       - Show frequency of commands entered at the prompt.
- history    - Show history of commands entered at the prompt.
- inotail    - Tail command replacement uses the inotify API to re-read files.
- lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
- logtailer  - Monitor logs for updates and display them.
- monkeytail - tail variant designed for web developers monitoring logfiles.
- multitail  - View multiple log files using multiple panes.
- since      - Shows new changes in log files since last run. Tail work-alike.
- swatch     - Log file viewer with regexp matching, highlighting & hooks.
-
-________________________________________________
-*** System Other Applications Menu ***
- apg       - Password generator that can specify a pattern.
- apropos   - Search linux man(ual) files for a forgotten command.
- colortest - Test color capabilities of a terminal.
- cpm       - Password manager using PGP-encryption, ncurses-based.
- desmume   - Nintendo DS emulator.
- dosemu    - DOS emulator.
- script    - Records terminal input/output (keystrokes).
- scrot     - Screen capture.
- ttyrec    - Records terminal input/output and also timing-information.
 
 ________________________________________________
 *** Text Compare Applications Menu ***
@@ -1230,6 +1269,7 @@ ________________________________________________
  mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
  mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
  mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+ quvi         - Downloads Adobe Flash video links, Youtube etc.
  vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
  xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
  yougrabber   - Download/Play Youtube videos.
@@ -1237,13 +1277,15 @@ ________________________________________________
 
 ________________________________________________
 *** Web Browser Applications Menu ***
- elinks  - Web browser, tables, frames, forms support, tabbed browsing.
- links   - Web browser, no graphics mode.
- links2  - Web browser, has graphics mode.
- lynx    - Web browser, NLS support.
- retawq  - Web browser, multi-threaded.
- surfraw - Search the web using a web search site.
- w3m     - Web browser, tables, frames support, IPv6 support.
+ elinks     - Web browser, tables, frames, forms support, tabbed browsing.
+ fbcmd      - Facebook client.
+ links      - Web browser, no graphics mode.
+ links2     - Web browser, has graphics mode.
+ lynx       - Web browser, NLS support.
+ pastebinit - Send text to web site "pastebin" for public viewing. 
+ retawq     - Web browser, multi-threaded.
+ surfraw    - Search the web using a web search site.
+ w3m        - Web browser, tables, frames support, IPv6 support.
 
 ________________________________________________
 *** Sample Template Applications Menu ***

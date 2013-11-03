@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-28-2013 12:50"
+REVDATE="October-28-2013 00:09"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -562,6 +562,70 @@ f_main_documentation () {
       #
       unset X
 } # End of function f_main_documentation
+#
+# +----------------------------------------+
+# |        Function f_main_download        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: AAC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_main_download () {
+           f_initvars_menu_app "AAD"
+           until [ $AAD -eq 0 ]
+           do    # Start of Download Software Menu until loop.
+                 #AAD Script program (choose any one or more files including the sample template).
+                 #AAD Modules of applications.
+                 #
+                 MENU_TITLE="Download Software Menu"
+                 DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
+                 f_show_menu "$MENU_TITLE" "$DELIMITER"
+                 #
+                 read AAD
+                 #
+                 f_cat_menu_item_process $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 ERROR=0 # Reset error flag.
+                 #
+                 case $AAD in  # Start of git download case statement.
+                      [Ss] | [Ss][Cc]*)
+                      echo
+                      echo "Choose the branch from where you want to download the script program."
+                      echo
+                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
+                      do
+                         #if [ "$BRANCH" != "QUIT" ] ; then
+                            echo
+                            echo "File to be downloaded is $MOD_FILE."
+                            f_download_file  # BRANCH is set here. Download each file one at a time.
+                         #fi
+                      done
+                      echo "________________________________________________________________"
+                      echo
+                      echo "Any downloaded files are in the same folder as this script."
+                      echo
+                      echo "The file names will be appended with a '.1'"
+                      echo "and you will have to MANUALLY COPY THEM to their original names."
+                      f_press_enter_key_to_continue
+                      #
+                      #if [ "$BRANCH" = "QUIT" ] ; then 
+                      #   BRANCH=""
+                      #fi
+                      ;;
+                      [Mm] | [Mm][Oo]*) 
+                      f_ask_which_module_download
+                      #
+                      ;;
+                 esac          # End of git download case statement.
+                 #
+                 # Trap bad menu choices, do not echo Press enter key to continue.
+                 f_bad_menu_choice $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
+                 #
+                 AAD=$MENU_ITEM
+                 #
+           done  # End of Download Software Menu until loop.
+           unset AAD  # Throw out this variable.
+} # End of function f_main_download
 #
 # +----------------------------------------+
 # |      Function f_main_edit_history      |
@@ -1141,68 +1205,33 @@ f_ls_this_dir () {
 } # End of function f_ls_this_dir
 #
 # +----------------------------------------+
-# |        Function f_main_download        |
+# | Function f_cat_menu_item_process |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: AAC, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+# Inputs: $1, CHOICE[$MENU_ITEM], MAX.
+# Uses: None.
+# Outputs: MENU_ITEM, PRESS_KEY.
 #
-f_main_download () {
-           f_initvars_menu_app "AAD"
-           until [ $AAD -eq 0 ]
-           do    # Start of Download Software Menu until loop.
-                 #AAD Script program (choose any one or more files including the sample template).
-                 #AAD Modules of applications.
-                 #
-                 MENU_TITLE="Download Software Menu"
-                 DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
-                 f_show_menu "$MENU_TITLE" "$DELIMITER"
-                 #
-                 read AAD
-                 #
-                 f_cat_menu_item_process $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
-                 ERROR=0 # Reset error flag.
-                 #
-                 case $AAD in  # Start of git download case statement.
-                      [Ss] | [Ss][Cc]*)
-                      echo
-                      echo "Choose the branch from where you want to download the script program."
-                      echo
-                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
-                      do
-                         #if [ "$BRANCH" != "QUIT" ] ; then
-                            echo
-                            echo "File to be downloaded is $MOD_FILE."
-                            f_download_file  # BRANCH is set here. Download each file one at a time.
-                         #fi
-                      done
-                      echo "________________________________________________________________"
-                      echo
-                      echo "Any downloaded files are in the same folder as this script."
-                      echo
-                      echo "The file names will be appended with a '.1'"
-                      echo "and you will have to MANUALLY COPY THEM to their original names."
-                      f_press_enter_key_to_continue
-                      #
-                      #if [ "$BRANCH" = "QUIT" ] ; then 
-                      #   BRANCH=""
-                      #fi
-                      ;;
-                      [Mm] | [Mm][Oo]*) 
-                      f_ask_which_module_download
-                      #
-                      ;;
-                 esac          # End of git download case statement.
-                 #
-                 # Trap bad menu choices, do not echo Press enter key to continue.
-                 f_bad_menu_choice $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
-                 #
-                 AAD=$MENU_ITEM
-                 #
-           done  # End of Download Software Menu until loop.
-           unset AAD  # Throw out this variable.
-} # End of function f_main_download
+f_cat_menu_item_process () {
+      MENU_ITEM=$* # The complete user-entered string passed as a set of arguments.
+                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+      case $MENU_ITEM in
+           # Quit?
+           0)
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
+           if [ $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
+           fi
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+      esac
+} # End of f_cat_menu_item_process
 #
 # **************************************
 # ***     Start of Main Program      ***
