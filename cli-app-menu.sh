@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="October-28-2013 00:09"
+REVDATE="November-03-2013 00:09"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
