@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="November-03-2013 00:09"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -88,6 +88,7 @@ f_menu_app_video_players () {
 #0^0^0^0^1 #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
 #0^0^0^0^1 #MVI mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
 #0^0^0^0^1 #MVI mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+#0^0^0^0^1 #MVI quvi         - Downloads Adobe Flash video links, Youtube etc.
 #0^0^0^0^1 #MVI vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
 #0^0^0^0^1 #MVI xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
 #0^0^0^0^1 #MVI yougrabber   - Download/Play Youtube videos.

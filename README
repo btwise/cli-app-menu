@@ -122,7 +122,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="October-25-2013 10:00"
+#:REVDATE="November-03-2013 00:09"
 #:
 #:
 #: +----------------------------------------+
@@ -220,7 +220,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: 1. The menu code is contained in functions with example templates. 
 #:
 #: 2. If you are adding a NEW APPLICATION within an application menu,
-#:    a) An application menu can have a **MAXIMUM OF 16** applications.
+#:    a) An application menu can have a **MAXIMUM OF 16** items.
 #:       If you have more, please create a new sub-menu or sub-category menu.
 #:       This is to comply with a 80x24 line screen which is standard.
 #:    b) decide what row in the menu that you want to place the new menu item.
@@ -267,11 +267,16 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:    templates for this very purpose available in mod_apps_sample_template.
 #:    Template: f_menu_scat_sample_template.
 #:
-#: 4. If you are creating a NEW MAJOR CATEGORY, create a new corresponding 
-#:    module file, mod_apps-*.lib and use template f_menu_scat_sample_template
-#:    to create the menu structure. ALSO UPDATE the README file and update the
-#:    function f_create_LIST_APPS within lib_cli-common.lib with the name of the
-#:    new module file so that the text file LIST_APPS can be re-created.
+#: 4. If you are creating a NEW MAJOR CATEGORY, 
+#:    a) Create a new corresponding module file, mod_apps-*.lib.
+#:       Use template f_menu_scat_sample_template to create the menu structure.
+#:    b) Add the new menu item in lib_cli-menu-cat.lib.
+#:    c) ALSO UPDATE the README file, "List of Special Menu Item Markers".
+#:    d) Update the function f_create_LIST_APPS within lib_cli-common.lib with
+#:       the name of the new module file so that the text file LIST_APPS can be
+#:       re-created.
+#:    e) Edit functions f_ask_which_module_download, f_module_match in 
+#:       file lib_cli-common.lib.
 #:
 #: 5. The file LIST_APPS may be automatically updated by copying all the 
 #:    mod_apps-*.lib files to the current directory and by selecting
@@ -462,6 +467,8 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MFE - File Encryption Applications Menu
 #:MFF - File Search and find Applications Menu
 #:MFG - File Checksum Applications Menu
+#:MFH - File Move-Copy Applications Menu
+#:MFI - File Backup Applications Menu
 #:MFM - File Manager Applications Menu
 #:MFO - File Operations Applications Menu
 #:MFS - File Splitter Applications Menu
@@ -479,17 +486,20 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MGI - Simulation Games Menu
 #:MGJ - Strategy Games Menu
 #:MGK - Word Games Menu
+#:MGL - Tetris Games Menu
+#:MGM - Pac-Man Games Menu
 #:MHR - Ham Radio Applications Menu
 #:MIG - Image-Graphics Applications Menu
 #:MIH - Image-Graphics2 Applications Menu
 #:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu
 #:MIR - Internet Relay Chat (IRC) Applications Menu
+#:MLO - System Log Applications Menu
 #:MMA - Mathematics Application Menu
+#:MNB - Network Bandwidth Applications Menu
 #:MNC - LAN Chat Applications Menu
 #:MNF - Firewalls Applications Menu
 #:MNL - LAN Applications Menu
-#:MNB - Network Bandwidth Applications Menu
 #:MNM - Network Monitor Applications Menu
 #:MNN - NIC Diagnostic Tools Applications Menu
 #:MNO - Note Applications Menu
@@ -501,6 +511,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MPR - Presentation Applications Menu
 #:MPS - PDF-PS Applications Menu
 #:MPT - PDF-PS2 Applications Menu
+#:MQA - Software QA Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRS - RSS News Feeder Applications Menu
 #:MSB - System Backup Applications Menu
@@ -512,11 +523,10 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MSL - System Peripherals Information Applications Menu
 #:MSM - System Monitor Applications Menu
 #:MSN - System Monitor2 Applications Menu
+#:MSO - System Other Applications Menu
 #:MSP - Spreadsheet Applications Menu
 #:MSR - System Process Applications Menu
 #:MSS - Screen-saver Applications Menu
-#:MLO - System Log Applications Menu
-#:MSO - System Other Applications Menu
 #:MTC - Text Compare Applications Menu
 #:MTD - To-Do Applications Menu
 #:MTE - Text Editor Applications Menu

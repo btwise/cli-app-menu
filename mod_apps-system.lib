@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-29-2013 12:18"
+# REVDATE="November-03-2013 00:09"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -680,7 +680,7 @@ f_menu_app_sys_monitors2 () {
 #0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
 #f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
-#0^0^0^0^1 #MSN tyload       - Color-coded graphs of CPU load average.
+#0^0^0^0^1 #MSN ttyload      - Color-coded graphs of CPU load average.
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -841,8 +841,9 @@ f_menu_app_sys_other () {
 #0^0^0^0^1 #MSO cpm       - Password manager using PGP-encryption, ncurses-based.
 #0^0^0^0^1 #MSO desmume   - Nintendo DS emulator.
 #0^0^0^0^1 #MSO dosemu    - DOS emulator.
+#0^0^0^0^1 #MSO fbgrab    - Framebuffer screenshot tool.
 #0^0^0^0^1 #MSO script    - Records terminal input/output (keystrokes).
-#0^0^0^0^1 #MSO scrot     - Screen capture.
+#0^0^0^0^1 #MSO scrot     - Framebuffer screenshot tool.
 #0^0^0^0^1 #MSO ttyrec    - Records terminal input/output and also timing-information.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -880,6 +881,7 @@ f_menu_app_sys_peripherals () {
 #0^0^0^0^1 #MSL lsusb     - USB devices.
 #1^0^0^0^1 #MSL pccardctl - PCMCIA card devices.
 #0^0^0^0^1 #MSL printenv  - Environmental variables.
+#0^0^0^0^1 #MSL scanimage - Control flatbed scanners, cameras. -L list of devices.
 #0^0^0^0^1 #MSL setcd     - Control CDROM device, auto-close/eject/locking, set speed.
 #0^0^0^0^1 #MSL uptime    - Display how long PC has been running, # users, load average.
 #0^0^0^0^1 #MSL w         - A combination of uptime and who commands.

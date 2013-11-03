@@ -1,0 +1,39 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="November-03-2013 00:09"
+#
+# +----------------------------------------+
+# |     Function f_menu_app_software-qa    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MQA, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_software-qa () {
+      f_initvars_menu_app "MQA"
+      until [ $MQA -eq 0 ]
+      do    # Start of Software QA Applications until loop.
+#0^0^0^0^1 #MQA bugz             - Interface to Bugzilla bug tracking tool.
+#0^0^0^0^1 #MQA cil              - Issue tracker and add/edit, list issues.
+#0^0^0^0^1 #MQA cmdtest          - Test command-line programs/scripts to check the output.
+#0^0^0^0^1 #MQA codemetre        - Count lines of code w/o comments in source code.
+#0^0^0^0^1 #MQA colout           - Colorize matching text pattern in a text file.
+#0^0^0^0^1 #MQA githubcli        - "ghi" Interface to GitHub's issues API.
+#0^0^0^0^1 #MQA google-perftools - Analyze performance of C++ programs.
+#0^0^0^0^1 #MQA shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
+            #
+            THIS_FILE="mod_apps-software-qa.lib"
+            MENU_TITLE="Software QA Applications Menu"
+            DELIMITER="#MQA" #MQA This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MQA
+            f_menu_item_process $MQA  # Outputs $MENU_ITEM.
+      done  # End of Software QA Applications until loop.
+            #
+      unset MQA MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_software-qa
+#

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="November-03-2013 00:09"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -49,6 +49,7 @@ f_menu_app_image_graphics () {
 #0^0^0^1^0 #MIG bb         - ASCII-art movie demo based on AAlib.
 #0^0^0^0^1 #MIG caca-utils - Image viewer and converter jpg to ascii images.
 #0^0^0^0^1 #MIG exiftool   - Display audio/video/image file properties (ls-like format).
+#0^0^0^0^1 #MIG fbgrab     - Framebuffer screenshot tool.
 #0^0^0^0^1 #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
 #0^0^0^0^1 #MIG fbv        - Image viewer framebuffer console.
 #0^0^0^0^1 #MIG fim        - Image and ASCII art image viewer.
@@ -58,7 +59,6 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
 #1^0^0^0^1 #MIG linuxlogo  - Color ANSI system logo
 #0^0^0^0^1 #MIG mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
-#0^0^0^0^0 #MIG sl         - Steam locomotive (when you mis-type 'ls' command).
 #f_menu_app_image_graphics2^0^0^0^0 #MAN MORE...         - For more image-graphics applications.
             #
             THIS_FILE="mod_apps-image.lib"
@@ -86,8 +86,10 @@ f_menu_app_image_graphics2 () {
       f_initvars_menu_app "MIH"
       until [ $MIH -eq 0 ]
       do    # Start of Image-Graphics Applications until loop.
-#f_starwars^0^0^0^0 #MIH star wars  - Star Wars movie in ASCII.
-#0^0^0^0^1 #MIH welcome21  - ANSI logo on login screen.
+#0^0^0^0^0 #MIH scanimage - Controls flatbed scanners, cameras. -L list of devices.
+#0^0^0^0^0 #MIH sl        - Steam locomotive (when you mis-type 'ls' command).
+#f_starwars^0^0^0^0 #MIH star wars - Star Wars movie in ASCII.
+#0^0^0^0^1 #MIH welcome21 - ANSI logo on login screen.
             #
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="Image-Graphics2 Applications Menu"

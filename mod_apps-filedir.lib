@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="November-03-2013 00:09"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -873,18 +873,12 @@ f_menu_app_file_operations () {
       f_initvars_menu_app "MFO"
       until [ $MFO -eq 0 ]
       do    # Start of File Operations Applications until loop.
-#0^0^0^0^1 #MFO dtrx      - Use tar without remembering which flags for each file to use.
-#0^0^0^0^1 #MFO rsync     - File backup, mirror, directories and files.
-#0^0^0^0^1 #MFO tar       - File backup, compress files.
-#0^0^0^0^1 #MFO --------- - ---------------------------------------------------------------
-#1^0^0^0^1 #MFO adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
-#0^0^0^0^1 #MFO advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
-#0^0^0^0^1 #MFO cdargs    - 'cd' with bookmarks, can bookmark paths of directories.
-#0^0^0^0^1 #MFO mmv       - Move/copy/append/link multiple files using wildcard patterns.
-#0^0^0^0^1 #MFO mrename   - Scripts to rename many files automatically.
-#0^0^0^0^1 #MFO xd        - Smart 'cd' change directory; uses abbreviated directory names.
-#0^0^0^0^1 #MFO --------- - ---------------------------------------------------------------
+#f_menu_app_file_backup^0^0^0^1 #MFO Backup    - Backup utilities for files.
+#0^0^0^0^1 #MFO cdargs    - "cd" with bookmarks, can bookmark paths of directories.
 #f_menu_app_file_delundel^0^0^0^1 #MFO Del/Undel - Delete/Undelete utilities for disks and files.
+#0^0^0^0^1 #MFO deurlname - Removes URL encoded characters from file names.
+#f_menu_app_file_move-copy^0^0^0^1 #MFO Move-Copy - Rename/Move and copy utilities for files.
+#0^0^0^0^1 #MFO xd        - Smart 'cd' change directory; uses abbreviated directory names.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Operations Applications Menu"
@@ -1006,6 +1000,67 @@ f_adcpmvsrc_install () {
       MENU_ITEM_NAME="" # Null so f_application_run is not run twice
       APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop.
 } # End of function f_adcpmvsrc_install
+#
+# +----------------------------------------+
+# |     Function f_menu_app_file_backup    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFI, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_backup () {
+      f_initvars_menu_app "MFI"
+      until [ $MFI -eq 0 ]
+      do    # Start of File Backup Applications until loop.
+#0^0^0^0^1 #MFI dtrx  - Use tar without remembering which flags for each file to use.
+#0^0^0^0^1 #MFI rsync - File backup, mirror, directories and files.
+#0^0^0^0^1 #MFI tar   - File backup, compress files.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Backup Applications Menu"
+            DELIMITER="#MFI" #MFI This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFI
+            f_menu_item_process $MFI  # Outputs $MENU_ITEM.
+      done  # End of File Backup Applications until loop.
+            #
+      unset MFI MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_backup
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_move-copy  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFH, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_move-copy () {
+      f_initvars_menu_app "MFH"
+      until [ $MFH -eq 0 ]
+      do    # Start of File Move-Copy Applications until loop.
+#1^0^0^0^1 #MFH adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+#0^0^0^0^1 #MFH advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+#0^0^0^0^1 #MFH icp       - "interactive cp" allows file name to be edited in terminal.
+#0^0^0^0^1 #MFH imv       - "interactive mv" allows file name to be edited in terminal.
+#0^0^0^0^1 #MFH mmv       - Move/copy/append/link multiple files using wildcard patterns.
+#0^0^0^0^1 #MFH mrename   - Scripts to rename many files automatically.
+#0^0^0^0^1 #MFH qcp       - "quick cp" copies multiple files by using a text editor.
+#0^0^0^0^1 #MFH qmv       - "quick move" renames multiple files by using a text editor.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Move-Copy Applications Menu"
+            DELIMITER="#MFH" #MFH This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFH
+            f_menu_item_process $MFH  # Outputs $MENU_ITEM.
+      done  # End of File Move-Copy Applications until loop.
+            #
+      unset MFH MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_move-copy
 #
 # +----------------------------------------+
 # |    Function f_menu_app_file_delundel   |

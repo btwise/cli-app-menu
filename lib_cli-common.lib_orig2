@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-03-2013 00:09"
+# REVDATE="November-01-2013 00:00"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -208,6 +208,35 @@ f_choice_array () {
 } # End of f_choice_array
 #
 # +----------------------------------------+
+# |    Function f_cat_menu_item_process    |
+# +----------------------------------------+
+#
+#  Inputs: $1, CHOICE[$MENU_ITEM], MAX.
+#    Uses: None.
+# Outputs: MENU_ITEM, PRESS_KEY.
+#
+f_cat_menu_item_process () {
+      MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
+                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+      case $MENU_ITEM in
+           # Quit?
+           0)
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
+           if [  $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
+           fi
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
+      esac
+} # End of f_cat_menu_item_process
+#
+# +----------------------------------------+
 # |      Function f_menu_item_process      |
 # +----------------------------------------+
 #
@@ -293,9 +322,7 @@ f_menu_item_process () {
       #
       # Trap bad menu choices, do not echo Press enter key to continue.
       #
-      if [ "$MENU_ITEM" != 0 ] ; then
-         MENU_ITEM=-1
-      fi
+      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
       #
       DELIM=${DELIMITER/\#/}   # Strip off leading "#" of DELIMITER "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
                                # The "\" treats "#" as a literal hash mark, not as a comment.
@@ -920,6 +947,62 @@ f_application_run () {
       esac
      #
 } # End of function f_application_run
+#
+# +----------------------------------------+
+# | Function f_bad_menu_choice             |
+# +----------------------------------------+
+#
+#  Inputs: $1, MAX.
+#          $1=$MENU_ITEM
+#    Uses: None.
+# Outputs: MENU_ITEM, PRESS_KEY.
+#
+# Always set MENU_ITEM from string to an integer because menu until loop
+# tests until [ MENU_ITEM -eq 0 ] and will error if MENU_ITEM is a string.
+#
+# Function f_application_run is always called before this function.
+# If valid menu choice, f_application_run sets MENU_ITEM=-1 then leave alone.
+# If MENU_ITEM=0 to quit menu, then leave alone.
+# If invalid menu choice, MENU_ITEM is bad string or bad integer,
+#    then set MENU_ITEM=-1 and do not display "Press 'Enter' key to continue."
+#
+f_bad_menu_choice () {
+      MENU_ITEM=$1
+      case $MENU_ITEM in
+           "")
+           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+           ;;
+           [A-Za-z]*)
+           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
+                         # Specifically for alpha nonsense responses.
+           ;;
+           *[.]*)
+           MENU_ITEM=-1   # Convert string to integer -1 forcing stay in until loop.
+           PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                          # Specifically for out-of-bounds numeric response.
+           ;;
+           [1-9]*)
+           if [ "$MENU_ITEM" -le -1 -o $MENU_ITEM -gt $MAX ] ; then
+              MENU_ITEM=-1   # Convert string to integer -1 forcing stay in until loop.
+              PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                             # Specifically for out-of-bounds numeric response.
+           fi
+           ;;
+           [-][1-9]*)
+           if [ "$MENU_ITEM" -le -1 -o $MENU_ITEM -gt $MAX ] ; then
+              MENU_ITEM=-1   # Convert string to integer -1 forcing stay in until loop.
+              PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
+                             # Specifically for out-of-bounds numeric response.
+           fi
+           ;;
+      esac
+      #
+      if [ "$MENU_ITEM" != 0 ] ; then
+         MENU_ITEM=-1
+      fi
+} # End of function f_bad_menu_choice
 #
 # +----------------------------------------+
 # |       Function f_application_error     |

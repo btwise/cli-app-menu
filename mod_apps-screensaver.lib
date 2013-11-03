@@ -39,7 +39,7 @@ f_menu_app_screen_savers () {
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSS
             f_menu_item_process $MSS  # Outputs $MENU_ITEM.
-     done  # End of Screen-saver Applications until loop.
+      done   # End of Screen-saver Applications until loop.
             #
       unset MSS MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_screen_savers

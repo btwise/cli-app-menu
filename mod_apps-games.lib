@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2013 23:30"
+# REVDATE="November-03-2013 00:09"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -53,22 +53,20 @@ f_menu_app_games_arcade () {
       f_initvars_menu_app "MGA"
       until [ $MGA -eq 0 ]
       do    # Start of Arcade Games until loop.
-#0^0^0^0^0 #MGA asciijump      - Ski jump game.
-#0^0^0^0^0 #MGA asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#0^0^0^0^0 #MGA bastet         - Tetris-like game.
-#0^0^0^0^1 #MGA freesweep      - Minesweeper game.
-#0^0^0^0^0 #MGA moon-buggy     - Drive a moon buggy on the moon.
-#0^0^0^0^1 #MGA myman          - Pac-Man clone, ncurses-based.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGA netris         - Tetris-like game.
-#0^0^0^1^1 #MGA ninvaders      - Space invaders-like game ncurses-based.
-#0^0^0^0^0 #MGA nsnake         - Variation of BSD's snake game.
-#0^0^0^0^1 #MGA pacman4console - Pacman-like game ncurses-based.
-#0^0^0^5^0 #MGA petris         - Tetris-like game.
-#0^0^0^0^0 #MGA robots         - Be chased by killer robots.
-#0^0^0^18^0 #MGA snake          - Be chased by a snake while collecting money.
-#0^0^0^0^0 #MGA spacezero      - Space combat in real-time, 2-player network game.
-#0^0^0^9^0 #MGA worm           - Be a growing worm, don't crash into yourself.
-#f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...        - For more arcade game applications.
+#0^0^0^0^0 #MGA asciijump   - Ski jump game.
+#0^0^0^0^0 #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^1 #MGA freesweep   - Minesweeper game.
+#0^0^0^0^0 #MGA moon-buggy  - Drive a moon buggy on the moon.
+#0^0^0^1^1 #MGA ninvaders   - Space invaders-like game ncurses-based.
+#0^0^0^0^0 #MGA nsnake      - Variation of BSD's snake game.
+#f_menu_app_games_pacman^0^0^0^0 #MGA Pac-Man     - "Pac-Man" clones.
+#0^0^0^0^0 #MGA robots      - Be chased by killer robots.
+#0^0^0^18^0 #MGA snake       - Be chased by a snake while collecting money.
+#0^0^0^0^0 #MGA spacezero   - Space combat in real-time, 2-player network game.
+#f_menu_app_games_tetris^0^0^0^0 #MGA Tetris      - "Tetris" clones.
+#0^0^0^9^0 #MGA worm        - Be a growing worm, don't crash into yourself.
+#0^1^0^1^0 #MGA xorcurses   - based on Xor released in 1987 by Astral Software.
+#f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...     - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade Game Menu"
@@ -94,9 +92,8 @@ f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
       until [ $MGB -eq 0 ]
       do    # Start of Arcade2 Games until loop.
-#0^1^0^1^0 #MGB xorcurses - based on Xor released in 1987 by Astral Software.
-#0^0^0^18^0 #MGB zsnake    - Variation of BSD's snake game.
-#0^1^0^0^0 #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
+#0^0^0^18^0 #MGB zsnake - Variation of BSD's snake game.
+#0^1^0^0^0 #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade2 Game Menu"
@@ -109,6 +106,64 @@ f_menu_app_games_arcade2 () {
             #
       unset MGB MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_arcade2
+#
+# +----------------------------------------+
+# |    Function f_menu_app_games_tetris    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_tetris () {
+      f_initvars_menu_app "MGL"
+      until [ $MGL -eq 0 ]
+      do    # Start of Tetris Games until loop.
+#0^0^0^0^0 #MGL bastet   - Tetris-like game.
+#0^0^0^0^0 #MGL ctris    - Tetris-like game.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGL netris   - Tetris-like game.
+#0^0^0^5^0 #MGL petris   - Tetris-like game.
+#0^0^0^5^0 #MGL vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Tetris-like Game Menu"
+            DELIMITER="#MGL" #MGL This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGL
+            f_menu_item_process $MGL  # Outputs $MENU_ITEM.
+            done  # End of Tetris Games until loop.
+            #
+      unset MGL MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_tetris
+#
+# +----------------------------------------+
+# |    Function f_menu_app_games_pacman    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_pacman () {
+      f_initvars_menu_app "MGM"
+      until [ $MGM -eq 0 ]
+      do    # Start of "Pac-Man"-like Games until loop.
+#0^0^0^0^1 #MGM myman          - "Pac-Man"-like game, ncurses-based.
+#0^0^0^0^1 #MGM pacman4console - "Pac-Man"-like game, ncurses-based.
+#0^0^0^0^0 #MGM yaourt         - "Pac-Man"-like game, ncurses-based.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="\"Pac-Man\"-like Game Menu"
+            DELIMITER="#MGM" #MGM This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGM
+            f_menu_item_process $MGM  # Outputs $MENU_ITEM.
+            done  # End of "Pac-Man"-like Games until loop.
+            #
+      unset MGM MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_pacman
 #
 # +----------------------------------------+
 # |       Function f_install_xorcurses     |
@@ -465,18 +520,14 @@ f_menu_app_games_puzzle () {
       until [ $MGF -eq 0 ]
       do    # Start of Puzzle Games until loop.
 #0^0^0^0^0 #MGF asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#0^0^0^0^0 #MGF bastet      - Tetris-like game.
 #f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd         - Reformat input as a punch card.
 #0^0^0^0^1 #MGF dab         - 2-players try to complete the most boxes.
 #0^0^0^0^0 #MGF braincurses - Guess the pattern of 4 pegs in 4 colors.
 #0^0^0^0^0 #MGF greed       - Greed numbers game, ncurses-based.
 #0^0^0^0^0 #MGF masterm     - Guess the pattern of 4 pegs in 5 colors.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGF netris      - Tetris-like game.
 #0^0^0^0^0 #MGF nsuduko     - Suduko game.
-#0^0^0^5^0 #MGF petris      - Tetris-like game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt         - Reformat input as a paper tape.
 #0^0^0^0^0 #MGF textmaze    - Find the exit to the maze.
-#0^0^0^5^0 #MGF vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
 #0^1^0^1^0 #MGF xorcurses   - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -615,11 +666,12 @@ f_menu_app_games_strategy () {
       f_initvars_menu_app "MGJ"
       until [ $MGJ -eq 0 ]
       do    # Start of Strategy Games until loop.
-#0^0^0^1^0 #MGJ empire   - war game build armies, planes, ships, capture cities.
-#0^0^0^0^0 #MGJ gomoku   - 2-player game of 5-in-a-row.
-#0^0^0^0^0 #MGJ hunt     - Multi-user game. Kill everyone else.
-#0^0^0^0^0 #MGJ mille    - Travel 700 miles card game.
-#1^0^0^0^1 #MGJ wargames - Computer prompt from movie "War Games". 
+#0^0^0^1^0 #MGJ empire     - war game build armies, planes, ships, capture cities.
+#0^0^0^0^0 #MGJ gomoku     - 2-player game of 5-in-a-row.
+#0^0^0^0^0 #MGJ hunt       - Multi-user game. Kill everyone else.
+#0^0^0^0^0 #MGJ mille      - Travel 700 miles card game.
+#0^0^0^0^0 #MGJ vms-empire - "Risk"-like game of moving armies to conquer continents.
+#1^0^0^0^1 #MGJ wargames   - Computer prompt from movie "War Games". 
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Strategy Game Menu"

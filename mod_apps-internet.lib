@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="November-03-2013 00:09"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -19,7 +19,7 @@ f_menu_cat_internet () {
       do    # Start of Internet Application Category until loop.
 #f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
 #f_menu_app_bloggers #BIN Blogging Clients  - Blog clients.
-#f_menu_app_downloaders #BIN Downloaders       - Download files and calculate file checksums. 
+#f_menu_app_downloaders #BIN Downloaders       - Download files, videos. and calculate file checksums.
 #f_menu_app_email #BIN Email             - Email clients.
 #f_menu_app_fax #BIN FAX               - FAX clients.
 #f_menu_app_file_transfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
@@ -89,7 +89,7 @@ f_menu_app_bittorrent () {
 f_menu_app_bloggers () {
       f_initvars_menu_app "MBL"
       until [ $MBL -eq 0 ]
-      do    # Start of Downloaders Applications until loop.
+      do    # Start of Bloggers Applications until loop.
 #0^0^0^0^1 #MBL blazeblogger - Blogger content management system.
 #0^0^0^0^1 #MBL blogger-cli  - Google blogging client.
 #0^0^0^0^1 #MBL charm        - Blogging client.
@@ -132,13 +132,18 @@ f_menu_app_downloaders () {
       f_initvars_menu_app "MDL"
       until [ $MDL -eq 0 ]
       do    # Start of Downloaders Applications until loop.
-#0^0^0^0^1 #MDL axel     - Downloader accelerator using multiple connections/mirrors.
-#0^0^0^0^1 #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
-#0^0^0^0^1 #MDL cfv      - create/verify many types of checksum files.
-#1^0^0^0^1 #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
-#1^0^0^0^1 #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
-#1^0^0^0^1 #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
-#1^0^0^0^1 #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+#0^0^0^0^1 #MDL axel       - Downloader accelerator using multiple connections/mirrors.
+#0^0^0^0^1 #MDL aria2c     - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+#0^0^0^0^1 #MDL cfv        - create/verify many types of checksum files.
+#0^0^0^0^1 #MDL cclive     - Download/Play Youtube videos. Rewrite of 'clive'.
+#1^0^0^0^1 #MDL md5pass    - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+#1^0^0^0^1 #MDL md5sum     - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+#0^0^0^0^1 #MDL quvi       - Downloads Adobe Flash video links, Youtube etc.
+#1^0^0^0^1 #MDL sha1pass   - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+#1^0^0^0^1 #MDL sha1sum    - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+#0^0^0^0^1 #MDL yougrabber - Download/Play Youtube videos.
+#0^0^0^0^1 #MDL youtube-dl - Download/Play Youtube videos.
+
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Downloader-Checksum Applications Menu"
@@ -357,6 +362,7 @@ f_menu_app_instant_messaging () {
 #0^0^0^0^1 #MIM freetalk     - Jabber client.
 #0^0^0^0^1 #MIM mcabber      - Jabber client.          	
 #0^0^0^0^1 #MIM naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+#0^0^0^0^1 #MIM twidge       - Twitter and identi.ca client.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Instant Messaging Applications Menu"
@@ -590,13 +596,15 @@ f_menu_app_web_browsers () {
       f_initvars_menu_app "MWB"
       until [ $MWB -eq 0 ]
       do    # Start of Web Browsers Applications until loop.
-#f_web_site^0^0^1^0 #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
-#f_web_site^0^0^1^0 #MWB links   - Web browser, no graphics mode.
-#f_web_site^0^0^1^0 #MWB links2  - Web browser, has graphics mode.
-#f_web_site^0^0^1^0 #MWB lynx    - Web browser, NLS support.
-#f_web_site^0^0^1^0 #MWB retawq  - Web browser, multi-threaded.
-#0^0^0^0^0 #MWB surfraw - Search the web using a web search site.
-#f_web_site^0^0^1^0 #MWB w3m     - Web browser, tables, frames support, IPv6 support.
+#f_web_site^0^0^1^0 #MWB elinks     - Web browser, tables, frames, forms support, tabbed browsing.
+#0^0^0^1^0 #MWB fbcmd      - Facebook client.
+#f_web_site^0^0^1^0 #MWB links      - Web browser, no graphics mode.
+#f_web_site^0^0^1^0 #MWB links2     - Web browser, has graphics mode.
+#f_web_site^0^0^1^0 #MWB lynx       - Web browser, NLS support.
+#0^0^0^1^0 #MWB pastebinit - Send text to web site "pastebin" for public viewing. 
+#f_web_site^0^0^1^0 #MWB retawq     - Web browser, multi-threaded.
+#0^0^0^0^0 #MWB surfraw    - Search the web using a web search site.
+#f_web_site^0^0^1^0 #MWB w3m        - Web browser, tables, frames support, IPv6 support.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Web Browser Applications Menu"

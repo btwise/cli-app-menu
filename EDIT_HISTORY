@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-30-2013 23:30"
+PROJECT_REVDATE="November-03-2013 00:09"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,7 +52,23 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-11-03 *f_bad_menu_choice deleted, replaced by if-then statement
+##             in f_menu_item_process to force MENU_ITEM=-1 except when 0.
+##            *f_cat_menu_item_process deleted.
+##            *f_menu_app_file_backup created.
+##            *f_menu_app_file_move-copy created, added icp, imv, qcp. qmv.
+##            *f_menu_app_file_operations added deurlname
+##            *f_menu_app_games_pacman created, added yaourt.
+##            *f_menu_app_games_strategy added vms-empire.
+##            *f_menu_app_games_tetris created, added ctris.
+##            *f_menu_app_image_graphics added fbgrab.
+##            *f_menu_app_sys_monitors changed tyload to ttyload.
+##            *f_menu_app_sys_other added fbgrab.
+##            *f_menu_cat_applications now uses f_menu_item_process instead
+##             of f_cat_menu_item_process.
+##
 ## 2013-10-30 *f_install_cclock added custom install function.
+##            *Standardized custom install functions.
 ##
 ## 2013-10-29 *f_application_install added aafire to package case statement.
 ##            *f_hint created to help set up any screensaver with a time-out.
