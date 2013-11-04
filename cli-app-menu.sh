@@ -1254,7 +1254,7 @@ do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Launch a command-line application.
 #f_main_help #AAA Help and Features   - How to use and what can it do.
 #f_main_about #AAA About CLI Menu      - What version am I using.
-#f_main_configure #AAA Configure           - Change default settings; terminal, browser etc.
+#f_main_configure #AAA Configure           - Update software, change colors, edit History, etc.
 #f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
 #f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
 #f_main_license #AAA License             - Licensing, GPL.
