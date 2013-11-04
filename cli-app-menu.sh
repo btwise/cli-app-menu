@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-03-2013 00:09"
+REVDATE="November-03-2013 21:20"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -500,9 +500,8 @@ f_main_configure () {
       do    # Start of Configuration Menu until loop.
 #f_menu_term_color #AAC Colors       - Set default font/background colors.
 #f_menu_uncolor    #AAC Un-colors    - Set font color for unavailable library modules.
-#f_updat_edit_hist #AAC Edit History - Make changes to the Edit History.
-#f_updat_list_apps #AAC LIST_APPS    - Re-create/Update file list of all applications.
-#f_ls_this_dir #AAC Module files - List module library files in library directory.
+#f_update          #AAC Update       - Update software program, Edit History, LIST_APP.
+#f_ls_this_dir     #AAC Module files - List module library files in library directory.
             #
             MENU_TITLE="Configuration Menu"
             DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
@@ -562,70 +561,6 @@ f_main_documentation () {
       #
       unset X
 } # End of function f_main_documentation
-#
-# +----------------------------------------+
-# |        Function f_main_download        |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: AAC, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
-#
-f_main_download () {
-           f_initvars_menu_app "AAD"
-           until [ $AAD -eq 0 ]
-           do    # Start of Download Software Menu until loop.
-                 #AAD Script program (choose any one or more files including the sample template).
-                 #AAD Modules of applications.
-                 #
-                 MENU_TITLE="Download Software Menu"
-                 DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
-                 f_show_menu "$MENU_TITLE" "$DELIMITER"
-                 #
-                 read AAD
-                 #
-                 f_cat_menu_item_process $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
-                 ERROR=0 # Reset error flag.
-                 #
-                 case $AAD in  # Start of git download case statement.
-                      [Ss] | [Ss][Cc]*)
-                      echo
-                      echo "Choose the branch from where you want to download the script program."
-                      echo
-                      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
-                      do
-                         #if [ "$BRANCH" != "QUIT" ] ; then
-                            echo
-                            echo "File to be downloaded is $MOD_FILE."
-                            f_download_file  # BRANCH is set here. Download each file one at a time.
-                         #fi
-                      done
-                      echo "________________________________________________________________"
-                      echo
-                      echo "Any downloaded files are in the same folder as this script."
-                      echo
-                      echo "The file names will be appended with a '.1'"
-                      echo "and you will have to MANUALLY COPY THEM to their original names."
-                      f_press_enter_key_to_continue
-                      #
-                      #if [ "$BRANCH" = "QUIT" ] ; then 
-                      #   BRANCH=""
-                      #fi
-                      ;;
-                      [Mm] | [Mm][Oo]*) 
-                      f_ask_which_module_download
-                      #
-                      ;;
-                 esac          # End of git download case statement.
-                 #
-                 # Trap bad menu choices, do not echo Press enter key to continue.
-                 f_bad_menu_choice $AAD ; AAD=$MENU_ITEM  # Outputs $MENU_ITEM.
-                 #
-                 AAD=$MENU_ITEM
-                 #
-           done  # End of Download Software Menu until loop.
-           unset AAD  # Throw out this variable.
-} # End of function f_main_download
 #
 # +----------------------------------------+
 # |      Function f_main_edit_history      |
@@ -1100,6 +1035,64 @@ f_menu_uncolor () {
 } # End of function f_menu_uncolor
 #
 # +----------------------------------------+
+# |            Function f_update           |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: AAD, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_update () {
+      f_initvars_menu_app "AAD"
+      until [ $AAD -eq 0 ]
+      do    # Start of Update Menu until loop.
+#f_updat_edit_hist #AAD Edit History - Make changes to the Edit History.
+#f_update_software #AAD Update       - Update software program from git repository.
+#f_updat_list_apps #AAD LIST_APPS    - Re-create/Update file list of all applications.
+            #
+            MENU_TITLE="Update Menu"
+            DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read AAD
+            f_menu_item_process $AAD  # Outputs $MENU_ITEM.
+      done  # End of Update Menu until loop.
+            #
+      unset AAD MENU_ITEM  # Throw out this variable.
+} # End of function f_update
+#
+# +----------------------------------------+
+# |       Function f_update_software       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MENU_MOD_FILE.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#
+f_update_software () {
+      echo
+      echo "Choose the branch from where you want to download the script program."
+      echo
+      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
+      do
+         echo
+         echo "File to be downloaded is $MOD_FILE."
+         f_download_file  # BRANCH is set here. Download each file one at a time.
+      done
+      echo "________________________________________________________________"
+      echo
+      echo "File cli-app-menu.sh is in folder:"
+      echo "\"$MAIN_DIR\"."
+      echo
+      echo "All other software program files are in folder:"
+      echo "\"$THIS_DIR\"."
+      echo
+      echo "The file names will be appended with a '.1'"
+      echo "and you will have to MANUALLY COPY THEM to their original names."
+      f_press_enter_key_to_continue
+} # End of function f_update
+#
+# +----------------------------------------+
 # |       Function f_updat_edit_hist       |  
 # +----------------------------------------+
 #
@@ -1263,7 +1256,6 @@ do    # Start of CLI Menu util loop.
 #f_main_about #AAA About CLI Menu      - What version am I using.
 #f_main_configure #AAA Configure           - Change default settings; terminal, browser etc.
 #f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
-#f_main_download #AAA Download            - Download script program and/or software modules.
 #f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
 #f_main_license #AAA License             - Licensing, GPL.
 #f_main_list_apps #AAA List Applications   - List of all CLI applications in this menu.

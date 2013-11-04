@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-03-2013 00:09"
+PROJECT_REVDATE="November-03-2013 21:20"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,9 +52,12 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-11-03 *f_bad_menu_choice deleted, replaced by if-then statement
+## 2013-11-03 *f_ask_which_module_download deleted.
+##            *f_bad_menu_choice deleted, replaced by if-then statement
 ##             in f_menu_item_process to force MENU_ITEM=-1 except when 0.
 ##            *f_cat_menu_item_process deleted.
+##            *f_main_download menu renamed to f_update.
+##            *f_main_configure added "Update" menu item option.
 ##            *f_menu_app_file_backup created.
 ##            *f_menu_app_file_move-copy created, added icp, imv, qcp. qmv.
 ##            *f_menu_app_file_operations added deurlname
@@ -66,6 +69,9 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 ##            *f_menu_app_sys_other added fbgrab.
 ##            *f_menu_cat_applications now uses f_menu_item_process instead
 ##             of f_cat_menu_item_process.
+##            *f_module_match deleted.
+##            *f_update menu item option "Modules of applications" deleted,
+##             added "Edit History", "Update", and "LIST_APPS".
 ##
 ## 2013-10-30 *f_install_cclock added custom install function.
 ##            *Standardized custom install functions.
