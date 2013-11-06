@@ -1248,7 +1248,7 @@ do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Launch a command-line application.
 #f_main_help #AAA Help and Features   - How to use and what can it do.
 #f_main_about #AAA About CLI Menu      - What version am I using.
-#f_main_configure #AAA Configure           - Change default settings; terminal, browser etc.
+#f_main_configure #AAA Configure           - Update software, change colors, edit History, etc.
 #f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
 #f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
 #f_main_license #AAA License             - Licensing, GPL.
@@ -1262,16 +1262,6 @@ do    # Start of CLI Menu util loop.
       f_show_menu "$MENU_TITLE" "$DELIMITER"
       read AAA
       f_menu_item_process $AAA  # Outputs $MENU_ITEM. Sets AAA=0 for item option Quit.
-      #
-      # Force AAA to be -1 numeric for the until loop. Handles even <F1-F12> keys.
-      #if [ "$AAA" != "0" ] ; then
-      #   case AAA in
-      #        [A-Za-z]*)
-      #        AAA=-1
-      #        ;;
-      #   esac   
-      #fi
-      #
 done  # End of Main Menu until loop.
       #
 unset AAA MENU_ITEM  # Throw out this variable.
