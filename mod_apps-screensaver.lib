@@ -377,7 +377,7 @@ f_install2_bsod () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: None.
+#    Uses: ANS.
 # Outputs: None.
 #
 f_install_cclock () {
@@ -423,8 +423,8 @@ f_install_cclock () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#    Uses: X
+# Outputs: None.
 #
 f_install2_cclock () {
       clear  # blank screen
@@ -492,6 +492,14 @@ f_install2_cclock () {
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_cclock
+#
+# +----------------------------------------+
+# |              Function f_hint           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
 #
 f_hint () {
       clear  # blank screen
