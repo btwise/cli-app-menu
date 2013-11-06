@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -15,7 +15,7 @@
 #
 f_menu_cat_network () {
       f_initvars_menu_app "BNE"
-      until [ $BNE -eq 0 ]
+      until [ "$BNE" = "0" ]
       do    # Start of Network Application Category until loop.
 #f_menu_app_firewalls #BNE Firewalls    - Configure firewalls.
 #f_menu_app_lan #BNE LAN          - Test local area network connectivity, display settings.
@@ -80,7 +80,7 @@ unset ANS XSTR
 #
 f_menu_app_firewalls () {
       f_initvars_menu_app "MNF"
-      until [ $MNF -eq 0 ]
+      until [ "$MNF" = "0" ]
       do    # Start of Firewall Applications until loop.
 #1^0^0^0^1 #MNF arptables - Firewall configuration rules for an ARP chain.
 #1^0^0^0^1 #MNF iptables  - Firewall configuration rules for an IP chain.
@@ -211,7 +211,7 @@ f_ufw () {
 #
 f_menu_app_lan () {
       f_initvars_menu_app "MNL"
-      until [ $MNL -eq 0 ]
+      until [ "$MNL" = "0" ]
       do    # Start of LAN Applications until loop.
 #1^0^0^0^1 #MNL arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
 #1^0^0^0^1 #MNL ip          - Shows routing, devices, policy routing and tunnels.
@@ -368,7 +368,7 @@ f_ss () {
 #
 f_menu_app_wan () {
       f_initvars_menu_app "MNW"
-      until [ $MNW -eq 0 ]
+      until [ "$MNW" = "0" ]
       do    # Start of WAN Applications until loop.
 #0^0^0^0^1 #MNW dig         - Query Internet domain name servers.
 #0^0^0^0^1 #MNW dnstop      - Analyze and display tables of DNS traffic.
@@ -533,7 +533,7 @@ f_traceroute () {
 #
 f_menu_scat_network_monitors () {
       f_initvars_menu_app "BNM"
-      until [ $BNM -eq 0 ]
+      until [ "$BNM" = "0" ]
       do    # Start of Network Monitor Application Category until loop.
 #f_menu_app_network_bandwidth #BNM Bandwidth - Bandwidth monitors.
 #f_menu_app_network_monitors #BNM Structure - Management, status, connections, devices, hosts.
@@ -560,7 +560,7 @@ f_menu_scat_network_monitors () {
 #
 f_menu_app_network_bandwidth () {
       f_initvars_menu_app "MNB"
-      until [ $MNB -eq 0 ]
+      until [ "$MNB" = "0" ]
       do    # Start of Network Bandwidth Applications until loop.
 #0^0^0^0^0 #MNB bmon     - Bandwidth monitor and rate estimator.
 #0^0^0^0^0 #MNB bwm-ng   - Bandwidth graphical monitor.
@@ -659,7 +659,7 @@ f_pktstat () {
 #
 f_menu_app_network_monitors () {
       f_initvars_menu_app "MNM"
-      until [ $MNM -eq 0 ]
+      until [ "$MNM" = "0" ]
       do    # Start of Network Monitor Applications until loop.
 #0^0^0^0^0 #MNM iptraf   - IP LAN monitor, ncurses based display.
 #1^0^0^0^1 #MNM nagios3  - IP LAN monitor. Display network hosts, devices, connections.
@@ -821,7 +821,7 @@ f_sntop () {
 #
 f_menu_app_nic_tools () {
       f_initvars_menu_app "MNN"
-      until [ $MNN -eq 0 ]
+      until [ "$MNN" = "0" ]
       do    # Start of NIC Tools Applications until loop.
 #1^0^0^0^1 #MNN ethtool      - NIC configuration.
 #0^0^0^0^1 #MNN ifconfig     - NIC configuration.
@@ -955,7 +955,7 @@ f_netload () {
 #
 f_menu_app_packet_tools () {
       f_initvars_menu_app "MNP"
-      until [ $MNP -eq 0 ]
+      until [ "$MNP" = "0" ]
       do    # Start of Packet Tools Applications until loop.
 #0^0^0^0^1 #MNP kismet    - Wireless network detector, packet sniffer, auditor.
 #1^0^0^0^1 #MNP ngrep     - Network packet analyzer.
@@ -1021,7 +1021,7 @@ f_tcpdump () {
 #
 f_menu_app_network_sharing () {
       f_initvars_menu_app "MNS"
-      until [ $MNS -eq 0 ]
+      until [ "$MNS" = "0" ]
       do    # Start of Network Configuration Applications until loop.
 #0^0^0^0^1 #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
 #1^0^0^0^1 #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.

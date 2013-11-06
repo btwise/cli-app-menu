@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2013 23:30"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -15,7 +15,7 @@
 #
 f_menu_app_screen_savers () {
       f_initvars_menu_app "MSS"
-      until [ $MSS -eq 0 ]
+      until [ "$MSS" = "0" ]
       do    # Start of Screen-saver Applications until loop.
             #f_hint^0^0^8:NC^0 #MSS aafire       - Fire on screen.
             #f_hint^1^0^22:NC^0 #MSS asciiquarium - Aquarium on screen.
@@ -273,7 +273,7 @@ f_install_bsod () {
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_ncurses
-            if [ $ERROR -eq 0 ] ; then
+            if [ $ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
                #
@@ -398,7 +398,7 @@ f_install_cclock () {
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_ncurses
-            if [ $ERROR -eq 0 ] ; then
+            if [ $ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
                #

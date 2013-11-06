@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-03-2013 21:20"
+REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -496,7 +496,7 @@ f_main_about () {
 #
 f_main_configure () {
       f_initvars_menu_app "AAC"
-      until [ $AAC -eq 0 ]
+      until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
 #f_menu_term_color #AAC Colors       - Set default font/background colors.
 #f_menu_uncolor    #AAC Un-colors    - Set font color for unavailable library modules.
@@ -883,7 +883,7 @@ f_menu_term_color () {
       MENU_TITLE="Terminal Colors Menu"
       DELIMITER="#AAE" #AAE This 3rd field prevents awk from printing this line into menu options. 
       f_initvars_menu_app "AAE"
-      until [ $AAE -eq 0 ]
+      until [ "$AAE" = "0" ]
       do    # Start of Terminal Colors until loop.
             #AAE Red     - Red     on black.
 	    #AAE Green   - Green   on black.
@@ -940,10 +940,7 @@ f_menu_term_color () {
                  ;;
             esac                # End of Terminal Colors Menu case statement.
             #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
             AAE=$MENU_ITEM
-            #
       done  # End of Terminal Colors Menu until loop.
       #
       # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
@@ -967,7 +964,7 @@ f_menu_uncolor () {
       MENU_TITLE="Colors for Unavailable Menu Items"
       DELIMITER="#AAF" #AAF This 3rd field prevents awk from printing this line into menu options. 
       f_initvars_menu_app "AAF"
-      until [ $AAF -eq 0 ]
+      until [ "$AAF" = "0" ]
       do    # Start of Unavailable Colors until loop.
             #AAF Red        - Red.
 	    #AAF Green      - Green.
@@ -1017,10 +1014,7 @@ f_menu_uncolor () {
                  ;;
             esac                # End of Unavailable Colors case statement.
             #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
             AAF=$MENU_ITEM
-            #
             f_term_color $FCOLOR $BCOLOR # Set terminal color.
             echo $(tput bold) # set bold font.
             #
@@ -1044,7 +1038,7 @@ f_menu_uncolor () {
 #
 f_update () {
       f_initvars_menu_app "AAD"
-      until [ $AAD -eq 0 ]
+      until [ "$AAD" = "0" ]
       do    # Start of Update Menu until loop.
 #f_updat_edit_hist #AAD Edit History - Make changes to the Edit History.
 #f_update_software #AAD Update       - Update software program from git repository.
@@ -1198,7 +1192,7 @@ f_ls_this_dir () {
 } # End of function f_ls_this_dir
 #
 # +----------------------------------------+
-# | Function f_cat_menu_item_process |
+# |    Function f_cat_menu_item_process    |
 # +----------------------------------------+
 #
 # Inputs: $1, CHOICE[$MENU_ITEM], MAX.
@@ -1215,7 +1209,7 @@ f_cat_menu_item_process () {
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
            [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
-           if [ $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+           if [ "$MENU_ITEM" -ge 1 -a "$MENU_ITEM" -le $MAX ] ; then
               MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
            fi
            ;;
@@ -1249,12 +1243,12 @@ f_main_init_once
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_initvars_menu_app "AAA"
-until [ $AAA -eq 0 ]
+until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Launch a command-line application.
 #f_main_help #AAA Help and Features   - How to use and what can it do.
 #f_main_about #AAA About CLI Menu      - What version am I using.
-#f_main_configure #AAA Configure           - Update software, change colors, edit History, etc.
+#f_main_configure #AAA Configure           - Change default settings; terminal, browser etc.
 #f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
 #f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
 #f_main_license #AAA License             - Licensing, GPL.
@@ -1270,13 +1264,13 @@ do    # Start of CLI Menu util loop.
       f_menu_item_process $AAA  # Outputs $MENU_ITEM. Sets AAA=0 for item option Quit.
       #
       # Force AAA to be -1 numeric for the until loop. Handles even <F1-F12> keys.
-      if [ "$AAA" != 0 ] ; then
-         case AAA in
-              [A-Za-z]*)
-              AAA=-1
-  	      ;;
-         esac   
-      fi
+      #if [ "$AAA" != "0" ] ; then
+      #   case AAA in
+      #        [A-Za-z]*)
+      #        AAA=-1
+      #        ;;
+      #   esac   
+      #fi
       #
 done  # End of Main Menu until loop.
       #

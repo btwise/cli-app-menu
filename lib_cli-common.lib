@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-03-2013 21:20"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -227,13 +227,13 @@ f_menu_item_process () {
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
            [1-9] | [1-9][0-9]) # Change MENU_ITEM from a number to an alpha string.
-           if [  $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+           if [  "$MENU_ITEM" -ge 1 -a "$MENU_ITEM" -le $MAX ] ; then
               MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
            fi
            ;;
       esac
       # Main Menu item option "Quit" to exit.
-      if [ $DELIMITER = "#AAA" ] ;then
+      if [ "$DELIMITER" = "#AAA" ] ;then
          case $MENU_ITEM in
               [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
               MENU_ITEM=0

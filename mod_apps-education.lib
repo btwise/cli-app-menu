@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
@@ -15,7 +15,7 @@
 #
 f_menu_app_education () {
       f_initvars_menu_app "MED"
-      until [ $MED -eq 0 ]
+      until [ "$MED" = "0" ]
       do    # Start of Education Applications until loop.
 #0^0^0^0^1 #MED diatheke    - Holy Bible research tool.
 #0^0^0^0^1 #MED grass       - GIS Map utility (Geographic Information System).
@@ -128,7 +128,7 @@ f_weather () {
 #
 f_menu_app_hamradio () {
       f_initvars_menu_app "MHR"
-      until [ $MHR -eq 0 ]
+      until [ "$MHR" = "0" ]
       do    # Start of Ham Radio Applications until loop.
 #0^0^0^0^0 #MHR aldo     - Morse code training.
 #0^0^0^10^0 #MHR cw       - Morse code training.
@@ -161,7 +161,7 @@ f_menu_app_hamradio () {
 #
 f_menu_app_math () {
       f_initvars_menu_app "MMA"
-      until [ $MMA -eq 0 ]
+      until [ "$MMA" = "0" ]
       do    # Start of Mathematic Applications until loop.
 #0^0^0^10^0 #MMA arithmetic     - Basic arithmetic quiz.
 #0^0^0^0^1 #MMA axiom          - General purpose computer algebra system.

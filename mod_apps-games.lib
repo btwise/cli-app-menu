@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-03-2013 00:09"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -15,7 +15,7 @@
 #
 f_menu_cat_games () {
       f_initvars_menu_app "BGA"
-      until [ $BGA -eq 0 ]
+      until [ "$BGA" = "0" ]
       do    # Start of Application Category until loop.
 #f_menu_app_games_arcade #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
 #f_menu_app_games_board #BGA Board Games    - Classic board games.
@@ -51,7 +51,7 @@ f_menu_cat_games () {
 #
 f_menu_app_games_arcade () {
       f_initvars_menu_app "MGA"
-      until [ $MGA -eq 0 ]
+      until [ "$MGA" = "0" ]
       do    # Start of Arcade Games until loop.
 #0^0^0^0^0 #MGA asciijump   - Ski jump game.
 #0^0^0^0^0 #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
@@ -90,7 +90,7 @@ f_menu_app_games_arcade () {
 #
 f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
-      until [ $MGB -eq 0 ]
+      until [ "$MGB" = "0" ]
       do    # Start of Arcade2 Games until loop.
 #0^0^0^18^0 #MGB zsnake - Variation of BSD's snake game.
 #0^1^0^0^0 #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
@@ -117,7 +117,7 @@ f_menu_app_games_arcade2 () {
 #
 f_menu_app_games_tetris () {
       f_initvars_menu_app "MGL"
-      until [ $MGL -eq 0 ]
+      until [ "$MGL" = "0" ]
       do    # Start of Tetris Games until loop.
 #0^0^0^0^0 #MGL bastet   - Tetris-like game.
 #0^0^0^0^0 #MGL ctris    - Tetris-like game.
@@ -147,7 +147,7 @@ f_menu_app_games_tetris () {
 #
 f_menu_app_games_pacman () {
       f_initvars_menu_app "MGM"
-      until [ $MGM -eq 0 ]
+      until [ "$MGM" = "0" ]
       do    # Start of "Pac-Man"-like Games until loop.
 #0^0^0^0^1 #MGM myman          - "Pac-Man"-like game, ncurses-based.
 #0^0^0^0^1 #MGM pacman4console - "Pac-Man"-like game, ncurses-based.
@@ -191,7 +191,7 @@ f_install_xorcurses () {
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_ncurses
-            if [ $ERROR -eq 0 ] ; then
+            if [ $ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
                #
@@ -315,7 +315,7 @@ f_install_ztrack () {
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_ncurses
-            if [ $ERROR -eq 0 ] ; then
+            if [ $ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
                #
@@ -423,7 +423,7 @@ f_install2_ztrack () {
 #
 f_menu_app_games_board () {
       f_initvars_menu_app "MGC"
-      until [ $MGC -eq 0 ]
+      until [ "$MGC" = "0" ]
       do    # Start of Board Games until loop.
 #1^0^0^1^0 #MGC atom4      - Board game strategy 2-player ncurses-based.
 #0^0^0^1^0 #MGC backgammon - Backgammon.
@@ -460,7 +460,7 @@ f_atom4 () {
 #
 f_menu_app_games_card () {
       f_initvars_menu_app "MGD"
-      until [ $MGD -eq 0 ]
+      until [ "$MGD" = "0" ]
       do    # Start of Card Games until loop.
 #0^0^0^0^0 #MGD canfield - Solitaire card game with betting.
 #f_run_and_exit "Cribbage" "cribbage"^0^0^0^0 #MGD cribbage - Cribbage Card game.
@@ -490,7 +490,7 @@ f_menu_app_games_card () {
 #
 f_menu_app_games_mud () {
       f_initvars_menu_app "MGE"
-      until [ $MGE -eq 0 ]
+      until [ "$MGE" = "0" ]
       do    # Start of MUD Games until loop.
 #0^0^0^0^1 #MGE crawl    - Explore a cave, retrieve the Orb of Zot.
 #0^0^0^0^1 #MGE tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
@@ -517,7 +517,7 @@ f_menu_app_games_mud () {
 #
 f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
-      until [ $MGF -eq 0 ]
+      until [ "$MGF" = "0" ]
       do    # Start of Puzzle Games until loop.
 #0^0^0^0^0 #MGF asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
 #f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd         - Reformat input as a punch card.
@@ -552,7 +552,7 @@ f_menu_app_games_puzzle () {
 #
 f_menu_app_games_quiz () {
       f_initvars_menu_app "MGG"
-      until [ $MGG -eq 0 ]
+      until [ "$MGG" = "0" ]
       do    # Start of Quiz Games until loop.
 #0^0^0^10^0 #MGG arithmetic - Basic arithmetic quiz.
 #0^0^0^0^0 #MGG geekcode   - Code tells others how geeky you are.
@@ -581,7 +581,7 @@ f_menu_app_games_quiz () {
 #
 f_menu_app_games_rpg () {
       f_initvars_menu_app "MGH"
-      until [ $MGH -eq 0 ]
+      until [ "$MGH" = "0" ]
       do    # Start of RPG Games until loop.
 #0^0^0^7^1 #MGH adventure  - Explore Colossal Cave. 
 #0^0^0^0^1 #MGH battlestar - Tropical adventure game.
@@ -615,7 +615,7 @@ f_menu_app_games_rpg () {
 #
 f_menu_app_games_simulation () {
       f_initvars_menu_app "MGI"
-      until [ $MGI -eq 0 ]
+      until [ "$MGI" = "0" ]
       do    # Start of Simulation Games until loop.
 #f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
 #0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
@@ -664,7 +664,7 @@ f_starwars () {
 #
 f_menu_app_games_strategy () {
       f_initvars_menu_app "MGJ"
-      until [ $MGJ -eq 0 ]
+      until [ "$MGJ" = "0" ]
       do    # Start of Strategy Games until loop.
 #0^0^0^1^0 #MGJ empire     - war game build armies, planes, ships, capture cities.
 #0^0^0^0^0 #MGJ gomoku     - 2-player game of 5-in-a-row.
@@ -716,7 +716,7 @@ f_wargames () {
 #
 f_menu_app_games_word () {
       f_initvars_menu_app "MGK"
-      until [ $MGK -eq 0 ]
+      until [ "$MGK" = "0" ]
       do    # Start of Word Games until loop.
 #0^0^0^10^0 #MGK boggle  - Word search game.
 #0^0^0^10^0 #MGK figlet  - Creates banner with outline font.

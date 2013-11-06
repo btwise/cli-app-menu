@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-03-2013 00:09"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -15,7 +15,7 @@
 #
 f_menu_cat_image () {
       f_initvars_menu_app "BIG"
-      until [ $BIG -eq 0 ]
+      until [ "$BIG" = "0" ]
       do    # Start of Image Application Category until loop.
 #f_menu_app_imagemagick #BIG ImageMagick - Tools to manipulate images.
 #f_menu_app_image_graphics #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
@@ -42,7 +42,7 @@ f_menu_cat_image () {
 #
 f_menu_app_image_graphics () {
       f_initvars_menu_app "MIG"
-      until [ $MIG -eq 0 ]
+      until [ "$MIG" = "0" ]
       do    # Start of Image-Graphics Applications until loop.
 #0^0^0^0^1 #MIG asciitopgm - Convert ASCII graphics into a portable graymap.
 #0^0^0^0^1 #MIG aview      - Image and ASCII art image viewer.
@@ -84,7 +84,7 @@ f_menu_app_image_graphics () {
 #
 f_menu_app_image_graphics2 () {
       f_initvars_menu_app "MIH"
-      until [ $MIH -eq 0 ]
+      until [ "$MIH" = "0" ]
       do    # Start of Image-Graphics Applications until loop.
 #0^0^0^0^0 #MIH scanimage - Controls flatbed scanners, cameras. -L list of devices.
 #0^0^0^0^0 #MIH sl        - Steam locomotive (when you mis-type 'ls' command).
@@ -109,7 +109,7 @@ f_menu_app_image_graphics2 () {
 #
 f_linuxlogo () { #
       ANS=-1 # Initialize $ANS for until loop.
-      until [ $ANS -ge 1 -a $ANS -le 26 ]
+      until [ "$ANS -ge 1 -a $ANS -le 26 ]
       do
             clear # Blank the screen.
             APP_NAME="linuxlogo -L list"
@@ -149,7 +149,7 @@ f_starwars () {
 #
 f_menu_app_imagemagick () {
       f_initvars_menu_app "MIK"
-      until [ $MIK -eq 0 ]
+      until [ "$MIK" = "0" ]
       do    # Start of ImageMagick Applications until loop.
 #0^0^0^0^1 #MIK animate   - ImageMagick tool animates an image sequence on X-windows GUI.
 #0^0^0^0^1 #MIK composite - ImageMagick tool overlaps one image on top of another.

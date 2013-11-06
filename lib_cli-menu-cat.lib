@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-03-2013 00:09"
+# REVDATE="November-05-2013 19:02"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -15,7 +15,7 @@
 #
 f_menu_cat_applications () {
       f_initvars_menu_app "AAB"
-      until [ $AAB -eq 0 ]
+      until [ "$AAB" = "0" ]
       do    # Start of Application Category until loop.
             #mod_apps-audio.lib       #AAB Audio        - Music players, editors, utilities.
             #mod_apps-databases.lib   #AAB Databases    - General and specialized databases.

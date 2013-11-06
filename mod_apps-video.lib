@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-03-2013 00:09"
+# REVDATE="NNovember-05-2013 19:02"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_video       |
@@ -15,7 +15,7 @@
 #
 f_menu_cat_video () {
       f_initvars_menu_app "BVI"
-      until [ $BVI -eq 0 ]
+      until [ "$BVI" = "0" ]
       do    # Start of Video Application Category until loop.
 #f_menu_app_video_editors #BVI Editors - Video editors, transcoders, converters.
 #f_menu_app_video_players #BVI Players - Video players/downloaders.
@@ -42,7 +42,7 @@ f_menu_cat_video () {
 #
 f_menu_app_video_editors () {
       f_initvars_menu_app "MVE"
-      until [ $MVE -eq 0 ]
+      until [ "$MVE" = "0" ]
       do    # Start of Video Applications until loop.
 #0^0^0^1^1 #MVE avconv        - Audio/Video converter.
 #0^0^0^1^1 #MVE avidemux      - Editor for simple cutting, filtering, encoding.
@@ -78,7 +78,7 @@ f_menu_app_video_editors () {
 #
 f_menu_app_video_players () {
       f_initvars_menu_app "MVI"
-      until [ $MVI -eq 0 ]
+      until [ "$MVI" = "0" ]
       do    # Start of Video Applications until loop.
 #0^0^0^0^1 #MVI aaxine       - Xine video player.
 #0^0^0^0^1 #MVI cacaxine     - Xine video player.

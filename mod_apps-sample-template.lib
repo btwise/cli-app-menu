@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-28-2013 12:50"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |  Function f_menu_scat_sample_template  |
@@ -18,7 +18,7 @@
 #
 f_menu_scat_sample_template () {
       f_initvars_menu_app "BXX"
-      until [ $BXX -eq 0 ]
+      until [ "$BXX" = "0" ]
       do    # Start of <Sample Template> Application Category until loop.
 #f_menu_cat_name1 #BXX App1 - This is application category #1.
 #f_menu_cat_name2 #BXX App2 - This is application category #2.
@@ -71,7 +71,7 @@ f_menu_scat_sample_template () {
 #
 f_menu_app_sample_template () {
       f_initvars_menu_app "MXX"
-      until [ $MXX -eq 0 ]
+      until [ "$MXX" = "0" ]
       do    # Start of <Sample Template> Applications until loop.
 #0^0^0^0^1 #MXX appname  - Description Application1 name.
 #0^0^0^0^1 #MXX app2name - Description Application2 name.

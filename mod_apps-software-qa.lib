@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-03-2013 00:09"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_software-qa    |
@@ -15,7 +15,7 @@
 #
 f_menu_app_software-qa () {
       f_initvars_menu_app "MQA"
-      until [ $MQA -eq 0 ]
+      until [ "$MQA" = "0" ]
       do    # Start of Software QA Applications until loop.
 #0^0^0^0^1 #MQA bugz             - Interface to Bugzilla bug tracking tool.
 #0^0^0^0^1 #MQA cil              - Issue tracker and add/edit, list issues.
