@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_audio       |
@@ -15,13 +15,13 @@
 #
 f_menu_cat_audio () {
       f_initvars_menu_app "BAU"
-      until [ $BAU -eq 0 ]
+      until [ "$BAU" = "0" ]
       do    # Start of Audio Application Category until loop.
-#^f_menu_app_cdrippers #BAU CD Rippers         - Copy music off CD-ROM to files.
-#^f_menu_app_audio_editors #BAU Editors/Converters - Edit music files and convert to different file formats.
-#^f_menu_app_music_players #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
-#^f_menu_app_radio #BAU Radio              - Listen to Internet radio stations.
-#^f_menu_app_speech_synthesis #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
+#f_menu_app_cdrippers #BAU CD Rippers         - Copy music off CD-ROM to files.
+#f_menu_app_audio_editors #BAU Editors/Converters - Edit music files and convert to different file formats.
+#f_menu_app_music_players #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
+#f_menu_app_radio #BAU Radio              - Listen to Internet radio stations.
+#f_menu_app_speech_synthesis #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
             #
             THIS_FILE="mod_apps-audio.lib"
             MENU_TITLE="Audio Application Category Menu"
@@ -45,7 +45,7 @@ f_menu_cat_audio () {
 #
 f_menu_app_cdrippers () {
       f_initvars_menu_app "MAC"
-      until [ $MAC -eq 0 ]
+      until [ "$MAC" = "0" ]
       do    # Start of CD Rippers Applications until loop.
 #0^0^0^0^1 #MAC abcde      - Audio CD ripper.
 #0^0^0^0^1 #MAC acripper   - Audio CD ripper.
@@ -81,7 +81,7 @@ f_menu_app_cdrippers () {
 #
 f_menu_app_audio_editors () {
       f_initvars_menu_app "MAU"
-      until [ $MAU -eq 0 ]
+      until [ "$MAU" = "0" ]
       do    # Start of Audio Editor Applications until loop.
 #0^0^0^0^1 #MAU abc2abc   - An abc prettyprinter/transposer.
 #0^0^0^0^1 #MAU abc2midi  - Convert ABC music source files to standard MIDI format.
@@ -120,7 +120,7 @@ f_menu_app_audio_editors () {
 #
 f_menu_app_music_taggers () {
       f_initvars_menu_app "MAT"
-      until [ $MAT -eq 0 ]
+      until [ "$MAT" = "0" ]
       do    # Start of Music Tagger Applications until loop.
 #0^0^0^0^0 #MAT audiotag - Music tagger.
 #0^0^0^0^0 #MAT beets    - Music tagger.
@@ -151,7 +151,7 @@ f_menu_app_music_taggers () {
 #
 f_menu_app_music_players () {
       f_initvars_menu_app "MAN"
-      until [ $MAN -eq 0 ]
+      until [ "$MAN" = "0" ]
       do    # Start of Music Player Applications until loop.
 #0^0^0^0^0 #MAN adcd            - Very simple CD player.
 #0^0^0^0^0 #MAN camp            - Music player with Graphic visualizer.
@@ -192,7 +192,7 @@ f_menu_app_music_players () {
 #
 f_menu_app_music_players2 () {
       f_initvars_menu_app "MAO"
-      until [ $MAO -eq 0 ]
+      until [ "$MAO" = "0" ]
       do    # Start of Music Player Applications2 until loop.
 #0^0^0^0^0 #MAO opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
 #0^0^0^0^0 #MAO orpheus         - Music player ncurses-based.
@@ -223,7 +223,7 @@ f_menu_app_music_players2 () {
 #
 f_menu_app_music_players3 () {
       f_initvars_menu_app "MAP"
-      until [ $MAP -eq 0 ]
+      until [ "$MAP" = "0" ]
       do    # Start of Music Player Applications3 until loop.
 #0^0^0^0^1 #MAP mpd     - Music Player Daemon server-side app for playing music.
 #0^0^0^0^1 #MAP moosic  - Front-end to mpd. Auto-starts mpd daemon if needed.
@@ -262,7 +262,7 @@ f_menu_app_music_players3 () {
 #
 f_menu_app_music_players4 () {
       f_initvars_menu_app "MAQ"
-      until [ $MAQ -eq 0 ]
+      until [ "$MAQ" = "0" ]
       do    # Start of Music Players4 Applications until loop.
 #0^0^0^0^1 #MAQ ccx2             - Front-end to XMMS music player.
 #0^0^0^0^1 #MAQ clxmms           - Front-end to XMMS music player.
@@ -291,7 +291,7 @@ f_menu_app_music_players4 () {
 #
 f_menu_app_radio () {
       f_initvars_menu_app "MAR"
-      until [ $MAR -eq 0 ]
+      until [ "$MAR" = "0" ]
       do    # Start of Radio Applications until loop.
 #0^0^0^1^0 #MAR dradio   - Streaming radio on world-wide web.
 #0^0^0^0^0 #MAR radio    - Streaming radio, ncurses-based.
@@ -321,7 +321,7 @@ f_menu_app_radio () {
 #
 f_menu_app_speech_synthesis () {
       f_initvars_menu_app "MAS"
-      until [ $MAS -eq 0 ]
+      until [ "$MAS" = "0" ]
       do    # Start of Speech Synthesis Applications until loop.
 #0^0^0^0^1 #MAS ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
 #0^0^0^0^1 #MAS edbrowse      - Audio web browser, editor, and reads aloud email.

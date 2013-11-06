@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="October-22-2013 18:18"
+PROJECT_REVDATE="November-05-2013 19:02"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -34,7 +34,7 @@ echo -n "Press '"Enter"' key to continue."
 read ANS
 # sed substitutes null for ## at beginning of each line so it is not printed.
 # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_FILE
+sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 #
 #LIC This program, EDIT_HISTORY is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -51,6 +51,55 @@ sed -n 's/^##//'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-11-05 *All modules, libraries, and cli-app-menu.sh changed
+##             conditional statements to handle null or unexpected input.
+##
+## 2013-11-03 *f_ask_which_module_download deleted.
+##            *f_bad_menu_choice deleted, replaced by if-then statement
+##             in f_menu_item_process to force MENU_ITEM=-1 except when 0.
+##            *f_cat_menu_item_process deleted.
+##            *f_main_download menu renamed to f_update.
+##            *f_main_configure added "Update" menu item option.
+##            *f_menu_app_file_backup created.
+##            *f_menu_app_file_move-copy created, added icp, imv, qcp. qmv.
+##            *f_menu_app_file_operations added deurlname
+##            *f_menu_app_games_pacman created, added yaourt.
+##            *f_menu_app_games_strategy added vms-empire.
+##            *f_menu_app_games_tetris created, added ctris.
+##            *f_menu_app_image_graphics added fbgrab.
+##            *f_menu_app_sys_monitors changed tyload to ttyload.
+##            *f_menu_app_sys_other added fbgrab.
+##            *f_menu_cat_applications now uses f_menu_item_process instead
+##             of f_cat_menu_item_process.
+##            *f_module_match deleted.
+##            *f_update menu item option "Modules of applications" deleted,
+##             added "Edit History", "Update", and "LIST_APPS".
+##
+## 2013-10-30 *f_install_cclock added custom install function.
+##            *Standardized custom install functions.
+##
+## 2013-10-29 *f_application_install added aafire to package case statement.
+##            *f_hint created to help set up any screensaver with a time-out.
+##            *f_install_bsod added custom install function.
+##            *f_menu_app_math added factor.
+##            *f_menu_app_screen_savers added ncmatrix.
+##            *f_menu_app_sys_logs added hash, history.
+##
+## 2013-10-28 *Some menus changed to conform to new format.
+##            *EDIT_HISTORY changed "less" command to improve readability.
+##            *f_application_install changed to try package manager, then
+##             try any custom install function, then try a web site download.
+##             Enable web install option for asciiquarium.
+##
+## 2013-10-25 *All menus changed format so that when 2nd field is equal to 1,
+##             refers to installation function "f_install_<MENU_ITEM_NAME>".
+##            *Have all error messages display in different color font.
+##            *f_application_help fixed --help messages not displaying in
+##             certain cases and optimize code make it more robust.
+##            *f_ncurses added.
+##            *f_install_ztrack changed to use f_ncurses.
+##            *f_install_xorcurses changed to use f_ncurses.
 ##
 ## 2013-10-22 *f_menu_app_audio_editors added abc2abc, abc2midi, abcm2ps,
 ##             mftext, midi2abc, midicopy.

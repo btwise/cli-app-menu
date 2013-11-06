@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -15,18 +15,18 @@
 #
 f_menu_cat_games () {
       f_initvars_menu_app "BGA"
-      until [ $BGA -eq 0 ]
+      until [ "$BGA" = "0" ]
       do    # Start of Application Category until loop.
-#^f_menu_app_games_arcade #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
-#^f_menu_app_games_board #BGA Board Games    - Classic board games.
-#^f_menu_app_games_card #BGA Card Games     - Played with a deck of playing cards.
-#^f_menu_app_games_mud #BGA MUD Games      - Multi-user dungeon adventure games.
-#^f_menu_app_games_puzzle #BGA Puzzles        - Tetris-clones, create punch card/paper tape codes.
-#^f_menu_app_games_quiz #BGA Quiz Games     - Challenge your mind.
-#^f_menu_app_games_rpg #BGA RPG Games      - Single-player role-playing games.
-#^f_menu_app_games_simulation #BGA Sims/Anims     - Simulations and animations. ASCII movies.
-#^f_menu_app_games_strategy #BGA Strategy Games - 1-2 Players.
-#^f_menu_app_games_word #BGA Word Games     - Boggle, hangman, pig-latin, create banners.
+#f_menu_app_games_arcade #BGA Arcade Games   - Action controlled by keyboard and player's reflexes.
+#f_menu_app_games_board #BGA Board Games    - Classic board games.
+#f_menu_app_games_card #BGA Card Games     - Played with a deck of playing cards.
+#f_menu_app_games_mud #BGA MUD Games      - Multi-user dungeon adventure games.
+#f_menu_app_games_puzzle #BGA Puzzles        - Tetris-clones, create punch card/paper tape codes.
+#f_menu_app_games_quiz #BGA Quiz Games     - Challenge your mind.
+#f_menu_app_games_rpg #BGA RPG Games      - Single-player role-playing games.
+#f_menu_app_games_simulation #BGA Sims/Anims     - Simulations and animations. ASCII movies.
+#f_menu_app_games_strategy #BGA Strategy Games - 1-2 Players.
+#f_menu_app_games_word #BGA Word Games     - Boggle, hangman, pig-latin, create banners.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Games Category Menu"
@@ -51,24 +51,22 @@ f_menu_cat_games () {
 #
 f_menu_app_games_arcade () {
       f_initvars_menu_app "MGA"
-      until [ $MGA -eq 0 ]
+      until [ "$MGA" = "0" ]
       do    # Start of Arcade Games until loop.
-#0^0^0^0^0 #MGA asciijump      - Ski jump game.
-#0^0^0^0^0 #MGA asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#0^0^0^0^0 #MGA bastet         - Tetris-like game.
-#0^0^0^0^1 #MGA freesweep      - Minesweeper game.
-#0^0^0^0^0 #MGA moon-buggy     - Drive a moon buggy on the moon.
-#0^0^0^0^1 #MGA myman          - Pac-Man clone, ncurses-based.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGA netris         - Tetris-like game.
-#0^0^0^1^1 #MGA ninvaders      - Space invaders-like game ncurses-based.
-#0^0^0^0^0 #MGA nsnake         - Variation of BSD's snake game.
-#0^0^0^0^1 #MGA pacman4console - Pacman-like game ncurses-based.
-#0^0^0^5^0 #MGA petris         - Tetris-like game.
-#0^0^0^0^0 #MGA robots         - Be chased by killer robots.
-#0^0^0^18^0 #MGA snake          - Be chased by a snake while collecting money.
-#0^0^0^0^0 #MGA spacezero      - Space combat in real-time, 2-player network game.
-#0^0^0^9^0 #MGA worm           - Be a growing worm, don't crash into yourself.
-#f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...        - For more arcade game applications.
+#0^0^0^0^0 #MGA asciijump   - Ski jump game.
+#0^0^0^0^0 #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^1 #MGA freesweep   - Minesweeper game.
+#0^0^0^0^0 #MGA moon-buggy  - Drive a moon buggy on the moon.
+#0^0^0^1^1 #MGA ninvaders   - Space invaders-like game ncurses-based.
+#0^0^0^0^0 #MGA nsnake      - Variation of BSD's snake game.
+#f_menu_app_games_pacman^0^0^0^0 #MGA Pac-Man     - "Pac-Man" clones.
+#0^0^0^0^0 #MGA robots      - Be chased by killer robots.
+#0^0^0^18^0 #MGA snake       - Be chased by a snake while collecting money.
+#0^0^0^0^0 #MGA spacezero   - Space combat in real-time, 2-player network game.
+#f_menu_app_games_tetris^0^0^0^0 #MGA Tetris      - "Tetris" clones.
+#0^0^0^9^0 #MGA worm        - Be a growing worm, don't crash into yourself.
+#0^1^0^1^0 #MGA xorcurses   - based on Xor released in 1987 by Astral Software.
+#f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...     - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade Game Menu"
@@ -92,11 +90,10 @@ f_menu_app_games_arcade () {
 #
 f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
-      until [ $MGB -eq 0 ]
+      until [ "$MGB" = "0" ]
       do    # Start of Arcade2 Games until loop.
-#1^0^0^1^0 #MGB xorcurses - based on Xor released in 1987 by Astral Software.
-#0^0^0^18^0 #MGB zsnake    - Variation of BSD's snake game.
-#0^0^0^0^1 #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
+#0^0^0^18^0 #MGB zsnake - Variation of BSD's snake game.
+#0^1^0^0^0 #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade2 Game Menu"
@@ -111,16 +108,79 @@ f_menu_app_games_arcade2 () {
 } # End of f_menu_app_games_arcade2
 #
 # +----------------------------------------+
-# |             Function f_xorcurses       |
+# |    Function f_menu_app_games_tetris    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_tetris () {
+      f_initvars_menu_app "MGL"
+      until [ "$MGL" = "0" ]
+      do    # Start of Tetris Games until loop.
+#0^0^0^0^0 #MGL bastet   - Tetris-like game.
+#0^0^0^0^0 #MGL ctris    - Tetris-like game.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGL netris   - Tetris-like game.
+#0^0^0^5^0 #MGL petris   - Tetris-like game.
+#0^0^0^5^0 #MGL vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Tetris-like Game Menu"
+            DELIMITER="#MGL" #MGL This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGL
+            f_menu_item_process $MGL  # Outputs $MENU_ITEM.
+            done  # End of Tetris Games until loop.
+            #
+      unset MGL MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_tetris
+#
+# +----------------------------------------+
+# |    Function f_menu_app_games_pacman    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_pacman () {
+      f_initvars_menu_app "MGM"
+      until [ "$MGM" = "0" ]
+      do    # Start of "Pac-Man"-like Games until loop.
+#0^0^0^0^1 #MGM myman          - "Pac-Man"-like game, ncurses-based.
+#0^0^0^0^1 #MGM pacman4console - "Pac-Man"-like game, ncurses-based.
+#0^0^0^0^0 #MGM yaourt         - "Pac-Man"-like game, ncurses-based.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="\"Pac-Man\"-like Game Menu"
+            DELIMITER="#MGM" #MGM This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGM
+            f_menu_item_process $MGM  # Outputs $MENU_ITEM.
+            done  # End of "Pac-Man"-like Games until loop.
+            #
+      unset MGM MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_pacman
+#
+# +----------------------------------------+
+# |       Function f_install_xorcurses     |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null).
 #
-f_xorcurses () {
+f_install_xorcurses () {
       if [ ! -r "/usr/local/share/XorCurses" ] ; then
          clear  # blank screen
+         echo "This script will install XorCurses without using a software package manager."
+         echo
+         echo "If you wish to de-install XorCurses, you will have to delete files manually"
+         echo "by typing: \"sudo rm -r /usr/local/bin/ /usr/local/share/XorCurses\"."
+         echo
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
          echo "Afterwards, \"XorCurses\" will be installed."
          echo
@@ -129,91 +189,45 @@ f_xorcurses () {
          #
          # Yes, Install XorCurses.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            clear  # blank screen
-            echo "This script will automatically install \"libncurses-dev\"."
-            echo
-            # Install libncurses-dev as a prerequisite.
-            APP_NAME="libncurses-dev"
-            f_application_install
-            if [ $ERROR -ne 0 ] ; then
-               # Failure to install libncurses-dev.
-               echo
-               echo "Installation of \"libncurses-dev\" failed."
-               echo " Skipping installation of \"ncurses-dev\" and \"XorCurses\"."
-               echo
-               echo -n "Press '"Enter"' key to continue."
-               read X
-               unset X  # Throw out this variable.
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
                #
-               # Do not install ncurses-dev and XorCurses.
-               MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
-                                 # when it's not installed.
-               APP_NAME=""       # Also prevents checking for Quit Clause.
-            else
-               # Success at installing libncurses-dev.
-               echo
-               echo "Installation of \"libncurses-dev\" is successful."
-               echo
-               echo -n "Press '"Enter"' key to continue."
-               read X
-               unset X  # Throw out this variable.
-               #
-               # Install ncurses-dev as a prerequisite.
-               APP_NAME="ncurses-dev"
-               f_application_install
-               if [ $ERROR -ne 0 ] ; then
-                  # Failure to install ncurses-dev.
-                  echo
-                  echo "Installation of \"ncurses-dev\" failed."
-                  echo " Skipping installation of \"XorCurses\"."
-                  echo
-                  echo -n "Press '"Enter"' key to continue."
-                  read X
-                  unset X  # Throw out this variable.
-                  #
-                  # Do not install XorCurses.
-                  MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
-                                    # when it's not installed.
-                  APP_NAME=""       # Also prevents checking for Quit Clause.
-               else
-                  # Success at installing ncurses-dev.
-                  echo
-                  echo "Installation of \"ncurses-dev\" is successful."
-                  echo
-                  echo -n "Press '"Enter"' key to continue."
-                  read X
-                  unset X  # Throw out this variable.
-                  #
-                  # Since dependencies are installed, now install XorCurses.
-                  f_xorcurses_install
-               fi
+               # Since dependencies are installed, now install XorCurses.
+               f_install2_xorcurses
+               APP_NAME="xorcurses" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
             fi
          else
-            # No, Do not install ASCIIQuarium.
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run asciiquarium
+            # No, Do not install XorCurses.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run XorCurses.
                               # when it's not installed.
             APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
          fi
-         unset ANS
+         unset ANS  # Throw out this variable.
       fi
-} # End of function f_xorcurses
+} # End of function f_install_xorcurses
 #
 # +----------------------------------------+
-# |       Function f_xorcurses_install     |
+# |       Function f_install2_xorcurses    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null).
 #
-f_xorcurses_install () {
+f_install2_xorcurses () {
       clear  # blank screen
       echo "This script will automatically download and install \"XorCurses\"."
       echo
       echo "This script will do the following:"
       echo "1. Change directory to your home folder."
-      echo "2. Download \"XorCurses\" from \"http://jwm-art.net/art/archive\" by using wget."
-      echo "3. Decompress and create the installation subdirectory ~/xorcurses*"
+      echo "2. Download \"XorCurses\" using wget from:"
+      echo "   http://jwm-art.net/art/archive"
+      echo "3. Decompress and create the installation subdirectory ~/bin/xorcurses*"
       echo "4. Install XorCurses via:"
       echo "                           make"
       echo "                           sudo make install"
@@ -239,8 +253,8 @@ f_xorcurses_install () {
       # 2. Download "XorCurses" from "http://jwm-art.net/art/archive" by using wget.
       wget http://jwm-art.net/art/archive/XorCurses-0.2.2.tar.bz2
       #
-      # 3. Decompress and create the installation subdirectory ~/xorcurses*.
-      tar -jxf XorCurses-0.2.2.tar.bz2
+      # 3. Decompress and create the installation subdirectory ~/bin/xorcurses*.
+      tar -xf XorCurses-0.2.2.tar.bz2
       cd ~/bin/XorCurses-0.2.2
       #
       # 4. Make and install XorCurses.
@@ -266,18 +280,139 @@ f_xorcurses_install () {
          echo
       fi
       echo
-      echo "Installation of \"XorCurses\" is complete."
+      echo "Finished running installation script for \"XorCurses\"."
       echo
       echo "To run \"XorCurses\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-      #
-      APP_NAME="xorcurses" # Set to correct name for f_application_run.
-} # End of function f_xorcurses_install
+} # End of function f_install2_xorcurses
 #
-
+# +----------------------------------------+
+# |        Function f_install_ztrack       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install_ztrack () {
+      if [ ! -r "/usr/games/ztrack" ] ; then
+         clear  # blank screen
+         echo "This script will install Ztrack without using a software package manager."
+         echo
+         echo "If you wish to de-install Ztrack, you will have to delete files manually"
+         echo "by typing: \"sudo rm /usr/games/ztrack\"."
+         echo
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"Ztrack\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install Ztrack.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_ztrack
+               APP_NAME="ztrack" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+           fi
+         else
+            # No, Do not install Ztrack.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run Ztrack.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS  # Throw out this variable.
+      fi
+} # End of function f_install_ztrack
+#
+# +----------------------------------------+
+# |         Function f_install2_ztrack     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_ztrack () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"Ztrack\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"Ztrack\" using wget from:"
+      echo "   http://www.ibiblio.org/pub/Linux/games/arcade"
+      echo "3. Decompress and create the installation subdirectory ~/bin/ztrack*"
+      echo "4. Install Ztrack via:"
+      echo "                           make"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to /usr/local/bin/."
+      echo
+      echo "5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      # 
+      # 2. Download "Ztrack" from "http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz" by using wget.
+      cd ~/bin
+      wget http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/ztrack*.
+      tar -xf ztrack-1.0.tar.gz
+      #
+      # 4. Make and install Ztrack.
+      cd ~/bin/ztrack*
+      make
+      sudo make install
+      #
+      # 5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/games/ztrack*
+      #
+      # 6. Add directory \"/usr/games\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/games in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/games"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/games"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"Ztrack\"."
+      echo
+      echo "To run \"Ztrack\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_ztrack
+#
 # +----------------------------------------+
 # |     Function f_menu_app_games_board    |
 # +----------------------------------------+
@@ -288,12 +423,12 @@ f_xorcurses_install () {
 #
 f_menu_app_games_board () {
       f_initvars_menu_app "MGC"
-      until [ $MGC -eq 0 ]
+      until [ "$MGC" = "0" ]
       do    # Start of Board Games until loop.
 #1^0^0^1^0 #MGC atom4      - Board game strategy 2-player ncurses-based.
 #0^0^0^1^0 #MGC backgammon - Backgammon.
 #0^0^0^1^0 #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
-#0^0^0^2^1 #MGC monop      - Monopoly-like game.
+#0^0^0^2^0 #MGC monop      - Monopoly-like game.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Board Games Menu"
@@ -325,7 +460,7 @@ f_atom4 () {
 #
 f_menu_app_games_card () {
       f_initvars_menu_app "MGD"
-      until [ $MGD -eq 0 ]
+      until [ "$MGD" = "0" ]
       do    # Start of Card Games until loop.
 #0^0^0^0^0 #MGD canfield - Solitaire card game with betting.
 #f_run_and_exit "Cribbage" "cribbage"^0^0^0^0 #MGD cribbage - Cribbage Card game.
@@ -355,7 +490,7 @@ f_menu_app_games_card () {
 #
 f_menu_app_games_mud () {
       f_initvars_menu_app "MGE"
-      until [ $MGE -eq 0 ]
+      until [ "$MGE" = "0" ]
       do    # Start of MUD Games until loop.
 #0^0^0^0^1 #MGE crawl    - Explore a cave, retrieve the Orb of Zot.
 #0^0^0^0^1 #MGE tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
@@ -382,23 +517,18 @@ f_menu_app_games_mud () {
 #
 f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
-      until [ $MGF -eq 0 ]
+      until [ "$MGF" = "0" ]
       do    # Start of Puzzle Games until loop.
 #0^0^0^0^0 #MGF asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#0^0^0^0^0 #MGF bastet      - Tetris-like game.
 #f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd         - Reformat input as a punch card.
 #0^0^0^0^1 #MGF dab         - 2-players try to complete the most boxes.
 #0^0^0^0^0 #MGF braincurses - Guess the pattern of 4 pegs in 4 colors.
 #0^0^0^0^0 #MGF greed       - Greed numbers game, ncurses-based.
 #0^0^0^0^0 #MGF masterm     - Guess the pattern of 4 pegs in 5 colors.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGF netris      - Tetris-like game.
 #0^0^0^0^0 #MGF nsuduko     - Suduko game.
-#0^0^0^5^0 #MGF petris      - Tetris-like game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt         - Reformat input as a paper tape.
 #0^0^0^0^0 #MGF textmaze    - Find the exit to the maze.
-#0^0^0^5^0 #MGF vitetris    - tetris clone; 1-2 players, network play, custom graphics etc.
-#1^0^0^1^0 #MGF xorcurses   - based on Xor released in 1987 by Astral Software.
-
+#0^1^0^1^0 #MGF xorcurses   - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"
@@ -422,7 +552,7 @@ f_menu_app_games_puzzle () {
 #
 f_menu_app_games_quiz () {
       f_initvars_menu_app "MGG"
-      until [ $MGG -eq 0 ]
+      until [ "$MGG" = "0" ]
       do    # Start of Quiz Games until loop.
 #0^0^0^10^0 #MGG arithmetic - Basic arithmetic quiz.
 #0^0^0^0^0 #MGG geekcode   - Code tells others how geeky you are.
@@ -451,7 +581,7 @@ f_menu_app_games_quiz () {
 #
 f_menu_app_games_rpg () {
       f_initvars_menu_app "MGH"
-      until [ $MGH -eq 0 ]
+      until [ "$MGH" = "0" ]
       do    # Start of RPG Games until loop.
 #0^0^0^7^1 #MGH adventure  - Explore Colossal Cave. 
 #0^0^0^0^1 #MGH battlestar - Tropical adventure game.
@@ -485,15 +615,15 @@ f_menu_app_games_rpg () {
 #
 f_menu_app_games_simulation () {
       f_initvars_menu_app "MGI"
-      until [ $MGI -eq 0 ]
+      until [ "$MGI" = "0" ]
       do    # Start of Simulation Games until loop.
 #f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
 #0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
 #0^0^0^1^0 #MGI sail      - Command a Man O'War fighting ship.
 #0^0^0^0^0 #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
-#f_starwars^f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"^0^0^0 #MGI star wars - Star Wars movie in ASCII.
+#f_starwars^0^0^0^0 #MGI star wars - Star Wars movie in ASCII.
 #0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
-#0^0^0^0^1 #MGI ztrack    - First-person car racing game.
+#0^1^0^0^0 #MGI ztrack    - First-person car racing game.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Simulation Games and Animation Menu"
@@ -521,6 +651,7 @@ f_starwars () {
       echo If telnet hangs while trying the ip-address,
       echo then re-run this program and try again.
       echo
+      f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
 }  #End of function f_starwars
 #
 # +----------------------------------------+
@@ -533,13 +664,14 @@ f_starwars () {
 #
 f_menu_app_games_strategy () {
       f_initvars_menu_app "MGJ"
-      until [ $MGJ -eq 0 ]
+      until [ "$MGJ" = "0" ]
       do    # Start of Strategy Games until loop.
-#0^0^0^1^0 #MGJ empire   - war game build armies, planes, ships, capture cities.
-#0^0^0^0^0 #MGJ gomoku   - 2-player game of 5-in-a-row.
-#0^0^0^0^0 #MGJ hunt     - Multi-user game. Kill everyone else.
-#0^0^0^0^0 #MGJ mille    - Travel 700 miles card game.
-#1^0^0^0^1 #MGJ wargames - Computer prompt from movie "War Games". 
+#0^0^0^1^0 #MGJ empire     - war game build armies, planes, ships, capture cities.
+#0^0^0^0^0 #MGJ gomoku     - 2-player game of 5-in-a-row.
+#0^0^0^0^0 #MGJ hunt       - Multi-user game. Kill everyone else.
+#0^0^0^0^0 #MGJ mille      - Travel 700 miles card game.
+#0^0^0^0^0 #MGJ vms-empire - "Risk"-like game of moving armies to conquer continents.
+#1^0^0^0^1 #MGJ wargames   - Computer prompt from movie "War Games". 
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Strategy Game Menu"
@@ -584,7 +716,7 @@ f_wargames () {
 #
 f_menu_app_games_word () {
       f_initvars_menu_app "MGK"
-      until [ $MGK -eq 0 ]
+      until [ "$MGK" = "0" ]
       do    # Start of Word Games until loop.
 #0^0^0^10^0 #MGK boggle  - Word search game.
 #0^0^0^10^0 #MGK figlet  - Creates banner with outline font.

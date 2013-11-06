@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -15,19 +15,19 @@
 #
 f_menu_cat_system () {
       f_initvars_menu_app "BSY"
-      until [ $BSY -eq 0 ]
+      until [ "$BSY" = "0" ]
       do    # Start of System Application Category until loop.
-#^f_menu_app_sys_backup #BSY Backup      - File Backup.
-#^f_menu_app_sys_disks #BSY Disks       - Disk information.
-#^f_menu_app_sys_health #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
-#^f_menu_app_sys_logs #BSY Logs        - Log file viewers.
-#^f_menu_app_sys_mainboard #BSY Mainboard   - Information on PC mainboard, memory, etc.
-#^f_menu_app_sys_monitors #BSY Monitors    - Resources, and disk I/O monitors.
-#^f_menu_app_sys_other #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
-#^f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
-#^f_menu_app_sys_process #BSY Process     - System process monitoring, killing.
-#^f_menu_app_sys_screens #BSY Screens     - Multiple screen sessions and terminal emulators.
-#^f_menu_app_sys_software #BSY Software    - (Un)Install and manage software packages (programs).
+#f_menu_app_sys_backup #BSY Backup      - File Backup.
+#f_menu_app_sys_disks #BSY Disks       - Disk information.
+#f_menu_app_sys_health #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
+#f_menu_app_sys_logs #BSY Logs        - Log file viewers, command line history.
+#f_menu_app_sys_mainboard #BSY Mainboard   - Information on PC mainboard, memory, etc.
+#f_menu_app_sys_monitors #BSY Monitors    - Resources, and disk I/O monitors.
+#f_menu_app_sys_other #BSY Other       - Screen capture, DOS and Nintendo Emulators, etc.
+#f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
+#f_menu_app_sys_process #BSY Process     - System process monitoring, killing.
+#f_menu_app_sys_screens #BSY Screens     - Multiple screen sessions and terminal emulators.
+#f_menu_app_sys_software #BSY Software    - (Un)Install and manage software packages (programs).
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Category Menu"
@@ -51,7 +51,7 @@ f_menu_cat_system () {
 #
 f_menu_app_sys_backup () {
       f_initvars_menu_app "MSB"
-      until [ $MSB -eq 0 ]
+      until [ "$MSB" = "0" ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^1 #MSB dtrx  - Use tar without remembering which flags for each file to use.
 #0^0^0^0^1 #MSB rsync - File backup, mirror, directories and files.
@@ -79,7 +79,7 @@ f_menu_app_sys_backup () {
 #
 f_menu_app_sys_disks () {
       f_initvars_menu_app "MSD"
-      until [ $MSD -eq 0 ]
+      until [ "$MSD" = "0" ]
       do    # Start of System Disks Information Applications until loop.
 #0^0^0^0^1 #MSD agedu  - Find wasted disk space.
 #0^0^0^0^1 #MSD blkid  - Block devices.
@@ -212,7 +212,7 @@ f_uuid () {
 #
 f_menu_app_sys_health () {
       f_initvars_menu_app "MSH"
-      until [ $MSH -eq 0 ]
+      until [ "$MSH" = "0" ]
       do    # Start of System Health Applications until loop.
 #0^0^0^0^1 #MSH aide       - Advanced Intrusion Detection Environment check file integrity.
 #1^0^0^0^1 #MSH arp-scan   - Discover, fingerprint hosts on LAN using MAC addresses.
@@ -398,16 +398,18 @@ f_tripwire () {
 #
 f_menu_app_sys_logs () {
       f_initvars_menu_app "MLO"
-      until [ $MLO -eq 0 ]
+      until [ "$MLO" = "0" ]
       do    # Start of System Logs until loop.
 #0^0^0^0^1 #MLO ccze       - A robust and modular log colorizer, with plugins.
 #0^0^0^0^1 #MLO colortail  - log colorizer.
+#0^0^0^0^1 #MLO hash       - Show frequency of commands entered at the prompt.
+#0^0^0^0^1 #MLO history    - Show history of commands entered at the prompt.
 #0^0^0^0^1 #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
 #0^0^0^0^1 #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
 #0^0^0^0^1 #MLO logtailer  - Monitor logs for updates and display them.
 #0^0^0^0^1 #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
 #0^0^0^0^1 #MLO multitail  - View multiple log files using multiple panes.
-#0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail work-alike.
+#0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail-like.
 #0^0^0^0^1 #MLO swatch     - Log file viewer with regexp matching, highlighting & hooks.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -432,7 +434,7 @@ f_menu_app_sys_logs () {
 #
 f_menu_app_sys_mainboard () {
       f_initvars_menu_app "MSI"
-      until [ $MSI -eq 0 ]
+      until [ "$MSI" = "0" ]
       do    # Start of System Information until loop.
 #0^0^0^0^1 #MSI dmidecode   - Main board information.
 #1^0^0^0^1 #MSI free        - Memory usage RAM and swap.
@@ -630,7 +632,7 @@ f_uname () {
 #
 f_menu_app_sys_monitors () {
       f_initvars_menu_app "MSM"
-      until [ $MSM -eq 0 ]
+      until [ "$MSM" = "0" ]
       do    # Start of System Monitors until loop.
 #0^0^0^0^0 #MSM acpi      - Show acpi information.
 #0^0^0^0^0 #MSM acpitail  - Show acpi information in growing tail list.
@@ -671,14 +673,14 @@ f_menu_app_sys_monitors () {
 #
 f_menu_app_sys_monitors2 () {
       f_initvars_menu_app "MSN"
-      until [ $MSN -eq 0 ]
+      until [ "$MSN" = "0" ]
       do    # Start of System Monitors until loop.
 #0^0^0^0^1 #MSN rrdtool      - Round Robin Database Tool stores/displays time-series data.
 #0^0^0^1^0 #MSN saidar       - Monitor system processes, network I/O, disks I/O, free space.
 #0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
 #f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
-#0^0^0^0^1 #MSN tyload       - Color-coded graphs of CPU load average.
+#0^0^0^0^1 #MSN ttyload      - Color-coded graphs of CPU load average.
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -831,7 +833,7 @@ f_rrdtool () {
 #
 f_menu_app_sys_other () {
       f_initvars_menu_app "MSO"
-      until [ $MSO -eq 0 ]
+      until [ "$MSO" = "0" ]
       do    # Start of System Other until loop.
 #0^0^0^0^1 #MSO apg       - Password generator that can specify a pattern.
 #0^0^0^0^1 #MSO apropos   - Search linux man(ual) files for a forgotten command.
@@ -839,8 +841,9 @@ f_menu_app_sys_other () {
 #0^0^0^0^1 #MSO cpm       - Password manager using PGP-encryption, ncurses-based.
 #0^0^0^0^1 #MSO desmume   - Nintendo DS emulator.
 #0^0^0^0^1 #MSO dosemu    - DOS emulator.
+#0^0^0^0^1 #MSO fbgrab    - Framebuffer screenshot tool.
 #0^0^0^0^1 #MSO script    - Records terminal input/output (keystrokes).
-#0^0^0^0^1 #MSO scrot     - Screen capture.
+#0^0^0^0^1 #MSO scrot     - Framebuffer screenshot tool.
 #0^0^0^0^1 #MSO ttyrec    - Records terminal input/output and also timing-information.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -865,7 +868,7 @@ f_menu_app_sys_other () {
 #
 f_menu_app_sys_peripherals () {
       f_initvars_menu_app "MSL"
-      until [ $MSL -eq 0 ]
+      until [ "$MSL" = "0" ]
       do    # Start of Peripheral System Information until loop.
 #0^0^0^0^1 #MSL acpitool  - ACPI power/battery settings.
 #1^0^0^0^1 #MSL blkid     - Block devices information.
@@ -878,6 +881,7 @@ f_menu_app_sys_peripherals () {
 #0^0^0^0^1 #MSL lsusb     - USB devices.
 #1^0^0^0^1 #MSL pccardctl - PCMCIA card devices.
 #0^0^0^0^1 #MSL printenv  - Environmental variables.
+#0^0^0^0^1 #MSL scanimage - Control flatbed scanners, cameras. -L list of devices.
 #0^0^0^0^1 #MSL setcd     - Control CDROM device, auto-close/eject/locking, set speed.
 #0^0^0^0^1 #MSL uptime    - Display how long PC has been running, # users, load average.
 #0^0^0^0^1 #MSL w         - A combination of uptime and who commands.
@@ -976,7 +980,7 @@ f_pccardctl () {
 #
 f_menu_app_sys_process () {
       f_initvars_menu_app "MSR"
-      until [ $MSR -eq 0 ]
+      until [ "$MSR" = "0" ]
       do    # Start of System Process Applications until loop.
 #0^0^0^1^0 #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
 #0^0^0^3^0 #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
@@ -1123,7 +1127,7 @@ f_sysctl () {
 #
 f_menu_app_sys_screens () {
       f_initvars_menu_app "MSC"
-      until [ $MSC -eq 0 ]
+      until [ "$MSC" = "0" ]
       do    # Start of System Screens until loop.
 #0^0^0^0^0 #MSC away     - Locks terminal with password and checks for new email.
 #0^0^0^0^0 #MSC byobu    - Multiple sessions.
@@ -1208,7 +1212,7 @@ f_splitvt () {
 #
 f_menu_app_sys_software () {
       f_initvars_menu_app "MSF"
-      until [ $MSF -eq 0 ]
+      until [ "$MSF" = "0" ]
       do    # Start of System Software Applications until loop.
 #0^0^0^0^1 #MSF alien     - Converts rpm to deb packages.
 #1^0^0^0^1 #MSF apt       - Debian package manager.

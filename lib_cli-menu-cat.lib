@@ -1,10 +1,9 @@
-
 # ©2013 Copyright 2013 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="November-05-2013 19:02"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -16,7 +15,7 @@
 #
 f_menu_cat_applications () {
       f_initvars_menu_app "AAB"
-      until [ $AAB -eq 0 ]
+      until [ "$AAB" = "0" ]
       do    # Start of Application Category until loop.
             #mod_apps-audio.lib       #AAB Audio        - Music players, editors, utilities.
             #mod_apps-databases.lib   #AAB Databases    - General and specialized databases.
@@ -28,96 +27,159 @@ f_menu_cat_applications () {
             #mod_apps-network.lib     #AAB Network      - Wireless connection, network monitoring, tools.
             #mod_apps-office.lib      #AAB Office       - Editors, spreadsheets, presenter, organize, calcs, acctg.
             #mod_apps-screensaver.lib #AAB Screen-saver - For when you're away.
+            #mod_apps-software-qa.lib #AAB Software-QA  - Tools to test code and track/report bugs.
             #mod_apps-system.lib      #AAB System       - Monitor system processes, resources, utilities, etc.
             #mod_apps-video.lib       #AAB Video        - Video players, editors, utilities.
             #
             THIS_FILE="lib_cli-menu-cat.lib"
             MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
-            . $THIS_DIR/lib_cli-common.lib
+            #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAB
-            f_cat_menu_item_process $AAB  # Outputs $MENU_ITEM.
-            ERROR=0 # Reset error flag.
-            #
-            case $MENU_ITEM in  # Start of Application Category case statement.
-                 [Aa] | [Aa][Uu]*)
-                 MOD_FILE="mod_apps-audio.lib"
-                 f_download_file
-                 f_menu_cat_audio             # Audio Applications Menu.
-                 ;;
-                 [Dd] | [Dd][Aa]*)
-                 MOD_FILE="mod_apps-databases.lib"
-                 f_download_file
-                 f_menu_app_databases         # Database Applications Menu.
-                 ;;
-                 [Ee] | [Ee][Dd]*)
-                 MOD_FILE="mod_apps-education.lib"
-                 f_download_file
-                 f_menu_app_education         # Education Applications Menu.
-                 ;;
-                 [Ff] | [Ff][Ii]*)
-                 MOD_FILE="mod_apps-filedir.lib"
-                 f_download_file
-                 f_menu_cat_file_management   # File Management Applications Menu.
-                 ;;
-                 [Gg] | [Gg][Aa]*)
-                 MOD_FILE="mod_apps-games.lib"
-                 f_download_file
-                 f_menu_cat_games             # Games Applications Menu.
-                 ;;
-                 [Ii] | [Ii][Mm]*)
-                 MOD_FILE="mod_apps-image.lib"
-                 f_download_file
-                 f_menu_cat_image             # Image-Graphics Applications Menu.
-                 ;;
-                 [Ii] | [Ii][Nn]*)
-                 MOD_FILE="mod_apps-internet.lib"
-                 f_download_file
-                 f_menu_cat_internet          # Internet Applications Menu.
-                 ;;
-                 [Nn] | [Nn][Ee]*)
-                 MOD_FILE="mod_apps-network.lib"
-                 f_download_file
-                 f_menu_cat_network           # Network Applications Menu.
-                 ;;
-                 [Oo] | [Oo][Ff]*)
-                 MOD_FILE="mod_apps-office.lib"
-                 f_download_file
-                 f_menu_cat_office            # Office Applications Menu.
-                 ;;
-                 [Ss] | [Ss][Cc]*)
-                 MOD_FILE="mod_apps-screensaver.lib"
-                 f_download_file
-                 f_menu_app_screen_savers     # Screen-saver Applications Menu.
-                 ;;
-                 [Ss] | [Ss][Yy]*)
-                 MOD_FILE="mod_apps-system.lib"
-                 f_download_file
-                 f_menu_cat_system            # System Applications Menu.
-                 ;;
-                 [Vv] | [Vv][Ii]*)
-                 MOD_FILE="mod_apps-video.lib"
-                 f_download_file
-                 f_menu_cat_video             # Video Applications Menu.
-                 ;;
-            esac # End of Application Category case statement.
-            #
-            # Trap bad menu choices, do not echo Press enter key to continue.
-            f_bad_menu_choice $MENU_ITEM
-            #
-            AAB=$MENU_ITEM  # Outputs $MENU_ITEM.
-            #
-      # Force AAB to be -1 numeric for the until loop. Handles even <F1-F12> keys.
-      if [ "$AAB" != 0 ] ; then
-         case AAB in
-              [A-Za-z]*)
-              AAB=-1
-  	      ;;
-         esac   
-      fi
+            f_menu_item_process $AAB
       done  # End of Application Category until loop.
             #
       unset AAB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_applications
+#
+mod_apps-audio.lib () {
+                 MOD_FILE="mod_apps-audio.lib"
+                 f_download_file
+                 f_menu_cat_audio             # Audio Applications Menu.
+}
+#
+mod_apps-databases.lib () {
+                 MOD_FILE="mod_apps-databases.lib"
+                 f_download_file
+                 f_menu_app_databases         # Database Applications Menu.
+}
+#
+mod_apps-education.lib () {
+                 MOD_FILE="mod_apps-education.lib"
+                 f_download_file
+                 f_menu_app_education         # Education Applications Menu.
+}
+#
+mod_apps-filedir.lib () {
+                 MOD_FILE="mod_apps-filedir.lib"
+                 f_download_file
+                 f_menu_cat_file_management   # File Management Applications Menu.
+}
+#
+mod_apps-games.lib () {
+                 MOD_FILE="mod_apps-games.lib"
+                 f_download_file
+                 f_menu_cat_games             # Games Applications Menu.
+}
+#
+mod_apps-image.lib () {
+                 MOD_FILE="mod_apps-image.lib"
+                 f_download_file
+                 f_menu_cat_image             # Image-Graphics Applications Menu.
+}
+#
+mod_apps-internet.lib () {
+                 MOD_FILE="mod_apps-internet.lib"
+                 f_download_file
+                 f_menu_cat_internet          # Internet Applications Menu.
+}
+#
+mod_apps-network.lib () {
+                 MOD_FILE="mod_apps-network.lib"
+                 f_download_file
+                 f_menu_cat_network           # Network Applications Menu.
+}
+#
+mod_apps-office.lib () {
+                 MOD_FILE="mod_apps-office.lib"
+                 f_download_file
+                 f_menu_cat_office            # Office Applications Menu.
+}
+#
+mod_apps-screensaver.lib () {
+                 MOD_FILE="mod_apps-screensaver.lib"
+                 f_download_file
+                 f_menu_app_screen_savers     # Screen-saver Applications Menu.
+}
+mod_apps-software-qa.lib () {
+                 MOD_FILE="mod_apps-software-qa.lib"
+                 f_download_file
+                 f_menu_app_software-qa            # System Applications Menu.
+}
+#
+mod_apps-system.lib () {
+                 MOD_FILE="mod_apps-system.lib"
+                 f_download_file
+                 f_menu_cat_system            # System Applications Menu.
+}
+#
+mod_apps-video.lib () {
+                 MOD_FILE="mod_apps-video.lib"
+                 f_download_file
+                 f_menu_cat_video             # Video Applications Menu.
+}
+#
+# +----------------------------------------+
+# |           Function f_ncurses           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null), ERROR.
+#
+f_ncurses () {
+      clear  # blank screen
+      echo "This script will automatically install \"libncurses-dev\"."
+      echo
+      # Install libncurses-dev as a prerequisite.
+      APP_NAME="libncurses-dev"
+      f_application_install
+      #
+      if [ $ERROR -ne 0 ] ; then
+         # Failure to install libncurses-dev.
+         echo
+         echo "Installation of \"libncurses-dev\" failed."
+         echo " Skipping installation of \"ncurses-dev\"."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+      else
+         # Success at installing libncurses-dev.
+         echo
+         echo "Installation of \"libncurses-dev\" is successful."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         # Install ncurses-dev as a prerequisite.
+         APP_NAME="ncurses-dev"
+         f_application_install
+         #
+         if [ $ERROR -ne 0 ] ; then
+            # Failure to install ncurses-dev.
+            echo
+            echo "Installation of \"ncurses-dev\" failed."
+            echo
+            echo -n "Press '"Enter"' key to continue."
+            read X
+            unset X  # Throw out this variable.
+         else
+            # Success at installing ncurses-dev.
+            echo
+            echo "Installation of \"ncurses-dev\" is successful."
+            echo
+            echo -n "Press '"Enter"' key to continue."
+            read X
+            unset X  # Throw out this variable.
+           fi
+      fi
+         # Set to null so that f_application_run doesn't try to run libncurses-dev or ncurses-dev as stand-alone applications.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+      unset ANS
+} # End of function f_ncurses
 #

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -15,19 +15,19 @@
 #
 f_menu_cat_office () {
       f_initvars_menu_app "BOF"
-      until [ $BOF -eq 0 ]
+      until [ "$BOF" = "0" ]
       do    # Start of Office Application Category until loop.
-#^f_menu_app_accounting #BOF Accounting   - Accounting (with with double-entry).
-#^f_menu_app_calculators #BOF Calculators  - Simple "pocket" calculators.
-#^f_menu_app_calendar #BOF Calendar     - Calendars.
-#^f_menu_app_clocks #BOF Clocks       - Alarm clocks, specialized clocks.
-#^f_menu_app_contacts #BOF Contacts     - Contact/Address book lists.
-#^f_menu_app_note #BOF Notes        - Notebooks, diaries, PIM (personal information manager).
-#^f_menu_app_pdfps #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
-#^f_menu_app_presentation #BOF Presenters   - Text slideshow presentation.
-#^f_menu_app_spreadsheets #BOF Spreadsheets - Basic spreadsheet.
-#^f_menu_cat_text #BOF Text         - Create/Edit text files, text format converters, etc.        
-#^f_menu_app_todo #BOF To Do         - To-Do lists.
+#f_menu_app_accounting #BOF Accounting   - Accounting (with with double-entry).
+#f_menu_app_calculators #BOF Calculators  - Simple "pocket" calculators.
+#f_menu_app_calendar #BOF Calendar     - Calendars.
+#f_menu_app_clocks #BOF Clocks       - Alarm clocks, specialized clocks.
+#f_menu_app_contacts #BOF Contacts     - Contact/Address book lists.
+#f_menu_app_note #BOF Notes        - Notebooks, diaries, PIM (personal information manager).
+#f_menu_app_pdfps #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
+#f_menu_app_presentation #BOF Presenters   - Text slideshow presentation.
+#f_menu_app_spreadsheets #BOF Spreadsheets - Basic spreadsheet.
+#f_menu_cat_text #BOF Text         - Create/Edit text files, text format converters, etc.        
+#f_menu_app_todo #BOF To Do         - To-Do lists.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Office Application Category Menu"
@@ -51,7 +51,7 @@ f_menu_cat_office () {
 #
 f_menu_app_accounting () {
       f_initvars_menu_app "MAA"
-      until [ $MAA -eq 0 ]
+      until [ "$MAA" = "0" ]
       do    # Start of Accounting Applications until loop.
 #0^0^0^0^1 #MAA brinance      - Personal finance.
 #0^0^0^0^1 #MAA chkbk         - Personal finance.
@@ -85,7 +85,7 @@ f_menu_app_accounting () {
 #
 f_menu_app_calculators () {
       f_initvars_menu_app "MCC"
-      until [ $MCC -eq 0 ]
+      until [ "$MCC" = "0" ]
       do    # Start of Calculator Applications until loop.
 #0^0^0^0^0 #MCC apcalc   - Arbitrary precision calculator, uses C-like language.
 #0^0^0^7^0 #MCC bc       - Calculator.
@@ -120,7 +120,7 @@ f_menu_app_calculators () {
 #
 f_menu_app_calendar () {
       f_initvars_menu_app "MCA"
-      until [ $MCA -eq 0 ]
+      until [ "$MCA" = "0" ]
       do    # Start of Calendar Applications until loop.
 #0^0^0^0^1 #MCA cal         - Displays a monthly calendar.
 #0^0^0^1^0 #MCA calcurse    - Calendar and To-Do List; ncurses-based.
@@ -161,7 +161,7 @@ f_menu_app_calendar () {
 #
 f_menu_app_calendar2 () {
       f_initvars_menu_app "MCB"
-      until [ $MCB -eq 0 ]
+      until [ "$MCB" = "0" ]
       do    # Start of Calendar2 Applications until loop.
 #0^0^0^0^1 #MCB hebcal   - Perpetual Jewish calendar.
 #0^0^0^0^1 #MCB jcal     - Display Jalali (Persian) calendar.
@@ -198,11 +198,11 @@ f_menu_app_calendar2 () {
 #
 f_menu_app_clocks () {
       f_initvars_menu_app "MCL"
-      until [ $MCL -eq 0 ]
+      until [ "$MCL" = "0" ]
       do    # Start of Clock Applications until loop.
 #0^0^0^0^1 #MCL binclock         - Binary clock.
 #0^0^0^0^1 #MCL binary-clock     - Binary numbers 1/0 tells time.
-#0^0^0^0^1 #MCL cclock           - Digital clock with huge numbers fills entire screen.
+#0^1^0^8^0 #MCL cclock           - Digital clock with huge numbers fills entire screen.
 #0^0^0^0^0 #MCL clockywock       - Analog clock, ncurses-based.
 #0^0^0^0^1 #MCL grandfatherclock - Clock chimes Big-Ben, Cuckoo, 'Close Encounters'.
 #0^0^0^0^1 #MCL leave            - Text "alarm" tells you when it's time to leave.
@@ -224,6 +224,127 @@ f_menu_app_clocks () {
 } # End of f_menu_app_clocks
 #
 # +----------------------------------------+
+# |       Function f_install_cclock        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: None.
+# Outputs: None.
+#
+f_install_cclock () {
+      if [ ! -r "/usr/bin/cclock" ] ; then
+         clear  # blank screen
+         echo "This script will install \"cclock\" without using a software package manager."
+         echo
+         echo "If you wish to de-install \"'cclock\", you will have to delete files manually"
+         echo "by typing: \"sudo rm /usr/bin/cclock /usr/share/man/man1/cclock.1\"."
+         echo
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"cclock\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install cclock.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ $ERROR = 0 ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_cclock
+               APP_NAME="cclock" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install cclock.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run cclock.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS
+      fi
+} # End of f_install_cclock
+#
+# +----------------------------------------+
+# |         Function f_install2_cclock     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_cclock () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"cclock\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"cclock\" using wget from:"
+      echo "   http://sourceforge.net/projects/cclock/files/latest/download"
+      echo "3. Decompress and create the installation subdirectory ~/bin/cclock*"
+      echo "4. Install cclock via:"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to \"/usr/bin/\" and \"/usr/share/man/man1/cclock.1\"."
+      echo
+      echo "5. Allow users to run cclock by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      # 
+      # 2. Download "cclock" from "http://sourceforge.net/projects/cclock/files/latest/download"
+      #    by using wget.
+      cd ~/bin
+      wget http://sourceforge.net/projects/cclock/files/latest/download/cclock-0.96.tar.bz2
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/cclock*.
+      tar -xf cclock*
+      #
+      # 4. Make and install cclock.
+      cd ~/bin/cclock*
+      sudo make install
+      #
+      # 5. Allow users to run cclock by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/bin/cclock*
+      #
+      # 6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"cclock\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_cclock
+#
+# +----------------------------------------+
 # |      Function f_menu_app_contacts      |
 # +----------------------------------------+
 #
@@ -233,7 +354,7 @@ f_menu_app_clocks () {
 #
 f_menu_app_contacts () {
       f_initvars_menu_app "MCO"
-      until [ $MCO -eq 0 ]
+      until [ "$MCO" = "0" ]
       do    # Start of Contact List Applications until loop.
 #0^0^0^0^1 #MCO abook - Address book with or w/o mutt. With tabs for fields of information.
             #
@@ -259,7 +380,7 @@ f_menu_app_contacts () {
 #
 f_menu_app_note () {
       f_initvars_menu_app "MNO"
-      until [ $MNO -eq 0 ]
+      until [ "$MNO" = "0" ]
       do    # Start of Note Applications until loop.
 #0^0^0^0^1 #MNO diary    - Diary and To Do List uses commands date, grep, and text editor.
 #0^0^0^0^1 #MNO diary-f  - Fork of "diary" enhanced "view"/"cat" actions, non-latin locales.
@@ -295,7 +416,7 @@ f_menu_app_note () {
 #
 f_menu_app_pdfps () {
       f_initvars_menu_app "MPS"
-      until [ $MPS -eq 0 ]
+      until [ "$MPS" = "0" ]
       do    # Start of PDF and PS Applications until loop.
 #0^0^0^0^1 #MPS comparepdf - Compare two PDF files.
 #0^0^0^0^1 #MPS diffpdf    - Compare two PDF files.
@@ -336,10 +457,10 @@ f_menu_app_pdfps () {
 #
 f_menu_app_pdfps2 () {
       f_initvars_menu_app "MPT"
-      until [ $MPT -eq 0 ]
+      until [ "$MPT" = "0" ]
       do    # Start of PDF and PS #2 Applications until loop.
-#0^0^0^0^1 #MPT sdf        - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
-#0^0^0^0^1 #MPT sdop       - Converts a Simplified Docbook XML file to PS (PostScript).
+#0^0^0^0^1 #MPT sdf  - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+#0^0^0^0^1 #MPT sdop - Converts a Simplified Docbook XML file to PS (PostScript).
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="PDF/PS File2 Applications Menu"
@@ -363,7 +484,7 @@ f_menu_app_pdfps2 () {
 #
 f_menu_app_presentation () {
       f_initvars_menu_app "MPR"
-      until [ $MPR -eq 0 ]
+      until [ "$MPR" = "0" ]
       do    # Start of Presentation Applications until loop.
 #0^0^0^0^0 #MPR tpp  - "Text Presentation Program", slideshow, ncurses-based.
             #
@@ -389,7 +510,7 @@ f_menu_app_presentation () {
 #
 f_menu_app_spreadsheets () {
       f_initvars_menu_app "MSP"
-      until [ $MSP -eq 0 ]
+      until [ "$MSP" = "0" ]
       do    # Start of Spreadsheet Applications until loop.
 #0^0^0^0^1 #MSP oleo - Full-screen spreadsheet having a more Emacs-like feel.
 #0^0^0^0^1 #MSP sc   - Spreadsheet.
@@ -417,13 +538,13 @@ f_menu_app_spreadsheets () {
 #
 f_menu_cat_text () {
       f_initvars_menu_app "BTX"
-      until [ $BTX -eq 0 ]
+      until [ "$BTX" = "0" ]
       do    # Start of Text Application Category until loop.
-#^f_menu_app_text_compare #BTX Compare     - Show differences between text files.
-#^f_menu_app_text_converters #BTX Converters  - Convert between text document/file formats.
-#^f_menu_app_text_editors #BTX Editors     - Create/Edit text documents/files.
-#^f_menu_app_text_markup_language #BTX Markup Docs - Create a single source document, publish in many formats.
-#^f_menu_app_text_tools #BTX Tools       - Viewers, spell-check, dictionaries.
+#f_menu_app_text_compare #BTX Compare     - Show differences between text files.
+#f_menu_app_text_converters #BTX Converters  - Convert between text document/file formats.
+#f_menu_app_text_editors #BTX Editors     - Create/Edit text documents/files.
+#f_menu_app_text_markup_language #BTX Markup Docs - Create a single source document, publish in many formats.
+#f_menu_app_text_tools #BTX Tools       - Viewers, spell-check, dictionaries.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Application Category Menu"
@@ -447,7 +568,7 @@ f_menu_cat_text () {
 #
 f_menu_app_text_compare () {
       f_initvars_menu_app "MTC"
-      until [ $MTC -eq 0 ]
+      until [ "$MTC" = "0" ]
       do    # Start of Text Compare Applications until loop.
 #0^0^0^0^1 #MTC cmp       - Compares 2 text files.
 #0^0^0^0^1 #MTC colordiff - Differences between 2 text files shown in color.
@@ -510,7 +631,7 @@ f_comm () {
 #
 f_menu_app_text_converters () {
       f_initvars_menu_app "MTV"
-      until [ $MTV -eq 0 ]
+      until [ "$MTV" = "0" ]
       do    # Start of Text Converter Applications until loop.
 #1^0^0^0^1 #MTV txt2html   - Converts plain ASCII text to HTML format.
 #1^0^0^0^1 #MTV txt2man    - Converts plain ASCII text to man format.
@@ -665,7 +786,7 @@ f_txt2tags () {
 #
 f_menu_app_text_editors () {
       f_initvars_menu_app "MTE"
-      until [ $MTE -eq 0 ]
+      until [ "$MTE" = "0" ]
       do    # Start of Text Editor Applications until loop.
 #0^0^0^0^1 #MTE aee           - Advanced Easy Editor.
 #0^0^0^0^0 #MTE aoeui         - Very small editor for Dvorak layout keyboards.
@@ -733,7 +854,7 @@ f_f_groff () {
 #
 f_menu_app_text_editors2 () {
       f_initvars_menu_app "MTF"
-      until [ $MTF -eq 0 ]
+      until [ "$MTF" = "0" ]
       do    # Start of Text Editor Applications2 until loop.
 #1^0^0^0^0 #MTF groff     - Format text via macros, create man pages to PS printers.
 #1^0^0^0^0 #MTF jed       - JED ncurses-based. Also consider package: jed-extra.
@@ -808,7 +929,7 @@ f_joe () {
 #
 f_menu_app_text_editors3 () {
       f_initvars_menu_app "MTG"
-      until [ $MTG -eq 0 ]
+      until [ "$MTG" = "0" ]
       do    # Start of Text Editor Applications until loop.
 #0^0^0^0^0 #MTG pico            - Simple full-screen text editor.
 #f_joe^0^0^11:NC^0 #MTG rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
@@ -845,7 +966,7 @@ f_menu_app_text_editors3 () {
 #
 f_menu_app_text_markup_language () {
       f_initvars_menu_app "MTM"
-      until [ $MTM -eq 0 ]
+      until [ "$MTM" = "0" ]
       do    # Start of Text Markup Language Applications until loop.
 #0^0^0^0^0 #MTM doconce  - Markup language to manipulate, transform, and convert text.
 #0^0^0^0^0 #MTM sisu     - Markup language, publishing, search, write to many formats.
@@ -875,7 +996,7 @@ f_menu_app_text_markup_language () {
 #
 f_menu_app_text_tools () {
       f_initvars_menu_app "MTT"
-      until [ $MTT -eq 0 ]
+      until [ "$MTT" = "0" ]
       do    # Start of Text Tool Applications until loop.
 #0^0^0^0^1 #MTT acheck    - Check grammar.
 #0^0^0^0^1 #MTT aiksaurus - Thesaurus, based on Guttenburg's Moby thesaurus.
@@ -887,7 +1008,7 @@ f_menu_app_text_tools () {
 #1^0^0^10:NC^0 #MTT ispell    - Spell check allows text files as input with user dictionary.
 #0^0^0^0^1 #MTT sdcv      - Use StarDict formatted dictionaries (must have own dictionary).
 #1^0^0^10:NC^0 #MTT spell     - Spell check allows keyboard or text files as input.
-#1^0^0^0^1 #MTT wc        - Word count, also counts lines, characters, bytes of a text file.
+#1^0^0^0^1 #MTT wc        - Counts words, lines, characters, bytes of a text file.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Tool Applications Menu"
@@ -1191,7 +1312,7 @@ f_wc () {
 #
 f_menu_app_todo () {
       f_initvars_menu_app "MTD"
-      until [ $MTD -eq 0 ]
+      until [ "$MTD" = "0" ]
       do    # Start of ToDo Applications until loop.
 #0^0^0^1^0 #MTD beeswax  - To-Do List.
 #0^0^0^1^0 #MTD calcurse - Calendar and To-Do List; ncurses-based.

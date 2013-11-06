@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -208,35 +208,6 @@ f_choice_array () {
 } # End of f_choice_array
 #
 # +----------------------------------------+
-# |    Function f_cat_menu_item_process    |
-# +----------------------------------------+
-#
-#  Inputs: $1, CHOICE[$MENU_ITEM], MAX.
-#    Uses: None.
-# Outputs: MENU_ITEM, PRESS_KEY.
-#
-f_cat_menu_item_process () {
-      MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
-                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
-      case $MENU_ITEM in
-           # Quit?
-           0)
-           MENU_ITEM=0
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
-           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
-           if [  $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
-              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
-           fi
-           ;;
-           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-           MENU_ITEM=0
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
-      esac
-} # End of f_cat_menu_item_process
-#
-# +----------------------------------------+
 # |      Function f_menu_item_process      |
 # +----------------------------------------+
 #
@@ -255,14 +226,14 @@ f_menu_item_process () {
            MENU_ITEM=0
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
-           if [  $MENU_ITEM -ge 1 -a $MENU_ITEM -le $MAX ] ; then
+           [1-9] | [1-9][0-9]) # Change MENU_ITEM from a number to an alpha string.
+           if [  "$MENU_ITEM" -ge 1 -a "$MENU_ITEM" -le $MAX ] ; then
               MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
            fi
            ;;
       esac
       # Main Menu item option "Quit" to exit.
-      if [ $DELIMITER = "#AAA" ] ;then
+      if [ "$DELIMITER" = "#AAA" ] ;then
          case $MENU_ITEM in
               [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
               MENU_ITEM=0
@@ -282,7 +253,7 @@ f_menu_item_process () {
       f_application_help
       ERROR=0 # Reset error flag.
       #
-      if [ "$MENU_ITEM" != 0 -a -n "$MENU_ITEM" ] ; then
+      if [ "$MENU_ITEM" != 0 -a "$MENU_ITEM" != -1 -a -n "$MENU_ITEM" ] ; then
          # Is MENU_ITEM a valid choice?
          f_menu_item_valid # APP_NAME="" for invalid name.
                            # APP_NAME=$MENU_ITEM_NAME for valid name.
@@ -296,10 +267,7 @@ f_menu_item_process () {
             # Specify 1st field of $MENU_ITEM_OPT for function #1.
             f_eval_funct "$MENU_ITEM_OPT" 1
             #
-            # Specify 2nd field of $MENU_ITEM_OPT for function #2.
-            f_eval_funct "$MENU_ITEM_OPT" 2
-            #
-            # How to quit?
+            # Specify 4th field of $MENU_ITEM_OPT for Quit Clause.
             # Do not check for Quit Clause if quitting out of
             # a sub-menu after running an application.
             # APP_NAME is set to null if application is already run.
@@ -317,9 +285,16 @@ f_menu_item_process () {
             if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
-               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. Also prevents checking for Quit Clause.
+               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. 
+                                 # Also prevents checking for Quit Clause.
             fi
          fi
+      fi
+      #
+      # Trap bad menu choices, do not echo Press enter key to continue.
+      #
+      if [ "$MENU_ITEM" != 0 ] ; then
+         MENU_ITEM=-1
       fi
       #
       DELIM=${DELIMITER/\#/}   # Strip off leading "#" of DELIMITER "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
@@ -327,9 +302,6 @@ f_menu_item_process () {
       eval $DELIM=$MENU_ITEM   # Set M[A-Z][A-Z] = $MENU_ITEM
                                # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
                                #            0 if "Return to previous menu." Exit Menu loop.
-      #
-      # Trap bad menu choices, do not echo Press enter key to continue.
-      f_bad_menu_choice $MENU_ITEM  # Outputs $MENU_ITEM.
       #
       # If application displays information, allow user to read it.
       f_option_press_enter_key
@@ -468,9 +440,20 @@ f_eval_funct () {
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
       #
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
-         if [ "$XSTR" = 1 ] ; then  # 1st field "1"=<f_app-name>
-            XSTR=f_$MENU_ITEM_NAME   # 2nd and 3rd fields have an unrestricted naming convention for functions.
-         fi
+         case "$2" in
+              1)  # if 1st field is a "1" then <f_app-name> Custom application function for general usage.
+              if [ "$XSTR" = 1 ] ; then
+                 XSTR="f_$MENU_ITEM_NAME"   
+              fi
+              ;;
+              2)  # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+              if [ "$XSTR" = 1 ] ; then
+                 XSTR="f_install_$MENU_ITEM_NAME"   
+              fi
+              ;;
+              # 3rd field "<f_any_name>" is called after the display of the Quit Code message.
+         esac
+         #
          eval $XSTR  # Invoke (run) the function.
          if [ $? -ne 0 ] ; then
             echo "Command or function not found: $XSTR."
@@ -521,7 +504,7 @@ f_quit_app_clause () {
       #%%6. "(quit)" including the parenthesis
       #%%7. "quit"
       #%%8. <Ctrl>-C
-      #%%9. <Ctrl>-C or crash into wall
+      #%%9. <Ctrl>-C or <Ctrl>-D or crash into wall
       #%%10. <Ctrl>-D
       #%%11. <Ctrl>-K X
       #%%12. <Ctrl>-X <Ctrl>-C
@@ -535,6 +518,7 @@ f_quit_app_clause () {
       #%%20. "exit"
       #%%21. "quit" or "exit"
       #%%22. "q or to pause press "p"
+      #%%23. "any key"
       #%% # End of list marker (and awk field marker), DO NOT remove.
           # This marker prevents awk from printing any more lines found by grep "#%%" below
           # and including this line.
@@ -588,9 +572,9 @@ f_quit_app_clause () {
 f_press_key () { 
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $5}')
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
-         PRESS_KEY=1
+         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
       else
-         PRESS_KEY=0
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
       fi
       export PRESS_KEY
       unset X XSTR
@@ -773,124 +757,134 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
 #
 f_application_help () {
-
       case $MENU_ITEM in
            *--version)
-           # if application has no option --version then this will generate an error message.
+           clear # Blank screen
+           # awk extracts only the application's name to use for APP_NAME.
+           APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
+           #
+           # Test to see if the application is installed. 
+           # This returns path of application's run-time executable command.
+           command -v $APP_NAME
+           ERROR=$? # Save error flag condition.
+           if [ $ERROR -eq 0 ] ; then
+              # Display help message.
+              $MENU_ITEM  # Run <Application name> --help
+           fi
+           #
+           if [ $ERROR -ne 0 ] ; then
+              # Error code 1 $?=1 means no --version option available.
+              # Error code 0 (zero) where $?=0 means no error.
+              #
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              #
+              echo "No '--version' option is available for $APP_NAME."
+              f_application_help_mssg
+           fi
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+           MENU_ITEM=-1 # Force stay in menu until loop.
+           # Force f_menu_item_process to not run the application.
+           # Convert string to integer -1. Also indicates valid menu choice.
+           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
            *--help)
            clear # Blank screen
            # awk extracts only the application's name to use for APP_NAME.
            APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
            #
-           # Test to see if the application is installed.
+           # Test to see if the application is installed. 
+           # This returns path of application's run-time executable command.
            command -v $APP_NAME
            ERROR=$? # Save error flag condition.
-           # If there are no --help pages, ask user if wants to install app.
-           # Function f_application_install needs APP_NAME as input
+           if [ $ERROR -eq 0 ] ; then
+              # Display help message.
+              $MENU_ITEM  # Run <Application name> --help
+           fi
+           #
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            #
            if [ $ERROR -ne 0 ] ; then
-              # Error code 1 $?=1 means no --help available.
+              # Error code 1 $?=1 means no --help option available.
               # Error code 0 (zero) where $?=0 means no error.
-              echo "No '--help' option available for $APP_NAME."
-              echo
-              echo "This $APP_NAME application is either not installed"
-              echo "or is installed but help pages were never written for it."
-              echo
               #
-              # Note: the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
               #
-              echo "To install under Debian-based Linux use command:"
-              echo "                           sudo apt-get install <application package name>" 
-              echo
-              echo "To install under Red Hat-based Linux use command:"
-              echo "                           sudo rpm -ivh <application package name>"
-              echo
-              echo "To install under Arch-bashed Linux use command:"
-              echo "                           sudo pacman -S <application package name>"
-              echo
-              echo "To install under Slackware-based Linux use command:"
-              echo "                           sudo installpkg <application package name>"
-              echo "                           sudo slackpkg <application package name>"
-              echo 
-              echo -n "Do you want to install $APP_NAME (y/N)? "
-              read ANS
-              case $ANS in # Start of Install Application Option case statement.
-                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                   f_application_install
-                   PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                   ;;              
-                   [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                   ERROR=0
-                   PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                   ;;
-              esac # End of Install Application Option case statement.
-              unset ANS  # Throw out this variable.
-           else
-              $MENU_ITEM # Run <Application name> --help
-              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              echo "No '--help' option is available for $APP_NAME."
+              f_application_help_mssg
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
+           # Force f_menu_item_process to not run the application.
            # Convert string to integer -1. Also indicates valid menu choice.
            # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
            man' '*)
-              clear # Blank screen
-              $MENU_ITEM # MENU_ITEM = man <Application name>.
-              ERROR=$? # Save error flag condition.
-              # If there are no man pages, ask user if wants to install app.
-              # Function f_application_install needs APP_NAME as input
-              # awk extracts only the application's name to use for APP_NAME.
-              APP_NAME=$(echo $MENU_ITEM | awk '{print $2;}')
+           clear # Blank screen
+           # awk extracts only the application's name to use for APP_NAME.
+           APP_NAME=$(echo $MENU_ITEM | awk '{print $2;}')
+           #
+           $MENU_ITEM # MENU_ITEM = man <Application name>.
+           ERROR=$? # Save error flag condition.
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           #
+           if [ $ERROR -ne 0 ] ; then
+              # Error code 16 where $?=16 means no man(ual) entry available.
+              # Error code 0 (zero) where $?=0 means no error.
+              PRESS_KEY=1 # Display "Press 'Enter' key to continue."
               #
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
               #
-              if [ $ERROR -ne 0 ] ; then
-                 # Error code 16 where $?=16 means no man(ual) entry.
-                 # Error code 0 (zero) where $?=0 means no error.
-                 echo "No manual pages available for $APP_NAME."
-                 echo
-                 echo "This $APP_NAME application is either not installed"
-                 echo "or is installed but man pages were never written for it."
-                 echo
-                 #
-                 # Note the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
-                 #
-                 echo "To install under Debian-based Linux use command:"
-                 echo "                           sudo apt-get install <application package name>"
-                 echo
-                 echo "To install under Red Hat-based Linux use command:"
-                 echo "                           sudo rpm -ivh <application package name>"
-                 echo
-                 echo "To install under Arch-based Linux use command:"
-                 echo "                           sudo pacman -S <application package name>"
-                 echo
-                 echo "To install under Slackware-based Linux use command:"
-                 echo "                           sudo installpkg <application package name>"
-                 echo "                           sudo slackpkg <application package name>"
-                 echo 
-                 echo -n "Do you want to install $APP_NAME (y/N)? "
-                 read ANS
-                 case $ANS in # Start of Install Application Option case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
-                      f_application_install
-                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                      ;;              
-                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
-                      ERROR=0
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
-                 esac # End of Install Application Option case statement.
-                 unset ANS  # Throw out this variable.
-              fi
-              MENU_ITEM=-1 # Force stay in menu until loop.
-              # Convert string to integer -1. Also indicates valid menu choice.
-              # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+              echo "No manual pages are available for $APP_NAME."
+              f_application_help_mssg
+           fi
+           MENU_ITEM=-1 # Force stay in menu until loop.
+           # Force f_menu_item_process to not run the application.
+           # Convert string to integer -1. Also indicates valid menu choice.
+           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            ;;
       esac
 #
 } # End of function f_application_help
+#
+# +----------------------------------------+
+# |   Function f_application_help_mssg     |
+# +----------------------------------------+
+#
+#  Inputs: MENU_ITEM, ERROR.
+#          MENU_ITEM="<Application name> --help"
+#          MENU_ITEM="man <Application name>"
+#    Uses: ANS.
+# Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
+#
+f_application_help_mssg () {
+      echo
+      echo "This $APP_NAME application is either not installed"
+      echo "or is installed but help or man pages were never written for it."
+      echo
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
+      #
+      # Note the $APP_NAME is not neccessarily the package name i.e. trek is in bsdgames package.
+      #
+      echo "To install under Debian-based Linux use command:"
+      echo "                           sudo apt-get install <application package name>"
+      echo
+      echo "To install under Red Hat-based Linux use command:"
+      echo "                           sudo rpm -ivh <application package name>"
+      echo
+      echo "To install under Arch-based Linux use command:"
+      echo "                           sudo pacman -S <application package name>"
+      echo
+      echo "To install under Slackware-based Linux use command:"
+      echo "                           sudo installpkg <application package name>"
+      echo "                           sudo slackpkg <application package name>"
+      echo $(tput bold)
+      #
+} # End of function f_application_help_mssg
 #
 # +----------------------------------------+
 # |       Function f_application_run       |
@@ -928,46 +922,6 @@ f_application_run () {
 } # End of function f_application_run
 #
 # +----------------------------------------+
-# | Function f_bad_menu_choice             |
-# +----------------------------------------+
-#
-#  Inputs: $1, MAX.
-#          $1=$MENU_ITEM
-#    Uses: None.
-# Outputs: MENU_ITEM, PRESS_KEY.
-#
-# Always set MENU_ITEM from string to an integer because menu until loop
-# tests until [ MENU_ITEM -eq 0 ] and will error if MENU_ITEM is a string.
-#
-# Function f_application_run is always called before this function.
-# If valid menu choice, f_application_run sets MENU_ITEM=-1 then leave alone.
-# If MENU_ITEM=0 to quit menu, then leave alone.
-# If invalid menu choice, MENU_ITEM is bad string or bad integer,
-#    then set MENU_ITEM=-1 and do not display "Press 'Enter' key to continue."
-#
-f_bad_menu_choice () {
-      MENU_ITEM=$1
-      case $MENU_ITEM in
-           "")
-           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
-           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-           ;;
-           [A-Za-z]*)
-           MENU_ITEM=-1 # Convert string to integer -1 forcing stay in until loop.
-           PRESS_KEY=0   # Do not display "Press 'Enter' key to continue."
-                         # Specifically for alpha nonsense responses.
-           ;;
-           [1-9]*)
-           if [ $MENU_ITEM -le -2 -o $MENU_ITEM -gt $MAX ] ; then
-              MENU_ITEM=-1   # Convert string to integer -1 forcing stay in until loop.
-              PRESS_KEY=0    # Do not display "Press 'Enter' key to continue."
-                             # Specifically for out-of-bounds numeric response.
-           fi
-           ;;
-      esac
-} # End of function f_bad_menu_choice
-#
-# +----------------------------------------+
 # |       Function f_application_error     |
 # +----------------------------------------+
 #
@@ -1003,8 +957,14 @@ f_application_error () {
            2) # Error code 2 means operand or files is missing.
            # Display error message.
            f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
            echo "Missing operand (file name(s) or names)."
            echo "Try running $APP_NAME_TMP again this time using operands."
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            echo
            echo "Operands may be filenames as in the examples below."
            echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
@@ -1018,8 +978,14 @@ f_application_error () {
            127) # Error code 127 means application is not installed.
            # Display error message.
            f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
            echo "This $APP_NAME_TMP application is not installed."
            echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            f_application_install_question
            ;;
            1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
@@ -1061,7 +1027,13 @@ f_application_error () {
                         #
                         # Display error message.
                         f_display_error_code
+                        #
+                        # Use different color font for error messages.
+                        f_term_color $ECOLOR $BCOLOR
+                        echo $(tput bold)
+                        #
                         echo "Running sudo $APP_NAME_SUDO failed."
+                        echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                         echo "May be caused by bad sudo password, or user has no permission to use sudo,"
                         echo "or bad $APP_NAME_TMP syntax."
                         echo "Consult help using man $APP_NAME_TMP."
@@ -1109,7 +1081,13 @@ f_application_error () {
                         #
                         # Display error message.
                         f_display_error_code
+                        #
+                        # Use different color font for error messages.
+                        f_term_color $ECOLOR $BCOLOR
+                        echo $(tput bold)
+                        #
                         echo "Running sudo $APP_NAME_SUDO failed."
+                        echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                         echo "May be caused by bad sudo password, or user has no permission to use sudo,"
                         echo "or bad $APP_NAME_TMP syntax."
                         echo "Consult help using man $APP_NAME_TMP."
@@ -1140,6 +1118,11 @@ f_application_error () {
 # Outputs: None.
 #
 f_display_error_code () {
+      #
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo $(tput bold)
+      #
       echo
       echo "**********************************************************************"
       echo ">>>>>>>>>> SEE ABOVE for application error messages, if any <<<<<<<<<<"
@@ -1149,6 +1132,7 @@ f_display_error_code () {
       echo "Error code >>> $ERROR <<<  from $APP_NAME_TMP application."
       echo "          ***********"
       echo
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
 } # End of function f_display_error_code
 #
 # +----------------------------------------+
@@ -1207,6 +1191,9 @@ f_application_install () {
       # i.e. The game 'trek' is installed using the package called 'bsdgames'.
       #
       case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+           aafire | aainfo | aatest | aasavefont)
+           APP_NAME_INSTALL="libaa-bin"
+           ;;
            aaxine | cacaxine | fbxine)
            APP_NAME_INSTALL="xine-console"
            ;;
@@ -1271,6 +1258,9 @@ f_application_install () {
            photorec)
            APP_NAME_INSTALL="testdisk"
            ;;
+           qmv | qcp | imv | icp | deurlname)
+           APP_NAME_INSTALL="renameutils"
+           ;;
            tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
            APP_NAME_INSTALL="netdiag"
            ;;
@@ -1302,9 +1292,14 @@ f_application_install () {
          ERROR=$? # Save error flag condition.
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+            #
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            #
             echo
-            echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo
@@ -1313,6 +1308,12 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            echo "Will now try to automatically download/install from source code, if possible."
+            f_press_enter_key_to_continue
+            # If install via package manager failed then see if there is a custom install function.
+            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            # Try downloading source code from a web site and manually installing.
             f_application_web_install
          fi
          #
@@ -1333,9 +1334,15 @@ f_application_install () {
          #if [ $ERROR -ne 0 ] ; then
          #   # Error code 1 $?=1 means installation failed.
          #   # Error code 0 (zero) where $?=0 means no error.
+         #   echo -n $(tput bold)
+         #
+         #   Use different color font for error messages.
+         #   f_term_color $ECOLOR $BCOLOR
+         #   echo $(tput bold)
+         #
          #   echo
-         #   echo "Installation of \"$APP_NAME_INSTALL\" failed."
          #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
+         #   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
          #   echo "is not available for this linux distribution."
          #   echo
@@ -1343,6 +1350,12 @@ f_application_install () {
          #   echo "                       >>>Try doing a web search <<<"
          #   echo "                  for the application and its source code."
          #   echo
+         #   echo "Will now try to automatically download/install from source code, if possible."
+         #   f_press_enter_key_to_continue
+         #   If install via package manager failed then see if there is a custom install function.
+         #   if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+         #   f_eval_funct "$MENU_ITEM_OPT" 2
+         #   Try downloading source code from a web site and manually installing.
          #   f_application_web_install
          #fi
          #
@@ -1354,9 +1367,14 @@ f_application_install () {
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed.
             # Error code 0 (zero) where $?=0 means no error.
+            #
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            #
             echo
-            echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo 
@@ -1364,6 +1382,12 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            echo "Will now try to automatically download/install from source code, if possible."
+            f_press_enter_key_to_continue
+            # If install via package manager failed then see if there is a custom install function.
+            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            # Try downloading source code from a web site and manually installing.
             f_application_web_install
          fi
          #
@@ -1377,9 +1401,14 @@ f_application_install () {
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed.
             # Error code 0 (zero) where $?=0 means no error.
+            #
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            #
             echo
-            echo "Installation of \"$APP_NAME_INSTALL\" failed."
             echo "Command \"sudo rpm -ivh $APP_NAME_INSTALL\" failed."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo
@@ -1387,18 +1416,36 @@ f_application_install () {
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
             echo
+            echo "Will now try to automatically download/install from source code, if possible."
+            f_press_enter_key_to_continue
+            # If install via package manager failed then see if there is a custom install function.
+            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            # Try downloading source code from a web site and manually installing.
             f_application_web_install
          fi
       else
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
          echo
          echo "You will have to install the $APP_NAME_INSTALL package manually."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
          echo
          echo "Not all applications in this menu are available on all linux distributions."
          echo "                       >>>Try doing a web search <<<"
          echo "                  for the application and its source code."
          echo
+         echo "Will now try to automatically download/install from source code, if possible."
          f_press_enter_key_to_continue
+         # If install via package manager failed then see if there is a custom install function.
+         # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+         f_eval_funct "$MENU_ITEM_OPT" 2
+         # Try downloading source code from a web site and manually installing.
+         f_application_web_install
       fi
       #
 } # End of function f_application_install
@@ -1414,14 +1461,9 @@ f_application_install () {
 f_application_web_install () {
       WEB_SITE_INSTALL=""
       case $APP_NAME_INSTALL in # Start of Web Site case statement.
-      # A custom script is now used to install asciiaquarium. See the Screensavers Menu.
-      # Although if custom script is broken, uncomment WEB_SITE_INSTALL and it should work.
-      # The first refers to general project page, the second to the download link on that
-      # project page. Both links should work OK.
-      # asciiaquarium)
-      # WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/
-      # WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
-      #;;
+      asciiquarium)
+      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
+      ;;
       binary-clock)
       WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
       ;;
@@ -1488,6 +1530,9 @@ f_application_web_install () {
       mencal)
       WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
       ;;
+      ncmatrix)
+      WEB_SITE_INSTALL="http://webpages.charter.net/tux/ncmatrix/ncmatrix-1.0.zip"
+      ;;
       ne)
       WEB_SITE_INSTALL="http://ne.dsi.unimi.it/#downloads"
       ;;
@@ -1499,6 +1544,12 @@ f_application_web_install () {
       ;;
       portbunny)
       WEB_SITE_INSTALL="http://portbunny.recurity.com/"
+      ;;
+      renameutils)
+      WEB_SITE_INSTALL="http://download.savannah.nongnu.org/releases/renameutils/renameutils-latest.tar.gz"
+      ;;
+      tbclock)
+      WEB_SITE_INSTALL="http://tamentis.com/projects/tbclock/files/tbclock-1.10.tar.gz"
       ;;
       todo2)
       WEB_SITE_INSTALL="http://swapoff.org/devtodo.html"
@@ -1517,8 +1568,11 @@ f_application_web_install () {
       ;;
       esac                      # End of Web Site case statement.
       #
+      #
+      # Is a web site for install/download specified?
       case $WEB_SITE_INSTALL in # Start of Web Install case statement.
       "")
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
       ;;
       *) # if web site is specified, then go there.
          echo
@@ -1532,6 +1586,7 @@ f_application_web_install () {
               f_application_run
               ;;
               [Nn] | [Nn][Oo])
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
               ;;
          esac                # End of Install case statement.
          unset ANS  # Throw out this variable.
@@ -1672,209 +1727,6 @@ f_ask_which_branch_download () {
       BRANCH=$ANS  # Output $BRANCH.
       unset ANS XSTR  # Throw out this variable.
 } # End of function f_ask_which_branch_download
-#
-# +----------------------------------------+
-# |  Function f_ask_which_module_download  |
-# +----------------------------------------+
-#
-#  Inputs: BRANCH (STABLE, TESTING, QUIT)
-#    Uses: MOD_FILE, XXSTR, X, ANS, PRESS_KEY.
-# Outputs: None (modules downloaded)
-#
-# Download a multiple $MOD_FILE files one at a time from $WEB_SITE.
-#
-f_ask_which_module_download () {
-      clear # Blank the screen.
-      echo "Here is a list of downloadable modules."
-      echo
-      echo " (Q)uit"
-      echo " (ALL) modules"
-      #
-      # Display Download Menu item options, if module exists then bold font, if module missing then normal font.
-      for X in "(AU)dio" "(D)atabases" "(E)ducation" "(F)iledir" "(G)ames" "(IM)age" "(IN)ternet" "(NE)twork" "(O)ffice" "(SA)mple Templates" "(SC)reensaver" "(SY)stem" "(V)ideo"
-      do
-          XXSTR=$(echo $X | awk -F ")" '{print $2}')
-          #
-          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
-          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
-          do
-              # Match module library file name with each menu item in Download Menu.
-              if [[ $MOD_FILE == *$XXSTR* ]] ; then
-                 # Does the module library file exist in $THIS_DIR directory? Yes/No, bold/std font.
-                 if [ -r "$THIS_DIR/$MOD_FILE" ] ; then  # X=<module file name>
-                    echo $(tput bold) $X $MOD_FILE
-                 else
-                    echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo " $X $MOD_FILE" ; f_term_color $FCOLOR $BCOLOR
-                 fi
-              fi
-          done
-      done
-      #
-      echo $(tput bold)
-      echo "For example: 'GIMOSY' will download Games, Image, Office, System modules."
-      echo "          or 'G im OsY' (not case sensitive and spaces allowed)."
-      echo
-      echo -n "Download which modules? Enter letters or (Q)UIT: "
-      read XXSTR
-      case $XXSTR in
-           [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-           XXSTR="QUIT"
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
-           "")
-           XXSTR="QUIT"
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
-      esac
-      #
-      if [ "$XXSTR" != "QUIT" ] ; then
-         # Prepare format of XXSTR for processing by f_module_match.
-         # Change case of XXSTR to all upper-case to make substition easier.
-         XXSTR=$(echo $XXSTR | tr '[:lower:]' '[:upper:]')
-         # Strip off any spaces in XXSTR.
-         XXSTR="${XXSTR//[[:space:]]/}" # Strip off any spaces in XSTR.
-         ANS=$XXSTR  # Save result.
-         #
-         # Validate $XXSTR.
-         WEB_SITE="" # Initialize to null so if "ALL" then f_module_match will not download.
-         while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
-         do
-            f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
-            XXSTR=$XSTR
-            if [ "$MOD_FILE" = "BAD_CHOICE_INPUT" ]  ; then
-               # f_module_match sets MOD_FILE="BAD_CHOICE_INPUT" for invalid choices.
-               # "ALL" menu item sets $MOD_FILE to null after it finishes downloading all modules.
-               #
-               ANS=""  # Force ANS to null for bad choice.
-            fi 
-         done
-         #
-         XXSTR=$ANS # ANS is original XXSTR or null if bad choice.
-         #
-         # If $XXSTR is validated so ask which branch.
-         if [ "$XXSTR" != "QUIT" -a "$XXSTR" != "" ] ; then
-            echo
-            echo "Choose the branch from where you want to download the software modules."
-            echo
-            f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
-                                         # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE, PRESS_KEY=0/1
-            if [ "$BRANCH" = "QUIT" ] ; then
-               XXSTR=""  # When Quit at git branch, then quit out of downloading.
-            fi
-         fi
-         #
-         # If $XXSTR is validated so download modules.
-         while [ -n "$XXSTR" ] # Much pain here! Needed double-quotes around $XSTR string variable.
-         do
-            f_module_match $XXSTR # Set $MOD_FILE to module file name to be downloaded.
-            XXSTR=$XSTR
-            if [ -n "$MOD_FILE" ]  ; then   # If MOD_FILE is not null, then wget.
-                                            # f_module_match sets MOD_FILE to null
-                                            # for invalid choices.
-                                            # "ALL" menu item sets $MOD_FILE to null
-                                            # after it finishes downloading all modules.
-                                            #
-               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE # Download the module.
-            fi
-         done
-         if [ "$BRANCH" != "QUIT" -o "$MOD_FILE" = "BAD_CHOICE_INPUT" ] ; then
-            f_press_enter_key_to_continue
-         fi
-      fi      
-      #
-      unset XXSTR XSTR ANS  # Throw out this variable.
-} # End of function f_ask_which_module_download
-#
-# +----------------------------------------+
-# |         Function f_module_match        |
-# +----------------------------------------+
-#
-#  Inputs: $1
-#          $1=XSTR
-#    Uses: MOD_FILE, XSTR
-# Outputs: MOD_FILE, XSTR
-#
-f_module_match () {
-      XSTR=$1
-      case $XSTR in
-           ALL)
-           if [ -n "$WEB_SITE" ] ; then
-              # for-loop awk command uses back-ticks to execute resulting in (MOD_FILE) name of mod_apps-*.lib.
-              for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
-              do
-                  wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE  # Download all modules.
-              done
-           fi
-           MOD_FILE=""  # This acts as a flag so download does not occur again at end of function.
-           XSTR=${XSTR/ALL/} # Strip off "ALL" from XSTR.
-           ;;
-           AU*)
-           MOD_FILE="mod_apps-audio.lib"
-           XSTR=${XSTR/AU/} # Strip off first letters AU of XSTR.
-           ;;
-           D*)
-           MOD_FILE="mod_apps-databases.lib"
-           XSTR=${XSTR/D/} # Strip off first letter D of XSTR.
-           ;;
-           E*)
-           MOD_FILE="mod_apps-education.lib"
-           XSTR=${XSTR/E/} # Strip off first letter E of XSTR.
-           ;;
-           F*)
-           MOD_FILE="mod_apps-filedir.lib"
-           XSTR=${XSTR/F/} # Strip off first letter F of XSTR.
-           ;;
-           G*)
-           MOD_FILE="mod_apps-games.lib"
-           XSTR=${XSTR/G/} # Strip off first letter G of XSTR.
-           ;;
-           IM*)
-           MOD_FILE="mod_apps-image.lib"
-           XSTR=${XSTR/IM/} # Strip off first letters IM of XSTR.
-           ;;
-           IN*)
-           MOD_FILE="mod_apps-internet.lib"
-           XSTR=${XSTR/IN/} # Strip off first letters IN of XSTR.
-           ;;
-           NE*)
-           MOD_FILE="mod_apps-network.lib"
-           XSTR=${XSTR/NE/} # Strip off first letters NE of XSTR.
-           ;;
-           O*)
-           MOD_FILE="mod_apps-office.lib"
-           XSTR=${XSTR/O/} # Strip off first letter O of XSTR.
-           ;;
-           SA*)
-           MOD_FILE="mod_apps-sample-template.lib"
-           XSTR=${XSTR/SA/} # Strip off first letters SA of XSTR.
-           ;;
-           SC*)
-           MOD_FILE="mod_apps-screensaver.lib"
-           XSTR=${XSTR/SC/} # Strip off first letters SC of XSTR.
-           ;;
-           SY*)
-           MOD_FILE="mod_apps-system.lib"
-           XSTR=${XSTR/SY/} # Strip off first letters SY of XSTR.
-           ;;
-           V*)
-           MOD_FILE="mod_apps-video.lib"
-           XSTR=${XSTR/V/} # Strip off first letter V of XSTR.
-           ;;
-           *)
-           MOD_FILE="BAD_CHOICE_INPUT"
-           XSTR=""
-            # If background color is black or blue, then use yellow font.
-            echo -n $(tput bold)
-            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-               echo $(tput setaf 3)  # Yellow font for error message.
-            else
-               echo $(tput setaf 1)  # Red font for error message.
-            fi
-           echo ">>>Error Bad choice input.<<<"
-           echo "       Exiting now."
-           echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
-      esac
-} # End of function f_ask_which_module_download
 #
 # +----------------------------------------+
 # |       Function f_create_LIST_APPS      |
@@ -2042,13 +1894,11 @@ f_show_max_menu_items () {
                  #
                  if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
                     echo $(tput bold)
-            # If background color is black or blue, then use yellow font.
-            echo -n $(tput bold)
-            if [ "$BCOLOR" = "Black" -o "$BCOLOR" = "Blue" ] ; then
-               echo $(tput setaf 3)  # Yellow font for error message.
-            else
-               echo $(tput setaf 1)  # Red font for error message.
-            fi
+                    #
+                    # Use different color font for error messages.
+                    f_term_color $ECOLOR $BCOLOR
+                    echo $(tput bold)
+                    #
                     echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
                     echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
                  fi
