@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-01-2013 00:35"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_databases     |
@@ -15,7 +15,7 @@
 #
 f_menu_app_databases () {
       f_initvars_menu_app "MDB"
-      until [ $MDB -eq 0 ]
+      until [ "$MDB" = "0" ]
       do    # Start of Database Applications until loop.
 #0^0^0^0^1 #MDB ara               - Search Debian package databases.
 #0^0^0^0^1 #MDB couchdb           - Apache CouchDB document-oriented databsae.

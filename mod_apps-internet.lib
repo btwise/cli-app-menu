@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 01:34"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -15,22 +15,22 @@
 #
 f_menu_cat_internet () {
       f_initvars_menu_app "BIN"
-      until [ $BIN -eq 0 ]
+      until [ "$BIN" = "0" ]
       do    # Start of Internet Application Category until loop.
-#^f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
-#^f_menu_app_bloggers #BIN Blogging Clients  - Blog clients.
-#^f_menu_app_downloaders #BIN Downloaders       - Download files and calculate file checksums. 
-#^f_menu_app_email #BIN Email             - Email clients.
-#^f_menu_app_fax #BIN FAX               - FAX clients.
-#^f_menu_app_file_transfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
-#^f_menu_app_instant_messaging #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
-#^f_menu_app_irc_clients #BIN IRC Clients       - Internet Relay Chat clients.
-#^f_menu_app_lan_chat #BIN LAN Chat          - Local Area Network Chat (not IRC).
-#^f_menu_app_news_readers #BIN News Readers      - Read USEnet news.
-#^f_menu_app_podcatchers #BIN Podcatcher        - Podcaster readers.
-#^f_menu_app_remote_connection #BIN Remote Connection - Connect to other PCs remotely, cloud services.
-#^f_menu_app_rssfeeders #BIN RSS Feeders       - RSS news, messages.
-#^f_menu_app_web_browsers #BIN Web Browsers      - Internet web  browsers.
+#f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
+#f_menu_app_bloggers #BIN Blogging Clients  - Blog clients.
+#f_menu_app_downloaders #BIN Downloaders       - Download files, videos. and calculate file checksums.
+#f_menu_app_email #BIN Email             - Email clients.
+#f_menu_app_fax #BIN FAX               - FAX clients.
+#f_menu_app_file_transfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
+#f_menu_app_instant_messaging #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
+#f_menu_app_irc_clients #BIN IRC Clients       - Internet Relay Chat clients.
+#f_menu_app_lan_chat #BIN LAN Chat          - Local Area Network Chat (not IRC).
+#f_menu_app_news_readers #BIN News Readers      - Read USEnet news.
+#f_menu_app_podcatchers #BIN Podcatcher        - Podcaster readers.
+#f_menu_app_remote_connection #BIN Remote Connection - Connect to other PCs remotely, cloud services.
+#f_menu_app_rssfeeders #BIN RSS Feeders       - RSS news, messages.
+#f_menu_app_web_browsers #BIN Web Browsers      - Internet web  browsers.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Internet Category Menu"
@@ -54,7 +54,7 @@ f_menu_cat_internet () {
 #
 f_menu_app_bittorrent () {
       f_initvars_menu_app "MBT"
-      until [ $MBT -eq 0 ]
+      until [ "$MBT" = "0" ]
       do    # Start of Bittorrent Applications until loop.
 #0^0^0^0^1 #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
 #0^0^0^0^1 #MBT bitflu       - Daemon includes web GUI interface, telnet, plugins.
@@ -88,8 +88,8 @@ f_menu_app_bittorrent () {
 #
 f_menu_app_bloggers () {
       f_initvars_menu_app "MBL"
-      until [ $MBL -eq 0 ]
-      do    # Start of Downloaders Applications until loop.
+      until [ "$MBL" = "0" ]
+      do    # Start of Bloggers Applications until loop.
 #0^0^0^0^1 #MBL blazeblogger - Blogger content management system.
 #0^0^0^0^1 #MBL blogger-cli  - Google blogging client.
 #0^0^0^0^1 #MBL charm        - Blogging client.
@@ -130,15 +130,20 @@ f_nanblogger () {
 #
 f_menu_app_downloaders () {
       f_initvars_menu_app "MDL"
-      until [ $MDL -eq 0 ]
+      until [ "$MDL" = "0" ]
       do    # Start of Downloaders Applications until loop.
-#0^0^0^0^1 #MDL axel     - Downloader accelerator using multiple connections/mirrors.
-#0^0^0^0^1 #MDL aria2c   - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
-#0^0^0^0^1 #MDL cfv      - create/verify many types of checksum files.
-#1^0^0^0^1 #MDL md5pass  - Create a password hash. Usage: md5pass [PASSWORD][SALT]
-#1^0^0^0^1 #MDL md5sum   - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
-#1^0^0^0^1 #MDL sha1pass - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
-#1^0^0^0^1 #MDL sha1sum  - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+#0^0^0^0^1 #MDL axel       - Downloader accelerator using multiple connections/mirrors.
+#0^0^0^0^1 #MDL aria2c     - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
+#0^0^0^0^1 #MDL cfv        - create/verify many types of checksum files.
+#0^0^0^0^1 #MDL cclive     - Download/Play Youtube videos. Rewrite of 'clive'.
+#1^0^0^0^1 #MDL md5pass    - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+#1^0^0^0^1 #MDL md5sum     - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
+#0^0^0^0^1 #MDL quvi       - Downloads Adobe Flash video links, Youtube etc.
+#1^0^0^0^1 #MDL sha1pass   - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+#1^0^0^0^1 #MDL sha1sum    - Display sha1 checksum. Usage: sha1sum [OPTION] [FILE]
+#0^0^0^0^1 #MDL yougrabber - Download/Play Youtube videos.
+#0^0^0^0^1 #MDL youtube-dl - Download/Play Youtube videos.
+
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Downloader-Checksum Applications Menu"
@@ -244,7 +249,7 @@ f_sha1sum () {
 #
 f_menu_app_email () {
       f_initvars_menu_app "MEM"
-      until [ $MEM -eq 0 ]
+      until [ "$MEM" = "0" ]
       do    # Start of E-mail Applications until loop.
 #0^0^0^0^1 #MEM alpine         - E-mail client, FOSS version of pine.
 #0^0^0^0^1 #MEM cone           - E-mail client.
@@ -283,7 +288,7 @@ f_menu_app_email () {
 #
 f_menu_app_fax () {
       f_initvars_menu_app "MFX"
-      until [ $MFX -eq 0 ]
+      until [ "$MFX" = "0" ]
       do    # Start of FAX Applications until loop.
 #0^0^0^0^1 #MFX efax           - FAX over modem.
 #0^0^0^0^1 #MFX hylafax-client - Works with HylaFAX server software.
@@ -310,7 +315,7 @@ f_menu_app_fax () {
 #
 f_menu_app_file_transfer () {
       f_initvars_menu_app "MFT"
-      until [ $MFT -eq 0 ]
+      until [ "$MFT" = "0" ]
       do    # Start of File Transfer Applications until loop.
 #0^0^0^0^1 #MFT cmdftp - File transfer client.
 #0^0^0^0^1 #MFT curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
@@ -344,7 +349,7 @@ f_menu_app_file_transfer () {
 #
 f_menu_app_instant_messaging () {
       f_initvars_menu_app "MIM"
-      until [ $MIM -eq 0 ]
+      until [ "$MIM" = "0" ]
       do    # Start of Internet Messaging Applications until loop.
 #0^0^0^4:NC^1 #MIM barnowl      - BarnOwl supports AIM, IRC, Jabber, Zephyr.
 #0^0^0^0^1 #MIM bitlbee      - Jabber, Google Talk, Facebook, ICQ, AIM, MSN, Yahoo! Twitter.
@@ -357,6 +362,7 @@ f_menu_app_instant_messaging () {
 #0^0^0^0^1 #MIM freetalk     - Jabber client.
 #0^0^0^0^1 #MIM mcabber      - Jabber client.          	
 #0^0^0^0^1 #MIM naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+#0^0^0^0^1 #MIM twidge       - Twitter and identi.ca client.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Instant Messaging Applications Menu"
@@ -398,7 +404,7 @@ f_barnowl () {
 #
 f_menu_app_irc_clients () {
       f_initvars_menu_app "MIR"
-      until [ $MIR -eq 0 ]
+      until [ "$MIR" = "0" ]
       do    # Start of IRC Clients Applications until loop.
 #0^0^0^0^1 #MIR bitchx  - IRC client.
 #0^0^0^0^1 #MIR epic5   - IRC client based on ircI.
@@ -432,7 +438,7 @@ f_menu_app_irc_clients () {
 #
 f_menu_app_lan_chat () {
       f_initvars_menu_app "MNC"
-      until [ $MNC -eq 0 ]
+      until [ "$MNC" = "0" ]
       do    # Start of LAN Chat Applications until loop.
 #0^0^0^0^1 #MNC talk    - Copies lines from your terminal to that of another user.
 #0^0^0^0^1 #MNC weechat - WeeChat (Wee Enhanced Environment for Chat) fast, light client.
@@ -460,7 +466,7 @@ f_menu_app_lan_chat () {
 #
 f_menu_app_news_readers () {
       f_initvars_menu_app "MNR"
-      until [ $MNR -eq 0 ]
+      until [ "$MNR" = "0" ]
       do    # Start of RSS Feeder Applications until loop.
 #0^0^0^0^1 #MNR cortex     - Dump news web page to text.
 #0^0^0^0^1 #MNR gnus       - News reader and E-mail client for Emacs.
@@ -494,7 +500,7 @@ f_menu_app_news_readers () {
 #
 f_menu_app_podcatchers () {
       f_initvars_menu_app "MPO"
-      until [ $MPO -eq 0 ]
+      until [ "$MPO" = "0" ]
       do    # Start of Podcatcher Applications until loop.
 #0^0^0^0^1 #MPO bashpodder - Podcatcher.
 #0^0^0^0^1 #MPO goldenpod  - Podcatcher.
@@ -525,7 +531,7 @@ f_menu_app_podcatchers () {
 #
 f_menu_app_remote_connection () {
       f_initvars_menu_app "MRC"
-      until [ $MRC -eq 0 ]
+      until [ "$MRC" = "0" ]
       do    # Start of Remote Connection Applications until loop.
 #0^0^0^0^1 #MRC cpu     - Remote connection.
 #0^0^0^0^1 #MRC openssh - Remote connection.
@@ -555,7 +561,7 @@ f_menu_app_remote_connection () {
 #
 f_menu_app_rssfeeders () {
       f_initvars_menu_app "MRS"
-      until [ $MRS -eq 0 ]
+      until [ "$MRS" = "0" ]
       do    # Start of RSS Feeder Applications until loop.
             #MRS canto      - RSS feeder.
             #MRS newsbeuter - RSS feeder.
@@ -588,15 +594,17 @@ f_menu_app_rssfeeders () {
 #
 f_menu_app_web_browsers () {
       f_initvars_menu_app "MWB"
-      until [ $MWB -eq 0 ]
+      until [ "$MWB" = "0" ]
       do    # Start of Web Browsers Applications until loop.
-#f_web_site^0^0^1^0 #MWB elinks  - Web browser, tables, frames, forms support, tabbed browsing.
-#f_web_site^0^0^1^0 #MWB links   - Web browser, no graphics mode.
-#f_web_site^0^0^1^0 #MWB links2  - Web browser, has graphics mode.
-#f_web_site^0^0^1^0 #MWB lynx    - Web browser, NLS support.
-#f_web_site^0^0^1^0 #MWB retawq  - Web browser, multi-threaded.
-#0^0^0^0^0 #MWB surfraw - Search the web using a web search site.
-#f_web_site^0^0^1^0 #MWB w3m     - Web browser, tables, frames support, IPv6 support.
+#f_web_site^0^0^1^0 #MWB elinks     - Web browser, tables, frames, forms support, tabbed browsing.
+#0^0^0^1^0 #MWB fbcmd      - Facebook client.
+#f_web_site^0^0^1^0 #MWB links      - Web browser, no graphics mode.
+#f_web_site^0^0^1^0 #MWB links2     - Web browser, has graphics mode.
+#f_web_site^0^0^1^0 #MWB lynx       - Web browser, NLS support.
+#0^0^0^1^0 #MWB pastebinit - Send text to web site "pastebin" for public viewing. 
+#f_web_site^0^0^1^0 #MWB retawq     - Web browser, multi-threaded.
+#0^0^0^0^0 #MWB surfraw    - Search the web using a web search site.
+#f_web_site^0^0^1^0 #MWB w3m        - Web browser, tables, frames support, IPv6 support.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Web Browser Applications Menu"

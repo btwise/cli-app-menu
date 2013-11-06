@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-22-2013 18:18"
+# REVDATE="November-05-2013 19:02"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -15,22 +15,22 @@
 #
 f_menu_cat_file_management () {
       f_initvars_menu_app "BFM"
-      until [ $BFM -eq 0 ]
+      until [ "$BFM" = "0" ]
       do    # Start of File Management Application Category until loop.
-#^f_menu_app_binhex_editors #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
-#^f_menu_app_file_burn #BFM CD/DVD Burn - Write files to CD/DVD.
-#^f_menu_app_file_checksum #BFM Checksum    - Display/Create file checksums to verify file integrity.
-#^f_menu_app_text_compare #BFM Compare     - Show differences between text files.
-#^f_menu_app_file_compression #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
-#^f_menu_app_file_conversion #BFM Convert     - Convert between different file formats.
-#^f_menu_app_text_file_editors #BFM Edit        - Create/Edit text files.
-#^f_menu_app_file_encryption #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
-#^f_menu_app_file_find #BFM Find        - File search.
-#^f_menu_app_file_transfer #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
-#^f_menu_app_file_managers #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
-#^f_menu_app_file_operations #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
-#^f_menu_app_file_splitters #BFM Splitters   - File splitters.
-#^f_menu_app_file_viewers #BFM Viewers     - View files a page at a time.
+#f_menu_app_binhex_editors #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
+#f_menu_app_file_burn #BFM CD/DVD Burn - Write files to CD/DVD.
+#f_menu_app_file_checksum #BFM Checksum    - Display/Create file checksums to verify file integrity.
+#f_menu_app_text_compare #BFM Compare     - Show differences between text files.
+#f_menu_app_file_compression #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
+#f_menu_app_file_conversion #BFM Convert     - Convert between different file formats.
+#f_menu_app_text_file_editors #BFM Edit        - Create/Edit text files.
+#f_menu_app_file_encryption #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
+#f_menu_app_file_find #BFM Find        - File search.
+#f_menu_app_file_transfer #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
+#f_menu_app_file_managers #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
+#f_menu_app_file_operations #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
+#f_menu_app_file_splitters #BFM Splitters   - File splitters.
+#f_menu_app_file_viewers #BFM Viewers     - View files a page at a time.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Management Application Category Menu"
@@ -54,7 +54,7 @@ f_menu_cat_file_management () {
 #
 f_menu_app_binhex_editors () {
       f_initvars_menu_app "MBH"
-      until [ $MBH -eq 0 ]
+      until [ "$MBH" = "0" ]
       do    # Start of Bin-Hex Editor Applications until loop.
 #0^0^0^0^1 #MBH bbe       - sed-like editor for binary files.
 #0^0^0^0^1 #MBH beav      - Binary file editor and viewer.
@@ -93,7 +93,7 @@ f_menu_app_binhex_editors () {
 #
 f_menu_app_file_burn () {
       f_initvars_menu_app "MFA"
-      until [ $MFA -eq 0 ]
+      until [ "$MFA" = "0" ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^0 #MFA bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
 #0^0^0^0^0 #MFA burn         - Write audio/data/iso image or copy CDs.
@@ -187,7 +187,7 @@ f_wodim () {
 #
 f_menu_app_file_checksum () {
       f_initvars_menu_app "MFG"
-      until [ $MFG -eq 0 ]
+      until [ "$MFG" = "0" ]
       do    # Start of File Checksum Applications until loop.
 #0^0^0^0^0 #MFG cdck     - Check the quality of a written CD.
 #0^0^0^0^0 #MFG cfv      - One application to create/verify many types of checksum files.
@@ -299,7 +299,7 @@ f_sha1sum () {
 #
 f_menu_app_text_compare () {
       f_initvars_menu_app "MTC"
-      until [ $MTC -eq 0 ]
+      until [ "$MTC" = "0" ]
       do    # Start of Text Compare Applications until loop.
 #0^0^0^0^1 #MTC cmp       - Compares 2 text files.
 #0^0^0^0^1 #MTC colordiff - Differences between 2 text files shown in color.
@@ -363,7 +363,7 @@ f_comm () {
 #
 f_menu_app_file_compression () {
       f_initvars_menu_app "MFB"
-      until [ $MFB -eq 0 ]
+      until [ "$MFB" = "0" ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^1 #MFB 2a      - Archive manager uses only ncurses and libarchive.
 #0^0^0^0^1 #MFB acat    - Exract files in archives to standard output (tar, gzip, zip etc.).
@@ -404,7 +404,7 @@ f_menu_app_file_compression () {
 #
 f_menu_app_file_compression2 () {
       f_initvars_menu_app "MFC"
-      until [ $MFC -eq 0 ]
+      until [ "$MFC" = "0" ]
       do    # Start of Backup Applications until loop.
 #0^0^0^0^1 #MFC rzip    - Compresses large files, history buffer up to 900MB.
 #0^0^0^0^1 #MFC unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
@@ -438,7 +438,7 @@ f_menu_app_file_compression2 () {
 #
 f_menu_app_file_conversion () {
       f_initvars_menu_app "MTW"
-      until [ $MTW -eq 0 ]
+      until [ "$MTW" = "0" ]
       do    # Start of File Format Conversion Applications until loop.
 #0^0^0^0^0 #MTW abcm2ps     - Converts ABC music source files to PS sheet music format.
 #0^0^0^0^1 #MTW dehtml      - Strips HTML code from text.
@@ -595,7 +595,7 @@ f_txt2tags () {
 #
 f_menu_app_text_file_editors () {
       f_initvars_menu_app "MTH"
-      until [ $MTH -eq 0 ]
+      until [ "$MTH" = "0" ]
       do    # Start of Text Editor Applications until loop.
 #0^0^0^0^1 #MTH aee   - Advanced Easy Editor.
 #0^0^0^15^0 #MTH dav   - Text editor.
@@ -666,7 +666,7 @@ f_joe () {
 #
 f_menu_app_file_encryption () {
       f_initvars_menu_app "MFE"
-      until [ $MFE -eq 0 ]
+      until [ "$MFE" = "0" ]
       do    # Start of File Encryption Applications until loop.
 #0^0^0^0^1 #MFE bcrypt    - Uses the blowfish encryption algorithm.
 #0^0^0^0^1 #MFE ccrypt    - Uses the Rijndael cipher algorithm.
@@ -703,7 +703,7 @@ f_menu_app_file_encryption () {
 #
 f_menu_app_file_find () {
       f_initvars_menu_app "MFF"
-      until [ $MFF -eq 0 ]
+      until [ "$MFF" = "0" ]
       do    # Start of Find File Applications until loop.
 #0^0^0^0^1 #MFF duff         - Duplicate file finder.
 #0^0^0^0^1 #MFF fdupes       - Finds duplicate files uses md5sum and byte comparisons.
@@ -796,7 +796,7 @@ f_locate () {
 #
 f_menu_app_file_transfer () {
       f_initvars_menu_app "MFT"
-      until [ $MFT -eq 0 ]
+      until [ "$MFT" = "0" ]
       do    # Start of File Transfer Applications until loop.
 #0^0^0^0^1 #MFT cmdftp - File transfer client.
 #0^0^0^0^1 #MFT curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
@@ -830,7 +830,7 @@ f_menu_app_file_transfer () {
 #
 f_menu_app_file_managers () {
       f_initvars_menu_app "MFM"
-      until [ $MFM -eq 0 ]
+      until [ "$MFM" = "0" ]
       do    # Start of File Manager Applications until loop.
 #0^0^0^17^1 #MFM clex     - File manager.
 #0^0^0^0^1 #MFM detox    - File name clean up.
@@ -871,20 +871,14 @@ f_menu_app_file_managers () {
 #
 f_menu_app_file_operations () {
       f_initvars_menu_app "MFO"
-      until [ $MFO -eq 0 ]
+      until [ "$MFO" = "0" ]
       do    # Start of File Operations Applications until loop.
-#0^0^0^0^1 #MFO dtrx      - Use tar without remembering which flags for each file to use.
-#0^0^0^0^1 #MFO rsync     - File backup, mirror, directories and files.
-#0^0^0^0^1 #MFO tar       - File backup, compress files.
-#0^0^0^0^1 #MFO --------- - ---------------------------------------------------------------
-#1^0^0^0^1 #MFO adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
-#0^0^0^0^1 #MFO advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
-#0^0^0^0^1 #MFO cdargs    - 'cd' with bookmarks, can bookmark paths of directories.
-#0^0^0^0^1 #MFO mmv       - Move/copy/append/link multiple files using wildcard patterns.
-#0^0^0^0^1 #MFO mrename   - Scripts to rename many files automatically.
-#0^0^0^0^1 #MFO xd        - Smart 'cd' change directory; uses abbreviated directory names.
-#0^0^0^0^1 #MFO --------- - ---------------------------------------------------------------
+#f_menu_app_file_backup^0^0^0^1 #MFO Backup    - Backup utilities for files.
+#0^0^0^0^1 #MFO cdargs    - "cd" with bookmarks, can bookmark paths of directories.
 #f_menu_app_file_delundel^0^0^0^1 #MFO Del/Undel - Delete/Undelete utilities for disks and files.
+#0^0^0^0^1 #MFO deurlname - Removes URL encoded characters from file names.
+#f_menu_app_file_move-copy^0^0^0^1 #MFO Move-Copy - Rename/Move and copy utilities for files.
+#0^0^0^0^1 #MFO xd        - Smart 'cd' change directory; uses abbreviated directory names.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Operations Applications Menu"
@@ -975,14 +969,14 @@ f_adcpmvsrc_install () {
       # 7. Add \"alias cp\" and \"alias mv\" to ~/.bashrc, if needed.
       # Add alias cp to ~/.bashrc if needed.
       XNUM=$(grep "/usr/local/bin/cp -g" -c ~/.bashrc)
-      if [ $XNUM -eq 0 ] ; then
+      if [ $XNUM" = "0" ] ; then
          # Edit file ~/.bashrc and add alias for "cp".
          echo -e "\nalias cp=\"/usr/local/bin/cp -g\"" >> ~/.bashrc
       fi
       #
       # Add alias mv to ~/.bashrc if needed.
       XNUM=$(grep "/usr/local/bin/mv -g" -c ~/.bashrc)
-      if [ $XNUM -eq 0 ] ; then
+      if [ $XNUM" = "0" ] ; then
          # Edit file ~/.bashrc and add alias for "mv".
          echo -e "\nalias mv=\"/usr/local/bin/mv -g\"" >> ~/.bashrc
       fi
@@ -1008,6 +1002,67 @@ f_adcpmvsrc_install () {
 } # End of function f_adcpmvsrc_install
 #
 # +----------------------------------------+
+# |     Function f_menu_app_file_backup    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFI, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_backup () {
+      f_initvars_menu_app "MFI"
+      until [ "$MFI" = "0" ]
+      do    # Start of File Backup Applications until loop.
+#0^0^0^0^1 #MFI dtrx  - Use tar without remembering which flags for each file to use.
+#0^0^0^0^1 #MFI rsync - File backup, mirror, directories and files.
+#0^0^0^0^1 #MFI tar   - File backup, compress files.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Backup Applications Menu"
+            DELIMITER="#MFI" #MFI This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFI
+            f_menu_item_process $MFI  # Outputs $MENU_ITEM.
+      done  # End of File Backup Applications until loop.
+            #
+      unset MFI MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_backup
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_move-copy  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFH, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_move-copy () {
+      f_initvars_menu_app "MFH"
+      until [ "$MFH" = "0" ]
+      do    # Start of File Move-Copy Applications until loop.
+#1^0^0^0^1 #MFH adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+#0^0^0^0^1 #MFH advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+#0^0^0^0^1 #MFH icp       - "interactive cp" allows file name to be edited in terminal.
+#0^0^0^0^1 #MFH imv       - "interactive mv" allows file name to be edited in terminal.
+#0^0^0^0^1 #MFH mmv       - Move/copy/append/link multiple files using wildcard patterns.
+#0^0^0^0^1 #MFH mrename   - Scripts to rename many files automatically.
+#0^0^0^0^1 #MFH qcp       - "quick cp" copies multiple files by using a text editor.
+#0^0^0^0^1 #MFH qmv       - "quick move" renames multiple files by using a text editor.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Move-Copy Applications Menu"
+            DELIMITER="#MFH" #MFH This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFH
+            f_menu_item_process $MFH  # Outputs $MENU_ITEM.
+      done  # End of File Move-Copy Applications until loop.
+            #
+      unset MFH MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_move-copy
+#
+# +----------------------------------------+
 # |    Function f_menu_app_file_delundel   |
 # +----------------------------------------+
 #
@@ -1017,7 +1072,7 @@ f_adcpmvsrc_install () {
 #
 f_menu_app_file_delundel () {
       f_initvars_menu_app "MFD"
-      until [ $MFD -eq 0 ]
+      until [ "$MFD" = "0" ]
       do    # Start of File Deletion/Undeletion Applications until loop.
 #0^0^0^0^1 #MFD shred       - Delete files securely without recovery.
 #0^0^0^0^1 #MFD scrub       - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
@@ -1139,7 +1194,7 @@ f_safecopy () {
 #
 f_menu_app_file_splitters () {
       f_initvars_menu_app "MFS"
-      until [ $MFS -eq 0 ]
+      until [ "$MFS" = "0" ]
       do    # Start of File Splitter Applications until loop.
 #1^0^0^0^1 #MFS csplit  - Splits/Joins files.
 #0^0^0^0^1 #MFS cut     - carve up files by character count, byte count, delimited fields.
@@ -1227,7 +1282,7 @@ f_split () {
 #
 f_menu_app_file_viewers () {
       f_initvars_menu_app "MFV"
-      until [ $MFV -eq 0 ]
+      until [ "$MFV" = "0" ]
       do    # Start of File Viewer Applications until loop.
 #1^0^0^0^0 #MFV less - File viewer and bi-directional pager.
 #1^0^0^0^0 #MFV more - File viewer pager.
