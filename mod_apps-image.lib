@@ -104,12 +104,12 @@ f_menu_app_image_graphics2 () {
 } # End of function f_menu_app_image_graphics
 #
 # +----------------------------------------+
-# |          Function f_linuxlogo         |
+# |          Function f_linuxlogo          |
 # +----------------------------------------+
 #
-f_linuxlogo () { #
+f_linuxlogo () { 
       ANS=-1 # Initialize $ANS for until loop.
-      until [ "$ANS -ge 1 -a $ANS -le 26 ]
+      until [ "$ANS" -ge 1 -a "$ANS" -le 26 ]
       do
             clear # Blank the screen.
             APP_NAME="linuxlogo -L list"

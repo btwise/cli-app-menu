@@ -409,7 +409,7 @@ f_menu_app_sys_logs () {
 #0^0^0^0^1 #MLO logtailer  - Monitor logs for updates and display them.
 #0^0^0^0^1 #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
 #0^0^0^0^1 #MLO multitail  - View multiple log files using multiple panes.
-#0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail work-alike.
+#0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail-like.
 #0^0^0^0^1 #MLO swatch     - Log file viewer with regexp matching, highlighting & hooks.
             #
             THIS_FILE="mod_apps-system.lib"

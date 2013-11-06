@@ -459,8 +459,8 @@ f_menu_app_pdfps2 () {
       f_initvars_menu_app "MPT"
       until [ "$MPT" = "0" ]
       do    # Start of PDF and PS #2 Applications until loop.
-#0^0^0^0^1 #MPT sdf        - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
-#0^0^0^0^1 #MPT sdop       - Converts a Simplified Docbook XML file to PS (PostScript).
+#0^0^0^0^1 #MPT sdf  - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+#0^0^0^0^1 #MPT sdop - Converts a Simplified Docbook XML file to PS (PostScript).
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="PDF/PS File2 Applications Menu"
@@ -1008,7 +1008,7 @@ f_menu_app_text_tools () {
 #1^0^0^10:NC^0 #MTT ispell    - Spell check allows text files as input with user dictionary.
 #0^0^0^0^1 #MTT sdcv      - Use StarDict formatted dictionaries (must have own dictionary).
 #1^0^0^10:NC^0 #MTT spell     - Spell check allows keyboard or text files as input.
-#1^0^0^0^1 #MTT wc        - Word count, also counts lines, characters, bytes of a text file.
+#1^0^0^0^1 #MTT wc        - Counts words, lines, characters, bytes of a text file.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Tool Applications Menu"
