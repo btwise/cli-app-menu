@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-07-2013 16:17"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -427,7 +427,7 @@ f_menu_app_games_board () {
       do    # Start of Board Games until loop.
 #1^0^0^1^0 #MGC atom4      - Board game strategy 2-player ncurses-based.
 #0^0^0^1^0 #MGC backgammon - Backgammon.
-#0^0^0^1^0 #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
+#1^0^0^0^0 #MGC gnubg      - Gnu Backgammon played either from console or GTK+ GUI.
 #0^0^0^2^0 #MGC monop      - Monopoly-like game.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -449,6 +449,26 @@ f_menu_app_games_board () {
 f_atom4 () {
       APP_NAME="atom4 -mt"
 } # End of f_atom4
+#
+# +----------------------------------------+
+# |            Function f_gnubg            |
+# +----------------------------------------+
+#
+f_gnubg () {
+      APP_NAME="gnubg -t"
+      clear # Blank the screen.
+      echo "gnubg - GNU Backgammon."
+      echo
+      echo "gnubg -t starts backgammon in text mode."
+      echo
+      echo "At the prompt, type: \"new game\" to start a new game."
+      echo "           (No game)  new game"
+      echo
+      echo "                     \"help\" for playing commands."
+      echo
+      echo "                     \"q\" or \"quit\" to end game."
+      f_press_enter_key_to_continue
+} # End of f_gnubg
 #
 # +----------------------------------------+
 # |     Function f_menu_app_games_card     |
