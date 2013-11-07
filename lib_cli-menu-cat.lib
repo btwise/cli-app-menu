@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-07-2013 16:17"
 #
 # ******************************************
 # *****   Application Categories Menu  *****
@@ -46,78 +46,104 @@ f_menu_cat_applications () {
 mod_apps-audio.lib () {
                  MOD_FILE="mod_apps-audio.lib"
                  f_download_file
-                 f_menu_cat_audio             # Audio Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_audio             # Audio Applications Menu.
+                 fi
 }
 #
 mod_apps-databases.lib () {
                  MOD_FILE="mod_apps-databases.lib"
                  f_download_file
-                 f_menu_app_databases         # Database Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_app_databases         # Database Applications Menu.
+                 fi
 }
 #
 mod_apps-education.lib () {
                  MOD_FILE="mod_apps-education.lib"
                  f_download_file
-                 f_menu_app_education         # Education Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_app_education         # Education Applications Menu.
+                 fi
 }
 #
 mod_apps-filedir.lib () {
                  MOD_FILE="mod_apps-filedir.lib"
                  f_download_file
-                 f_menu_cat_file_management   # File Management Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_file_management   # File Management Applications Menu.
+                 fi
 }
 #
 mod_apps-games.lib () {
                  MOD_FILE="mod_apps-games.lib"
                  f_download_file
-                 f_menu_cat_games             # Games Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_games             # Games Applications Menu.
+                 fi
 }
 #
 mod_apps-image.lib () {
                  MOD_FILE="mod_apps-image.lib"
                  f_download_file
-                 f_menu_cat_image             # Image-Graphics Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_image             # Image-Graphics Applications Menu.
+                 fi
 }
 #
 mod_apps-internet.lib () {
                  MOD_FILE="mod_apps-internet.lib"
                  f_download_file
-                 f_menu_cat_internet          # Internet Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_internet          # Internet Applications Menu.
+                 fi
 }
 #
 mod_apps-network.lib () {
                  MOD_FILE="mod_apps-network.lib"
                  f_download_file
-                 f_menu_cat_network           # Network Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_network           # Network Applications Menu.
+                 fi
 }
 #
 mod_apps-office.lib () {
                  MOD_FILE="mod_apps-office.lib"
                  f_download_file
-                 f_menu_cat_office            # Office Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_office            # Office Applications Menu.
+                 fi
 }
 #
 mod_apps-screensaver.lib () {
                  MOD_FILE="mod_apps-screensaver.lib"
                  f_download_file
-                 f_menu_app_screen_savers     # Screen-saver Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_app_screen_savers     # Screen-saver Applications Menu.
+                 fi
 }
 mod_apps-software-qa.lib () {
                  MOD_FILE="mod_apps-software-qa.lib"
                  f_download_file
-                 f_menu_app_software-qa            # System Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_app_software-qa            # System Applications Menu.
+                 fi
 }
 #
 mod_apps-system.lib () {
                  MOD_FILE="mod_apps-system.lib"
                  f_download_file
-                 f_menu_cat_system            # System Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_system            # System Applications Menu.
+                 fi
 }
 #
 mod_apps-video.lib () {
                  MOD_FILE="mod_apps-video.lib"
                  f_download_file
-                 f_menu_cat_video             # Video Applications Menu.
+                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                    f_menu_cat_video             # Video Applications Menu.
+                 fi
 }
 #
 # +----------------------------------------+

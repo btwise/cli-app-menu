@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-07-2013 16:17"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -1219,16 +1219,16 @@ f_menu_app_sys_software () {
 #0^0^0^0^1 #MSF apt-cache - Show package information, (reverse)/dependency information.
 #0^0^0^0^1 #MSF apt-file  - Search/List files in the Debian package manager w/o installing.
 #1^0^0^0^0 #MSF aptitude  - Debian package manager.
-#0^0^0^0^1 #MSF aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
+#1^0^0^0^1 #MSF aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
 #0^0^0^0^1 #MSF cupt      - Debian front-end to dpkg package manager.
-#0^0^0^0^1 #MSF dpkg      - Debian package manager.
-#0^0^0^0^1 #MSF rpm       - RPM (Red Hat) package manager.
-#0^0^0^0^0 #MSF synaptic  - GUI Debian package manager.
+#1^0^0^0^1 #MSF dpkg      - Debian package manager.
+#1^0^0^0^1 #MSF rpm       - RPM (Red Hat) package manager.
+#1^0^0^0^0 #MSF synaptic  - GUI Debian package manager.
 #0^0^0^0^1 #MSF unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
 #0^0^0^0^1 #MSF urpmi     - Mandriva, Mageia package manager.
-#0^0^0^0^1 #MSF YaST      - GUI OpenSUSE package manager.
-#0^0^0^0^1 #MSF yum       - "Yellow Dog Updated" package manager.
-#0^0^0^0^1 #MSF zypper    - OpenSUSE package manager on which is based YaST GUI.
+#1^0^0^0^1 #MSF YaST      - GUI OpenSUSE package manager.
+#1^0^0^0^1 #MSF yum       - "Yellow Dog Updated" package manager.
+#1^0^0^0^1 #MSF zypper    - OpenSUSE package manager on which is based YaST GUI.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Software Applications Menu"
@@ -1308,7 +1308,6 @@ f_aptitude () {
 # +----------------------------------------+
 #
 f_aptoncd () {
-                 'aptoncd '* | 'sudo aptoncd '* | 'sudo aptoncd')
                  clear # Blank the screen.
                  echo "APTonCD - A GUI application and is in the menu for reference only."
                  echo
@@ -1450,6 +1449,5 @@ f_zypper () {
                  echo "                        '$APP_NAME --help'"
                  echo
                  f_press_enter_key_to_continue
-                 f_application_run
 } # End of function f_zypper
 #
