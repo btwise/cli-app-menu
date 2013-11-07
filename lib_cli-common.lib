@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-07-2013 16:17"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -25,7 +25,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
          XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
-      clear # Blank the screen.
+      clear  # Blank the screen.
       f_term_color $FCOLOR $BCOLOR # Set terminal color.
       echo -n $(tput bold)
       echo "--- $MENU_TITLE ---"
@@ -282,7 +282,7 @@ f_menu_item_process () {
             # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
             # Don't run "applications" in Main Menu or any of its sub-menus because there are none.
             #
-            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
+            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAB" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
                APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. 
@@ -908,7 +908,7 @@ f_application_run () {
            127)  # Error code 127 means application is not installed.
            f_application_error # installs application.
            # If user decided to install application.
-           if [ $ERROR=127 -a $INSTALL_ANS="YES" ] ; then 
+           if [ $ERROR = 127 -a "$INSTALL_ANS" = "YES" ] ; then 
               $APP_NAME           # Run application.
               f_application_error # Check for errors.
                                   # If so, display appropriate error message.
@@ -1616,8 +1616,10 @@ f_download_file () {
            else  # $MOD_FILE is not in current directory.
               # Ask download from which branch and wget.
               f_wget_file
-              . $THIS_DIR/$MOD_FILE # Invoke module library.
-                          # $MOD_FILE exists in current directory so make it accessible.
+              if [ "$BRANCH" != "QUIT" ] ; then
+                 # $MOD_FILE exists in current directory so make it accessible.
+                 . $THIS_DIR/$MOD_FILE # Invoke module library.
+              fi
            fi
            ;;
            *)  # All other files.
@@ -1638,12 +1640,6 @@ f_download_file () {
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
 f_wget_file () {
-      #if [ "$BRANCH" != "STABLE" -a "$BRANCH" != "TESTING" -a "$BRANCH" != "QUIT" ] ; then
-      #   f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
-      #                                # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE,
-      #                                # PRESS_KEY=0/1
-      #fi
-      #
       # Always ask what branch from which to download.
       . lib_cli-common.lib # Invoke the common library.
       f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?

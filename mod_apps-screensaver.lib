@@ -69,7 +69,7 @@ f_install_asciiquarium () {
             # Check if Curses is installed as a prerequisite.
             APP_NAME="libcurses-perl"
             f_application_install
-            if [ $ERROR -ne 0 ] ; then
+            if [ "$ERROR" != "0" ] ; then
                # Failure to install Curses.
                echo
                echo "Installation of \"Curses\" failed."
@@ -273,7 +273,7 @@ f_install_bsod () {
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_ncurses
-            if [ $ERROR" = "0" ] ; then
+            if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
                #
@@ -377,7 +377,7 @@ f_install2_bsod () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: None.
+#    Uses: ANS.
 # Outputs: None.
 #
 f_install_cclock () {
@@ -398,7 +398,7 @@ f_install_cclock () {
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_ncurses
-            if [ $ERROR" = "0" ] ; then
+            if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
                #
@@ -423,8 +423,8 @@ f_install_cclock () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#    Uses: X
+# Outputs: None.
 #
 f_install2_cclock () {
       clear  # blank screen
@@ -492,6 +492,14 @@ f_install2_cclock () {
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_cclock
+#
+# +----------------------------------------+
+# |              Function f_hint           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
 #
 f_hint () {
       clear  # blank screen
