@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-07-2013 16:17"
+PROJECT_REVDATE="November-07-2013 22:15"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,8 +52,10 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-11-07 *f_application_run fixed if-statment conditional syntax error
+## 2013-11-07 *f_application_install added case entry for glances.
+##            *f_application_run fixed if-statment conditional syntax error
 ##             which attempted to run application even if it was not installed.
+##            *f_application_web_install added case entry for glances.
 ##            *f_gnubg added help message and text mode run-time flag.
 ##            *f_zypper deleted extraneous call to f_application_run.
 ##            *lib_cli_common.lib fixed error if quit out of module download.
