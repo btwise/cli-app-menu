@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-07-2013 22:15"
 #
 # +----------------------------------------+
 # |  Function f_menu_scat_sample_template  |
@@ -58,6 +58,11 @@ f_menu_scat_sample_template () {
 #
 # Field 1 where 1="f_<MENU_ITEM_NAME>" lower-case function name.
 # Field 2 where 1="f_install_<MENU_ITEM_NAME>" lower-case function name.
+#         This custom installation function is called only after the distro's package manager
+#         has failed to install the application usually because the application is not
+#         pre-packaged for the linux distro (distribution).
+#         In that case, the custom install function is called after which the user also has
+#         the option to download the latest source code from the author's web site.
 # Field 3 where "f_<any name> lower-case function name.
 #
 # f_funct1 and f_funct2 are called before the display of the Quit Code message.
