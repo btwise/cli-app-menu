@@ -122,7 +122,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #:REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#:REVDATE="November-05-2013 19:02"
+#:REVDATE="November-11-2013 12:01"
 #:
 #:
 #: +----------------------------------------+
@@ -412,6 +412,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:               and in CHOICE[XNUM] array.
 #: XSTR        - String; Scratch variable.
 #: XXSTR       - String; Scratch variable.
+#: YSTR        - String; Scratch variable.
 #:
 #:
 #: +----------------------------------------+

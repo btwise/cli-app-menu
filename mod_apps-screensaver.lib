@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-07-2013 22:15"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_savers   |
@@ -187,7 +187,7 @@ f_install2_asciiquarium () {
       echo "This script will do the following:"
       echo "1. Change directory to your home folder."
       echo "2. Download \"asciiquarium\" from \"http://www.robobunny.com\" by using wget."
-      echo "3. Decompress and create the installation subdirectory ~/asciiquarium*"
+      echo "3. Decompress and create the installation subdirectory ~/bin/asciiquarium*"
       echo "4. Copy asciiquarium to /usr/local/bin directory."
       echo "5. Allow users to run asciiquarium by setting permissions to r-x or 755 for all users."
       echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."

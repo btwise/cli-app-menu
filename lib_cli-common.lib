@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2013 16:17"
+# REVDATE="November-07-2013 22:15"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1234,8 +1234,12 @@ f_application_install () {
            APP_NAME_INSTALL="fdclone"
            ;;
            glances) # Add repository for glances application.
-           sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
-           sudo apt-get update
+           if [ -d /etc/apt ] ; then 
+               # if /etc/apt directory exists, then use apt-get install
+               # for Debian-based packages.
+               sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
+               sudo apt-get update
+           fi
            ;;
            ifplugstatus)
            APP_NAME_INSTALL="ifplugd"
@@ -1282,7 +1286,9 @@ f_application_install () {
       #    by checking if the requisite directory exists.
       # 2. If it does exist, then use the corresponding application
       #    installation manager.
-      # 3. If the installation fails (error code 1), then try to install
+      # 3. If the installation fails (error code 1), then check for a 
+      #    custom application install function, and if so, try running it.
+      # 4. Lastly, if a project web site is specified, ask if user wants to install
       #    by downloading either compiled or source code from the project's web site.
       #
       if [ -d /etc/apt ] ; then 
@@ -1508,6 +1514,9 @@ f_application_web_install () {
       ;;
       fbv)
       WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
+      ;;
+      glances)
+      WEB_SITE_INSTALL="https://github.com/nicolargo/glances"
       ;;
       grandfatherclock)
       WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
