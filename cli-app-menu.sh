@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-05-2013 19:02"
+REVDATE="November-11-2013 12:01"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -396,7 +396,6 @@ f_valid_files () {
          echo
          exit 1
       fi
-      unset X
 } # End of function f_valid_files
 #
 #
@@ -1041,7 +1040,7 @@ f_update () {
       until [ "$AAD" = "0" ]
       do    # Start of Update Menu until loop.
 #f_updat_edit_hist #AAD Edit History - Make changes to the Edit History.
-#f_update_software #AAD Update       - Update software program from git repository.
+#f_update_software #AAD Update       - Update software program from the GitHub repository.
 #f_updat_list_apps #AAD LIST_APPS    - Re-create/Update file list of all applications.
             #
             MENU_TITLE="Update Menu"
@@ -1071,12 +1070,16 @@ f_update_software () {
       do
          echo
          echo "File to be downloaded is $MOD_FILE."
-         f_download_file  # BRANCH is set here. Download each file one at a time.
+         echo
+         echo "Update \"$MOD_FILE\" from the GitHub software repository?"
+         # Ask download from which branch and wget.
+         f_wget_file
       done
+      f_update_modules
       echo "________________________________________________________________"
       echo
       echo "File cli-app-menu.sh is in folder:"
-      echo "\"$MAIN_DIR\"."
+      echo "\"$MAINMENU_DIR\"."
       echo
       echo "All other software program files are in folder:"
       echo "\"$THIS_DIR\"."
@@ -1084,6 +1087,46 @@ f_update_software () {
       echo "The file names will be appended with a '.1'"
       echo "and you will have to MANUALLY COPY THEM to their original names."
       f_press_enter_key_to_continue
+} # End of function f_update
+#
+# +----------------------------------------+
+# |       Function f_update_modules        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: X, XSTR, XXSTR, DELIMITER, THIS_DIR, THIS_FILE, MOD_FILE.
+# Outputs: None.
+#
+f_update_modules () {
+      XXSTR=$DELIMITER  # Save $DELIMITER. 
+      YSTR=$THIS_FILE   # Save $THIS_FILE.
+      f_initvars_menu_app "AAB"
+      DELIMITER="#AAB"
+      THIS_FILE="lib_cli-menu-cat.lib"
+      #echo
+      #echo "Choose the branch from where you want to download the script program."
+      #echo
+      if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
+         # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+         for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
+         do
+             # Display menu items in bold font if module exists or standard font if module does not exist.
+             if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
+                # Module exists so update to latest version.
+                echo
+                echo "Update \"$MOD_FILE\" from the GitHub software repository?"
+                # Ask download from which branch and wget.
+                f_wget_file
+                if [ "$BRANCH" != "QUIT" ] ; then
+                   # $MOD_FILE exists in current directory so make it accessible.
+                   . $THIS_DIR/$MOD_FILE # Invoke module library.
+                fi
+             fi
+         done
+      fi
+      DELIMITER=$XXSTR
+      THIS_FILE=$YSTR
+      unset X XSTR XXSTR YSTR 
 } # End of function f_update
 #
 # +----------------------------------------+
