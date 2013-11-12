@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2013 22:15"
+# REVDATE="November-11-2013 22:49"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -252,6 +252,7 @@ f_menu_item_process () {
       #
       f_application_help
       ERROR=0 # Reset error flag.
+      PRESS_KEY=0 # Reset flag.
       #
       if [ "$MENU_ITEM" != 0 -a "$MENU_ITEM" != -1 -a -n "$MENU_ITEM" ] ; then
          # Is MENU_ITEM a valid choice?
@@ -1273,6 +1274,9 @@ f_application_install () {
            ;;
            todo)
            APP_NAME_INSTALL="devtodo"
+           ;;
+           ttyplay)
+           APP_NAME_INSTALL="ttyrec"
            ;;
            weather)
            APP_NAME_INSTALL="weather-util"

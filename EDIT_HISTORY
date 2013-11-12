@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-11-2013 12:01"
+PROJECT_REVDATE="November-11-2013 22:49"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -54,6 +54,10 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 ##
 ## 2013-11-11 *f_update added call to f_update_modules to update all software.
 ##            *f_update_modules created to update existing modules.
+##            *f_menu_app_sys_other added ttyplay.
+##            *f_menu_item_process set PRESS_KEY=0.
+##            *f_ttyplay added to display help.
+##            *f_ttyrec added to display help.
 ##
 ## 2013-11-07 *f_application_install added case entry for glances.
 ##            *f_application_run fixed if-statment conditional syntax error
