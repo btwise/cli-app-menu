@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2013 22:15"
+# REVDATE="November-11-2013 20:47"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1273,6 +1273,9 @@ f_application_install () {
            ;;
            todo)
            APP_NAME_INSTALL="devtodo"
+           ;;
+           ttyplay)
+           APP_NAME_INSTALL="ttyrec"
            ;;
            weather)
            APP_NAME_INSTALL="weather-util"
