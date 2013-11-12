@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-11-2013 20:47"
+# REVDATE="November-11-2013 22:49"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -890,14 +890,11 @@ f_ttyplay () {
       f_press_enter_key_to_continue
       case "$MENU_ITEM" in
            *[' ']*) # It has spaces in name.
-           echo "MENU_ITEM=$MENU_ITEM"
-           f_press_enter_key_to_continue
            ;;
            *)
            clear # Blank the screen.
            f_term_color $ECOLOR $BCOLOR
            echo $(tput bold)
-           echo "MENU_ITEM=$MENU_ITEM"
            echo "ttyplay is missing file name."
            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            echo 
@@ -905,7 +902,6 @@ f_ttyplay () {
            echo "       ttyplay [OPTIONS] [FILE]"
            MENU_ITEM_NAME="" # Null so f_application_run is not run twice
            APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. 
-           f_press_enter_key_to_continue
            ;;
       esac
 } # End of f_ttyplay
