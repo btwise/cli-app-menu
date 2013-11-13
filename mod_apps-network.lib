@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-12-2013 00:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -89,6 +89,7 @@ f_menu_app_firewalls () {
 #1^0^0^0^0 #MNF portbunny - Port scanner created by Recurity Labs.
 #0^0^0^0^0 #MNF strobe    - Port scanner.
 #1^0^0^0^1 #MNF ufw       - Firewall configuration and status.
+#1^0^0^0^1 #MNF vuurmuur  - Firewall manager, monitoring, logging, ssh, ncurses GUI.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Firewall Applications Menu"
