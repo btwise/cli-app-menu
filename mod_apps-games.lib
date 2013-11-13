@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2013 16:17"
+# REVDATE="November-12-2013 22:46"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -539,16 +539,19 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
       until [ "$MGF" = "0" ]
       do    # Start of Puzzle Games until loop.
-#0^0^0^0^0 #MGF asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd         - Reformat input as a punch card.
-#0^0^0^0^1 #MGF dab         - 2-players try to complete the most boxes.
-#0^0^0^0^0 #MGF braincurses - Guess the pattern of 4 pegs in 4 colors.
-#0^0^0^0^0 #MGF greed       - Greed numbers game, ncurses-based.
-#0^0^0^0^0 #MGF masterm     - Guess the pattern of 4 pegs in 5 colors.
-#0^0^0^0^0 #MGF nsuduko     - Suduko game.
-#f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt         - Reformat input as a paper tape.
-#0^0^0^0^0 #MGF textmaze    - Find the exit to the maze.
-#0^1^0^1^0 #MGF xorcurses   - based on Xor released in 1987 by Astral Software.
+#0^0^0^0^0 #MGF asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd           - Reformat input as a punch card.
+#0^0^0^0^1 #MGF dab           - 2-players try to complete the most boxes.
+#0^0^0^0^0 #MGF braincurses   - Guess the pattern of 4 pegs in 4 colors.
+#0^0^0^0^0 #MGF greed         - Greed numbers game, ncurses-based.
+#0^0^0^0^0 #MGF masterm       - Guess the pattern of 4 pegs in 5 colors.
+#0^0^0^0^0 #MGF mastermind-nc - Guess the pattern of 4 pegs in 5 colors.
+#0^0^0^0^0 #MGF moo           - Guess the pattern of 4 digits of 1-9.
+#0^0^0^0^0 #MGF nsuduko       - Suduko game.
+#0^0^0^0^0 #MGF pente         - 5 in a row game.
+#f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt           - Reformat input as a paper tape.
+#0^0^0^0^0 #MGF textmaze      - Find the exit to the maze.
+#0^1^0^1^0 #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"

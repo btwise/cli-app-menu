@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-11-2013 22:49"
+PROJECT_REVDATE="November-12-2013 22:46"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,12 +52,17 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-11-11 *f_update added call to f_update_modules to update all software.
-##            *f_update_modules created to update existing modules.
+## 2013-11-12 *f_menu_app_games_puzzle added asciiportal, mastermind-nc, moo, pente.
+##            *f_menu_app_image_graphics added aafigure, duhdraw.
+##            *f_menu_app_firewalls added vuurmuur.
 ##            *f_menu_app_sys_other added ttyplay.
 ##            *f_menu_item_process set PRESS_KEY=0.
 ##            *f_ttyplay added to display help.
-##            *f_ttyrec added to display help.
+##            *f_ttyrec added to display help
+##            *f_wget_file added ability to delete older file versions before download.
+##
+## 2013-11-11 *f_update added call to f_update_modules to update all software.
+##            *f_update_modules created to update existing modules.
 ##
 ## 2013-11-07 *f_application_install added case entry for glances.
 ##            *f_application_run fixed if-statment conditional syntax error
