@@ -200,7 +200,7 @@ f_menu_app_clocks () {
       f_initvars_menu_app "MCL"
       until [ "$MCL" = "0" ]
       do    # Start of Clock Applications until loop.
-#0^0^0^0^1 #MCL binclock         - Binary clock.
+#1^0^0^0^1 #MCL binclock         - Binary clock.
 #0^0^0^0^1 #MCL binary-clock     - Binary numbers 1/0 tells time.
 #0^1^0^8^0 #MCL cclock           - Digital clock with huge numbers fills entire screen.
 #0^0^0^0^0 #MCL clockywock       - Analog clock, ncurses-based.
@@ -222,6 +222,36 @@ f_menu_app_clocks () {
             #
       unset MCL MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_clocks
+#
+# +----------------------------------------+
+# |          Function f_binclock           |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: None.
+# Outputs: None.
+#
+f_binclock () {
+      clear  # blank screen
+      echo "binclock - Display binary clock on console."
+      echo
+      echo "Usage: binclock [OPTIONS]"
+
+      echo "Short options:"
+      echo "-v      print the version number + release date + exit."
+      echo "-h      print version info and startup options  + exit."
+      echo "-l      loop the time every second."
+      echo "-n      shows the time with an additional normal format."
+      echo "-t      show traditional binary output (without color)"
+      echo
+      echo "long options:"
+      echo "--color=[on|off] default: on"
+      echo
+      echo "Now run binclock. Usage: binclock -nl"
+      APP_NAME="binclock -nl"
+      echo
+      f_run_and_exit "binclock" "binclock -nl"
+} # End of f_binclock
 #
 # +----------------------------------------+
 # |       Function f_install_cclock        |

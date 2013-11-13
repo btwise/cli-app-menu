@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-11-2013 22:49"
+# REVDATE="November-12-2013 22:46"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1661,6 +1661,9 @@ f_wget_file () {
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
       if [ "$BRANCH" != "QUIT" ] ; then
          if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
+            if [ -r $THIS_DIR/$MOD_FILE ] ; then  # If old file exists, then delete it.
+               rm $THIS_DIR/$MOD_FILE # Delete old file.
+            fi
             wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
          else
             wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
