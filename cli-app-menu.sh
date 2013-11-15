@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-11-2013 12:01"
+REVDATE="November-14-2013 17:52"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -268,11 +268,13 @@ f_main_init_once () {
       # Validate file names and directories.
       f_valid_dir "$THIS_DIR"
       f_valid_files "$THIS_DIR" "lib_cli-common.lib"
+      f_valid_files "$THIS_DIR" "lib_cli-web-sites.lib"
       f_valid_files "$THIS_DIR" "lib_cli-menu-cat.lib"
       #
       # Invoke the common library to display menus.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
+      . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
       #
 } # End of function f_main_init_once
 #
@@ -1066,7 +1068,7 @@ f_update_software () {
       echo
       echo "Choose the branch from where you want to download the script program."
       echo
-      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
+      for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
       do
          echo
          echo "File to be downloaded is $MOD_FILE."

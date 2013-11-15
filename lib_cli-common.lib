@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2013 22:46"
+# REVDATE="November-14-2013 17:52"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -219,6 +219,7 @@ f_choice_array () {
 f_menu_item_process () {
       MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
                     # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+      PRESS_KEY=0 # Reset flag.
                     #
       case $MENU_ITEM in
            # Quit?
@@ -252,7 +253,6 @@ f_menu_item_process () {
       #
       f_application_help
       ERROR=0 # Reset error flag.
-      PRESS_KEY=0 # Reset flag.
       #
       if [ "$MENU_ITEM" != 0 -a "$MENU_ITEM" != -1 -a -n "$MENU_ITEM" ] ; then
          # Is MENU_ITEM a valid choice?
@@ -760,6 +760,8 @@ f_option_press_enter_key () { # Display message and wait for user input.
 f_application_help () {
       case $MENU_ITEM in
            *--version)
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                       # Default assumes that version messages exist.
            clear # Blank screen
            # awk extracts only the application's name to use for APP_NAME.
            APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
@@ -768,11 +770,16 @@ f_application_help () {
            # This returns path of application's run-time executable command.
            command -v $APP_NAME
            ERROR=$? # Save error flag condition.
+           # Error code 1 $?=1 means no --help option available.
+           # Error code 0 (zero) where $?=0 means no error.
+           #
+           # Application is installed.
            if [ $ERROR -eq 0 ] ; then
               # Display help message.
               $MENU_ITEM  # Run <Application name> --help
            fi
            #
+           # Application is not installed.
            if [ $ERROR -ne 0 ] ; then
               # Error code 1 $?=1 means no --version option available.
               # Error code 0 (zero) where $?=0 means no error.
@@ -784,13 +791,15 @@ f_application_help () {
               echo "No '--version' option is available for $APP_NAME."
               f_application_help_mssg
            fi
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            MENU_ITEM=-1 # Force stay in menu until loop.
-           # Force f_menu_item_process to not run the application.
-           # Convert string to integer -1. Also indicates valid menu choice.
-           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+                        # Convert string to integer -1. Also indicates valid menu choice.
+                        # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+           APP_NAME=""  # Make sure that application is not run after displaying message.
+                        # Make sure that f_application_run is not run.
            ;;
            *--help)
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                       # Default assumes that help messages exist.
            clear # Blank screen
            # awk extracts only the application's name to use for APP_NAME.
            APP_NAME=$(echo $MENU_ITEM | awk '{print $1;}')
@@ -799,17 +808,17 @@ f_application_help () {
            # This returns path of application's run-time executable command.
            command -v $APP_NAME
            ERROR=$? # Save error flag condition.
+           # Error code 1 $?=1 means no --help option available.
+           # Error code 0 (zero) where $?=0 means no error.
+           #
+           # Application is installed.
            if [ $ERROR -eq 0 ] ; then
               # Display help message.
               $MENU_ITEM  # Run <Application name> --help
            fi
            #
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-           #
+           # Application is not installed so not --help exists.
            if [ $ERROR -ne 0 ] ; then
-              # Error code 1 $?=1 means no --help option available.
-              # Error code 0 (zero) where $?=0 means no error.
-              #
               # Use different color font for error messages.
               f_term_color $ECOLOR $BCOLOR
               echo $(tput bold)
@@ -818,22 +827,46 @@ f_application_help () {
               f_application_help_mssg
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
-           # Force f_menu_item_process to not run the application.
-           # Convert string to integer -1. Also indicates valid menu choice.
-           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+                        # Convert string to integer -1. Also indicates valid menu choice.
+                        # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+           APP_NAME=""  # Make sure that application is not run after displaying message.
+                        # Make sure that f_application_run is not run.           ;;
            ;;
            man' '*)
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                       # Default assumes that man pages exist.
            clear # Blank screen
            # awk extracts only the application's name to use for APP_NAME.
            APP_NAME=$(echo $MENU_ITEM | awk '{print $2;}')
            #
-           $MENU_ITEM # MENU_ITEM = man <Application name>.
+           # Test to see if the application is installed. 
+           # This returns path of application's run-time executable command.
+           command -v $APP_NAME
            ERROR=$? # Save error flag condition.
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           # Error code 1 $?=1 means no --help option available.
+           # Error code 0 (zero) where $?=0 means no error.
            #
+           # Application is installed.
+           if [ $ERROR -eq 0 ] ; then
+              # Display help message.
+              $MENU_ITEM  # Run man <Application name>
+              ERROR=$? # Save error flag condition.
+              # Error code 1 $?=1 means no --help option available.
+              # Error code 0 (zero) where $?=0 means no error.
+              #
+              # Application is installed but no man pages exist.
+              # Display any messages that no man pages exist.
+              if [ $ERROR -ne 0 ] ; then
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+              fi
+           fi
+           #
+           # Application is not installed so no man pages exist.
            if [ $ERROR -ne 0 ] ; then
               # Error code 16 where $?=16 means no man(ual) entry available.
               # Error code 0 (zero) where $?=0 means no error.
+              #
+              # Display any messages that no man pages exist.
               PRESS_KEY=1 # Display "Press 'Enter' key to continue."
               #
               # Use different color font for error messages.
@@ -844,9 +877,10 @@ f_application_help () {
               f_application_help_mssg
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
-           # Force f_menu_item_process to not run the application.
-           # Convert string to integer -1. Also indicates valid menu choice.
-           # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+                        # Convert string to integer -1. Also indicates valid menu choice.
+                        # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
+           APP_NAME=""  # Make sure that application is not run after displaying message.
+                        # Make sure that f_application_run is not run.           ;;
            ;;
       esac
 #
@@ -952,6 +986,7 @@ f_application_error () {
                         # without exiting Main Menu.
          MENU_ITEM=-1   # Initialize to -1 to force until loop 
                         # without exiting Sub-Category Menu.
+         PRESS_KEY=1    # Display "Press 'Enter' key to continue." for all errors.
       fi
       #
       case $ERROR in # Start of Error Number case statement.
@@ -974,7 +1009,6 @@ f_application_error () {
            echo "Or operands may be a combination of parameters, options, and filenames."
            echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
            echo "Example: find /home -iname test1.txt -print"
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            ;;
            127) # Error code 127 means application is not installed.
            # Display error message.
@@ -1008,7 +1042,6 @@ f_application_error () {
                 echo
                 echo "Try running $APP_NAME_TMP without the sudo command."
                 echo "There is a possibility that the application is not installed."
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                 ;;
                 *)
                 # Display error message.
@@ -1021,11 +1054,10 @@ f_application_error () {
                      APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
                      sudo $APP_NAME_SUDO
                      ERROR=$? # Save error flag condition.
+                     # Error code 1 $?=1 means sudo failed.
+                     # Error code 0 (zero) where $?=0 means no error.
                      #
                      if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
-                        # Error code 1 $?=1 means sudo failed.
-                        # Error code 0 (zero) where $?=0 means no error.
-                        #
                         # Display error message.
                         f_display_error_code
                         #
@@ -1040,11 +1072,9 @@ f_application_error () {
                         echo "Consult help using man $APP_NAME_TMP."
                         echo
                      fi
-                     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                      ;;
                      [Nn] | [Nn][Oo] | *)
                      ERROR=0
-                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                      ;;
                 esac     # End of Use SUDO case statement.
                 ;;
@@ -1061,7 +1091,6 @@ f_application_error () {
                 echo
                 echo "Try running $APP_NAME_TMP without the sudo command."
                 echo "There is a possibility that the application is not installed."
-                PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                 ;;
                 *)
                 # Display error message.
@@ -1075,11 +1104,10 @@ f_application_error () {
                      APP_NAME_SUDO=$APP_NAME # Don't modify APP_NAME
                      sudo $APP_NAME_SUDO
                      ERROR=$? # Save error flag condition.
+                     # Error code 1 $?=1 means sudo failed.
+                     # Error code 0 (zero) where $?=0 means no error.
                      #
                      if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
-                        # Error code 1 $?=1 means sudo failed.
-                        # Error code 0 (zero) where $?=0 means no error.
-                        #
                         # Display error message.
                         f_display_error_code
                         #
@@ -1094,11 +1122,9 @@ f_application_error () {
                         echo "Consult help using man $APP_NAME_TMP."
                         echo
                      fi
-                     PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                      ;;
                      [Nn] | [Nn][Oo] | *)
                      ERROR=0
-                     PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                      ;;
                 esac     # End of Use SUDO case statement.
                 unset ANS  # Throw out this variable.
@@ -1151,7 +1177,6 @@ f_application_install_question () {
                       [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
                       INSTALL_ANS="YES"
                       f_application_install
-                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                       ;;              
                       [Nn] | [Nn][Oo] | *) # No, do not install the application.
                       INSTALL_ANS="NO"
@@ -1459,153 +1484,6 @@ f_application_install () {
       fi
       #
 } # End of function f_application_install
-#
-# +----------------------------------------+
-# | Function f_application_web_install     |
-# +----------------------------------------+
-#
-#  Inputs: APP_NAME_INSTALL.
-#    Uses: ANS.
-# Outputs: APP_NAME, WEB_SITE_INSTALL.
-#
-f_application_web_install () {
-      WEB_SITE_INSTALL=""
-      case $APP_NAME_INSTALL in # Start of Web Site case statement.
-      asciiquarium)
-      WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
-      ;;
-      binary-clock)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/binary-clock/files/binary-clock-src/binary-clock-0.5/binary-clock-0.5.tar.gz/download?use_mirror=iweb&download="
-      ;;
-      blogger-cli)
-      WEB_SITE_INSTALL="http://code.google.com/p/blogger-cli/downloads/detail?name=blogger-cli-0.5.tar.gz&can=2&q="
-      ;;
-      bsod)
-      WEB_SITE_INSTALL="http://www.vanheusden.com/bsod/"
-      ;;
-      cclock)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
-      ;;
-      clcal)
-      WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
-      ;;
-      clockywock)
-      WEB_SITE_INSTALL="http://soomka.com/"
-      ;;
-      consolecandy)
-      WEB_SITE_INSTALL="http://www.vanheusden.com/consolecandy/"
-      ;;
-      curses)
-      WEB_SITE_INSTALL="http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz"
-      ;;
-      dateutils)
-      WEB_SITE_INSTALL="https://bitbucket.org/hroptatyr/dateutils/downloads"
-      ;;
-      desmume)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/desmume/files/desmume/"
-      ;;
-      diary)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/diary/"
-      ;;
-      diary-f)
-      WEB_SITE_INSTALL="https://github.com/earshinov/diary-f"
-      ;;
-      dsol)
-      WEB_SITE_INSTALL="http://www.lgdb.org/game/dsol"
-      ;;
-      edbrowse)
-      WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
-      ;;
-      fbv)
-      WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
-      ;;
-      glances)
-      WEB_SITE_INSTALL="https://github.com/nicolargo/glances"
-      ;;
-      grandfatherclock)
-      WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
-      ;;
-      handbrake-cli)
-      WEB_SITE_INSTALL="http://handbrake.fr/downloads2.php"
-      ;;
-      herrie)
-      WEB_SITE_INSTALL="http://herrie.info/#obtaining"
-      ;;
-      jed)
-      WEB_SITE_INSTALL="http://www.jedsoft.org/jed/download.html"
-      ;;
-      jfbview)
-      WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
-      ;;
-      lnav)
-      WEB_SITE_INSTALL="http://tstack.github.io/lnav/"
-      ;;
-      mencal)
-      WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
-      ;;
-      ncmatrix)
-      WEB_SITE_INSTALL="http://webpages.charter.net/tux/ncmatrix/ncmatrix-1.0.zip"
-      ;;
-      ne)
-      WEB_SITE_INSTALL="http://ne.dsi.unimi.it/#downloads"
-      ;;
-      opencubicplayer)
-      WEB_SITE_INSTALL="http://stian.cubic.org/project-ocp.php"
-      ;;
-      retawq)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/retawq/files/retawq/retawq-0.2.6c/retawq-0.2.6c.tar.gz/download?use_mirror=hivelocity"
-      ;;
-      portbunny)
-      WEB_SITE_INSTALL="http://portbunny.recurity.com/"
-      ;;
-      renameutils)
-      WEB_SITE_INSTALL="http://download.savannah.nongnu.org/releases/renameutils/renameutils-latest.tar.gz"
-      ;;
-      tbclock)
-      WEB_SITE_INSTALL="http://tamentis.com/projects/tbclock/files/tbclock-1.10.tar.gz"
-      ;;
-      todo2)
-      WEB_SITE_INSTALL="http://swapoff.org/devtodo.html"
-      ;;
-      vtclock)
-      WEB_SITE_INSTALL="http://webonastick.com/vtclock/"
-      ;;
-      wp-cli)
-      WEB_SITE_INSTALL="https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh"
-      ;;
-      yougrabber)
-      WEB_SITE_INSTALL="http://sourceforge.net/projects/yougrabber/files/"
-      ;;
-      xorcurses)
-      WEB_SITE_INSTALL="http://jwm-art.net/?p=XorCurses"
-      ;;
-      esac                      # End of Web Site case statement.
-      #
-      #
-      # Is a web site for install/download specified?
-      case $WEB_SITE_INSTALL in # Start of Web Install case statement.
-      "")
-      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-      ;;
-      *) # if web site is specified, then go there.
-         echo
-         echo "If application did not install properly, do want to use the elinks web browser"
-         echo -n "to visit the project's web site to download manually (y/N)? "
-         read ANS
-         case $ANS in        # Start of Install case statement.
-              [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-              APP_NAME="elinks $WEB_SITE_INSTALL"
-              f_how_to_quit_application "q"
-              f_application_run
-              ;;
-              [Nn] | [Nn][Oo])
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-              ;;
-         esac                # End of Install case statement.
-         unset ANS  # Throw out this variable.
-      ;;
-      esac                         # End of Web Install case statement.
-} # End of function f_application_web_install
 #
 # +----------------------------------------+
 # |       Function f_download_file         |

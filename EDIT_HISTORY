@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-12-2013 22:46"
+PROJECT_REVDATE="November-14-2013 17:52"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,13 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-11-14 *f_application_error remove extraneous PRESS_KEY statements.
+##            *f_application_help prevent running apps afterwards.
+##            *f_application_web_install move from lib_cli-common.lib to lib_cli-web-sites.lib.
+##            *f_main_init_once verify and invoke lib_cli-web-sites.lib.
+##            *lib_cli-web-sites.lib created.
+##            *f_update_software added lib_cli-web-sites.lib.
 ##
 ## 2013-11-12 *f_menu_app_games_puzzle added asciiportal, mastermind-nc, moo, pente.
 ##            *f_menu_app_image_graphics added aafigure, duhdraw.
