@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-14-2013 17:52"
+# REVDATE="November-16-2013 00:18"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -142,6 +142,7 @@ f_application_web_install () {
                 APP_NAME="elinks $WEB_SITE_INSTALL"
                 f_how_to_quit_application "q"
                 f_application_run
+                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
                 [Nn] | [Nn][Oo])
                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
