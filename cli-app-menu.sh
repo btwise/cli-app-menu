@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-14-2013 17:52"
+REVDATE="November-16-2013 23:52"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -202,16 +202,12 @@ f_main_init_once () {
       # Set terminal colors from 8 to 256 colors.
         export TERM=xterm-256color       
       #
-      # This function sets the $THIS_DIR variable so that lib_cli-common.lib and
-      # the module libraries may reside in any directory and still be invoked from
-      # the Main Menu script, cli-app-menu.sh. Please refer to README for more
-      # instructions on how to set the $PATH environmental variable to do this.
-      #
-      # This function is called before displaying any menu.
-      #
+      # You have the option of either keeping all the program files in the same
+      # folder or a separate folder for the Main Menu (file cli-app-menu.sh).
+      # 
       # MAINMENU_DIR contains the script file cli-app-menu.sh.
-      # This may be the same directory as $THIS_DIR or may be
-      # any other directory you choose.
+      # This may be the same directory as $THIS_DIR or may be any other
+      # directory you choose.
       #
       # If you are using a single-user PC/laptop, you may simply put the 
       # script in your personal home directory.
@@ -221,16 +217,17 @@ f_main_init_once () {
       # other users may run the script, (rwx-rx-rx) or (755) permissions.
       #
       # i.e. /home/<username_goes_here>
-      #      Just put script cli-app-menu.sh in home folder. 
-      #      Other users will have to do the same with their separate copy.
+      #      Just put script cli-app-menu.sh in your home folder. 
+      #      Other users will have to do the same with their own separate copy.
       #
       # i.e. /usr/local/bin/cli-app-menu 
-      #      Or create this folder for a single copy of the script accessible 
-      #      to all users. /usr folder holds applications for users to run.
+      #      Or create this folder to contain a single copy of cli-app-menu.sh
+      #      script accessible by all users. /usr folder contains user apps.
       #
       # i.e. /opt/cli-app-menu
-      #      Or create this folder for a single copy of the  script accessible 
-      #      to all users. /opt folder is another location for user apps.
+      #      Or create this folder to contain a single copy of cli-app-menu.sh
+      #      script accessible by all users.  /opt folder is another location 
+      #      to contain user apps.
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -254,7 +251,28 @@ f_main_init_once () {
       # updated or needed and LIST_APPS can be updated accordingly.
       # 
       # Since this folder will contain multiple files for this project,
-      # it may help to name it "cli-app-menu" to use it for only project files.
+      # it may help to name it "cli-app-menu" for use by only project files.
+      # 
+      # If multiple users login to the PC/laptop, the folder $THIS_DIR needs
+      # permissions set so other users may read/execute the files,
+      # with (rwx-rx-rx) or (755) permissions.
+      #
+      # Also the $PATH variable must include $MAIN_MENU and $THIS_DIR.
+      # Please refer to README for more instructions on how to set the $PATH
+      # environmental variable to do this.
+      #
+      #
+      # Why have a separate folder from the one containing cli-app-menu.sh?
+      #
+      # If you are using a single-user PC/laptop, you may simply put the 
+      # script in your personal home directory, with all other files in a
+      # separate sub-folder so as not to "clog" your home directory with
+      # a bunch of new files.
+      #
+      # Tip: When logging into the console, the user's home directory is the
+      # working directory by default. You can automatically run cli-app-menu.sh
+      # every time you log in by including the script command into your .bashrc
+      # file.
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -499,10 +517,10 @@ f_main_configure () {
       f_initvars_menu_app "AAC"
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_menu_term_color #AAC Colors       - Set default font/background colors.
-#f_menu_uncolor    #AAC Un-colors    - Set font color for unavailable library modules.
-#f_update          #AAC Update       - Update software program, Edit History, LIST_APP.
-#f_ls_this_dir     #AAC Module files - List module library files in library directory.
+#f_menu_term_color #AAC Colors        - Set default font/background colors.
+#f_menu_uncolor    #AAC Un-colors     - Set font color for unavailable library modules.
+#f_update          #AAC Update        - Update software program, Edit History, LIST_APP.
+#f_ls_this_dir     #AAC Program Files - List all support and library program files.
             #
             MENU_TITLE="Configuration Menu"
             DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
@@ -716,14 +734,11 @@ f_main_list_apps () {
          echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
-         echo "The file LIST_APPS may be automatically created/updated by:"
+         echo "The file LIST_APPS will now be automatically created/updated:"
          echo
-         echo "Select Main Menu item:"
-         echo "Configure - Change default settings; terminal, browser etc."
-         echo
-         echo "Select Configuration Menu item:"
-         echo "LIST_APPS - Re-create/Update file list of all applications."
-         echo
+         f_press_enter_key_to_continue
+         # Download/Update file LIST_APPS.
+         f_update_list_apps
          f_press_enter_key_to_continue
       fi
       # display LIST_APPS
@@ -752,14 +767,11 @@ f_main_search_apps () {
          echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
-         echo "The file LIST_APPS may be automatically created/updated by:"
+         echo "The file LIST_APPS will now be automatically created/updated:"
          echo
-         echo "Select Main Menu item:"
-         echo "Configure - Change default settings; terminal, browser etc."
-         echo
-         echo "Select Configuration Menu item:"
-         echo "LIST_APPS - Re-create/Update file list of all applications."
-         echo
+         f_press_enter_key_to_continue
+         # Download/Update file LIST_APPS.
+         f_update_list_apps
          f_press_enter_key_to_continue
       fi
       #
@@ -1041,9 +1053,9 @@ f_update () {
       f_initvars_menu_app "AAD"
       until [ "$AAD" = "0" ]
       do    # Start of Update Menu until loop.
-#f_updat_edit_hist #AAD Edit History - Make changes to the Edit History.
-#f_update_software #AAD Update       - Update software program from the GitHub repository.
-#f_updat_list_apps #AAD LIST_APPS    - Re-create/Update file list of all applications.
+#f_update_list_apps^0^0^0^1 #AAD List of apps - Update list of apps in active sub-menus (downloaded modules).
+#f_update_edit_hist^0^0^0^0 #AAD Edit History - Make changes to the Edit History.
+#f_update_software^0^0^0^0 #AAD cli-app-menu - Update this software program from the GitHub repository.
             #
             MENU_TITLE="Update Menu"
             DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
@@ -1132,14 +1144,14 @@ f_update_modules () {
 } # End of function f_update
 #
 # +----------------------------------------+
-# |       Function f_updat_edit_hist       |  
+# |       Function f_update_edit_hist       |  
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: AAC, MENU_ITEM.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_updat_edit_hist () {
+f_update_edit_hist () {
       clear # Blank the screen.
       if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
          APP_NAME="jed $THIS_DIR/EDIT_HISTORY"
@@ -1184,44 +1196,48 @@ f_updat_edit_hist () {
          echo
          f_press_enter_key_to_continue
       fi
-} # End of function f_updat_edit_hist
+} # End of function f_update_edit_hist
 #
 # +----------------------------------------+
-# |       Function f_updat_list_apps       |  
+# |       Function f_update_list_apps       |  
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: AAC, MENU_ITEM.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_updat_list_apps () {
+f_update_list_apps () {
       X="" # Initialize scratch variable.
       while [  "$X" != "YES" -a "$X" != "NO" ]
       do
              clear # Blank the screen.
+             echo "This will update the list of applications available only in the modules"
+             echo "currently downloaded into the software module library directory."
              echo
-             echo "For a COMPLETE listing of ALL applications available in ALL modules,"
-             echo "ALL modules MUST be downloaded into this directory."
-             echo
-             echo "Otherwise, list the applications available only in the modules"
-             echo "currently downloaded into this directory."
+             echo "If a software module has not been downloaded, then the applications described"
+             echo "in that module will not appear in this list."
              echo 
-             echo -n "Are you ready to update LIST_APPS? (y/N) "
+             echo "For a COMPLETE listing of ALL applications available in ALL modules,"
+             echo "ALL modules MUST be downloaded into the software module library directory."
+             echo
+             echo "The file below contains the list of applications."
+             echo "\"$THIS_DIR/LIST_APPS\""
+             echo
+             echo -n "Are you ready to update the file, \"LIST_APPS\"? (y/N) "
              read X
              case $X in
                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                   . lib_cli-common.lib ;  f_create_LIST_APPS
-                  echo ; echo "LIST_APPS is updated."
+                  echo ; echo "File \"LIST_APPS\" is updated."
                   X="YES"
                   ;;
                   "" | [Nn] | [Nn][Oo])
-                  echo ; echo "LIST_APPS is not updated."
+                  echo ; echo "File \"LIST_APPS\" is not updated."
                   X="NO"
                   ;;
              esac
       done
-      f_press_enter_key_to_continue
-} # End of function f_updat_list_apps
+} # End of function f_update_list_apps
 #
 # +----------------------------------------+
 # |         Function f_ls_this_dir         |
@@ -1297,8 +1313,8 @@ do    # Start of CLI Menu util loop.
 #f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
 #f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
 #f_main_license #AAA License             - Licensing, GPL.
-#f_main_list_apps #AAA List Applications   - List of all CLI applications in this menu.
-#f_main_search_apps #AAA Search Applications - Is an application featured in this menu script?
+#f_main_list_apps #AAA List Applications   - List apps in active sub-menus (downloaded modules).
+#f_main_search_apps #AAA Search Applications - Search within active sub-menus (downloaded modules).
       #
       THIS_FILE="cli-app-menu.sh"
       MENU_TITLE="Main Menu"
