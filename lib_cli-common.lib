@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-14-2013 17:52"
+# REVDATE="November-17-2013 08:57"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1539,14 +1539,18 @@ f_wget_file () {
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
       if [ "$BRANCH" != "QUIT" ] ; then
          if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
+            #  Delete any old files except if file is "cli-app-menu.sh".
             if [ -r $THIS_DIR/$MOD_FILE ] ; then  # If old file exists, then delete it.
                rm $THIS_DIR/$MOD_FILE # Delete old file.
             fi
             wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
          else
+	    # File is "cli-app-menu.sh" so make a back-up copy and then download the new version.
+            mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak
             wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
          fi   
-         echo "Downloaded file, $MOD_FILE from github $BRANCH branch." 
+         echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
+         echo "Previous version, \"$MOD_FILE\" is renamed to \"$MOD_FILE.bak\"."
          echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
       fi

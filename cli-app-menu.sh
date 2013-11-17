@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-16-2013 23:52"
+REVDATE="November-17-2013 08:57"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -1090,16 +1090,14 @@ f_update_software () {
          f_wget_file
       done
       f_update_modules
-      echo "________________________________________________________________"
+      echo "_____________________________________________________________________"
       echo
-      echo "File cli-app-menu.sh is in folder:"
+      echo "Files cli-app-menu.sh and cli-app-menu.sh.bak (backup) are in folder:"
       echo "\"$MAINMENU_DIR\"."
       echo
       echo "All other software program files are in folder:"
       echo "\"$THIS_DIR\"."
       echo
-      echo "The file names will be appended with a '.1'"
-      echo "and you will have to MANUALLY COPY THEM to their original names."
       f_press_enter_key_to_continue
 } # End of function f_update
 #
@@ -1310,7 +1308,7 @@ do    # Start of CLI Menu util loop.
 #f_main_help #AAA Help and Features   - How to use and what can it do.
 #f_main_about #AAA About CLI Menu      - What version am I using.
 #f_main_configure #AAA Configure           - Update software, change colors, edit History, etc.
-#f_main_documentation #AAA Documentation       - Script documentation, programmer notes, licensing.
+#f_main_documentation #AAA Documentation       - Script documentation, programmer notes, HOW-TOs.
 #f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
 #f_main_license #AAA License             - Licensing, GPL.
 #f_main_list_apps #AAA List Applications   - List apps in active sub-menus (downloaded modules).
