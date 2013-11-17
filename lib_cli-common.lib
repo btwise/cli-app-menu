@@ -1546,7 +1546,7 @@ f_wget_file () {
             wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
          else
 	    # File is "cli-app-menu.sh" so make a back-up copy and then download the new version.
-            mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak
+            mv $MAINMENU_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak
             wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
          fi   
          echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 

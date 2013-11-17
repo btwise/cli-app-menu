@@ -1142,7 +1142,7 @@ f_update_modules () {
 } # End of function f_update
 #
 # +----------------------------------------+
-# |       Function f_update_edit_hist       |  
+# |       Function f_update_edit_hist      |  
 # +----------------------------------------+
 #
 #  Inputs: None. 
@@ -1197,7 +1197,7 @@ f_update_edit_hist () {
 } # End of function f_update_edit_hist
 #
 # +----------------------------------------+
-# |       Function f_update_list_apps       |  
+# |       Function f_update_list_apps      |  
 # +----------------------------------------+
 #
 #  Inputs: None. 
