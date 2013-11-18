@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-17-2013 08:57"
+REVDATE="November-18-2013 12:54"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -515,6 +515,11 @@ f_main_about () {
 #
 f_main_configure () {
       f_initvars_menu_app "AAC"
+      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Colors", "Un-colors" or "Update", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
 #f_menu_term_color #AAC Colors        - Set default font/background colors.
@@ -783,6 +788,7 @@ f_main_search_apps () {
                echo "Search for a software package featured in this menu script."
                echo
                echo "To quit, press 'Enter' key."
+               echo
                echo -n "Enter name of software package or search string: "
                read XSTR
                if [ -n "$XSTR" ] ;then
@@ -1051,11 +1057,16 @@ f_menu_uncolor () {
 #
 f_update () {
       f_initvars_menu_app "AAD"
+      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "cli-app-menu", "Edit History", or "List of apps".
+      # since those are not the names of executable (run-able) applications.
+      #
       until [ "$AAD" = "0" ]
       do    # Start of Update Menu until loop.
-#f_update_list_apps^0^0^0^1 #AAD List of apps - Update list of apps in active sub-menus (downloaded modules).
-#f_update_edit_hist^0^0^0^0 #AAD Edit History - Make changes to the Edit History.
 #f_update_software^0^0^0^0 #AAD cli-app-menu - Update this software program from the GitHub repository.
+#f_update_edit_hist^0^0^0^0 #AAD Edit History - Make changes to the Edit History.
+#f_update_list_apps^0^0^0^1 #AAD List of apps - Update list of apps in active sub-menus (downloaded modules).
             #
             MENU_TITLE="Update Menu"
             DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
@@ -1073,32 +1084,49 @@ f_update () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MENU_MOD_FILE.
+#    Uses: MENU_MOD_FILE, X.
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_update_software () {
       echo
-      echo "Choose the branch from where you want to download the script program."
+      echo "This will only update software modules which are already installed/downloaded."
       echo
+      echo "To get new modules after the update,"
+      echo "select them in the \"Application Category Menu\""
+      echo "and they will be installed automatically."
+      echo
+      echo "Choose the branch from where you want to update the software."
       for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
       do
-         echo
-         echo "File to be downloaded is $MOD_FILE."
+         echo "_____________________________________________________________________"
          echo
          echo "Update \"$MOD_FILE\" from the GitHub software repository?"
          # Ask download from which branch and wget.
          f_wget_file
       done
       f_update_modules
-      echo "_____________________________________________________________________"
-      echo
-      echo "Files cli-app-menu.sh and cli-app-menu.sh.bak (backup) are in folder:"
-      echo "\"$MAINMENU_DIR\"."
-      echo
-      echo "All other software program files are in folder:"
-      echo "\"$THIS_DIR\"."
-      echo
-      f_press_enter_key_to_continue
+      PRESS_KEY=0  # Do not use "Press Enter key" but use "Q" or "Quit" so message above is read.
+                   # f_wget also sets it to 1 but if module is not downloaded then still set to 0.
+      X=-1  # intialize until-loop.
+      until [ "$X" = "0" ]
+      do    # Start of Update Menu until loop.
+            echo "_____________________________________________________________________"
+            echo
+            echo "Files cli-app-menu.sh and cli-app-menu.sh.bak (backup) are in folder:"
+            echo "\"$MAINMENU_DIR\"."
+            echo
+            echo "All other software program files are in folder:"
+            echo "\"$THIS_DIR\"."
+            echo
+            echo -n "'0', (R)eturn, to go back to the Update Menu. "
+            read X
+            case $X in
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Tt]*)
+                 X=0
+                 ;;
+	 esac
+      done
+      unset X
 } # End of function f_update
 #
 # +----------------------------------------+
@@ -1115,16 +1143,15 @@ f_update_modules () {
       f_initvars_menu_app "AAB"
       DELIMITER="#AAB"
       THIS_FILE="lib_cli-menu-cat.lib"
-      #echo
-      #echo "Choose the branch from where you want to download the script program."
-      #echo
       if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
-         # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+         # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
+         # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
          for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
          do
-             # Display menu items in bold font if module exists or standard font if module does not exist.
+             # Update only previously installed/downloaded modules.
              if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
                 # Module exists so update to latest version.
+                echo "_____________________________________________________________________"
                 echo
                 echo "Update \"$MOD_FILE\" from the GitHub software repository?"
                 # Ask download from which branch and wget.
@@ -1302,6 +1329,11 @@ f_main_init_once
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_initvars_menu_app "AAA"
+      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Applications", "Help and Features" or "About CLI Menu", "Configure", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
 until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Launch a command-line application.
