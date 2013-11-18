@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-17-2013 08:57"
+PROJECT_REVDATE="November-18-2013 12:54"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,10 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-11-18 *f_menu_item_process improved documentation comments.
+##            *f_show_menu improved messages.
+##            *f_update_software, f_update_modules improved messages.
 ##
 ## 2013-11-17 *f_update changed message.
 ##            *f_wget changed to back-up cli-app-menu.sh before updating it.

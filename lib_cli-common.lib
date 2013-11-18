@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-17-2013 08:57"
+# REVDATE="November-18-2013 12:54"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -32,9 +32,9 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       echo
       if [ "$DELIMITER" = "#AAA" ] ; then
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
-      # Display message for Application Category Menu, Configuration Menu, and Download Menu.
-      elif [ "$DELIMITER" = "#AAB" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" ] ; then 
-         echo "0 - Return to Main Menu." # Option for Application Category, Configuration, Download Menus.
+      # Display message for Application Category Menu, Configuration Menu.
+      elif [ "$DELIMITER" = "#AAB" -o "$DELIMITER" = "#AAC" ] ; then
+         echo "0 - Return to Main Menu." # Option for Application Category, Configuration Menus.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
       fi
@@ -124,13 +124,19 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo
            echo "'0', (Q)uit, to quit this script."
            ;;
-           # Application Category Menus.
-           "#AAB" | "#AAC" | "#AAD" | "#AAE")
+           # Sub-menus called from Main Menu.
+           "#AAB" | "#AAC")
            echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
            echo
            echo "'0', (R)eturn, to go back to Main Menu."
            ;;
-           # Un-color Menu.
+           # Terminal Colors Menu.
+           "#AAD" | "#AAE")
+           echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
+           echo
+           echo "'0', (R)eturn, to go back to previous menu."
+           ;;
+           # Terminal Un-colors Menu, Colors for Unavailable Menu Items.
            "#AAF")
            echo
            echo "If a library module is unavailable or not downloaded,"
@@ -139,6 +145,8 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo "Current font color for unavailable/not downloaded library modules is: "
            echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo "Missing library module."
            f_term_color $FCOLOR $BCOLOR ; echo $(tput bold)
+           echo
+           echo "'0', (R)eturn, to go back to previous menu."
            ;;
            # Application Sub-category Menus or Application Menus.
            "#M"* | "#B"*)
@@ -254,12 +262,51 @@ f_menu_item_process () {
       f_application_help
       ERROR=0 # Reset error flag.
       #
+      # Format of menu item options:
+      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+      #   field-1  field-2  field-3  field-4   field-5   Marker 
+      #
+      # field 1    *if 1 then function name is f_<MENU_ITEM_NAME>.
+      # 1/0/string *if <string> then function name is <string>.
+      #            *if 0 then ignored. No function is run.
+      #
+      # field 2    *if 1 then function name is f_install_<MENU_ITEM_NAME>.
+      # 1/0/string  A function to install an application may be specified here.
+      #            *if <string> then function name is <string>.
+      #            *if 0 then ignored. No function is run.
+      #
+      #            This function is run after the software package manager tries to install
+      #            the application. See f_application_install for more details.
+      #            If install fails, then this custom install function will be run which can be
+      #            made to download the source code from the application maintainer's web site
+      #            and then compile and install the application.
+      #
+      # field 3    *if <string> then function name is <string>.
+      # 0/string   *if 0 then ignored. No function is run.
+      #             This function is run after displaying the Quit-Code the on screen.
+      #
+      # field 4    *Quit-Code. See f_quit_app_clause for more details.
+      # string
+      #
+      # field 5    *Sets PRESS_KEY=0/1 to display "Press 'Enter' key to continue".
+      # 1/0         See f_press_key for more details. This allows the user to see any messages displayed
+      #             by the application after it has been run. Without PRESS_KEY=1, the screen is cleared
+      #             for the menu to display and the user would miss any messages.
+      #
+      #             This setting may be overridden by any custom functions which follow.
+      #             It is useful if the custom function displays a help message or man synopsis
+      #             so you don't have to worry about coding for PRESS_KEY within that custom function.
+      #
+      #             This can be used to initialize PRESS_KEY as it is set before any custom functions
+      #             in fields 1, 2, or 3 are run.
+      #
       if [ "$MENU_ITEM" != 0 -a "$MENU_ITEM" != -1 -a -n "$MENU_ITEM" ] ; then
          # Is MENU_ITEM a valid choice?
          f_menu_item_valid # APP_NAME="" for invalid name.
                            # APP_NAME=$MENU_ITEM_NAME for valid name.
          #
          if [ -n "$APP_NAME" ] ; then # if $MENU_ITEM is a valid choice.
+            #
             f_menu_item_info
             #
             # Set PRESS_KEY default before any custom functions since they may also set PRESS_KEY.
@@ -433,6 +480,11 @@ f_menu_item_info () {
 # Outputs: None.
 #
 f_eval_funct () {
+      #
+      # Format of menu item options:
+      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+      #   field-1  field-2  field-3  field-4   field-5   Marker 
+      #
       MENU_ITEM_OPT=$1
       #
       # The 1st awk:
@@ -481,7 +533,7 @@ f_quit_app_clause () {
       #
       # Format of menu item options: 
       # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
-      #   field-1  field-2  field-3  field-4   field-5
+      #   field-1  field-2  field-3  field-4   field-5   Marker 
       # 
       # Example 1:
       # String in Quit field of MENU_ITEM_OPT.
@@ -570,7 +622,14 @@ f_quit_app_clause () {
 #    Uses: None.
 # Outputs: PRESS_KEY.
 #
-f_press_key () { 
+f_press_key () {
+      #
+      # Field 5 sets PRESS_KEY=1/0. May be over-ridden by subsequent functions which also set PRESS_KEY.
+      #
+      # Format of menu item options:
+      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+      #   field-1  field-2  field-3  field-4   field-5   Marker 
+      #
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $5}')
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
@@ -1526,7 +1585,7 @@ f_download_file () {
 #
 #  Inputs: BRANCH, MOD_FILE
 #    Uses: BRANCH, WEB_SITE.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1
 #
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
@@ -1550,7 +1609,6 @@ f_wget_file () {
             wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
          fi   
          echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
-         echo "Previous version, \"$MOD_FILE\" is renamed to \"$MOD_FILE.bak\"."
          echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
       fi
