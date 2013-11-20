@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-19-2013 23:45"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_audio       |
@@ -296,7 +296,7 @@ f_menu_app_radio () {
 #0^0^0^1^0 #MAR dradio   - Streaming radio on world-wide web.
 #0^0^0^0^0 #MAR radio    - Streaming radio, ncurses-based.
 #0^0^0^0^1 #MAR pianobar - Streaming radio player for Pandora Radio.
-#0^0^0^0^0 #MAR pyradio    - Streaming radio, written in python.
+#0^0^0^0^0 #MAR pyradio  - Streaming radio, written in python.
 #0^0^0^0^1 #MAR shell-fm - Streaming radio player for last.fm radio.
             #
             THIS_FILE="mod_apps-audio.lib"

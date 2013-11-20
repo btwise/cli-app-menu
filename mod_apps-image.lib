@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2013 22:46"
+# REVDATE="November-19-2013 23:45"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -59,9 +59,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
 #0^0^0^0^1 #MIG jhead      - Display jpeg file properties.
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
-#1^0^0^0^1 #MIG linuxlogo  - Color ANSI system logo
-#0^0^0^0^1 #MIG mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
-#f_menu_app_image_graphics2^0^0^0^0 #MAN MORE...         - For more image-graphics applications.
+#f_menu_app_image_graphics2^0^0^0^0 #MIG MORE...         - For more image-graphics applications.
             #
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="Image-Graphics Applications Menu"
@@ -88,6 +86,8 @@ f_menu_app_image_graphics2 () {
       f_initvars_menu_app "MIH"
       until [ "$MIH" = "0" ]
       do    # Start of Image-Graphics Applications until loop.
+#1^0^0^0^1 #MIH linuxlogo - Color ANSI system logo
+#0^0^0^0^1 #MIH mrzoom    - Displays fractal images. A Mandelbrot fractal explorer.
 #0^0^0^0^0 #MIH scanimage - Controls flatbed scanners, cameras. -L list of devices.
 #0^0^0^0^0 #MIH sl        - Steam locomotive (when you mis-type 'ls' command).
 #f_starwars^0^0^0^0 #MIH star wars - Star Wars movie in ASCII.

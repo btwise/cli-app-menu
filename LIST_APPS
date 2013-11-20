@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-11-03 00:53 Sunday
+Last updated: 2013-11-16 23:51 Saturday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -510,16 +510,19 @@ ________________________________________________
 
 ________________________________________________
 *** Puzzles Menu ***
- asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
- bcd         - Reformat input as a punch card.
- dab         - 2-players try to complete the most boxes.
- braincurses - Guess the pattern of 4 pegs in 4 colors.
- greed       - Greed numbers game, ncurses-based.
- masterm     - Guess the pattern of 4 pegs in 5 colors.
- nsuduko     - Suduko game.
- ppt         - Reformat input as a paper tape.
- textmaze    - Find the exit to the maze.
- xorcurses   - based on Xor released in 1987 by Astral Software.
+ asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+ bcd           - Reformat input as a punch card.
+ dab           - 2-players try to complete the most boxes.
+ braincurses   - Guess the pattern of 4 pegs in 4 colors.
+ greed         - Greed numbers game, ncurses-based.
+ masterm       - Guess the pattern of 4 pegs in 5 colors.
+ mastermind-nc - Guess the pattern of 4 pegs in 5 colors.
+ moo           - Guess the pattern of 4 digits of 1-9.
+ nsuduko       - Suduko game.
+ pente         - 5 in a row game.
+ ppt           - Reformat input as a paper tape.
+ textmaze      - Find the exit to the maze.
+ xorcurses     - based on Xor released in 1987 by Astral Software.
 
 ________________________________________________
 *** Quiz Menu ***
@@ -598,10 +601,12 @@ ________________________________________________
 
 ________________________________________________
 *** Image-Graphics Applications Menu ***
+ aafigure   - ASCII art to image converter.
  asciitopgm - Convert ASCII graphics into a portable graymap.
  aview      - Image and ASCII art image viewer.
  bb         - ASCII-art movie demo based on AAlib.
  caca-utils - Image viewer and converter jpg to ascii images.
+ duhdraw    - ncurses-based ASCII-art editor.
  exiftool   - Display audio/video/image file properties (ls-like format).
  fbgrab     - Framebuffer screenshot tool.
  fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
@@ -673,7 +678,7 @@ ________________________________________________
  logtailer  - Monitor logs for updates and display them.
  monkeytail - tail variant designed for web developers monitoring logfiles.
  multitail  - View multiple log files using multiple panes.
- since      - Shows new changes in log files since last run. Tail work-alike.
+ since      - Shows new changes in log files since last run. Tail-like.
  swatch     - Log file viewer with regexp matching, highlighting & hooks.
 
 ________________________________________________
@@ -722,6 +727,7 @@ ________________________________________________
  portbunny - Port scanner created by Recurity Labs.
  strobe    - Port scanner.
  ufw       - Firewall configuration and status.
+ vuurmuur  - Firewall manager, monitoring, logging, ssh, ncurses GUI.
 
 ________________________________________________
 *** LAN Applications Menu ***
@@ -860,8 +866,8 @@ ________________________________________________
 
 ________________________________________________
 *** PDF-PS2 Applications Menu ***
- sdf        - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
- sdop       - Converts a Simplified Docbook XML file to PS (PostScript).
+ sdf  - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+ sdop - Converts a Simplified Docbook XML file to PS (PostScript).
 
 ________________________________________________
 *** Software QA Applications Menu ***
@@ -1038,6 +1044,7 @@ ________________________________________________
  fbgrab    - Framebuffer screenshot tool.
  script    - Records terminal input/output (keystrokes).
  scrot     - Framebuffer screenshot tool.
+ ttyplay   - Playback "ttyrec" recording of terminal actions.
  ttyrec    - Records terminal input/output and also timing-information.
 
 ________________________________________________
@@ -1211,7 +1218,7 @@ ________________________________________________
  ispell    - Spell check allows text files as input with user dictionary.
  sdcv      - Use StarDict formatted dictionaries (must have own dictionary).
  spell     - Spell check allows keyboard or text files as input.
- wc        - Word count, also counts lines, characters, bytes of a text file.
+ wc        - Counts words, lines, characters, bytes of a text file.
 
 ________________________________________________
 *** Text Converter Applications Menu ***
