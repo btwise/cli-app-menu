@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-16-2013 23:52"
+# REVDATE="November-19-2013 23:45"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -11,7 +11,7 @@
 #
 #  Inputs: APP_NAME_INSTALL.
 #    Uses: ANS.
-# Outputs: APP_NAME, WEB_SITE_INSTALL.
+# Outputs: APP_NAME, WEB_SITE_INSTALL, PRESS_KEY=0.
 #
 f_application_web_install () {
       WEB_SITE_INSTALL=""
@@ -126,7 +126,6 @@ f_application_web_install () {
            ;;
       esac                      # End of Web Site case statement.
       #
-      #
       # Is a web site for install/download specified?
       case $WEB_SITE_INSTALL in # Start of Web Install case statement.
            "")
@@ -137,19 +136,21 @@ f_application_web_install () {
            echo "If application did not install properly, do want to use the elinks web browser"
            echo -n "to visit the project's web site to download manually (y/N)? "
            read ANS
-           case $ANS in        # Start of Install case statement.
+           case $ANS in # Start of Install case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                APP_NAME_TMP="$APP_NAME" # Save name of application that did not install properly.
                 APP_NAME="elinks $WEB_SITE_INSTALL"
                 f_how_to_quit_application "q"
                 f_application_run
+                APP_NAME="$APP_NAME_TMP" # Restore name of application that did not install properly.
                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
-                [Nn] | [Nn][Oo])
+                [Nn] | [Nn][Oo] | *)
                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                 ;;
-           esac               # End of Install case statement.
+           esac         # End of Install case statement.
            unset ANS  # Throw out this variable.
            ;;
-      esac                         # End of Web Install case statement.
+      esac                      # End of Web Install case statement.
 } # End of function f_application_web_install
 #

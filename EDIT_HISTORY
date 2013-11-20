@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-18-2013 12:54"
+PROJECT_REVDATE="November-19-2013 23:45"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,9 +52,17 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-## 2013-11-18 *f_menu_item_process improved documentation comments.
+## 2013-11-19 *f_application_install improved documentation comments.
+##            *f_application_install_question fixed logic for re-running app.
+##            *f_application_run fixed logic for installing missing app,
+##             and re-running it. Improved documentation comments.
+##            *f_menu_app_image_graphics fixed menu item display.
+##            *f_menu_app_network_bandwidth changed menu title.
+##            *f_menu_app_radio fixed menu item display.
+##            *f_menu_item_process improved documentation comments.
 ##            *f_show_menu improved messages.
 ##            *f_update_software, f_update_modules improved messages.
+##            *f_application_web_install fix default answer logic.
 ##
 ## 2013-11-17 *f_update changed message.
 ##            *f_wget changed to back-up cli-app-menu.sh before updating it.

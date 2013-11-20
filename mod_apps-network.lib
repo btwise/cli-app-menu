@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2013 22:46"
+# REVDATE="November-19-2013 23:45"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -577,7 +577,7 @@ f_menu_app_network_bandwidth () {
 #0^0^0^1^0 #MNB wavemon  - Wireless bandwidth, signal strength histogram.
             #
             THIS_FILE="mod_apps-network.lib"
-            MENU_TITLE="Network Bandwidth Applications Menu"
+            MENU_TITLE="Network Bandwidth Monitor Applications Menu"
             DELIMITER="#MNB" #MNB This 3rd field prevents awk from printing this line into menu options. 
             f_show_menu "$MENU_TITLE" "$DELIMITER"
             #
