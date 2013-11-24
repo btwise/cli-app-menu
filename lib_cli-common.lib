@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-19-2013 23:45"
+# REVDATE="November-23 2013 19:09"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -85,8 +85,12 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # The menu option numbers are incremented using a "let" command.
       # First set XNUM=0 then in the for-loop, let "XNUM++".
       # 
+      # Both Application Category Menu and Sofware Module Manager Menu
+      # indicate active/inactive modules with the use of differing fonts.
+      # However, both menus use the same $DELIMITER="#AAB" with only the menu title changed.
+      # All other menus simply use bold font.
       #
-      if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
+      if [ "$DELIMITER" = "#AAB" ] ; then
          XNUM=0
          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
          for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
@@ -128,13 +132,18 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            "#AAB" | "#AAC")
            echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
            echo
-           echo "'0', (R)eturn, to go back to Main Menu."
+           if [ "$DELIMITER" = "#AAB" -a "$MENU_TITLE" = "Software Module Manager Menu" ] ; then
+              echo "'0', (R)eturn, to go back to the previous menu."
+              echo "\"ALL\" or \"all\" to update ALL active modules."
+           else
+              echo "'0', (R)eturn, to go back to the Main Menu."
+           fi
            ;;
            # Terminal Colors Menu.
            "#AAD" | "#AAE")
            echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
            echo
-           echo "'0', (R)eturn, to go back to previous menu."
+           echo "'0', (R)eturn, to go back to the previous menu."
            ;;
            # Terminal Un-colors Menu, Colors for Unavailable Menu Items.
            "#AAF")
@@ -146,7 +155,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo "Missing library module."
            f_term_color $FCOLOR $BCOLOR ; echo $(tput bold)
            echo
-           echo "'0', (R)eturn, to go back to previous menu."
+           echo "'0', (R)eturn, to go back to the previous menu."
            ;;
            # Application Sub-category Menus or Application Menus.
            "#M"* | "#B"*)
@@ -220,7 +229,7 @@ f_choice_array () {
 # +----------------------------------------+
 #
 #  Inputs: $*, CHOICE[$MENU_ITEM], MAX.
-#          $* is the complete user-entered string passed as a set of arguments.
+#          Where "$*" is the complete user-entered string passed as a set of arguments.
 #    Uses: None.
 # Outputs: None.
 #
@@ -234,7 +243,8 @@ f_menu_item_process () {
       # 5. Is field 1 specified? Yes, run function specified by field 1.
       # 6. Is field 4 specified? Yes, display message about how to quit application.
       # 7. Is field 3 specified? Yes, run function specified by field 3.
-      # 8. Is the menu an application menu? Yes, run application, $APP_NAME by running function f_application_run.
+      # 8. Is the menu an application menu? Yes, run application, $APP_NAME by running the function
+      #    f_application_run.
       # 9. Redisplay menu.
 
 
@@ -1628,16 +1638,11 @@ f_download_file () {
       #
       case $MOD_FILE in
            mod_apps*.lib)  # Module files only
-           if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
-           . $MOD_FILE # Invoke module library.
-                       # $MOD_FILE exists in current directory so make it accessible.
-           else  # $MOD_FILE is not in current directory.
-              # Ask download from which branch and wget.
-              f_wget_file
-              if [ "$BRANCH" != "QUIT" ] ; then
-                 # $MOD_FILE exists in current directory so make it accessible.
-                 . $THIS_DIR/$MOD_FILE # Invoke module library.
-              fi
+           # Ask download from which branch and wget.
+           f_wget_file
+           if [ "$BRANCH" != "QUIT" ] ; then
+              # $MOD_FILE exists in current directory so make it accessible.
+              . $THIS_DIR/$MOD_FILE # Invoke module library.
            fi
            ;;
            *)  # All other files.
@@ -1673,7 +1678,7 @@ f_wget_file () {
             wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
          else
 	    # File is "cli-app-menu.sh" so make a back-up copy and then download the new version.
-            mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+            tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MAINMENU_DIR/$MOD_FILE
             wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
          fi   
          echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
@@ -1707,7 +1712,7 @@ f_ask_which_branch_download () {
       ANS=""
       while [  "$ANS" != "STABLE" -a "$ANS" != "TESTING" -a "$ANS" != "QUIT" ]
       do
-            echo -n "Download from which branch? $XSTR: "
+            echo -n "Download from which GitHub branch? $XSTR: "
             read ANS
             case $ANS in
                  [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])

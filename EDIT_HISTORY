@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-19-2013 23:45"
+PROJECT_REVDATE="November-23-2013 19:09"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,16 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-11-20 *README improved documentation.
+##            *f_main_configure reworked menu.
+##            *f_menu_term_color reworked menu.
+##            *f_menu_uncolor reworked menu.
+##            *f_program_manager added menu.
+##            *f_menu_cat_applications reworked menu.
+##            *f_menu_module_manager added menu.
+##            *f_mod_apps-submenu added.
+##            *f_mod_manager added to add/delete modules.
 ##
 ## 2013-11-19 *f_application_install improved documentation comments.
 ##            *f_application_install_question fixed logic for re-running app.

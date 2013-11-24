@@ -3,20 +3,52 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2013 16:17"
+# REVDATE="November-23 2013 19:09"
 #
-# ******************************************
-# *****   Application Categories Menu  *****
-# ******************************************
+# +----------------------------------------+
+# |     Function f_menu_cat_applications   |
+# +----------------------------------------+
+#
+#  Inputs: None
+#    Uses: AAB, MAX, XSTR
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
+#
+f_menu_cat_applications () {
+      MENU_TITLE="Application Categories Menu"
+      f_menu_module_display
+} # End of function f_menu_cat_applications
+#
+# +----------------------------------------+
+# |      Function f_menu_module_manager    |
+# +----------------------------------------+
 #
 #  Inputs: None
 #    Uses: AAB, MAX
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
 #
-f_menu_cat_applications () {
+f_menu_module_manager () {
+      MENU_TITLE="Software Module Manager Menu"
+      f_menu_module_display
+} # End of function f_menu_module_manager
+#
+# ******************************************
+# *****    Application Modules Menu    *****
+# ******************************************
+#
+#  Inputs: None
+#    Uses: AAB, MAX, XSTR
+# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
+#
+f_menu_module_display () {
       f_initvars_menu_app "AAB"
       until [ "$AAB" = "0" ]
       do    # Start of Application Category until loop.
+            #
+            # Note: field 1 is both the name of a function (see below) and a file name.
+            #       So "mod_apps_audio.lib" is both a function (see below) and a file name.
+            #       The function (below) actually runs another function, "f_menu_cat_audio"
+            #       which is found in the file "mod_apps_audio.lib".
+            #
             #mod_apps-audio.lib       #AAB Audio        - Music players, editors, utilities.
             #mod_apps-databases.lib   #AAB Databases    - General and specialized databases.
             #mod_apps-education.lib   #AAB Education    - Learn something.
@@ -32,119 +64,306 @@ f_menu_cat_applications () {
             #mod_apps-video.lib       #AAB Video        - Video players, editors, utilities.
             #
             THIS_FILE="lib_cli-menu-cat.lib"
-            MENU_TITLE="Application Categories Menu"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAB
+            #
+            if [ "$MENU_TITLE" = "Software Module Manager" ] ; then
+               case $AAB in
+                    [Aa][Ll][Ll])
+                    AAB="ALL"
+                    f_update_all_modules
+                    ;;
+               esac
+            fi
+            #
             f_menu_item_process $AAB
       done  # End of Application Category until loop.
             #
       unset AAB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_cat_applications
 #
+#
+# Note: Cannot use $DELIMITER in if-statement because $MAX is calculated by grep for $DELIMITER.
+#       So must use $MENU_TITLE instead.
+#
+# Note: Function "f_download_file" calls "f_wget_file" which deletes the software module (file)
+#       before downloading a new copy from the GitHub repository branch.
+#
 mod_apps-audio.lib () {
-                 MOD_FILE="mod_apps-audio.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_audio             # Audio Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-audio.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_audio"             # Audio Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-databases.lib () {
-                 MOD_FILE="mod_apps-databases.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_app_databases         # Database Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-databases.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_app_databases"         # Database Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-education.lib () {
-                 MOD_FILE="mod_apps-education.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_app_education         # Education Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-education.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_app_education"         # Education Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-filedir.lib () {
-                 MOD_FILE="mod_apps-filedir.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_file_management   # File Management Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-filedir.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_file_management"   # File Management Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-games.lib () {
-                 MOD_FILE="mod_apps-games.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_games             # Games Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-games.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_games"             # Games Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-image.lib () {
-                 MOD_FILE="mod_apps-image.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_image             # Image-Graphics Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-image.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_image"             # Image-Graphics Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-internet.lib () {
-                 MOD_FILE="mod_apps-internet.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_internet          # Internet Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-internet.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_internet"          # Internet Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-network.lib () {
-                 MOD_FILE="mod_apps-network.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_network           # Network Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-network.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_network"           # Network Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-office.lib () {
-                 MOD_FILE="mod_apps-office.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_office            # Office Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-office.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_office"            # Office Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-screensaver.lib () {
-                 MOD_FILE="mod_apps-screensaver.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_app_screen_savers     # Screen-saver Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-screensaver.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_app_screen_savers"     # Screen-saver Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 mod_apps-software-qa.lib () {
-                 MOD_FILE="mod_apps-software-qa.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_app_software-qa            # System Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-software-qa.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_app_software-qa"       # System Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-system.lib () {
-                 MOD_FILE="mod_apps-system.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_system            # System Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-system.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_system"            # System Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
 #
 mod_apps-video.lib () {
-                 MOD_FILE="mod_apps-video.lib"
-                 f_download_file
-                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                    f_menu_cat_video             # Video Applications Menu.
-                 fi
+      MOD_FILE="mod_apps-video.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         XSTR="f_menu_cat_video"             # Video Applications Menu.
+         f_mod_apps-submenu
+      else
+         f_mod_manager $MOD_FILE
+      fi
 }
+#
+# +----------------------------------------+
+# |       Function f_mod_apps-submenu      |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, MOD_FILE, XSTR
+#    Uses: None.
+# Outputs: None.
+#
+f_mod_apps-submenu () {
+      # If library module file exists, then run function $XSTR.
+      if [ -r $THIS_DIR/$MOD_FILE ] ; then
+         # $MOD_FILE exists so make it accessible.
+         . $THIS_DIR/$MOD_FILE # Invoke module library.
+         $XSTR
+         # Restore MENU_TITLE since it determines which menu and menu item options to use.
+         # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
+         MENU_TITLE="Application Categories Menu"
+      else
+         f_download_file
+         if [ -r $THIS_DIR/$MOD_FILE ] ; then
+            $XSTR
+         # Restore MENU_TITLE since it determines which menu and menu item options to use.
+         # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
+         MENU_TITLE="Application Categories Menu"
+         fi
+      fi
+} # End of function f_mod_apps-submenu.
+#
+# +----------------------------------------+
+# |         Function f_mod_manager         |
+# +----------------------------------------+
+#
+#  Inputs: $1=$MOD_FILE
+#    Uses: MOD_FILE, ANS
+# Outputs: 
+#
+f_mod_manager () {
+      MOD_FILE=$1
+      echo
+      echo -n "(A)dd/(R)emove/(Res)tore/(U)pdate/(Q)UIT module: $MOD_FILE? "
+      read ANS
+      case $ANS in
+           [Aa] | [Aa][Dd] | [Aa][Dd][Dd])
+           # Add and invoke a new module.
+           f_download_file
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
+           # Archive and remove (deactivate) from menu then delete $MOD_FILE.
+           # Does $MOD_FILE exist?
+           if [ -r $THIS_DIR/$MOD_FILE ] ; then
+              # Yes, so archive and remove (deactivate) from menu.
+              tar -zcvf $MOD_FILE.tar.gz $MOD_FILE &>/dev/null # 1=standard messages, 2=error messages, &=both.
+              # Delete $MOD_FILE since it is no longer needed.
+              rm $MOD_FILE
+           fi
+           ;;
+           [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
+           # Restore and invoke module then delete $MOD_FILE.tar.gz.
+           # Does $MOD_FILE.tar.gz exist?
+           if [ -r $THIS_DIR/$MOD_FILE.tar.gz ] ; then
+              # Yes, then restore (activate) to menu.
+              tar -xzvf $MOD_FILE.tar.gz &>/dev/null # 1=standard messages, 2=error messages, &=both.
+           else
+              echo
+              echo "Cannot restore $MOD_FILE.tar.gz since it does not exist. Try adding it instead."
+              f_press_enter_key_to_continue
+           fi
+           #
+           if [ -r $THIS_DIR/$MOD_FILE ] ; then
+              # $MOD_FILE exists in current directory so make it accessible.
+              . $THIS_DIR/$MOD_FILE # Invoke module library.
+              # Delete $MOD_FILE.tar.gz since it is no longer needed.
+              rm $MOD_FILE.tar.gz
+           fi
+           ;;
+           [Uu] | [Uu][Pp]*)
+           # Update and invoke an existing module.
+           if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
+              f_download_file
+           else
+              echo
+              echo "Cannot update module since it does not exist. Try adding it instead."
+              f_press_enter_key_to_continue
+           fi
+           #
+           ;;
+           [Qq] | [Qq][Uu]*)
+           # Quit, do nothing.
+           #
+           ;;
+           *)
+           # Quit, do nothing.
+           #
+           ;;
+      esac
+         # Restore MENU_TITLE since it determines which menu and menu item options to use.
+         # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
+         MENU_TITLE="Software Module Manager Menu"
+#
+} # End of function f_mod_manager
+#
+# +----------------------------------------+
+# |     Function f_update_all_modules      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: X, XSTR, XXSTR, DELIMITER, THIS_DIR, THIS_FILE, MOD_FILE.
+# Outputs: None.
+#
+f_update_all_modules () {
+      XXSTR=$DELIMITER  # Save $DELIMITER. 
+      YSTR=$THIS_FILE   # Save $THIS_FILE.
+      f_initvars_menu_app "AAB"
+      DELIMITER="#AAB"
+      THIS_FILE="lib_cli-menu-cat.lib"
+      if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
+         # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
+         # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
+         for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
+         do
+             # Update only previously installed/downloaded modules.
+             if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
+                # Module exists so update to latest version.
+                echo "_____________________________________________________________________"
+                echo
+                echo "Update \"$MOD_FILE\" from the GitHub software repository?"
+                # Ask download from which branch and wget.
+                f_wget_file
+                if [ "$BRANCH" != "QUIT" ] ; then
+                   # $MOD_FILE exists in current directory so make it accessible.
+                   . $THIS_DIR/$MOD_FILE # Invoke module library.
+                fi
+             fi
+         done
+      fi
+      DELIMITER=$XXSTR
+      THIS_FILE=$YSTR
+      #
+      # Restore MENU_TITLE since it determines which menu and menu item options to use.
+      # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
+      MENU_TITLE="Software Module Manager Menu"
+
+      unset X XSTR XXSTR YSTR 
+} # End of function f_update_all_modules
 #
 # +----------------------------------------+
 # |           Function f_ncurses           |

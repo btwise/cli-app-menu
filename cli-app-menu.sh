@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-18-2013 12:54"
+# REVDATE="November-23 2013 19:09"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -461,7 +461,7 @@ f_main_about () {
                echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
-               echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
+               echo -n "Download EDIT_HISTORY from GitHub.com? (Y/n) "
                read X
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -522,11 +522,15 @@ f_main_configure () {
       #
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_menu_term_color #AAC Colors        - Set default font/background colors.
-#f_menu_uncolor    #AAC Un-colors     - Set font color for unavailable library modules.
-#f_update          #AAC Update        - Update software program, Edit History, LIST_APP.
-#f_ls_this_dir     #AAC Program Files - List all support and library program files.
+#f_menu_term_color^0^0^0^0     #AAC Colors        - Set default font/background colors.
+#f_menu_uncolor^0^0^0^0        #AAC Un-colors     - Set font color for unavailable library modules.
+#f_update_software^0^0^0^0     #AAC Update        - Update this Main Menu program from the GitHub repository.
+#f_menu_module_manager^0^0^0^0 #AAC Modules       - Add/Delete/Remove/Restore/Update software modules.
+#f_ls_this_dir^0^0^0^0         #AAC List files    - List all support and library program files.
+#f_update_edit_hist^0^0^0^0    #AAC Edit History  - Make changes to the Edit History.
+#f_update_list_apps^0^0^0^1    #AAC List apps     - Update list of applications in activated software modules.
             #
+            THIS_FILE="cli-app-menu.sh"
             MENU_TITLE="Configuration Menu"
             DELIMITER="#AAC" #AAC This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -561,7 +565,7 @@ f_main_documentation () {
                echo ">>>The file README is either missing or cannot be read.<<<"
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
-               echo -n "Download README from www.git.com? (Y/n) "
+               echo -n "Download README from GitHub.com? (Y/n) "
                read X
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -609,7 +613,7 @@ f_main_edit_history () {
                echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
-               echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
+               echo -n "Download EDIT_HISTORY from GitHub.com? (Y/n) "
                read X
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -671,7 +675,7 @@ f_main_license () {
                           echo ">>>The file COPYING is either missing or cannot be read.<<<"
                           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                           echo
-                          echo -n "Download COPYING from www.git.com? (Y/n) "
+                          echo -n "Download COPYING from GitHub.com? (Y/n) "
                           read X
                           case $X in # Start of git download case statement.
                                "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -899,185 +903,194 @@ f_term_color () {  # Set terminal display properties.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_term_color () {
-      MENU_TITLE="Terminal Colors Menu"
-      DELIMITER="#AAE" #AAE This 3rd field prevents awk from printing this line into menu options. 
       f_initvars_menu_app "AAE"
+      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Red", "Green" or "Yellow", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
       until [ "$AAE" = "0" ]
-      do    # Start of Terminal Colors until loop.
-            #AAE Red     - Red     on black.
-	    #AAE Green   - Green   on black.
-	    #AAE Yellow  - Yellow  on black.
-            #AAE Blue    - Blue    on black.
-            #AAE Magenta - Magenta on black.
-            #AAE Cyan    - Cyan    on black.
-            #AAE White   - White   on black.
-            #AAE ------- - -----------------
-            #AAE BW      - Black   on white.
-            #AAE RW      - Red     on white.
-            #AAE WB      - White   on blue (Classic "Blueprint").
-            #AAE YB      - Yellow  on blue.
+      do    # Start of Terminal Colors Menu until loop.
+            #f_color_red     #AAE Red     - Red     on black.
+            #f_color_green   #AAE Green   - Green   on black.
+            #f_color_yellow  #AAE Yellow  - Yellow  on black.
+            #f_color_blue    #AAE Blue    - Blue    on black.
+            #f_color_magenta #AAE Magenta - Magenta on black.
+            #f_color_cyan    #AAE Cyan    - Cyan    on black.
+            #f_color_white   #AAE White   - White   on black.
+                             #AAE ------- - -----------------
+            #f_color_bw      #AAE BW      - Black   on white.
+            #f_color_rw      #AAE RW      - Red     on white.
+            #f_color_wb      #AAE WB      - White   on blue (Classic "Blueprint").
+            #f_color_yb      #AAE YB      - Yellow  on blue.
+            #
+            THIS_FILE="cli-app-menu.sh"
+            MENU_TITLE="Terminal Colors Menu"
+            DELIMITER="#AAE" #AAE This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read AAE
+            read AEE
+            f_menu_item_process $AEE  # Outputs $MENU_ITEM.
             #
-            f_cat_menu_item_process $AAE ; AAE=$MENU_ITEM # Outputs $MENU_ITEM.
-            ERROR=0 # Reset error flag.
+            f_term_color $FCOLOR $BCOLOR # Set terminal color.
+            echo $(tput bold) # set bold font.
             #
-            case $MENU_ITEM in  # Start of Terminal Colors Menu case statement.
-                 [Bb] | [Bb][Ww])
-                 FCOLOR="Black" ; BCOLOR="White" ; ECOLOR="Red"
-                 ;;
-                 [Bb] | [Bb][Ll] | [Bb][Ll][Uu] | [Bb][Ll][Uu][Ee])
-                 FCOLOR="Blue" ; BCOLOR="Black" ;  ECOLOR="Red"
-                 ;;
-                 [Cc] | [Cc][Yy]*)
-                 FCOLOR="Cyan" ; BCOLOR="Black" ; ECOLOR="Red"
-                 ;;
-                 [Gg] | [Gg][Rr]*)
-                 FCOLOR="Green" ; BCOLOR="Black" ; ECOLOR="Red"
-                 ;;
-                 [Mm] | [Mm][Aa]*)
-                 FCOLOR="Magenta" ; BCOLOR="Black" ; ECOLOR="Red"
-                 ;;
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
-                 FCOLOR="Red" ; BCOLOR="Black"  ; ECOLOR="Yellow"
-                 ;;
-                 [Rr] | [Rr][Ww])
-                 FCOLOR="Red" ; BCOLOR="White" ; ECOLOR="Blue"
-                 ;;
-                 [Ww] | [Ww][Hh] | [Ww][Hh][Ii]*)
-                 FCOLOR="White" ; BCOLOR="Black" ; ECOLOR="Red"
-                 ;;
-                 [Ww] | [Ww][Bb])
-                 FCOLOR="White" ; BCOLOR="Blue" ; ECOLOR="Red"
-                 ;;
-                 [Yy] | [Yy][Ee]*)
-                 FCOLOR="Yellow" ; BCOLOR="Black" ; ECOLOR="Red"
-                 ;;
-                 [Yy] | [Yy][Bb])
-                 FCOLOR="Yellow" ; BCOLOR="Blue" ; ECOLOR="Red"
-                 ;;
-            esac                # End of Terminal Colors Menu case statement.
-            #
-            AAE=$MENU_ITEM
       done  # End of Terminal Colors Menu until loop.
-      #
-      # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
-      echo "f_main_config () {" > ~/.cli-app-menu.cfg
-      echo "      FCOLOR=\"$FCOLOR\" ; BCOLOR=\"$BCOLOR\" ; UCOLOR=\"$UCOLOR\" ; ECOLOR=\"$ECOLOR\"" >> ~/.cli-app-menu.cfg
-      echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
-      #
+            #
       unset AAE MENU_ITEM  # Throw out this variable.
-      #
 } # End of function f_menu_term_color
+#
+f_color_red () {
+      FCOLOR="Red" ; BCOLOR="Black"  ; ECOLOR="Yellow"
+      f_update_config_file
+}
+#
+f_color_green () {
+      FCOLOR="Green" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_yellow () {
+      FCOLOR="Yellow" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_blue () {
+      FCOLOR="Blue" ; BCOLOR="Black" ;  ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_magenta () {
+      FCOLOR="Magenta" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_cyan () {
+      FCOLOR="Cyan" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_white () {
+      FCOLOR="White" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_bw () {
+      FCOLOR="Black" ; BCOLOR="White" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_rw () {
+      FCOLOR="Red" ; BCOLOR="White" ; ECOLOR="Blue"
+      f_update_config_file
+}
+#
+f_color_wb () {
+      FCOLOR="White" ; BCOLOR="Blue" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
+f_color_yb () {
+      FCOLOR="Yellow" ; BCOLOR="Blue" ; ECOLOR="Red"
+      f_update_config_file
+}
 #
 # +----------------------------------------+
 # |          Function f_menu_uncolor       |
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: AAE, MENU_ITEM, MAX, COLOR.
+#    Uses: AAF, MENU_ITEM, MAX, COLOR.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_uncolor () {
-      MENU_TITLE="Colors for Unavailable Menu Items"
-      DELIMITER="#AAF" #AAF This 3rd field prevents awk from printing this line into menu options. 
       f_initvars_menu_app "AAF"
+      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Red", "Green" or "Yellow", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
       until [ "$AAF" = "0" ]
       do    # Start of Unavailable Colors until loop.
-            #AAF Red        - Red.
-	    #AAF Green      - Green.
-	    #AAF Yellow     - Yellow.
-            #AAF Blue       - Blue.
-            #AAF Magenta    - Magenta.
-            #AAF Cyan       - Cyan.
-            #AAF White      - White.
-            #AAF Gray       - Gray (not available in 8-color terminals).
+            #f_ucolor_red     #AAF Red        - Red.
+            #f_ucolor_green   #AAF Green      - Green.
+            #f_ucolor_yellow  #AAF Yellow     - Yellow.
+            #f_ucolor_blue    #AAF Blue       - Blue.
+            #f_ucolor_magenta #AAF Magenta    - Magenta.
+            #f_ucolor_cyan    #AAF Cyan       - Cyan.
+            #f_ucolor_white   #AAF White      - White.
+            #f_ucolor_gray    #AAF Gray       - Gray (not available in 8-color terminals).
+            #
+            THIS_FILE="cli-app-menu.sh"
+            MENU_TITLE="Colors for Unavailable Menu Items"
+            DELIMITER="#AAF" #AAF This 3rd field prevents awk from printing this line into menu options.
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAF
+            f_menu_item_process $AAF  # Outputs $MENU_ITEM.
             #
-            f_cat_menu_item_process $AAF ; AAF=$MENU_ITEM # Outputs $MENU_ITEM.
-            ERROR=0 # Reset error flag.
-            #
-            case $MENU_ITEM in # Start of Unavailable Colors case statement.
-                 [Bb] | [Bb][Ww])
-                 UCOLOR="Black"
-                 ;;
-                 [Bb] | [Bb][Ll] | [Bb][Ll][Uu] | [Bb][Ll][Uu][Ee])
-                 UCOLOR="Blue"
-                 ;;
-                 [Cc] | [Cc][Yy]*)
-                 UCOLOR="Cyan"
-                 ;;
-                 [Gg] | [Gg][Rr] | [Gg][Rr][Ee]*)
-                 UCOLOR="Green"
-                 ;;
-                 [Mm] | [Mm][Aa]*)
-                 UCOLOR="Magenta"
-                 ;;
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
-                 UCOLOR="Red"
-                 ;;
-                 [Rr] | [Rr][Ww])
-                 UCOLOR="Red"
-                 ;;
-                 [Ww] | [Ww][Hh] | [Ww][Hh][Ii]*)
-                 UCOLOR="White"
-                 ;;
-                 [Gg] | [Gg][Rr] | [Gg][Rr][Aa]*)
-                 UCOLOR="Gray"
-                 ;;
-                 [Yy] | [Yy][Ee]*)
-                 UCOLOR="Yellow"
-                 ;;
-            esac                # End of Unavailable Colors case statement.
-            #
-            AAF=$MENU_ITEM
             f_term_color $FCOLOR $BCOLOR # Set terminal color.
             echo $(tput bold) # set bold font.
             #
       done  # End of Unavailable Colors until loop.
       #
+      unset AAF MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_uncolor
+#
+f_ucolor_red () {
+      UCOLOR="Red"
+      f_update_config_file
+}
+#
+f_ucolor_green () {
+      UCOLOR="Green"
+      f_update_config_file
+}
+#
+f_ucolor_yellow () {
+      UCOLOR="Yellow"
+      f_update_config_file
+}
+#
+f_ucolor_blue () {
+      UCOLOR="Blue"
+      f_update_config_file
+}
+#
+f_ucolor_magenta () {
+      UCOLOR="Magenta"
+      f_update_config_file
+}
+#
+f_ucolor_cyan () {
+      UCOLOR="Cyan"
+      f_update_config_file
+}
+#
+f_ucolor_white () {
+      UCOLOR="White"
+      f_update_config_file
+}
+#
+f_ucolor_gray () {
+      UCOLOR="gray"
+      f_update_config_file
+}
+#
+# +----------------------------------------+
+# |      Function f_update_config_file     |
+# +----------------------------------------+
+#
+#  Inputs: FCOLOR, BCOLOR, UCOLOR, ECOLOR.
+#    Uses: None.
+# Outputs: File ~/.cli-app-menu.cfg over-written.
+#
+f_update_config_file () {
       # Update Configuration File: ~/.cli-app-menu.conf to save user chosen colors.
       echo "f_main_config () {" > ~/.cli-app-menu.cfg
       echo "      FCOLOR=\"$FCOLOR\" ; BCOLOR=\"$BCOLOR\" ; UCOLOR=\"$UCOLOR\" ; ECOLOR=\"$ECOLOR\"" >> ~/.cli-app-menu.cfg
       echo "} # End of function f_main_config" >> ~/.cli-app-menu.cfg
-      #
-      unset AAF MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_uncolor
-#
-# +----------------------------------------+
-# |            Function f_update           |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: AAD, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
-#
-f_update () {
-      f_initvars_menu_app "AAD"
-      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
-      # try to run the menu item's name.
-      # i.e. "cli-app-menu", "Edit History", or "List of apps".
-      # since those are not the names of executable (run-able) applications.
-      #
-      until [ "$AAD" = "0" ]
-      do    # Start of Update Menu until loop.
-#f_update_software^0^0^0^0 #AAD cli-app-menu - Update this software program from the GitHub repository.
-#f_update_edit_hist^0^0^0^0 #AAD Edit History - Make changes to the Edit History.
-#f_update_list_apps^0^0^0^1 #AAD List of apps - Update list of apps in active sub-menus (downloaded modules).
-            #
-            MENU_TITLE="Update Menu"
-            DELIMITER="#AAD" #AAD This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read AAD
-            f_menu_item_process $AAD  # Outputs $MENU_ITEM.
-      done  # End of Update Menu until loop.
-            #
-      unset AAD MENU_ITEM  # Throw out this variable.
-} # End of function f_update
+} # End of function f_update_config_file
 #
 # +----------------------------------------+
 # |       Function f_update_software       |
@@ -1089,12 +1102,6 @@ f_update () {
 #
 f_update_software () {
       echo
-      echo "This will only update software modules which are already installed/downloaded."
-      echo
-      echo "To get new modules after the update,"
-      echo "select them in the \"Application Category Menu\""
-      echo "and they will be installed automatically."
-      echo
       echo "Choose the branch from where you want to update the software."
       for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
       do
@@ -1104,7 +1111,6 @@ f_update_software () {
          # Ask download from which branch and wget.
          f_wget_file
       done
-      f_update_modules
       PRESS_KEY=0  # Do not use "Press Enter key" but use "Q" or "Quit" so message above is read.
                    # f_wget also sets it to 1 but if module is not downloaded then still set to 0.
       X=-1  # intialize until-loop.
@@ -1112,13 +1118,13 @@ f_update_software () {
       do    # Start of Update Menu until loop.
             echo "_____________________________________________________________________"
             echo
-            echo "Files cli-app-menu.sh and cli-app-menu.sh.bak (backup) are in folder:"
+            echo "Files cli-app-menu.sh and cli-app-menu.tar.gz (backup) are in folder:"
             echo "\"$MAINMENU_DIR\"."
             echo
             echo "All other software program files are in folder:"
             echo "\"$THIS_DIR\"."
             echo
-            echo -n "'0', (R)eturn, to go back to the Update Menu. "
+            echo -n "'0', (R)eturn, to go back to the previous menu. "
             read X
             case $X in
                  [Rr] | [Rr][Ee] | [Rr][Ee][Tt]*)
@@ -1127,45 +1133,6 @@ f_update_software () {
 	 esac
       done
       unset X
-} # End of function f_update
-#
-# +----------------------------------------+
-# |       Function f_update_modules        |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: X, XSTR, XXSTR, DELIMITER, THIS_DIR, THIS_FILE, MOD_FILE.
-# Outputs: None.
-#
-f_update_modules () {
-      XXSTR=$DELIMITER  # Save $DELIMITER. 
-      YSTR=$THIS_FILE   # Save $THIS_FILE.
-      f_initvars_menu_app "AAB"
-      DELIMITER="#AAB"
-      THIS_FILE="lib_cli-menu-cat.lib"
-      if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
-         # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
-         # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
-         for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
-         do
-             # Update only previously installed/downloaded modules.
-             if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
-                # Module exists so update to latest version.
-                echo "_____________________________________________________________________"
-                echo
-                echo "Update \"$MOD_FILE\" from the GitHub software repository?"
-                # Ask download from which branch and wget.
-                f_wget_file
-                if [ "$BRANCH" != "QUIT" ] ; then
-                   # $MOD_FILE exists in current directory so make it accessible.
-                   . $THIS_DIR/$MOD_FILE # Invoke module library.
-                fi
-             fi
-         done
-      fi
-      DELIMITER=$XXSTR
-      THIS_FILE=$YSTR
-      unset X XSTR XXSTR YSTR 
 } # End of function f_update
 #
 # +----------------------------------------+
@@ -1194,7 +1161,7 @@ f_update_edit_hist () {
                echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
-               echo -n "Download EDIT_HISTORY from www.git.com? (Y/n) "
+               echo -n "Download EDIT_HISTORY from GitHub.com? (Y/n) "
                read X
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1276,35 +1243,6 @@ f_ls_this_dir () {
       clear # Blank the screen.
       ls -gGh --group-directories-first --color=always $THIS_DIR | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 } # End of function f_ls_this_dir
-#
-# +----------------------------------------+
-# |    Function f_cat_menu_item_process    |
-# +----------------------------------------+
-#
-# Inputs: $1, CHOICE[$MENU_ITEM], MAX.
-# Uses: None.
-# Outputs: MENU_ITEM, PRESS_KEY.
-#
-f_cat_menu_item_process () {
-      MENU_ITEM=$* # The complete user-entered string passed as a set of arguments.
-                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
-      case $MENU_ITEM in
-           # Quit?
-           0)
-           MENU_ITEM=0
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
-           [1-9] | [1-9][0-9]) # MENU_ITEM changed from numeric to alpha string.
-           if [ "$MENU_ITEM" -ge 1 -a "$MENU_ITEM" -le $MAX ] ; then
-              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
-           fi
-           ;;
-           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-           MENU_ITEM=0
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-           ;;
-      esac
-} # End of f_cat_menu_item_process
 #
 # **************************************
 # ***     Start of Main Program      ***
