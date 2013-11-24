@@ -69,7 +69,7 @@ f_menu_module_display () {
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read AAB
             #
-            if [ "$MENU_TITLE" = "Software Module Manager" ] ; then
+            if [ "$MENU_TITLE" = "Software Module Manager Menu" ] ; then
                case $AAB in
                     [Aa][Ll][Ll])
                     AAB="ALL"
@@ -265,15 +265,28 @@ f_mod_manager () {
            [Aa] | [Aa][Dd] | [Aa][Dd][Dd])
            # Add and invoke a new module.
            f_download_file
+           # Does $MOD_FILE exist?
+           if [ -r $THIS_DIR/$MOD_FILE ] && [ -r $THIS_DIR/$MOD_FILE.tar.gz ] ; then
+              # Delete any $MOD_FILE.tar.gz since it is no longer needed. 
+              rm $THIS_DIR/$MOD_FILE.tar.gz
+           fi
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
            # Archive and remove (deactivate) from menu then delete $MOD_FILE.
            # Does $MOD_FILE exist?
            if [ -r $THIS_DIR/$MOD_FILE ] ; then
               # Yes, so archive and remove (deactivate) from menu.
-              tar -zcvf $MOD_FILE.tar.gz $MOD_FILE &>/dev/null # 1=standard messages, 2=error messages, &=both.
-              # Delete $MOD_FILE since it is no longer needed.
-              rm $MOD_FILE
+              cd $THIS_DIR # Change directory so tar will archive file into THIS_DIR.
+              tar -zcvf $MOD_FILE.tar.gz $MOD_FILE 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+              # Was the archive successful?
+              if [ -r $THIS_DIR/$MOD_FILE.tar.gz ] ; then
+                 # Delete $MOD_FILE since it is no longer needed.
+                 rm $THIS_DIR/$MOD_FILE
+              fi
+           else
+              echo
+              echo "Cannot remove module since it is not installed."
+              f_press_enter_key_to_continue
            fi
            ;;
            [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
@@ -281,10 +294,11 @@ f_mod_manager () {
            # Does $MOD_FILE.tar.gz exist?
            if [ -r $THIS_DIR/$MOD_FILE.tar.gz ] ; then
               # Yes, then restore (activate) to menu.
-              tar -xzvf $MOD_FILE.tar.gz &>/dev/null # 1=standard messages, 2=error messages, &=both.
+              cd $THIS_DIR # Change directory so tar will restore file into THIS_DIR.
+              tar -xzvf $THIS_DIR/$MOD_FILE.tar.gz 1>/dev/null # 1=standard messages, 2=error messages, &=both.
            else
               echo
-              echo "Cannot restore $MOD_FILE.tar.gz since it does not exist. Try adding it instead."
+              echo "Cannot restore module. Try adding it instead."
               f_press_enter_key_to_continue
            fi
            #
@@ -292,7 +306,7 @@ f_mod_manager () {
               # $MOD_FILE exists in current directory so make it accessible.
               . $THIS_DIR/$MOD_FILE # Invoke module library.
               # Delete $MOD_FILE.tar.gz since it is no longer needed.
-              rm $MOD_FILE.tar.gz
+              rm $THIS_DIR/$MOD_FILE.tar.gz
            fi
            ;;
            [Uu] | [Uu][Pp]*)
@@ -301,7 +315,8 @@ f_mod_manager () {
               f_download_file
            else
               echo
-              echo "Cannot update module since it does not exist. Try adding it instead."
+              echo "Cannot update module since it is de-activated."
+              echo "Try adding or restoring it instead."
               f_press_enter_key_to_continue
            fi
            #
