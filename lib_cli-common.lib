@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-23 2013 19:09"
+# REVDATE="November-26 2013 00:54"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1640,7 +1640,7 @@ f_download_file () {
            mod_apps*.lib)  # Module files only
            # Ask download from which branch and wget.
            f_wget_file
-           if [ "$BRANCH" != "QUIT" ] ; then
+           if [ "$BRANCH" != "SKIP" ] ; then
               # $MOD_FILE exists in current directory so make it accessible.
               . $THIS_DIR/$MOD_FILE # Invoke module library.
            fi
@@ -1665,21 +1665,27 @@ f_download_file () {
 f_wget_file () {
       # Always ask what branch from which to download.
       . lib_cli-common.lib # Invoke the common library.
-      f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
-                                   # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE,
+      f_ask_which_branch_download  # Download from which git branch, TESTING or MASTER?
+                                   # BRANCH="MASTER"/"TESTING"/"DEVELOP"/"SKIP", WEB_SITE,
                                    # PRESS_KEY=0/1
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
-      if [ "$BRANCH" != "QUIT" ] ; then
+      if [ "$BRANCH" != "SKIP" ] ; then
          if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
             #  Delete any old files except if file is "cli-app-menu.sh".
             if [ -r $THIS_DIR/$MOD_FILE ] ; then  # If old file exists, then delete it.
                rm $THIS_DIR/$MOD_FILE # Delete old file.
             fi
-            wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
+            # Download the module.
+            wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
          else
 	    # File is "cli-app-menu.sh" so make a back-up copy and then download the new version.
-            tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MAINMENU_DIR/$MOD_FILE
-            wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
+            tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+            #  Delete cli-app-menu.sh after making back-up copy.
+            if [ -r $MAINMENU_DIR/$MOD_FILE ] && [ -r $MAINMENU_DIR/$MOD_FILE.tar.gz ] ; then
+               rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
+            fi
+            # Download cli-app-menu.sh.
+            wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
          fi   
          echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
          echo
@@ -1696,55 +1702,69 @@ f_wget_file () {
 # Outputs: BRANCH, WEB_SITE, PRESS_KEY
 #
 f_ask_which_branch_download () {
-      XSTR="(STABLE/testing/quit)"  # Set default prompt options.
+      XSTR="(MASTER/testing/develop/skip)"  # Set default prompt options.
       case $BRANCH in
-           [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-           XSTR="(stable/testing/QUIT)"
+           "" | [MM] | [Mm][Aa] | [Mm][Aa][Ss]*)
+           XSTR="(MASTER/testing/develop/skip)"
            ;;
            [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
-           XSTR="(stable/TESTING/quit)"
+           XSTR="(master/TESTING/develop/skip)"
            ;;                  
-           "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
-           XSTR="(STABLE/testing/quit)"
+           [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+           XSTR="(master/testing/develop/SKIP)"
+           ;;                  
+           [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
+           XSTR="(master/testing/DEVELOP/skip)"
            ;;
       esac
       #
       ANS=""
-      while [  "$ANS" != "STABLE" -a "$ANS" != "TESTING" -a "$ANS" != "QUIT" ]
+      while [  "$ANS" != "MASTER" -a "$ANS" != "TESTING" -a "$ANS" != "DEVELOP" -a "$ANS" != "SKIP" ]
       do
-            echo -n "Download from which GitHub branch? $XSTR: "
+            echo "Download from which GitHub branch?"
+            echo -n "$XSTR: "
             read ANS
             case $ANS in
-                 [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-                 ANS="QUIT"
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 [Mm] | [Mm][Aa] | [Mm][Aa][Ss]*)
+                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
+                 ANS="MASTER"
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
                  WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/"
                  ANS="TESTING"
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;                  
-                 [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
-                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/"
-                 ANS="STABLE"
+                 [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+                 ANS="SKIP"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 ;;
+                 [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
+                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/develop/"
+                 ANS="DEVELOP"
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  "")  # When null answer, default to previous branch choice.
                  case $BRANCH in
-                      [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-                      ANS="QUIT"
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
+                      ""| [MM] | [Mm][Aa] | [Mm][Aa][Ss]*)
+                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
+                      ANS="MASTER"
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;                
                       [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
                       WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/"
                       ANS="TESTING"
                       PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                       ;;                  
-                      ""| [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
-                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/"
-                      ANS="STABLE"
+                      [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
+                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/develop/"
+                      ANS="DEVELOP"
                       PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                      ;;                
+                      ;;
+                      [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+                      ANS="SKIP"
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
                  esac
                  ;;
             esac

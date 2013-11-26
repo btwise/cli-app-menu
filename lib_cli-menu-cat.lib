@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-23 2013 19:09"
+# REVDATE="November-24 2013 00:00"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -99,6 +99,8 @@ mod_apps-audio.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-databases.lib () {
@@ -109,6 +111,8 @@ mod_apps-databases.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-education.lib () {
@@ -119,6 +123,8 @@ mod_apps-education.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-filedir.lib () {
@@ -129,6 +135,8 @@ mod_apps-filedir.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-games.lib () {
@@ -139,6 +147,8 @@ mod_apps-games.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-image.lib () {
@@ -149,6 +159,8 @@ mod_apps-image.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-internet.lib () {
@@ -159,6 +171,8 @@ mod_apps-internet.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-network.lib () {
@@ -169,6 +183,8 @@ mod_apps-network.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-office.lib () {
@@ -179,6 +195,8 @@ mod_apps-office.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-screensaver.lib () {
@@ -189,6 +207,8 @@ mod_apps-screensaver.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 mod_apps-software-qa.lib () {
       MOD_FILE="mod_apps-software-qa.lib"
@@ -198,6 +218,8 @@ mod_apps-software-qa.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-system.lib () {
@@ -208,6 +230,8 @@ mod_apps-system.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 mod_apps-video.lib () {
@@ -218,6 +242,8 @@ mod_apps-video.lib () {
       else
          f_mod_manager $MOD_FILE
       fi
+      #
+      unset XSTR  # Throw out this variable.
 }
 #
 # +----------------------------------------+
@@ -284,8 +310,11 @@ f_mod_manager () {
                  rm $THIS_DIR/$MOD_FILE
               fi
            else
-              echo
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
               echo "Cannot remove module since it is not installed."
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               f_press_enter_key_to_continue
            fi
            ;;
@@ -297,8 +326,11 @@ f_mod_manager () {
               cd $THIS_DIR # Change directory so tar will restore file into THIS_DIR.
               tar -xzvf $THIS_DIR/$MOD_FILE.tar.gz 1>/dev/null # 1=standard messages, 2=error messages, &=both.
            else
-              echo
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
               echo "Cannot restore module. Try adding it instead."
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               f_press_enter_key_to_continue
            fi
            #
@@ -314,9 +346,12 @@ f_mod_manager () {
            if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
               f_download_file
            else
-              echo
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
               echo "Cannot update module since it is de-activated."
               echo "Try adding or restoring it instead."
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               f_press_enter_key_to_continue
            fi
            #
@@ -398,10 +433,12 @@ f_ncurses () {
       #
       if [ $ERROR -ne 0 ] ; then
          # Failure to install libncurses-dev.
-         echo
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
          echo "Installation of \"libncurses-dev\" failed."
          echo " Skipping installation of \"ncurses-dev\"."
-         echo
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo -n "Press '"Enter"' key to continue."
          read X
          unset X  # Throw out this variable.
@@ -420,9 +457,11 @@ f_ncurses () {
          #
          if [ $ERROR -ne 0 ] ; then
             # Failure to install ncurses-dev.
-            echo
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
             echo "Installation of \"ncurses-dev\" failed."
-            echo
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo -n "Press '"Enter"' key to continue."
             read X
             unset X  # Throw out this variable.
