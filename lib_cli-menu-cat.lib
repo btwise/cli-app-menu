@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-24 2013 00:00"
+# REVDATE="November-26 2013 00:00"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -398,7 +398,7 @@ f_update_all_modules () {
                 echo "Update \"$MOD_FILE\" from the GitHub software repository?"
                 # Ask download from which branch and wget.
                 f_wget_file
-                if [ "$BRANCH" != "QUIT" ] ; then
+                if [ "$BRANCH" != "SKIP" ] ; then
                    # $MOD_FILE exists in current directory so make it accessible.
                    . $THIS_DIR/$MOD_FILE # Invoke module library.
                 fi

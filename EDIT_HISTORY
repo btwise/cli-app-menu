@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-26-2013 00:54"
+PROJECT_REVDATE="November-26-2013 18:16"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -55,6 +55,10 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 ## 2013-11-26 *f_ask_which_branch_download changed branch choice from Stable
 ##             to Master and changed choice from "Quit" to "Skip".
 ##             Added branch "Develop".
+##            *f_menu_app_clocks changed Quit Code for vtclock.
+##            *f_menu_app_email added re-alpine.
+##            *f_menu_app_network_monitors added iptraf-ng.
+##
 ##
 ## 2013-11-20 *README improved documentation.
 ##            *f_main_configure reworked menu.

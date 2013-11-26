@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26 2013 00:54"
+# REVDATE="November-26 2013 00:00"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1710,12 +1710,12 @@ f_ask_which_branch_download () {
            [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
            XSTR="(master/TESTING/develop/skip)"
            ;;                  
-           [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
-           XSTR="(master/testing/develop/SKIP)"
-           ;;                  
            [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
            XSTR="(master/testing/DEVELOP/skip)"
            ;;
+           [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+           XSTR="(master/testing/develop/SKIP)"
+           ;;                  
       esac
       #
       ANS=""
@@ -1735,14 +1735,14 @@ f_ask_which_branch_download () {
                  ANS="TESTING"
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;                  
-                 [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
-                 ANS="SKIP"
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                 ;;
                  [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
                  WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/develop/"
                  ANS="DEVELOP"
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+                 ANS="SKIP"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  "")  # When null answer, default to previous branch choice.
                  case $BRANCH in
