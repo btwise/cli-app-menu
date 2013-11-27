@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26 2013 00:00"
+# REVDATE="November-27 2013 00:00"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1115,38 +1115,6 @@ f_application_error () {
       fi
       #
       case $ERROR in # Start of Error Number case statement.
-           2) # Error code 2 means operand or files is missing.
-           # Display error message.
-           f_display_error_code
-           #
-           # Use different color font for error messages.
-           f_term_color $ECOLOR $BCOLOR
-           echo $(tput bold)
-           #
-           echo "Missing operand (file name(s) or names)."
-           echo "Try running $APP_NAME_TMP again this time using operands."
-           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-           echo
-           echo "Operands may be filenames as in the examples below."
-           echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
-           echo "Example: locate test1.txt     or diff test1.txt test2.txt"
-           echo
-           echo "Or operands may be a combination of parameters, options, and filenames."
-           echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
-           echo "Example: find /home -iname test1.txt -print"
-           ;;
-           127) # Error code 127 means application is not installed.
-           # Display error message.
-           f_display_error_code
-           #
-           # Use different color font for error messages.
-           f_term_color $ECOLOR $BCOLOR
-           echo $(tput bold)
-           #
-           echo "This $APP_NAME_TMP application is not installed."
-           echo
-           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-           ;;
            1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
               # Some applications exit with error code 1 even if successfully run.
               # The Error Code 1 Number Exceptions case statement, takes care of those weird applications.
@@ -1204,7 +1172,52 @@ f_application_error () {
                 ;;
            esac              # End of Error Code Number 1 Exceptions case statement.
            ;;
-           13 | 62 | [!0]) 
+           2) # Error code 2 means operand or files is missing.
+           # Display error message.
+           f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "Missing operand (file name(s) or names)."
+           echo "Try running $APP_NAME_TMP again this time using operands."
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           echo
+           echo "Operands may be filenames as in the examples below."
+           echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
+           echo "Example: locate test1.txt     or diff test1.txt test2.txt"
+           echo
+           echo "Or operands may be a combination of parameters, options, and filenames."
+           echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
+           echo "Example: find /home -iname test1.txt -print"
+           ;;
+           100) # Error code 100 means installation application "apt-get" is locked
+                # by another process.
+           # Display error message.
+           f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "This $APP_NAME_TMP application may be locked and in use by another process."
+           echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           ;;
+           127) # Error code 127 means application is not installed.
+           # Display error message.
+           f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "This $APP_NAME_TMP application is not installed."
+           echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           ;;
+           13 | 62 | [!0]) # All other errors are processed here.
            # 13-some unknown app?
            # 62-"command not found" freshclam log folders not set up.
            # [!0]-not zero, any non-zero error number.
@@ -1664,10 +1677,26 @@ f_download_file () {
 #
 f_wget_file () {
       # Always ask what branch from which to download.
-      . lib_cli-common.lib # Invoke the common library.
       f_ask_which_branch_download  # Download from which git branch, TESTING or MASTER?
                                    # BRANCH="MASTER"/"TESTING"/"DEVELOP"/"SKIP", WEB_SITE,
                                    # PRESS_KEY=0/1
+      f_wget_file_2
+} # End of f_wget_file
+#
+#
+# +----------------------------------------+
+# |      Function f_wget_file_2            |
+# +----------------------------------------+
+#
+#  Inputs: BRANCH, MOD_FILE
+#    Uses: BRANCH, WEB_SITE.
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1
+#
+# wget a single file $MOD_FILE from $WEB_SITE.
+#
+f_wget_file_2 () {
+      # Always ask what branch from which to download.
+      . lib_cli-common.lib # Invoke the common library.
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
       if [ "$BRANCH" != "SKIP" ] ; then
          if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
@@ -1691,7 +1720,7 @@ f_wget_file () {
          echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
       fi
-} # End of f_wget_file
+} # End of f_wget_file_2
 #
 # +----------------------------------------+
 # |  Function f_ask_which_branch_download  |

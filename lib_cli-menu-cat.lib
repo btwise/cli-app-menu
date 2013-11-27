@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26 2013 00:00"
+# REVDATE="November-27 2013 00:00"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -385,33 +385,32 @@ f_update_all_modules () {
       f_initvars_menu_app "AAB"
       DELIMITER="#AAB"
       THIS_FILE="lib_cli-menu-cat.lib"
-      if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
-         # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
-         # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
-         for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
-         do
-             # Update only previously installed/downloaded modules.
-             if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
-                # Module exists so update to latest version.
-                echo "_____________________________________________________________________"
-                echo
-                echo "Update \"$MOD_FILE\" from the GitHub software repository?"
-                # Ask download from which branch and wget.
-                f_wget_file
-                if [ "$BRANCH" != "SKIP" ] ; then
-                   # $MOD_FILE exists in current directory so make it accessible.
-                   . $THIS_DIR/$MOD_FILE # Invoke module library.
-                fi
+      f_ask_which_branch_download
+      # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
+      # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
+      for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
+      do
+          # Update only previously installed/downloaded modules.
+          if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
+             # Module exists so update to latest version.
+             echo "_____________________________________________________________________"
+             echo
+             echo "Update \"$MOD_FILE\" from the GitHub software repository?"
+             # Ask download from which branch and wget.
+             f_wget_file_2
+             if [ "$BRANCH" != "SKIP" ] ; then
+                # $MOD_FILE exists in current directory so make it accessible.
+                . $THIS_DIR/$MOD_FILE # Invoke module library.
              fi
-         done
-      fi
+          fi
+      done
       DELIMITER=$XXSTR
       THIS_FILE=$YSTR
       #
       # Restore MENU_TITLE since it determines which menu and menu item options to use.
       # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
       MENU_TITLE="Software Module Manager Menu"
-
+      f_press_enter_key_to_continue
       unset X XSTR XXSTR YSTR 
 } # End of function f_update_all_modules
 #
