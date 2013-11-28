@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-27 2013 17:36"
+# REVDATE="November-28-2013 14:04"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1051,6 +1051,8 @@ f_application_run () {
       #
       ERROR=$? # Save error flag condition.
       case $ERROR in
+           0)  #No error, successful run.
+           ;;
            127)  # Error code 127 means application is not installed.
            f_application_error # Display error messages.
            # If user decided to install application.
@@ -1074,7 +1076,10 @@ f_application_run () {
               f_application_error # Display any error messages.
            fi
            ;;
-           1 | 13 | 62 | [!0]) # If any error [!0] occurs (error code is not zero).
+           1 | 13 | 62 )  # Various errors.
+           f_application_error # Display appropriate error message.
+           ;;
+           *)  # If any error [!0] occurs (error code is not zero).
            f_application_error # Display appropriate error message.
            ;;
       esac
@@ -1202,6 +1207,25 @@ f_application_error () {
            echo $(tput bold)
            #
            echo "This $APP_NAME_TMP application may be locked and in use by another process."
+           echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           ;;
+           126) # Error code 126 means bad interpreter. Programming language is not installed?
+                # Example: perl programming language cannot be found, or environment not specified
+                #          in the perl script.
+           #
+           # Display error message.
+           f_display_error_code
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "The programming environment may not be specified correctly in the first line"
+           echo "of the application."
+           echo
+           echo "Example: An application which is a perl script may not have the first line correct."
+           echo "         Change from: #!/usr/local/bin/perl"
+           echo "         Change   to: #!/usr/bin/env perl"
            echo
            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            ;;

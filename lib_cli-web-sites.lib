@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26-2013 18:16"
+# REVDATE="November-28-2013 01:00"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -30,6 +30,9 @@ f_application_web_install () {
            ;;
            blogger-cli)
            WEB_SITE_INSTALL="http://code.google.com/p/blogger-cli/downloads/detail?name=blogger-cli-0.5.tar.gz&can=2&q="
+           ;;
+           braincurses)
+           WEB_SITE_INSTALL="http://freecode.com/projects/braincurses"
            ;;
            bsod)
            WEB_SITE_INSTALL="http://www.vanheusden.com/bsod/"
@@ -189,6 +192,9 @@ f_application_web_install () {
            ;;
            tbclock)
            WEB_SITE_INSTALL="http://tamentis.com/projects/tbclock/files/tbclock-1.10.tar.gz"
+           ;;
+           textmaze)
+           WEB_SITE_INSTALL="http://robobunny.com/projects/textmaze/html/"
            ;;
            tmux)
            WEB_SITE_INSTALL="http://tmux.sourceforge.net/"

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2013 22:46"
+# REVDATE="November-28-2013 14:04"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -539,19 +539,19 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
       until [ "$MGF" = "0" ]
       do    # Start of Puzzle Games until loop.
-#0^0^0^0^0 #MGF asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^0    #MGF asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
 #f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd           - Reformat input as a punch card.
-#0^0^0^0^1 #MGF dab           - 2-players try to complete the most boxes.
-#0^0^0^0^0 #MGF braincurses   - Guess the pattern of 4 pegs in 4 colors.
-#0^0^0^0^0 #MGF greed         - Greed numbers game, ncurses-based.
-#0^0^0^0^0 #MGF masterm       - Guess the pattern of 4 pegs in 5 colors.
-#0^0^0^0^0 #MGF mastermind-nc - Guess the pattern of 4 pegs in 5 colors.
-#0^0^0^0^0 #MGF moo           - Guess the pattern of 4 digits of 1-9.
-#0^0^0^0^0 #MGF nsuduko       - Suduko game.
-#0^0^0^0^0 #MGF pente         - 5 in a row game.
+#0^0^0^0^1    #MGF dab           - 2-players try to complete the most boxes.
+#0^0^0^0^0    #MGF braincurses   - Guess the pattern of 4 pegs in 4 colors.
+#0^0^0^0^0    #MGF greed         - Greed numbers game, ncurses-based.
+#0^0^0^0^0    #MGF masterm       - Guess the pattern of 4 pegs in 5 colors.
+#0^0^0^0^0    #MGF mastermind-nc - Guess the pattern of 4 pegs in 5 colors.
+#0^0^0^0^0    #MGF moo           - Guess the pattern of 4 digits of 1-9.
+#0^0^0^0^0    #MGF nsuduko       - Suduko game.
+#0^0^0^0^0    #MGF pente         - 5 in a row game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt           - Reformat input as a paper tape.
-#0^0^0^0^0 #MGF textmaze      - Find the exit to the maze.
-#0^1^0^1^0 #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
+#0^1^0^1:NC^0 #MGF textmaze      - Find the exit to the maze.
+#0^1^0^1^0    #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"
@@ -564,6 +564,134 @@ f_menu_app_games_puzzle () {
             #
       unset MGF MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_puzzle
+#
+# +----------------------------------------+
+# |       Function f_install_textmaze      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_textmaze () {
+      if [ ! -r "/usr/local/bin/textmaze" ] ; then
+         clear  # blank screen
+         echo "Textmaze - a playable maze drawn on-screen."
+         echo
+         echo "This script will do the following:"
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"TextMaze\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install TextMaze.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install cclock.
+               f_install2_textmaze
+               APP_NAME="textmaze" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install TextMaze.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run textmaze.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS
+      fi
+} # End of function f_install_textmaze
+#
+# +----------------------------------------+
+# |       Function f_install2_textmaze     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: X.
+# Outputs: None.
+#
+f_install2_textmaze () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"TextMaze\"."
+      echo "The application itself is a single perl script so perl is a prerequisite."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"TextMaze\" by using wget from:"
+      echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
+      echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
+      echo "4. Substitute line of textmaze to indicate the correct perl evironment."
+      echo "5. Copy \"textmaze\" to \"/usr/local/bin\" directory."
+      echo "6. Allow users to run textmaze by setting permissions to r-x or 755."
+      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      #
+      # 2. Download "textmaze" from robobunny.com by using wget.
+      wget http://robobunny.com/projects/textmaze/textmaze.tar.gz
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/TextMaze
+      tar -xvzf textmaze.tar.gz
+      cd ~/bin/TextMaze*/
+      #
+      # 4. Substitute line for proper perl environment.
+      #    Change from <old-string>: "#!/usr/local/bin/perl"
+      #    Change   to <new-string>: "#!/usr/bin/env perl"
+      #    sed -i "s|<old-string>|<new-string>|" <target filename>
+      sed -i "s|#!/usr/local/bin/perl|#!/usr/bin/env perl|" textmaze
+      #
+      # 5. Copy TextMaze to /usr/local/bin directory.
+      if [ ! -d "/usr/local/bin" ] ; then
+         # Target directory is missing, so create it.
+	 sudo mkdir -p /usr/local/bin
+      fi
+      sudo cp ~/bin/TextMaze*/textmaze /usr/local/bin/
+      #
+      # 6. Allow users to run TextMaze by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/local/bin/textmaze
+      #
+      # 7. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"TextMaze\"."
+      echo
+      echo "To run \"TextMaze\", select it on the \"Puzzle Game Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of f_install2_textmaze
 #
 # +----------------------------------------+
 # |      Function f_menu_app_games_quiz    |
