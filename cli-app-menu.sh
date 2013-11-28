@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-23 2013 19:09"
+REVDATE="November-27 2013 17:36"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -233,7 +233,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/home/robert"
+      MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -278,7 +278,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/public/cli-app-menu"
+      THIS_DIR="/some_directory/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -1116,7 +1116,7 @@ f_update_software () {
       X=-1  # intialize until-loop.
       until [ "$X" = "0" ]
       do    # Start of Update Menu until loop.
-            echo "_____________________________________________________________________"
+            clear # Blank the screen.
             echo
             echo "Files cli-app-menu.sh and cli-app-menu.tar.gz (backup) are in folder:"
             echo "\"$MAINMENU_DIR\"."
