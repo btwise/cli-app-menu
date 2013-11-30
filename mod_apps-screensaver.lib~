@@ -27,7 +27,7 @@ f_menu_app_screen_savers () {
             #f_hint^0^0^8:NC^0 #MSS ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
             #f_hint^0^0^8:NC^0 #MSS rain         - Rain on screen.
             #f_hint^0^0^8:NC^0 #MSS termsaver    - Screensaver for text terminals.
-            #f_hint^1^0^1:NC^1 #MSS textmaze     - Playable Maze on screen
+            #f_hint^1^0^1:NC^0 #MSS textmaze     - Playable Maze on screen
             #f_hint^0^0^8:NC^0 #MSS ticker       - Scrolls text across the screen.
             #f_hint^0^0^8:NC^0 #MSS tty-clock    - Display a digital clack full-screen.
             #f_hint^0^0^8:NC^0 #MSS weatherspect - Displays weather information with wallpaper.

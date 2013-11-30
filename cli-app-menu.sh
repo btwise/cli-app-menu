@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-27 2013 17:36"
+REVDATE="November-29 2013 17:56"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -239,6 +239,11 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # Validate file names and directories.
+      if [ ! -d $MAINMENU_DIR ] ; then
+         # MAINMENU_DIR directory does not exist.
+         echo
+         echo "This directory should contain the script \"cli-app-menu.sh\"."
+      fi
       f_valid_dir "$MAINMENU_DIR"
       f_valid_files "$MAINMENU_DIR" "cli-app-menu.sh"
       #
@@ -284,6 +289,11 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # Validate file names and directories.
+      if [ ! -d $THIS_DIR ] ; then
+         # THIS_DIR directory does not exist.
+         echo
+         echo "This directory should contain the software modules and support files."
+      fi
       f_valid_dir "$THIS_DIR"
       f_valid_files "$THIS_DIR" "lib_cli-common.lib"
       f_valid_files "$THIS_DIR" "lib_cli-web-sites.lib"
@@ -332,60 +342,129 @@ f_initvars_menu_app () {
 # Outputs: None.
 #
 f_valid_dir () {
+      # Does directory exist?
       if [ ! -d "$1" ] ; then
-         #
+         # No, directory does not exist.
          # Use different color font for error messages.
          f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
-         echo "The directory: \"$1\""
+         echo "The directory:"
+         echo "\"$1\""
          echo "is not a valid existing directory."
-         echo $(tput sgr0)
-         echo "Edit file cli-app-menu.sh and scroll down to function \"f_main_init_once\"."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
-         echo "Set the variable to a valid, existing, writable directory."
-         echo $(tput bold)
          echo "Change from:"
-         grep -m 1 $1 $THIS_FILE # Stop grep after 1st matching string.
+         grep -m 1 $1 $THIS_FILE  # Stop grep after 1st matching string and delete leading spaces.
+         echo
+         echo "Change to:"
+         echo -n "Enter valid directory name or (Q)uit: "
+         read XSTR
+         echo
+         case $XSTR in
+              "" | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+              XSTR="QUIT"
+              ;;
+         esac
+     else
+         # Yes, directory exists.
+         XSTR=$1      
+      fi
+      #
+      if [ "$XSTR" != "QUIT" ] ; then
+         # Does directory exist?
+         if [ -d "$XSTR" ] ; then
+            # Yes, use it, stop.
+            sed -i "s|$1|$XSTR|" cli-app-menu.sh
+         else
+            # No, Create it?
+            echo "Create new directory:"
+            echo $XSTR
+            echo -n "Create it now (Y/n)? "
+            read X
+            echo
+            case $X in
+                 [Nn] | [Nn][Oo])
+                 # No, stop.
+                 ;;
+                 *)
+                 # Yes, create it.
+                 mkdir $XSTR
+                 ;;
+            esac
+            # Was it created OK?
+            if [ -d "$XSTR" ] ; then
+               echo "New directory $XSTR created successfully."
+               sed -i "s|$1|$XSTR|" cli-app-menu.sh
+               echo "Ready to use directory \"$XSTR\"."
+            else
+               # No, use sudo.
+               # Create it with sudo.
+               echo "Try again to create new directory:"
+               echo $XSTR
+               echo -n "using \"sudo\" (Y/n)? "
+               read X
+               echo
+               case $X in
+                    [Nn] | [Nn][Oo])
+                    # No, stop.
+                    ;;
+                    *)
+                    # Yes, create it.
+                    sudo mkdir $XSTR
+                    ;;
+               esac
+               # Was it created OK?
+               if [ -d "$XSTR" ] ; then
+                  echo "New directory $XSTR created successfully."
+                  sed -i "s|$1|$XSTR|" cli-app-menu.sh
+                  echo "Ready to use directory \"$XSTR\"."
+               fi
+            fi
+         fi
+      fi
+      #
+      # Does directory exist?
+      if [ ! -d "$1" ] ; then
+         # No, directory does not exist.
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         echo "____________________________________"
+         echo " Re-run script to use new directory."
+         echo "       >>> Exiting script<<<"
+         echo "____________________________________"
+         echo $(tput sgr0)
+         unset X XSTR
+         exit 1
+      fi
+      #
+      # Check the $PATH
+      if [[ ! "$PATH" == *":$1"* ]] ; then
+         echo
+         echo $(tput bold)
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput sgr0)
+         echo "Edit your /home/<username_goes_here>/.bashrc file and add the directory"
+         echo "by adding these lines to the end of the .bashrc file:"
+         echo 
+         echo $(tput bold)'PATH=$PATH'":$1"
+         echo "export PATH"
+	 echo
+	 echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+	 echo "Either logout or exit from Terminal and re-launch Terminal."
+	 echo
          #
          # Use different color font for error messages.
          f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
          #
          echo "______________________________"
-         echo "    >>> Exiting script<<<"
+         echo "    >>> Exiting script <<<"
          echo "______________________________"
          echo $(tput sgr0)
-         echo
-	 exit 1
-      else
-      # Check the $PATH
-         if [[ ! "$PATH" == *":$1"* ]] ; then
-            echo
-            echo $(tput bold)'Append the directory name to your environment $PATH.'
-            echo $(tput sgr0)
-            echo "Edit your /home/<username_goes_here>/.bashrc file and add the directory"
-            echo "by adding these lines to the end of the .bashrc file:"
-            echo 
-            echo $(tput bold)'PATH=$PATH'":$1"
-            echo "export PATH"
-	    echo
-	    echo "       >>> IMPORTANT <<<"
-            echo "After editing the file, .bashrc:"
-            echo "Close Terminal for changes to take effect."
-	    echo "Either logout or exit from Terminal and re-launch Terminal."
-	    echo
-            #
-            # Use different color font for error messages.
-            f_term_color $ECOLOR $BCOLOR
-            echo $(tput bold)
-            #
-            echo "______________________________"
-            echo "    >>> Exiting script <<<"
-            echo "______________________________"
-            echo $(tput sgr0)
-            echo
-	    exit 1
-         fi
+         exit 1
       fi
 } # End of function f_valid_dir
 #

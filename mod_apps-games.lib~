@@ -550,7 +550,7 @@ f_menu_app_games_puzzle () {
 #0^0^0^0^0    #MGF nsuduko       - Suduko game.
 #0^0^0^0^0    #MGF pente         - 5 in a row game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt           - Reformat input as a paper tape.
-#0^1^0^1:NC^1 #MGF textmaze      - Find the exit to the maze.
+#0^1^0^1:NC^0 #MGF textmaze      - Find the exit to the maze.
 #0^1^0^1^0    #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
