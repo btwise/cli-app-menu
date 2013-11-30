@@ -431,7 +431,7 @@ f_valid_dir () {
          echo $(tput bold)
          echo "____________________________________"
          echo " Re-run script to use new directory."
-         echo "       >>> Exiting script<<<"
+         echo "       >>> Exiting script <<<"
          echo "____________________________________"
          echo $(tput sgr0)
          unset X XSTR
@@ -449,12 +449,12 @@ f_valid_dir () {
          echo 
          echo $(tput bold)'PATH=$PATH'":$1"
          echo "export PATH"
-	 echo
-	 echo "       >>> IMPORTANT <<<"
+         echo
+         echo "       >>> IMPORTANT <<<"
          echo "After editing the file, .bashrc:"
          echo "Close Terminal for changes to take effect."
-	 echo "Either logout or exit from Terminal and re-launch Terminal."
-	 echo
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
          #
          # Use different color font for error messages.
          f_term_color $ECOLOR $BCOLOR
@@ -489,7 +489,7 @@ f_valid_files () {
          echo
          echo
          echo "______________________________"
-         echo "    >>> Exiting script<<<"
+         echo "    >>> Exiting script <<<"
          echo "______________________________"
          echo $(tput sgr0)
          echo
