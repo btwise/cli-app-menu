@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="November-29 2013 17:56"
+REVDATE="December-01 2013 23:13"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -483,16 +483,30 @@ f_valid_files () {
          #
          # Use different color font for error messages.
          f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo "Required file '$2' is missing from $1."
+         echo -n $(tput bold)
+         echo "Required file \"$2\" is missing from \"$1\"."
+         echo $(tput sgr0)
+         echo "Solution 1: Copy or download the required file."
          echo
+         echo "Copy or download the file: \"$2\""
+         echo "into the directory:"
+         echo "\"$1\"."
+         echo
+         echo
+         echo "Solution 2: Change the directory to the correct one:"
+         echo
+         echo "Edit file \"cli-app-menu.sh\" and scroll down to function \"f_main_init_once\"."
+         echo "Edit variables MAINMENU_DIR and/or THIS_DIR to equal the correct directories."
+         echo "Set the variables to valid, existing, writable directories."
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
          echo
          echo "______________________________"
          echo "    >>> Exiting script <<<"
          echo "______________________________"
          echo $(tput sgr0)
-         echo
          exit 1
       fi
 } # End of function f_valid_files
