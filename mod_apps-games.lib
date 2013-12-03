@@ -870,9 +870,9 @@ f_menu_app_games_word () {
       until [ "$MGK" = "0" ]
       do    # Start of Word Games until loop.
 #0^0^0^10^0 #MGK boggle  - Word search game.
-#0^0^0^0^0  #MGK boxes   - Displays text with a decorative display.
+#1^0^0^0^1  #MGK boxes   - Displays text with a decorative display.
 #0^0^0^10^0 #MGK figlet  - Creates banner with outline font.
-#0^0^0^0^0  #MGK fortune - Displays witty words and sayings.
+#0^0^0^0^1  #MGK fortune - Displays witty words and sayings.
 #0^0^0^0^1  #MGK hangman - Classic hangman word game.
 #0^0^0^10^1 #MGK hodie   - Date and time in Latin.
 #0^0^0^10^0 #MGK pig     - Converts text into pig-latin.
@@ -892,6 +892,59 @@ f_menu_app_games_word () {
             #
       unset MGK MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_word
+#
+# +----------------------------------------+
+# |            Function f_boxes            |
+# +----------------------------------------+
+#
+f_boxes () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "boxes - takes a text file and surrounds the words with a box design."
+         echo
+         echo "Usage:" 
+         echo "boxes [OPTIONS] file ..."
+         echo "-l list all box designs."
+         echo "-d <box design> choose design to use."
+         echo "-a alignment" 
+         echo "   followed by \"hc\" for horizontal centering."
+         echo "               \"hl\" for left alignment."
+         echo "               \"hr\" for right alignment."
+         echo "               \"vc\" for vertical centering."
+         echo "               \"vt\" for vertical top."
+         echo "               \"vb\" for vertical bottom."
+         echo
+         echo "*** For more help type: 'man $APP_NAME'"
+         echo "                        '$APP_NAME --help'"
+         echo
+         echo -n "Enter name of text file to box: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            clear # Blank the screen.
+            echo "Missing filename."
+            echo "Usage: box [OPTIONS] <filename>"
+            echo
+            echo "Example use: \"boxes -d dog -a hc <filename>\"."
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="boxes -d dog -a hc $ANS"
+            f_application_run
+         else
+            clear # Blank the screen.
+            echo "The file $ANS is either missing or cannot be read."
+            echo "Usage: box [OPTIONS] <filename>"
+            echo
+            echo "Example use: \"boxes -d dog -a hc <filename>\"."
+            APP_NAME=-1 # Usually f_application_run sets APP_NAME=-1
+                        # for valid menu choices but it's not run here.
+                        # If not -1, then f_application_bad_menu_choice
+                        # below will consider it a bad choice and will
+                        # set PRESS_KEY=0 whereas we need it set to 1.
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+         fi
+      fi
+      APP_NAME=""
+} # End of function f_rev
 #
 # +----------------------------------------+
 # |             Function f_rev             |
