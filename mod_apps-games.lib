@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-28-2013 14:04"
+# REVDATE="December-02-2013 22:22"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -53,19 +53,19 @@ f_menu_app_games_arcade () {
       f_initvars_menu_app "MGA"
       until [ "$MGA" = "0" ]
       do    # Start of Arcade Games until loop.
-#0^0^0^0^0 #MGA asciijump   - Ski jump game.
-#0^0^0^0^0 #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#0^0^0^0^1 #MGA freesweep   - Minesweeper game.
-#0^0^0^0^0 #MGA moon-buggy  - Drive a moon buggy on the moon.
-#0^0^0^1^1 #MGA ninvaders   - Space invaders-like game ncurses-based.
-#0^0^0^0^0 #MGA nsnake      - Variation of BSD's snake game.
+#0^0^0^0^0  #MGA asciijump   - Ski jump game.
+#0^0^0^0^0  #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^1  #MGA freesweep   - Minesweeper game.
+#0^0^0^0^0  #MGA moon-buggy  - Drive a moon buggy on the moon.
+#0^0^0^1^1  #MGA ninvaders   - Space invaders-like game ncurses-based.
+#0^0^0^0^0  #MGA nsnake      - Variation of BSD's snake game.
 #f_menu_app_games_pacman^0^0^0^0 #MGA Pac-Man     - "Pac-Man" clones.
-#0^0^0^0^0 #MGA robots      - Be chased by killer robots.
+#0^0^0^0^0  #MGA robots      - Be chased by killer robots.
 #0^0^0^18^0 #MGA snake       - Be chased by a snake while collecting money.
-#0^0^0^0^0 #MGA spacezero   - Space combat in real-time, 2-player network game.
+#0^0^0^0^0  #MGA spacezero   - Space combat in real-time, 2-player network game.
 #f_menu_app_games_tetris^0^0^0^0 #MGA Tetris      - "Tetris" clones.
-#0^0^0^9^0 #MGA worm        - Be a growing worm, don't crash into yourself.
-#0^1^0^1^0 #MGA xorcurses   - based on Xor released in 1987 by Astral Software.
+#0^0^0^9^0  #MGA worm        - Be a growing worm, don't crash into yourself.
+#0^1^0^1^0  #MGA xorcurses   - based on Xor released in 1987 by Astral Software.
 #f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...     - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -93,7 +93,7 @@ f_menu_app_games_arcade2 () {
       until [ "$MGB" = "0" ]
       do    # Start of Arcade2 Games until loop.
 #0^0^0^18^0 #MGB zsnake - Variation of BSD's snake game.
-#0^1^0^0^0 #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
+#0^1^0^0^0  #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade2 Game Menu"
@@ -706,9 +706,9 @@ f_menu_app_games_quiz () {
       until [ "$MGG" = "0" ]
       do    # Start of Quiz Games until loop.
 #0^0^0^10^0 #MGG arithmetic - Basic arithmetic quiz.
-#0^0^0^0^0 #MGG geekcode   - Code tells others how geeky you are.
+#0^0^0^0^0  #MGG geekcode   - Code tells others how geeky you are.
 #0^0^0^10^0 #MGG morse      - Morse code training.
-#0^0^0^1^1 #MGG quiz       - Quiz with choice of assorted topics.
+#0^0^0^1^1  #MGG quiz       - Quiz with choice of assorted topics.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Quiz Game Menu"
@@ -769,12 +769,12 @@ f_menu_app_games_simulation () {
       until [ "$MGI" = "0" ]
       do    # Start of Simulation Games until loop.
 #f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
-#0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
-#0^0^0^1^0 #MGI sail      - Command a Man O'War fighting ship.
-#0^0^0^0^0 #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
+#0^0^0^1^0  #MGI bb        - ASCII-art movie demo based on AAlib.
+#0^0^0^1^0  #MGI sail      - Command a Man O'War fighting ship.
+#0^0^0^0^0  #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
 #f_starwars^0^0^0^0 #MGI star wars - Star Wars movie in ASCII.
 #0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
-#0^1^0^0^0 #MGI ztrack    - First-person car racing game.
+#0^1^0^0^0  #MGI ztrack    - First-person car racing game.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Simulation Games and Animation Menu"
@@ -870,13 +870,15 @@ f_menu_app_games_word () {
       until [ "$MGK" = "0" ]
       do    # Start of Word Games until loop.
 #0^0^0^10^0 #MGK boggle  - Word search game.
+#0^0^0^0^0  #MGK boxes   - Displays text with a decorative display.
 #0^0^0^10^0 #MGK figlet  - Creates banner with outline font.
-#0^0^0^0^1 #MGK hangman - Classic hangman word game.
+#0^0^0^0^0  #MGK fortune - Displays witty words and sayings.
+#0^0^0^0^1  #MGK hangman - Classic hangman word game.
 #0^0^0^10^1 #MGK hodie   - Date and time in Latin.
 #0^0^0^10^0 #MGK pig     - Converts text into pig-latin.
-#1^0^0^0^1 #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
-#0^0^0^0^1 #MGK rl      - Randomize Lines scrambles words of a text file.
-#0^0^0^0^1 #MGK shuf    - Randomize Lines scrambles words of a text file.
+#1^0^0^0^1  #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
+#0^0^0^0^1  #MGK rl      - Randomize Lines scrambles words of a text file.
+#0^0^0^0^1  #MGK shuf    - Randomize Lines scrambles words of a text file.
 #0^0^0^10^0 #MGK toilet  - Creates banner with bold font.
             #
             THIS_FILE="mod_apps-games.lib"

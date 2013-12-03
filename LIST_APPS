@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-11-27 06:24 Wednesday
+Last updated: 2013-12-02 22:29 Monday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -565,7 +565,9 @@ ________________________________________________
 ________________________________________________
 *** Word Games Menu ***
  boggle  - Word search game.
+ boxes   - Displays text with a decorative display.
  figlet  - Creates banner with outline font.
+ fortune - Displays witty words and sayings.
  hangman - Classic hangman word game.
  hodie   - Date and time in Latin.
  pig     - Converts text into pig-latin.
@@ -1084,8 +1086,9 @@ ________________________________________________
  mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
  ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
  rain         - Rain on screen.
- termsaver    - screensaver for text terminals.
- ticker       - scrolls text across the screen.
+ termsaver    - Screensaver for text terminals.
+ textmaze     - Playable Maze on screen
+ ticker       - Scrolls text across the screen.
  tty-clock    - Display a digital clack full-screen.
  weatherspect - Displays weather information with wallpaper.
  worms        - Worms wiggle on the screen.

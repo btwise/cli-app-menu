@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="December-01 2013 23:13"
+REVDATE="December-02 2013 22:22"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -103,6 +103,29 @@ REVDATE="December-01 2013 23:13"
 #@ Just remember --help (after the name) or man (before the name).
 #@
 #
+# BASH_SOURCE[0] gives the filename of the script.
+# dirname "{$BASH_SOURCE[0]}" gives the directory of the script
+# Execute commands: cd <script directory> and then pwd
+# to get the directory of the script.
+#
+# +----------------------------------------+
+# |         Function f_script_path         |
+# +----------------------------------------+
+#
+#  Inputs: $BASH_SOURCE (System variable)
+#    Uses: None
+# Outputs: SCRIPT_PATH
+#
+f_script_path () {
+# BASH_SOURCE[0] gives the filename of the script.
+# dirname "{$BASH_SOURCE[0]}" gives the directory of the script
+# Execute commands: cd <script directory> and then pwd
+# to get the directory of the script.
+# NOTE: This code does not work with symlinks in directory path.
+#
+SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+} # End of function f_script_path
+#
 # +----------------------------------------+
 # |          Function f_test_dash          |
 # +----------------------------------------+
@@ -138,7 +161,7 @@ f_test_dash () {
          echo $(tput bold)
          #
          echo "______________________________"
-         echo "    >>> Exiting script<<<"
+         echo "    >>> Exiting script <<<"
          echo "______________________________"
          echo $(tput sgr0)
          echo
@@ -303,7 +326,6 @@ f_main_init_once () {
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
       . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
-      #
 } # End of function f_main_init_once
 #
 # +----------------------------------------+
@@ -338,11 +360,12 @@ f_initvars_menu_app () {
 # +----------------------------------------+
 #
 #  Inputs: $1. Where $1=Directory
-#    Uses: None.
+#    Uses: X, XSTR.
 # Outputs: None.
 #
 f_valid_dir () {
       # Does directory exist?
+      # Set XSTR to new or existing directory name.
       if [ ! -d "$1" ] ; then
          # No, directory does not exist.
          # Use different color font for error messages.
@@ -354,10 +377,11 @@ f_valid_dir () {
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
          echo "Change from:"
-         grep -m 1 $1 $THIS_FILE  # Stop grep after 1st matching string and delete leading spaces.
+         # SCRIPT_PATH is the directory where THIS_FILE actually is currently residing.
+         grep -m 1 $1 $SCRIPT_PATH/$THIS_FILE  # Stop grep after 1st matching string and delete leading spaces.
          echo
          echo "Change to:"
-         echo -n "Enter valid directory name or (Q)uit: "
+         echo -n "Enter valid directory name or (Q)UIT: "
          read XSTR
          echo
          case $XSTR in
@@ -365,58 +389,68 @@ f_valid_dir () {
               XSTR="QUIT"
               ;;
          esac
-     else
+      else
          # Yes, directory exists.
          XSTR=$1      
       fi
       #
       if [ "$XSTR" != "QUIT" ] ; then
          # Does directory exist?
+         # Create directory if needed.
          if [ -d "$XSTR" ] ; then
-            # Yes, use it, stop.
-            sed -i "s|$1|$XSTR|" cli-app-menu.sh
+            if [ "$XSTR" != "$1" ]; then
+               # Yes, but it is not set up within the script.
+               # Edit script to include the existing directory.
+               if [ -r $SCRIPT_PATH/cli-app-menu.sh ] ; then
+                  sed -i "s|$1|$XSTR|" $SCRIPT_PATH/cli-app-menu.sh
+               fi
+            fi
          else
             # No, Create it?
             echo "Create new directory:"
             echo $XSTR
-            echo -n "Create it now (Y/n)? "
+            echo -n "Create it now (y/N)? "
             read X
             echo
             case $X in
-                 [Nn] | [Nn][Oo])
-                 # No, stop.
-                 ;;
-                 *)
+                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                  # Yes, create it.
                  mkdir $XSTR
+                 ;;
+                 *)
+                 # No, stop.
                  ;;
             esac
             # Was it created OK?
             if [ -d "$XSTR" ] ; then
                echo "New directory $XSTR created successfully."
-               sed -i "s|$1|$XSTR|" cli-app-menu.sh
+               if [ -r $SCRIPT_PATH/cli-app-menu.sh ] ;then
+                  sed -i "s|$1|$XSTR|" $SCRIPT_PATH/cli-app-menu.sh
+               fi
                echo "Ready to use directory \"$XSTR\"."
             else
                # No, use sudo.
                # Create it with sudo.
                echo "Try again to create new directory:"
                echo $XSTR
-               echo -n "using \"sudo\" (Y/n)? "
+               echo -n "using \"sudo\" (y/N)? "
                read X
                echo
                case $X in
-                    [Nn] | [Nn][Oo])
-                    # No, stop.
+                    [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                    # Yes, create it.
+                    mkdir $XSTR
                     ;;
                     *)
-                    # Yes, create it.
-                    sudo mkdir $XSTR
+                    # No, stop.
                     ;;
                esac
                # Was it created OK?
                if [ -d "$XSTR" ] ; then
                   echo "New directory $XSTR created successfully."
-                  sed -i "s|$1|$XSTR|" cli-app-menu.sh
+                  if [ -r $SCRIPT_PATH/cli-app-menu.sh ] ;then
+                     sed -i "s|$1|$XSTR|" $SCRIPT_PATH/cli-app-menu.sh
+                  fi
                   echo "Ready to use directory \"$XSTR\"."
                fi
             fi
@@ -511,7 +545,6 @@ f_valid_files () {
       fi
 } # End of function f_valid_files
 #
-#
 # +----------------------------------------+
 # |          Function f_main_help          |
 # +----------------------------------------+
@@ -526,7 +559,6 @@ f_main_help () {
       # sed substitutes null for "#@" at the beginning of each line so it is not printed.
       # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
       sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
-      #
 } # End of function f_main_help
 #
 # +----------------------------------------+
@@ -984,7 +1016,6 @@ f_term_color () {  # Set terminal display properties.
                ;;
           esac
       done
-      #
 } # End of function f_term_color
 #
 # +----------------------------------------+
@@ -1346,6 +1377,9 @@ f_ls_this_dir () {
 # rather than in the library file lib_cli-common.lib, but once in BASH, then
 # common library file may be invoked.
 #
+# Set SCRIPT_PATH to directory path of script.
+f_script_path
+#
 # Test the environment for DASH and if in BASH invoke the common library.
 f_test_dash
 #
@@ -1386,7 +1420,7 @@ do    # Start of CLI Menu util loop.
       f_menu_item_process $AAA  # Outputs $MENU_ITEM. Sets AAA=0 for item option Quit.
 done  # End of Main Menu until loop.
       #
-unset AAA MENU_ITEM  # Throw out this variable.
+unset AAA MENU_ITEM SCRIPT_PATH # Throw out this variable.
 exit 0  # This cleanly closes the process generated by #!bin/bash. 
         # Otherwise every time this script is run, another instance of
         # process /bin/bash is created using up resources.
