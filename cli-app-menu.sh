@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="December-02 2013 22:22"
+REVDATE="December-07 2013 21:45"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -102,11 +102,6 @@ REVDATE="December-02 2013 22:22"
 #@
 #@ Just remember --help (after the name) or man (before the name).
 #@
-#
-# BASH_SOURCE[0] gives the filename of the script.
-# dirname "{$BASH_SOURCE[0]}" gives the directory of the script
-# Execute commands: cd <script directory> and then pwd
-# to get the directory of the script.
 #
 # +----------------------------------------+
 # |         Function f_script_path         |
@@ -213,7 +208,7 @@ f_main_init_once () {
          # Yes. read file contents.
          . ~/.cli-app-menu.cfg
          f_main_config
-      else
+      else      
          # No. Use default settings.
          FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
       fi
@@ -239,18 +234,32 @@ f_main_init_once () {
       # the script in a /usr or an /opt folder with permissions set so 
       # other users may run the script, (rwx-rx-rx) or (755) permissions.
       #
-      # i.e. /home/<username_goes_here>
-      #      Just put script cli-app-menu.sh in your home folder. 
+      # i.e. /home/<username_goes_here>/<script-goes-here>
+      #      Just put script cli-app-menu.sh in your personal home directory.
       #      Other users will have to do the same with their own separate copy.
       #
-      # i.e. /usr/local/bin/cli-app-menu 
-      #      Or create this folder to contain a single copy of cli-app-menu.sh
-      #      script accessible by all users. /usr folder contains user apps.
+      #      /home/<username_goes_here>/<cli-app-menu sub-directory>
+      #      Library module and support files go in the sub-directory.
+      #      Other users will have to do the same with their own separate copy.
       #
-      # i.e. /opt/cli-app-menu
-      #      Or create this folder to contain a single copy of cli-app-menu.sh
-      #      script accessible by all users.  /opt folder is another location 
-      #      to contain user apps.
+      # i.e. /usr/local/bin/<script-goes-here>
+      #      A single copy of the script, accessible to all users goes here.
+      #
+      #      /usr/local/bin/<cli-app-menu sub-directory>
+      #      Create this directory to contain all the library module files
+      #      and support files, accessible by all users. 
+      #      
+      #      The /usr directory contains user applications.
+      #
+      # i.e. /opt/<script-goes-here>
+      #      A single copy of the script, accessible to all users goes here.
+      #
+      #      /opt/<cli-app-menu sub-directory>
+      #      Create this directory to contain all the library module files
+      #      and support files, accessible by all users.
+      #
+      #      The /opt directory is another place containing user applications.
+      #
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -262,13 +271,70 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # Validate file names and directories.
-      if [ ! -d $MAINMENU_DIR ] ; then
-         # MAINMENU_DIR directory does not exist.
+      # Use the directory $SCRIPT_DIR that contains the script cli-app-menu.sh.
+      # Does $SCRIPT_DIR = $MAINMENU_DIR?
+         # Yes, exit function.
+      if [ "$SCRIPT_PATH" != "$MAINMENU_DIR" ] ; then
+         # No, edit script cli-app-menu.sh so that $MAINMENU_DIR is $SCRIPT_DIR.
+         #
+         clear # Blank the screen.
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         echo "Detected different directory reference for script:"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+         echo "Changing from:"
+         echo "   $MAINMENU_DIR"
+         echo
+         echo "Changing to:"
+         echo "   $SCRIPT_PATH"
          echo
          echo "This directory should contain the script \"cli-app-menu.sh\"."
+         echo "Automatically re-configuring \"cli-app-menu.sh\" to use new directory."
+         echo
+         # Is directory writeable?
+         if [ -w $SCRIPT_PATH ] ; then
+            # Yes, directory is writeable.
+            sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/cli-app-menu.sh
+            ERROR=$?
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo -n "Error re-configuring \"cli-app-menu.sh\" to use new directory."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            fi   
+         else
+            # No, directory is not writeable so use sudo permissions.
+            echo "Must now use sudo permissions to re-configure \"cli-app-menu.sh\"."
+            sudo sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/cli-app-menu.sh
+            ERROR=$?
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "Error re-configuring,\"cli-app-menu.sh\" to use new directory"
+               echo "            even when using sudo permissions."
+               echo $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            fi
+         fi
+         #
+         # Message to restart script.
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         echo "___________________________________________"
+         echo " Re-run script to use new script directory."
+         echo "           >>> Exiting script <<<"
+         echo "___________________________________________"
+         echo $(tput sgr0)
+         # Exit function and exit script to system prompt.
+         unset X XSTR
+         exit 1
       fi
-      f_valid_dir "$MAINMENU_DIR"
+      #
+      # Validate directory and file existence.
       f_valid_files "$MAINMENU_DIR" "cli-app-menu.sh"
+      #
       #
       # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
       # README, and COPYING and (optionally) cli-app-menu.sh.
@@ -311,13 +377,6 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
-      # Validate file names and directories.
-      if [ ! -d $THIS_DIR ] ; then
-         # THIS_DIR directory does not exist.
-         echo
-         echo "This directory should contain the software modules and support files."
-      fi
-      f_valid_dir "$THIS_DIR"
       f_valid_files "$THIS_DIR" "lib_cli-common.lib"
       f_valid_files "$THIS_DIR" "lib_cli-web-sites.lib"
       f_valid_files "$THIS_DIR" "lib_cli-menu-cat.lib"
@@ -356,127 +415,134 @@ f_initvars_menu_app () {
 } # End of function f_initvars_menu_app
 #
 # +----------------------------------------+
-# |           Function f_valid_dir         |
+# |          Function f_valid_files        |
 # +----------------------------------------+
 #
-#  Inputs: $1. Where $1=Directory
-#    Uses: X, XSTR.
+#  Inputs: $1=Directory, $2=File.
+#    Uses: None.
 # Outputs: None.
 #
-f_valid_dir () {
-      # Does directory exist?
-      # Set XSTR to new or existing directory name.
-      if [ ! -d "$1" ] ; then
-         # No, directory does not exist.
-         # Use different color font for error messages.
+f_valid_files () {
+      # Check for required files and directories.
+      # Is the required file in an existing directory?
+      NEW_DIR=""  # Initialize NEW_DIR changed if new directory is created.
+      if [ ! -r "$1/$2" ] ; then
+         clear  # Blank the screen.
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "The CLI application Menu script requires certain files to be in the"
+         echo "correct directory to run properly."
+         echo
+         echo "The main script file, \"cli-app-menu.sh\" may or may not be in the"
+         echo "same directory as other required files (library modules, support files, etc.)"
+         echo
+         echo "It appears that a required file is either missing"
+         echo "or that the directory is not correctly specified."
+         echo
          f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         echo "The directory:"
-         echo "\"$1\""
-         echo "is not a valid existing directory."
+         echo -n $(tput bold)
+         echo "Either the required file is missing from the directory"
+         echo "or the directory is not correct and has the wrong name."
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
-         echo "Change from:"
-         # SCRIPT_PATH is the directory where THIS_FILE actually is currently residing.
-         grep -m 1 $1 $SCRIPT_PATH/$THIS_FILE  # Stop grep after 1st matching string and delete leading spaces.
+         echo "Required file:"
+         echo "   \"$2\""
          echo
-         echo "Change to:"
-         echo -n "Enter valid directory name or (Q)UIT: "
-         read XSTR
+         echo "is missing from directory:"
+         echo "   $1"
+         echo $(tput sgr0)
+         echo "Choices to fix the problem will be shown in the next menu."
          echo
-         case $XSTR in
-              "" | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-              XSTR="QUIT"
-              ;;
-         esac
-      else
-         # Yes, directory exists.
-         XSTR=$1      
+         echo -n "Press \"Enter\" key to continue. "
+         read X
+         #
+         f_valid_menu $1 $2
+         f_valid_path $NEW_DIR
+         f_valid_exit $1 $NEW_DIR
       fi
+} # End of function f_valid_files
+#
+# +----------------------------------------+
+# |          Function f_valid_menu         |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
+#    Uses: None.
+# Outputs: NEW_DIR.
+#
+f_valid_menu () {
+      f_initvars_menu_app "AAD"
+      # Please note: The function "f_show_menu" in library module file, "lib-cli-common.lib"
+      #              cannot be used at this time, since that file may not yet exist or
+      #              may need to be downloaded from the GitHub web site.
       #
-      if [ "$XSTR" != "QUIT" ] ; then
-         # Does directory exist?
-         # Create directory if needed.
-         if [ -d "$XSTR" ] ; then
-            if [ "$XSTR" != "$1" ]; then
-               # Yes, but it is not set up within the script.
-               # Edit script to include the existing directory.
-               if [ -r $SCRIPT_PATH/cli-app-menu.sh ] ; then
-                  sed -i "s|$1|$XSTR|" $SCRIPT_PATH/cli-app-menu.sh
-               fi
+      MENU_TITLE="Validate Files and Directories Menu"
+      NEW_DIR=$1 # Set $NEW_DIR to original invalid directory.
+      #
+      until [ "$AAD" = "0" ]
+      do    # Start of Validate Menu until loop.
+            clear  # Blank the screen.
+            if [ ! -r "$NEW_DIR/$2" ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo -n $(tput bold)
+               echo "Required file:"
+               echo "   \"$2\""
+               echo
+               echo "is missing from directory:"
+               echo "   $NEW_DIR"
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            else
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo "Required file:"
+               echo "   \"$2\""
+               echo
+               echo "is in directory:"
+               echo "   $NEW_DIR"
+               echo 
             fi
-         else
-            # No, Create it?
-            echo "Create new directory:"
-            echo $XSTR
-            echo -n "Create it now (y/N)? "
-            read X
+            echo "--- $MENU_TITLE ---"
             echo
-            case $X in
-                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                 # Yes, create it.
-                 mkdir $XSTR
+            echo "0 - Quit to command line prompt."
+            echo "1 - Download file    - Download the missing file from the GitHub web site."
+            echo "2 - Change directory - Change the directory to the correct one."
+            echo
+            echo "'0', (Q)uit, to quit this script."
+            echo
+            echo -n "Enter 0 to 2 or letters: " # echo -n supresses line-feed.
+            #
+            read AAD
+            case $AAD in
+                 0 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+                 AAD=0
                  ;;
-                 *)
-                 # No, stop.
+                 1 |[Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
+                 f_file_download $NEW_DIR $2
+                 ;;
+                 2 | [Cc] | [Cc][Hh] | [Cc][Hh][Aa]*)
+                 f_change_dir $NEW_DIR $2
                  ;;
             esac
-            # Was it created OK?
-            if [ -d "$XSTR" ] ; then
-               echo "New directory $XSTR created successfully."
-               if [ -r $SCRIPT_PATH/cli-app-menu.sh ] ;then
-                  sed -i "s|$1|$XSTR|" $SCRIPT_PATH/cli-app-menu.sh
-               fi
-               echo "Ready to use directory \"$XSTR\"."
-            else
-               # No, use sudo.
-               # Create it with sudo.
-               echo "Try again to create new directory:"
-               echo $XSTR
-               echo -n "using \"sudo\" (y/N)? "
-               read X
-               echo
-               case $X in
-                    [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                    # Yes, create it.
-                    mkdir $XSTR
-                    ;;
-                    *)
-                    # No, stop.
-                    ;;
-               esac
-               # Was it created OK?
-               if [ -d "$XSTR" ] ; then
-                  echo "New directory $XSTR created successfully."
-                  if [ -r $SCRIPT_PATH/cli-app-menu.sh ] ;then
-                     sed -i "s|$1|$XSTR|" $SCRIPT_PATH/cli-app-menu.sh
-                  fi
-                  echo "Ready to use directory \"$XSTR\"."
-               fi
-            fi
-         fi
-      fi
-      #
-      # Does directory exist?
-      if [ ! -d "$1" ] ; then
-         # No, directory does not exist.
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         echo "____________________________________"
-         echo " Re-run script to use new directory."
-         echo "       >>> Exiting script <<<"
-         echo "____________________________________"
-         echo $(tput sgr0)
-         unset X XSTR
-         exit 1
-      fi
+      done  # End of Validate Menu until loop.
+            #
+      unset AAD MENU_ITEM  # Throw out this variable.
+} # End of function f_valid_menu
+#
+# +----------------------------------------+
+# |           Function f_valid_path        |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory
+#    Uses: $PATH.
+# Outputs: Error code 1 if path is bad.
+#
+f_valid_path () {
       #
       # Check the $PATH
       if [[ ! "$PATH" == *":$1"* ]] ; then
          echo
          echo $(tput bold)
-         echo "Append the directory name to your environment $PATH."
+         echo "Append the directory name to your PATH:"
+         echo "$PATH"
          echo $(tput sgr0)
          echo "Edit your /home/<username_goes_here>/.bashrc file and add the directory"
          echo "by adding these lines to the end of the .bashrc file:"
@@ -500,50 +566,347 @@ f_valid_dir () {
          echo $(tput sgr0)
          exit 1
       fi
-} # End of function f_valid_dir
+} # End of function f_valid_path
 #
 # +----------------------------------------+
-# |          Function f_valid_files        |
+# |          Function f_valid_exit         |
 # +----------------------------------------+
 #
-#  Inputs: $1, $2. Where $1=Directory $2=File.
+#  Inputs: $1=Original Directory, $2=New Directory.
 #    Uses: None.
 # Outputs: None.
 #
-f_valid_files () {
-      # Check for required files. Skip if directory does not exist.
-      # If directory exists and file is not readable.
-      if [ ! -r "$1/$2" -a -d "$1" ] ; then
-         #
+f_valid_exit () {
+      # Was directory changed?
+      if [ "$1" != "$2" ] ; then
+         # Yes, directory was changed.
          # Use different color font for error messages.
          f_term_color $ECOLOR $BCOLOR
-         echo -n $(tput bold)
-         echo "Required file \"$2\" is missing from \"$1\"."
+         echo $(tput bold)
+         echo "____________________________________"
+         echo " Re-run script to use new directory."
+         echo "       >>> Exiting script <<<"
+         echo "____________________________________"
          echo $(tput sgr0)
-         echo "Solution 1: Copy or download the required file."
-         echo
-         echo "Copy or download the file: \"$2\""
-         echo "into the directory:"
-         echo "\"$1\"."
-         echo
-         echo
-         echo "Solution 2: Change the directory to the correct one:"
-         echo
-         echo "Edit file \"cli-app-menu.sh\" and scroll down to function \"f_main_init_once\"."
-         echo "Edit variables MAINMENU_DIR and/or THIS_DIR to equal the correct directories."
-         echo "Set the variables to valid, existing, writable directories."
-         #
-         # Use different color font for error messages.
+         unset
+         exit 1
+      else
+         # No, directory not changed, but THIS_DIR variable may have been changed so exit.
          f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
          echo
          echo "______________________________"
+         echo " Re-run script to use changes."
          echo "    >>> Exiting script <<<"
          echo "______________________________"
          echo $(tput sgr0)
+         unset NEW_DIR
          exit 1
+         fi
+} # End of function f_valid_exit
+#
+# +----------------------------------------+
+# |         Function f_file_download       |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
+#    Uses: MOD_FILE.
+# Outputs: None.
+#
+# If any of the module library *lib files are missing, then download all of
+# them into target directory.
+#
+# Note: You cannot use any functions within the file "lib_cli-common.lib"
+#       since that file may not yet be downloaded and available at this point.
+#       That is why function "f_file_dload" is used rather than "f_wget_file"
+#       or "f_download_file".
+#
+f_file_download () {
+      # Does directory exist?
+      if [ -d $1 ] ; then
+         # Yes, so continue to download files.
+         if [ "$2" = "lib_cli-common.lib" -o "$2" = "$lib_cli-menu-cat.lib" -o "$2" = "$lib_cli-web-sites.lib" ] ; then
+            for MOD_FILE in lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib
+            do
+                f_file_dload $1 $MOD_FILE
+            done
+         else
+            f_file_dload $1 $2
+         fi
+      else
+         # No, directory does not exist so cannot download file into the directory.
+         # Use different color font for error messages.
+         clear  # Blank the screen.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo
+         echo "Required file:"
+         echo "   \"$2\""
+         echo "cannot be downloaded"
+         echo
+         echo "because directory does not exist:"
+         echo "   $1"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+         echo -n "Press \"Enter\" key to continue."
+         read X
+         #
       fi
-} # End of function f_valid_files
+      unset MOD_FILE
+} # End of function f_file_download
+#
+# +----------------------------------------+
+# |           Function f_file_dload        |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
+#    Uses: X.
+# Outputs: None.
+#
+f_file_dload () {
+      clear  # Blank the screen.
+      #
+      if [ -d "$1" ] ; then
+         # Directory exists so download file into the directory.
+         echo "Download the file from the GitHub web site: \"$2\""
+         echo "into the directory:"
+         echo "   $1"
+         echo
+         # Ask download from which branch and wget.
+         echo -n "Download file? (y/N): "
+         read X
+         case $X in
+              [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+              # Yes, download it.
+              NEW_DIR=$1  # Needed for f_wget_file.
+              MOD_FILE=$2
+              # Download from GitHub web site, project's MASTER branch.
+              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
+              #
+              # Is directory writeable?
+              if [ -w $NEW_DIR ] ; then
+                 # Yes, directory is writeable.
+                 wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
+                 ERROR=$?
+                 if [ $ERROR -ne 0 ] ; then
+                    f_term_color $ECOLOR $BCOLOR
+                    echo $(tput bold)
+                    echo -n "Error downloading $MOD_FILE to $NEW_DIR."
+                    echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+                 fi
+              else
+                 # No, directory is not writeable so use sudo to download.
+                 echo "Must use sudo permissions to download $MOD_FILE."
+                 sudo wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
+                 ERROR=$?
+                 if [ $ERROR -ne 0 ] ; then
+                    f_term_color $ECOLOR $BCOLOR
+                    echo $(tput bold)
+                    echo -n "Error downloading $MOD_FILE even when using sudo permissions."
+                    echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+                 fi
+              fi
+              ;;
+              *)
+              # No, stop
+              ;;
+         esac
+      else
+         # Directory does not exist so cannot download file into the directory.
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo
+         echo "Required file:"
+         echo "   \"$2\""
+         echo "cannot be downloaded"
+         echo
+         echo "because directory does not exist:"
+         echo "   $1"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      fi
+      echo
+      echo -n "Press \"Enter\" key to continue."
+      read X
+      #
+      unset X
+} # End of function f_file_dload
+#
+# +----------------------------------------+
+# |           Function f_change_dir        |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
+#    Uses: XSTR.
+# Outputs: NEW_DIR.
+#
+f_change_dir () {
+      clear  # Blank the screen.
+      NEW_DIR="" ; XSTR=$1
+      while [ "$NEW_DIR" != "QUIT" ] && [ ! -d "$NEW_DIR" ]
+      do
+            f_ask_new_directory $1
+            if [ "$NEW_DIR" != "QUIT" ] ; then
+               # Does new chosen directory already exist?
+               if [ -d "$NEW_DIR" ] ; then
+                  echo "Directory already exists."
+                  echo
+                  # Yes exists, now setup for use.
+                  f_setup_dir $1 $NEW_DIR
+               else
+                  # No, missing; so ask if want to create.
+                  f_ask_create_directory $1 $NEW_DIR
+               fi
+            fi
+            #
+            if [ -d "$NEW_DIR" ] ; then
+               # Set $XSTR 
+               XSTR=$NEW_DIR
+            fi
+      done
+      # Set $NEW_DIR in order to update "Validate Files and Directories Menu" message display.
+      # NEW_DIR=<valid, existing directory> or null.
+      NEW_DIR=$XSTR
+      unset XSTR
+} # End of function f_change_dir
+#
+# +----------------------------------------+
+# |      Function f_ask_new_directory      |
+# +----------------------------------------+
+#
+#  Inputs: $1=Old Directory, SCRIPT_PATH, THIS_FILE.
+#    Uses: None.
+# Outputs: NEW_DIR.
+#
+f_ask_new_directory () {
+      clear  # Blank the screen.
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      echo
+      echo "Change from:"
+      # SCRIPT_PATH is the directory where THIS_FILE actually is currently residing.
+      grep -m 1 $1 $SCRIPT_PATH/$THIS_FILE  # Stop grep after 1st matching string and delete leading spaces.
+      echo
+      echo "Change to:"
+      echo "New directory name should have no trailing \"/."
+      echo -n "Enter valid directory name or (Q)UIT: "
+      read NEW_DIR
+      echo
+      case $NEW_DIR in
+           "" | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+           NEW_DIR="QUIT"
+           ;;
+      esac
+} # End of function f_ask_new_directory
+#
+#
+# +----------------------------------------+
+# |     Function f_ask_create_directory    |
+# +----------------------------------------+
+#
+#  Inputs: $1=Old Directory $2=New Directory.
+#    Uses: X.
+# Outputs: None.
+#
+f_ask_create_directory () {
+      # clear  # Blank the screen.
+      echo
+      echo "Create new directory:"
+      echo "   $2"
+      echo -n "Create it now (y/N)? "
+      read X
+      echo
+      case $X in
+           [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+           # Yes, create it.
+           mkdir $2
+           # Was it created OK?
+           if [ -d "$2" ] ; then
+              # Yes, created OK. Change $THIS_DIR to reference new directory.
+              echo
+              echo "Directory successfully created:"
+              echo "   $2"
+              echo
+              f_setup_dir $1 $2
+           else
+              # No, use sudo.
+              # Create it with sudo.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              echo -n "Error creating new directory, try again using \"sudo\" permissions (y/N)? "
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+              read X
+              echo
+              case $X in
+                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                   # Yes, create it.
+                   sudo mkdir $2
+                   # Was it created OK?
+                   if [ -d "$2" ] ; then
+                      # Yes, created OK. Change $THIS_DIR to reference new directory.
+                      echo
+                      echo "Directory successfully created:"
+                      echo "   $2"
+                      echo
+                      f_setup_dir $1 $2
+                   else
+                      echo
+                      f_term_color $ECOLOR $BCOLOR
+                      echo $(tput bold)
+                      echo -n "Error creating new directory, even when using sudo permissions."
+                      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+                   fi
+                   ;;
+                   *)
+                   # No, do not use sudo mkdir, stop.
+                   ;;
+              esac
+           fi
+           ;;
+           *)
+           # No, do not create new directory, stop.
+           ;;
+      esac
+      unset X
+} # End of function f_ask_create_directory
+#
+# +----------------------------------------+
+# |         Function f_setup_dir           |
+# +----------------------------------------+
+#
+#  Inputs: $1=Old Directory, $2=New Directory, SCRIPT_PATH.
+#    Uses: X.
+# Outputs: None.
+#
+f_setup_dir () {
+
+      echo "Automatically re-configuring \"cli-app-menu.sh\" to use directory."
+      echo
+      if [ -w $SCRIPT_PATH ] ; then
+         # Yes, directory is writeable.
+         sed -i "s|$1|$2|" $SCRIPT_PATH/cli-app-menu.sh
+         ERROR=$?
+         if [ $ERROR -ne 0 ] ; then
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            echo -n "Error re-configuring, \"cli-app-menu.sh\" to use directory."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         fi 
+      else
+         # No, directory is not writeable so use sudo permissions.
+         sudo sed -i "s|$1|$2|" $SCRIPT_PATH/cli-app-menu.sh
+         ERROR=$?
+         if [ $ERROR -ne 0 ] ; then
+            echo
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            echo -n "Error re-configuring,\"cli-app-menu.sh\" to use new directory even when using sudo permissions."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         fi
+      fi
+      echo -n "Press \"Enter\" key to continue."
+      read X
+      unset X
+} # End of function f_setup_dir
 #
 # +----------------------------------------+
 # |          Function f_main_help          |

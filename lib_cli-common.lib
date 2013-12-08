@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-28-2013 14:04"
+# REVDATE="December-07-2013 21:45"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -134,7 +134,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo
            if [ "$DELIMITER" = "#AAB" -a "$MENU_TITLE" = "Software Module Manager Menu" ] ; then
               echo "'0', (R)eturn, to go back to the previous menu."
-              echo "\"ALL\" or \"all\" to update ALL active modules."
+              echo "\"ALL\" or \"all\" to update all ACTIVATED modules."
            else
               echo "'0', (R)eturn, to go back to the Main Menu."
            fi
@@ -1724,26 +1724,115 @@ f_wget_file_2 () {
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
       if [ "$BRANCH" != "SKIP" ] ; then
          if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
-            #  Delete any old files except if file is "cli-app-menu.sh".
-            if [ -r $THIS_DIR/$MOD_FILE ] ; then  # If old file exists, then delete it.
+            # Delete any old files except if file is "cli-app-menu.sh".
+            # Permission to delete file?
+            if [ -w $THIS_DIR/$MOD_FILE ] ; then
                rm $THIS_DIR/$MOD_FILE # Delete old file.
+               ERROR=$?
+            else
+               # File either does not exist or is not writeable without sudo.
+               # Does file exist?
+               if [ -e $THIS_DIR/$MOD_FILE ] ; then
+                  # Need sudo permissions to delete file.
+                  sudo rm $THIS_DIR/$MOD_FILE # Delete old file.
+                  ERROR=$?
+               fi
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo -n "Error deleting older file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             fi
             # Download the module.
-            wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+            # Permission to download file?
+            if [ -w $THIS_DIR/$MOD_FILE ] ; then  
+               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            else
+               # Need sudo permissions to download file.
+               sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "Error downloading file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            fi
          else
-	    # File is "cli-app-menu.sh" so make a back-up copy and then download the new version.
-            tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
-            #  Delete cli-app-menu.sh after making back-up copy.
-            if [ -r $MAINMENU_DIR/$MOD_FILE ] && [ -r $MAINMENU_DIR/$MOD_FILE.tar.gz ] ; then
+            # File is "cli-app-menu.sh" so make a back-up copy,
+            #  delete old file, and then download the new version.
+            #
+            # Make backup copy of the file.
+            # Permission to backup the file?
+            if [ -w $MAINMENU_DIR/$MOD_FILE ] ; then  
+               tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+               ERROR=$?
+            else
+               # File either does not exist or is not writeable without sudo.
+               # Does file exist?
+               if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
+                  # Need sudo permissions to backup file.
+                  sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+                  ERROR=$?
+               fi
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "Error making back-up file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            fi
+            # Delete cli-app-menu.sh after making back-up copy.
+            # Was file back-up successful and have permission to delete the original file?
+            if [ -w $MAINMENU_DIR/$MOD_FILE ] && [ -w $MAINMENU_DIR/$MOD_FILE.tar.gz ] ; then
                rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
+               ERROR=$?
+            else
+               # File either does not exist or is not writeable without sudo.
+               # Does file exist?
+               if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
+                  # Need sudo permissions to delete file.
+                  sudo rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
+                  ERROR=$?
+               fi
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)  
+               echo -n "Error deleting older file, \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             fi
             # Download cli-app-menu.sh.
-            wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
+            # Permission to download file?
+            if [ -w $THIS_DIR/$MOD_FILE ] ; then  
+               wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            else
+               # Need sudo permissions to download file.
+               sudo wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "Error downloading file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            fi
          fi   
          echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
          echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-      fi
+      fi # If BRANCH=SKIP.
 } # End of f_wget_file_2
 #
 # +----------------------------------------+
