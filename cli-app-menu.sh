@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="December-07 2013 21:45"
+REVDATE="December-08 2013 23:35"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -505,10 +505,11 @@ f_valid_menu () {
             echo "0 - Quit to command line prompt."
             echo "1 - Download file    - Download the missing file from the GitHub web site."
             echo "2 - Change directory - Change the directory to the correct one."
+            echo "3 - List files       - List files in directory."
             echo
             echo "'0', (Q)uit, to quit this script."
             echo
-            echo -n "Enter 0 to 2 or letters: " # echo -n supresses line-feed.
+            echo -n "Enter 0 to 3 or letters: " # echo -n supresses line-feed.
             #
             read AAD
             case $AAD in
@@ -521,6 +522,11 @@ f_valid_menu () {
                  2 | [Cc] | [Cc][Hh] | [Cc][Hh][Aa]*)
                  f_change_dir $NEW_DIR $2
                  ;;
+                 3 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
+                 THIS_DIR=$NEW_DIR
+                 f_ls_this_dir
+                 ;;
+
             esac
       done  # End of Validate Menu until loop.
             #
@@ -1588,6 +1594,13 @@ f_update_config_file () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_update_software () {
+      # Are either of the directories read-only?
+      if [ ! -w $MAINMENU_DIR -o ! -w $THIS_DIR ] ; then 
+         # Yes, then need sudo permissions.
+         # Ask for sudo permissions password using an innocuous command.
+         echo "Need sudo permissions to update this software."
+         sudo cd  # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+      fi
       echo
       echo "Choose the branch from where you want to update the software."
       for MOD_FILE in cli-app-menu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
