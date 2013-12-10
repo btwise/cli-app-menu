@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="December-09 2013 23:43"
+REVDATE="December-10 2013 14:41"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -423,34 +423,24 @@ f_valid_files () {
       # Is the required file in an existing directory?
       NEW_DIR=""  # Initialize NEW_DIR changed if new directory is created.
       if [ ! -r "$1/$2" ] ; then
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          clear  # Blank the screen.
          if [ ! -e "$1" ] ; then
             echo "The directory:"
             echo "   $1"
-            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             f_term_color $ECOLOR $BCOLOR
             echo $(tput bold)
-            echo "Needs to be changed to a valid directory."
+            echo "Does not exist and needs to be either created or changed to a valid directory."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo
             echo -n "Press \"Enter\" key to continue."
             read X
             f_change_dir $1 $2
          else
-            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             f_term_color $ECOLOR $BCOLOR
             echo -n $(tput bold)
-            echo "Either the required file is missing from the directory"
-            echo "or the directory is not correct and has the wrong name."
-            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            echo
-            echo "Required file:"
-            echo "   \"$2\""
-            echo
-            echo "is missing from directory:"
-            echo "   $1"
-            echo
-            echo "Required files (library modules and support files) should be in this directory."
+            echo "A required file, \"$2\" is missing."
+            echo $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo
             echo "Choices to fix the problem will be shown in the next menu."
             echo
@@ -638,13 +628,26 @@ f_file_download () {
       # Does directory exist?
       if [ -d $1 ] ; then
          # Yes, so continue to download files.
-         if [ "$2" = "lib_cli-common.lib" -o "$2" = "$lib_cli-menu-cat.lib" -o "$2" = "$lib_cli-web-sites.lib" ] ; then
+         if [ "$2" = "lib_cli-common.lib" -o "$2" = "lib_cli-menu-cat.lib" -o "$2" = "lib_cli-web-sites.lib" ] ; then
+            echo
+            echo "If needed, these files will now be downloaded:"
+            echo "lib_cli-common.lib, lib_cli-menu-cat.lib, and lib_cli-web-sites.lib."
+            echo
+            echo -n "Press \"Enter\" key to continue."
+            read X
             for MOD_FILE in lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib
             do
-                f_file_dload $1 $MOD_FILE
+                # Does $MOD_FILE exist in that directory?
+                if [ ! -r $1/$MOD_FILE ] ; then
+                   # No it does not exist so download it.
+                   f_file_dload $1 $MOD_FILE
+                fi
             done
          else
-            f_file_dload $1 $2
+            if [ ! -r $1/$2 ] ; then
+            # No it does not exist so download it.
+               f_file_dload $1 $2
+            fi
          fi
       else
          # No, directory does not exist so cannot download file into the directory.
@@ -762,24 +765,16 @@ f_change_dir () {
       NEW_DIR="" ; XSTR=$1
       while [ "$NEW_DIR" != "QUIT" ] && [ ! -d "$NEW_DIR" ]
       do
-            f_ask_new_directory $1  # Outputs NEW_DIR.
-            if [ "$NEW_DIR" != "QUIT" ] ; then
-               # Does new chosen directory already exist?
-               if [ -d "$NEW_DIR" ] ; then
-                  echo "Directory already exists."
-                  echo
-                  # Yes exists, now setup for use.
-                  f_setup_dir $1 $NEW_DIR
-               else
-                  # No, missing; so ask if want to create.
-                  f_ask_create_directory $1 $NEW_DIR
-               fi
-            fi
+            # Creates or switches to new directory
+            # and reconfigures cli-app-menu.sh to use it.
+            # Outputs $NEW_DIR.
+            f_ask_new_directory $1
             #
-            if [ -d "$NEW_DIR" ] ; then
-               # Set $XSTR if new directory exists.
+            if [ -d "$NEW_DIR" ] && [ $NEW_DIR != "QUIT" ] ; then
                XSTR=$NEW_DIR
             fi
+            # If $NEW_DIR=<New directory> then $XSTR=$NEW_DIR.
+            # If $NEW_DIR="QUIT" then $XSTR=$1 <old (possibly invalid) directory>.
       done
       # Set $NEW_DIR in order to update "Validate Files and Directories Menu" message display.
       # NEW_DIR=<new directory only if it exists> or <old (possibly invalid) directory>.
@@ -800,7 +795,8 @@ f_ask_new_directory () {
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
       echo "The main script file: \"cli-app-menu.sh\" is in directory:"
       echo "      $MAINMENU_DIR"
-      echo "__________________________________________________________"
+      echo "_________________________________________________________________"
+      # Although $1=Old directory, use grep to be certain that THIS_DIR=$1.
       # grep results in 'THIS_DIR="<old directory>"'
       # Strip off the leading 'THIS_DIR=' and then strip off quotation marks.
       # Substitution using bash curly bracket syntax.
@@ -813,18 +809,31 @@ f_ask_new_directory () {
       #
       # SCRIPT_PATH is the directory where THIS_FILE actually is currently residing.
       echo
-      echo "The directory for the required support files needs to be changed."
-      echo
-      echo "Change from:"
-      echo "     $X"
-      echo
-      echo "Change to:"
-      echo "     $MAINMENU_DIR/cli-app-menu"
+      f_term_color $ECOLOR $BCOLOR
+      echo $(tput bold)
+      if [ "$X" != "$MAINMENU_DIR/cli-app-menu" ] ; then
+         echo "The directory for the required support files needs to be changed."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+         echo "Change from:"
+         echo "     $X"
+         echo
+         echo "Change to:"
+         echo "     $MAINMENU_DIR/cli-app-menu"
+      else
+         # This scenario happens when the directory was deleted
+         # while $THIS_DIR is still set correctly to point to that directory.
+         # a rare scenario which occurred while in development and testing.
+         echo "The directory for the required support files needs to be created."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "Create directory:"
+         echo "     $X"
+      fi
       echo
       echo
       echo "(Q)uit, to quit this script."
       echo
-      echo -n "Agree with this directory change? (Y/n): "
+      echo -n "Do you agree with this directory change? (Y/n): "
       read X
       case $X in
            [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
@@ -856,9 +865,27 @@ f_ask_new_directory () {
                 NEW_DIR=${NEW_DIR/%"/"/}
                 ;;
            esac
+           #
+           # Create directory only if it does not exist already.
+           if [ ! -d "$NEW_DIR" ] ; then
+              if [ -n "$NEW_DIR" ] ; then
+                 f_ask_create_directory $1 $NEW_DIR
+                 # Directory creation failed for some reason.
+                 if [ ! -d "$NEW_DIR" ] ; then
+                    NEW_DIR="QUIT"
+                 fi
+              fi
+           else
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              echo "Directory cannot be created, it may already exist."
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+              f_setup_dir $1 $NEW_DIR
+           fi
            ;;
            *)
            NEW_DIR="$MAINMENU_DIR/cli-app-menu"
+           f_create_directory $1 $NEW_DIR
            ;;
       esac
       unset X
@@ -887,54 +914,51 @@ f_ask_create_directory () {
            ;;
            * | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
            # Yes, create it.
-           mkdir $2
-           # Was it created OK?
-           if [ -d "$2" ] ; then
-              # Yes, created OK. Change $THIS_DIR to reference new directory.
-              echo
-              echo "Directory successfully created:"
-              echo "   $2"
-              echo
-              f_setup_dir $1 $2
-           else
-              # No, use sudo.
-              # Create it with sudo.
-              f_term_color $ECOLOR $BCOLOR
-              echo $(tput bold)
-              echo -n "Error creating new directory, "
-              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-              echo -n "try again using \"sudo\" permissions (Y/n)? "
-              read X
-              echo
-              case $X in
-                   [Nn]*)
-                   # No, do not use sudo mkdir, stop.
-                   ;;
-                   * | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                   # Yes, create it.
-                   sudo mkdir $2
-                   # Was it created OK?
-                   if [ -d "$2" ] ; then
-                      # Yes, created OK. Change $THIS_DIR to reference new directory.
-                      echo
-                      echo "Directory successfully created:"
-                      echo "   $2"
-                      echo
-                      f_setup_dir $1 $2
-                   else
-                      echo
-                      f_term_color $ECOLOR $BCOLOR
-                      echo $(tput bold)
-                      echo -n "Error creating new directory, even when using sudo permissions."
-                      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-                   fi
-                   ;;
-              esac
-           fi
+           f_create_directory $1 $2
            ;;
       esac
       unset X
 } # End of function f_ask_create_directory
+#
+# +----------------------------------------+
+# |      Function f_create_directory       |
+# +----------------------------------------+
+#
+#  Inputs: $1=Old Directory, $2=New Directory.
+#    Uses: None.
+# Outputs: None.
+#
+f_create_directory () {
+      mkdir $2 &>/dev/null # 1=standard messages, 2=error messages, &=both.
+      # Was it created OK?
+      if [ -d "$2" ] ; then
+         # Yes, created OK. Change $THIS_DIR to reference new directory.
+         echo
+         echo "Directory successfully created:"
+         echo "   $2"
+         echo
+         f_setup_dir $1 $2
+      else
+         # No, use sudo.
+         # Create it with sudo.
+         sudo mkdir $2
+         # Was it created OK?
+         if [ -d "$2" ] ; then
+            # Yes, created OK. Change $THIS_DIR to reference new directory.
+            echo
+            echo "Directory successfully created:"
+            echo "   $2"
+            echo
+            f_setup_dir $1 $2
+         else
+            echo
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            echo -n "Error creating new directory, even when using sudo permissions."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         fi
+      fi
+} # End of function f_create_directory
 #
 # +----------------------------------------+
 # |         Function f_setup_dir           |
@@ -1060,6 +1084,7 @@ f_main_about () {
       echo "Module library files and documentation is located in:"
       echo "$THIS_DIR"
       f_press_enter_key_to_continue
+      PRESS_KEY=0
       #
       unset X
 } # End of function f_main_about
@@ -1192,6 +1217,7 @@ f_main_edit_history () {
          # sed substitutes null for "##" at the beginning of each line so it is not printed.
          # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
          sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+         PRESS_KEY=0
       fi
       #
       unset X
