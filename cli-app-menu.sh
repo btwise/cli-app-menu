@@ -28,7 +28,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cli-app-menu.sh"
-REVDATE="December-08 2013 23:35"
+REVDATE="December-09 2013 23:43"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -332,10 +332,6 @@ f_main_init_once () {
          exit 1
       fi
       #
-      # Validate directory and file existence.
-      f_valid_files "$MAINMENU_DIR" "cli-app-menu.sh"
-      #
-      #
       # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
       # README, and COPYING and (optionally) cli-app-menu.sh.
       #
@@ -428,34 +424,45 @@ f_valid_files () {
       NEW_DIR=""  # Initialize NEW_DIR changed if new directory is created.
       if [ ! -r "$1/$2" ] ; then
          clear  # Blank the screen.
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo "The CLI application Menu script requires certain files to be in the"
-         echo "correct directory to run properly."
-         echo
-         echo "The main script file, \"cli-app-menu.sh\" may or may not be in the"
-         echo "same directory as other required files (library modules, support files, etc.)"
-         echo
-         echo "It appears that a required file is either missing"
-         echo "or that the directory is not correctly specified."
-         echo
-         f_term_color $ECOLOR $BCOLOR
-         echo -n $(tput bold)
-         echo "Either the required file is missing from the directory"
-         echo "or the directory is not correct and has the wrong name."
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo
-         echo "Required file:"
-         echo "   \"$2\""
-         echo
-         echo "is missing from directory:"
-         echo "   $1"
-         echo $(tput sgr0)
-         echo "Choices to fix the problem will be shown in the next menu."
-         echo
-         echo -n "Press \"Enter\" key to continue. "
-         read X
+         if [ ! -e "$1" ] ; then
+            echo "The directory:"
+            echo "   $1"
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            echo "Needs to be changed to a valid directory."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            echo
+            echo -n "Press \"Enter\" key to continue."
+            read X
+            f_change_dir $1 $2
+         else
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            f_term_color $ECOLOR $BCOLOR
+            echo -n $(tput bold)
+            echo "Either the required file is missing from the directory"
+            echo "or the directory is not correct and has the wrong name."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            echo
+            echo "Required file:"
+            echo "   \"$2\""
+            echo
+            echo "is missing from directory:"
+            echo "   $1"
+            echo
+            echo "Required files (library modules and support files) should be in this directory."
+            echo
+            echo "Choices to fix the problem will be shown in the next menu."
+            echo
+            echo -n "Press \"Enter\" key to continue. "
+            read X
+         fi
          #
-         f_valid_menu $1 $2
+         if [ "$NEW_DIR" != "" ] ; then
+            f_valid_menu $NEW_DIR $2
+         else
+            f_valid_menu $1 $2
+         fi
          f_valid_path $NEW_DIR
          f_valid_exit $1 $NEW_DIR
       fi
@@ -476,7 +483,7 @@ f_valid_menu () {
       #              may need to be downloaded from the GitHub web site.
       #
       MENU_TITLE="Validate Files and Directories Menu"
-      NEW_DIR=$1 # Set $NEW_DIR to original invalid directory.
+      NEW_DIR=$1 # Set $NEW_DIR to original (possibly invalid) directory.
       #
       until [ "$AAD" = "0" ]
       do    # Start of Validate Menu until loop.
@@ -496,7 +503,7 @@ f_valid_menu () {
                echo "Required file:"
                echo "   \"$2\""
                echo
-               echo "is in directory:"
+               echo "is now in a valid directory:"
                echo "   $NEW_DIR"
                echo 
             fi
@@ -674,15 +681,22 @@ f_file_dload () {
       #
       if [ -d "$1" ] ; then
          # Directory exists so download file into the directory.
-         echo "Download the file from the GitHub web site: \"$2\""
+         echo "Download the file from the GitHub web site."
+         echo
+         echo "Download file:"
+         echo "   $2"
+         echo
          echo "into the directory:"
          echo "   $1"
          echo
          # Ask download from which branch and wget.
-         echo -n "Download file? (y/N): "
+         echo -n "Download the file now? (Y/n): "
          read X
          case $X in
-              [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+              [Nn]*)
+              # No, stop
+              ;;
+              * | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
               # Yes, download it.
               NEW_DIR=$1  # Needed for f_wget_file.
               MOD_FILE=$2
@@ -712,9 +726,6 @@ f_file_dload () {
                     echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                  fi
               fi
-              ;;
-              *)
-              # No, stop
               ;;
          esac
       else
@@ -751,7 +762,7 @@ f_change_dir () {
       NEW_DIR="" ; XSTR=$1
       while [ "$NEW_DIR" != "QUIT" ] && [ ! -d "$NEW_DIR" ]
       do
-            f_ask_new_directory $1
+            f_ask_new_directory $1  # Outputs NEW_DIR.
             if [ "$NEW_DIR" != "QUIT" ] ; then
                # Does new chosen directory already exist?
                if [ -d "$NEW_DIR" ] ; then
@@ -766,13 +777,13 @@ f_change_dir () {
             fi
             #
             if [ -d "$NEW_DIR" ] ; then
-               # Set $XSTR 
+               # Set $XSTR if new directory exists.
                XSTR=$NEW_DIR
             fi
       done
       # Set $NEW_DIR in order to update "Validate Files and Directories Menu" message display.
-      # NEW_DIR=<valid, existing directory> or null.
-      NEW_DIR=$XSTR
+      # NEW_DIR=<new directory only if it exists> or <old (possibly invalid) directory>.
+      NEW_DIR=$XSTR 
       unset XSTR
 } # End of function f_change_dir
 #
@@ -781,27 +792,76 @@ f_change_dir () {
 # +----------------------------------------+
 #
 #  Inputs: $1=Old Directory, SCRIPT_PATH, THIS_FILE.
-#    Uses: None.
+#    Uses: X.
 # Outputs: NEW_DIR.
 #
 f_ask_new_directory () {
       clear  # Blank the screen.
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      echo "The main script file: \"cli-app-menu.sh\" is in directory:"
+      echo "      $MAINMENU_DIR"
+      echo "__________________________________________________________"
+      # grep results in 'THIS_DIR="<old directory>"'
+      # Strip off the leading 'THIS_DIR=' and then strip off quotation marks.
+      # Substitution using bash curly bracket syntax.
+      # Syntax: {<Target string>/<old pattern>/<new pattern>}
+      #
+      X="`grep -m 1 $1 $SCRIPT_PATH/$THIS_FILE`"  # Stop grep after 1st matching string and delete leading
+                                                  # Use back-ticks to run grep and get results.
+      X=${X/      THIS_DIR=/} ; X=${X/\"/}  # Remove strings '      THIS_DIR=' 
+                                            # and double-quotation marks from result.
+      #
+      # SCRIPT_PATH is the directory where THIS_FILE actually is currently residing.
+      echo
+      echo "The directory for the required support files needs to be changed."
       echo
       echo "Change from:"
-      # SCRIPT_PATH is the directory where THIS_FILE actually is currently residing.
-      grep -m 1 $1 $SCRIPT_PATH/$THIS_FILE  # Stop grep after 1st matching string and delete leading spaces.
+      echo "     $X"
       echo
       echo "Change to:"
-      echo "New directory name should have no trailing \"/."
-      echo -n "Enter valid directory name or (Q)UIT: "
-      read NEW_DIR
+      echo "     $MAINMENU_DIR/cli-app-menu"
       echo
-      case $NEW_DIR in
-           "" | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+      echo
+      echo "(Q)uit, to quit this script."
+      echo
+      echo -n "Agree with this directory change? (Y/n): "
+      read X
+      case $X in
+           [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
            NEW_DIR="QUIT"
+           f_valid_exit $NEW_DIR $NEW_DIR
+           ;;
+           [Nn]*)
+           echo
+           echo "If you want to have the required files in a separate directory from"
+           echo "the main script file, then enter a different directory."
+           echo
+           echo "(Q)uit, to quit this script."
+           echo
+           echo -n "Enter new directory name: "
+           read NEW_DIR
+           echo
+           case $NEW_DIR in
+                "" | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+                NEW_DIR="QUIT"
+                f_valid_exit $NEW_DIR $NEW_DIR
+                ;;
+                */)
+                # Strip off the last "/" in the directory name. i.e. Change from "/opt/" to "/opt".
+                # Substitution using bash curly bracket syntax.
+                # Syntax: {<Target string>/<old pattern>/<new pattern>}
+                #               NEW_DIR         %"/"         null
+                #                                |
+                #                              (%"/" means find trailing "/")
+                NEW_DIR=${NEW_DIR/%"/"/}
+                ;;
+           esac
+           ;;
+           *)
+           NEW_DIR="$MAINMENU_DIR/cli-app-menu"
            ;;
       esac
+      unset X
 } # End of function f_ask_new_directory
 #
 #
@@ -818,11 +878,14 @@ f_ask_create_directory () {
       echo
       echo "Create new directory:"
       echo "   $2"
-      echo -n "Create it now (y/N)? "
+      echo -n "Create it now (Y/n)? "
       read X
       echo
       case $X in
-           [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+           [Nn]*)
+           # No, do not create new directory, stop.
+           ;;
+           * | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
            # Yes, create it.
            mkdir $2
            # Was it created OK?
@@ -838,12 +901,16 @@ f_ask_create_directory () {
               # Create it with sudo.
               f_term_color $ECOLOR $BCOLOR
               echo $(tput bold)
-              echo -n "Error creating new directory, try again using \"sudo\" permissions (y/N)? "
+              echo -n "Error creating new directory, "
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+              echo -n "try again using \"sudo\" permissions (Y/n)? "
               read X
               echo
               case $X in
-                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                   [Nn]*)
+                   # No, do not use sudo mkdir, stop.
+                   ;;
+                   * | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                    # Yes, create it.
                    sudo mkdir $2
                    # Was it created OK?
@@ -862,14 +929,8 @@ f_ask_create_directory () {
                       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                    fi
                    ;;
-                   *)
-                   # No, do not use sudo mkdir, stop.
-                   ;;
               esac
            fi
-           ;;
-           *)
-           # No, do not create new directory, stop.
            ;;
       esac
       unset X
@@ -885,27 +946,31 @@ f_ask_create_directory () {
 #
 f_setup_dir () {
 
-      echo "Automatically re-configuring \"cli-app-menu.sh\" to use directory."
+      echo "Automatically re-configuring \"cli-app-menu.sh\" to use the directory."
       echo
       if [ -w $SCRIPT_PATH ] ; then
          # Yes, directory is writeable.
-         sed -i "s|$1|$2|" $SCRIPT_PATH/cli-app-menu.sh
+         # sed has \" back-slashes before the quotation marks to include the
+         # literal quotation marks in the search/replace strings.
+         #         Find string: THIS_DIR="$1
+         # Replace with string: THIS_DIR="$2
+         sed -i "s|THIS_DIR=\"$1|THIS_DIR=\"$2|" $SCRIPT_PATH/cli-app-menu.sh
          ERROR=$?
          if [ $ERROR -ne 0 ] ; then
             f_term_color $ECOLOR $BCOLOR
             echo $(tput bold)
-            echo -n "Error re-configuring, \"cli-app-menu.sh\" to use directory."
+            echo -n "Error re-configuring, \"cli-app-menu.sh\" to use the directory."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          fi 
       else
          # No, directory is not writeable so use sudo permissions.
-         sudo sed -i "s|$1|$2|" $SCRIPT_PATH/cli-app-menu.sh
+         sudo sed -i "s|THIS_DIR=\"$1|THIS_DIR=\"$2|" $SCRIPT_PATH/cli-app-menu.sh
          ERROR=$?
          if [ $ERROR -ne 0 ] ; then
             echo
             f_term_color $ECOLOR $BCOLOR
             echo $(tput bold)
-            echo -n "Error re-configuring,\"cli-app-menu.sh\" to use new directory even when using sudo permissions."
+            echo -n "Error re-configuring,\"cli-app-menu.sh\" to use the directory even when using sudo permissions."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          fi
       fi
