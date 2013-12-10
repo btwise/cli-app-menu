@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="November-26-2013 18:16"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -263,6 +263,7 @@ f_menu_app_email () {
 #0^0^0^0^1 #MEM lbdb           - Little Brother's Database for mutt mail reader.
 #0^0^0^0^1 #MEM nedmail        - E-mail client.
 #0^0^0^0^1 #MEM pine           - E-mail client.
+#0^0^0^0^1 #MEM re-alpine      - E-mail client.
 #0^0^0^0^1 #MEM sup            - E-mail client.
 #0^0^0^0^1 #MEM urlview        - Extracts URL from email text.
             #

@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="November-23-2013 19:09"
+PROJECT_REVDATE="December-10-2013 14:41"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -51,6 +51,58 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
+## 2013-12-10 *f_valid_files, f_change_dir, f_ask_new_directory,
+##             f_file_download, f_ask_create_directory, f_create_directory
+##             changed to be user-friendly and more robust.
+##
+## 2013-12-09 *f_update_software added detection of needed sudo permissions.
+##            *f_setup_dir fixed sed change only THIS_DIR (not MAINMENU_DIR).
+##            *f_valid_files, f_ask_new_directory for user friendliness.
+##
+## 2013-12-07 *f_mod_apps_*, f_mod_apps-submenu, f_mod_manager, reworked
+##             to simplify code.
+##            *f_mod_add, f_mod_remove, f_mod_restore, f_mod_update,
+##             f_module_remove, f_module_restore, f_module_archive created
+##             and made sudo permissions capable.
+##            *f_wget_file_2 reworked and made sudo permissions capable.
+##
+## 2013-12-05 *f_ask_create_directory creates new directory and then calls
+##             f_setup_dir.
+##            *f_ask_new_directory asks to create new directory.
+##            *f_change_dir called by f_valid_menu to change directory.
+##            *f_file_download checks file(s) to download, target directory.
+##             then calls f_file_download.
+##            *f_file_dload does a wget to download a file.
+##            *f_main_init_once automatically detect the directory where the
+##             script is located and change MAINMENU_DIR to that directory.
+##            *f_setup_dir substitutes new for old directory in THIS_DIR.
+##            *f_valid_exit displays messages on exit after altering THIS_DIR.
+##            *f_valid_files checks if file exists in proper directory.
+##            *f_valid_menu if file and/or directory does not exist,
+##             this menu allows download of file and/or creation of directory.
+##            *f_valid_path displays message to edit the $PATH statement.
+##
+## 2013-12-02 *f_menu_app_games_word added boxes, fortune.
+##            *f_script_path created to specify path of script.
+##            *f_valid_files modified to use f_script_path.
+##
+## 2013-12-01 *f_valid_files clarified messages if required file is missing.
+##
+## 2013-11-29 *f_valid_dir enhanced to create directories if needed.
+##
+## 2013-11-28 *f_install_textmaze added installation instructions.
+##            *f_application_error added error code 126.
+##            *f_application_web_install added braincurses, textmaze.
+##
+## 2013-11-27 *f_mod_manager reworked messages and made prompt adaptable.
+##
+## 2013-11-26 *f_ask_which_branch_download changed branch choice from Stable
+##             to Master and changed choice from "Quit" to "Skip".
+##             Added branch "Develop".
+##            *f_menu_app_clocks changed Quit Code for vtclock.
+##            *f_menu_app_email added re-alpine.
+##            *f_menu_app_network_monitors added iptraf-ng.
 ##
 ## 2013-11-20 *README improved documentation.
 ##            *f_main_configure reworked menu.

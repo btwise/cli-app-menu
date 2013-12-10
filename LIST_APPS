@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-11-16 23:51 Saturday
+Last updated: 2013-12-02 22:29 Monday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -45,7 +45,6 @@ ________________________________________________
  ncmpc           - Music player, ncurses-based.
  ncmpcpp         - Music player and visualizer, ncurses-based.
  MORE...         - For more music player applications.
- MORE...         - For more image-graphics applications.
 
 ________________________________________________
 *** Audio Player2 Applications Menu ***
@@ -83,7 +82,7 @@ ________________________________________________
  dradio   - Streaming radio on world-wide web.
  radio    - Streaming radio, ncurses-based.
  pianobar - Streaming radio player for Pandora Radio.
- pyradio    - Streaming radio, written in python.
+ pyradio  - Streaming radio, written in python.
  shell-fm - Streaming radio player for last.fm radio.
 
 ________________________________________________
@@ -280,6 +279,7 @@ ________________________________________________
  lbdb           - Little Brother's Database for mutt mail reader.
  nedmail        - E-mail client.
  pine           - E-mail client.
+ re-alpine      - E-mail client.
  sup            - E-mail client.
  urlview        - Extracts URL from email text.
 
@@ -565,7 +565,9 @@ ________________________________________________
 ________________________________________________
 *** Word Games Menu ***
  boggle  - Word search game.
+ boxes   - Displays text with a decorative display.
  figlet  - Creates banner with outline font.
+ fortune - Displays witty words and sayings.
  hangman - Classic hangman word game.
  hodie   - Date and time in Latin.
  pig     - Converts text into pig-latin.
@@ -616,11 +618,12 @@ ________________________________________________
  jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
  jhead      - Display jpeg file properties.
  jp2a       - Convert jpg images to ascii images.
- linuxlogo  - Color ANSI system logo
- mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
+ MORE...         - For more image-graphics applications.
 
 ________________________________________________
 *** Image-Graphics2 Applications Menu ***
+ linuxlogo - Color ANSI system logo
+ mrzoom    - Displays fractal images. A Mandelbrot fractal explorer.
  scanimage - Controls flatbed scanners, cameras. -L list of devices.
  sl        - Steam locomotive (when you mis-type 'ls' command).
  star wars - Star Wars movie in ASCII.
@@ -744,17 +747,18 @@ ________________________________________________
 
 ________________________________________________
 *** Network Monitor Applications Menu ***
- iptraf   - IP LAN monitor, ncurses based display.
- nagios3  - IP LAN monitor. Display network hosts, devices, connections.
- nc       - Netcat reads/writes data across network.
- netstat  - Print network connections, routing tables, interface stats, etc.
- netwatch - Protocol monitor; ncurses based.
- ntop     - Display network usage and status information in a web browser.
- opennms  - Network management application. Discovery, reports, statistics.
- pmacct   - Traffic information monitor.
- slurm    - Simple Linux Utility for Resource Managment. I/O load monitor.
- sntop    - IP LAN monitor. Display network hosts and connections.
- vnstat   - Traffic information monitor.
+ iptraf    - IP LAN monitor, ncurses based display.
+ iptraf-ng - Fork of iptraf.
+ nagios3   - IP LAN monitor. Display network hosts, devices, connections.
+ nc        - Netcat reads/writes data across network.
+ netstat   - Print network connections, routing tables, interface stats, etc.
+ netwatch  - Protocol monitor; ncurses based.
+ ntop      - Display network usage and status information in a web browser.
+ opennms   - Network management application. Discovery, reports, statistics.
+ pmacct    - Traffic information monitor.
+ slurm     - Simple Linux Utility for Resource Managment. I/O load monitor.
+ sntop     - IP LAN monitor. Display network hosts and connections.
+ vnstat    - Traffic information monitor.
 
 ________________________________________________
 *** NIC Diagnostic Tools Applications Menu ***
@@ -1082,8 +1086,9 @@ ________________________________________________
  mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
  ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
  rain         - Rain on screen.
- termsaver    - screensaver for text terminals.
- ticker       - scrolls text across the screen.
+ termsaver    - Screensaver for text terminals.
+ textmaze     - Playable Maze on screen
+ ticker       - Scrolls text across the screen.
  tty-clock    - Display a digital clack full-screen.
  weatherspect - Displays weather information with wallpaper.
  worms        - Worms wiggle on the screen.

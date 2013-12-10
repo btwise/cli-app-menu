@@ -122,7 +122,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: grep -c means count the lines that match the pattern.
 #:
 #: REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-#: REVDATE="November-23 2013 19:09"
+#: REVDATE="December-05 2013 21:15"
 #:
 #:
 #: +----------------------------------------+
@@ -406,55 +406,58 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: |            List of variables           |
 #: +----------------------------------------+
 #:
-#: ANS         - String; Answer to question.
-#: APP_NAME    - String; application name also command to run.
+#: ANS           - String; Answer to question.
+#: APP_NAME      - String; application name also command to run.
 #: APP_NAME_INSTALL - String; used when APP_NAME does not match actual package
-#:               name to be installed. i.e. APP_NAME="trek" but package name is
-#:               actually "bsdgames". So to install "trek" game, you must
-#:               instead install package "bsdgames", a collection of games.
+#:                 name to be installed. i.e. APP_NAME="trek" but package name is
+#:                 actually "bsdgames". So to install "trek" game, you must
+#:                 instead install package "bsdgames", a collection of games.
 #: APP_NAME_SUDO - String; just app name when APP_NAME starts with sudo.
-#: APP_NAME_TMP - String; just app name when APP_NAME has options-params.
-#: APP_RUN     - String; Command to run when application is a web browser,
-#:               actually also includes name of web site to browse.
-#: BCOLOR      - String; Background color of display terminal; Black, blue, white.
-#: CHOICE[XNUM] - Array of string elements. User choice in Applications and
-#:               Category Menus where XNUM is a number.
-#: M[A-Z][A-Z]  - String; User choice in Applications Menu (alpha-numeric).
-#:               First few letters of user choice from menu.
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, display "Press enter key to continue."
-#: B[A-Z][A-Z]  - String; User choice in Applications Category Menu (alpha-
-#:                    numeric).
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, legitimate choice.
-#: DELIM       - String; Delimiter prefix without the hash "#" mark.
-#: DELIMITER   - String; Delimiter prefix of menu option string.
-#: ERROR       - Number; Save error code number from $? function.
-#: ECOLOR      - String; Font color of error messages.
-#: FCOLOR      - String; Font color of display terminal.
-#: INSTALL_ANS - String; YES/NO Does user want to install app?
-#:               Passed from f_application_error to f_application_run.
-#: MAX         - Number; Maximum option choice number in menu.
-#: MENU_ITEM   - String; User choice, f_menu_item_process (alpha-numeric).
-#:               ' 0' means quit menu.
-#:               '-1' stay in menu loop, legitimate choice.
-#: MENU_TITLE  - String; Title of menu.
-#: MOD_FILE    - Module file name.
-#: PRESSKEY    - Number: Ask "Press Enter key to continue".
-#:               '0' Do not ask "Press Enter key to continue".
-#:               '1' Ask "Press Enter key to continue".
-#: REVDATE     - String; Revision date of shell script.
-#: REVISION    - String; Revision number of shell script.
-#: THIS_FILE   - String; name of shell script.
-#: UCOLOR      - Font color for unavailable library modules in Application Category Menu.
-#: WEB_SITE    - String; name of web site used when application is a web browser.
+#: APP_NAME_TMP  - String; just app name when APP_NAME has options-params.
+#: APP_RUN       - String; Command to run when application is a web browser,
+#:                 actually also includes name of web site to browse.
+#: BCOLOR        - String; Background color of display terminal; Black, blue, white.
+#: CHOICE[XNUM]  - Array of string elements. User choice in Applications and
+#:                 Category Menus where XNUM is a number.
+#: M[A-Z][A-Z]   - String; User choice in Applications Menu (alpha-numeric).
+#:                 First few letters of user choice from menu.
+#:                 ' 0' means quit menu.
+#:                 '-1' stay in menu loop, display "Press enter key to continue."
+#: B[A-Z][A-Z]   - String; User choice in Applications Category Menu (alpha-
+#:                 numeric).
+#:                 ' 0' means quit menu.
+#:                 '-1' stay in menu loop, legitimate choice.
+#: DELIM         - String; Delimiter prefix without the hash "#" mark.
+#: DELIMITER     - String; Delimiter prefix of menu option string.
+#: ERROR         - Number; Save error code number from $? function.
+#: ECOLOR        - String; Font color of error messages.
+#: FCOLOR        - String; Font color of display terminal.
+#: INSTALL_ANS   - String; YES/NO Does user want to install app?
+#:                 Passed from f_application_error to f_application_run.
+#: MAINMENU_DIR  - Directory containing cli-app-menu.sh.
+#: MAX           - Number; Maximum option choice number in menu.
+#: MENU_ITEM     - String; User choice, f_menu_item_process (alpha-numeric).
+#:                 ' 0' means quit menu.
+#:                 '-1' stay in menu loop, legitimate choice.
+#: MENU_TITLE    - String; Title of menu.
+#: MOD_FILE      - Module file name.
+#: NEW_DIR       - String; New directory to be created.
+#: PRESSKEY      - Number: Ask "Press Enter key to continue".
+#:                 '0' Do not ask "Press Enter key to continue".
+#:                 '1' Ask "Press Enter key to continue".
+#: REVDATE       - String; Revision date of shell script.
+#: REVISION      - String; Revision number of shell script.
+#: THIS_DIR      - Directory containg library modules and support files.
+#: THIS_FILE     - String; name of shell script.
+#: UCOLOR        - Font color for unavailable library modules in Application Category Menu.
+#: WEB_SITE      - String; name of web site used when application is a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
-#: X           - String; Scratch variable.
-#: XNUM        - Number; Scratch variable used in awk statement in f_show_menu
-#:               and in CHOICE[XNUM] array.
-#: XSTR        - String; Scratch variable.
-#: XXSTR       - String; Scratch variable.
-#: YSTR        - String; Scratch variable.
+#: X             - String; Scratch variable.
+#: XNUM          - Number; Scratch variable used in awk statement in f_show_menu
+#:                 and in CHOICE[XNUM] array.
+#: XSTR          - String; Scratch variable.
+#: XXSTR         - String; Scratch variable.
+#: YSTR          - String; Scratch variable.
 #:
 #:
 #: +----------------------------------------+
@@ -465,7 +468,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:AAB - Application Categories Menu
 #:AAB - Library Module Management Menu
 #:AAC - Configuration Menu
-#:AAD - (Unused)
+#:AAD - File/Directory Validation Menu
 #:AAE - Terminal Colors Menu
 #:AAF - Colors for Unavailable Menu Items
 #:

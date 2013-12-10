@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-19-2013 23:45"
+# REVDATE="November-26-2013 18:16"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -662,17 +662,18 @@ f_menu_app_network_monitors () {
       f_initvars_menu_app "MNM"
       until [ "$MNM" = "0" ]
       do    # Start of Network Monitor Applications until loop.
-#0^0^0^0^0 #MNM iptraf   - IP LAN monitor, ncurses based display.
-#1^0^0^0^1 #MNM nagios3  - IP LAN monitor. Display network hosts, devices, connections.
-#0^0^0^0^0 #MNM nc       - Netcat reads/writes data across network.
-#1^0^0^1:NC^0 #MNM netstat  - Print network connections, routing tables, interface stats, etc.
-#1^0^0^1^0 #MNM netwatch - Protocol monitor; ncurses based.
-#1^0^0^0^0 #MNM ntop     - Display network usage and status information in a web browser.
-#1^0^0^0^0 #MNM opennms  - Network management application. Discovery, reports, statistics.
-#0^0^0^0^1 #MNM pmacct   - Traffic information monitor.
-#1^0^0^1:NC^0 #MNM slurm    - Simple Linux Utility for Resource Managment. I/O load monitor.
-#1^0^0^1:NC^0 #MNM sntop    - IP LAN monitor. Display network hosts and connections.
-#0^0^0^0^1 #MNM vnstat   - Traffic information monitor.
+#0^0^0^0^0    #MNM iptraf    - IP LAN monitor, ncurses based display.
+#0^0^0^0^0    #MNM iptraf-ng - Fork of iptraf.
+#1^0^0^0^1    #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
+#0^0^0^0^0    #MNM nc        - Netcat reads/writes data across network.
+#1^0^0^1:NC^0 #MNM netstat   - Print network connections, routing tables, interface stats, etc.
+#1^0^0^1^0    #MNM netwatch  - Protocol monitor; ncurses based.
+#1^0^0^0^0    #MNM ntop      - Display network usage and status information in a web browser.
+#1^0^0^0^0    #MNM opennms   - Network management application. Discovery, reports, statistics.
+#0^0^0^0^1    #MNM pmacct    - Traffic information monitor.
+#1^0^0^1:NC^0 #MNM slurm     - Simple Linux Utility for Resource Managment. I/O load monitor.
+#1^0^0^1:NC^0 #MNM sntop     - IP LAN monitor. Display network hosts and connections.
+#0^0^0^0^1    #MNM vnstat    - Traffic information monitor.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Monitor Applications Menu"

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2013 22:46"
+# REVDATE="November-26-2013 18:16"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -209,7 +209,7 @@ f_menu_app_clocks () {
 #0^0^0^0^1 #MCL saytime          - Audio clock.
 #0^0^0^0^1 #MCL tbclock          - Binary clock, binary numbers 1/0 tells time.
 #0^0^0^0^1 #MCL tzwatch          - Displays time/date in specified time zones on console.
-#0^0^0^0^0 #MCL vtclock          - Full-screen clock also shows 1 line text, ncurses-based.
+#0^0^0^8^0 #MCL vtclock          - Full-screen clock also shows 1 line text, ncurses-based.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Clock Applications Menu"

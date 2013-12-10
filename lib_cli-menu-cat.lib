@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-23 2013 19:09"
+# REVDATE="December-07 2013 21:45"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -36,7 +36,7 @@ f_menu_module_manager () {
 # ******************************************
 #
 #  Inputs: None
-#    Uses: AAB, MAX, XSTR
+#    Uses: AAB, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
 #
 f_menu_module_display () {
@@ -94,156 +94,169 @@ f_menu_module_display () {
 mod_apps-audio.lib () {
       MOD_FILE="mod_apps-audio.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_audio"             # Audio Applications Menu.
-         f_mod_apps-submenu
+         # Audio Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_audio
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-databases.lib () {
       MOD_FILE="mod_apps-databases.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_app_databases"         # Database Applications Menu.
-         f_mod_apps-submenu
+         # Database Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_databases
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-education.lib () {
       MOD_FILE="mod_apps-education.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_app_education"         # Education Applications Menu.
-         f_mod_apps-submenu
+         # Education Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_education
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-filedir.lib () {
       MOD_FILE="mod_apps-filedir.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_file_management"   # File Management Applications Menu.
-         f_mod_apps-submenu
+         # File Management Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_education
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-games.lib () {
       MOD_FILE="mod_apps-games.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_games"             # Games Applications Menu.
-         f_mod_apps-submenu
+         # Games Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_games
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-image.lib () {
       MOD_FILE="mod_apps-image.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_image"             # Image-Graphics Applications Menu.
-         f_mod_apps-submenu
+         # Image-Graphics Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_image
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-internet.lib () {
       MOD_FILE="mod_apps-internet.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_internet"          # Internet Applications Menu.
-         f_mod_apps-submenu
+         # Internet Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_internet
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-network.lib () {
       MOD_FILE="mod_apps-network.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_network"           # Network Applications Menu.
-         f_mod_apps-submenu
+         # Network Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_network
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-office.lib () {
       MOD_FILE="mod_apps-office.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_office"            # Office Applications Menu.
-         f_mod_apps-submenu
+         # Office Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_office
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-screensaver.lib () {
       MOD_FILE="mod_apps-screensaver.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_app_screen_savers"     # Screen-saver Applications Menu.
-         f_mod_apps-submenu
+         # Screen-saver Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_screen_savers
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 mod_apps-software-qa.lib () {
       MOD_FILE="mod_apps-software-qa.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_app_software-qa"       # System Applications Menu.
-         f_mod_apps-submenu
+         # System Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_software-qa
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-system.lib () {
       MOD_FILE="mod_apps-system.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_system"            # System Applications Menu.
-         f_mod_apps-submenu
+         # System Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_system
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 mod_apps-video.lib () {
       MOD_FILE="mod_apps-video.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         XSTR="f_menu_cat_video"             # Video Applications Menu.
-         f_mod_apps-submenu
+         # Video Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_video
       else
-         f_mod_manager $MOD_FILE
+         f_mod_manager $THIS_DIR $MOD_FILE
       fi
+      #
 }
 #
 # +----------------------------------------+
 # |       Function f_mod_apps-submenu      |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR, MOD_FILE, XSTR
+#  Inputs: $1=directory, $2=file, $3=function
 #    Uses: None.
 # Outputs: None.
 #
 f_mod_apps-submenu () {
-      # If library module file exists, then run function $XSTR.
-      if [ -r $THIS_DIR/$MOD_FILE ] ; then
-         # $MOD_FILE exists so make it accessible.
-         . $THIS_DIR/$MOD_FILE # Invoke module library.
-         $XSTR
+      # If library module file exists, then run function $3.
+      if [ -r $1/$2 ] ; then
+         # $2 exists so make it accessible.
+         . $1/$2 # Invoke module library.
+         $3
          # Restore MENU_TITLE since it determines which menu and menu item options to use.
          # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
          MENU_TITLE="Application Categories Menu"
       else
          f_download_file
-         if [ -r $THIS_DIR/$MOD_FILE ] ; then
-            $XSTR
-         # Restore MENU_TITLE since it determines which menu and menu item options to use.
-         # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
-         MENU_TITLE="Application Categories Menu"
+         if [ -r $1/$2 ] ; then
+            $3
+            # Restore MENU_TITLE since it determines which menu and menu item options to use.
+            # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
+            MENU_TITLE="Application Categories Menu"
          fi
       fi
 } # End of function f_mod_apps-submenu.
@@ -252,89 +265,348 @@ f_mod_apps-submenu () {
 # |         Function f_mod_manager         |
 # +----------------------------------------+
 #
-#  Inputs: $1=$MOD_FILE
+#  Inputs: $1=Directory, $2=File.
+#    Uses: ANS
+# Outputs: None.
+#
+f_mod_manager () {
+      # Does $2 exist?
+      if [ -r $1/$2 ] ; then
+         if [ -r $1/$2.tar.gz ] ; then
+            # Both $2 and $2.tar.gz exist.
+            echo -n "(R)emove/(Res)tore/(U)pdate/(Q)UIT module: $2? "
+            read ANS
+            case $ANS in
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
+                 # Archive and remove (deactivate) from menu then delete $2.
+                 f_mod_remove $1 $2
+                 ;;
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
+                 # Restore and invoke module then delete $2.tar.gz.
+                 f_mod_restore $1 $2
+                 ;;
+                 [Uu] | [Uu][Pp]*)
+                 # Update and invoke an existing module.
+                 f_mod_update $1 $2
+                 ;;
+                 [Qq] | [Qq][Uu]*)
+                 # Quit, do nothing.
+                 ;;
+            esac
+         else
+            # Only $2 exists.
+            echo -n "(R)emove/(U)pdate/(Q)UIT module: $2? "
+            read ANS
+            case $ANS in
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
+                 # Archive and remove (deactivate) from menu then delete $2.
+                 f_mod_remove $1 $2
+                 ;;
+                 [Uu] | [Uu][Pp]*)
+                 # Update and invoke an existing module.
+                 f_mod_update $1 $2
+                 ;;
+                 [Qq] | [Qq][Uu]*)
+                 # Quit, do nothing.
+                 ;;
+            esac
+         fi
+      else
+         if [ -r $1/$2.tar.gz ] ; then
+            # Only $2.tar.gz exists
+            echo -n "(A)dd/(Res)tore/(Q)UIT module: $2? "
+            read ANS
+            case $ANS in
+                 [Aa] | [Aa][Dd] | [Aa][Dd][Dd])
+                 # Add and invoke a new module.
+                 f_mod_add $1 $2
+                 ;;
+                 [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
+                 # Restore and invoke module then delete $2.tar.gz.
+                 f_mod_restore $1 $2
+                 ;;
+                 [Qq] | [Qq][Uu]*)
+                 # Quit, do nothing.
+                 ;;
+            esac
+         else
+            # Both $2 and $2.tar.gz do not exist.
+            echo -n "(A)dd/(Q)UIT module: $2? "
+            read ANS
+            case $ANS in
+                 [Aa] | [Aa][Dd] | [Aa][Dd][Dd])
+                 # Add and invoke a new module.
+                 f_mod_add $1 $2
+                 ;;
+                 [Qq] | [Qq][Uu]*)
+                 # Quit, do nothing.
+                 ;;
+            esac
+         fi
+      fi
+      #
+} # End of function f_mod_manager
+#
+# +----------------------------------------+
+# |           Function f_mod_add           |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
 #    Uses: MOD_FILE, ANS
 # Outputs: 
 #
-f_mod_manager () {
-      MOD_FILE=$1
-      echo
-      echo -n "(A)dd/(R)emove/(Res)tore/(U)pdate/(Q)UIT module: $MOD_FILE? "
-      read ANS
-      case $ANS in
-           [Aa] | [Aa][Dd] | [Aa][Dd][Dd])
-           # Add and invoke a new module.
-           f_download_file
-           # Does $MOD_FILE exist?
-           if [ -r $THIS_DIR/$MOD_FILE ] && [ -r $THIS_DIR/$MOD_FILE.tar.gz ] ; then
-              # Delete any $MOD_FILE.tar.gz since it is no longer needed. 
-              rm $THIS_DIR/$MOD_FILE.tar.gz
-           fi
-           ;;
-           [Rr] | [Rr][Ee] | [Rr][Ee][Mm]*)
-           # Archive and remove (deactivate) from menu then delete $MOD_FILE.
-           # Does $MOD_FILE exist?
-           if [ -r $THIS_DIR/$MOD_FILE ] ; then
-              # Yes, so archive and remove (deactivate) from menu.
-              cd $THIS_DIR # Change directory so tar will archive file into THIS_DIR.
-              tar -zcvf $MOD_FILE.tar.gz $MOD_FILE 1>/dev/null # 1=standard messages, 2=error messages, &=both.
-              # Was the archive successful?
-              if [ -r $THIS_DIR/$MOD_FILE.tar.gz ] ; then
-                 # Delete $MOD_FILE since it is no longer needed.
-                 rm $THIS_DIR/$MOD_FILE
+f_mod_add () {
+      # Add and invoke a new module.
+      if [ -e $1/$2 ] ; then
+         echo $(tput bold)
+         echo "Cannot add module since it already exists. Try updating it instead."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         f_press_enter_key_to_continue
+      else
+         # Function f_download_file can use sudo permissions if needed.
+         f_download_file
+      fi
+      #
+      # If file exists and back-up file exists, then remove back-up flie.
+      if [ -e $1/$2 ] && [ -e $1/$2.tar.gz ] ; then
+         # Delete any $2.tar.gz since it is no longer needed. 
+         f_module_remove $1 $2.tar.gz
+      fi
+      #
+      # Commented out, error message may be confusing to user when trying to "Add a module".
+      # if [ $ERROR -ne 0 ] ; then
+      #    # Use different color font for error messages.
+      #    f_term_color $ECOLOR $BCOLOR
+      #    echo $(tput bold)
+      #    if [ -e $1/$2.tar.gz ] ; then 
+      #       echo "Error deleting back-up file of module file, \"$2\"."
+      #    fi
+      #    echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      #    echo
+      #    f_press_enter_key_to_continue
+      # fi
+} # End of function f_mod_add
+#
+# +----------------------------------------+
+# |          Function f_mod_remove         |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
+#    Uses: MOD_FILE, ANS
+# Outputs: 
+#
+f_mod_remove () {
+           # Archive and remove (deactivate) from menu then delete $2.
+           # Does $2 exist? Permission to back-up file?
+           f_module_archive $1 $2
+           #
+           if [ $ERROR -ne 0 ] ; then
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              if [ -e $1/$2 ] ; then
+                 echo "Error making back-up file of module \"$2\" before removing it."
+              else
+                 echo "Error making back-up file of module \"$2\" since it is not installed."
               fi
-           else
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               echo
-              echo "Cannot remove module since it is not installed."
-              f_press_enter_key_to_continue
-           fi
-           ;;
-           [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
-           # Restore and invoke module then delete $MOD_FILE.tar.gz.
-           # Does $MOD_FILE.tar.gz exist?
-           if [ -r $THIS_DIR/$MOD_FILE.tar.gz ] ; then
-              # Yes, then restore (activate) to menu.
-              cd $THIS_DIR # Change directory so tar will restore file into THIS_DIR.
-              tar -xzvf $THIS_DIR/$MOD_FILE.tar.gz 1>/dev/null # 1=standard messages, 2=error messages, &=both.
-           else
-              echo
-              echo "Cannot restore module. Try adding it instead."
               f_press_enter_key_to_continue
            fi
            #
-           if [ -r $THIS_DIR/$MOD_FILE ] ; then
-              # $MOD_FILE exists in current directory so make it accessible.
-              . $THIS_DIR/$MOD_FILE # Invoke module library.
-              # Delete $MOD_FILE.tar.gz since it is no longer needed.
-              rm $THIS_DIR/$MOD_FILE.tar.gz
+           # Delete file after making back-up copy.
+           # Was file back-up successful and have permission to delete the original file?
+           if [ -e $1/$2 ] && [ -e $1/$2.tar.gz ] ; then
+           # If file exists and back-up file exists, then delete back-up file.
+              f_module_remove $1 $2
            fi
-           ;;
-           [Uu] | [Uu][Pp]*)
+           #
+           if [ $ERROR -ne 0 ] ; then
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              if [ -e $1/$2 ] ; then
+                 echo "Error removing older module file, \"$2\"."
+              else
+                 echo "Cannot remove module since it is not installed."
+              fi
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+              echo
+              f_press_enter_key_to_continue
+           fi
+} # End of function f_mod_remove
+#
+# +----------------------------------------+
+# |          Function f_mod_restore        |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
+#    Uses: MOD_FILE, ANS
+# Outputs: 
+#
+f_mod_restore () {
+           # Restore and invoke module then delete $2.tar.gz.
+           # Does $2.tar.gz exist?
+           f_module_restore $1 $2
+           #
+           if [ $ERROR -ne 0 ] ; then
+              # Use different color font for error messages.
+              f_term_color $ECOLOR $BCOLOR
+              echo $(tput bold)
+              if [ -e $1/$2.tar.gz ] ; then
+                 echo "Error restoring module from back-up file \"$2.tar.gz\"."
+              else
+                 echo "Cannot restore module. Try adding it instead."
+              fi
+              echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+              echo
+              f_press_enter_key_to_continue
+           fi
+           #
+           #  Invoke module library if it was successfully restored.
+           if [ -r $1/$2 ] ; then
+              # $2 exists in current directory so make it accessible.
+              . $1/$2 # Invoke module library.
+           fi
+           #
+           # If file exists and back-up file exists, then remove back-up flie.
+           if [ -e $1/$2 ] && [ -e $1/$2.tar.gz ] ; then
+              # Delete any $2.tar.gz since it is no longer needed. 
+              f_module_remove $1 $2.tar.gz
+           fi
+           #
+           # Commented out, error message may be confusing to user when trying to "Restore a module".
+           # if [ $ERROR -ne 0 ] ; then
+           #    # Use different color font for error messages.
+           #    f_term_color $ECOLOR $BCOLOR
+           #    echo $(tput bold)
+           #    if [ -e $1/$2.tar.gz ] ; then
+           #       echo "Error deleting back-up file of module file, \"$2\"."
+           #    fi
+           #    echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           #    echo
+           #    f_press_enter_key_to_continue
+           # fi
+} # End of function f_mod_restore
+#
+# +----------------------------------------+
+# |          Function f_mod_update         |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File.
+#    Uses: MOD_FILE, ANS
+# Outputs: 
+#
+f_mod_update () {
            # Update and invoke an existing module.
-           if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
+           if [ -e $1/$2 ] ; then  # <module file name> <Followed by whitespace>
+              # Function f_download_file can use sudo permissions if needed.
               f_download_file
            else
-              echo
-              echo "Cannot update module since it is de-activated."
-              echo "Try adding or restoring it instead."
-              f_press_enter_key_to_continue
+              if [ -r $1/$2.tar.gz ] ; then
+                 # Only $2.tar.gz exists
+                 # Use different color font for error messages.
+                 f_term_color $ECOLOR $BCOLOR
+                 echo $(tput bold)
+                 echo "Cannot update module since it is de-activated."
+                 echo "Try restoring it instead."
+                 echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+                 f_press_enter_key_to_continue
+              else
+                 echo "Cannot update module since it is de-activated."
+                 echo "Try adding it instead."
+                 echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+                 f_press_enter_key_to_continue
+              fi
            fi
-           #
-           ;;
-           [Qq] | [Qq][Uu]*)
-           # Quit, do nothing.
-           #
-           ;;
-           *)
-           # Quit, do nothing.
-           #
-           ;;
-      esac
-         # Restore MENU_TITLE since it determines which menu and menu item options to use.
-         # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
-         MENU_TITLE="Software Module Manager Menu"
+} # End of function f_mod_update
 #
-} # End of function f_mod_manager
+# +----------------------------------------+
+# |        Function f_module_archive       |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory $2=File.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_module_archive () {
+      if [ -w $1/$2 ] ; then
+         # Yes, so archive and remove (deactivate) from menu.
+         cd $1 # Change directory so tar will archive file into $1.
+         tar -zcvf $2.tar.gz $2 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+         ERROR=$?
+      else
+         # File either does not exist or you need sudo permission.
+         # Does file exist?
+         if [ -e $1/$2 ] ; then
+            # Need sudo permissions to backup file.
+            cd $1 # Change directory so tar will archive file into THIS_DIR.
+            sudo tar -zcvf $2.tar.gz $2 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+            ERROR=$?
+         else
+            # File does not exist.
+            ERROR=1
+         fi
+      fi
+} # End of function f_module_archive
+#
+# +----------------------------------------+
+# |        Function f_module_remove        |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory $2=File.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_module_remove () {
+      if [ -w $1/$2 ] ; then
+         # File exists and can be deleted.
+         rm $1/$2
+         ERROR=$?
+      else
+         # File either does not exist or cannot be deleted without sudo.
+         # Does file exist?
+         if [ -e $1/$2 ] ; then
+            # Need sudo permissions to delete file.
+            sudo rm $1/$2 # Delete old file.
+            ERROR=$?
+         else
+            # File does not exist.
+            ERROR=1 # Display error message if trying to delete a missing file.
+         fi
+      fi
+} # End of function f_module_remove
+#
+#
+# +----------------------------------------+
+# |        Function f_module_restore       |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory $2=File (without suffix .tar.gz). 
+#    Uses: None.
+# Outputs: Error.
+#
+f_module_restore () {
+      if [ -w $1/$2.tar.gz ] ; then
+         # Yes, then restore (activate) to menu.
+         cd $1 # Change directory so tar will restore file into $1.
+         tar -xzvf $1/$2.tar.gz 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+         ERROR=$?
+      else
+         # File $2.tar.gz either does not exist or is not writeable without sudo.
+         #
+         # Does $2.tar.gz file exist?
+         if [ -e $1/$2.tar.gz ] ; then
+            # Yes, $2.tar.gz file exists.
+            # Need sudo permissions to backup file.
+            cd $1 # Change directory so tar will restore file into $1.
+            sudo tar -xzvf $1/$2.tar.gz 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+            ERROR=$?
+         else
+            # No, $2.tar.gz file does not exist.
+            ERROR=1
+         fi
+      fi
+} # End of function f_module_restore
 #
 # +----------------------------------------+
 # |     Function f_update_all_modules      |
@@ -350,33 +622,32 @@ f_update_all_modules () {
       f_initvars_menu_app "AAB"
       DELIMITER="#AAB"
       THIS_FILE="lib_cli-menu-cat.lib"
-      if [ "$DELIMITER" = "#AAB" ] ; then  # if Application Category Menu?
-         # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
-         # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
-         for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
-         do
-             # Update only previously installed/downloaded modules.
-             if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
-                # Module exists so update to latest version.
-                echo "_____________________________________________________________________"
-                echo
-                echo "Update \"$MOD_FILE\" from the GitHub software repository?"
-                # Ask download from which branch and wget.
-                f_wget_file
-                if [ "$BRANCH" != "QUIT" ] ; then
-                   # $MOD_FILE exists in current directory so make it accessible.
-                   . $THIS_DIR/$MOD_FILE # Invoke module library.
-                fi
+      f_ask_which_branch_download
+      # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
+      # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
+      for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
+      do
+          # Update only previously installed/downloaded modules.
+          if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
+             # Module exists so update to latest version.
+             echo "_____________________________________________________________________"
+             echo
+             echo "Update \"$MOD_FILE\" from the GitHub software repository?"
+             # Ask download from which branch and wget.
+             f_wget_file_2
+             if [ "$BRANCH" != "SKIP" ] ; then
+                # $MOD_FILE exists in current directory so make it accessible.
+                . $THIS_DIR/$MOD_FILE # Invoke module library.
              fi
-         done
-      fi
+          fi
+      done
       DELIMITER=$XXSTR
       THIS_FILE=$YSTR
       #
       # Restore MENU_TITLE since it determines which menu and menu item options to use.
       # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
       MENU_TITLE="Software Module Manager Menu"
-
+      f_press_enter_key_to_continue
       unset X XSTR XXSTR YSTR 
 } # End of function f_update_all_modules
 #
@@ -398,10 +669,12 @@ f_ncurses () {
       #
       if [ $ERROR -ne 0 ] ; then
          # Failure to install libncurses-dev.
-         echo
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
          echo "Installation of \"libncurses-dev\" failed."
          echo " Skipping installation of \"ncurses-dev\"."
-         echo
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo -n "Press '"Enter"' key to continue."
          read X
          unset X  # Throw out this variable.
@@ -420,9 +693,11 @@ f_ncurses () {
          #
          if [ $ERROR -ne 0 ] ; then
             # Failure to install ncurses-dev.
-            echo
+            # Use different color font for error messages.
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
             echo "Installation of \"ncurses-dev\" failed."
-            echo
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo -n "Press '"Enter"' key to continue."
             read X
             unset X  # Throw out this variable.

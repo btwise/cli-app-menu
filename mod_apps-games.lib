@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2013 22:46"
+# REVDATE="December-02-2013 22:22"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -53,19 +53,19 @@ f_menu_app_games_arcade () {
       f_initvars_menu_app "MGA"
       until [ "$MGA" = "0" ]
       do    # Start of Arcade Games until loop.
-#0^0^0^0^0 #MGA asciijump   - Ski jump game.
-#0^0^0^0^0 #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#0^0^0^0^1 #MGA freesweep   - Minesweeper game.
-#0^0^0^0^0 #MGA moon-buggy  - Drive a moon buggy on the moon.
-#0^0^0^1^1 #MGA ninvaders   - Space invaders-like game ncurses-based.
-#0^0^0^0^0 #MGA nsnake      - Variation of BSD's snake game.
+#0^0^0^0^0  #MGA asciijump   - Ski jump game.
+#0^0^0^0^0  #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^1  #MGA freesweep   - Minesweeper game.
+#0^0^0^0^0  #MGA moon-buggy  - Drive a moon buggy on the moon.
+#0^0^0^1^1  #MGA ninvaders   - Space invaders-like game ncurses-based.
+#0^0^0^0^0  #MGA nsnake      - Variation of BSD's snake game.
 #f_menu_app_games_pacman^0^0^0^0 #MGA Pac-Man     - "Pac-Man" clones.
-#0^0^0^0^0 #MGA robots      - Be chased by killer robots.
+#0^0^0^0^0  #MGA robots      - Be chased by killer robots.
 #0^0^0^18^0 #MGA snake       - Be chased by a snake while collecting money.
-#0^0^0^0^0 #MGA spacezero   - Space combat in real-time, 2-player network game.
+#0^0^0^0^0  #MGA spacezero   - Space combat in real-time, 2-player network game.
 #f_menu_app_games_tetris^0^0^0^0 #MGA Tetris      - "Tetris" clones.
-#0^0^0^9^0 #MGA worm        - Be a growing worm, don't crash into yourself.
-#0^1^0^1^0 #MGA xorcurses   - based on Xor released in 1987 by Astral Software.
+#0^0^0^9^0  #MGA worm        - Be a growing worm, don't crash into yourself.
+#0^1^0^1^0  #MGA xorcurses   - based on Xor released in 1987 by Astral Software.
 #f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...     - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -93,7 +93,7 @@ f_menu_app_games_arcade2 () {
       until [ "$MGB" = "0" ]
       do    # Start of Arcade2 Games until loop.
 #0^0^0^18^0 #MGB zsnake - Variation of BSD's snake game.
-#0^1^0^0^0 #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
+#0^1^0^0^0  #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade2 Game Menu"
@@ -539,19 +539,19 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
       until [ "$MGF" = "0" ]
       do    # Start of Puzzle Games until loop.
-#0^0^0^0^0 #MGF asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^0    #MGF asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
 #f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd           - Reformat input as a punch card.
-#0^0^0^0^1 #MGF dab           - 2-players try to complete the most boxes.
-#0^0^0^0^0 #MGF braincurses   - Guess the pattern of 4 pegs in 4 colors.
-#0^0^0^0^0 #MGF greed         - Greed numbers game, ncurses-based.
-#0^0^0^0^0 #MGF masterm       - Guess the pattern of 4 pegs in 5 colors.
-#0^0^0^0^0 #MGF mastermind-nc - Guess the pattern of 4 pegs in 5 colors.
-#0^0^0^0^0 #MGF moo           - Guess the pattern of 4 digits of 1-9.
-#0^0^0^0^0 #MGF nsuduko       - Suduko game.
-#0^0^0^0^0 #MGF pente         - 5 in a row game.
+#0^0^0^0^1    #MGF dab           - 2-players try to complete the most boxes.
+#0^0^0^0^0    #MGF braincurses   - Guess the pattern of 4 pegs in 4 colors.
+#0^0^0^0^0    #MGF greed         - Greed numbers game, ncurses-based.
+#0^0^0^0^0    #MGF masterm       - Guess the pattern of 4 pegs in 5 colors.
+#0^0^0^0^0    #MGF mastermind-nc - Guess the pattern of 4 pegs in 5 colors.
+#0^0^0^0^0    #MGF moo           - Guess the pattern of 4 digits of 1-9.
+#0^0^0^0^0    #MGF nsuduko       - Suduko game.
+#0^0^0^0^0    #MGF pente         - 5 in a row game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt           - Reformat input as a paper tape.
-#0^0^0^0^0 #MGF textmaze      - Find the exit to the maze.
-#0^1^0^1^0 #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
+#0^1^0^1:NC^1 #MGF textmaze      - Find the exit to the maze.
+#0^1^0^1^0    #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Game Menu"
@@ -566,6 +566,134 @@ f_menu_app_games_puzzle () {
 } # End of f_menu_app_games_puzzle
 #
 # +----------------------------------------+
+# |       Function f_install_textmaze      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_textmaze () {
+      if [ ! -r "/usr/local/bin/textmaze" ] ; then
+         clear  # blank screen
+         echo "Textmaze - a playable maze drawn on-screen."
+         echo
+         echo "This script will do the following:"
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"TextMaze\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install TextMaze.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install cclock.
+               f_install2_textmaze
+               APP_NAME="textmaze" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install TextMaze.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run textmaze.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS
+      fi
+} # End of function f_install_textmaze
+#
+# +----------------------------------------+
+# |       Function f_install2_textmaze     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: X.
+# Outputs: None.
+#
+f_install2_textmaze () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"TextMaze\"."
+      echo "The application itself is a single perl script so perl is a prerequisite."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"TextMaze\" by using wget from:"
+      echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
+      echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
+      echo "4. Substitute line of textmaze to indicate the correct perl evironment."
+      echo "5. Copy \"textmaze\" to \"/usr/local/bin\" directory."
+      echo "6. Allow users to run textmaze by setting permissions to r-x or 755."
+      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      #
+      # 2. Download "textmaze" from robobunny.com by using wget.
+      wget http://robobunny.com/projects/textmaze/textmaze.tar.gz
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/TextMaze
+      tar -xvzf textmaze.tar.gz
+      cd ~/bin/TextMaze*/
+      #
+      # 4. Substitute line for proper perl environment.
+      #    Change from <old-string>: "#!/usr/local/bin/perl"
+      #    Change   to <new-string>: "#!/usr/bin/env perl"
+      #    sed -i "s|<old-string>|<new-string>|" <target filename>
+      sed -i "s|#!/usr/local/bin/perl|#!/usr/bin/env perl|" textmaze
+      #
+      # 5. Copy TextMaze to /usr/local/bin directory.
+      if [ ! -d "/usr/local/bin" ] ; then
+         # Target directory is missing, so create it.
+	 sudo mkdir -p /usr/local/bin
+      fi
+      sudo cp ~/bin/TextMaze*/textmaze /usr/local/bin/
+      #
+      # 6. Allow users to run TextMaze by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/local/bin/textmaze
+      #
+      # 7. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"TextMaze\"."
+      echo
+      echo "To run \"TextMaze\", select it on the \"Puzzle Game Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of f_install2_textmaze
+#
+# +----------------------------------------+
 # |      Function f_menu_app_games_quiz    |
 # +----------------------------------------+
 #
@@ -578,9 +706,9 @@ f_menu_app_games_quiz () {
       until [ "$MGG" = "0" ]
       do    # Start of Quiz Games until loop.
 #0^0^0^10^0 #MGG arithmetic - Basic arithmetic quiz.
-#0^0^0^0^0 #MGG geekcode   - Code tells others how geeky you are.
+#0^0^0^0^0  #MGG geekcode   - Code tells others how geeky you are.
 #0^0^0^10^0 #MGG morse      - Morse code training.
-#0^0^0^1^1 #MGG quiz       - Quiz with choice of assorted topics.
+#0^0^0^1^1  #MGG quiz       - Quiz with choice of assorted topics.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Quiz Game Menu"
@@ -641,12 +769,12 @@ f_menu_app_games_simulation () {
       until [ "$MGI" = "0" ]
       do    # Start of Simulation Games until loop.
 #f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
-#0^0^0^1^0 #MGI bb        - ASCII-art movie demo based on AAlib.
-#0^0^0^1^0 #MGI sail      - Command a Man O'War fighting ship.
-#0^0^0^0^0 #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
+#0^0^0^1^0  #MGI bb        - ASCII-art movie demo based on AAlib.
+#0^0^0^1^0  #MGI sail      - Command a Man O'War fighting ship.
+#0^0^0^0^0  #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
 #f_starwars^0^0^0^0 #MGI star wars - Star Wars movie in ASCII.
 #0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
-#0^1^0^0^0 #MGI ztrack    - First-person car racing game.
+#0^1^0^0^0  #MGI ztrack    - First-person car racing game.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Simulation Games and Animation Menu"
@@ -742,13 +870,15 @@ f_menu_app_games_word () {
       until [ "$MGK" = "0" ]
       do    # Start of Word Games until loop.
 #0^0^0^10^0 #MGK boggle  - Word search game.
+#1^0^0^0^1  #MGK boxes   - Displays text with a decorative display.
 #0^0^0^10^0 #MGK figlet  - Creates banner with outline font.
-#0^0^0^0^1 #MGK hangman - Classic hangman word game.
+#0^0^0^0^1  #MGK fortune - Displays witty words and sayings.
+#0^0^0^0^1  #MGK hangman - Classic hangman word game.
 #0^0^0^10^1 #MGK hodie   - Date and time in Latin.
 #0^0^0^10^0 #MGK pig     - Converts text into pig-latin.
-#1^0^0^0^1 #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
-#0^0^0^0^1 #MGK rl      - Randomize Lines scrambles words of a text file.
-#0^0^0^0^1 #MGK shuf    - Randomize Lines scrambles words of a text file.
+#1^0^0^0^1  #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
+#0^0^0^0^1  #MGK rl      - Randomize Lines scrambles words of a text file.
+#0^0^0^0^1  #MGK shuf    - Randomize Lines scrambles words of a text file.
 #0^0^0^10^0 #MGK toilet  - Creates banner with bold font.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -762,6 +892,59 @@ f_menu_app_games_word () {
             #
       unset MGK MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_word
+#
+# +----------------------------------------+
+# |            Function f_boxes            |
+# +----------------------------------------+
+#
+f_boxes () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "boxes - takes a text file and surrounds the words with a box design."
+         echo
+         echo "Usage:" 
+         echo "boxes [OPTIONS] file ..."
+         echo "-l list all box designs."
+         echo "-d <box design> choose design to use."
+         echo "-a alignment" 
+         echo "   followed by \"hc\" for horizontal centering."
+         echo "               \"hl\" for left alignment."
+         echo "               \"hr\" for right alignment."
+         echo "               \"vc\" for vertical centering."
+         echo "               \"vt\" for vertical top."
+         echo "               \"vb\" for vertical bottom."
+         echo
+         echo "*** For more help type: 'man $APP_NAME'"
+         echo "                        '$APP_NAME --help'"
+         echo
+         echo -n "Enter name of text file to box: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            clear # Blank the screen.
+            echo "Missing filename."
+            echo "Usage: box [OPTIONS] <filename>"
+            echo
+            echo "Example use: \"boxes -d dog -a hc <filename>\"."
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="boxes -d dog -a hc $ANS"
+            f_application_run
+         else
+            clear # Blank the screen.
+            echo "The file $ANS is either missing or cannot be read."
+            echo "Usage: box [OPTIONS] <filename>"
+            echo
+            echo "Example use: \"boxes -d dog -a hc <filename>\"."
+            APP_NAME=-1 # Usually f_application_run sets APP_NAME=-1
+                        # for valid menu choices but it's not run here.
+                        # If not -1, then f_application_bad_menu_choice
+                        # below will consider it a bad choice and will
+                        # set PRESS_KEY=0 whereas we need it set to 1.
+            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+         fi
+      fi
+      APP_NAME=""
+} # End of function f_rev
 #
 # +----------------------------------------+
 # |             Function f_rev             |

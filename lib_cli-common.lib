@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-23 2013 19:09"
+# REVDATE="December-07-2013 21:45"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -134,7 +134,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo
            if [ "$DELIMITER" = "#AAB" -a "$MENU_TITLE" = "Software Module Manager Menu" ] ; then
               echo "'0', (R)eturn, to go back to the previous menu."
-              echo "\"ALL\" or \"all\" to update ALL active modules."
+              echo "\"ALL\" or \"all\" to update all ACTIVATED modules."
            else
               echo "'0', (R)eturn, to go back to the Main Menu."
            fi
@@ -1051,6 +1051,8 @@ f_application_run () {
       #
       ERROR=$? # Save error flag condition.
       case $ERROR in
+           0)  #No error, successful run.
+           ;;
            127)  # Error code 127 means application is not installed.
            f_application_error # Display error messages.
            # If user decided to install application.
@@ -1074,7 +1076,10 @@ f_application_run () {
               f_application_error # Display any error messages.
            fi
            ;;
-           1 | 13 | 62 | [!0]) # If any error [!0] occurs (error code is not zero).
+           1 | 13 | 62 )  # Various errors.
+           f_application_error # Display appropriate error message.
+           ;;
+           *)  # If any error [!0] occurs (error code is not zero).
            f_application_error # Display appropriate error message.
            ;;
       esac
@@ -1115,38 +1120,6 @@ f_application_error () {
       fi
       #
       case $ERROR in # Start of Error Number case statement.
-           2) # Error code 2 means operand or files is missing.
-           # Display error message.
-           f_display_error_code
-           #
-           # Use different color font for error messages.
-           f_term_color $ECOLOR $BCOLOR
-           echo $(tput bold)
-           #
-           echo "Missing operand (file name(s) or names)."
-           echo "Try running $APP_NAME_TMP again this time using operands."
-           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-           echo
-           echo "Operands may be filenames as in the examples below."
-           echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
-           echo "Example: locate test1.txt     or diff test1.txt test2.txt"
-           echo
-           echo "Or operands may be a combination of parameters, options, and filenames."
-           echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
-           echo "Example: find /home -iname test1.txt -print"
-           ;;
-           127) # Error code 127 means application is not installed.
-           # Display error message.
-           f_display_error_code
-           #
-           # Use different color font for error messages.
-           f_term_color $ECOLOR $BCOLOR
-           echo $(tput bold)
-           #
-           echo "This $APP_NAME_TMP application is not installed."
-           echo
-           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-           ;;
            1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
               # Some applications exit with error code 1 even if successfully run.
               # The Error Code 1 Number Exceptions case statement, takes care of those weird applications.
@@ -1204,7 +1177,71 @@ f_application_error () {
                 ;;
            esac              # End of Error Code Number 1 Exceptions case statement.
            ;;
-           13 | 62 | [!0]) 
+           2) # Error code 2 means operand or files is missing.
+           # Display error message.
+           f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "Missing operand (file name(s) or names)."
+           echo "Try running $APP_NAME_TMP again this time using operands."
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           echo
+           echo "Operands may be filenames as in the examples below."
+           echo "Example: $APP_NAME_TMP <filename> or $APP_NAME_TMP <filename1> <filename2>"
+           echo "Example: locate test1.txt     or diff test1.txt test2.txt"
+           echo
+           echo "Or operands may be a combination of parameters, options, and filenames."
+           echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
+           echo "Example: find /home -iname test1.txt -print"
+           ;;
+           100) # Error code 100 means installation application "apt-get" is locked
+                # by another process.
+           # Display error message.
+           f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "This $APP_NAME_TMP application may be locked and in use by another process."
+           echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           ;;
+           126) # Error code 126 means bad interpreter. Programming language is not installed?
+                # Example: perl programming language cannot be found, or environment not specified
+                #          in the perl script.
+           #
+           # Display error message.
+           f_display_error_code
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "The programming environment may not be specified correctly in the first line"
+           echo "of the application."
+           echo
+           echo "Example: An application which is a perl script may not have the first line correct."
+           echo "         Change from: #!/usr/local/bin/perl"
+           echo "         Change   to: #!/usr/bin/env perl"
+           echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           ;;
+           127) # Error code 127 means application is not installed.
+           # Display error message.
+           f_display_error_code
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           #
+           echo "This $APP_NAME_TMP application is not installed."
+           echo
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           ;;
+           13 | 62 | [!0]) # All other errors are processed here.
            # 13-some unknown app?
            # 62-"command not found" freshclam log folders not set up.
            # [!0]-not zero, any non-zero error number.
@@ -1640,7 +1677,7 @@ f_download_file () {
            mod_apps*.lib)  # Module files only
            # Ask download from which branch and wget.
            f_wget_file
-           if [ "$BRANCH" != "QUIT" ] ; then
+           if [ "$BRANCH" != "SKIP" ] ; then
               # $MOD_FILE exists in current directory so make it accessible.
               . $THIS_DIR/$MOD_FILE # Invoke module library.
            fi
@@ -1664,28 +1701,139 @@ f_download_file () {
 #
 f_wget_file () {
       # Always ask what branch from which to download.
-      . lib_cli-common.lib # Invoke the common library.
-      f_ask_which_branch_download  # Download from which git branch, TESTING or STABLE?
-                                   # BRANCH="QUIT"/"TESTING"/"STABLE", WEB_SITE,
+      f_ask_which_branch_download  # Download from which git branch, TESTING or MASTER?
+                                   # BRANCH="MASTER"/"TESTING"/"DEVELOP"/"SKIP", WEB_SITE,
                                    # PRESS_KEY=0/1
+      f_wget_file_2
+} # End of f_wget_file
+#
+#
+# +----------------------------------------+
+# |      Function f_wget_file_2            |
+# +----------------------------------------+
+#
+#  Inputs: BRANCH, MOD_FILE
+#    Uses: BRANCH, WEB_SITE.
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1
+#
+# wget a single file $MOD_FILE from $WEB_SITE.
+#
+f_wget_file_2 () {
+      # Always ask what branch from which to download.
+      . lib_cli-common.lib # Invoke the common library.
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
-      if [ "$BRANCH" != "QUIT" ] ; then
+      if [ "$BRANCH" != "SKIP" ] ; then
          if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
-            #  Delete any old files except if file is "cli-app-menu.sh".
-            if [ -r $THIS_DIR/$MOD_FILE ] ; then  # If old file exists, then delete it.
+            # Delete any old files except if file is "cli-app-menu.sh".
+            # Permission to delete file?
+            if [ -w $THIS_DIR/$MOD_FILE ] ; then
                rm $THIS_DIR/$MOD_FILE # Delete old file.
+               ERROR=$?
+            else
+               # File either does not exist or is not writeable without sudo.
+               # Does file exist?
+               if [ -e $THIS_DIR/$MOD_FILE ] ; then
+                  # Need sudo permissions to delete file.
+                  sudo rm $THIS_DIR/$MOD_FILE # Delete old file.
+                  ERROR=$?
+               fi
             fi
-            wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE      # Download the module.
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo -n "Error deleting older file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            fi
+            # Download the module.
+            # Permission to download file?
+            if [ -w $THIS_DIR/$MOD_FILE ] ; then  
+               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            else
+               # Need sudo permissions to download file.
+               sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "Error downloading file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            fi
          else
-	    # File is "cli-app-menu.sh" so make a back-up copy and then download the new version.
-            tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MAINMENU_DIR/$MOD_FILE
-            wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE      # Download cli-app-menu.sh.
+            # File is "cli-app-menu.sh" so make a back-up copy,
+            #  delete old file, and then download the new version.
+            #
+            # Make backup copy of the file.
+            # Permission to backup the file?
+            if [ -w $MAINMENU_DIR/$MOD_FILE ] ; then  
+               tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+               ERROR=$?
+            else
+               # File either does not exist or is not writeable without sudo.
+               # Does file exist?
+               if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
+                  # Need sudo permissions to backup file.
+                  sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+                  ERROR=$?
+               fi
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "Error making back-up file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            fi
+            # Delete cli-app-menu.sh after making back-up copy.
+            # Was file back-up successful and have permission to delete the original file?
+            if [ -w $MAINMENU_DIR/$MOD_FILE ] && [ -w $MAINMENU_DIR/$MOD_FILE.tar.gz ] ; then
+               rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
+               ERROR=$?
+            else
+               # File either does not exist or is not writeable without sudo.
+               # Does file exist?
+               if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
+                  # Need sudo permissions to delete file.
+                  sudo rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
+                  ERROR=$?
+               fi
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)  
+               echo -n "Error deleting older file, \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            fi
+            # Download cli-app-menu.sh.
+            # Permission to download file?
+            if [ -w $THIS_DIR/$MOD_FILE ] ; then  
+               wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            else
+               # Need sudo permissions to download file.
+               sudo wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
+               ERROR=$?
+            fi
+            #
+            if [ $ERROR -ne 0 ] ; then
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "Error downloading file \"$MOD_FILE\"."
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            fi
          fi   
          echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
          echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-      fi
-} # End of f_wget_file
+      fi # If BRANCH=SKIP.
+} # End of f_wget_file_2
 #
 # +----------------------------------------+
 # |  Function f_ask_which_branch_download  |
@@ -1696,55 +1844,69 @@ f_wget_file () {
 # Outputs: BRANCH, WEB_SITE, PRESS_KEY
 #
 f_ask_which_branch_download () {
-      XSTR="(STABLE/testing/quit)"  # Set default prompt options.
+      XSTR="(MASTER/testing/develop/skip)"  # Set default prompt options.
       case $BRANCH in
-           [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-           XSTR="(stable/testing/QUIT)"
+           "" | [MM] | [Mm][Aa] | [Mm][Aa][Ss]*)
+           XSTR="(MASTER/testing/develop/skip)"
            ;;
            [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
-           XSTR="(stable/TESTING/quit)"
+           XSTR="(master/TESTING/develop/skip)"
            ;;                  
-           "" | [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
-           XSTR="(STABLE/testing/quit)"
+           [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
+           XSTR="(master/testing/DEVELOP/skip)"
            ;;
+           [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+           XSTR="(master/testing/develop/SKIP)"
+           ;;                  
       esac
       #
       ANS=""
-      while [  "$ANS" != "STABLE" -a "$ANS" != "TESTING" -a "$ANS" != "QUIT" ]
+      while [  "$ANS" != "MASTER" -a "$ANS" != "TESTING" -a "$ANS" != "DEVELOP" -a "$ANS" != "SKIP" ]
       do
-            echo -n "Download from which GitHub branch? $XSTR: "
+            echo "Download from which GitHub branch?"
+            echo -n "$XSTR: "
             read ANS
             case $ANS in
-                 [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-                 ANS="QUIT"
-                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                 [Mm] | [Mm][Aa] | [Mm][Aa][Ss]*)
+                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
+                 ANS="MASTER"
+                 PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;
                  [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
                  WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/"
                  ANS="TESTING"
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                  ;;                  
-                 [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
-                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/"
-                 ANS="STABLE"
+                 [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
+                 WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/develop/"
+                 ANS="DEVELOP"
                  PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                 ;;
+                 [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+                 ANS="SKIP"
+                 PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
                  ;;
                  "")  # When null answer, default to previous branch choice.
                  case $BRANCH in
-                      [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-                      ANS="QUIT"
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                      ;;
+                      ""| [MM] | [Mm][Aa] | [Mm][Aa][Ss]*)
+                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
+                      ANS="MASTER"
+                      PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+                      ;;                
                       [Tt] | [Tt][Ee] | [Tt][Ee][Ss]*)
                       WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/testing/"
                       ANS="TESTING"
                       PRESS_KEY=1 # Display "Press 'Enter' key to continue."
                       ;;                  
-                      ""| [Ss] | [Ss][Tt] | [Ss][Tt][Aa]*)  
-                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/stable/"
-                      ANS="STABLE"
+                      [Dd] | [Dd][Ee] | [Dd][Ee][Vv]*)
+                      WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/develop/"
+                      ANS="DEVELOP"
                       PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-                      ;;                
+                      ;;
+                      [Ss] | [Ss][Kk] | [Ss][Kk][Ii] | [Ss][Kk][Ii][Pp])
+                      ANS="SKIP"
+                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      ;;
                  esac
                  ;;
             esac
