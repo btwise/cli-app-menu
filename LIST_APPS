@@ -1,5 +1,5 @@
 ________________________________________________
-Last updated: 2013-12-02 22:29 Monday
+Last updated: 2013-12-14 12:53 Saturday
 
 ________________________________________________
 *** Accounting Applications Menu ***
@@ -29,21 +29,21 @@ ________________________________________________
 
 ________________________________________________
 *** Audio Player1 Applications Menu ***
- adcd            - Very simple CD player.
- camp            - Music player with Graphic visualizer.
- clvc            - Music player, ncurses-based, depends on vlc.
- cmus            - Music player, MP3,  Ogg Vorbis, ncurses-based.
- consolecandy    - MP3 player with spectrum analyzer and other eye-candy.
- cplay           - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
- dcd             - CD player.
- juke            - Music Jukebox, ncurses-based.
- mcdp            - CD player, adjust volume, repeat track/cd, ncurses-based.
- mcplay          - Playlist ncurses-based.
- mjs             - MP3 player, ncurses-based.
- mp3blaster      - Music player, playlists, groups, ncurses-based.
- moc             - Music player, ncurses-based.
- ncmpc           - Music player, ncurses-based.
- ncmpcpp         - Music player and visualizer, ncurses-based.
+ adcd         - Very simple CD player.
+ camp         - Music player with Graphic visualizer.
+ clvc         - Music player, ncurses-based, depends on vlc.
+ cmus         - Music player, MP3,  Ogg Vorbis, ncurses-based.
+ consolecandy - MP3 player with spectrum analyzer and other eye-candy.
+ cplay        - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
+ dcd          - CD player.
+ juke         - Music Jukebox, ncurses-based.
+ mcdp         - CD player, adjust volume, repeat track/cd, ncurses-based.
+ mcplay       - Playlist ncurses-based.
+ mjs          - MP3 player, ncurses-based.
+ mp3blaster   - Music player, playlists, groups, ncurses-based.
+ moc          - Music player, ncurses-based.
+ ncmpc        - Music player, ncurses-based.
+ ncmpcpp      - Music player and visualizer, ncurses-based.
  MORE...         - For more music player applications.
 
 ________________________________________________
@@ -237,6 +237,25 @@ ________________________________________________
  tokyocabinet-doc  - Documentation for the Tokyo Cabinet Database.
 
 ________________________________________________
+*** Development Applications Menu ***
+ apropos          - Search linux man(ual) files for a forgotten command.
+ bugz             - Interface to Bugzilla bug tracking tool.
+ cil              - Issue tracker and add/edit, list issues.
+ cmdtest          - Test command-line programs/scripts to check the output.
+ codemetre        - Count lines of code w/o comments in source code.
+ colout           - Colorize matching text pattern in a text file.
+ githubcli        - "ghi" Interface to GitHub's issues API.
+ google-perftools - Analyze performance of C++ programs.
+ groff            - Enhanced troff editor writes to man page format.
+ man2html         - Browse man pages using a web browser.
+ man2html-base    - Convert man pages into HTML format.
+ mantis           - Web-based issue tracker runs in PHP.
+ shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
+ stx2any          - Markup language, writes to man page format.
+ txt2man          - Converts plain ASCII text to man format.
+ udo              - Simpler markup language writes to man page format.
+
+________________________________________________
 *** Dowloader Applications Menu ***
  axel       - Downloader accelerator using multiple connections/mirrors.
  aria2c     - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
@@ -346,16 +365,20 @@ ________________________________________________
 
 ________________________________________________
 *** File Encryption Applications Menu ***
+ apg       - Password generator that can specify a pattern.
  bcrypt    - Uses the blowfish encryption algorithm.
  ccrypt    - Uses the Rijndael cipher algorithm.
+ cpm       - Password manager using PGP-encryption, ncurses-based.
  crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
  gnupg     - Gnu Privacy Guard symmetetric encryption/decryption.
  lspgpot   - Extracts ownertrust values from PGP keyrings.
  mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
+ md5pass   - Create a password hash. Usage: md5pass [PASSWORD][SALT]
  nasty     - Helps you to recover forgotten PGP/GPG pass-phrase.
  pgp       - Pretty Good Privacy (pgp).
  rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
  scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
+ sha1pass  - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
  truecrypt - Program released under TrueCrypt License (not Open-source).
  zcrypt    - Another crypt program.
 
@@ -874,17 +897,6 @@ ________________________________________________
  sdop - Converts a Simplified Docbook XML file to PS (PostScript).
 
 ________________________________________________
-*** Software QA Applications Menu ***
- bugz             - Interface to Bugzilla bug tracking tool.
- cil              - Issue tracker and add/edit, list issues.
- cmdtest          - Test command-line programs/scripts to check the output.
- codemetre        - Count lines of code w/o comments in source code.
- colout           - Colorize matching text pattern in a text file.
- githubcli        - "ghi" Interface to GitHub's issues API.
- google-perftools - Analyze performance of C++ programs.
- shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
-
-________________________________________________
 *** Remote Connection Applications Menu ***
  cpu     - Remote connection.
  openssh - Remote connection.
@@ -944,21 +956,6 @@ ________________________________________________
 
 ________________________________________________
 *** System Software Package Applications Menu ***
- alien     - Converts rpm to deb packages.
- apt       - Debian package manager.
- apt-cache - Show package information, (reverse)/dependency information.
- apt-file  - Search/List files in the Debian package manager w/o installing.
- aptitude  - Debian package manager.
- aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
- cupt      - Debian front-end to dpkg package manager.
- dpkg      - Debian package manager.
- rpm       - RPM (Red Hat) package manager.
- synaptic  - GUI Debian package manager.
- unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
- urpmi     - Mandriva, Mageia package manager.
- YaST      - GUI OpenSUSE package manager.
- yum       - "Yellow Dog Updated" package manager.
- zypper    - OpenSUSE package manager on which is based YaST GUI.
 
 ________________________________________________
 *** System Health Applications Menu ***
@@ -995,6 +992,7 @@ ________________________________________________
  acpitool  - ACPI power/battery settings.
  blkid     - Block devices information.
  cdde      - Detects if a CD is inserted, runs specified program.
+ colortest - Test color capabilities of a terminal.
  inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
  lsblk     - List block devices (disks).
  lsof      - Display information about open files.
@@ -1039,17 +1037,6 @@ ________________________________________________
 
 ________________________________________________
 *** System Other Applications Menu ***
- apg       - Password generator that can specify a pattern.
- apropos   - Search linux man(ual) files for a forgotten command.
- colortest - Test color capabilities of a terminal.
- cpm       - Password manager using PGP-encryption, ncurses-based.
- desmume   - Nintendo DS emulator.
- dosemu    - DOS emulator.
- fbgrab    - Framebuffer screenshot tool.
- script    - Records terminal input/output (keystrokes).
- scrot     - Framebuffer screenshot tool.
- ttyplay   - Playback "ttyrec" recording of terminal actions.
- ttyrec    - Records terminal input/output and also timing-information.
 
 ________________________________________________
 *** Spreadsheet Applications Menu ***
