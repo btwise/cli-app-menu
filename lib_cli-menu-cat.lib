@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-07 2013 21:45"
+# REVDATE="December-13 2013 23:59"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -49,19 +49,21 @@ f_menu_module_display () {
             #       The function (below) actually runs another function, "f_menu_cat_audio"
             #       which is found in the file "mod_apps_audio.lib".
             #
-            #mod_apps-audio.lib       #AAB Audio        - Music players, editors, utilities.
-            #mod_apps-databases.lib   #AAB Databases    - General and specialized databases.
-            #mod_apps-education.lib   #AAB Education    - Learn something.
-            #mod_apps-filedir.lib     #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
-            #mod_apps-games.lib       #AAB Games        - Fun time!
-            #mod_apps-image.lib       #AAB Image        - View images and graphics files.
-            #mod_apps-internet.lib    #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
-            #mod_apps-network.lib     #AAB Network      - Wireless connection, network monitoring, tools.
-            #mod_apps-office.lib      #AAB Office       - Editors, spreadsheets, presenter, organize, calcs, acctg.
-            #mod_apps-screensaver.lib #AAB Screen-saver - For when you're away.
-            #mod_apps-software-qa.lib #AAB Software-QA  - Tools to test code and track/report bugs.
-            #mod_apps-system.lib      #AAB System       - Monitor system processes, resources, utilities, etc.
-            #mod_apps-video.lib       #AAB Video        - Video players, editors, utilities.
+            #mod_apps-audio-video.lib  #AAB Audio-Video  - Music/Video players, editors, utilities.
+            #mod_apps-databases.lib    #AAB Databases    - General and specialized databases.
+            #mod_apps-development.lib  #AAB Development  - Tools to test code and track/report bugs.
+            #mod_apps-education.lib    #AAB Education    - Learn something.
+            #mod_apps-environment.lib  #AAB Environment  - Command Line shell; DOS and Nintendo emulators.
+            #mod_apps-filedir.lib      #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
+            #mod_apps-games.lib        #AAB Games        - Fun time! Games, movies, and screen-savers.
+            #mod_apps-image.lib        #AAB Image        - View images and graphics files.
+            #mod_apps-internet.lib     #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
+            #mod_apps-network.lib      #AAB Network      - Wireless connection, network monitoring, tools.
+            #mod_apps-office.lib       #AAB Office       - Editors, spreadsheets, presenter, organize, calcs, acctg.
+            #mod_apps-packages.lib     #AAB Packages     - (Un)Install and manage software packages (applications).
+            #mod_apps-screens.lib      #AAB Screens      - Multiple screen sessions and terminal emulators.
+            #mod_apps-screen-tools.lib #AAB Screen-Tools - Screen capture, record/play-back of screen activity etc.
+            #mod_apps-system.lib       #AAB System       - Monitor system processes, resources, utilities, etc.
             #
             THIS_FILE="lib_cli-menu-cat.lib"
             DELIMITER="#AAB" #AAB This 3rd field prevents awk from printing this line into menu options. 
@@ -91,11 +93,11 @@ f_menu_module_display () {
 # Note: Function "f_download_file" calls "f_wget_file" which deletes the software module (file)
 #       before downloading a new copy from the GitHub repository branch.
 #
-mod_apps-audio.lib () {
-      MOD_FILE="mod_apps-audio.lib"
+mod_apps-audio-video.lib () {
+      MOD_FILE="mod_apps-audio-video.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         # Audio Applications Menu.
-         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_audio
+         # Audio-Video Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_audio-video
       else
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
@@ -113,6 +115,17 @@ mod_apps-databases.lib () {
       #
 }
 #
+mod_apps-development.lib () {
+      MOD_FILE="mod_apps-development.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         # Development Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_development
+      else
+         f_mod_manager $THIS_DIR $MOD_FILE
+      fi
+      #
+}
+#
 mod_apps-education.lib () {
       MOD_FILE="mod_apps-education.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
@@ -124,11 +137,22 @@ mod_apps-education.lib () {
       #
 }
 #
+mod_apps-environment.lib () {
+      MOD_FILE="mod_apps-environment.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         # Environment Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_environment
+      else
+         f_mod_manager $THIS_DIR $MOD_FILE
+      fi
+      #
+}
+#
 mod_apps-filedir.lib () {
       MOD_FILE="mod_apps-filedir.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
          # File Management Applications Menu.
-         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_education
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_file_management
       else
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
@@ -190,21 +214,32 @@ mod_apps-office.lib () {
       #
 }
 #
-mod_apps-screensaver.lib () {
-      MOD_FILE="mod_apps-screensaver.lib"
+mod_apps-packages.lib () {
+      MOD_FILE="mod_apps-packages.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         # Screen-saver Applications Menu.
-         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_screen_savers
+         # Package Management Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_packages
       else
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
 }
-mod_apps-software-qa.lib () {
-      MOD_FILE="mod_apps-software-qa.lib"
+#
+mod_apps-screens.lib () {
+      MOD_FILE="mod_apps-screens.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         # System Applications Menu.
-         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_software-qa
+         # Screen Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_screens
+      else
+         f_mod_manager $THIS_DIR $MOD_FILE
+      fi
+      #
+}
+mod_apps-screen-tools.lib () {
+      MOD_FILE="mod_apps-screen-tools.lib"
+      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+         # Screen-Tools Applications Menu.
+         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_app_screen_tools
       else
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
@@ -216,17 +251,6 @@ mod_apps-system.lib () {
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
          # System Applications Menu.
          f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_system
-      else
-         f_mod_manager $THIS_DIR $MOD_FILE
-      fi
-      #
-}
-#
-mod_apps-video.lib () {
-      MOD_FILE="mod_apps-video.lib"
-      if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
-         # Video Applications Menu.
-         f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_video
       else
          f_mod_manager $THIS_DIR $MOD_FILE
       fi

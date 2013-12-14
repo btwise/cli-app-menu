@@ -1,0 +1,47 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="December-13 2013 23:59"
+#
+# +----------------------------------------+
+# |     Function f_menu_app_development    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MDE, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_development () {
+      f_initvars_menu_app "MDE"
+      until [ "$MDE" = "0" ]
+      do    # Start of Development Applications until loop.
+#0^0^0^0^1 #MDE apropos          - Search linux man(ual) files for a forgotten command.
+#0^0^0^0^1 #MDE bugz             - Interface to Bugzilla bug tracking tool.
+#0^0^0^0^1 #MDE cil              - Issue tracker and add/edit, list issues.
+#0^0^0^0^1 #MDE cmdtest          - Test command-line programs/scripts to check the output.
+#0^0^0^0^1 #MDE codemetre        - Count lines of code w/o comments in source code.
+#0^0^0^0^1 #MDE colout           - Colorize matching text pattern in a text file.
+#0^0^0^0^1 #MDE githubcli        - "ghi" Interface to GitHub's issues API.
+#0^0^0^0^1 #MDE google-perftools - Analyze performance of C++ programs.
+#0^0^0^0^1 #MDE groff            - Enhanced troff editor writes to man page format.
+#0^0^0^0^1 #MDE man2html         - Browse man pages using a web browser.
+#0^0^0^0^1 #MDE man2html-base    - Convert man pages into HTML format.
+#0^0^0^0^1 #MDE mantis           - Web-based issue tracker runs in PHP.
+#0^0^0^0^1 #MDE shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
+#0^0^0^0^1 #MDE stx2any          - Markup language, writes to man page format.
+#0^0^0^0^1 #MDE txt2man          - Converts plain ASCII text to man format.
+#0^0^0^0^1 #MDE udo              - Simpler markup language writes to man page format.
+            #
+            THIS_FILE="mod_apps-development.lib"
+            MENU_TITLE="Development Applications Menu"
+            DELIMITER="#MDE" #MDE This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MDE
+            f_menu_item_process $MDE  # Outputs $MENU_ITEM.
+      done  # End of Development Applications until loop.
+            #
+      unset MDE MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_development
+#

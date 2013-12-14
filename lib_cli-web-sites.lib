@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-28-2013 01:00"
+# REVDATE="December-13-2013 23:59"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -90,6 +90,9 @@ f_application_web_install () {
            ;;
            figlet)
            WEB_SITE_INSTALL="http://www.figlet.org"
+           ;;
+           fish)
+           WEB_SITE_INSTALL="http://fishshell.com/#get_fish_linux"
            ;;
            glances)
            WEB_SITE_INSTALL="https://github.com/nicolargo/glances"

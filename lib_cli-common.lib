@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-07-2013 21:45"
+# REVDATE="December-13 2013 23:59"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -102,15 +102,15 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
              # Display menu items in bold font if module exists or standard font if module does not exist.
              if [ -r $THIS_DIR/$X ] ; then  # X=<module file name> <Followed by whitespace>
                 # Module exists, display menu item in bold font.
-                f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold) ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold) ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
              else
                 # If UCOLOR="" is unset, then use same color font, but not bold font for missing module.
                 if [ -z $UCOLOR ] ; then
                    # Module missing, display menu item in same color font but not bold font, then return to bold font.
-                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
                 else
                    # Module missing, display menu item in different color font but not bold font, then return to bold font.
-                   echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo -n $XNUM" - " ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR
+                   echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR
                 fi
              fi
          done

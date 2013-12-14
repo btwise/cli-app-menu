@@ -1,0 +1,92 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="December-13 2013 23:59"
+#
+# +----------------------------------------+
+# |      Function f_menu_app_screens       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSC, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_screens () {
+      f_initvars_menu_app "MSC"
+      until [ "$MSC" = "0" ]
+      do    # Start of Screens until loop.
+#0^0^0^0^0 #MSC away     - Locks terminal with password and checks for new email.
+#0^0^0^0^0 #MSC byobu    - Multiple sessions.
+#0^0^0^0^0 #MSC dtach    - Emulates detach feature of screen.
+#0^0^0^0^0 #MSC dvtm     - dwm-style (tiling) window manager.
+#0^0^0^0^0 #MSC fbterm   - Fast terminal emulator, multiple fonts, multiple windows.
+#1^0^0^0^0 #MSC screen   - Multiple sessions via split or pager screens.
+#f_screen^0^0^0^0 #MSC screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
+#1^0^0^0^0 #MSC splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
+#0^0^0^0^0 #MSC tmux     - Multiple sessions with multiplexing.
+#0^0^0^0^0 #MSC twin     - A text mode window environment for multiple windows on screen.
+#0^0^0^0^0 #MSC vlock    - Locks virtual console or current terminal.
+            #
+            THIS_FILE="mod_apps-screens.lib"
+            MENU_TITLE="Screens Menu"
+            DELIMITER="#MSC" #MSC This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MSC
+            f_menu_item_process $MSC  # Outputs $MENU_ITEM.
+      done  # End of Screens Applications until loop.
+            #
+      unset MSC MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_screens
+#
+# +----------------------------------------+
+# |            Function f_screen           |
+# +----------------------------------------+
+#
+f_screen () {
+      clear # Blank the screen.
+      echo "screen - Multiple screen-window sessions."
+      echo 
+      echo "Usage:"
+      echo "<Ctrl>-A <double-quote> List all windows."
+      echo "<Ctrl>-A N     Show window title."
+      echo "<Ctrl>-A a     Name title of the window."
+      echo
+      echo "<Ctrl>-A c     Create new window."
+      echo "<Ctrl>-A n     Switch to next window."
+      echo "<Ctrl>-A p     Switch to previous window."
+      echo "<Ctrl>-A l     Refresh window."
+      echo "<Ctrl>-A <single-quote> Prompt window number to use."
+      echo "<Ctrl>-A (0-9 or -)  Switch to window number to use."
+      echo
+      echo "<Ctrl>-A k     Kill window."
+      echo "<Ctrl>-A S     Split window horizontally."
+      echo "<Ctrl>-A <tab> Toggle between split window areas."
+      echo "<Ctrl>-A x     Kill split window area."
+      echo
+      echo "*** For more help type: 'man screen'"
+      echo "                        '$screen --help'"
+      f_press_enter_key_to_continue
+} # End of f_screen
+#
+# +----------------------------------------+
+# |            Function f_splitvt          |
+# +----------------------------------------+
+#
+f_splitvt () {
+      clear # Blank the screen.
+      echo "splitvt - Split screen horizontally into two upper/lower."
+      echo
+      echo "Usage:"
+      echo "splitvt [OPTION]... [INPUT [PREFIX]]"
+      echo
+      echo "*** For more help type: 'man splitvt'" 
+      echo "             'splitvt --help'"
+      echo
+      echo "Now run splitvt. Usage: splitvt"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_splitvt
+#

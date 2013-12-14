@@ -3,37 +3,39 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-19-2013 23:45"
+# REVDATE="December-13 2013 23:59"
 #
 # +----------------------------------------+
-# |        Function f_menu_cat_audio       |
+# |     Function f_menu_cat_audio-video    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: BAU, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_audio () {
+f_menu_cat_audio-video () {
       f_initvars_menu_app "BAU"
       until [ "$BAU" = "0" ]
       do    # Start of Audio Application Category until loop.
-#f_menu_app_cdrippers #BAU CD Rippers         - Copy music off CD-ROM to files.
-#f_menu_app_audio_editors #BAU Editors/Converters - Edit music files and convert to different file formats.
-#f_menu_app_music_players #BAU Music Players      - Play music CD-ROM or music files. Jukebox, playlists.
-#f_menu_app_radio #BAU Radio              - Listen to Internet radio stations.
-#f_menu_app_speech_synthesis #BAU Speech Synthesis   - Text-to-speech. Have text files read back to you.
+#f_menu_app_cdrippers        #BAU CD Rippers       - Copy music off CD-ROM to files.
+#f_menu_app_audio_editors    #BAU Audio Editors    - Audio editors/converters of file formats.
+#f_menu_app_music_players    #BAU Music Players    - Play music CD-ROM or music files. Jukebox, playlists.
+#f_menu_app_radio            #BAU Radio            - Listen to Internet radio stations.
+#f_menu_app_speech_synthesis #BAU Speech Synthesis - Text-to-speech. Have text files read back to you.
+#f_menu_app_video_editors    #BAU Video Editors    - Video editors, transcoders, converters.
+#f_menu_app_video_players    #BAU Video Players    - Video players/downloaders.
             #
-            THIS_FILE="mod_apps-audio.lib"
-            MENU_TITLE="Audio Application Category Menu"
+            THIS_FILE="mod_apps-audio-video.lib"
+            MENU_TITLE="Audio-Video Application Category Menu"
             DELIMITER="#BAU" #BAU This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BAU
             f_menu_item_process $BAU  # Outputs $MENU_ITEM.
-      done  # End of Audio Application Category until loop.
+      done  # End of Audio-Video Application Category until loop.
             #
       unset BAU MENU_ITEM # Throw out this variable.
-} # End of function f_menu_cat_audio
+} # End of function f_menu_cat_audio-video
 #
 # +----------------------------------------+
 # |      Function f_menu_app_cdrippers     |
@@ -59,7 +61,7 @@ f_menu_app_cdrippers () {
 #0^0^0^0^1 #MAC ripit      - Audio CD ripper.
 #0^0^0^0^1 #MAC rubyripper - Audio CD ripper.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="CD Rippers Applications Menu"
             DELIMITER="#MAC" #MAC This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -98,7 +100,7 @@ f_menu_app_audio_editors () {
 #0^0^0^0^1 #MAU midicopy  - Extract/copy specific MIDI file tracks/channels/time intervals.
 #0^0^0^0^1 #MAU sox       - Audio file cut/paste and combine, speed playback.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Audio Editor Applications Menu"
             DELIMITER="#MAU" #MAU This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -129,7 +131,7 @@ f_menu_app_music_taggers () {
 #0^0^0^0^0 #MAT id3ed    - Music tagger.
 #0^0^0^0^0 #MAT lltag    - Music tagger.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Tagger Applications Menu"
             DELIMITER="#MAT" #MAT This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -153,24 +155,24 @@ f_menu_app_music_players () {
       f_initvars_menu_app "MAN"
       until [ "$MAN" = "0" ]
       do    # Start of Music Player Applications until loop.
-#0^0^0^0^0 #MAN adcd            - Very simple CD player.
-#0^0^0^0^0 #MAN camp            - Music player with Graphic visualizer.
-#0^0^0^0^0 #MAN clvc            - Music player, ncurses-based, depends on vlc.
-#0^0^0^1^0 #MAN cmus            - Music player, MP3,  Ogg Vorbis, ncurses-based.
-#0^0^0^0^0 #MAN consolecandy    - MP3 player with spectrum analyzer and other eye-candy.
-#0^0^0^0^0 #MAN cplay           - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
-#0^0^0^0^0 #MAN dcd             - CD player.
-#0^0^0^0^0 #MAN juke            - Music Jukebox, ncurses-based.
-#0^0^0^0^0 #MAN mcdp            - CD player, adjust volume, repeat track/cd, ncurses-based.
-#0^0^0^0^0 #MAN mcplay          - Playlist ncurses-based.
-#0^0^0^0^0 #MAN mjs             - MP3 player, ncurses-based.
-#0^0^0^0^0 #MAN mp3blaster      - Music player, playlists, groups, ncurses-based.
-#0^0^0^0^0 #MAN moc             - Music player, ncurses-based.
-#0^0^0^1^0 #MAN ncmpc           - Music player, ncurses-based.
-#0^0^0^1^0 #MAN ncmpcpp         - Music player and visualizer, ncurses-based.
+#0^0^0^0^0 #MAN adcd         - Very simple CD player.
+#0^0^0^0^0 #MAN camp         - Music player with Graphic visualizer.
+#0^0^0^0^0 #MAN clvc         - Music player, ncurses-based, depends on vlc.
+#0^0^0^1^0 #MAN cmus         - Music player, MP3,  Ogg Vorbis, ncurses-based.
+#0^0^0^0^0 #MAN consolecandy - MP3 player with spectrum analyzer and other eye-candy.
+#0^0^0^0^0 #MAN cplay        - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
+#0^0^0^0^0 #MAN dcd          - CD player.
+#0^0^0^0^0 #MAN juke         - Music Jukebox, ncurses-based.
+#0^0^0^0^0 #MAN mcdp         - CD player, adjust volume, repeat track/cd, ncurses-based.
+#0^0^0^0^0 #MAN mcplay       - Playlist ncurses-based.
+#0^0^0^0^0 #MAN mjs          - MP3 player, ncurses-based.
+#0^0^0^0^0 #MAN mp3blaster   - Music player, playlists, groups, ncurses-based.
+#0^0^0^0^0 #MAN moc          - Music player, ncurses-based.
+#0^0^0^1^0 #MAN ncmpc        - Music player, ncurses-based.
+#0^0^0^1^0 #MAN ncmpcpp      - Music player and visualizer, ncurses-based.
 #f_menu_app_music_players2^0^0^0^0 #MAN MORE...         - For more music player applications.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Player Applications Menu"
             DELIMITER="#MAN" #MAN This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -200,7 +202,7 @@ f_menu_app_music_players2 () {
 #f_menu_app_music_players3^0^0^0^0 #MAO MORE...         - For more music player applications.
 
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Player2 Applications Menu"
             DELIMITER="#MAO" #MAO This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -240,7 +242,7 @@ f_menu_app_music_players3 () {
 #0^0^0^0^1 #MAP yauap   - Music player based on Gstreamer, MP3, network streams.
 #f_menu_app_music_players4^0^0^0^0 #MAP MORE... - For more music player applications.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Player3 Applications Menu"
             DELIMITER="#MAP" #MAP This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -269,7 +271,7 @@ f_menu_app_music_players4 () {
 #0^0^0^0^1 #MAQ ncxmms2          - Front-end to XMMS music player.
 #0^0^0^0^1 #MAQ xmms2-client-cli - Front-end to XMMS music player.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Players4 Applications Menu"
             DELIMITER="#MAQ" #MAQ This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -299,7 +301,7 @@ f_menu_app_radio () {
 #0^0^0^0^0 #MAR pyradio  - Streaming radio, written in python.
 #0^0^0^0^1 #MAR shell-fm - Streaming radio player for last.fm radio.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Radio Applications Menu"
             DELIMITER="#MAR" #MAR This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -328,7 +330,7 @@ f_menu_app_speech_synthesis () {
 #0^0^0^6^1 #MAS festival      - Reads text from text files or interactively on screen.
 #0^0^0^0^1 #MAS screader      - Reads screen text.
             #
-            THIS_FILE="mod_apps-audio.lib"
+            THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Speech Synthesis Applications Menu"
             DELIMITER="#MAS" #MAS This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -339,4 +341,78 @@ f_menu_app_speech_synthesis () {
             #
       unset MAS MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_speech_synthesis
+#
+# +----------------------------------------+
+# |    Function f_menu_app_video_editors   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MVE, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_video_editors () {
+      f_initvars_menu_app "MVE"
+      until [ "$MVE" = "0" ]
+      do    # Start of Video Applications until loop.
+#0^0^0^1^1 #MVE avconv        - Audio/Video converter.
+#0^0^0^1^1 #MVE avidemux      - Editor for simple cutting, filtering, encoding.
+#0^0^0^0^1 #MVE exiftool      - Display audio/video/image file properties (ls-like format).
+#0^0^0^0^1 #MVE flip          - FLI Player for ASCII art.
+#0^0^0^0^1 #MVE ffmpeg        - Multimedia Record, convert, stream and play. 
+#0^0^0^0^1 #MVE handbrake-cli - Transcoder ideal for batch mkv/x264 ripping.
+#0^0^0^0^1 #MVE mediainfo     - Display audio/video file properties and metadata. 
+#0^0^0^0^1 #MVE melt          - Multi-track video editor, also plays audio/video files.
+#0^0^0^0^1 #MVE mencoder      - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
+#0^0^0^0^1 #MVE mjpegtools    - MJPEG video playback, editing, video capture.
+#0^0^0^0^1 #MVE mpgtx         - Editor splits/joins MPEG, MP3. video/audio files.
+            #
+            THIS_FILE="mod_apps-audio-video.lib"
+            MENU_TITLE="Video Editor Applications Menu"
+            DELIMITER="#MVE" #MVE This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MVE
+            f_menu_item_process $MVE  # Outputs $MENU_ITEM.
+      done  # End of Video Editor Applications until loop.
+            #
+      unset MVE MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_video_editors
+#
+# +----------------------------------------+
+# |    Function f_menu_app_video_players   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MVI, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_video_players () {
+      f_initvars_menu_app "MVI"
+      until [ "$MVI" = "0" ]
+      do    # Start of Video Applications until loop.
+#0^0^0^0^1 #MVI aaxine       - Xine video player.
+#0^0^0^0^1 #MVI cacaxine     - Xine video player.
+#0^0^0^0^1 #MVI cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
+#0^0^0^0^1 #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
+#0^0^0^0^1 #MVI fbxine       - Xine video player.
+#0^0^0^0^1 #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
+#0^0^0^0^1 #MVI mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+#0^0^0^0^1 #MVI mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+#0^0^0^0^1 #MVI quvi         - Downloads Adobe Flash video links, Youtube etc.
+#0^0^0^0^1 #MVI vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
+#0^0^0^0^1 #MVI xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
+#0^0^0^0^1 #MVI yougrabber   - Download/Play Youtube videos.
+#0^0^0^0^1 #MVI youtube-dl   - Download/Play Youtube videos.
+            #
+            THIS_FILE="mod_apps-audio-video.lib"
+            MENU_TITLE="Video Player/Downloader Applications Menu"
+            DELIMITER="#MVI" #MVI This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MVI
+            f_menu_item_process $MVI  # Outputs $MENU_ITEM.
+      done  # End of Video Player/Downloader Applications until loop.
+            #
+      unset MVI MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_video_players
 #
