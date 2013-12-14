@@ -1,0 +1,110 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="December-13 2013 23:59"
+#
+# +----------------------------------------+
+# |    Function f_menu_app_screen_tools    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MST, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_screen_tools () {
+      f_initvars_menu_app "MST"
+      until [ "$MST" = "0" ]
+      do    # Start of System Other until loop.
+#0^0^0^0^1 #MST fbgrab    - Framebuffer screenshot tool.
+#0^0^0^0^1 #MST script    - Records terminal input/output (keystrokes).
+#0^0^0^0^1 #MST scrot     - Framebuffer screenshot tool.
+#1^0^0^19^1 #MST ttyplay   - Playback "ttyrec" recording of terminal actions.
+#1^0^0^20^0 #MST ttyrec    - Records terminal input/output and also timing-information.
+            #
+            THIS_FILE="mod_apps-screen-tools.lib"
+            MENU_TITLE="Screen Tools Applications Menu"
+            DELIMITER="#MST" #MST This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MST
+            f_menu_item_process $MST  # Outputs $MENU_ITEM.
+      done  # End of Screen Tools Applications until loop.
+            #
+      unset MST MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_screen_tools
+#
+# +----------------------------------------+
+# |            Function f_ttyplay          |
+# +----------------------------------------+
+#
+f_ttyplay () {
+      clear # Blank the screen.
+      echo "ttyplay - Plays recordings by ttyrec."
+      echo
+      echo "Usage:"
+      echo "       ttyplay [OPTIONS] [FILE]"
+      echo 
+      echo "Options:"
+      echo "         -p Watch recording as it happens."
+      echo "         -s SPEED Change speed of playback (default SPEED=1)"
+      echo "         -n No wait mode.  Ignore the timing information in file."
+      echo
+      echo "Controls:"
+      echo "          + or f Double the playback speed."
+      echo "          - or s Halve the playback speed."
+      echo "          0      Pause playback."
+      echo "          1      Resume playback at SPEED=1 original recorded speed."
+      echo
+      echo "Example: ttyplay -s 3 ttyrecord where \"ttyrecord\" is the default file name."
+      echo "         ttyplay record-terminal"
+      echo
+      echo "*** For more help type: 'man ttyplay'"
+      echo "                        'ttyplay --help'"
+      echo
+      f_press_enter_key_to_continue
+      case "$MENU_ITEM" in
+           *[' ']*) # It has spaces in name.
+           ;;
+           *)
+           clear # Blank the screen.
+           f_term_color $ECOLOR $BCOLOR
+           echo $(tput bold)
+           echo "ttyplay is missing file name."
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+           echo 
+           echo "Usage:"
+           echo "       ttyplay [OPTIONS] [FILE]"
+           MENU_ITEM_NAME="" # Null so f_application_run is not run twice
+           APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. 
+           ;;
+      esac
+} # End of f_ttyplay
+#
+# +----------------------------------------+
+# |            Function f_ttyrec           |
+# +----------------------------------------+
+#
+f_ttyrec () {
+      clear # Blank the screen.
+      echo "ttyrec - Records screen \"movie\" in real-time saving the recording in a file."
+      echo
+      echo "Start recording by typing \"ttyrec\" and stop recording by typing \"exit\"."
+      echo "Usage:"
+      echo "       ttyrec [OPTIONS] [FILE]"
+      echo
+      echo "Options:"
+      echo "         -a Append to specified file or to file, \"ttyrecord\"."
+      echo "             where \"ttyrecord\" is the default file name if none specified."
+      echo
+      echo "         -u Used when using ttyrec to  transfer files to a remote host."
+      echo
+      echo "         -e command"
+      echo "             Invoke command when ttyrec starts."
+      echo "*** For more help type: 'man ttyrec'"
+      echo "                        'ttyrec --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_ttyrec
+#

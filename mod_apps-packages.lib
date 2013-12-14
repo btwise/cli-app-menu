@@ -1,0 +1,256 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="December-13-2013 23:59"
+#
+# +----------------------------------------+
+# |      Function f_menu_app_packages      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MPK, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_packages () {
+      f_initvars_menu_app "MPK"
+      until [ "$MPK" = "0" ]
+      do    # Start of Package Management Applications until loop.
+#0^0^0^0^1 #MPK alien     - Converts rpm to deb packages.
+#1^0^0^0^1 #MPK apt       - Debian package manager.
+#0^0^0^0^1 #MPK apt-cache - Show package information, (reverse)/dependency information.
+#0^0^0^0^1 #MPK apt-file  - Search/List files in the Debian package manager w/o installing.
+#1^0^0^0^0 #MPK aptitude  - Debian package manager.
+#1^0^0^0^1 #MPK aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
+#0^0^0^0^1 #MPK cupt      - Debian front-end to dpkg package manager.
+#1^0^0^0^1 #MPK dpkg      - Debian package manager.
+#1^0^0^0^1 #MPK rpm       - RPM (Red Hat) package manager.
+#1^0^0^0^0 #MPK synaptic  - GUI Debian package manager.
+#0^0^0^0^1 #MPK unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
+#0^0^0^0^1 #MPK urpmi     - Mandriva, Mageia package manager.
+#1^0^0^0^1 #MPK YaST      - GUI OpenSUSE package manager.
+#1^0^0^0^1 #MPK yum       - "Yellow Dog Updated" package manager.
+#1^0^0^0^1 #MPK zypper    - OpenSUSE package manager on which is based YaST GUI.
+            #
+            THIS_FILE="mod_apps-packages.lib"
+            MENU_TITLE="Package Management Applications Menu"
+            DELIMITER="#MPK" #MPK This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MPK
+            f_menu_item_process $MPK  # Outputs $MENU_ITEM.
+      done  # End of Package Management Applications until loop.
+            #
+      unset MPK MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_packages
+#
+# +----------------------------------------+
+# |              Function f_apt            |
+# +----------------------------------------+
+#
+f_apt () {
+                 APP_NAME="apt"
+                 clear # Blank the screen.
+                 echo "apt - Debian package manager."
+                 echo
+                 echo "Usage:"
+                 echo "apt-cache showpkg <package name> Show package general information."
+                 echo "apt-cache show <package name> Show package description and information."
+                 echo "apt-cache depends <package name> Show package dependency information."
+                 echo "apt-cache rdepends <package name> Show package reverse dependency information."
+                 echo "apt-cache unmet <package name> Show package's unmet dependencies."
+                 echo "apt-get check Check for broken dependencies."
+                 echo "apt-get update Updates package information prior to updating or installing."
+                 echo "apt-get upgrade Upgrade packages to latest versions."
+                 echo "apt-get dist-upgrade Usually used after an 'apt-get upgrade' to upgrade kernel."
+                 echo "apt-get install <package name> Installs a new software package."
+                 echo "apt-get remove <package name> Uninstalls a software package."
+                 echo "apt-get purge <package name> Uninstalls a package and its configuration files."
+                 echo "apt-get autoclean Remove obsolete packages from the local repository."
+                 echo "apt-get autoremove remove packages that are no longer needed."
+                 echo
+                 echo "*** For more help type: man apt / man apt-cache / man apt-get"
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_apt
+#
+# +----------------------------------------+
+# |            Function f_aptitude         |
+# +----------------------------------------+
+#
+f_aptitude () {
+                 clear # Blank the screen.
+                 echo "aptitude - Debian package manager."
+                 echo 
+                 echo "Usage:"
+                 echo "aptitude [-S fname] [-u|-i]"
+                 echo "aptitude [OPTIONS] <ACTION> ..."
+                 echo 
+                 echo "Options:"
+                 echo " -h    This help text."
+                 echo " -D    Show the dependencies of automatically changed packages."
+                 echo " -v    Display extra information. (may be supplied multiple times)."
+                 echo " -f    Aggressively try to fix broken packages."
+                 echo  
+                 echo "Actions (if none is specified, aptitude will enter interactive mode):"
+                 echo "search    - Search for a package by name and/or expression."
+                 echo "show      - Display detailed information about a package."
+                 echo "install   - Install/upgrade packages."
+                 echo "reinstall - Download and (possibly) reinstall a currently installed package."
+                 echo "remove    - Remove packages."
+                 echo "purge     - Remove packages and their configuration files."
+                 echo "update    - Download lists of new/upgradable packages."
+                 echo
+                 echo "*** For more help type: man apt / man apt-cache / man apt-get"
+                 f_press_enter_key_to_continue
+} # End of function f_aptitude
+#
+# +----------------------------------------+
+# |            Function f_aptoncd          |
+# +----------------------------------------+
+#
+f_aptoncd () {
+                 clear # Blank the screen.
+                 echo "APTonCD - A GUI application and is in the menu for reference only."
+                 echo
+                 echo "However, like many GUI applications, it can be launched by from the CLI."
+                 echo "APTonCD can be launched from the command line with the 'aptoncd' command."
+                 echo
+                 echo "APTonCD allows you to create an installation CD with all the debian packages"
+                 echo "installed on the localhost PC from the /var/cache/apt/archives/ directory."
+                 echo "It is one way to backup the software installed on your PC but such would"
+                 echo "have to be reconfigured afterwards."
+                 echo
+                 echo "APTonCD is fully supported in Ubuntu and works in Debian Etch and Sid."
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_aptoncd
+#
+# +----------------------------------------+
+# |              Function f_dpkg           |
+# +----------------------------------------+
+#
+f_dpkg () {
+                 clear # Blank the screen.
+                 echo "dpkg - Debian package manager."
+                 echo
+                 echo "Usage:"
+                 echo "dpkg --get-selections List all installed packages."
+                 echo "dpkg-query -l <package name> Show package installation status."
+                 echo "dpkg-query -p <package name> Show package description and information."
+                 echo "dpkg -i <package name> Installs a new software package."
+                 echo "dpkg -r <package name> Uninstalls a software package."
+                 echo "dpkg -P <package name> Uninstalls a package and its configuration files."
+                 echo
+                 echo "*** For more help type: man dpkg / man dpkg-query"
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_dpkg
+#
+# +----------------------------------------+
+# |              Function f_rpm            |
+# +----------------------------------------+
+#
+f_rpm () {
+                 clear # Blank the screen.
+                 echo "rpm - RPM (Red Hat) package manager."
+                 echo
+                 echo "Usage:"
+                 echo "rpm -q <package name> Show package description and information."
+                 echo "rpm --query <package name> Show package description and information."
+                 echo "rpm -U <package name> Upgrade/Install a package."
+                 echo "rpm --upgrade <package name> Upgrade/Install a package."
+                 echo "rpm -I <package name> Installs new software packages."
+                 echo "rpm --install <package name> Installs new software packages."
+                 echo "rpm -e <package name> Uninstalls software packages."
+                 echo "rpm --erase <package name> Uninstalls software packages."
+                 echo "rpm -V <package name> Verifies packages."
+                 echo "rpm --verify <package name> Verifies packages."
+                 echo "rpm -F <package name> Freshen (upgrade) installed packages."
+                 echo "rpm --freshen<package name> Freshen (upgrade) installed packages."
+                 echo "rpm --initdb Initialize package database."
+                 echo "rpm --rebuilddb Rebuild package database."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_rpm
+#
+# +----------------------------------------+
+# |            Function f_synaptic         |
+# +----------------------------------------+
+#
+f_synaptic () {
+                 clear # Blank the screen.
+                 echo "Synaptic - A GUI package manager and is in the menu for reference only."
+                 echo
+                 echo "However, like many GUI applications, it can be launched by from the CLI."
+                 echo "Synaptic can be launched from the command line with the 'synaptic' command."
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_synaptic
+#
+# +----------------------------------------+
+# |              Function f_yast           |
+# +----------------------------------------+
+#
+f_yast () {
+                 clear # Blank the screen.
+                 echo "YaST - A GUI package manager and is in the menu for reference only."
+                 echo
+                 echo "However, like many GUI applications, it can be launched by from the CLI."
+                 echo "YaST can be launched from the command line with the 'yast' command."
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_yast
+#
+# +----------------------------------------+
+# |              Function f_yum            |
+# +----------------------------------------+
+#
+f_yum () {
+                 clear # Blank the screen.
+                 echo "yum - 'Yellow Dog Updated' package manager."
+                 echo
+                 echo "Usage:"
+                 echo "yum upgrade <package name> Upgrade/Install a package."
+                 echo "yum -list <package name> Show package description and information."
+                 echo "yum search <text> Searches package names, descriptions, summaries."
+                 echo "yum provides <text> Searches files, packages providing a function."
+                 echo "yum update Upgrade packages to latest versions."
+                 echo "yum install <package name> Installs new software packages."
+                 echo "yum groupinstall <application name> Installs new software packages."
+                 echo "yum remove <package name> Uninstalls software packages."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_yum
+#
+# +----------------------------------------+
+# |             Function f_zypper          |
+# +----------------------------------------+
+#
+f_zypper () {
+                 clear # Blank the screen.
+                 echo "zypper - Zypper package manager."
+                 echo
+                 echo "Usage:"
+                 echo "zypper search -is List installed packages."
+                 echo "zypper search -d <text> searches package names, descriptions, summaries."
+                 echo "zypper update Upgrade packages to latest versions."
+                 echo "zypper install <package name> Installs new software packages."
+                 echo "zypper remove <package name> Uninstalls software packages."
+                 echo "zypper refresh Refresh repository package information."
+                 echo "zypper list-updates List updates available for installed packages."
+                 echo "zypper dist-upgrade Upgrade kernel to next version."
+                 echo
+                 echo "*** For more help type: 'man $APP_NAME'"
+                 echo "                        '$APP_NAME --help'"
+                 echo
+                 f_press_enter_key_to_continue
+} # End of function f_zypper
+#

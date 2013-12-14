@@ -1,0 +1,36 @@
+# ©2013 Copyright 2013 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="December-13 2013 23:59"
+#
+# +----------------------------------------+
+# |    Function f_menu_app_environment     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MEN, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_environment () {
+      f_initvars_menu_app "MEN"
+      until [ "$MEN" = "0" ]
+      do    # Start of Environment until loop.
+#0^0^0^0^1 #MEN desmume - Nintendo DS emulator.
+#0^0^0^0^1 #MEN dosemu  - DOS emulator.
+#0^0^0^0^1 #MEN fish    - Fish is a shell for interactive use, easy to use.
+            #
+            THIS_FILE="mod_apps-environment.lib"
+            MENU_TITLE="Environment Applications Menu"
+            DELIMITER="#MEN" #MEN This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MEN
+            f_menu_item_process $MEN  # Outputs $MENU_ITEM.
+      done  # End of Environment Applications until loop.
+            #
+      unset MEN MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_environment
+#
+

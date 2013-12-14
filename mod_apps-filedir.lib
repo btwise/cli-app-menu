@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-05-2013 19:02"
+# REVDATE="December-13 2013 23:59"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -668,16 +668,20 @@ f_menu_app_file_encryption () {
       f_initvars_menu_app "MFE"
       until [ "$MFE" = "0" ]
       do    # Start of File Encryption Applications until loop.
+#0^0^0^0^1 #MFE apg       - Password generator that can specify a pattern.
 #0^0^0^0^1 #MFE bcrypt    - Uses the blowfish encryption algorithm.
 #0^0^0^0^1 #MFE ccrypt    - Uses the Rijndael cipher algorithm.
+#0^0^0^0^1 #MFE cpm       - Password manager using PGP-encryption, ncurses-based.
 #0^0^0^0^1 #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
 #0^0^0^0^1 #MFE gnupg     - Gnu Privacy Guard symmetetric encryption/decryption.
 #0^0^0^0^1 #MFE lspgpot   - Extracts ownertrust values from PGP keyrings.
 #0^0^0^0^1 #MFE mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
+#1^0^0^0^1 #MFE md5pass   - Create a password hash. Usage: md5pass [PASSWORD][SALT]
 #0^0^0^0^1 #MFE nasty     - Helps you to recover forgotten PGP/GPG pass-phrase.
 #0^0^0^0^1 #MFE pgp       - Pretty Good Privacy (pgp).
 #0^0^0^0^1 #MFE rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
 #0^0^0^0^1 #MFE scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
+#1^0^0^0^1 #MFE sha1pass  - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
 #0^0^0^0^0 #MFE truecrypt - Program released under TrueCrypt License (not Open-source).
 #0^0^0^0^1 #MFE zcrypt    - Another crypt program.
             #
