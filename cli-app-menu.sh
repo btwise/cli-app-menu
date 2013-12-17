@@ -2,6 +2,13 @@
 # ©2013 Copyright 2013 Robert D. Chin
 #
 # +----------------------------------------+
+# |    Revision number and Revision Date   |
+# +----------------------------------------+
+#
+THIS_FILE="cli-app-menu.sh"
+REVDATE="December-14 2013 14:41"
+#
+# +----------------------------------------+
 # |            Brief Description           |
 # +----------------------------------------+
 #
@@ -9,6 +16,8 @@
 # to help CLI newbies to discover what a command line can do.
 #
 # Please see the file README for more information.
+# The "#:" at the beginning of lines below are used to delineate the Help Instructions.
+#:
 #:   Brief Description
 #:   FILE LOCATIONS of cli-app-menu project
 #:   HOW-TO Update this script
@@ -22,13 +31,6 @@
 #:   For more help
 #:   List of variables
 #:   List of Special Menu Item Markers
-#
-# +----------------------------------------+
-# |    Revision number and Revision Date   |
-# +----------------------------------------+
-#
-THIS_FILE="cli-app-menu.sh"
-REVDATE="December-10 2013 14:41"
 #
 # +----------------------------------------+
 # |       GNU General Public License       |
@@ -1689,7 +1691,8 @@ f_update_software () {
       if [ ! -w $MAINMENU_DIR -o ! -w $THIS_DIR ] ; then 
          # Yes, then need sudo permissions.
          # Ask for sudo permissions password using an innocuous command.
-         echo "Need sudo permissions to update this software."
+         echo
+         echo "You need sudo permissions to update this software."
          sudo cd  # &>/dev/null # 1=standard messages, 2=error messages, &=both.
       fi
       echo
