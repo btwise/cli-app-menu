@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-17 2013 11:32"
+REVDATE="December-18 2013 00:00"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1693,7 +1693,7 @@ f_update_software () {
          # Ask for sudo permissions password using an innocuous command.
          echo
          echo "You need sudo permissions to update this software."
-         sudo cd  # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         sudo echo &>/dev/null # 1=standard messages, 2=error messages, &=both.
       fi
       echo
       echo "Choose the branch from where you want to update the software."

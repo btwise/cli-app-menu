@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="December-18-2013 00:00"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -309,8 +309,11 @@ f_menu_app_text_compare () {
 #0^0^0^0^1 #MTC diffh     - Differences between 2 text files in a color HTML page.
 #0^0^0^0^1 #MTC dwdiff    - Like wdiff but allows whitespace to be included.
 #0^0^0^0^1 #MTC imediff2  - Interactive 2-way file merge.
+#0^0^0^0^1 #MTC sdiff     - Differences between 2 sorted text files.
 #0^0^0^0^1 #MTC vimdiff   - Differences between 2 text files shown in color highlights.
 #0^0^0^0^1 #MTC wdiff     - Differences between 2 text files shown using +/- signs.
+#0^0^0^0^1 #MTC zcmp      - Compares 2 gzip files. See cmp for usage.
+#0^0^0^0^1 #MTC zdiff     - Differences between 2 gzip files. See diff for usage.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Text Compare Applications Menu"
@@ -365,22 +368,22 @@ f_menu_app_file_compression () {
       f_initvars_menu_app "MFB"
       until [ "$MFB" = "0" ]
       do    # Start of Backup Applications until loop.
-#0^0^0^0^1 #MFB 2a      - Archive manager uses only ncurses and libarchive.
-#0^0^0^0^1 #MFB acat    - Exract files in archives to standard output (tar, gzip, zip etc.).
-#0^0^0^0^1 #MFB als     - List files in archives (tar, gzip, zip etc.).
-#0^0^0^0^1 #MFB apack   - File compress create archives (tar, gzip, zip etc.).
-#0^0^0^0^1 #MFB atool   - Manages file archives (tar, gzip, zip etc.).
-#0^0^0^0^1 #MFB aunpack - File decompress extract from archives (tar, gzip, zip etc.).
-#0^0^0^0^1 #MFB dtrx    - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z, lzh, rar, etc.
-#0^0^0^0^1 #MFB gunzip  - File decompress gzip files.
-#0^0^0^0^1 #MFB gzip    - File compress, to gzip files.
-#0^0^0^0^1 #MFB lhasa   - Decompresses LHA (.lzh) archive files.
-#0^0^0^0^1 #MFB lzma    - Compress/Decompress files in the LZMA format.
-#0^0^0^0^1 #MFB lzip    - Compress files based on the LZMA algorithm.
-#0^0^0^0^1 #MFB lzop    - Compress files gzip-like but faster.
-#0^0^0^0^1 #MFB p7zip   - File compress, to 7z files, 7z better than zip compression.
-#0^0^0^0^1 #MFB pdlzip  - Simpler,compress files based on the LZMA algorithm.
-#f_menu_app_file_compression2^0^0^0^0 #MFB MORE... - For more file compression applications.
+#0^0^0^0^1 #MFB 2a           - Archive manager uses only ncurses and libarchive.
+#0^0^0^0^1 #MFB acat         - Exract files in archives to standard output (screen or file).
+#0^0^0^0^1 #MFB als          - List files in archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB apack        - File compress create archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB atool        - Manages file archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB aunpack      - File decompress extract from archives (tar, gzip, zip etc.).
+#0^0^0^0^1 #MFB bunzip2      - File decompress to bzip (Burrows-Wheeler algorithm).
+#0^0^0^0^1 #MFB bzcat        - File decompress to stdout.
+#0^0^0^0^1 #MFB bzip2        - File compress to bzip (Burrows-Wheeler algorithm).
+#0^0^0^0^1 #MFB bzip2recover - Recovers data from damaged bzip2 files.
+#0^0^0^0^1 #MFB compress     - file compression creates *.Z compressed files.
+#0^0^0^0^1 #MFB cpio         - Archive files and extract files from archives.
+#0^0^0^0^1 #MFB dtrx         - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z etc.
+#0^0^0^0^1 #MFB gunzip       - File decompress gzip files.
+#0^0^0^0^1 #MFB gzip         - File compress, to gzip files.
+#f_menu_app_file_compression2^0^0^0^0 #MFB MORE...      - For more file compression applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Compression Applications Menu"
@@ -406,15 +409,22 @@ f_menu_app_file_compression2 () {
       f_initvars_menu_app "MFC"
       until [ "$MFC" = "0" ]
       do    # Start of Backup Applications until loop.
-#0^0^0^0^1 #MFC rzip    - Compresses large files, history buffer up to 900MB.
-#0^0^0^0^1 #MFC unace   - File decompress ACE 1.x archives. (ACE is a proprietary format).
-#0^0^0^0^1 #MFC unxc    - File decompress xz files.
-#0^0^0^0^1 #MFC unzip   - File decompress zip files.
-#0^0^0^0^1 #MFC unp     - Extract many kinds of archive files with one command.
-#0^0^0^0^1 #MFC xz      - File compress xz files.
-#0^0^0^0^1 #MFC xzcat   - File cat xz files.
-#0^0^0^0^1 #MFC xzgrep  - File grep xz files.
-#0^0^0^0^1 #MFC zip     - File compress files to zip files. 
+#0^0^0^0^1 #MFC gzexe      - Compress executable file. When run, decompresses/executes.
+#0^0^0^0^1 #MFC lhasa      - Decompresses LHA (.lzh) archive files.
+#0^0^0^0^1 #MFC lzma       - Compress/Decompress files in the LZMA format.
+#0^0^0^0^1 #MFC lzip       - Compress files based on the LZMA algorithm.
+#0^0^0^0^1 #MFC lzop       - Compress files gzip-like but faster.
+#0^0^0^0^1 #MFC macunpack  - Exctracts files from Macintosh MacBinary archive.
+#0^0^0^0^1 #MFC p7zip      - File compress, to 7z files, 7z better than zip compression.
+#0^0^0^0^1 #MFC pdlzip     - Simpler,compress files based on the LZMA algorithm.
+#0^0^0^0^1 #MFC rzip       - Compresses large files, history buffer up to 900MB.
+#0^0^0^0^1 #MFC unace      - File decompress ACE 1.x archives. (ACE proprietary format).
+#0^0^0^0^1 #MFC unarj      - Decompress or list ARJ archives.
+#0^0^0^0^1 #MFC uncompress - decompress *.Z compressed files.
+#0^0^0^0^1 #MFC unp        - Extract many kinds of archive files with one command.
+#0^0^0^0^1 #MFC unxc       - File decompress xz files.
+#0^0^0^0^1 #MFC unzip      - File decompress zip files.
+#f_menu_app_file_compression3^0^0^0^0 #MFC MORE...    - For more file compression applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Compression2 Applications Menu"
@@ -427,6 +437,45 @@ f_menu_app_file_compression2 () {
             #
       unset MFC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_compression2
+#
+#
+# +----------------------------------------+
+# |  Function f_menu_app_file_compression3 |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFJ, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_compression3 () {
+      f_initvars_menu_app "MFJ"
+      until [ "$MFJ" = "0" ]
+      do    # Start of Backup Applications until loop.
+#0^0^0^0^1 #MFJ xz         - File compress xz files.
+#0^0^0^0^1 #MFJ xzcat    - File cat xz files.
+#0^0^0^0^1 #MFJ xzgrep   - File grep xz files.
+#0^0^0^0^1 #MFJ zcat     - Displays gzip files.
+#0^0^0^0^1 #MFJ zcmp     - Compares 2 gzip files by invoking cmp. See cmp.
+#0^0^0^0^1 #MFJ zdiff    - Compares 2 gzip files by invoking diff. See diff.
+#0^0^0^0^1 #MFJ zegrep   - Search gzip file by invoking egrep. See egrep.
+#0^0^0^0^1 #MFJ zgrep    - Search gzip file by invoking grep. See grep.
+#0^0^0^0^1 #MFJ zmore    - Display file contents in a gzip archive, one screen at a time.
+#0^0^0^0^1 #MFJ zip      - File compress files to zip files.
+#0^0^0^0^1 #MFJ zipinfo  - List detailed information about a zip archive.
+#0^0^0^0^1 #MFJ zipnote  - edit/display comments in a zip file, rename zipped files.
+#0^0^0^0^1 #MFJ zipsplit - File compress files to zip files.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Compression3 Applications Menu"
+            DELIMITER="#MFJ" #MFJ This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFJ
+            f_menu_item_process $MFJ  # Outputs $MENU_ITEM.
+      done  # End of File Compression3 Applications until loop.
+            #
+      unset MFJ MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_compression3
 #
 # +----------------------------------------+
 # |   Function f_menu_app_file_conversion  |
@@ -443,7 +492,11 @@ f_menu_app_file_conversion () {
 #0^0^0^0^0 #MTW abcm2ps     - Converts ABC music source files to PS sheet music format.
 #0^0^0^0^1 #MTW dehtml      - Strips HTML code from text.
 #0^0^0^0^1 #MTW ebook2cw    - Converts plain text ebooks to  morse code mp3/ogg audio files.
+#0^0^0^0^1 #MTW enscript    - Convert text file to Post-Script file.
 #0^0^0^0^1 #MTW html2txt    - Strips HTML code from text.
+#0^0^0^0^1 #MTW pdftops     - Converts PDF to PS (PostScript) format.
+#0^0^0^0^1 #MTW ps2ascii    - Converts PS (PostScript) to text format.
+#0^0^0^0^1 #MTW ps2pdf      - Converts PS (PostScript) to PDF format.
 #1^0^0^0^1 #MTW txt2html    - Converts plain ASCII text to HTML format.
 #1^0^0^0^1 #MTW txt2man     - Converts plain ASCII text to man format.
 #1^0^0^0^1 #MTW txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
@@ -451,9 +504,7 @@ f_menu_app_file_conversion () {
 #1^0^0^0^1 #MTW txt2tags    - Converts plain ASCII text to a variety of formats.
 #0^0^0^0^1 #MTW unoconv     - Converts any document that LibreOffice imports or exports.
 #0^0^0^0^1 #MTW unrtf       - Converts RTF to HTML, LaTeX, txt, PS.
-#0^0^0^0^1 #MTW vilistextum - Strips HTML code from text.
-#0^0^0^0^1 #MTW wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, troff...
-#0^0^0^0^1 #MTW xmlto       - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
+#f_menu_app_file_conversion2^0^0^0^1 #MTW MORE...     - More file format conversion applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Format Conversion Applications Menu"
@@ -466,6 +517,34 @@ f_menu_app_file_conversion () {
             #
       unset MTW MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_file_conversion
+#
+# +----------------------------------------+
+# |  Function f_menu_app_file_conversion2  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTX, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_conversion2 () {
+      f_initvars_menu_app "MTX"
+      until [ "$MTX" = "0" ]
+      do    # Start of File Format Conversion Applications until loop.
+#0^0^0^0^1 #MTX vilistextum - Strips HTML code from text.
+#0^0^0^0^1 #MTX wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, troff...
+#0^0^0^0^1 #MTX xmlto       - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Format Conversion2 Applications Menu"
+            DELIMITER="#MTX" #MTX This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MTX
+            f_menu_item_process $MTX  # Outputs $MENU_ITEM.
+      done  # End of File Format Conversion Applications until loop.
+            #
+      unset MTX MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_file_conversion2
 #
 # +----------------------------------------+
 # |           Function f_txt2html          |
@@ -674,16 +753,16 @@ f_menu_app_file_encryption () {
 #0^0^0^0^1 #MFE cpm       - Password manager using PGP-encryption, ncurses-based.
 #0^0^0^0^1 #MFE crypt     - Wrapper for mcrypt, backward compatible to old Unix crypt.
 #0^0^0^0^1 #MFE gnupg     - Gnu Privacy Guard symmetetric encryption/decryption.
+#0^0^0^0^1 #MFE gpg       - OpenPGP encryption and signing tool.
 #0^0^0^0^1 #MFE lspgpot   - Extracts ownertrust values from PGP keyrings.
-#0^0^0^0^1 #MFE mcrypt    - A simple crypting program, a replacement for the old Unix crypt.
+#0^0^0^0^1 #MFE mcrypt    - Simple crypting, a replacement for the old Unix crypt.
 #1^0^0^0^1 #MFE md5pass   - Create a password hash. Usage: md5pass [PASSWORD][SALT]
+#0^0^0^0^1 #MFE mdecrypt  - Decrypts files encrypted by mcrypt.
+#0^0^0^0^1 #MFE mimencode - Encodes a file to the MIME standard.
 #0^0^0^0^1 #MFE nasty     - Helps you to recover forgotten PGP/GPG pass-phrase.
 #0^0^0^0^1 #MFE pgp       - Pretty Good Privacy (pgp).
 #0^0^0^0^1 #MFE rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
-#0^0^0^0^1 #MFE scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
-#1^0^0^0^1 #MFE sha1pass  - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
-#0^0^0^0^0 #MFE truecrypt - Program released under TrueCrypt License (not Open-source).
-#0^0^0^0^1 #MFE zcrypt    - Another crypt program.
+#f_menu_app_file_encryption2#0^0^0^0^1 #MFE MORE...   - More file encryption applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Encryption Applications Menu"
@@ -698,6 +777,39 @@ f_menu_app_file_encryption () {
 } # End of function f_menu_app_file_encryption
 #
 # +----------------------------------------+
+# |   Function f_menu_app_file_encryption2 |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_encryption2 () {
+      f_initvars_menu_app "MFL"
+      until [ "$MFL" = "0" ]
+      do    # Start of File Encryption Applications until loop.
+#0^0^0^0^1 #MFL scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
+#1^0^0^0^1 #MFL sha1pass  - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
+#0^0^0^0^0 #MFL truecrypt - Program released under TrueCrypt License (not Open-source).
+#0^0^0^0^1 #MFL zcrypt    - Another crypt program.
+#0^0^0^0^1 #MFL shar      - Makes shell file archives for transmission by E-mail services.
+#0^0^0^0^1 #MFL unshar    - Unpacks shell file archives made by shar.
+#0^0^0^0^1 #MFL uudecode  - Decodes files encoded with uuencode.
+#0^0^0^0^1 #MFL uuencode  - Encodes binary files containing non-ASCII characters.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Encryption2 Applications Menu"
+            DELIMITER="#MFL" #MFL This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFL
+            f_menu_item_process $MFL  # Outputs $MENU_ITEM.
+      done  # End of File Encryption Applications until loop.
+            #
+      unset MFL MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_encryption2
+#
+# +----------------------------------------+
 # |      Function f_menu_app_file_find     |
 # +----------------------------------------+
 #
@@ -710,9 +822,12 @@ f_menu_app_file_find () {
       until [ "$MFF" = "0" ]
       do    # Start of Find File Applications until loop.
 #0^0^0^0^1 #MFF duff         - Duplicate file finder.
+#0^0^0^0^1 #MFF egrep        - Search files for string1 or string2. Same as "grep -E".
 #0^0^0^0^1 #MFF fdupes       - Finds duplicate files uses md5sum and byte comparisons.
+#0^0^0^0^1 #MFF fgrep        - Search files for list of fixed strings. Same as "grep -F".
 #0^0^0^0^1 #MFF file         - Determines file type.
 #1^0^0^0^1 #MFF find         - Find files using pattern matching.
+#0^0^0^0^1 #MFF grep         - Search files for a string.
 #1^0^0^0^1 #MFF locate       - Find files using an internal database, mlocate.
 #0^0^0^0^1 #MFF missidentify - Finds win32 applications.
 #0^0^0^0^1 #MFF rdfind       - Find duplicate files.
@@ -877,11 +992,15 @@ f_menu_app_file_operations () {
       f_initvars_menu_app "MFO"
       until [ "$MFO" = "0" ]
       do    # Start of File Operations Applications until loop.
+#f_menu_app_file_macintosh^0^0^0^1 #MFO Apple     - Apple Macintosh file utilities.
 #f_menu_app_file_backup^0^0^0^1 #MFO Backup    - Backup utilities for files.
 #0^0^0^0^1 #MFO cdargs    - "cd" with bookmarks, can bookmark paths of directories.
+#0^0^0^0^1 #MFO dd        - Copy a file by bytes or blocks.
 #f_menu_app_file_delundel^0^0^0^1 #MFO Del/Undel - Delete/Undelete utilities for disks and files.
 #0^0^0^0^1 #MFO deurlname - Removes URL encoded characters from file names.
 #f_menu_app_file_move-copy^0^0^0^1 #MFO Move-Copy - Rename/Move and copy utilities for files.
+#0^0^0^0^1 #MFO sort      - Sort file by lines in alphabetical order.
+#0^0^0^0^1 #MFO vdir      - List directory equivalent to "ls -l".
 #0^0^0^0^1 #MFO xd        - Smart 'cd' change directory; uses abbreviated directory names.
             #
             THIS_FILE="mod_apps-filedir.lib"
@@ -1032,6 +1151,37 @@ f_menu_app_file_backup () {
             #
       unset MFI MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_file_backup
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_macintosh   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFK, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_macintosh () {
+      f_initvars_menu_app "MFK"
+      until [ "$MFK" = "0" ]
+      do    # Start of Macintosh Applications until loop.
+#0^0^0^0^1 #MFK macunpack - Extract files from Macintosh MacBinary archive.
+#0^0^0^0^1 #MFK hexbin    - Converts files to MacBinary *.bin format.
+#0^0^0^0^1 #MFK macsave   - Reads a sequence of MacBinary archived files and saves them.
+#0^0^0^0^1 #MFK macstream - Converts files to a MacBinary stream written to std. output.
+#0^0^0^0^1 #MFK binhex    - Converts files to BinHex format.
+#0^0^0^0^1 #MFK tomac     - Transmit files to the Macintosh using XMODEM protocol.
+#0^0^0^0^1 #MFK frommac   - Receives files from the Macintosh.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="Macintosh Applications Menu"
+            DELIMITER="#MFK" #MFK This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFK
+            f_menu_item_process $MFK  # Outputs $MENU_ITEM.
+      done  # End of Macintosh Applications until loop.
+            #
+      unset MFK MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_macintosh
 #
 # +----------------------------------------+
 # |    Function f_menu_app_file_move-copy  |
@@ -1288,9 +1438,11 @@ f_menu_app_file_viewers () {
       f_initvars_menu_app "MFV"
       until [ "$MFV" = "0" ]
       do    # Start of File Viewer Applications until loop.
+#0^0^0^0^1 #MFV head - Views the first few lines of a file.
 #1^0^0^0^0 #MFV less - File viewer and bi-directional pager.
 #1^0^0^0^0 #MFV more - File viewer pager.
 #0^0^0^0^1 #MFV most - File viewer and bi-directional pager.
+#0^0^0^0^1 #MFV tail - Views the last few lines of a file.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Viewer Applications Menu"

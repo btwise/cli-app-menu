@@ -5,21 +5,6 @@
 #
 # Usage: sh README
 #
-#: +----------------------------------------+
-#: |    Revision number and Revision Date   |
-#: +----------------------------------------+
-#:
-#: Calculate revision number by counting all lines starting with "## 2013".
-#: grep ^ (carot sign) means grep any lines beginning with "##2013".
-#: grep -c means count the lines that match the pattern.
-#:
-#: REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-# REVDATE="December-17-2013 11:32"
-#:
-#: After each edit made, update the version (date stamp string) of each affected
-#: file along with the EDIT_HISTORY file which contains the project rev date.
-#: Also update the edit history text in the EDIT_HISTORY file.
-#:
 clear
 THIS_FILE="README"
 # sed substitutes null for #: at beginning of each line so it is not printed..
@@ -33,6 +18,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: |            Table of contents           |
 #: +----------------------------------------+
 #:
+#:   Revision number and Revision Date
 #:   Brief Description
 #:   HOW-TO Install this script
 #:   FILE LOCATIONS of cliappmenu project
@@ -45,6 +31,22 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:   For more help
 #:   List of variables
 #:   List of Special Menu Item Markers
+#:
+#:
+#: +----------------------------------------+
+#: |    Revision number and Revision Date   |
+#: +----------------------------------------+
+#:
+# Calculate revision number by counting all lines starting with "## 2013".
+# grep ^ (carot sign) means grep any lines beginning with "##2013".
+# grep -c means count the lines that match the pattern.
+#
+REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
+REVDATE="December-18-2013 00:00"
+#:
+#: After each edit made, update the version (date stamp string) of each affected
+#: file along with the EDIT_HISTORY file which contains the project rev date.
+#: Also update the edit history text in the EDIT_HISTORY file.
 #:
 #:
 #: +----------------------------------------+
@@ -522,6 +524,9 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MFG - File Checksum Applications Menu
 #:MFH - File Move-Copy Applications Menu
 #:MFI - File Backup Applications Menu
+#:MFJ - File Compression3 Applications Menu
+#:MFK - File MacIntosh Utilities Menu
+#:MFL - File Encryption2 Applications Menu
 #:MFM - File Manager Applications Menu
 #:MFO - File Operations Applications Menu
 #:MFS - File Splitter Applications Menu
@@ -589,6 +594,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:MTT - Text Tool Applications Menu
 #:MTV - Text Converter Applications Menu
 #:MTW - Text File Conversion Applications Menu
+#:MTX - Text File Conversion2 Applications Menu
 #:MVE - Video Editor Applications Menu
 #:MVI - Video Player/Downloader Applications Menu
 #:MWB - Web Browser Applications Menu

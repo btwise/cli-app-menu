@@ -23,7 +23,7 @@ THIS_FILE="EDIT_HISTORY"
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="December-17-2013 11:32"
+PROJECT_REVDATE="December-18-2013 00:00"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -52,6 +52,9 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
+## 2013-12-18 *f_update_software, f_wget_file_2 changed the way cliappmenu.sh
+##             back-up is done before updating.
+##            *Added more applications.
 ##
 ## 2013-12-17 *Changed name of main script file: 
 ##             from "cli-app-menu.sh" to "cliappmenu.sh".

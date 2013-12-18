@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-16-2013 21:01"
+# REVDATE="December-18-2013 00:00"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1414,6 +1414,9 @@ f_application_install () {
            barnowl | zcrypt)
            APP_NAME_INSTALL="barnowl"
            ;;
+           binhex | frommac | hexbin | macunpack | macsave | macstream | tomac)
+           APP_NAME_INSTALL="macutils"
+           ;;
            clamscan)
            APP_NAME_INSTALL="clamav"
            ;;
@@ -1770,14 +1773,16 @@ f_wget_file_2 () {
             # Make backup copy of the file.
             # Permission to backup the file?
             if [ -w $MAINMENU_DIR/$MOD_FILE ] ; then  
-               tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+               mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+               # tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                ERROR=$?
             else
                # File either does not exist or is not writable without sudo.
                # Does file exist?
                if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
                   # Need sudo permissions to backup file.
-                  sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+                  sudo mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+                  # sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                   ERROR=$?
                fi
             fi

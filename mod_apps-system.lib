@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-17-2013 11:32"
+# REVDATE="December-18-2013 00:00"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -78,21 +78,21 @@ f_menu_app_sys_disks () {
       f_initvars_menu_app "MSD"
       until [ "$MSD" = "0" ]
       do    # Start of System Disks Information Applications until loop.
-#0^0^0^0^1 #MSD agedu   - Find wasted disk space.
-#0^0^0^0^1 #MSD blkid   - Block devices.
-#0^0^0^1^0 #MSD cfdisk  - Disk partition tool.
-#0^0^0^0^1 #MSD ddir    - Tree-view of disk space utilization.
-#1^0^0^0^1 #MSD df      - Disk usage and mount points, usage: 'df -hT'.
-#0^0^0^0^1 #MSD dfc     - Disk usage and mount points, graphical display.
-#0^0^0^0^1 #MSD di      - 'df'-like disk usage utility.
-#0^0^0^0^1 #MSD discus  - 'df'-like disk usage utility with color, graphs, formatting.
-#1^0^0^0^1 #MSD du      - Disk usage monitor by directory.
-#0^0^0^1^0 #MSD gt5     - A diff-capable du-browser.
-#0^0^0^0^1 #MSD hdparm  - Show/set disk parameters, settings. 
-#0^0^0^0^1 #MSD lsblk   - List block devices (disks).
-#0^0^0^1^0 #MSD ncdu    - Disk usage monitor, ncurses-based.
-#0^0^0^1^0 #MSD parted  - Disk partition tool.
-#1^0^0^0^1 #MSD pydf    - Disk usage df clone written in python.
+#0^0^0^0^1 #MSD agedu     - Find wasted disk space.
+#0^0^0^0^1 #MSD badblocks - Scans disks for bad sectors.
+#0^0^0^0^1 #MSD blkid     - Block devices information.
+#0^0^0^1^0 #MSD cfdisk    - Disk partition tool.
+#0^0^0^0^1 #MSD ddir      - Tree-view of disk space utilization.
+#1^0^0^0^1 #MSD df        - Disk usage and mount points, usage: 'df -hT'.
+#0^0^0^0^1 #MSD dfc       - Disk usage and mount points, graphical display.
+#0^0^0^0^1 #MSD di        - 'df'-like disk usage utility.
+#0^0^0^0^1 #MSD discus    - 'df'-like disk usage utility with color, graphs, formatting.
+#1^0^0^0^1 #MSD du        - Disk usage monitor by directory.
+#0^0^0^0^1 #MSD dumpe2fs  - Displays superblock and block information of a device.
+#0^0^0^0^1 #MSD eject     - Ejects media, CD, DVD, floppy disks, SCSI drives, tape drives.
+#0^0^0^1^0 #MSD gt5       - A diff-capable du-browser.
+#0^0^0^0^1 #MSD hdparm    - Show/set disk parameters, settings. 
+#0^0^0^0^1 #MSD lsblk     - List block devices (disks).
 #f_menu_app_sys_disks2^0^0^0^1 #MSD MORE... - For more system disk information applications.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -119,9 +119,12 @@ f_menu_app_sys_disks2 () {
       f_initvars_menu_app "MSE"
       until [ "$MSE" = "0" ]
       do    # Start of System Disks Information Applications until loop.
-#0^0^0^0^1 #MSE tdu  - Tree-view of disk space utilization; ncurses-based.
-#0^0^0^0^1 #MSE tree - Tree-view of disk space utilization.
-#1^0^0^0^1 #MSE uuid - Use ls -l to show disk uuid number.
+#0^0^0^1^0 #MSE ncdu   - Disk usage monitor, ncurses-based.
+#0^0^0^1^0 #MSE parted - Disk partition tool.
+#1^0^0^0^1 #MSE pydf   - Disk usage df clone written in python.
+#0^0^0^0^1 #MSE tdu    - Tree-view of disk space utilization; ncurses-based.
+#0^0^0^0^1 #MSE tree   - Tree-view of disk space utilization.
+#1^0^0^0^1 #MSE uuid   - Use ls -l to show disk uuid number.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Disks Information2 Menu"

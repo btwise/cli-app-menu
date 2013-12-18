@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26-2013 18:16"
+# REVDATE="December-18-2013 00:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -450,6 +450,7 @@ f_menu_app_pdfps () {
       do    # Start of PDF and PS Applications until loop.
 #0^0^0^0^1 #MPS comparepdf - Compare two PDF files.
 #0^0^0^0^1 #MPS diffpdf    - Compare two PDF files.
+#0^0^0^0^1 #MPS enscript   - Convert text file to Post-Script file.
 #0^0^0^0^1 #MPS fbdjvu     - DjVu viewer similar to fbpdf.
 #0^0^0^0^1 #MPS fbgs       - GhostScript, PostScript, and PDF viewer.
 #0^0^0^0^1 #MPS fbpdf      - Framebuffer PDF viewer based on MuPDF with Vim keybindings.
@@ -462,7 +463,6 @@ f_menu_app_pdfps () {
 #0^0^0^0^1 #MPS pdftops    - Converts PDF to PS (PostScript) format.
 #0^0^0^0^1 #MPS pstotext   - Extract text from PS  (PostScript) and PDF files.
 #0^0^0^0^1 #MPS ps2ascii   - Converts PS (PostScript) to text format.
-#0^0^0^0^1 #MPS ps2pdf     - Converts PS (PostScript) to PDF format.
 #f_menu_app_pdfps2^0^0^0^0 #MPS MORE...    - For more PDF and PS applications.
             #
             THIS_FILE="mod_apps-office.lib"
@@ -489,8 +489,9 @@ f_menu_app_pdfps2 () {
       f_initvars_menu_app "MPT"
       until [ "$MPT" = "0" ]
       do    # Start of PDF and PS #2 Applications until loop.
-#0^0^0^0^1 #MPT sdf  - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
-#0^0^0^0^1 #MPT sdop - Converts a Simplified Docbook XML file to PS (PostScript).
+#0^0^0^0^1 #MPT ps2pdf   - Converts PS (PostScript) to PDF format.
+#0^0^0^0^1 #MPT sdf      - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+#0^0^0^0^1 #MPT sdop     - Converts a Simplified Docbook XML file to PS (PostScript).
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="PDF/PS File2 Applications Menu"
