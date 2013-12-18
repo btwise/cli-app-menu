@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-16 2013 21:01"
+# REVDATE="December-16-2013 21:01"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -15,12 +15,12 @@
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
-      # If displaying any menus existing in cli-app-menu.sh
+      # If displaying any menus existing in cliappmenu.sh
       # i.e. Main Menu, Download Menu, Configuration Menu, Terminal Colors Menu.
-      # then this if statement allows for cli-app-menu.sh to be in a different
+      # then this if statement allows for cliappmenu.sh to be in a different
       # directory from all other files.
-      # i.e. /home/<username>/cli-app-menu.sh
-      #      /home/<username>/bin/cli-app-menu/<All other module library files>.
+      # i.e. /home/<username>/cliappmenu.sh
+      #      /home/<username>/bin/$THIS_DIR/<All other module library files>.
       if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
          XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
@@ -1723,8 +1723,8 @@ f_wget_file_2 () {
       . lib_cli-common.lib # Invoke the common library.
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
       if [ "$BRANCH" != "SKIP" ] ; then
-         if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
-            # Delete any old files except if file is "cli-app-menu.sh".
+         if [ "$MOD_FILE" != "cliappmenu.sh" ] ; then
+            # Delete any old files except if file is "cliappmenu.sh".
             # Permission to delete file?
             if [ -w $THIS_DIR/$MOD_FILE ] ; then
                rm $THIS_DIR/$MOD_FILE # Delete old file.
@@ -1764,7 +1764,7 @@ f_wget_file_2 () {
                echo
             fi
          else
-            # File is "cli-app-menu.sh" so make a back-up copy,
+            # File is "cliappmenu.sh" so make a back-up copy,
             #  delete old file, and then download the new version.
             #
             # Make backup copy of the file.
@@ -1789,7 +1789,7 @@ f_wget_file_2 () {
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
             fi
-            # Delete cli-app-menu.sh after making back-up copy.
+            # Delete cliappmenu.sh after making back-up copy.
             # Was file back-up successful and have permission to delete the original file?
             if [ -w $MAINMENU_DIR/$MOD_FILE ] && [ -w $MAINMENU_DIR/$MOD_FILE.tar.gz ] ; then
                rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
@@ -1810,7 +1810,7 @@ f_wget_file_2 () {
                echo -n "Error deleting older file, \"$MOD_FILE\"."
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             fi
-            # Download cli-app-menu.sh.
+            # Download cliappmenu.sh.
             # Permission to download file?
             if [ -w $THIS_DIR/$MOD_FILE ] ; then  
                wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE

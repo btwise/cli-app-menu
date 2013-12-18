@@ -14,7 +14,7 @@
 #: grep -c means count the lines that match the pattern.
 #:
 #: REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-# REVDATE="December-13 2013 23:59"
+# REVDATE="December-17-2013 11:32"
 #:
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
@@ -35,7 +35,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #:   Brief Description
 #:   HOW-TO Install this script
-#:   FILE LOCATIONS of cli-app-menu project
+#:   FILE LOCATIONS of cliappmenu project
 #:   Why did I write this script?
 #:   Why is this menu so complex?
 #:   Script features
@@ -51,7 +51,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: |            Brief Description           |
 #: +----------------------------------------+
 #:
-#: Script cli-app-menu.sh is a menu of CLI applications and commands
+#: Script cliappmenu.sh is a menu of CLI applications and commands
 #: to help CLI newbies to discover what a command line can do.
 #:
 #: The typical user is anyone who wants to learn about what types of
@@ -60,11 +60,11 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: Admittedly, the some of the files for this script are big 50-100 KB,
 #: and this script has not been tested on PCs slower than 1 GHz.
 #:
-#: Start by downloading the file "cli-app-menu.sh" and follow the instructions
+#: Start by downloading the file "cliappmenu.sh" and follow the instructions
 #: to install the application.
 #:
 #: You can either download all the script project files at once, or
-#: just download the file "cli-app-menu" and use the script to interactively
+#: just download the file "cliappmenu.sh" and use the script to interactively
 #: download just the features you wish to use.
 #:
 #:
@@ -72,10 +72,10 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: |       HOW-TO Install this script       |
 #: +----------------------------------------+
 #:
-#: The simplest method to install is to download the file "cli-app-menu.sh"
+#: The simplest method to install is to download the file "cliappmenu.sh"
 #: to the directory of your choice. This is the main script file.
 #:
-#: Run the script by typing "bash cli-app-menu.sh".
+#: Run the script by typing "bash cliappmenu.sh".
 #: 
 #: When running the script for the first time, the mini-installer will
 #: automatically download any required library files.
@@ -86,24 +86,24 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: decide which library module files you wish to discard.
 #:
 #: +----------------------------------------+
-#: | FILE LOCATIONS of cli-app-menu project |
+#: | FILE LOCATIONS of cliappmenu project |
 #: +----------------------------------------+
 #:
-#: The main script, cli-app-menu.sh may be located in a different directory
+#: The main script, cliappmenu.sh may be located in a different directory
 #: from the rest of the files, if you wish. Or you can put all files in the
 #: same folder/directory.
 #:
 #: Common locations: User's home directory /home/<username>, /usr/local/bin,
 #:                   /opt directories.
 #:
-#: Specify the folder/directory where the script cli-app-menu.sh file
+#: Specify the folder/directory where the script cliappmenu.sh file
 #: resides by setting $MAINMENU_DIR variable within function
-#: f_initvars_menu_app in the script file, cli-app-menu.sh.
+#: f_initvars_menu_app in the script file, cliappmenu.sh.
 #: _______________________________
 #:
 #: You may have all the script's files in a single directory or have the
 #: library files and support files in their own separate directory from
-#: the "cli-app-menu.sh" script file.
+#: the "cliappmenu.sh" script file.
 #:
 #: If you want to use the optional suggested default directory:
 #: /<MAINMENU_DIR>/cli-app-menu
@@ -112,10 +112,10 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:
 #: Specify the folder/directory where the library and module library files
 #: reside by setting $THIS_DIR variable within function f_initvars_menu_app
-#: in the script file, cli-app-menu.sh.
+#: in the script file, cliappmenu.sh.
 #: _______________________________
 #:
-#: The configuration file: .cli-app-menu.cfg 
+#: The configuration file: .cliappmenu.cfg 
 #: is a hidden file which resides in the user's home directory.
 #: _______________________________
 #:
@@ -126,7 +126,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #:                   PATH=$PATH:~/bin/cli-app-menu
 #:                   export PATH
 #:
-#: When cli-app-menu.sh is run i.e. "bash cli-app-menu.sh",
+#: When cliappmenu.sh is run i.e. "bash cliappmenu.sh",
 #: then you can download selected module files, "mod_apps-*.lib."
 #: The module files contain sub-menus of various applications.
 #: A list of applications is in LIST_APPS.
@@ -371,7 +371,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: +----------------------------------------+
 #:
 #: 1. All associated files for this script must be in the same folder,
-#:    except for cli-app-menu.sh which may be in a separate folder. 
+#:    except for cliappmenu.sh which may be in a separate folder. 
 #:
 #: 2. f_choice_array needs all menu items to have 1 or 2 unique words in a name
 #:    within the same menu.
@@ -440,7 +440,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 #: FCOLOR        - String; Font color of display terminal.
 #: INSTALL_ANS   - String; YES/NO Does user want to install app?
 #:                 Passed from f_application_error to f_application_run.
-#: MAINMENU_DIR  - Directory containing cli-app-menu.sh.
+#: MAINMENU_DIR  - Directory containing cliappmenu.sh.
 #: MAX           - Number; Maximum option choice number in menu.
 #: MENU_ITEM     - String; User choice, f_menu_item_process (alpha-numeric).
 #:                 ' 0' means quit menu.
