@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-18-2013 00:00"
+# REVDATE="December-18-2013 23:56"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -995,13 +995,14 @@ f_menu_app_file_operations () {
 #f_menu_app_file_macintosh^0^0^0^1 #MFO Apple     - Apple Macintosh file utilities.
 #f_menu_app_file_backup^0^0^0^1 #MFO Backup    - Backup utilities for files.
 #0^0^0^0^1 #MFO cdargs    - "cd" with bookmarks, can bookmark paths of directories.
+#0^0^0^0^1 #MFO cdd       - "cd" navigate with vi key-bindings h, j, k, l, k, q keys.
 #0^0^0^0^1 #MFO dd        - Copy a file by bytes or blocks.
 #f_menu_app_file_delundel^0^0^0^1 #MFO Del/Undel - Delete/Undelete utilities for disks and files.
 #0^0^0^0^1 #MFO deurlname - Removes URL encoded characters from file names.
 #f_menu_app_file_move-copy^0^0^0^1 #MFO Move-Copy - Rename/Move and copy utilities for files.
 #0^0^0^0^1 #MFO sort      - Sort file by lines in alphabetical order.
 #0^0^0^0^1 #MFO vdir      - List directory equivalent to "ls -l".
-#0^0^0^0^1 #MFO xd        - Smart 'cd' change directory; uses abbreviated directory names.
+#0^0^0^0^1 #MFO xd        - Smart "cd" change directory; uses abbreviated directory names.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Operations Applications Menu"

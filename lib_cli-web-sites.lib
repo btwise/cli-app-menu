@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="December-18-2013 23:56"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -39,6 +39,9 @@ f_application_web_install () {
            ;;
            cclock)
            WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
+           ;;
+           cdd)
+           WEB_SITE_INSTALL="https://github.com/jestor/cdd"
            ;;
            charm)
            WEB_SITE_INSTALL="http://ljcharm.sourceforge.net/t_why.shtml"

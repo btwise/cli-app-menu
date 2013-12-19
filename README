@@ -42,7 +42,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="December-18-2013 00:00"
+REVDATE="December-18-2013 23:56"
 #:
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
