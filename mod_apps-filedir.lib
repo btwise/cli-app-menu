@@ -17,20 +17,20 @@ f_menu_cat_file_management () {
       f_initvars_menu_app "BFM"
       until [ "$BFM" = "0" ]
       do    # Start of File Management Application Category until loop.
-#f_menu_app_binhex_editors #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
-#f_menu_app_file_burn #BFM CD/DVD Burn - Write files to CD/DVD.
-#f_menu_app_file_checksum #BFM Checksum    - Display/Create file checksums to verify file integrity.
-#f_menu_app_text_compare #BFM Compare     - Show differences between text files.
-#f_menu_app_file_compression #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
-#f_menu_app_file_conversion #BFM Convert     - Convert between different file formats.
+#f_menu_app_binhex_editors    #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
+#f_menu_app_file_burn         #BFM CD/DVD Burn - Write files to CD/DVD.
+#f_menu_app_file_checksum     #BFM Checksum    - Display/Create file checksums to verify file integrity.
+#f_menu_app_text_compare      #BFM Compare     - Show differences between text files.
+#f_menu_app_file_compression  #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
+#f_menu_app_file_conversion   #BFM Convert     - Convert between different file formats.
 #f_menu_app_text_file_editors #BFM Edit        - Create/Edit text files.
-#f_menu_app_file_encryption #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
-#f_menu_app_file_find #BFM Find        - File search.
-#f_menu_app_file_transfer #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
-#f_menu_app_file_managers #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
-#f_menu_app_file_operations #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
-#f_menu_app_file_splitters #BFM Splitters   - File splitters.
-#f_menu_app_file_viewers #BFM Viewers     - View files a page at a time.
+#f_menu_app_file_encryption   #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
+#f_menu_app_file_find         #BFM Find        - File search.
+#f_menu_app_file_transfer     #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
+#f_menu_app_file_managers     #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
+#f_menu_app_file_operations   #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
+#f_menu_app_file_splitters    #BFM Splitters   - File splitters.
+#f_menu_app_file_viewers      #BFM Viewers     - View files a page at a time.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Management Application Category Menu"
@@ -451,7 +451,7 @@ f_menu_app_file_compression3 () {
       f_initvars_menu_app "MFJ"
       until [ "$MFJ" = "0" ]
       do    # Start of Backup Applications until loop.
-#0^0^0^0^1 #MFJ xz         - File compress xz files.
+#0^0^0^0^1 #MFJ xz       - File compress xz files.
 #0^0^0^0^1 #MFJ xzcat    - File cat xz files.
 #0^0^0^0^1 #MFJ xzgrep   - File grep xz files.
 #0^0^0^0^1 #MFJ zcat     - Displays gzip files.
@@ -489,22 +489,22 @@ f_menu_app_file_conversion () {
       f_initvars_menu_app "MTW"
       until [ "$MTW" = "0" ]
       do    # Start of File Format Conversion Applications until loop.
-#0^0^0^0^0 #MTW abcm2ps     - Converts ABC music source files to PS sheet music format.
-#0^0^0^0^1 #MTW dehtml      - Strips HTML code from text.
-#0^0^0^0^1 #MTW ebook2cw    - Converts plain text ebooks to  morse code mp3/ogg audio files.
-#0^0^0^0^1 #MTW enscript    - Convert text file to Post-Script file.
-#0^0^0^0^1 #MTW html2txt    - Strips HTML code from text.
-#0^0^0^0^1 #MTW pdftops     - Converts PDF to PS (PostScript) format.
-#0^0^0^0^1 #MTW ps2ascii    - Converts PS (PostScript) to text format.
-#0^0^0^0^1 #MTW ps2pdf      - Converts PS (PostScript) to PDF format.
-#1^0^0^0^1 #MTW txt2html    - Converts plain ASCII text to HTML format.
-#1^0^0^0^1 #MTW txt2man     - Converts plain ASCII text to man format.
-#1^0^0^0^1 #MTW txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
-#1^0^0^0^1 #MTW txt2regex   - Converts human sentences to regex. Regular Expression Wizard.
-#1^0^0^0^1 #MTW txt2tags    - Converts plain ASCII text to a variety of formats.
-#0^0^0^0^1 #MTW unoconv     - Converts any document that LibreOffice imports or exports.
-#0^0^0^0^1 #MTW unrtf       - Converts RTF to HTML, LaTeX, txt, PS.
-#f_menu_app_file_conversion2^0^0^0^1 #MTW MORE...     - More file format conversion applications.
+#0^0^0^0^0 #MTW abcm2ps    - Converts ABC music source files to PS sheet music format.
+#0^0^0^0^1 #MTW dehtml     - Strips HTML code from text.
+#0^0^0^0^1 #MTW ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
+#0^0^0^0^1 #MTW enscript   - Convert text file to Post-Script file.
+#0^0^0^0^1 #MTW html2txt   - Strips HTML code from text.
+#0^0^0^0^1 #MTW pdftops    - Converts PDF to PS (PostScript) format.
+#0^0^0^0^1 #MTW ps2ascii   - Converts PS (PostScript) to text format.
+#0^0^0^0^1 #MTW ps2pdf     - Converts PS (PostScript) to PDF format.
+#1^0^0^0^1 #MTW txt2html   - Converts plain ASCII text to HTML format.
+#1^0^0^0^1 #MTW txt2man    - Converts plain ASCII text to man format.
+#1^0^0^0^1 #MTW txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
+#1^0^0^0^1 #MTW txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+#1^0^0^0^1 #MTW txt2tags   - Converts plain ASCII text to a variety of formats.
+#0^0^0^0^1 #MTW unoconv    - Converts any document that LibreOffice imports or exports.
+#0^0^0^0^1 #MTW unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
+#f_menu_app_file_conversion2^0^0^0^1            #MTW MORE...    - More file format conversion applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Format Conversion Applications Menu"
@@ -676,16 +676,16 @@ f_menu_app_text_file_editors () {
       f_initvars_menu_app "MTH"
       until [ "$MTH" = "0" ]
       do    # Start of Text Editor Applications until loop.
-#0^0^0^0^1 #MTH aee   - Advanced Easy Editor.
+#0^0^0^0^1  #MTH aee   - Advanced Easy Editor.
 #0^0^0^15^0 #MTH dav   - Text editor.
-#0^0^0^0^1 #MTH ed    - Classic CLI text editor.
-#0^0^0^0^0 #MTH emacs - Full screen text editor with plugins.
-#1^0^0^0^0 #MTH jed   - JED text editor.
+#0^0^0^0^1  #MTH ed    - Classic CLI text editor.
+#0^0^0^0^0  #MTH emacs - Full screen text editor with plugins.
+#1^0^0^0^0  #MTH jed   - JED text editor.
 #1^0^0^11^0 #MTH joe   - Text editor. <Ctrl>-K H for help.
-#0^0^0^0^0 #MTH nano  - Simple full-screen text editor.
-#0^0^0^0^0 #MTH pico  - Simple full-screen text editor.
-#0^0^0^0^0 #MTH pyp   - "Pyed Piper" awk-sed-like features using Python-based sub-commands.
-#0^0^0^0^0 #MTH rrep  - Replace text in files.
+#0^0^0^0^0  #MTH nano  - Simple full-screen text editor.
+#0^0^0^0^0  #MTH pico  - Simple full-screen text editor.
+#0^0^0^0^0  #MTH pyp   - "Pyed Piper" awk-sed-like features using Python-based sub-commands.
+#0^0^0^0^0  #MTH rrep  - Replace text in files.
 #0^0^0^14^0 #MTH vi    - Classic full-screen text editor.
 #0^0^0^14^0 #MTH vim   - vi "Improved" text editor.
 #0^0^0^12^0 #MTH zile  - Very small Emacs-subset editor.
@@ -952,20 +952,20 @@ f_menu_app_file_managers () {
       until [ "$MFM" = "0" ]
       do    # Start of File Manager Applications until loop.
 #0^0^0^17^1 #MFM clex     - File manager.
-#0^0^0^0^1 #MFM detox    - File name clean up.
-#0^0^0^0^1 #MFM dired    - File manager for Emacs.
-#0^0^0^0^1 #MFM exiftool - Display jpeg file properties in ls-like format.
-#0^0^0^0^1 #MFM findmnt  - Find a filesystem.
-#0^0^0^0^1 #MFM fd       - File and directory management tool.
-#0^0^0^0^1 #MFM jhead    - Display jpeg file properties.
-#0^0^0^0^0 #MFM lfm      - "Last File Manager", "Midnight Commander"-like.
-#0^0^0^0^0 #MFM mc       - File Manager, "Midnight Commander".
-#0^0^0^0^0 #MFM ncdt     - Display directory tree with tree summary, MP3 file information.
-#0^0^0^0^0 #MFM pilot    - Simple file browser from Aline.
-#0^0^0^1^0 #MFM ranger   - File manager.
-#0^0^0^0^1 #MFM smbc     - Samba file manager for folder shares with Microsoft Windows.
-#0^0^0^0^1 #MFM tree     - Display directory tree.
-#0^0^0^0^0 #MFM vfu      - File manager, ncurses-based.
+#0^0^0^0^1  #MFM detox    - File name clean up.
+#0^0^0^0^1  #MFM dired    - File manager for Emacs.
+#0^0^0^0^1  #MFM exiftool - Display jpeg file properties in ls-like format.
+#0^0^0^0^1  #MFM findmnt  - Find a filesystem.
+#0^0^0^0^1  #MFM fd       - File and directory management tool.
+#0^0^0^0^1  #MFM jhead    - Display jpeg file properties.
+#0^0^0^0^0  #MFM lfm      - "Last File Manager", "Midnight Commander"-like.
+#0^0^0^0^0  #MFM mc       - File Manager, "Midnight Commander".
+#0^0^0^0^0  #MFM ncdt     - Display directory tree with tree summary, MP3 file information.
+#0^0^0^0^0  #MFM pilot    - Simple file browser from Aline.
+#0^0^0^1^0  #MFM ranger   - File manager.
+#0^0^0^0^1  #MFM smbc     - Samba file manager for folder shares with Microsoft Windows.
+#0^0^0^0^1  #MFM tree     - Display directory tree.
+#0^0^0^0^0  #MFM vfu      - File manager, ncurses-based.
 #0^0^0^14^0 #MFM vifm     - File manager with vi-like commands.
             #
             THIS_FILE="mod_apps-filedir.lib"

@@ -17,9 +17,9 @@ f_menu_app_screen_tools () {
       f_initvars_menu_app "MST"
       until [ "$MST" = "0" ]
       do    # Start of System Other until loop.
-#0^0^0^0^1 #MST fbgrab    - Framebuffer screenshot tool.
-#0^0^0^0^1 #MST script    - Records terminal input/output (keystrokes).
-#0^0^0^0^1 #MST scrot     - Framebuffer screenshot tool.
+#0^0^0^0^1  #MST fbgrab    - Framebuffer screenshot tool.
+#0^0^0^0^1  #MST script    - Records terminal input/output (keystrokes).
+#0^0^0^0^1  #MST scrot     - Framebuffer screenshot tool.
 #1^0^0^19^1 #MST ttyplay   - Playback "ttyrec" recording of terminal actions.
 #1^0^0^20^0 #MST ttyrec    - Records terminal input/output and also timing-information.
             #

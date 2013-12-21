@@ -17,7 +17,7 @@ f_menu_cat_image () {
       f_initvars_menu_app "BIG"
       until [ "$BIG" = "0" ]
       do    # Start of Image Application Category until loop.
-#f_menu_app_imagemagick #BIG ImageMagick - Tools to manipulate images.
+#f_menu_app_imagemagick    #BIG ImageMagick - Tools to manipulate images.
 #f_menu_app_image_graphics #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
             #
             THIS_FILE="mod_apps-image.lib"

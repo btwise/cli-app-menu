@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-18-2013 23:56"
+# REVDATE="December-19-2013 22:00"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -17,14 +17,14 @@ f_menu_cat_system () {
       f_initvars_menu_app "BSY"
       until [ "$BSY" = "0" ]
       do    # Start of System Application Category until loop.
-#f_menu_app_sys_backup #BSY Backup      - File Backup.
-#f_menu_app_sys_disks #BSY Disks       - Disk information.
-#f_menu_app_sys_health #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
-#f_menu_app_sys_logs #BSY Logs        - Log file viewers, command line history.
-#f_menu_app_sys_mainboard #BSY Mainboard   - Information on PC mainboard, memory, etc.
-#f_menu_app_sys_monitors #BSY Monitors    - Resources, and disk I/O monitors.
+#f_menu_app_sys_backup      #BSY Backup      - File Backup.
+#f_menu_app_sys_disks       #BSY Disks       - Disk information.
+#f_menu_app_sys_health      #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
+#f_menu_app_sys_logs        #BSY Logs        - Log file viewers, command line history.
+#f_menu_app_sys_mainboard   #BSY Mainboard   - Information on PC mainboard, memory, etc.
+#f_menu_app_sys_monitors    #BSY Monitors    - Resources, and disk I/O monitors.
 #f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
-#f_menu_app_sys_process #BSY Process     - System process monitoring, killing.
+#f_menu_app_sys_process     #BSY Process     - System process monitoring, killing.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Category Menu"
@@ -535,10 +535,10 @@ f_hdparm () {
 } # End of f_hdparm
 #
 # +----------------------------------------+
-# |          Function f_lsbrelease         |
+# |          Function f_lsb_release        |
 # +----------------------------------------+
 #
-f_lsbrelease () {
+f_lsb_release () {
 
       if [[ ! "$APP_NAME" == *" "* ]] ; then
          clear # Blank the screen.
@@ -561,7 +561,7 @@ f_lsbrelease () {
          APP_NAME="lsb_release -a"
          f_press_enter_key_to_continue
       fi
-} # End of f_lsbrelease
+} # End of f_lsb_release
 #
 # +----------------------------------------+
 # |             Function f_lshw            |

@@ -17,20 +17,20 @@ f_menu_cat_internet () {
       f_initvars_menu_app "BIN"
       until [ "$BIN" = "0" ]
       do    # Start of Internet Application Category until loop.
-#f_menu_app_bittorrent #BIN Bittorrent        - File transfer.
-#f_menu_app_bloggers #BIN Blogging Clients  - Blog clients.
-#f_menu_app_downloaders #BIN Downloaders       - Download files, videos. and calculate file checksums.
-#f_menu_app_email #BIN Email             - Email clients.
-#f_menu_app_fax #BIN FAX               - FAX clients.
-#f_menu_app_file_transfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
+#f_menu_app_bittorrent        #BIN Bittorrent        - File transfer.
+#f_menu_app_bloggers          #BIN Blogging Clients  - Blog clients.
+#f_menu_app_downloaders       #BIN Downloaders       - Download files, videos. and calculate file checksums.
+#f_menu_app_email             #BIN Email             - Email clients.
+#f_menu_app_fax               #BIN FAX               - FAX clients.
+#f_menu_app_file_transfer     #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
 #f_menu_app_instant_messaging #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
-#f_menu_app_irc_clients #BIN IRC Clients       - Internet Relay Chat clients.
-#f_menu_app_lan_chat #BIN LAN Chat          - Local Area Network Chat (not IRC).
-#f_menu_app_news_readers #BIN News Readers      - Read USEnet news.
-#f_menu_app_podcatchers #BIN Podcatcher        - Podcaster readers.
+#f_menu_app_irc_clients       #BIN IRC Clients       - Internet Relay Chat clients.
+#f_menu_app_lan_chat          #BIN LAN Chat          - Local Area Network Chat (not IRC).
+#f_menu_app_news_readers      #BIN News Readers      - Read USEnet news.
+#f_menu_app_podcatchers       #BIN Podcatcher        - Podcaster readers.
 #f_menu_app_remote_connection #BIN Remote Connection - Connect to other PCs remotely, cloud services.
-#f_menu_app_rssfeeders #BIN RSS Feeders       - RSS news, messages.
-#f_menu_app_web_browsers #BIN Web Browsers      - Internet web  browsers.
+#f_menu_app_rssfeeders        #BIN RSS Feeders       - RSS news, messages.
+#f_menu_app_web_browsers      #BIN Web Browsers      - Internet web  browsers.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="Internet Category Menu"
@@ -598,13 +598,13 @@ f_menu_app_web_browsers () {
       until [ "$MWB" = "0" ]
       do    # Start of Web Browsers Applications until loop.
 #f_web_site^0^0^1^0 #MWB elinks     - Web browser, tables, frames, forms support, tabbed browsing.
-#0^0^0^1^0 #MWB fbcmd      - Facebook client.
+#0^0^0^1^0          #MWB fbcmd      - Facebook client.
 #f_web_site^0^0^1^0 #MWB links      - Web browser, no graphics mode.
 #f_web_site^0^0^1^0 #MWB links2     - Web browser, has graphics mode.
 #f_web_site^0^0^1^0 #MWB lynx       - Web browser, NLS support.
-#0^0^0^1^0 #MWB pastebinit - Send text to web site "pastebin" for public viewing. 
+#0^0^0^1^0          #MWB pastebinit - Send text to web site "pastebin" for public viewing. 
 #f_web_site^0^0^1^0 #MWB retawq     - Web browser, multi-threaded.
-#0^0^0^0^0 #MWB surfraw    - Search the web using a web search site.
+#0^0^0^0^0          #MWB surfraw    - Search the web using a web search site.
 #f_web_site^0^0^1^0 #MWB w3m        - Web browser, tables, frames support, IPv6 support.
             #
             THIS_FILE="mod_apps-internet.lib"
