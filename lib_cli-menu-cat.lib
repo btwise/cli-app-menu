@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="December-21-2013 11:29"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -53,7 +53,7 @@ f_menu_module_display () {
             #mod_apps-databases.lib    #AAB Databases    - General and specialized databases.
             #mod_apps-development.lib  #AAB Development  - Tools to test code and track/report bugs.
             #mod_apps-education.lib    #AAB Education    - Learn something.
-            #mod_apps-environment.lib  #AAB Environment  - Command Line shell; DOS and Nintendo emulators.
+            #mod_apps-environment.lib  #AAB Environment  - Command Line shell and GUI, DOS and Nintendo emulators.
             #mod_apps-filedir.lib      #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
             #mod_apps-games.lib        #AAB Games        - Fun time! Games, movies, and screen-savers.
             #mod_apps-image.lib        #AAB Image        - View images and graphics files.

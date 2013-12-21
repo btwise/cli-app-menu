@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-18 2013 00:00"
+REVDATE="December-18-2013 23:56"
 #
 # +----------------------------------------+
 # |            Brief Description           |

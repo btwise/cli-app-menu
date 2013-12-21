@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="December-21-2013 11:29"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_environment     |
@@ -17,9 +17,10 @@ f_menu_app_environment () {
       f_initvars_menu_app "MEN"
       until [ "$MEN" = "0" ]
       do    # Start of Environment until loop.
-#0^0^0^0^1 #MEN desmume - Nintendo DS emulator.
-#0^0^0^0^1 #MEN dosemu  - DOS emulator.
-#0^0^0^0^1 #MEN fish    - Fish is a shell for interactive use, easy to use.
+#0^0^0^0^1 #MEN desmume  - Nintendo DS emulator.
+#0^0^0^0^1 #MEN dosemu   - DOS emulator.
+#0^0^0^0^1 #MEN fish     - Fish is a shell for interactive use, easy to use.
+#0^0^0^0^0 #MEN whiptail - Command line terminal GUI
             #
             THIS_FILE="mod_apps-environment.lib"
             MENU_TITLE="Environment Applications Menu"

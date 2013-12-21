@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="December-21-2013 11:29"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_tools    |
@@ -17,11 +17,15 @@ f_menu_app_screen_tools () {
       f_initvars_menu_app "MST"
       until [ "$MST" = "0" ]
       do    # Start of System Other until loop.
-#0^0^0^0^1  #MST fbgrab    - Framebuffer screenshot tool.
-#0^0^0^0^1  #MST script    - Records terminal input/output (keystrokes).
-#0^0^0^0^1  #MST scrot     - Framebuffer screenshot tool.
-#1^0^0^19^1 #MST ttyplay   - Playback "ttyrec" recording of terminal actions.
-#1^0^0^20^0 #MST ttyrec    - Records terminal input/output and also timing-information.
+#0^0^0^0^1  #MST archey      - Distro logo with PC and linux kernel information.
+#0^0^0^0^1  #MST fbgrab      - Framebuffer screenshot tool.
+#1^0^0^0^1  #MST linuxlogo   - Distro logo with PC and linux kernel information.
+#0^0^0^0^1  #MST screenfetch - Distro logo with PC and linux kernel information.
+#0^0^0^0^1  #MST script      - Records terminal input/output (keystrokes).
+#0^0^0^0^1  #MST scrot       - Framebuffer screenshot tool.
+#1^0^0^19^1 #MST ttyplay     - Playback "ttyrec" recording of terminal actions.
+#1^0^0^20^0 #MST ttyrec      - Records terminal input/output and also timing-information.
+#0^0^0^0^1  #MST welcome21   - Distro logo (ANSI) with PC and linux kernel information.
             #
             THIS_FILE="mod_apps-screen-tools.lib"
             MENU_TITLE="Screen Tools Applications Menu"
@@ -34,6 +38,25 @@ f_menu_app_screen_tools () {
             #
       unset MST MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_screen_tools
+#
+# +----------------------------------------+
+# |          Function f_linuxlogo          |
+# +----------------------------------------+
+#
+f_linuxlogo () { 
+      ANS=-1 # Initialize $ANS for until loop.
+      until [ "$ANS" -ge 1 -a "$ANS" -le 26 ]
+      do
+            clear # Blank the screen.
+            APP_NAME="linuxlogo -L list"
+            f_application_run
+            echo -n "Enter number (1-26): "
+            read ANS
+            done
+            #
+            APP_NAME="linuxlogo -L "$ANS
+            unset ans
+}  #End of function f_linuxlogo
 #
 # +----------------------------------------+
 # |            Function f_ttyplay          |
