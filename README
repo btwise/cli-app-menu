@@ -5,11 +5,39 @@
 #
 # Usage: sh README
 #
-clear
+# +----------------------------------------+
+# |         Function f_script_path         |
+# +----------------------------------------+
+#
+#  Inputs: $BASH_SOURCE (System variable)
+#    Uses: None
+# Outputs: SCRIPT_PATH
+#
+f_script_path () {
+# BASH_SOURCE[0] gives the filename of the script.
+# dirname "{$BASH_SOURCE[0]}" gives the directory of the script
+# Execute commands: cd <script directory> and then pwd
+# to get the directory of the script.
+# NOTE: This code does not work with symlinks in directory path.
+#
+SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+} # End of function f_script_path
+#
+# **************************************
+# ***     Start of Main Program      ***
+# **************************************
+#
+SCRIPT_PATH="~" #Initialize path.
+#
 THIS_FILE="README"
-# sed substitutes null for #: at beginning of each line so it is not printed..
+#
+# Set SCRIPT_PATH to directory path of script.
+f_script_path
+#
+clear
+# sed substitutes null for #: at beginning of each line so it is not printed.
 # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_FILE
+sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 #
 # The "#:" at the beginning of lines below are used 
 # to delineate the Help Instructions.
@@ -42,7 +70,7 @@ sed -n 's/^#://'p $THIS_FILE | less -P %f'  page '%dB' of '%D'  (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="December-18-2013 23:56"
+REVDATE="December-22-2013 12:37"
 #:
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
@@ -246,62 +274,72 @@ REVDATE="December-18-2013 23:56"
 #:    #1^0^0^0^1 #MXX appname2  - Description Application2 name.
 #:    #0^1^0^3:NC^0 #MXX appname3  - Description Application3 name.
 #:
-#:    appname1 - Has no custom functions to run before running application, appname1.
-#:    appname2 - Has a custom function f_appname2 to run before running application, appname2.
-#:               Will display a "Press 'Enter' key to continue." message after running appname2.
-#:    appname3 - Custom install function, f_install_appname3 will run before running appname3.
-#:               Custom install functions run if the distro's software package manager fails to
-#:               install the application if it is missing. Usually the custom install function
-#:               will download, compile source code from the software maintainer's web site.
+#:    appname1 - Has no custom functions before running application, appname1.
+#:    appname2 - Has a custom function f_appname2 to run before running
+#:               application, appname2.
+#:               Will display a "Press 'Enter' key to continue." message after
+#:               running appname2.
+#:    appname3 - Custom install function, f_install_appname3 will run before
+#:               running appname3.
+#:               Custom install functions run if the distro's software package
+#:               manager fails to install the application if it is missing.
+#:               Usually the custom install function will download, compile
+#:               source code from the software maintainer's web site.
 #:
-#:               A Quit-Code "3:NC" means display message below without clearing screen:
+#:               A Quit-Code "3:NC" means display message below
+#:               without clearing screen:
+#:
 #:                                To quit "appname3", type "Q" or <F10>
 #:
 #:    f) Format of Menu: 
 #: <Menu item options> <SPACE> <Special menu item marker> <SPACE> 
 #: <Application name> <SPACE> - <SPACE> <Description>.
 #:
-# Format of menu item options:
-# "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
-#   field-1  field-2  field-3  field-4   field-5   Marker 
-#
-# field 1    *if 1 then function name is f_<MENU_ITEM_NAME>.
-# 1/0/string *if <string> then function name is <string>.
-#            *if 0 then ignored. No function is run.
-#
-# field 2    *if 1 then function name is f_install_<MENU_ITEM_NAME>.
-# 1/0/string  A function to install an application may be specified here.
-#            *if <string> then function name is <string>.
-#            *if 0 then ignored. No function is run.
-#
-#             This custom installation function is called only after the distro's software
-#             package manager has failed to install the application usually because the
-#             application is not pre-packaged for the linux distro (distribution).
-#             See f_application_install for more details.
-#
-#             If install fails, then this custom install function will be run which can be
-#             made to download the source code from the application maintainer's web site
-#             and then compile and install the application.
-#
-# field 3    *if <string> then function name is <string>.
-# 0/string   *if 0 then ignored. No function is run.
-#             This function is run after displaying the Quit-Code the on screen.
-#
-# field 4    *Quit-Code. See f_quit_app_clause for more details.
-# string
-#
-# field 5    *Sets PRESS_KEY=0/1 to display "Press 'Enter' key to continue".
-# 1/0         See f_press_key for more details. This allows the user to see any messages displayed
-#             by the application after it has been run. Without PRESS_KEY=1, the screen is cleared
-#             for the menu to display and the user would miss any messages.
-#
-#             This setting may be overridden by any custom functions which follow.
-#             It is useful if the custom function displays a help message or man synopsis
-#             so you don't have to worry about coding for PRESS_KEY within that custom function.
-#
-#             This can be used to initialize PRESS_KEY as it is set before any custom functions
-#             in fields 1, 2, or 3 are run.
-##:    g) Update the file LIST_APPS by selecting "Configure" THEN "LIST_APPS"
+#: Format of menu item options:
+#: "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description."
+#:   field-1  field-2  field-3  field-4   field-5   Marker 
+#:
+#: field 1    *if 1 then function name is f_<MENU_ITEM_NAME>.
+#: 1/0/string *if <string> then function name is <string>.
+#:            *if 0 then ignored. No function is run.
+#:
+#: field 2    *if 1 then function name is f_install_<MENU_ITEM_NAME>.
+#: 1/0/string  A function to install an application may be specified here.
+#:            *if <string> then function name is <string>.
+#:            *if 0 then ignored. No function is run.
+#:
+#:             This custom installation function is called only after the
+#:             distro's software package manager has failed to install the
+#:             application usually because the application is not pre-packaged
+#:             for the linux distro (distribution).
+#:             See f_application_install for more details.
+#:
+#:             If install fails, then this custom install function will be run
+#:             for made to download the source code from the application
+#:             maintainer's web site, compile, and install the application.
+#:
+#: field 3    *if <string> then function name is <string>.
+#: 0/string   *if 0 then ignored. No function is run.
+#:             This function is run after displaying the Quit-Code on screen.
+#:
+#: field 4    *Quit-Code. See f_quit_app_clause for more details.
+#: string
+#:
+#: field 5    *Sets PRESS_KEY=0/1 to display "Press 'Enter' key to continue".
+#: 1/0         See f_press_key for more details. This allows the user to see any
+#:             messages displayed by the application after it has been run.
+#:             Without PRESS_KEY=1, the screen is cleared for the menu to display
+#:             and the user would miss any messages.
+#:
+#:             This setting may be overridden by any custom functions which
+#:             follow. It is useful if the custom function displays a help
+#:             message for the menu to display so you don't have to worry
+#:             about coding for PRESS_KEY within that custom function.
+#:
+#:             This can be used to initialize PRESS_KEY as it is set before any
+#:             custom functions in fields 1, 2, or 3 are run.
+#:
+#:    g) Update the file LIST_APPS by selecting "Configure" THEN "LIST_APPS"
 #:       in the Main Menu. LIST_APPS is used by the Main Menu item "List
 #:       Applications" to show a list of all applications available whether
 #:       the app module is downloaded or not.
@@ -338,14 +376,15 @@ REVDATE="December-18-2013 23:56"
 #:    In the example below, #MXX is before each menu item and in DELIMITER.
 #:    Note: DELIMITER has #MXX twice, separating it into 3 fields for awk.
 #:
-#:     Example: "MXX" is the Special Menu Item Marker and must be consistently used.
-#:              In this example app2name (with "MXY") will not appear in the menu.
+#:     Example: "MXX" is the Special Menu Item Marker.
+#:              In this example app2name (with "MAA") will not show in the menu.
 #:
 #:    f_initvars_menu_app "MXX"
 #:    until [ "$MXX" = "0" ]
 #:          #MXX appname  - Description Application1 name.
-#:          #MXY app2name - Description Application2 name.
-#:    DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line into menu options. 
+#:          #MAA app2name - Description Application2 name.
+#:    DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line 
+#:                          into menu options.
 #:    read MXX
 #:    f_menu_item_process $AEE  # Outputs $MENU_ITEM.
 #:    unset MXX MENU_ITEM  # Throw out this variable.
@@ -353,9 +392,9 @@ REVDATE="December-18-2013 23:56"
 #: 2. Impossible to exit a menu.
 #:
 #:    *Somewhere in the mod_apps-*.lib file, there is a syntax error.
-#:    *Check the Special Menu Item Markers for consistency. (See point 1 for details).
-#:     Example: If "unset MXY" instead of "unset MXX" then exit menu using "(R)eturn" will not work,
-#:              while "0" (zero) will still exit the menu.
+#:    *Check the Special Menu Item Markers for consistency. (See point 1).
+#:     Example: If "unset MAA" instead of "unset MXX" then exiting menu using
+#:              "(R)eturn" will not work, while "0" (zero) will still exit.
 #:
 #: 3. Strange menu results, menu does not display.
 #:    *If you forget the closing "}" to a function, you'll get strange results.
@@ -424,7 +463,7 @@ REVDATE="December-18-2013 23:56"
 #: APP_NAME_TMP  - String; just app name when APP_NAME has options-params.
 #: APP_RUN       - String; Command to run when application is a web browser,
 #:                 actually also includes name of web site to browse.
-#: BCOLOR        - String; Background color of display terminal; Black, blue, white.
+#: BCOLOR        - String; Background color of display terminal.
 #: CHOICE[XNUM]  - Array of string elements. User choice in Applications and
 #:                 Category Menus where XNUM is a number.
 #: M[A-Z][A-Z]   - String; User choice in Applications Menu (alpha-numeric).
@@ -457,8 +496,9 @@ REVDATE="December-18-2013 23:56"
 #: REVISION      - String; Revision number of shell script.
 #: THIS_DIR      - Directory containg library modules and support files.
 #: THIS_FILE     - String; name of shell script.
-#: UCOLOR        - Font color for unavailable library modules in Application Category Menu.
-#: WEB_SITE      - String; name of web site used when application is a web browser.
+#: UCOLOR        - Font color for unavailable library modules in Application
+#:                 while "0" (zero) will still exit the menu.
+#: WEB_SITE      - String; name of web site used when using a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
 #: X             - String; Scratch variable.
 #: XNUM          - Number; Scratch variable used in awk statement in f_show_menu
