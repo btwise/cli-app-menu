@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-18-2013 23:56"
+REVDATE="December-23-2013 00:00"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -109,9 +109,9 @@ REVDATE="December-18-2013 23:56"
 # |         Function f_script_path         |
 # +----------------------------------------+
 #
-#  Inputs: $BASH_SOURCE (System variable)
-#    Uses: None
-# Outputs: SCRIPT_PATH
+#  Inputs: $BASH_SOURCE (System variable).
+#    Uses: None.
+# Outputs: SCRIPT_PATH.
 #
 f_script_path () {
 # BASH_SOURCE[0] gives the filename of the script.
@@ -136,44 +136,89 @@ f_test_dash () {
       FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
       #
       if [ "$BASH_VERSION" = '' ]; then
-         clear # Clear screen.
-         echo $(tput bold)
-         echo "You are using the DASH environment."
-         echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo "*** This script cannot be run in the DASH environment. ***"
-         #
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo
-         echo "You can invoke the BASH environment by typing:"
-         echo "'bash cliappmenu.sh' at the command line."
-         echo
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo "______________________________"
-         echo "    >>> Exiting script <<<"
-         echo "______________________________"
-         echo $(tput sgr0)
-         echo
+         command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         ERROR=$?
+         # Is Dialog GUI installed?
+         if [ $ERROR -eq 0 ] ; then
+            # Yes, Dialog installed.
+            f_test_dash_gui dialog
+            #
+         else
+            # Is Whiptail GUI installed?
+            command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+            ERROR=$?
+            if [ $ERROR -eq 0 ] ; then
+               # Yes, Whiptail installed.
+               f_test_dash_gui whiptail
+            else
+               # No CLI GUIs installed
+               f_test_dash_txt
+            fi
+         fi
          exit 1 # Exit with value $?=1 indicating an error condition
                 # and stop running script.
       fi
 } # End of function f_test_dash
 #
 # +----------------------------------------+
+# |        Function f_test_dash_txt        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_test_dash_txt () {
+      clear # Clear screen.
+      echo $(tput bold)
+      echo "You are using the DASH environment."
+      echo "Ubuntu and Linux Mint default to DASH but also have BASH available."
+      #
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo $(tput bold)
+      #
+      echo "*** This script cannot be run in the DASH environment. ***"
+      #
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      echo
+      echo "You can invoke the BASH environment by typing:"
+      echo "'bash cliappmenu.sh' at the command line."
+      echo
+      #
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo $(tput bold)
+      #
+      echo "______________________________"
+      echo "    >>> Exiting script <<<"
+      echo "______________________________"
+      echo $(tput sgr0)
+      echo
+} # End of function f_test_dash_txt
+#
+# +----------------------------------------+
+# |        Function f_test_dash_gui        |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI Type ("dialog", "whiptail")
+#    Uses: None
+# Outputs: None
+#
+f_test_dash_gui () {
+      clear # Clear screen.
+      $1 --title ">>> Warning: Must use BASH <<<" --msgbox "\n                   You are using the DASH environment.\n\n        *** This script cannot be run in the DASH environment. ***\n\n    Ubuntu and Linux Mint default to DASH but also have BASH available." 12 78
+      #
+      $1 --title "HOW-TO" --msgbox "\n  You can invoke the BASH environment by typing:\n    \"bash cliappmenu.sh\" at the command line.\n\n          >>> Now exiting script <<<" 12 55
+} # End of function f_test_dash_gui
+#
+# +----------------------------------------+
 # |        Function f_main_init_once       |
 # +----------------------------------------+
 #
-#  Inputs: BASH_VERSION (System variable), THIS_DIR, THIS_FILE
-#    Uses: None
-# Outputs: None
+#  Inputs: BASH_VERSION (System variable), THIS_DIR, THIS_FILE.
+#    Uses: None.
+# Outputs: None.
 #
 f_main_init_once () {
       # Initialize variables.
@@ -193,17 +238,24 @@ f_main_init_once () {
          f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
          #
-         echo
-         echo "Configuration file is missing from user's home directory."
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo "Creating configuration file: /home/<username_goes_here>/.cliappmenu.cfg"
-         echo "f_main_config () {" > ~/.cliappmenu.cfg
-         echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
-         echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
-         echo
-         echo -n "Press '"Enter"' key to continue."
-         read X
-         unset X  # Throw out this variable.
+         command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         ERROR=$?
+         # Is Dialog GUI installed?
+         if [ $ERROR -eq 0 ] ; then
+            # Yes, Dialog installed.
+            f_missing_config_gui dialog
+         else
+            # Is Whiptail GUI installed?
+            command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+            ERROR=$?
+            if [ $ERROR -eq 0 ] ; then
+               # Yes, Whiptail installed.
+               f_missing_config_gui whiptail
+            else
+               # No CLI GUIs installed
+               f_missing_config_txt
+            fi
+         fi
       fi
       #
       if [ -r ~/.cliappmenu.cfg ] ; then
@@ -267,7 +319,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/opt"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -370,7 +422,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/some_directory/cli-app-menu"
+      THIS_DIR="/opt/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -384,6 +436,47 @@ f_main_init_once () {
       . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
       . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
 } # End of function f_main_init_once
+#
+# +----------------------------------------+
+# |      Function f_missing_config_txt     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: X.
+# Outputs: Create the "~/.cliappmenu.cfg" file.
+#
+f_missing_config_txt () {
+      clear # Clear screen.
+      echo
+      echo "Configuration file is missing from user's home directory."
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      echo
+      echo "Creating configuration file: /home/<username_goes_here>/.cliappmenu.cfg"
+      echo "f_main_config () {" > ~/.cliappmenu.cfg
+      echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
+      echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_missing_config_txt
+#
+# +----------------------------------------+
+# |      Function f_missing_config_gui     |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI Type ("dialog", "whiptail")
+#    Uses:.
+# Outputs:.
+#
+f_missing_config_gui () {
+      clear # Clear screen.
+      $1 --title ">>> Warning: Configuration file missing <<<" --msgbox "\n      Configuation file is missing from user's home directory.\n\nCreating configuration file: /home/<username_goes_here>/.cliappmenu.cfg\n\n                     Press 'Enter' key to continue." 12 78
+      echo "f_main_config () {" > ~/.cliappmenu.cfg
+      echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
+      echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
+      echo
+} # End of function f_missing_config_gui
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
@@ -1847,11 +1940,11 @@ f_ls_this_dir () {
 # rather than in the library file lib_cli-common.lib, but once in BASH, then
 # common library file may be invoked.
 #
-# Set SCRIPT_PATH to directory path of script.
-f_script_path
-#
 # Test the environment for DASH and if in BASH invoke the common library.
 f_test_dash
+#
+# Set SCRIPT_PATH to directory path of script.
+f_script_path
 #
 f_main_init_once
 #
