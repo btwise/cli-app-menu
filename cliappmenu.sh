@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-23-2013 00:00"
+REVDATE="December-23-2013 22:22"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -232,11 +232,6 @@ f_main_init_once () {
       # Does configuration file exist and is readable?
       if [ ! -r ~/.cliappmenu.cfg ] ; then
          # No, configuration file does not exist. Create file.
-         # If background color is black or blue, then use yellow font.
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
          #
          command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
          ERROR=$?
@@ -319,7 +314,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/opt"
+      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -331,61 +326,25 @@ f_main_init_once () {
       if [ "$SCRIPT_PATH" != "$MAINMENU_DIR" ] ; then
          # No, edit script cliappmenu.sh so that $MAINMENU_DIR is $SCRIPT_DIR.
          #
-         clear # Blank the screen.
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         echo "Detected different directory reference for script:"
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo
-         echo "Changing from:"
-         echo "   $MAINMENU_DIR"
-         echo
-         echo "Changing to:"
-         echo "   $SCRIPT_PATH"
-         echo
-         echo "This directory should contain the script \"$THIS_FILE\"."
-         echo "Automatically re-configuring \"$THIS_FILE\" to use new directory."
-         echo
-         # Is directory writeable?
-         if [ -w $SCRIPT_PATH ] ; then
-            # Yes, directory is writeable.
-            sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
-            ERROR=$?
-            if [ $ERROR -ne 0 ] ; then
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               echo -n "Error re-configuring \"$THIS_FILE\" to use new directory."
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            fi   
+         command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         ERROR=$?
+         # Is Dialog GUI installed?
+         if [ $ERROR -eq 0 ] ; then
+            # Yes, Dialog installed.
+            f_change_mainmenu_dir_gui dialog
          else
-            # No, directory is not writeable so use sudo permissions.
-            echo "Must now use sudo permissions to re-configure \"$THIS_FILE\"."
-            sudo sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
+            # Is Whiptail GUI installed?
+            command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
             ERROR=$?
-            if [ $ERROR -ne 0 ] ; then
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               echo "Error re-configuring,\"$THIS_FILE\" to use new directory"
-               echo "            even when using sudo permissions."
-               echo $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            if [ $ERROR -eq 0 ] ; then
+               # Yes, Whiptail installed.
+               f_change_mainmenu_dir_gui whiptail
+            else
+               # No CLI GUIs installed
+               f_change_mainmenu_dir_txt
             fi
          fi
-         #
-         # Message to restart script.
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         echo "___________________________________________"
-         echo " Re-run script to use new script directory."
-         echo "           >>> Exiting script <<<"
-         echo "___________________________________________"
-         echo $(tput sgr0)
-         # Exit function and exit script to system prompt.
-         unset X XSTR
-         exit 1
       fi
-      #
       # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
       # README, and COPYING and (optionally) cliappmenu.sh.
       #
@@ -422,7 +381,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/opt/cli-app-menu"
+      THIS_DIR="/some_directory/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -447,6 +406,11 @@ f_main_init_once () {
 #
 f_missing_config_txt () {
       clear # Clear screen.
+      # If background color is black or blue, then use yellow font.
+      #
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo $(tput bold)
       echo
       echo "Configuration file is missing from user's home directory."
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
@@ -477,6 +441,124 @@ f_missing_config_gui () {
       echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
       echo
 } # End of function f_missing_config_gui
+#
+# +----------------------------------------+
+# |   Function f_change_mainmenu_dir_txt   |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_change_mainmenu_dir_txt () {
+      clear # Clear screen.
+      # If background color is black or blue, then use yellow font.
+      #
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo "Detected different directory reference for script:"
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      echo
+      echo "Changing from:"
+      echo "   $MAINMENU_DIR"
+      echo
+      echo "Changing to:"
+      echo "   $SCRIPT_PATH"
+      echo
+      echo "This directory should contain the script \"$THIS_FILE\"."
+      echo "Automatically re-configuring \"$THIS_FILE\" to use new directory."
+      echo
+      # Is directory writeable?
+      if [ -w $SCRIPT_PATH ] ; then
+         # Yes, directory is writeable.
+         sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
+         ERROR=$?
+         if [ $ERROR -ne 0 ] ; then
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            echo -n "Error re-configuring \"$THIS_FILE\" to use new directory."
+            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         fi   
+      else
+         # No, directory is not writeable so use sudo permissions.
+         echo "Must now use sudo permissions to re-configure \"$THIS_FILE\"."
+         sudo sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
+         ERROR=$?
+         if [ $ERROR -ne 0 ] ; then
+            f_term_color $ECOLOR $BCOLOR
+            echo $(tput bold)
+            echo "Error re-configuring,\"$THIS_FILE\" to use new directory"
+            echo "            even when using sudo permissions."
+            echo $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         fi
+      fi
+      #
+      # Message to restart script.
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo $(tput bold)
+      echo "___________________________________________"
+      echo " Re-run script to use new script directory."
+      echo "           >>> Exiting script <<<"
+      echo "___________________________________________"
+      echo $(tput sgr0)
+      # Exit function and exit script to system prompt.
+      exit 1
+} # End of function f_change_mainmenu_dir_txt.
+#
+# +----------------------------------------+
+# |     Function f_change_mainmenu_gui     |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI Type ("dialog", "whiptail")
+#    Uses: XSTR.
+# Outputs: None.
+#
+f_change_mainmenu_dir_gui () {
+      clear # Clear screen.
+      $1 --title "Changing Directory" --msgbox "\n              Detected different directory reference for script:\n\nChanging from:\n    $MAINMENU_DIR\n\nChanging to:\n   $SCRIPT_PATH\n\nThis directory should contain the script \"$THIS_FILE\".\nAutomatically re-configuring \"$THIS_FILE\" to use new directory." 15 78
+      # Is directory writeable?
+      if [ -w $SCRIPT_PATH ] ; then
+         # Yes, directory is writeable.
+         sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
+         ERROR=$?
+         if [ $ERROR -ne 0 ] ; then
+            $1 --title ">>> Error <<<" --msgbox "\nError re-configuring \"$THIS_FILE\" to use new directory." 4 60
+         fi
+      else
+         # No, directory is not writeable so use sudo permissions.
+         # Redirect dialog/whiptail --passwordbox output to $XSTR.
+         # Exit status: Yes/OK=0 No/Cancel=1 Error=-1 ESC=255.
+         ERROR=-1
+         while [ $ERROR -ne 0 ]
+         do
+            XSTR=$($1 --title ">>> Need sudo permissions <<<" --stdout --insecure --passwordbox "\n  Must now use sudo permissions to re-configure \"$THIS_FILE\".\n\n              Enter sudo password at prompt below:" 10 70)
+            ERROR=$?
+            case $ERROR in
+            0) # OK button pressed.
+            echo $XSTR | sudo -S sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE &>/dev/null
+            ERROR=$?
+            if [ $ERROR -ne 0 ] ; then
+               $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
+            fi
+            ;;
+            1 | 255) # Cancel button pressed.
+            ERROR=0
+            $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
+            ;;
+            -1) # Error occurred.
+            $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
+            ;;
+            esac
+         done
+         unset XSTR
+      fi
+      #
+      # Message to restart script.
+      $1 --title "Exiting Script" --msgbox "\n        Re-run script to use new script directory.\n               >>> Exiting script <<<" 10 60
+      # Exit function and exit script to system prompt.
+      exit 1
+} # End of function f_change_mainmenu_gui.
 #
 # +----------------------------------------+
 # |      Function f_initvars_menu_app      |
