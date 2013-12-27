@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-23-2013 22:22"
+REVDATE="December-26-2013 20:38"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -106,55 +106,27 @@ REVDATE="December-23-2013 22:22"
 #@
 #
 # +----------------------------------------+
-# |         Function f_script_path         |
-# +----------------------------------------+
-#
-#  Inputs: $BASH_SOURCE (System variable).
-#    Uses: None.
-# Outputs: SCRIPT_PATH.
-#
-f_script_path () {
-# BASH_SOURCE[0] gives the filename of the script.
-# dirname "{$BASH_SOURCE[0]}" gives the directory of the script
-# Execute commands: cd <script directory> and then pwd
-# to get the directory of the script.
-# NOTE: This code does not work with symlinks in directory path.
-#
-SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-} # End of function f_script_path
-#
-# +----------------------------------------+
 # |          Function f_test_dash          |
 # +----------------------------------------+
 #
-#  Inputs: $BASH_VERSION (System variable)
-#    Uses: None
-# Outputs: None
+#  Inputs: $BASH_VERSION (System variable).
+#    Uses: None.
+# Outputs: None.
 #
 f_test_dash () {
       # Set default colors in case configuration file is not readable or does not exist.
       FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
       #
       if [ "$BASH_VERSION" = '' ]; then
-         command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
-         ERROR=$?
-         # Is Dialog GUI installed?
-         if [ $ERROR -eq 0 ] ; then
-            # Yes, Dialog installed.
-            f_test_dash_gui dialog
-            #
-         else
-            # Is Whiptail GUI installed?
-            command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
-            ERROR=$?
-            if [ $ERROR -eq 0 ] ; then
-               # Yes, Whiptail installed.
-               f_test_dash_gui whiptail
-            else
-               # No CLI GUIs installed
-               f_test_dash_txt
-            fi
-         fi
+         f_detect_ui # Automatically detect UI environment.
+         case $GUI in
+              text)
+              f_test_dash_txt
+              ;;
+              dialog | whiptail)
+              f_test_dash_gui $GUI
+              ;;
+         esac
          exit 1 # Exit with value $?=1 indicating an error condition
                 # and stop running script.
       fi
@@ -201,9 +173,9 @@ f_test_dash_txt () {
 # |        Function f_test_dash_gui        |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI Type ("dialog", "whiptail")
-#    Uses: None
-# Outputs: None
+#  Inputs: $1=GUI ("dialog", "whiptail").
+#    Uses: None.
+# Outputs: None.
 #
 f_test_dash_gui () {
       clear # Clear screen.
@@ -211,6 +183,53 @@ f_test_dash_gui () {
       #
       $1 --title "HOW-TO" --msgbox "\n  You can invoke the BASH environment by typing:\n    \"bash cliappmenu.sh\" at the command line.\n\n          >>> Now exiting script <<<" 12 55
 } # End of function f_test_dash_gui
+#
+# +----------------------------------------+
+# |         Function f_script_path         |
+# +----------------------------------------+
+#
+#  Inputs: $BASH_SOURCE (System variable).
+#    Uses: None.
+# Outputs: SCRIPT_PATH.
+#
+f_script_path () {
+# BASH_SOURCE[0] gives the filename of the script.
+# dirname "{$BASH_SOURCE[0]}" gives the directory of the script
+# Execute commands: cd <script directory> and then pwd
+# to get the directory of the script.
+# NOTE: This code does not work with symlinks in directory path.
+#
+SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+} # End of function f_script_path
+#
+# +----------------------------------------+
+# |          Function f_detect_ui          |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ERROR.
+# Outputs: GUI (dialog, whiptail, text).
+#
+f_detect_ui () {
+      command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+      ERROR=$?
+      # Is Dialog GUI installed?
+      if [ $ERROR -eq 0 ] ; then
+         # Yes, Dialog installed.
+         GUI="dialog" # test diagnostic line.
+      else
+         # Is Whiptail GUI installed?
+         command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         ERROR=$?
+         if [ $ERROR -eq 0 ] ; then
+            # Yes, Whiptail installed.
+            GUI="whiptail"
+         else
+            # No CLI GUIs installed
+            GUI="text"
+         fi
+      fi
+} # End of function f_detect_ui
 #
 # +----------------------------------------+
 # |        Function f_main_init_once       |
@@ -229,45 +248,12 @@ f_main_init_once () {
       # Set default colors in case configuration file is not readable or does not exist.
       FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
       #
-      # Does configuration file exist and is readable?
-      if [ ! -r ~/.cliappmenu.cfg ] ; then
-         # No, configuration file does not exist. Create file.
-         #
-         command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
-         ERROR=$?
-         # Is Dialog GUI installed?
-         if [ $ERROR -eq 0 ] ; then
-            # Yes, Dialog installed.
-            f_missing_config_gui dialog
-         else
-            # Is Whiptail GUI installed?
-            command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
-            ERROR=$?
-            if [ $ERROR -eq 0 ] ; then
-               # Yes, Whiptail installed.
-               f_missing_config_gui whiptail
-            else
-               # No CLI GUIs installed
-               f_missing_config_txt
-            fi
-         fi
-      fi
-      #
-      if [ -r ~/.cliappmenu.cfg ] ; then
-         # Yes. read file contents.
-         . ~/.cliappmenu.cfg
-         f_main_config
-      else      
-         # No. Use default settings.
-         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
-      fi
-      #
       f_term_color $FCOLOR $BCOLOR # Set terminal color.
       echo -n $(tput bold) # set bold font.
       #
       # Enable 256 colors for terminal, if possible.
       # Set terminal colors from 8 to 256 colors.
-        export TERM=xterm-256color       
+      export TERM=xterm-256color       
       #
       # You have the option of either keeping all the program files in the same
       # folder or a separate folder for the Main Menu (file cliappmenu.sh).
@@ -319,32 +305,6 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
-      # Validate file names and directories.
-      # Use the directory $SCRIPT_DIR that contains the script cliappmenu.sh.
-      # Does $SCRIPT_DIR = $MAINMENU_DIR?
-         # Yes, exit function.
-      if [ "$SCRIPT_PATH" != "$MAINMENU_DIR" ] ; then
-         # No, edit script cliappmenu.sh so that $MAINMENU_DIR is $SCRIPT_DIR.
-         #
-         command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
-         ERROR=$?
-         # Is Dialog GUI installed?
-         if [ $ERROR -eq 0 ] ; then
-            # Yes, Dialog installed.
-            f_change_mainmenu_dir_gui dialog
-         else
-            # Is Whiptail GUI installed?
-            command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
-            ERROR=$?
-            if [ $ERROR -eq 0 ] ; then
-               # Yes, Whiptail installed.
-               f_change_mainmenu_dir_gui whiptail
-            else
-               # No CLI GUIs installed
-               f_change_mainmenu_dir_txt
-            fi
-         fi
-      fi
       # THIS_DIR contains files: lib_cli-*, mod_apps-*, EDIT_HISTORY,
       # README, and COPYING and (optionally) cliappmenu.sh.
       #
@@ -382,19 +342,103 @@ f_main_init_once () {
       #
       # THIS_DIR does not need a trailing forward slash "/".
       THIS_DIR="/some_directory/cli-app-menu"
+
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
-      f_valid_files "$THIS_DIR" "lib_cli-common.lib"
-      f_valid_files "$THIS_DIR" "lib_cli-web-sites.lib"
-      f_valid_files "$THIS_DIR" "lib_cli-menu-cat.lib"
+      f_detect_ui # Automatically detect UI environment.
+      case $GUI in
+           text)
+           f_main_init_txt
+           ;;
+           dialog | whiptail)
+           f_main_init_gui $GUI
+           ;;
+      esac
       #
       # Invoke the common library to display menus.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
       . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
 } # End of function f_main_init_once
+#
+# +----------------------------------------+
+# |        Function f_main_init_txt        |
+# +----------------------------------------+
+#
+#  Inputs: BASH_VERSION (System variable), THIS_DIR, THIS_FILE.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_init_txt () {
+      # Does configuration file exist and is readable?
+      if [ ! -r ~/.cliappmenu.cfg ] ; then
+         # No, configuration file does not exist. Create file.
+         f_missing_config_txt
+      fi
+      #
+      if [ -r ~/.cliappmenu.cfg ] ; then
+         # Yes. read file contents.
+         . ~/.cliappmenu.cfg
+         f_main_config
+      else      
+         # No. Use default settings.
+         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+      fi
+      #
+      # Validate file names and directories.
+      # Use the directory $SCRIPT_DIR that contains the script cliappmenu.sh.
+      # Does $SCRIPT_DIR = $MAINMENU_DIR?
+         # Yes, exit function.
+      if [ "$SCRIPT_PATH" != "$MAINMENU_DIR" ] ; then
+         # No, edit script cliappmenu.sh so that $MAINMENU_DIR is $SCRIPT_DIR.
+         f_change_mainmenu_dir_txt
+      fi
+      f_valid_files_txt "$THIS_DIR" "lib_cli-common.lib"
+      f_valid_files_txt "$THIS_DIR" "lib_cli-web-sites.lib"
+      f_valid_files_txt "$THIS_DIR" "lib_cli-menu-cat.lib"
+      #
+} # End of function f_main_init_txt
+#
+# +----------------------------------------+
+# |        Function f_main_init_gui        |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI (dialog, whiptail) , THIS_DIR, THIS_FILE.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_init_gui () {
+      # Does configuration file exist and is readable?
+      if [ ! -r ~/.cliappmenu.cfg ] ; then
+         # No, configuration file does not exist. Create file.
+         f_missing_config_gui $1
+      fi
+      #
+      if [ -r ~/.cliappmenu.cfg ] ; then
+         # Yes. read file contents.
+         . ~/.cliappmenu.cfg
+         f_main_config
+      else      
+         # No. Use default settings.
+         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+      fi
+      #
+      # Validate file names and directories.
+      # Use the directory $SCRIPT_DIR that contains the script cliappmenu.sh.
+      # Does $SCRIPT_DIR = $MAINMENU_DIR?
+         # Yes, exit function.
+      if [ "$SCRIPT_PATH" != "$MAINMENU_DIR" ] ; then
+         # No, edit script cliappmenu.sh so that $MAINMENU_DIR is $SCRIPT_DIR.
+         f_change_mainmenu_dir_gui $1
+      fi
+      #
+      f_valid_files_gui $1 "$THIS_DIR" "lib_cli-common.lib"
+      f_valid_files_gui $1 "$THIS_DIR" "lib_cli-web-sites.lib"
+      f_valid_files_gui $1 "$THIS_DIR" "lib_cli-menu-cat.lib"
+      #
+} # End of function f_main_init_gui
 #
 # +----------------------------------------+
 # |      Function f_missing_config_txt     |
@@ -429,7 +473,7 @@ f_missing_config_txt () {
 # |      Function f_missing_config_gui     |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI Type ("dialog", "whiptail")
+#  Inputs: $1=GUI ("dialog", "whiptail").
 #    Uses:.
 # Outputs:.
 #
@@ -447,7 +491,7 @@ f_missing_config_gui () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: None.
+#    Uses: ERROR.
 # Outputs: None.
 #
 f_change_mainmenu_dir_txt () {
@@ -510,20 +554,20 @@ f_change_mainmenu_dir_txt () {
 # |     Function f_change_mainmenu_gui     |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI Type ("dialog", "whiptail")
-#    Uses: XSTR.
+#  Inputs: $1=GUI ("dialog", "whiptail").
+#    Uses: XSTR, ERROR.
 # Outputs: None.
 #
 f_change_mainmenu_dir_gui () {
       clear # Clear screen.
-      $1 --title "Changing Directory" --msgbox "\n              Detected different directory reference for script:\n\nChanging from:\n    $MAINMENU_DIR\n\nChanging to:\n   $SCRIPT_PATH\n\nThis directory should contain the script \"$THIS_FILE\".\nAutomatically re-configuring \"$THIS_FILE\" to use new directory." 15 78
+      $1 --title "Changing Directory" --msgbox "\n              Detected different directory reference for script:\n\nChanging from:\n    $MAINMENU_DIR\n\nChanging to:\n   $SCRIPT_PATH\n\nThis directory should contain the script \"$THIS_FILE\".\nAutomatically re-configuring \"$THIS_FILE\" to use new directory." 15 75
       # Is directory writeable?
       if [ -w $SCRIPT_PATH ] ; then
          # Yes, directory is writeable.
          sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
          ERROR=$?
          if [ $ERROR -ne 0 ] ; then
-            $1 --title ">>> Error <<<" --msgbox "\nError re-configuring \"$THIS_FILE\" to use new directory." 4 60
+            $1 --title ">>> Error <<<" --msgbox "\nError re-configuring \"$THIS_FILE\" to use new directory." 8 60
          fi
       else
          # No, directory is not writeable so use sudo permissions.
@@ -532,23 +576,22 @@ f_change_mainmenu_dir_gui () {
          ERROR=-1
          while [ $ERROR -ne 0 ]
          do
-            XSTR=$($1 --title ">>> Need sudo permissions <<<" --stdout --insecure --passwordbox "\n  Must now use sudo permissions to re-configure \"$THIS_FILE\".\n\n              Enter sudo password at prompt below:" 10 70)
-            ERROR=$?
+            f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, $ERROR code.
             case $ERROR in
-            0) # OK button pressed.
-            echo $XSTR | sudo -S sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE &>/dev/null
-            ERROR=$?
-            if [ $ERROR -ne 0 ] ; then
-               $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
-            fi
-            ;;
-            1 | 255) # Cancel button pressed.
-            ERROR=0
-            $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
-            ;;
-            -1) # Error occurred.
-            $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
-            ;;
+                 0) # OK button pressed.
+                 echo $XSTR | sudo -S sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE &>/dev/null
+                 ERROR=$?
+                 if [ $ERROR -ne 0 ] ; then
+                    $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
+                 fi
+                 ;;
+                 1 | 255) # Cancel button pressed.
+                 ERROR=0
+                 $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
+                 ;;
+                 -1) # Error occurred.
+                 $1 --clear --title ">>> Error <<<" --msgbox "\n     Error re-configuring,\"$THIS_FILE\" to use new directory\n            even when using sudo permissions." 10 70
+                 ;;
             esac
          done
          unset XSTR
@@ -588,14 +631,14 @@ f_initvars_menu_app () {
 } # End of function f_initvars_menu_app
 #
 # +----------------------------------------+
-# |          Function f_valid_files        |
+# |        Function f_valid_files_txt      |
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File.
 #    Uses: None.
 # Outputs: None.
 #
-f_valid_files () {
+f_valid_files_txt () {
       # Check for required files and directories.
       # Is the required file in an existing directory?
       NEW_DIR=""  # Initialize NEW_DIR changed if new directory is created.
@@ -612,7 +655,7 @@ f_valid_files () {
             echo
             echo -n "Press \"Enter\" key to continue."
             read X
-            f_change_dir $1 $2
+            f_change_dir $GUI $1
          else
             f_term_color $ECOLOR $BCOLOR
             echo -n $(tput bold)
@@ -626,31 +669,61 @@ f_valid_files () {
          fi
          #
          if [ "$NEW_DIR" != "" ] ; then
-            f_valid_menu $NEW_DIR $2
+            f_valid_menu_txt $NEW_DIR $2
          else
-            f_valid_menu $1 $2
+            f_valid_menu_txt $1 $2
          fi
-         f_valid_path $NEW_DIR
-         f_valid_exit $1 $NEW_DIR
+         f_valid_path_txt $NEW_DIR
+         f_valid_exit_txt $1 $NEW_DIR
       fi
-} # End of function f_valid_files
+} # End of function f_valid_files_txt
 #
 # +----------------------------------------+
-# |          Function f_valid_menu         |
+# |        Function f_valid_files_gui      |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File.
+#    Uses: None.
+# Outputs: None.
+#
+f_valid_files_gui () {
+      # Check for required files and directories.
+      # Is the required file in an existing directory?
+      NEW_DIR=""  # Initialize NEW_DIR changed if new directory is created.
+      if [ ! -r "$2/$3" ] ; then
+         if [ ! -e "$2" ] ; then
+            $1 --title ">>> Error <<<" --msgbox "\nThe directory:\n   $2\n\nDoes not exist and needs to be either created or changed\nto a valid directory." 15 75
+            f_change_dir $1 $2
+         else
+            $1 --title ">>> Error <<<" --msgbox "\nA required file, \"$3\" is missing.\n\nChoices to fix the problem will be shown in the next menu." 10 50
+            echo
+         fi
+         #
+         if [ "$NEW_DIR" != "" ] ; then
+            f_valid_menu_gui $1 $NEW_DIR $3
+         else
+            f_valid_menu_gui $1 $2 $3
+         fi
+         f_valid_path_gui $1 $NEW_DIR
+         f_valid_exit_gui $1 $NEW_DIR
+      fi
+} # End of function f_valid_files_gui
+#
+# +----------------------------------------+
+# |        Function f_valid_menu_txt       |
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File.
 #    Uses: None.
 # Outputs: NEW_DIR.
 #
-f_valid_menu () {
+f_valid_menu_txt () {
       f_initvars_menu_app "AAD"
       # Please note: The function "f_show_menu" in library module file, "lib-cli-common.lib"
       #              cannot be used at this time, since that file may not yet exist or
       #              may need to be downloaded from the GitHub web site.
       #
       MENU_TITLE="Validate Files and Directories Menu"
-      NEW_DIR=$1 # Set $NEW_DIR to original (possibly invalid) directory.
       #
       until [ "$AAD" = "0" ]
       do    # Start of Validate Menu until loop.
@@ -662,7 +735,7 @@ f_valid_menu () {
                echo "   \"$2\""
                echo
                echo "is missing from directory:"
-               echo "   $NEW_DIR"
+               echo "   $1"
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
             else
@@ -671,7 +744,7 @@ f_valid_menu () {
                echo "   \"$2\""
                echo
                echo "is now in a valid directory:"
-               echo "   $NEW_DIR"
+               echo "   $1"
                echo 
             fi
             echo "--- $MENU_TITLE ---"
@@ -691,43 +764,94 @@ f_valid_menu () {
                  AAD=0
                  ;;
                  1 |[Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
-                 f_file_download $NEW_DIR $2
+                 f_file_download_txt $1 $2
                  ;;
                  2 | [Cc] | [Cc][Hh] | [Cc][Hh][Aa]*)
-                 f_change_dir $NEW_DIR $2
+                 f_change_dir $GUI $1
                  ;;
                  3 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
-                 THIS_DIR=$NEW_DIR
-                 f_ls_this_dir
+                 f_ls_this_dir $1
                  ;;
 
             esac
       done  # End of Validate Menu until loop.
             #
       unset AAD MENU_ITEM  # Throw out this variable.
-} # End of function f_valid_menu
+} # End of function f_valid_menu_txt
 #
 # +----------------------------------------+
-# |           Function f_valid_path        |
+# |        Function f_valid_menu_gui       |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File.
+#    Uses: None.
+# Outputs: NEW_DIR.
+#
+f_valid_menu_gui () {
+      f_initvars_menu_app "AAD"
+      # Please note: The function "f_show_menu" in library module file, "lib-cli-common.lib"
+      #              cannot be used at this time, since that file may not yet exist or
+      #              may need to be downloaded from the GitHub web site.
+      #
+      NEW_DIR=$2 # Set $NEW_DIR to original (possibly invalid) directory.
+      #
+      # Get user-entered directory name with dialog/whiptail --inputbox.
+      # Save user-input with redirection.
+      # Redirect stderr (standard error) to stdout (standard output) thus capturing the error code.
+      # Redirect stdout to screen (/dev/tty). Capture result of stdout to $NEW_DIR variable.
+      until [ "$AAD" = "0" ]
+      do    # Start of Validate Menu until loop.
+            AAD=$($1 --clear --title "Validate Files and Directories Menu" --menu "\n\nUse (up/down arrow keys) or (0 to 3) or (letters):" 15 70 4 \Quit "Quit to command line prompt." \Download "Download the missing file from the GitHub web site." \Change "Change the directory to the correct one." \List "List files in directory." 2>&1 >/dev/tty)
+            #
+            case $AAD in
+                 0 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+                 AAD=0
+                 ;;
+                 1 |[Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
+                 if [ ! -r "$NEW_DIR/$3" ] ; then
+                    $1 --msgbox "Required file:\n   \"$3\"\n\nis missing from directory:\n   $NEW_DIR" 11 75
+                 else
+                    $1 --msgbox "Required file:\n   \"$3\"\n\nis now in a valid directory:\n   $NEW_DIR" 11 75
+                 fi
+                 f_file_download_gui $1 $NEW_DIR $3
+                 ;;
+                 2 | [Cc] | [Cc][Hh] | [Cc][Hh][Aa]*)
+                 f_change_dir $GUI $NEW_DIR
+                 ;;
+                 3 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
+                 f_ls_this_dir $2
+                 ;;
+            esac
+      done
+      unset AAD MENU_ITEM  # Throw out this variable.
+} # End of function f_valid_menu_gui
+#
+# +----------------------------------------+
+# |         Function f_valid_path_txt      |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory.
 #    Uses: $PATH.
 # Outputs: Error code 1 if path is bad.
 #
-f_valid_path () {
+f_valid_path_txt () {
       #
       # Check the $PATH
       if [[ ! "$PATH" == *":$1"* ]] ; then
          echo
          echo $(tput bold)
-         echo "Append the directory name to your PATH:"
-         echo "$PATH"
+         echo "
+Append the directory name to your PATH:"
          echo $(tput sgr0)
-         echo "Edit your /home/<username_goes_here>/.bashrc file and add the directory"
-         echo "by adding these lines to the end of the .bashrc file:"
-         echo 
-         echo $(tput bold)'PATH=$PATH'":$1"
+         echo "Edit your /home/<username_goes_here>/.bashrc file"
+         echo "and append the directory name to the end of the PATH statement."
+         echo "               (don't forget the colon)."
+         echo
+         echo ":$1"
+         echo
+         echo "Change to:"
+         echo "PATH=$PATH:$1"
+         echo
          echo "export PATH"
          echo
          echo "       >>> IMPORTANT <<<"
@@ -735,28 +859,36 @@ f_valid_path () {
          echo "Close Terminal for changes to take effect."
          echo "Either logout or exit from Terminal and re-launch Terminal."
          echo
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo "______________________________"
-         echo "    >>> Exiting script <<<"
-         echo "______________________________"
-         echo $(tput sgr0)
-         exit 1
       fi
-} # End of function f_valid_path
+} # End of function f_valid_path_txt
 #
 # +----------------------------------------+
-# |          Function f_valid_exit         |
+# |         Function f_valid_path_gui      |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory.
+#    Uses: $PATH.
+# Outputs: Error code 1 if path is bad.
+#
+f_valid_path_gui () {
+      #
+      # Check the $PATH
+      if [[ ! "$PATH" == *":$2"* ]] ; then
+         $1 --title "*** Important ***" --msgbox "\nAppend the directory name to your PATH.\n\nEdit your /home/<username_goes_here>/.bashrc file\nand append the directory name to the end of the PATH statement.\n               (don't forget the colon).\n\n:$2\n\nChange to:\nPATH=$PATH:$2\n\nexport PATH" 22 70
+         #
+         $1 --title "*** Important ***" --msgbox "\nAfter editing the file, .bashrc:\n\n        Close Terminal for changes to take effect.\nEither logout or exit from Terminal and re-launch Terminal." 15 70
+      fi
+} # End of function f_valid_path_gui
+#
+# +----------------------------------------+
+# |        Function f_valid_exit_txt       |
 # +----------------------------------------+
 #
 #  Inputs: $1=Original Directory, $2=New Directory.
 #    Uses: None.
 # Outputs: None.
 #
-f_valid_exit () {
+f_valid_exit_txt () {
       # Was directory changed?
       if [ "$1" != "$2" ] ; then
          # Yes, directory was changed.
@@ -783,10 +915,51 @@ f_valid_exit () {
          unset NEW_DIR
          exit 1
          fi
-} # End of function f_valid_exit
+} # End of function f_valid_exit_txt
 #
 # +----------------------------------------+
-# |         Function f_file_download       |
+# |        Function f_valid_exit_gui       |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Original Directory, $3=New Directory.
+#    Uses: None.
+# Outputs: None.
+#
+f_valid_exit_gui () {
+      # Was directory changed?
+      if [ "$2" != "$3" ] ; then
+         $1 --title "*** Important ***" --msgbox "\nRe-run script to use new directory.\n      >>> Exiting script <<<" 10 40
+         unset
+         exit 1
+      else
+         # No, directory not changed, but THIS_DIR variable may have been changed so exit.
+         $1 --title "*** Important ***" --msgbox "\nRe-run script to use changes.\n   >>> Exiting script <<<" 10 40
+         unset NEW_DIR
+         exit 1
+         fi
+} # End of function f_valid_exit_gui
+#
+#
+# +----------------------------------------+
+# |      Function f_sudo_password_gui      |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail").
+#    Uses: None.
+# Outputs: ERROR, XSTR.
+#
+f_sudo_password_gui () {
+            if [ "$1" == "dialog" ] ; then
+               XSTR=$($1 --title ">>> Need sudo permissions <<<" --stdout --insecure --passwordbox "\n  Must now use sudo permissions to re-configure \"$THIS_FILE\".\n\n              Enter sudo password at prompt below:" 10 70)
+               ERROR=$?
+            else # whiptail
+               XSTR=$($1 --title ">>> Need sudo permissions <<<" --passwordbox "\n  Must now use sudo permissions to re-configure \"$THIS_FILE\".\n\n              Enter sudo password at prompt below:" 10 70 2>&1 >/dev/tty)
+               ERROR=$?
+            fi
+} # End of function f_sudo_password_gui
+#
+# +----------------------------------------+
+# |       Function f_file_download_txt     |
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File.
@@ -801,7 +974,7 @@ f_valid_exit () {
 #       That is why function "f_file_dload" is used rather than "f_wget_file"
 #       or "f_download_file".
 #
-f_file_download () {
+f_file_download_txt () {
       # Does directory exist?
       if [ -d $1 ] ; then
          # Yes, so continue to download files.
@@ -817,13 +990,13 @@ f_file_download () {
                 # Does $MOD_FILE exist in that directory?
                 if [ ! -r $1/$MOD_FILE ] ; then
                    # No it does not exist so download it.
-                   f_file_dload $1 $MOD_FILE
+                   f_file_dload_txt $1 $MOD_FILE
                 fi
             done
          else
             if [ ! -r $1/$2 ] ; then
             # No it does not exist so download it.
-               f_file_dload $1 $2
+               f_file_dload_txt $1 $2
             fi
          fi
       else
@@ -846,17 +1019,61 @@ f_file_download () {
          #
       fi
       unset MOD_FILE
-} # End of function f_file_download
+} # End of function f_file_download_txt
 #
 # +----------------------------------------+
-# |           Function f_file_dload        |
+# |       Function f_file_download_gui     |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File.
+#    Uses: MOD_FILE.
+# Outputs: None.
+#
+# If any of the module library *lib files are missing, then download all of
+# them into target directory.
+#
+# Note: You cannot use any functions within the file "lib_cli-common.lib"
+#       since that file may not yet be downloaded and available at this point.
+#       That is why function "f_file_dload" is used rather than "f_wget_file"
+#       or "f_download_file".
+#
+f_file_download_gui () {
+      # Does directory exist?
+      if [ -d $2 ] ; then
+         # Yes, so continue to download files.
+         if [ "$3" = "lib_cli-common.lib" -o "$3" = "lib_cli-menu-cat.lib" -o "$3" = "lib_cli-web-sites.lib" ] ; then
+            $1 --msgbox "If needed, these files will now be downloaded:\n\n     lib_cli-common.lib\n     lib_cli-menu-cat.lib\n     lib_cli-web-sites.lib." 12 50
+            for MOD_FILE in lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib
+            do
+                # Does $MOD_FILE exist in that directory?
+                if [ ! -r $1/$MOD_FILE ] ; then
+                   # No it does not exist so download it.
+                   f_file_dload_gui $1 $2 $MOD_FILE
+                fi
+            done
+         else
+            if [ ! -r $2/$3 ] ; then
+            # No it does not exist so download it.
+               f_file_dload_gui $1 $2 $3
+            fi
+         fi
+      else
+         # No, directory does not exist so cannot download file into the directory.
+         # Use different color font for error messages.
+            $1 --title ">>> Error <<<" --msgbox "Required file:\n   \"$3\"\ncannot be downloaded\nbecause directory does not exist:\n   $2" 10 60 
+      fi
+      unset MOD_FILE
+} # End of function f_file_download_gui
+#
+# +----------------------------------------+
+# |         Function f_file_dload_txt      |
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File.
-#    Uses: X.
+#    Uses: X, ERROR.
 # Outputs: None.
 #
-f_file_dload () {
+f_file_dload_txt () {
       clear  # Blank the screen.
       #
       if [ -d "$1" ] ; then
@@ -927,73 +1144,118 @@ f_file_dload () {
       read X
       #
       unset X
-} # End of function f_file_dload
+} # End of function f_file_dload_txt
+#
+# +----------------------------------------+
+# |         Function f_file_dload_gui      |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File.
+#    Uses: ERROR.
+# Outputs: None.
+#
+f_file_dload_gui () {
+      clear  # Blank the screen.
+      #
+      if [ -d "$2" ] ; then
+         # Directory exists so download file into the directory.
+         $1 --yesno "Download the file from the GitHub web site.\n\nDownload file:\n   $3\n\ninto the directory:\n   $2\n\nDownload the file now?" 15 70
+         ERROR=$?
+         case $ERROR in
+              1)
+              # No, stop
+              ;;
+              0)
+              # Yes, download it.
+              NEW_DIR=$2  # Needed for f_wget_file.
+              MOD_FILE=$3
+              # Download from GitHub web site, project's MASTER branch.
+              WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
+              #
+              # Is directory writeable?
+              if [ -w $NEW_DIR ] ; then
+                 # Yes, directory is writeable.
+                 wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
+                 ERROR=$?
+                 if [ $ERROR -ne 0 ] ; then
+                    $1 --title ">>> Error <<<" --msgbox "\n     Error downloading \"$MOD_FILE\" to $NEW_DIR." 8 75
+                 fi
+              else
+                 # No, directory is not writeable so use sudo to download.
+                 $1 --msgbox "Must use sudo permissions to download \"$MOD_FILE\"." 8 50
+                 f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, $ERROR code.
+                 echo $XSTR | sudo -S wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
+                 ERROR=$?
+                 if [ $ERROR -ne 0 ] ; then
+                    $1 --title ">>> Error <<<" --msgbox "\nError downloading \"$MOD_FILE\" even when using sudo permissions." 10 75
+                 fi
+              fi
+              ;;
+         esac
+      else
+         # Directory does not exist so cannot download file into the directory.
+         # Use different color font for error messages.
+            $1 --title ">>> Error <<<" --msgbox "Required file:\n   \"$3\"\ncannot be downloaded\n\nbecause directory does not exist:\n   $2" 15 60 
+      fi
+} # End of function f_file_dload_gui
 #
 # +----------------------------------------+
 # |           Function f_change_dir        |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File.
+#  Inputs: $1=GUI ("text", "dialog", "whiptail"), $2=Directory.
 #    Uses: XSTR.
 # Outputs: NEW_DIR.
 #
 f_change_dir () {
       clear  # Blank the screen.
-      NEW_DIR="" ; XSTR=$1
+      NEW_DIR="" ; XSTR=$2
       while [ "$NEW_DIR" != "QUIT" ] && [ ! -d "$NEW_DIR" ]
       do
             # Creates or switches to new directory
             # and reconfigures cliappmenu.sh to use it.
             # Outputs $NEW_DIR.
-            f_ask_new_directory $1
+            if [ $1 = "text" ] ; then
+               f_ask_new_directory_txt $2
+            else
+               f_ask_new_directory_gui $1 $2
+            fi
             #
             if [ -d "$NEW_DIR" ] && [ $NEW_DIR != "QUIT" ] ; then
                XSTR=$NEW_DIR
             fi
             # If $NEW_DIR=<New directory> then $XSTR=$NEW_DIR.
-            # If $NEW_DIR="QUIT" then $XSTR=$1 <old (possibly invalid) directory>.
+            # If $NEW_DIR="QUIT" then $XSTR=$2 <old (possibly invalid) directory>.
       done
       # Set $NEW_DIR in order to update "Validate Files and Directories Menu" message display.
       # NEW_DIR=<new directory only if it exists> or <old (possibly invalid) directory>.
-      NEW_DIR=$XSTR 
+      NEW_DIR=$XSTR
       unset XSTR
 } # End of function f_change_dir
 #
 # +----------------------------------------+
-# |      Function f_ask_new_directory      |
+# |    Function f_ask_new_directory_txt    |
 # +----------------------------------------+
 #
 #  Inputs: $1=Old Directory, SCRIPT_PATH, THIS_FILE.
 #    Uses: X.
 # Outputs: NEW_DIR.
 #
-f_ask_new_directory () {
+f_ask_new_directory_txt () {
       clear  # Blank the screen.
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
       echo "The main script file: \"cliappmenu.sh\" is in directory:"
       echo "      $MAINMENU_DIR"
       echo "_________________________________________________________________"
-      # Although $1=Old directory, use grep to be certain that THIS_DIR=$1.
-      # grep results in 'THIS_DIR="<old directory>"'
-      # Strip off the leading 'THIS_DIR=' and then strip off quotation marks.
-      # Substitution using bash curly bracket syntax.
-      # Syntax: {<Target string>/<old pattern>/<new pattern>}
-      #
-      X="`grep -m 1 $1 $SCRIPT_PATH/$THIS_FILE`"  # Stop grep after 1st matching string and delete leading
-                                                  # Use back-ticks to run grep and get results.
-      X=${X/      THIS_DIR=/} ; X=${X/\"/}  # Remove strings '      THIS_DIR=' 
-                                            # and double-quotation marks from result.
-      #
-      # SCRIPT_PATH is the directory where THIS_FILE actually is currently residing.
       echo
       f_term_color $ECOLOR $BCOLOR
       echo $(tput bold)
-      if [ "$X" != "$MAINMENU_DIR/cli-app-menu" ] ; then
+      if [ "$1" != "$MAINMENU_DIR/cli-app-menu" ] ; then
          echo "The directory for the required support files needs to be changed."
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo
          echo "Change from:"
-         echo "     $X"
+         echo "     $1"
          echo
          echo "Change to:"
          echo "     $MAINMENU_DIR/cli-app-menu"
@@ -1004,7 +1266,7 @@ f_ask_new_directory () {
          echo "The directory for the required support files needs to be created."
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo "Create directory:"
-         echo "     $X"
+         echo "     $1"
       fi
       echo
       echo
@@ -1015,7 +1277,7 @@ f_ask_new_directory () {
       case $X in
            [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
            NEW_DIR="QUIT"
-           f_valid_exit $NEW_DIR $NEW_DIR
+           f_valid_exit_txt $NEW_DIR $NEW_DIR
            ;;
            [Nn]*)
            echo
@@ -1030,7 +1292,7 @@ f_ask_new_directory () {
            case $NEW_DIR in
                 "" | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
                 NEW_DIR="QUIT"
-                f_valid_exit $NEW_DIR $NEW_DIR
+                f_valid_exit_txt $NEW_DIR $NEW_DIR
                 ;;
                 */)
                 # Strip off the last "/" in the directory name. i.e. Change from "/opt/" to "/opt".
@@ -1046,7 +1308,7 @@ f_ask_new_directory () {
            # Create directory only if it does not exist already.
            if [ ! -d "$NEW_DIR" ] ; then
               if [ -n "$NEW_DIR" ] ; then
-                 f_ask_create_directory $1 $NEW_DIR
+                 f_ask_create_directory_txt $1 $NEW_DIR
                  # Directory creation failed for some reason.
                  if [ ! -d "$NEW_DIR" ] ; then
                     NEW_DIR="QUIT"
@@ -1055,29 +1317,92 @@ f_ask_new_directory () {
            else
               f_term_color $ECOLOR $BCOLOR
               echo $(tput bold)
-              echo "Directory cannot be created, it may already exist."
+              echo "Directory cannot be created, since it may already exist."
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               f_setup_dir $1 $NEW_DIR
            fi
            ;;
            *)
            NEW_DIR="$MAINMENU_DIR/cli-app-menu"
-           f_create_directory $1 $NEW_DIR
+           f_create_directory_txt $1 $NEW_DIR
            ;;
       esac
       unset X
-} # End of function f_ask_new_directory
-#
+} # End of function f_ask_new_directory_txt
 #
 # +----------------------------------------+
-# |     Function f_ask_create_directory    |
+# |    Function f_ask_new_directory_gui    |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory, SCRIPT_PATH, THIS_FILE.
+#    Uses: ERROR
+# Outputs: NEW_DIR.
+#
+f_ask_new_directory_gui () {
+      if [ "$2" != "$MAINMENU_DIR/cli-app-menu" ] ; then
+         $1 --yesno "The main script file: \"cliappmenu.sh\" is in directory:\n      $MAINMENU_DIR\n_________________________________________________________________\n\nThe directory for the required support files needs to be changed.\n\nChange from:\n     $2\n\nChange to:\n     $MAINMENU_DIR/cli-app-menu\n\nDo you agree with this directory change?" 20 75
+         ERROR=$?
+      else
+         # This scenario happens when the directory was deleted
+         # while $THIS_DIR is still set correctly to point to that directory.
+         # a rare scenario which occurred while in development and testing.
+      $1 --yesno "The main script file: \"cliappmenu.sh\" is in directory:\n      $MAINMENU_DIR\n_________________________________________________________________\n\nThe directory for the required support files needs to be created.\nCreate directory:\n     $2\n\nDo you agree with this directory change?" 20 75
+      ERROR=$?
+      fi
+      case $ERROR in
+           1)
+           # Get user-entered directory name with dialog/whiptail --inputbox.
+           # Save user-input with redirection.
+           # Redirect stderr (standard error) to stdout (standard output) thus capturing the error code.
+           # Redirect stdout to screen (/dev/tty). Capture result of stdout to $NEW_DIR variable.
+           NEW_DIR=$($1 --inputbox "If you want to have the required files in a separate directory from\nthe main script file, then enter a different directory.\n\n(Q)uit, to quit this script.\n\nEnter new directory name:" 15 75 2>&1 >/dev/tty)
+           #
+           case $NEW_DIR in
+                "" | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
+                NEW_DIR="QUIT"
+                f_valid_exit_gui $1 $NEW_DIR $NEW_DIR
+                ;;
+                */)
+                # Strip off the last "/" in the directory name. i.e. Change from "/opt/" to "/opt".
+                # Substitution using bash curly bracket syntax.
+                # Syntax: {<Target string>/<old pattern>/<new pattern>}
+                #               NEW_DIR         %"/"         null
+                #                                |
+                #                              (%"/" means find trailing "/")
+                NEW_DIR=${NEW_DIR/%"/"/}
+                ;;
+           esac
+           #
+           # Create directory only if it does not exist already.
+           if [ ! -d "$NEW_DIR" ] ; then
+              if [ -n "$NEW_DIR" ] ; then
+                 f_ask_create_directory_gui $1 $2 $NEW_DIR
+                 # Directory creation failed for some reason.
+                 if [ ! -d "$NEW_DIR" ] ; then
+                    NEW_DIR="QUIT"
+                 fi
+              fi
+           else
+              $1 --msgbox "Directory cannot be created, since it may already exist." 8 60
+              f_setup_dir_gui $1 $2 $NEW_DIR
+           fi
+           ;;
+           0)
+           NEW_DIR="$MAINMENU_DIR/cli-app-menu"
+           f_create_directory_gui $1 $2 $NEW_DIR
+           ;;
+      esac
+} # End of function f_ask_new_directory_gui
+#
+# +----------------------------------------+
+# |   Function f_ask_create_directory_txt  |
 # +----------------------------------------+
 #
 #  Inputs: $1=Old Directory $2=New Directory.
 #    Uses: X.
 # Outputs: None.
 #
-f_ask_create_directory () {
+f_ask_create_directory_txt () {
       # clear  # Blank the screen.
       echo
       echo "Create new directory:"
@@ -1091,21 +1416,43 @@ f_ask_create_directory () {
            ;;
            * | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
            # Yes, create it.
-           f_create_directory $1 $2
+           f_create_directory_txt $1 $2
            ;;
       esac
       unset X
-} # End of function f_ask_create_directory
+} # End of function f_ask_create_directory_txt
 #
 # +----------------------------------------+
-# |      Function f_create_directory       |
+# |   Function f_ask_create_directory_gui  |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory $3=New Directory.
+#    Uses: ERROR.
+# Outputs: None.
+#
+f_ask_create_directory_gui () {
+      $1 --yesno "Create new directory:\n   $3\n\nCreate it now?" 12 75
+      ERROR=$?
+      case $ERROR in
+           1)
+           # No, do not create new directory, stop.
+           ;;
+           0)
+           # Yes, create it.
+           f_create_directory_gui $1 $2 $3
+           ;;
+      esac
+} # End of function f_ask_create_directory_gui
+#
+# +----------------------------------------+
+# |    Function f_create_directory_txt     |
 # +----------------------------------------+
 #
 #  Inputs: $1=Old Directory, $2=New Directory.
 #    Uses: None.
 # Outputs: None.
 #
-f_create_directory () {
+f_create_directory_txt () {
       mkdir $2 &>/dev/null # 1=standard messages, 2=error messages, &=both.
       # Was it created OK?
       if [ -d "$2" ] ; then
@@ -1126,7 +1473,7 @@ f_create_directory () {
             echo "Directory successfully created:"
             echo "   $2"
             echo
-            f_setup_dir $1 $2
+            f_setup_dir_txt $1 $2
          else
             echo
             f_term_color $ECOLOR $BCOLOR
@@ -1135,18 +1482,50 @@ f_create_directory () {
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          fi
       fi
-} # End of function f_create_directory
+} # End of function f_create_directory_txt
 #
 # +----------------------------------------+
-# |         Function f_setup_dir           |
+# |    Function f_create_directory_gui     |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory $3=New Directory.
+#    Uses: None.
+# Outputs: None.
+#
+f_create_directory_gui () {
+      mkdir $3 &>/dev/null # 1=standard messages, 2=error messages, &=both.
+      # Was it created OK?
+      if [ -d "$3" ] ; then
+         # Yes, created OK. Change $THIS_DIR to reference new directory.
+         $1 --msgbox "Directory successfully created:\n   $3" 10 75
+         f_setup_dir_gui $1 $2 $3
+      else
+         # No, use sudo.
+         f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, $ERROR code.
+         # Create it with sudo.
+         echo $XSTR | sudo -S mkdir $3
+         # Was it created OK?
+         if [ -d "$3" ] ; then
+            # Yes, created OK. Change $THIS_DIR to reference new directory.
+            echo
+            $1 --msgbox "Directory successfully created:\n   $3" 10 75
+            f_setup_dir_gui $1 $2 $3
+         else
+            echo
+            $1 --msgbox "Error creating new directory, even when using sudo permissions." 8 70
+         fi
+      fi
+} # End of function f_create_directory_gui
+#
+# +----------------------------------------+
+# |       Function f_setup_dir_txt         |
 # +----------------------------------------+
 #
 #  Inputs: $1=Old Directory, $2=New Directory, SCRIPT_PATH.
-#    Uses: X.
-# Outputs: None.
+#    Uses: X, ERROR.
+# Outputs: NEW_DIR.
 #
-f_setup_dir () {
-
+f_setup_dir_txt () {
       echo "Automatically re-configuring \"cliappmenu.sh\" to use the directory."
       echo
       if [ -w $SCRIPT_PATH ] ; then
@@ -1162,6 +1541,8 @@ f_setup_dir () {
             echo $(tput bold)
             echo -n "Error re-configuring, \"cliappmenu.sh\" to use the directory."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            # Set NEW_DIR back to the old directory since re-configurating failed.
+            NEW_DIR=$1
          fi 
       else
          # No, directory is not writeable so use sudo permissions.
@@ -1171,14 +1552,59 @@ f_setup_dir () {
             echo
             f_term_color $ECOLOR $BCOLOR
             echo $(tput bold)
-            echo -n "Error re-configuring,\"cliappmenu.sh\" to use the directory even when using sudo permissions."
+            echo -n "Error re-configuring,\"cliappmenu.sh\" to use the directory"
+            echo "even when using sudo permissions."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+            # Set NEW_DIR back to the old directory since re-configurating failed.
+            NEW_DIR=$1
          fi
       fi
       echo -n "Press \"Enter\" key to continue."
       read X
       unset X
-} # End of function f_setup_dir
+} # End of function f_setup_dir_txt
+#
+# +----------------------------------------+
+# |       Function f_setup_dir_gui         |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory $3=New Directory, SCRIPT_PATH.
+#    Uses: ERROR.
+# Outputs: None.
+#
+f_setup_dir_gui () {
+      $1 --msgbox "Automatically re-configuring \"cliappmenu.sh\" to use the directory." 8 70
+      if [ -w $SCRIPT_PATH ] ; then
+         # Yes, directory is writeable.
+         # sed has \" back-slashes before the quotation marks to include the
+         # literal quotation marks in the search/replace strings.
+         #         Find string: THIS_DIR="$2
+         # Replace with string: THIS_DIR="$3
+         sed -i "s|THIS_DIR=\"$2|THIS_DIR=\"$3|" $SCRIPT_PATH/cliappmenu.sh
+         ERROR=$?
+         if [ $ERROR -ne 0 ] ; then
+            $1 --msgbox --title ">>> Error <<<" "Error re-configuring, \"cliappmenu.sh\" to use the directory." 8 70
+            # Set NEW_DIR back to the old directory since re-configurating failed.
+            NEW_DIR=$2
+         fi 
+      else
+         # No, directory is not writeable so use sudo permissions.
+         f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, $ERROR code.
+         ERROR=$?
+         if [ $ERROR -eq 0 ] ; then
+            echo $XSTR | sudo -S sed -i "s|THIS_DIR=\"$2|THIS_DIR=\"$3|" $SCRIPT_PATH/cliappmenu.sh
+            ERROR=$?
+            if [ $ERROR -ne 0 ] ; then
+               $1 --msgbox --title ">>> Error <<<" "Error re-configuring,\"cliappmenu.sh\" to use the directory\neven when using sudo permissions." 10 70
+               # Set NEW_DIR back to the old directory since re-configuring failed.
+               NEW_DIR=$2
+            fi
+         else
+            # Cancel button pressed. Set NEW_DIR back to the old directory since re-configurating failed.
+            NEW_DIR=$2
+         fi
+      fi
+} # End of function f_setup_dir_gui
 #
 # +----------------------------------------+
 # |          Function f_main_help          |
@@ -2004,13 +2430,13 @@ f_update_list_apps () {
 # |         Function f_ls_this_dir         |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: THIS_DIR.
+#  Inputs: $1 - Directory. 
+#    Uses: None.
 # Outputs: None.
 #
 f_ls_this_dir () {
       clear # Blank the screen.
-      ls -gGh --group-directories-first --color=always $THIS_DIR | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+      ls -gGh --group-directories-first --color=always $1 | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 } # End of function f_ls_this_dir
 #
 # **************************************
