@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-26-2013 20:38"
+REVDATE="December-29-2013 12:03"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -211,7 +211,7 @@ SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # Outputs: GUI (dialog, whiptail, text).
 #
 f_detect_ui () {
-      command -v dialog # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+      command -v dialog &>/dev/null # 1=standard messages, 2=error messages, &=both.
       ERROR=$?
       # Is Dialog GUI installed?
       if [ $ERROR -eq 0 ] ; then
@@ -219,7 +219,7 @@ f_detect_ui () {
          GUI="dialog" # test diagnostic line.
       else
          # Is Whiptail GUI installed?
-         command -v whiptail # &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         command -v whiptail &>/dev/null # 1=standard messages, 2=error messages, &=both.
          ERROR=$?
          if [ $ERROR -eq 0 ] ; then
             # Yes, Whiptail installed.

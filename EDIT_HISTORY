@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c $SCRIPT_PATH/"EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="December-26-2013 23:00"
+PROJECT_REVDATE="December-29-2013 12:03"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -80,7 +80,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2013-12-26 *Mini-installer GUI tweaks.
+## 2013-12-29 *Mini-installer GUI tweaks.
 ##
 ## 2013-12-23 *Mini-installer added GUI.
 ##            *f_test_dash added GUI.
