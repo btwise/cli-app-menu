@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-21-2013 11:29"
+# REVDATE="December-30-2013 18:37"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -56,7 +56,7 @@ f_menu_module_display () {
             #mod_apps-environment.lib  #AAB Environment  - Command Line shell and GUI, DOS and Nintendo emulators.
             #mod_apps-filedir.lib      #AAB File/Dir     - Manage, backup, compare, edit, encrypt, find, files/dirs.
             #mod_apps-games.lib        #AAB Games        - Fun time! Games, movies, and screen-savers.
-            #mod_apps-image.lib        #AAB Image        - View images and graphics files.
+            #mod_apps-graphics.lib     #AAB Graphics     - View images and graphics files.
             #mod_apps-internet.lib     #AAB Internet     - Web, e-mail, chat, IM, RSS, ftp, torrents, etc.
             #mod_apps-network.lib      #AAB Network      - Wireless connection, network monitoring, tools.
             #mod_apps-office.lib       #AAB Office       - Editors, spreadsheets, presenter, organize, calcs, acctg.
@@ -170,8 +170,8 @@ mod_apps-games.lib () {
       #
 }
 #
-mod_apps-image.lib () {
-      MOD_FILE="mod_apps-image.lib"
+mod_apps-graphics.lib () {
+      MOD_FILE="mod_apps-graphics.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
          # Image-Graphics Applications Menu.
          f_mod_apps-submenu $THIS_DIR $MOD_FILE f_menu_cat_image

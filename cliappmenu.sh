@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-29-2013 12:03"
+REVDATE="January-01-2014 13:50"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -300,7 +300,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -641,7 +641,7 @@ f_initvars_menu_app () {
 f_valid_files_txt () {
       # Check for required files and directories.
       # Is the required file in an existing directory?
-      NEW_DIR=""  # Initialize NEW_DIR changed if new directory is created.
+      NEW_DIR=$1  # Initialize NEW_DIR changed if new directory is created.
       if [ ! -r "$1/$2" ] ; then
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          clear  # Blank the screen.
@@ -655,7 +655,7 @@ f_valid_files_txt () {
             echo
             echo -n "Press \"Enter\" key to continue."
             read X
-            f_change_dir $GUI $1
+            f_change_dir $GUI $1 # Outputs $NEW_DIR.
          else
             f_term_color $ECOLOR $BCOLOR
             echo -n $(tput bold)
@@ -675,6 +675,11 @@ f_valid_files_txt () {
          fi
          f_valid_path_txt $NEW_DIR
          f_valid_exit_txt $1 $NEW_DIR
+      else
+         f_valid_path_txt $NEW_DIR
+         if [[ ! "$PATH" == *":$NEW_DIR"* ]] ; then
+            f_valid_exit_txt $1 $NEW_DIR
+         fi
       fi
 } # End of function f_valid_files_txt
 #
@@ -689,11 +694,11 @@ f_valid_files_txt () {
 f_valid_files_gui () {
       # Check for required files and directories.
       # Is the required file in an existing directory?
-      NEW_DIR=""  # Initialize NEW_DIR changed if new directory is created.
+      NEW_DIR=$2  # Initialize NEW_DIR changed if new directory is created.
       if [ ! -r "$2/$3" ] ; then
          if [ ! -e "$2" ] ; then
             $1 --title ">>> Error <<<" --msgbox "\nThe directory:\n   $2\n\nDoes not exist and needs to be either created or changed\nto a valid directory." 15 75
-            f_change_dir $1 $2
+            f_change_dir $1 $2 #Outputs $NEW_DIR.
          else
             $1 --title ">>> Error <<<" --msgbox "\nA required file, \"$3\" is missing.\n\nChoices to fix the problem will be shown in the next menu." 10 50
             echo
@@ -706,6 +711,11 @@ f_valid_files_gui () {
          fi
          f_valid_path_gui $1 $NEW_DIR
          f_valid_exit_gui $1 $NEW_DIR
+      else
+         f_valid_path_gui $1 $NEW_DIR
+         if [[ ! "$PATH" == *":$NEW_DIR"* ]] ; then
+            f_valid_exit_gui $1 $NEW_DIR
+         fi
       fi
 } # End of function f_valid_files_gui
 #
@@ -1711,6 +1721,7 @@ f_main_configure () {
       do    # Start of Configuration Menu until loop.
 #f_menu_term_color^0^0^0^0     #AAC Colors        - Set default font/background colors.
 #f_menu_uncolor^0^0^0^0        #AAC Un-colors     - Set font color for unavailable library modules.
+#f_reinstall_readme^0^0^0^1    #AAC Install       - Instructions to re-install script into another directory.
 #f_update_software^0^0^0^0     #AAC Update        - Update this Main Menu program from the GitHub repository.
 #f_menu_module_manager^0^0^0^0 #AAC Modules       - Add/Delete/Remove/Restore/Update software modules.
 #f_ls_this_dir^0^0^0^0         #AAC List files    - List all support and library program files.
@@ -1728,6 +1739,40 @@ f_main_configure () {
             #
       unset AAC MENU_ITEM  # Throw out this variable.
 } # End of function f_main_configure
+#
+# +----------------------------------------+
+# |        Function f_main_information     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAG, MENU_ITEM.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_main_information () {
+      f_initvars_menu_app "AAG"
+      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Colors", "Un-colors" or "Update", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
+      until [ "$AAG" = "0" ]
+      do    # Start of Configuration Menu until loop.
+#f_main_about^0^0^0^0         #AAG About CLI Menu - What version am I using.
+#f_main_documentation^0^0^0^0 #AAG Documentation  - Script documentation, programmer notes, HOW-TOs.
+#f_main_edit_history^0^0^0^0  #AAG Edit History   - All the craziness behind the scenes.
+#f_main_license^0^0^0^0       #AAG License        - Licensing, GPL.
+            #
+            THIS_FILE="cliappmenu.sh"
+            MENU_TITLE="Information Menu"
+            DELIMITER="#AAG" #AAG This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read AAG
+            f_menu_item_process $AAG  # Outputs $MENU_ITEM.
+      done  # End of Configuration Menu until loop.
+            #
+      unset AAG MENU_ITEM  # Throw out this variable.
+} # End of function f_main_information
 #
 # +----------------------------------------+
 # |      Function f_main_documentation     |
@@ -2436,8 +2481,38 @@ f_update_list_apps () {
 #
 f_ls_this_dir () {
       clear # Blank the screen.
-      ls -gGh --group-directories-first --color=always $1 | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+      ls -gGh --group-directories-first $1 | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 } # End of function f_ls_this_dir
+#
+# +----------------------------------------+
+# |      Function f_reinstall_readme       |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_readme () {
+      clear # Blank the screen.
+      echo "To re-install this software into another location/directory,"
+      echo "simply copy the file, "cliappmenu.sh" to the other directory."
+      echo
+      echo "        cp <old directory>/cliappmenu.sh <new directory>"
+      echo "             or"
+      echo  "       sudo cp <old directory>/cliappmenu.sh <new directory>"
+      echo
+      echo
+      echo "Then change to the new directory and run the script."
+      echo
+      echo "        cd <new directory>"
+      echo
+      echo "        bash cliappmenu.sh"
+      echo "             or"
+      echo "        sudo bash cliappmenu.sh"
+      echo
+      echo "Then the mini-installer will automatically run and give you more instructions."
+      echo
+} # End of function f_reinstall_readme
 #
 # **************************************
 # ***     Start of Main Program      ***
@@ -2473,14 +2548,11 @@ f_initvars_menu_app "AAA"
 until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Launch a command-line application.
-#f_main_help #AAA Help and Features   - How to use and what can it do.
-#f_main_about #AAA About CLI Menu      - What version am I using.
-#f_main_configure #AAA Configure           - Update software, change colors, edit History, etc.
-#f_main_documentation #AAA Documentation       - Script documentation, programmer notes, HOW-TOs.
-#f_main_edit_history #AAA Edit History        - All the craziness behind the scenes.
-#f_main_license #AAA License             - Licensing, GPL.
-#f_main_list_apps #AAA List Applications   - List apps in active sub-menus (downloaded modules).
-#f_main_search_apps #AAA Search Applications - Search within active sub-menus (downloaded modules).
+#f_main_list_apps        #AAA List Applications   - List apps in active sub-menus (downloaded modules).
+#f_main_search_apps      #AAA Search Applications - Search within active sub-menus (downloaded modules).
+#f_main_help             #AAA Help and Features   - How to use and what can it do.
+#f_main_configure        #AAA Configure           - Update software, change colors, edit History, etc.
+#f_main_information      #AAA Information         - Documentation, edit history, license, script version.
       #
       THIS_FILE="cliappmenu.sh"
       MENU_TITLE="Main Menu"

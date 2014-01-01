@@ -70,7 +70,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="December-22-2013 12:37"
+REVDATE="January-01-2014 13:50"
 #:
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
@@ -153,7 +153,7 @@ REVDATE="December-22-2013 12:37"
 #: Append the directory name to your environment $PATH:
 #: Edit your /home/<username goes here>/.bashrc file and add the directory by
 #: adding the lines to the end of the .bashrc file,
-#:                   PATH=$PATH:~/bin/cli-app-menu
+#:                   PATH=$PATH:<User-chosen directory path>/cli-app-menu
 #:                   export PATH
 #:
 #: When cliappmenu.sh is run i.e. "bash cliappmenu.sh",
@@ -519,6 +519,7 @@ REVDATE="December-22-2013 12:37"
 #:AAD - File/Directory Validation Menu
 #:AAE - Terminal Colors Menu
 #:AAF - Colors for Unavailable Menu Items
+#:AAG - Information Menu
 #:
 #:BAU - Audio-Video Categories Menu
 #:BFM - File Management Categories Menu
@@ -555,6 +556,7 @@ REVDATE="December-22-2013 12:37"
 #:MDL - Dowloader Applications Menu
 #:MED - Education Applications Menu
 #:MEM - E-mail Applications Menu
+#:MEN - Environment Applications Menu
 #:MFA - File Burn CD/DVD Applications Menu
 #:MFB - File Compression Applications Menu
 #:MFC - File Compression2 Applications Menu
@@ -605,6 +607,7 @@ REVDATE="December-22-2013 12:37"
 #:MNR - News Reader Applications Menu
 #:MNS - Network Sharing Applications Menu
 #:MNW - WAN Applications Menu
+#:MPK - Package Management Applications Menu
 #:MPO - Podcatcher Applications Menu
 #:MPR - Presentation Applications Menu
 #:MPS - PDF-PS Applications Menu
@@ -624,6 +627,7 @@ REVDATE="December-22-2013 12:37"
 #:MSP - Spreadsheet Applications Menu
 #:MSR - System Process Applications Menu
 #:MSS - Screen-saver Applications Menu
+#:MST - Screen Tools Applications Menu
 #:MTC - Text Compare Applications Menu
 #:MTD - To-Do Applications Menu
 #:MTE - Text Editor Applications Menu
