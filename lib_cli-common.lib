@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-18-2013 23:56"
+# REVDATE="January-01 2014 22:52"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1748,13 +1748,30 @@ f_wget_file_2 () {
                echo -n "Error deleting older file \"$MOD_FILE\"."
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             fi
-            # Download the module.
-            # Permission to download file?
-            if [ -w $THIS_DIR/$MOD_FILE ] ; then  
-               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
-               ERROR=$?
+            # Download the module except if file is "cli-app-menu.sh".
+            # Is directory writable?
+            if [ -w $THIS_DIR ] ; then
+               # Yes, directory is writable.
+               # Does file exist?
+               if [ -w $THIS_DIR/$MOD_FILE ] ; then
+                  wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+                  ERROR=$?
+               else
+                  if [ -e $THIS_DIR/$MOD_FILE ] ; then
+                     # Need sudo permissions to download file.
+                     echo "Need sudo permissions to download file." # test diagnostic line.
+                     sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+                     ERROR=$?
+                  else
+                     # File does not exist
+                     wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+                     ERROR=$?
+                  fi
+               fi
             else
+               # No, directory is not writable.
                # Need sudo permissions to download file.
+               echo "Need sudo permissions to download file." # test diagnostic line.
                sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
                ERROR=$?
             fi
