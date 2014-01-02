@@ -1086,7 +1086,6 @@ f_file_dload_txt () {
       #
       if [ -d "$1" ] ; then
          # Directory exists so download file into the directory.
-         YSTR="~"
          echo "Download the file from the project's repository at the GitHub web site."
          echo "Use the Master branch of the project repository."
          echo "Download file:"
