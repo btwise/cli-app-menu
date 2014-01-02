@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_REVISION=$(grep ^"## 2013" -c $SCRIPT_PATH/"EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="January-01-2014 22:52"
+PROJECT_REVDATE="January-02-2014 13:03"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,6 +79,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
+##
+## 2014-01-02 *Mini-installer delete unused variables, clean up some comments.
 ##
 ## 2014-01-01 *README updated .bashrc instructions to update PATH.
 ##            *Mini-installer added checking for valid path at all times.
