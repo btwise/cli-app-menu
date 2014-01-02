@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-16 2013 21:01"
+# REVDATE="January-01 2014 22:52"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -15,13 +15,13 @@
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
-      # If displaying any menus existing in cli-app-menu.sh
+      # If displaying any menus existing in cliappmenu.sh
       # i.e. Main Menu, Download Menu, Configuration Menu, Terminal Colors Menu.
-      # then this if statement allows for cli-app-menu.sh to be in a different
+      # then this if statement allows for cliappmenu.sh to be in a different
       # directory from all other files.
-      # i.e. /home/<username>/cli-app-menu.sh
-      #      /home/<username>/bin/cli-app-menu/<All other module library files>.
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
+      # i.e. /home/<username>/cliappmenu.sh
+      #      /home/<username>/bin/$THIS_DIR/<All other module library files>.
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" -o "$DELIMITER" = "#AAG" ] ; then
          XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
@@ -33,7 +33,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       if [ "$DELIMITER" = "#AAA" ] ; then
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
       # Display message for Application Category Menu, Configuration Menu.
-      elif [ "$DELIMITER" = "#AAB" -o "$DELIMITER" = "#AAC" ] ; then
+      elif [ "$DELIMITER" = "#AAB" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAG" ] ; then
          echo "0 - Return to Main Menu." # Option for Application Category, Configuration Menus.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
@@ -129,7 +129,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo "'0', (Q)uit, to quit this script."
            ;;
            # Sub-menus called from Main Menu.
-           "#AAB" | "#AAC")
+           "#AAB" | "#AAC" | "#AAG")
            echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
            echo
            if [ "$DELIMITER" = "#AAB" -a "$MENU_TITLE" = "Software Module Manager Menu" ] ; then
@@ -167,7 +167,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
       #
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" -o "$DELIMITER" = "#AAG" ] ; then
          THIS_DIR=$XXSTR  # Restore $THIS_DIR.
       fi
 } # End of function f_show_menu
@@ -200,8 +200,8 @@ f_choice_array () {
       #    If the name of the menu item is 2 or more words, just print the
       #    first 2 words into array CHOICE[$XNUM] which is sufficient for case
       #    pattern matching on that menu item choice.
+      #
       #    Allow app names consisting of 2 words. i.e. "ip addr", "ip route".
-
       #    The <space> between the words needs a substitution { print $1"%"$2 }
       #    of a "%" for the <space> so awk will not separate the words into 2
       #    different menu items, rather than 1 menu item having 2 words.
@@ -246,8 +246,7 @@ f_menu_item_process () {
       # 8. Is the menu an application menu? Yes, run application, $APP_NAME by running the function
       #    f_application_run.
       # 9. Redisplay menu.
-
-
+      #
       MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
                     # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
       PRESS_KEY=0 # Reset flag.
@@ -361,7 +360,7 @@ f_menu_item_process () {
             # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
             # Don't run "applications" in Main Menu or any of its sub-menus because there are none.
             #
-            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAB" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF" ] ; then
+            if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAB" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF"  -a "$DELIMITER" != "#AAG" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
                APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. 
@@ -473,7 +472,7 @@ f_menu_item_info () {
       # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
       #
       MENU_ITEM_OPT=""
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" -o "$DELIMITER" = "#AAG" ] ; then
          XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
@@ -495,7 +494,7 @@ f_menu_item_info () {
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
       export MENU_ITEM_OPT
       #
-      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" ] ; then
+      if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" -o "$DELIMITER" = "#AAG" ] ; then
          THIS_DIR=$XXSTR  # Restore $THIS_DIR.
       fi
 } # End of function f_menu_item_info
@@ -1414,6 +1413,9 @@ f_application_install () {
            barnowl | zcrypt)
            APP_NAME_INSTALL="barnowl"
            ;;
+           binhex | frommac | hexbin | macunpack | macsave | macstream | tomac)
+           APP_NAME_INSTALL="macutils"
+           ;;
            clamscan)
            APP_NAME_INSTALL="clamav"
            ;;
@@ -1723,8 +1725,8 @@ f_wget_file_2 () {
       . lib_cli-common.lib # Invoke the common library.
       # The wget --directory-prefix allows file to be downloaded into a specific directory.
       if [ "$BRANCH" != "SKIP" ] ; then
-         if [ "$MOD_FILE" != "cli-app-menu.sh" ] ; then
-            # Delete any old files except if file is "cli-app-menu.sh".
+         if [ "$MOD_FILE" != "cliappmenu.sh" ] ; then
+            # Delete any old files except if file is "cliappmenu.sh".
             # Permission to delete file?
             if [ -w $THIS_DIR/$MOD_FILE ] ; then
                rm $THIS_DIR/$MOD_FILE # Delete old file.
@@ -1745,12 +1747,27 @@ f_wget_file_2 () {
                echo -n "Error deleting older file \"$MOD_FILE\"."
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             fi
-            # Download the module.
-            # Permission to download file?
-            if [ -w $THIS_DIR/$MOD_FILE ] ; then  
-               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
-               ERROR=$?
+            # Download the module except if file is "cli-app-menu.sh".
+            # Is directory writable?
+            if [ -w $THIS_DIR ] ; then
+               # Yes, directory is writable.
+               # Does file exist?
+               if [ -w $THIS_DIR/$MOD_FILE ] ; then
+                  wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+                  ERROR=$?
+               else
+                  if [ -e $THIS_DIR/$MOD_FILE ] ; then
+                     # Need sudo permissions to download file.
+                     sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+                     ERROR=$?
+                  else
+                     # File does not exist
+                     wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+                     ERROR=$?
+                  fi
+               fi
             else
+               # No, directory is not writable.
                # Need sudo permissions to download file.
                sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
                ERROR=$?
@@ -1764,20 +1781,22 @@ f_wget_file_2 () {
                echo
             fi
          else
-            # File is "cli-app-menu.sh" so make a back-up copy,
+            # File is "cliappmenu.sh" so make a back-up copy,
             #  delete old file, and then download the new version.
             #
             # Make backup copy of the file.
             # Permission to backup the file?
             if [ -w $MAINMENU_DIR/$MOD_FILE ] ; then  
-               tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+               mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+               # tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                ERROR=$?
             else
                # File either does not exist or is not writable without sudo.
                # Does file exist?
                if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
                   # Need sudo permissions to backup file.
-                  sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
+                  sudo mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+                  # sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                   ERROR=$?
                fi
             fi
@@ -1789,7 +1808,7 @@ f_wget_file_2 () {
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
             fi
-            # Delete cli-app-menu.sh after making back-up copy.
+            # Delete cliappmenu.sh after making back-up copy.
             # Was file back-up successful and have permission to delete the original file?
             if [ -w $MAINMENU_DIR/$MOD_FILE ] && [ -w $MAINMENU_DIR/$MOD_FILE.tar.gz ] ; then
                rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
@@ -1810,7 +1829,7 @@ f_wget_file_2 () {
                echo -n "Error deleting older file, \"$MOD_FILE\"."
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             fi
-            # Download cli-app-menu.sh.
+            # Download cliappmenu.sh.
             # Permission to download file?
             if [ -w $THIS_DIR/$MOD_FILE ] ; then  
                wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
@@ -1945,9 +1964,9 @@ f_create_LIST_APPS () {
       # Assumes all module files are present in current directory.
       #
       # Remove old LIST_APPS file.
-      if [ -w $THIS_DIR/LIST_APPS ] ; then
-         rm $THIS_DIR/LIST_APPS # Remove old LIST_APPS file.
-      else
+      rm $THIS_DIR/LIST_APPS  &>/dev/null # Do not display any errors.
+      ERROR=$?
+      if [ $ERROR -eq 1 ] ; then
          sudo rm $THIS_DIR/LIST_APPS &>/dev/null # Do not display any errors due to non-existent file.
       fi
       echo "_______________________________________________________________________________" >> ~/LIST_APPS

@@ -9,7 +9,7 @@
 # |     Function f_menu_app_education      |
 # +----------------------------------------+
 #
-#  Inputs: None. 
+#  Inputs: None.
 #    Uses: MED, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
@@ -130,14 +130,14 @@ f_menu_app_hamradio () {
       f_initvars_menu_app "MHR"
       until [ "$MHR" = "0" ]
       do    # Start of Ham Radio Applications until loop.
-#0^0^0^0^0 #MHR aldo     - Morse code training.
+#0^0^0^0^0  #MHR aldo     - Morse code training.
 #0^0^0^10^0 #MHR cw       - Morse code training.
-#0^0^0^0^0 #MHR cwcp     - Morse code training; ncurses-based.
-#0^0^0^0^1 #MHR ebook2cw - Converts plain text ebooks to  morse code mp3/ogg audio files.
+#0^0^0^0^0  #MHR cwcp     - Morse code training; ncurses-based.
+#0^0^0^0^1  #MHR ebook2cw - Converts plain text ebooks to  morse code mp3/ogg audio files.
 #0^0^0^10^0 #MHR morse    - Morse code training.
-#0^0^0^0^1 #MHR morsegen - Converts text file to ASCII morse code.
-#0^0^0^0^1 #MHR qrq      - High-speed morse code trainer.
-#0^0^0^0^1 #MHR tlf      - Morse code cw keyer, logging and contest program.
+#0^0^0^0^1  #MHR morsegen - Converts text file to ASCII morse code.
+#0^0^0^0^1  #MHR qrq      - High-speed morse code trainer.
+#0^0^0^0^1  #MHR tlf      - Morse code cw keyer, logging and contest program.
             #
             THIS_FILE="mod_apps-education.lib"
             MENU_TITLE="Ham Radio Applications Menu"
@@ -164,18 +164,18 @@ f_menu_app_math () {
       until [ "$MMA" = "0" ]
       do    # Start of Mathematic Applications until loop.
 #0^0^0^10^0 #MMA arithmetic     - Basic arithmetic quiz.
-#0^0^0^0^1 #MMA axiom          - General purpose computer algebra system.
-#0^0^0^0^1 #MMA dicelab        - evaluate the statistical distribution of dice rolls.
-#0^0^0^0^1 #MMA mathomatic     - Portable CAS (Computer Algebra System)
-#0^0^0^0^1 #MMA ministat       - Fundamental statistical comparison of 1 or 2 data sets.
-#1^0^0^0^1 #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
-#0^0^0^0^1 #MMA open-axiom     - Open scientific computation platform.
-#0^0^0^0^1 #MMA plotutils      - Plot 2-dimensional scientific data.
-#0^0^0^0^1 #MMA pi             - Calculate Archimedes constant Pi to arbitrary precision.
-#0^0^0^0^1 #MMA primes         - Prime number calculator.
-#0^0^0^0^1 #MMA pspp           - Statistical analysis tool.
-#0^0^0^0^0 #MMA relational-cli - relational algebra and relational database.
-#0^0^0^0^1 #MMA stda           - Simple tools for data analysis.
+#0^0^0^0^1  #MMA axiom          - General purpose computer algebra system.
+#0^0^0^0^1  #MMA dicelab        - evaluate the statistical distribution of dice rolls.
+#0^0^0^0^1  #MMA mathomatic     - Portable CAS (Computer Algebra System)
+#0^0^0^0^1  #MMA ministat       - Fundamental statistical comparison of 1 or 2 data sets.
+#1^0^0^0^1  #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
+#0^0^0^0^1  #MMA open-axiom     - Open scientific computation platform.
+#0^0^0^0^1  #MMA plotutils      - Plot 2-dimensional scientific data.
+#0^0^0^0^1  #MMA pi             - Calculate Archimedes constant Pi to arbitrary precision.
+#0^0^0^0^1  #MMA primes         - Prime number calculator.
+#0^0^0^0^1  #MMA pspp           - Statistical analysis tool.
+#0^0^0^0^0  #MMA relational-cli - relational algebra and relational database.
+#0^0^0^0^1  #MMA stda           - Simple tools for data analysis.
             #
             THIS_FILE="mod_apps-education.lib"
             MENU_TITLE="Mathematic Applications Menu"

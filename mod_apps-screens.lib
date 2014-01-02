@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13 2013 23:59"
+# REVDATE="December-21-2013 11:29"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_screens       |
@@ -25,6 +25,7 @@ f_menu_app_screens () {
 #1^0^0^0^0 #MSC screen   - Multiple sessions via split or pager screens.
 #f_screen^0^0^0^0 #MSC screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
 #1^0^0^0^0 #MSC splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
+#0^0^0^0^0 #MSC termit   - Terminal emulator with multiple tabs, sessions, keybindings.
 #0^0^0^0^0 #MSC tmux     - Multiple sessions with multiplexing.
 #0^0^0^0^0 #MSC twin     - A text mode window environment for multiple windows on screen.
 #0^0^0^0^0 #MSC vlock    - Locks virtual console or current terminal.

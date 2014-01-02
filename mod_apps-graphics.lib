@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-19-2013 23:45"
+# REVDATE="December-30-2013 18:37"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -17,10 +17,10 @@ f_menu_cat_image () {
       f_initvars_menu_app "BIG"
       until [ "$BIG" = "0" ]
       do    # Start of Image Application Category until loop.
-#f_menu_app_imagemagick #BIG ImageMagick - Tools to manipulate images.
+#f_menu_app_imagemagick    #BIG ImageMagick - Tools to manipulate images.
 #f_menu_app_image_graphics #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
             #
-            THIS_FILE="mod_apps-image.lib"
+            THIS_FILE="mod_apps-graphics.lib"
             MENU_TITLE="Image Application Category Menu"
             DELIMITER="#BIG" #BIG This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -61,7 +61,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
 #f_menu_app_image_graphics2^0^0^0^0 #MIG MORE...         - For more image-graphics applications.
             #
-            THIS_FILE="mod_apps-image.lib"
+            THIS_FILE="mod_apps-graphics.lib"
             MENU_TITLE="Image-Graphics Applications Menu"
             DELIMITER="#MIG" #MIG This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -93,7 +93,7 @@ f_menu_app_image_graphics2 () {
 #f_starwars^0^0^0^0 #MIH star wars - Star Wars movie in ASCII.
 #0^0^0^0^1 #MIH welcome21 - ANSI logo on login screen.
             #
-            THIS_FILE="mod_apps-image.lib"
+            THIS_FILE="mod_apps-graphics.lib"
             MENU_TITLE="Image-Graphics2 Applications Menu"
             DELIMITER="#MIH" #MIH This 3rd field prevents awk from printing this line into menu options. 
             #
@@ -165,7 +165,7 @@ f_menu_app_imagemagick () {
 #0^0^0^0^1 #MIK montage   - ImageMagick tool create a composite image from many images.
 #0^0^0^0^1 #MIK stream    - ImageMagick tool stream image to an archive format.
             #
-            THIS_FILE="mod_apps-image.lib"
+            THIS_FILE="mod_apps-graphics.lib"
             MENU_TITLE="ImageMagick Applications Menu"
             DELIMITER="#MIK" #MIK This 3rd field prevents awk from printing this line into menu options. 
             #

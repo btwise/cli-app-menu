@@ -2,28 +2,44 @@
 #
 # ©2013 COPYRIGHT 2013 ROBERT D. CHIN
 #
-# FILE NAMING CONVENTION FOR ARCHIVING:
-# $THIS_FILE_<YYYY-MM-DD_HHMM>
-#
 # Usage: sh EDIT_HISTORY
+#
+# +----------------------------------------+
+# |         Function f_script_path         |
+# +----------------------------------------+
+#
+#  Inputs: $BASH_SOURCE (System variable)
+#    Uses: None
+# Outputs: SCRIPT_PATH
+#
+f_script_path () {
+# BASH_SOURCE[0] gives the filename of the script.
+# dirname "{$BASH_SOURCE[0]}" gives the directory of the script
+# Execute commands: cd <script directory> and then pwd
+# to get the directory of the script.
+# NOTE: This code does not work with symlinks in directory path.
+#
+SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+} # End of function f_script_path
+#
+# **************************************
+# ***     Start of Main Program      ***
+# **************************************
+#
+SCRIPT_PATH="~" #Initialize path.
 #
 THIS_FILE="EDIT_HISTORY"
 #
-# The double # at the beginning of lines below
-# are used to delineate the Edit History.
-#
-## Edit History
-##
-## After each edit made, update Edit History and version (date stamp string) of
-## script.
+# Set SCRIPT_PATH to directory path of script.
+f_script_path
 #
 # Calculate revision number by counting all lines starting with "## 2013".
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION=$(grep ^"## 2013" -c "EDIT_HISTORY")
+PROJECT_REVISION=$(grep ^"## 2013" -c $SCRIPT_PATH/"EDIT_HISTORY")
 PROJECT_REVISION="2013.$PROJECT_REVISION"
-PROJECT_REVDATE="December-16-2013 21:01"
+PROJECT_REVDATE="January-01-2014 22:52"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -34,7 +50,11 @@ echo -n "Press '"Enter"' key to continue."
 read ANS
 # sed substitutes null for ## at beginning of each line so it is not printed.
 # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+echo PATH=$SCRIPT_PATH
+sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+#
+# The "#LIC" at the beginning of lines below
+# are used to delineate the license and copyright.
 #
 #LIC This program, EDIT_HISTORY is under copyright.
 #LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
@@ -51,6 +71,43 @@ sed -n 's/^##//'p $THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn a
 #LIC 
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# The double # at the beginning of lines below
+# are used to delineate the Edit History.
+#
+## Edit History
+##
+## After each edit made, update Edit History and version (date stamp string) of
+## script.
+##
+## 2014-01-01 *README updated .bashrc instructions to update PATH.
+##            *Mini-installer added checking for valid path at all times.
+##             Added re-installation instructions.
+##            *Main Menu added "Information Menu" and moved "About CLI Menu",
+##             "Documentation, "Edit History", "License" into "Information Menu".
+##            *f_main_configure "List Files" specify directory, $THIS_DIR.
+##            *f_wget_file_2 reworked to limit use of sudo.
+##
+## 2013-12-30 *"Application Categories Menu" rename category "Image" to "Graphics.
+##            *Rename mod_apps-image.lib to mod_apps-graphics.lib.
+##
+## 2013-12-29 *Mini-installer GUI tweaks.
+##
+## 2013-12-23 *Mini-installer added GUI.
+##            *f_test_dash added GUI.
+##
+## 2013-12-22 *EDIT_HISTORY add f_script_path to allow change log display from
+##             any directory by "bash EDIT_HISTORY".
+##            *README add f_script_path to allow change log display from
+##             any directory by "bash README". Edit text for 80-columns.
+##
+## 2013-12-18 *f_update_software, f_wget_file_2 changed the way cliappmenu.sh
+##             back-up is done before updating.
+##            *Added more applications.
+##
+## 2013-12-17 *Changed name of main script file: 
+##             from "cli-app-menu.sh" to "cliappmenu.sh".
+##            *mod_apps-system.lib added ddir, tree.
 ##
 ## 2013-12-16 *f_create_LIST_APPS made sudo capable.
 ##

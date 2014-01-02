@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="December-18-2013 23:56"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -548,6 +548,7 @@ f_menu_app_games_puzzle () {
 #0^0^0^0^0    #MGF masterm       - Guess the pattern of 4 pegs in 5 colors.
 #0^0^0^0^0    #MGF mastermind-nc - Guess the pattern of 4 pegs in 5 colors.
 #0^0^0^0^0    #MGF moo           - Guess the pattern of 4 digits of 1-9.
+#0^0^0^0^0    #MGF nettoe        - Tic-tac-toe vs. PC or networked human.
 #0^0^0^0^0    #MGF nsuduko       - Suduko game.
 #0^0^0^0^0    #MGF pente         - 5 in a row game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt           - Reformat input as a paper tape.
@@ -1526,6 +1527,7 @@ f_menu_app_games_word () {
 #1^0^0^0^1  #MGK rev     - Reverse typing (not Boston Red Sox "Reverse the Curse").
 #0^0^0^0^1  #MGK rl      - Randomize Lines scrambles words of a text file.
 #0^0^0^0^1  #MGK shuf    - Randomize Lines scrambles words of a text file.
+#0^0^0^0^1  #MGK tac     - Display text file in reverse line order, last line first.
 #0^0^0^10^0 #MGK toilet  - Creates banner with bold font.
             #
             THIS_FILE="mod_apps-games.lib"

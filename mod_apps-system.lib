@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13 2013 23:59"
+# REVDATE="December-19-2013 22:00"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -17,14 +17,14 @@ f_menu_cat_system () {
       f_initvars_menu_app "BSY"
       until [ "$BSY" = "0" ]
       do    # Start of System Application Category until loop.
-#f_menu_app_sys_backup #BSY Backup      - File Backup.
-#f_menu_app_sys_disks #BSY Disks       - Disk information.
-#f_menu_app_sys_health #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
-#f_menu_app_sys_logs #BSY Logs        - Log file viewers, command line history.
-#f_menu_app_sys_mainboard #BSY Mainboard   - Information on PC mainboard, memory, etc.
-#f_menu_app_sys_monitors #BSY Monitors    - Resources, and disk I/O monitors.
+#f_menu_app_sys_backup      #BSY Backup      - File Backup.
+#f_menu_app_sys_disks       #BSY Disks       - Disk information.
+#f_menu_app_sys_health      #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
+#f_menu_app_sys_logs        #BSY Logs        - Log file viewers, command line history.
+#f_menu_app_sys_mainboard   #BSY Mainboard   - Information on PC mainboard, memory, etc.
+#f_menu_app_sys_monitors    #BSY Monitors    - Resources, and disk I/O monitors.
 #f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
-#f_menu_app_sys_process #BSY Process     - System process monitoring, killing.
+#f_menu_app_sys_process     #BSY Process     - System process monitoring, killing.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Category Menu"
@@ -78,22 +78,22 @@ f_menu_app_sys_disks () {
       f_initvars_menu_app "MSD"
       until [ "$MSD" = "0" ]
       do    # Start of System Disks Information Applications until loop.
-#0^0^0^0^1 #MSD agedu  - Find wasted disk space.
-#0^0^0^0^1 #MSD blkid  - Block devices.
-#0^0^0^1^0 #MSD cfdisk - Disk partition tool.
-#1^0^0^0^1 #MSD df     - Disk usage and mount points, usage: 'df -hT'.
-#0^0^0^0^1 #MSD dfc    - Disk usage and mount points, graphical display.
-#0^0^0^0^1 #MSD di     - 'df'-like disk usage utility.
-#0^0^0^0^1 #MSD discus - 'df'-like disk usage utility with color, graphs, formatting.
-#1^0^0^0^1 #MSD du     - Disk usage monitor by directory.
-#0^0^0^1^0 #MSD gt5    - A diff-capable du-browser.
-#0^0^0^0^1 #MSD hdparm - Show/set disk parameters, settings. 
-#0^0^0^0^1 #MSD lsblk  - List block devices (disks).
-#0^0^0^1^0 #MSD ncdu   - Disk usage monitor, ncurses-based.
-#0^0^0^1^0 #MSD parted - Disk partition tool.
-#1^0^0^0^1 #MSD pydf   - Disk usage df clone written in python.
-#0^0^0^0^1 #MSD tdu    - Tree-view of disk space utilization; ncurses-based.
-#1^0^0^0^1 #MSD uuid   - Use ls -l to show disk uuid number.
+#0^0^0^0^1 #MSD agedu     - Find wasted disk space.
+#0^0^0^0^1 #MSD badblocks - Scans disks for bad sectors.
+#0^0^0^0^1 #MSD blkid     - Block devices information.
+#0^0^0^1^0 #MSD cfdisk    - Disk partition tool.
+#0^0^0^0^1 #MSD ddir      - Tree-view of disk space utilization.
+#1^0^0^0^1 #MSD df        - Disk usage and mount points, usage: 'df -hT'.
+#0^0^0^0^1 #MSD dfc       - Disk usage and mount points, graphical display.
+#0^0^0^0^1 #MSD di        - 'df'-like disk usage utility.
+#0^0^0^0^1 #MSD discus    - 'df'-like disk usage utility with color, graphs, formatting.
+#1^0^0^0^1 #MSD du        - Disk usage monitor by directory.
+#0^0^0^0^1 #MSD dumpe2fs  - Displays superblock and block information of a device.
+#0^0^0^0^1 #MSD eject     - Ejects media, CD, DVD, floppy disks, SCSI drives, tape drives.
+#0^0^0^1^0 #MSD gt5       - A diff-capable du-browser.
+#0^0^0^0^1 #MSD hdparm    - Show/set disk parameters, settings. 
+#0^0^0^0^1 #MSD lsblk     - List block devices (disks).
+#f_menu_app_sys_disks2^0^0^0^1 #MSD MORE... - For more system disk information applications.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Disks Information Menu"
@@ -106,6 +106,37 @@ f_menu_app_sys_disks () {
             #
       unset MSD MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_sys_disks
+#
+# +----------------------------------------+
+# |      Function f_menu_app_sys_disks2    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSD, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_sys_disks2 () {
+      f_initvars_menu_app "MSE"
+      until [ "$MSE" = "0" ]
+      do    # Start of System Disks Information Applications until loop.
+#0^0^0^1^0 #MSE ncdu   - Disk usage monitor, ncurses-based.
+#0^0^0^1^0 #MSE parted - Disk partition tool.
+#1^0^0^0^1 #MSE pydf   - Disk usage df clone written in python.
+#0^0^0^0^1 #MSE tdu    - Tree-view of disk space utilization; ncurses-based.
+#0^0^0^0^1 #MSE tree   - Tree-view of disk space utilization.
+#1^0^0^0^1 #MSE uuid   - Use ls -l to show disk uuid number.
+            #
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="System Disks Information2 Menu"
+            DELIMITER="#MSE" #MSE This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
+            read MSE
+            f_menu_item_process $MSE  # Outputs $MENU_ITEM.
+      done  # End of System Disks Information Applications until loop.
+            #
+      unset MSE MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_sys_disks2
 #
 # +----------------------------------------+
 # |              Function f_df             |
@@ -504,10 +535,10 @@ f_hdparm () {
 } # End of f_hdparm
 #
 # +----------------------------------------+
-# |          Function f_lsbrelease         |
+# |          Function f_lsb_release        |
 # +----------------------------------------+
 #
-f_lsbrelease () {
+f_lsb_release () {
 
       if [[ ! "$APP_NAME" == *" "* ]] ; then
          clear # Blank the screen.
@@ -530,7 +561,7 @@ f_lsbrelease () {
          APP_NAME="lsb_release -a"
          f_press_enter_key_to_continue
       fi
-} # End of f_lsbrelease
+} # End of f_lsb_release
 #
 # +----------------------------------------+
 # |             Function f_lshw            |
