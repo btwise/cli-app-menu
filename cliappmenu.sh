@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-01-2014 22:52"
+REVDATE="January-02-2014 13:03"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -300,7 +300,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cli-app-menu.sh"
+      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -1078,7 +1078,7 @@ f_file_download_gui () {
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File.
-#    Uses: X, XSTR, ERROR.
+#    Uses: X, ERROR.
 # Outputs: None.
 #
 f_file_dload_txt () {
@@ -1086,16 +1086,13 @@ f_file_dload_txt () {
       #
       if [ -d "$1" ] ; then
          # Directory exists so download file into the directory.
-         XSTR="~"
+         YSTR="~"
          echo "Download the file from the project's repository at the GitHub web site."
          echo "Use the Master branch of the project repository."
          echo "Download file:"
          echo "   $2"
          echo
          echo "into the directory:"
-         echo "   $XSTR"
-         echo
-         echo "Then copy to directory:"
          echo "   $1"
          echo
          # Ask download from which branch and wget.
@@ -1107,7 +1104,7 @@ f_file_dload_txt () {
               ;;
               * | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
               # Yes, download it.
-              NEW_DIR=$XSTR  # Needed for f_wget_file.
+              NEW_DIR=$1  # Needed for f_wget_file.
               MOD_FILE=$2
               # Download from GitHub web site, project's MASTER branch.
               WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
@@ -1135,7 +1132,6 @@ f_file_dload_txt () {
                     echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                  fi
               fi
-              
               ;;
          esac
       else
