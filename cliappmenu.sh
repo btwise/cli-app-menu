@@ -342,7 +342,6 @@ f_main_init_once () {
       #
       # THIS_DIR does not need a trailing forward slash "/".
       THIS_DIR="/some_directory/cli-app-menu"
-
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -782,7 +781,6 @@ f_valid_menu_txt () {
                  3 | [Ll] | [Ll][Ii] | [Ll][Ii][Ss]*)
                  f_ls_this_dir $1
                  ;;
-
             esac
       done  # End of Validate Menu until loop.
             #

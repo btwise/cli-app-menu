@@ -200,8 +200,8 @@ f_choice_array () {
       #    If the name of the menu item is 2 or more words, just print the
       #    first 2 words into array CHOICE[$XNUM] which is sufficient for case
       #    pattern matching on that menu item choice.
+      #
       #    Allow app names consisting of 2 words. i.e. "ip addr", "ip route".
-
       #    The <space> between the words needs a substitution { print $1"%"$2 }
       #    of a "%" for the <space> so awk will not separate the words into 2
       #    different menu items, rather than 1 menu item having 2 words.
@@ -246,8 +246,7 @@ f_menu_item_process () {
       # 8. Is the menu an application menu? Yes, run application, $APP_NAME by running the function
       #    f_application_run.
       # 9. Redisplay menu.
-
-
+      #
       MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
                     # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
       PRESS_KEY=0 # Reset flag.
@@ -1759,7 +1758,6 @@ f_wget_file_2 () {
                else
                   if [ -e $THIS_DIR/$MOD_FILE ] ; then
                      # Need sudo permissions to download file.
-                     echo "Need sudo permissions to download file." # test diagnostic line.
                      sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
                      ERROR=$?
                   else
@@ -1771,7 +1769,6 @@ f_wget_file_2 () {
             else
                # No, directory is not writable.
                # Need sudo permissions to download file.
-               echo "Need sudo permissions to download file." # test diagnostic line.
                sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
                ERROR=$?
             fi
