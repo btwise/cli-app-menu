@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-01-2014 13:50"
+REVDATE="January-01-2014 22:52"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1722,14 +1722,14 @@ f_main_configure () {
       #
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_menu_term_color^0^0^0^0     #AAC Colors        - Set default font/background colors.
-#f_menu_uncolor^0^0^0^0        #AAC Un-colors     - Set font color for unavailable library modules.
-#f_reinstall_readme^0^0^0^1    #AAC Install       - Instructions to re-install script into another directory.
-#f_update_software^0^0^0^0     #AAC Update        - Update this Main Menu program from the GitHub repository.
-#f_menu_module_manager^0^0^0^0 #AAC Modules       - Add/Delete/Remove/Restore/Update software modules.
-#f_ls_this_dir^0^0^0^0         #AAC List files    - List all support and library program files.
-#f_update_edit_hist^0^0^0^0    #AAC Edit History  - Make changes to the Edit History.
-#f_update_list_apps^0^0^0^1    #AAC List apps     - Update list of applications in activated software modules.
+#f_menu_term_color^0^0^0^0       #AAC Colors       - Set default font/background colors.
+#f_menu_uncolor^0^0^0^0          #AAC Un-colors    - Set font color for unavailable library modules.
+#f_reinstall_readme^0^0^0^1      #AAC Install      - Instructions to re-install script into another directory.
+#f_update_software^0^0^0^0       #AAC Update       - Update this Main Menu program from the GitHub repository.
+#f_menu_module_manager^0^0^0^0   #AAC Modules      - Add/Delete/Remove/Restore/Update software modules.
+#f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List files   - List all support and library program files.
+#f_update_edit_hist^0^0^0^0      #AAC Edit History - Make changes to the Edit History.
+#f_update_list_apps^0^0^0^1      #AAC List apps    - Update list of applications in activated software modules.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Configuration Menu"
