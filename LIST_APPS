@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2013-12-19 00:06 Thursday
+Last updated: 2014-01-02 18:22 Thursday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -303,6 +303,14 @@ _______________________________________________________________________________
  urlview        - Extracts URL from email text.
 
 _______________________________________________________________________________
+*** Environment Applications Menu ***
+ desmume  - Nintendo DS emulator.
+ dialog   - Command line terminal GUI.
+ dosemu   - DOS emulator.
+ fish     - Fish is a shell for interactive use, easy to use.
+ whiptail - Command line terminal GUI.
+
+_______________________________________________________________________________
 *** File Burn CD/DVD Applications Menu ***
  bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
  burn         - Write audio/data/iso image or copy CDs.
@@ -432,7 +440,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** File Compression3 Applications Menu ***
- xz         - File compress xz files.
+ xz       - File compress xz files.
  xzcat    - File cat xz files.
  xzgrep   - File grep xz files.
  zcat     - Displays gzip files.
@@ -916,6 +924,24 @@ _______________________________________________________________________________
  traceproto  - Traceroute tool, trace network path to destination. 
 
 _______________________________________________________________________________
+*** Package Management Applications Menu ***
+ alien     - Converts rpm to deb packages.
+ apt       - Debian package manager.
+ apt-cache - Show package information, (reverse)/dependency information.
+ apt-file  - Search/List files in the Debian package manager w/o installing.
+ aptitude  - Debian package manager.
+ aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
+ cupt      - Debian front-end to dpkg package manager.
+ dpkg      - Debian package manager.
+ rpm       - RPM (Red Hat) package manager.
+ synaptic  - GUI Debian package manager.
+ unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
+ urpmi     - Mandriva, Mageia package manager.
+ YaST      - GUI OpenSUSE package manager.
+ yum       - "Yellow Dog Updated" package manager.
+ zypper    - OpenSUSE package manager on which is based YaST GUI.
+
+_______________________________________________________________________________
 *** Podcatcher Applications Menu ***
  bashpodder - Podcatcher.
  goldenpod  - Podcatcher.
@@ -949,9 +975,9 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** PDF-PS2 Applications Menu ***
- ps2pdf   - Converts PS (PostScript) to PDF format.
- sdf      - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
- sdop     - Converts a Simplified Docbook XML file to PS (PostScript).
+ ps2pdf - Converts PS (PostScript) to PDF format.
+ sdf    - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
+ sdop   - Converts a Simplified Docbook XML file to PS (PostScript).
 
 _______________________________________________________________________________
 *** Remote Connection Applications Menu ***
@@ -988,6 +1014,7 @@ _______________________________________________________________________________
  screen   - Multiple sessions via split or pager screens.
  screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
  splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
+ termit   - Terminal emulator with multiple tabs, sessions, keybindings.
  tmux     - Multiple sessions with multiplexing.
  twin     - A text mode window environment for multiple windows on screen.
  vlock    - Locks virtual console or current terminal.
@@ -1138,6 +1165,18 @@ _______________________________________________________________________________
  worms        - Worms wiggle on the screen.
 
 _______________________________________________________________________________
+*** Screen Tools Applications Menu ***
+ archey      - Distro logo with PC and linux kernel information.
+ fbgrab      - Framebuffer screenshot tool.
+ linuxlogo   - Distro logo with PC and linux kernel information.
+ screenfetch - Distro logo with PC and linux kernel information.
+ script      - Records terminal input/output (keystrokes).
+ scrot       - Framebuffer screenshot tool.
+ ttyplay     - Playback "ttyrec" recording of terminal actions.
+ ttyrec      - Records terminal input/output and also timing-information.
+ welcome21   - Distro logo (ANSI) with PC and linux kernel information.
+
+_______________________________________________________________________________
 *** Text Compare Applications Menu ***
  cmp       - Compares 2 text files.
  colordiff - Differences between 2 text files shown in color.
@@ -1252,11 +1291,11 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Text Markup Language Applications Menu ***
- doconce  - Markup language to manipulate, transform, and convert text.
- sisu     - Markup language, publishing, search, write to many formats.
- stx2any  - Markup language, write to XHTML, HTML, XML, PS, LaTeX, etc.
- texinfo  - Markup language produces both printed & on-line web pages.
- udo      - Simpler markup language writes to 25 formats.
+ doconce - Markup language to manipulate, transform, and convert text.
+ sisu    - Markup language, publishing, search, write to many formats.
+ stx2any - Markup language, write to XHTML, HTML, XML, PS, LaTeX, etc.
+ texinfo - Markup language produces both printed & on-line web pages.
+ udo     - Simpler markup language writes to 25 formats.
 
 _______________________________________________________________________________
 *** Text Tool Applications Menu ***
@@ -1289,22 +1328,22 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Text File Conversion Applications Menu ***
- abcm2ps     - Converts ABC music source files to PS sheet music format.
- dehtml      - Strips HTML code from text.
- ebook2cw    - Converts plain text ebooks to  morse code mp3/ogg audio files.
- enscript    - Convert text file to Post-Script file.
- html2txt    - Strips HTML code from text.
- pdftops     - Converts PDF to PS (PostScript) format.
- ps2ascii    - Converts PS (PostScript) to text format.
- ps2pdf      - Converts PS (PostScript) to PDF format.
- txt2html    - Converts plain ASCII text to HTML format.
- txt2man     - Converts plain ASCII text to man format.
- txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
- txt2regex   - Converts human sentences to regex. Regular Expression Wizard.
- txt2tags    - Converts plain ASCII text to a variety of formats.
- unoconv     - Converts any document that LibreOffice imports or exports.
- unrtf       - Converts RTF to HTML, LaTeX, txt, PS.
- MORE...     - More file format conversion applications.
+ abcm2ps    - Converts ABC music source files to PS sheet music format.
+ dehtml     - Strips HTML code from text.
+ ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
+ enscript   - Convert text file to Post-Script file.
+ html2txt   - Strips HTML code from text.
+ pdftops    - Converts PDF to PS (PostScript) format.
+ ps2ascii   - Converts PS (PostScript) to text format.
+ ps2pdf     - Converts PS (PostScript) to PDF format.
+ txt2html   - Converts plain ASCII text to HTML format.
+ txt2man    - Converts plain ASCII text to man format.
+ txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
+ txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
+ txt2tags   - Converts plain ASCII text to a variety of formats.
+ unoconv    - Converts any document that LibreOffice imports or exports.
+ unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
+ MORE...    - More file format conversion applications.
 
 _______________________________________________________________________________
 *** Text File Conversion2 Applications Menu ***
