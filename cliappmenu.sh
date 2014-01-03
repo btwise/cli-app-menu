@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-02-2014 13:03"
+REVDATE="January-02-2014 23:58"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -634,7 +634,7 @@ f_initvars_menu_app () {
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File.
-#    Uses: None.
+#    Uses: X.
 # Outputs: None.
 #
 f_valid_files_txt () {
@@ -673,13 +673,21 @@ f_valid_files_txt () {
             f_valid_menu_txt $1 $2
          fi
          f_valid_path_txt $NEW_DIR
+            echo -n "Press \"Enter\" key to continue. "
+            read X
+            clear
          f_valid_exit_txt $1 $NEW_DIR
       else
          f_valid_path_txt $NEW_DIR
          if [[ ! "$PATH" == *":$NEW_DIR"* ]] ; then
+            echo
+            echo -n "Press \"Enter\" key to continue. "
+            read X
+            clear
             f_valid_exit_txt $1 $NEW_DIR
          fi
       fi
+      unset X
 } # End of function f_valid_files_txt
 #
 # +----------------------------------------+
