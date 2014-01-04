@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.0"
-PROJECT_REVDATE="January-02-2014 13:03"
+PROJECT_REVDATE="January-04-2014 14:05"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,6 +79,13 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
+##
+## 2014-01-04 *mod_apps-filedir.lib xorriso added help message and
+##             added tre-agrep.
+##            *mod_apps-system.lib acpi needs a press return to continue.
+##
+## 2014-01-02 *Release version 1.0.1 Mini-installer text display of path message
+##             followed by exit message cleaned up to prevent scroll off.##
 ##
 ## 2014-01-02 *Release version 1.0.
 ##            *Mini-installer delete unused variables, clean up some comments.

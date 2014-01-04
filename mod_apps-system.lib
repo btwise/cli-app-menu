@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-19-2013 22:00"
+# REVDATE="January-04-2014 14:05"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -662,7 +662,7 @@ f_menu_app_sys_monitors () {
       f_initvars_menu_app "MSM"
       until [ "$MSM" = "0" ]
       do    # Start of System Monitors until loop.
-#0^0^0^0^0 #MSM acpi      - Show acpi information.
+#0^0^0^0^1 #MSM acpi      - Show acpi information.
 #0^0^0^0^0 #MSM acpitail  - Show acpi information in growing tail list.
 #0^0^0^0^1 #MSM atsar     - CPU, network, memory & disk I/O, record data for analysis.
 #1^0^0^0^1 #MSM cacti     - Frontend to rrdtool for monitoring systems and services.

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-18-2013 23:56"
+# REVDATE="January-04-2014 14:05"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -104,7 +104,7 @@ f_menu_app_file_burn () {
 #0^0^0^0^0 #MFA mybashburn   - CD burning.
 #0^0^0^0^0 #MFA simpleburner - CD burning.
 #1^0^0^0^0 #MFA wodim        - CD/DVD Write audio/data/iso image. Single line command.
-#0^0^0^0^0 #MFA xorriso      - CD/DVD Write iso images to Rock Ridge ISO 9660 filesystems.
+#1^0^0^0^0 #MFA xorriso      - CD/DVD Write iso images to Rock Ridge ISO 9660 filesystems.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="CD/DVD File Burning Applications Menu"
@@ -166,7 +166,7 @@ f_wodim () {
       echo
       echo "Example: Burn an iso image file to a CD-R disk."
       echo
-      echo "$ sudo wodim -v dev=/dev/sg1 -eject -data /home/public/iso/<iso-file>.iso"
+      echo "$ sudo wodim -v dev=/dev/sg1 -eject -data  <directory>/<iso-filename>.iso"
       echo "      -v     Verbose."
       echo "      -eject Eject CD/DVD media after burning."
       echo "      -speed Integer of speed factor x16 x32 x50, if none, then maximum."
@@ -176,6 +176,25 @@ f_wodim () {
       echo
       f_press_enter_key_to_continue
 } # End of f_wodim
+#
+# +----------------------------------------+
+# |           Function f_xorriso           |
+# +----------------------------------------+
+#
+f_xorriso () {
+      clear # Blank the screen.
+      echo "xorriso - Write files/iso image to an optical disk."
+      echo
+      echo "Example: Burn an iso image file to a CD-R disk."
+      echo
+      echo "$ xorriso -as cdrecord -v dev=/dev/sr0 blank=as_needed <directory>/<iso-filename>.iso
+      echo "      -v     Verbose."
+      echo
+      echo "*** For more help type: 'man xorriso'"
+      echo "                        'xorriso --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_xorriso
 #
 # +----------------------------------------+
 # |   Function f_menu_app_file_checksum    |
@@ -832,6 +851,7 @@ f_menu_app_file_find () {
 #0^0^0^0^1 #MFF missidentify - Finds win32 applications.
 #0^0^0^0^1 #MFF rdfind       - Find duplicate files.
 #0^0^0^0^1 #MFF rrep         - Replace text in files.
+#0^0^0^0^1 #MFF tre-agrep    - Find files by approximate (similar) pattern matches.
 #0^0^0^0^1 #MFF updatedb     - Update the internal database, mlocate, used by locate.
             #
             THIS_FILE="mod_apps-filedir.lib"
