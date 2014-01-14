@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-04-2014 14:05"
+# REVDATE="January-13-2014 20:14"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -871,7 +871,7 @@ f_menu_app_sys_peripherals () {
 #0^0^0^0^1 #MSL lsblk     - List block devices (disks).
 #0^0^0^0^1 #MSL lsof      - Display information about open files.
 #1^0^0^0^1 #MSL lspci     - PCI buses and connected devices.
-#0^0^0^0^1 #MSL lspcmcia  - PCMCIA extended debugging information.
+#1^0^0^0^1 #MSL lspcmcia  - PCMCIA extended debugging information.
 #0^0^0^0^1 #MSL lsusb     - USB devices.
 #1^0^0^0^1 #MSL pccardctl - PCMCIA card devices.
 #0^0^0^0^1 #MSL printenv  - Environmental variables.
@@ -920,6 +920,36 @@ f_blkid () {
       echo
       f_press_enter_key_to_continue
 } # End of f_blkid
+#
+# +----------------------------------------+
+# |              Function f_lspci          |
+# +----------------------------------------+
+#
+f_lspci () {
+      clear # Blank the screen.
+      echo "lspci - list all PCI devices with detailed information."
+      echo
+      echo "Usage:"
+      echo "lspci [OPTIONS]"
+      echo
+      echo "OPTIONS"
+      echo "   Basic display modes"
+      echo "       -m     List PCI devices in a backward-compatible machine readable form."
+      echo "       -mm    List PCI devices in a machine readable form for easy parsing."
+      echo "       -t     Show  a tree-like diagram with all buses, bridges, devices etc."
+      echo
+      echo "   Display options"
+      echo "       -v     Be verbose and display detailed information about all devices."
+      echo "       -vv    Be very verbose and display more details."
+      echo "       -vvv   Be  even  more  verbose."
+      echo
+      echo "*** For more help type: 'man lspci'"
+      echo "                        'lspci --help'"
+      echo
+      echo "Now run lspci. Usage: lspci -tvv"
+      APPNAME="lspci -tvv"
+      f_press_enter_key_to_continue
+} # End of f_lspci
 #
 # +----------------------------------------+
 # |            Function f_lspcmcia         |

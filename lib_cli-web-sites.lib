@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-18-2013 23:56"
+# REVDATE="January-13-2014 20:14"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -132,6 +132,12 @@ f_application_web_install () {
            ;;
            lnav)
            WEB_SITE_INSTALL="http://tstack.github.io/lnav/"
+           ;;
+           masterm)
+           WEB_SITE_INSTALL="https://github.com/jstitch/masterm/archive/master.zip"
+           ;;
+           mastermind-nc)
+           WEB_SITE_INSTALL="http://sourceforge.net/projects/mastermind-nc/"
            ;;
            mc)
            WEB_SITE_INSTALL="http://www.midnight-commander.org/"

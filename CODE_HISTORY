@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.0"
-PROJECT_REVDATE="January-04-2014 14:05"
+PROJECT_REVDATE="January-13-2014 20:14"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -80,9 +80,20 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
+## 2014-01-13 *f_menu_app_sys_peripherals fixed call to f_lspcmcia and
+##             call to f_lspci.
+##            *f_menu_app_network_monitors netwatch needed a press Enter key
+##             to continue.
+##            *f_application_web_install added masterm, mastermind-nc.
+##
+## 2014-01-10 *f_menu_app_network_monitors netstat needed a press Enter key
+##             to continue.
+##
+## 2014-01-09 *f_menu_app_sys_disks added f_cfdisk to describe the print options.
+##
 ## 2014-01-04 *mod_apps-filedir.lib xorriso added help message and
 ##             added tre-agrep.
-##            *mod_apps-system.lib acpi needs a press return to continue.
+##            *mod_apps-system.lib acpi needs a press Enter key to continue.
 ##
 ## 2014-01-02 *Release version 1.0.1 Mini-installer text display of path message
 ##             followed by exit message cleaned up to prevent scroll off.##

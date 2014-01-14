@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION="1.0"
-PROJECT_REVDATE="January-04-2014 23:58"
+PROJECT_REVDATE="January-13-2014 20:14"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,10 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
+##
+## 2014-01-13 *Release version 1.0.2 enhancements acpi, cfdisk, lspci,
+##             lspcmcia, masterm, mastermind-nc, netstat, netwatch, xorriso.
+##            *Added tres-agrep.
 ##
 ## 2014-01-02 *Release version 1.0.1 Mini-installer text display of path message
 ##             followed by exit message cleaned up to prevent scroll off.

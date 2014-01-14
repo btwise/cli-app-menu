@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26-2013 18:16"
+# REVDATE="January-13-2014 20:14"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -667,7 +667,7 @@ f_menu_app_network_monitors () {
 #1^0^0^0^1    #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
 #0^0^0^0^0    #MNM nc        - Netcat reads/writes data across network.
 #1^0^0^1:NC^0 #MNM netstat   - Print network connections, routing tables, interface stats, etc.
-#1^0^0^1^0    #MNM netwatch  - Protocol monitor; ncurses based.
+#1^0^0^1^1    #MNM netwatch  - Protocol monitor; ncurses based.
 #1^0^0^0^0    #MNM ntop      - Display network usage and status information in a web browser.
 #1^0^0^0^0    #MNM opennms   - Network management application. Discovery, reports, statistics.
 #0^0^0^0^1    #MNM pmacct    - Traffic information monitor.
