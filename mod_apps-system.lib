@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-13-2014 20:14"
+# REVDATE="January-27-2014 11:35"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -143,26 +143,26 @@ f_menu_app_sys_disks2 () {
 # +----------------------------------------+
 #
 f_df () {
-       clear # Blank the screen.
-       echo "df - Displays free space on disk"
-       echo
-       echo "Usage:"
-       echo "df [OPTION]... [FILE]..."
-       echo "df [OPTION]... --files0-from=F"
-       echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
-       echo "   --total                 produce a grand total"
-       echo "   -t, --type=TYPE         limit listing to specific file systems"
-       echo "   -T, --print-type        print file system type"
-       echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
-       echo
-       echo "*** For more help type: 'man df'"
-       echo "                        'df --help'"
-       echo
-       echo "Display total disk usage in human-readable format."
-       echo
-       echo "Now run du. Usage: df -hT"
-       APP_NAME="df -hT"
-       f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "df - Displays free space on disk"
+      echo
+      echo "Usage:"
+      echo "df [OPTION]... [FILE]..."
+      echo "df [OPTION]... --files0-from=F"
+      echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+      echo "   --total                 produce a grand total"
+      echo "   -t, --type=TYPE         limit listing to specific file systems"
+      echo "   -T, --print-type        print file system type"
+      echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
+      echo
+      echo "*** For more help type: 'man df'"
+      echo "                        'df --help'"
+      echo
+      echo "Display total disk usage in human-readable format."
+      echo
+      echo "Now run du. Usage: df -hT"
+      APP_NAME="df -hT"
+      f_press_enter_key_to_continue
 } # End of function f_df
 #
 # +----------------------------------------+
@@ -170,27 +170,27 @@ f_df () {
 # +----------------------------------------+
 #
 f_du () {
-       clear # Blank the screen.
-       echo "du - Displays disk usage per directory"
-       echo
-       echo "Usage:"
-       echo "du [OPTION]... [FILE]..."
-       echo "du [OPTION]... --files0-from=F"
-       echo "   -h, --human-readable  human-readable format (e.g., 1K 234M 2G)"
-       echo "   -c, --total           produce a grand total"
-       echo "   -S, --separate-dirs   do not include sub-folders"
-       echo "   -s, --summarize       display only a total"
-       echo "   --exclude=PATTERN     exclude files matching PATTERN"
-       echo "   -d, --max-depth=N     N  or  fewer  levels  below"
-       echo
-       echo "*** For more help type: 'man du'"
-       echo "                        'du --help'"
-       echo
-       echo "Display total disk usage in human-readable format."
-       echo
-       echo "Now run du. Usage: du -hsc"
-       APP_NAME="du -hsc"
-       f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "du - Displays disk usage per directory"
+      echo
+      echo "Usage:"
+      echo "du [OPTION]... [FILE]..."
+      echo "du [OPTION]... --files0-from=F"
+      echo "   -h, --human-readable  human-readable format (e.g., 1K 234M 2G)"
+      echo "   -c, --total           produce a grand total"
+      echo "   -S, --separate-dirs   do not include sub-folders"
+      echo "   -s, --summarize       display only a total"
+      echo "   --exclude=PATTERN     exclude files matching PATTERN"
+      echo "   -d, --max-depth=N     N  or  fewer  levels  below"
+      echo
+      echo "*** For more help type: 'man du'"
+      echo "                        'du --help'"
+      echo
+      echo "Display total disk usage in human-readable format."
+      echo
+      echo "Now run du. Usage: du -hsc"
+      APP_NAME="du -hsc"
+      f_press_enter_key_to_continue
 } # End of function f_du
 #
 # +----------------------------------------+
@@ -198,24 +198,24 @@ f_du () {
 # +----------------------------------------+
 #
 f_pydf () {
-       clear # Blank the screen.
-       echo "pydf - Displays free space on disk"
-       echo
-       echo "Usage:"
-       echo "pydf [OPTION]... [FILE]..."
-       echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
-       echo "   -k, --kilobytes"
-       echo "   -m, --megabytes"
-       echo "   -g, --gigabytes"
-       echo
-       echo "*** For more help type: 'man df'"
-       echo "                        'df --help'"
-       echo
-       echo "Display total disk usage in human-readable format."
-       echo
-       echo "Now run df. Usage: pydf -hT"
-       APP_NAME="pydf -hT"
-       f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "pydf - Displays free space on disk"
+      echo
+      echo "Usage:"
+      echo "pydf [OPTION]... [FILE]..."
+      echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+      echo "   -k, --kilobytes"
+      echo "   -m, --megabytes"
+      echo "   -g, --gigabytes"
+      echo
+      echo "*** For more help type: 'man df'"
+      echo "                        'df --help'"
+      echo
+      echo "Display total disk usage in human-readable format."
+      echo
+      echo "Now run df. Usage: pydf -hT"
+      APP_NAME="pydf -hT"
+      f_press_enter_key_to_continue
 } # End of function f_pydf
 #
 # +----------------------------------------+
@@ -223,11 +223,11 @@ f_pydf () {
 # +----------------------------------------+
 #
 f_uuid () {
-       clear # Blank the screen.
-       echo "To find the UUID of a disk, type: ls -l /dev/disk/by-uuid."
-       APP_NAME="ls -l /dev/disk/by-uuid"
-       f_application_run             
-       f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "To find the UUID of a disk, type: ls -l /dev/disk/by-uuid."
+      APP_NAME="ls -l /dev/disk/by-uuid"
+      f_application_run             
+      f_press_enter_key_to_continue
 } # End of function f_uuid
 #
 # +----------------------------------------+
@@ -251,10 +251,12 @@ f_menu_app_sys_health () {
 #1^0^0^0^1 #MSH clamscan   - Clam anti-virus program scans for viruses.
 #0^0^0^0^1 #MSH cpuburn    - Stress test puts heavy loads on a CPU.
 #0^0^0^1^1 #MSH freshclam  - Clam anti-virus database definition update.
+#1^0^0^0^1 #MSH hpcc       - HPC Challenge benchmark. 7 tests of CPU, memory and network.
 #0^0^0^0^1 #MSH lynis      - security auditing tool that tests for security holes in a PC.
 #0^0^0^0^1 #MSH rkhunter   - Root Kit detector.
-#1^0^0^0^1 #MSH tripwire   - Detects/Reports changes in system files.
+#1^0^0^0^1 #MSH smb-nat    - Netbios Auditing of servers running NetBIOS file sharing services.
 #1^0^0^0^1 #MSH stress     - Stress test can simulate a heavy load on CPU.
+#1^0^0^0^1 #MSH tripwire   - Detects/Reports changes in system files.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Health Applications Menu"
@@ -353,6 +355,40 @@ f_clamscan () {
          f_press_enter_key_to_continue
       fi
 } # End of function f_clamscan
+#
+# +----------------------------------------+
+# |             Function f_hpcc            |
+# +----------------------------------------+
+#
+f_hpcc () {
+      echo "hpcc -  HPC Challenge benchmark"
+      echo
+      echo "The High Performance Computing (HPC) Challenge benchmark runs a suite"
+      echo "of 7 tests that measure the performance of CPU, memory and network for"
+      echo "HPC clusters.  Amongst others, it includes the High-Performance LINPACK"
+      echo "(HPL) benchmark, used by the Top500 ranking (http://www.top500.org/)."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_hpcc
+#
+# +----------------------------------------+
+# |            Function f_smb-nat          |
+# +----------------------------------------+
+#
+f_smb-nat () {
+      clear # Blank the screen.
+      echo "smb-nat    - Netbios Auditing of servers running NetBIOS file sharing services."
+      echo
+      echo "This tool can perform various security checks on remote servers running"
+      echo "NetBIOS file sharing services. It is capable of enumerating shares and make"
+      echo "break-in attempts using a (user-provided) list of users and passwords."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                '$APP_NAME --help'"
+      echo
+      f_press_enter_key_to_continue
+
+} # End of function f_smb-nat
 #
 # +----------------------------------------+
 # |            Function f_stress           |
@@ -668,7 +704,7 @@ f_menu_app_sys_monitors () {
 #1^0^0^0^1 #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
 #1^0^0^0^1 #MSM chkconfig - System update/query run-level processes at boot time.
 #0^0^0^1^0 #MSM conky-cli - Versatile, configurable system monitor.
-#1^0^0^0^0 #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
+#1^0^0^0^1 #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
 #0^0^0^1^0 #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
 #0^0^0^0^1 #MSM iostat    - CPU usage and disk I/O process monitor.
 #0^0^0^1^0 #MSM iotop     - Disk I/O process monitor.
@@ -708,7 +744,7 @@ f_menu_app_sys_monitors2 () {
 #0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
 #f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
-#0^0^0^0^1 #MSN ttyload      - Color-coded graphs of CPU load average.
+#f_run_and_exit "ttyload" "ttyload^0^0^8^1 #MSN ttyload      - Color-coded graphs of CPU load average.
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.
             #
             THIS_FILE="mod_apps-system.lib"

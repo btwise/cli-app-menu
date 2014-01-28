@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.0"
-PROJECT_REVDATE="January-13-2014 20:14"
+PROJECT_REVDATE="January-27-2014 88:88"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -80,20 +80,33 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
+## 2014-01-27 *f_menu_app_environment added rbash.
+##            *f_menu_app_packet_tools added hunt.
+##            *f_menu_app_network_sharing added smbnetfs.
+##            *f_menu_app_packages added pip. apt-cache, apt-file added help.
+##             dpkg added more help.
+##            *f_menu_app_sys_health added hpcc, smb-nat.
+##            *f_menu_app_sys_monitors dstat needed a "Press Enter key to
+##             continue.", ttyload needed a f_run_and_exit.
+##
+## 2014-01-25 *f_menu_app_file_burn fixed xorriso missing quotation mark in echo.
+##
+## 2014-01-20 *f_application_web_install added clamav web site.
+##
 ## 2014-01-13 *f_menu_app_sys_peripherals fixed call to f_lspcmcia and
 ##             call to f_lspci.
-##            *f_menu_app_network_monitors netwatch needed a press Enter key
-##             to continue.
+##            *f_menu_app_network_monitors netwatch needed a "Press Enter key
+##             to continue."
 ##            *f_application_web_install added masterm, mastermind-nc.
 ##
-## 2014-01-10 *f_menu_app_network_monitors netstat needed a press Enter key
-##             to continue.
+## 2014-01-10 *f_menu_app_network_monitors netstat needed a "Press Enter key
+##             to continue."
 ##
 ## 2014-01-09 *f_menu_app_sys_disks added f_cfdisk to describe the print options.
 ##
 ## 2014-01-04 *mod_apps-filedir.lib xorriso added help message and
 ##             added tre-agrep.
-##            *mod_apps-system.lib acpi needs a press Enter key to continue.
+##            *mod_apps-system.lib acpi needed a "Press Enter key to continue."
 ##
 ## 2014-01-02 *Release version 1.0.1 Mini-installer text display of path message
 ##             followed by exit message cleaned up to prevent scroll off.##

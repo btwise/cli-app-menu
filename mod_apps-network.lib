@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-13-2014 20:14"
+# REVDATE="January-27-2014 09:57"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -959,6 +959,7 @@ f_menu_app_packet_tools () {
       f_initvars_menu_app "MNP"
       until [ "$MNP" = "0" ]
       do    # Start of Packet Tools Applications until loop.
+#0^0^0^0^1 #MNP hunt      - Description-en: Packet sniffer can monitor, reset connections.
 #0^0^0^0^1 #MNP kismet    - Wireless network detector, packet sniffer, auditor.
 #1^0^0^0^1 #MNP ngrep     - Network packet analyzer.
 #0^0^0^0^1 #MNP nmap      - Network Mapper, mapping, auditing, security scanning.
@@ -1028,6 +1029,7 @@ f_menu_app_network_sharing () {
 #0^0^0^0^1 #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
 #1^0^0^0^1 #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.
 #0^0^0^0^1 #MNS smbclient - Samba client (share folders with Microsoft Windows).
+#0^0^0^0^1 #MNS smbnetfs - Browse all Samba shares easily in one place (mount-point).
 #0^0^0^0^1 #MNS smbstatus - Samba files lock status.
 #0^0^0^0^1 #MNS testparm  - Samba configuration display.
 #0^0^0^0^1 #MNS woof      - Woof (Web Offer One File) copies files via the HTTP protocol.

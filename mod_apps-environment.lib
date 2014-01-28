@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-21-2013 11:29"
+# REVDATE="January-27-2014 10:06"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_environment     |
@@ -18,10 +18,11 @@ f_menu_app_environment () {
       until [ "$MEN" = "0" ]
       do    # Start of Environment until loop.
 #0^0^0^0^1 #MEN desmume  - Nintendo DS emulator.
-#0^0^0^0^1 #MEN dialog   - Command line terminal GUI.
+#0^0^0^0^1 #MEN dialog   - Command line GUI displays dialog boxes in shell scripts.
 #0^0^0^0^1 #MEN dosemu   - DOS emulator.
 #0^0^0^0^1 #MEN fish     - Fish is a shell for interactive use, easy to use.
-#0^0^0^0^1 #MEN whiptail - Command line terminal GUI.
+#1^0^0^0^1 #MEN rbash    - (Or "bash -r") Restricted bash shell limits user's actions.
+#0^0^0^0^1 #MEN whiptail - Command line GUI displays dialog boxes in shell scripts.
             #
             THIS_FILE="mod_apps-environment.lib"
             MENU_TITLE="Environment Applications Menu"
@@ -34,4 +35,30 @@ f_menu_app_environment () {
             #
       unset MEN MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_environment
+#
+# +----------------------------------------+
+# |           Function f_rbash             |
+# +----------------------------------------+
+#
+f_rbash () {
+      clear # Blank the screen.
+      echo "rbash - Restricted bash shell to restrict a user's actions."
+      echo
+      echo "Usage:"
+      echo "tide -l <location name> [OPTIONS]"
+      echo
+      echo "Here are some of the restricted actions:"
+      echo
+      echo "Changing directories with cd."
+      echo "Setting or unsetting the values of SHELL, PATH, ENV, or BASH_ENV."
+      echo "Specifying command names containing /."
+      echo "Redirecting output using the >, >|, <>, >&, &>, and >> redirection operators."
+      echo
+      echo "These restrictions are enforced after any startup files are read."
+      echo
+      echo "*** For more help type: 'man cdrecord'"
+      echo "                        'cdrecord --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_rbash
 #

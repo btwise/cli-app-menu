@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-04-2014 14:05"
+# REVDATE="January-24-2014 22:23"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -187,7 +187,7 @@ f_xorriso () {
       echo
       echo "Example: Burn an iso image file to a CD-R disk."
       echo
-      echo "$ xorriso -as cdrecord -v dev=/dev/sr0 blank=as_needed <directory>/<iso-filename>.iso
+      echo "$ xorriso -as cdrecord -v dev=/dev/sr0 blank=as_needed <directory>/<iso-filename>.iso"
       echo "      -v     Verbose."
       echo
       echo "*** For more help type: 'man xorriso'"

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-01 2014 22:52"
+# REVDATE="January-19 2014 88:88"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1433,14 +1433,6 @@ f_application_install () {
            ;;
            fd)
            APP_NAME_INSTALL="fdclone"
-           ;;
-           glances) # Add repository for glances application.
-           if [ -d /etc/apt ] ; then 
-               # if /etc/apt directory exists, then use apt-get install
-               # for Debian-based packages.
-               sudo add-apt-repository ppa:arnaud-hartmann/glances-stable
-               sudo apt-get update
-           fi
            ;;
            ifplugstatus)
            APP_NAME_INSTALL="ifplugd"

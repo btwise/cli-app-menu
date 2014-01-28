@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-01-02 18:22 Thursday
+Last updated: 2014-01-27 12:34 Monday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -305,10 +305,11 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Environment Applications Menu ***
  desmume  - Nintendo DS emulator.
- dialog   - Command line terminal GUI.
+ dialog   - Command line GUI displays dialog boxes in shell scripts.
  dosemu   - DOS emulator.
  fish     - Fish is a shell for interactive use, easy to use.
- whiptail - Command line terminal GUI.
+ rbash    - (Or "bash -r") Restricted bash shell limits user's actions.
+ whiptail - Command line GUI displays dialog boxes in shell scripts.
 
 _______________________________________________________________________________
 *** File Burn CD/DVD Applications Menu ***
@@ -410,6 +411,7 @@ _______________________________________________________________________________
  missidentify - Finds win32 applications.
  rdfind       - Find duplicate files.
  rrep         - Replace text in files.
+ tre-agrep    - Find files by approximate (similar) pattern matches.
  updatedb     - Update the internal database, mlocate, used by locate.
 
 _______________________________________________________________________________
@@ -877,6 +879,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Network Packet Applications Menu ***
+ hunt      - Description-en: Packet sniffer can monitor, reset connections.
  kismet    - Wireless network detector, packet sniffer, auditor.
  ngrep     - Network packet analyzer.
  nmap      - Network Mapper, mapping, auditing, security scanning.
@@ -902,6 +905,7 @@ _______________________________________________________________________________
  ncpfs     - NetWare file/printer server utilities; nprint, pserver.
  smbc      - Samba file manager for folder shares with Microsoft Windows.
  smbclient - Samba client (share folders with Microsoft Windows).
+ smbnetfs - Browse all Samba shares easily in one place (mount-point).
  smbstatus - Samba files lock status.
  testparm  - Samba configuration display.
  woof      - Woof (Web Offer One File) copies files via the HTTP protocol.
@@ -933,6 +937,7 @@ _______________________________________________________________________________
  aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
  cupt      - Debian front-end to dpkg package manager.
  dpkg      - Debian package manager.
+ pip       - An improved Python package installer. Integrates with virtualenv.
  rpm       - RPM (Red Hat) package manager.
  synaptic  - GUI Debian package manager.
  unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
@@ -1052,10 +1057,12 @@ _______________________________________________________________________________
  clamscan   - Clam anti-virus program scans for viruses.
  cpuburn    - Stress test puts heavy loads on a CPU.
  freshclam  - Clam anti-virus database definition update.
+ hpcc       - HPC Challenge benchmark. 7 tests of CPU, memory and network.
  lynis      - security auditing tool that tests for security holes in a PC.
  rkhunter   - Root Kit detector.
- tripwire   - Detects/Reports changes in system files.
+ smb-nat    - Netbios Auditing of servers running NetBIOS file sharing services.
  stress     - Stress test can simulate a heavy load on CPU.
+ tripwire   - Detects/Reports changes in system files.
 
 _______________________________________________________________________________
 *** System Mainboard Information Applications Menu ***
