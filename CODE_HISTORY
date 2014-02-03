@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.0.2"
-PROJECT_REVDATE="February-02-2014 21:21"
+PROJECT_REVDATE="February-03-2014 15:52"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -73,12 +73,14 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # The double # at the beginning of lines below
-# are used to delineate the Edit History.
+# are used to delineate the Code History.
 #
-## Edit History
+## Code History
 ##
-## After each edit made, update Edit History and version (date stamp string) of
-## script.
+## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-02-03 *f_menu_app_text_word_processors created, added NERD_tree,
+##             vim-latexsuite.
 ##
 ## 2014-02-02 *f_menu_app_audio_editors added normalize.
 ##             Corrected from clvc to cvlc.
@@ -88,10 +90,12 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_menu_app_development added ldd.
 ##            *f_menu_app_file_burn added isodebug, isoinfo, isovfy, mkisofs.
 ##            *f_menu_app_file_compression added gitunpack.
-##            *f_menu_app_file_conversion added catdoc, csvkit, ctodo, ical2rem, remupdate, xls2csv.
+##            *f_menu_app_file_conversion added catdoc, csvkit, ctodo,
+##             ical2rem, remupdate, xls2csv.
 ##            *f_menu_app_file_find added gitrgrep, gitregrep, gitrfgrep.
 ##            *f_menu_app_file_managers added fdclone.
-##            *f_menu_app_file_operations added cwp, entr, fasd, j2, gitwipe, extundelete.
+##            *f_menu_app_file_operations added cwp, entr, fasd, j2, gitwipe,
+##             extundelete.
 ##            *f_menu_app_file_transfer added npoll, npush.
 ##            *f_menu_app_firewalls added knockd, labrea, mason.
 ##            *f_menu_app_games_arcade added gnuski.
@@ -133,7 +137,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_menu_app_wan added bing.
 ##            *f_menu_app_firewalls added doscan.
 ##
-## 2014-01-25 *f_menu_app_file_burn fixed xorriso missing quotation mark in echo.
+## 2014-01-25 *f_menu_app_file_burn fixed xorriso echo missing quotation mark.
 ##
 ## 2014-01-20 *f_application_web_install added clamav web site.
 ##

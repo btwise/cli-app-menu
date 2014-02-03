@@ -70,7 +70,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
-REVDATE="February-02-2014 21:21"
+REVDATE="February-03-2014 15:52"
 #:
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
@@ -606,6 +606,7 @@ REVDATE="February-02-2014 21:21"
 #:MNN - NIC Diagnostic Tools Applications Menu
 #:MNO - Note Applications Menu
 #:MNP - Network Packet Applications Menu
+#:MNQ - Network Packet2 Applications Menu
 #:MNS - Network Sharing Applications Menu
 #:MNW - WAN Applications Menu
 #:MPK - Package Management Applications Menu
@@ -635,6 +636,7 @@ REVDATE="February-02-2014 21:21"
 #:MTA - To-Do Applications Menu
 #:MTB - To-Do2 Applications Menu
 #:MTC - Text Compare Applications Menu
+#:MTD - Text Word Processor Applications Menu
 #:MTE - Text Editor Applications Menu
 #:MTF - Text Editor2 Applications Menu
 #:MTG - Text Editor3 Applications Menu

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="February-03-2014 15:52"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -58,6 +58,9 @@ f_application_web_install () {
            consolecandy)
            WEB_SITE_INSTALL="http://www.vanheusden.com/consolecandy/"
            ;;
+           cpat)
+           WEB_SITE_INSTALL="http://cpat.sourceforge.net/"
+           ;;
            crawl)
            WEB_SITE_INSTALL="http://crawl.develz.org/wordpress/"
            ;;
@@ -85,6 +88,12 @@ f_application_web_install () {
            elinks)
            WEB_SITE_INSTALL="http://elinks.or.cz/"
            ;;
+           enpi)
+           WEB_SITE_INSTALL="http://enpiscript.blogspot.com/"
+           ;;
+           extundelete)
+           WEB_SITE_INSTALL="http://extundelete.sourceforge.net/"
+           ;;
            fbv)
            WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
            ;;
@@ -103,11 +112,17 @@ f_application_web_install () {
            gnupg)
            WEB_SITE_INSTALL="http://www.gnupg.org/"
            ;;
+           gramophone)
+           WEB_SITE_INSTALL="http://www.opensourcepartners.nl/~costar/gramofile/"
+           ;;
            grandfatherclock)
            WEB_SITE_INSTALL="http://freecode.com/projects/grandfatherclock"
            ;;
            handbrake-cli)
            WEB_SITE_INSTALL="http://handbrake.fr/downloads2.php"
+           ;;
+           hdlns)
+           WEB_SITE_INSTALL="http://happy.freeshell.org/scripts/hdlns/"
            ;;
            herrie)
            WEB_SITE_INSTALL="http://herrie.info/#obtaining"
@@ -117,6 +132,12 @@ f_application_web_install () {
            ;;
            htop)
            WEB_SITE_INSTALL="http://htop.sourceforge.net/"
+           ;;
+           ibmonitor)
+           WEB_SITE_INSTALL="http://ibmonitor.sourceforge.net/"
+           ;;
+           ical2rem)
+           WEB_SITE_INSTALL="https://github.com/courts/ical2rem.rb"
            ;;
            iptraf-ng)
            WEB_SITE_INSTALL="https://fedorahosted.org/iptraf-ng/"
@@ -129,6 +150,18 @@ f_application_web_install () {
            ;;
            jfbview)
            WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
+           ;;
+           joe)
+           WEB_SITE_INSTALL="www.sourceforge.net/projects/joe-editor"
+           ;;
+           j2)
+           WEB_SITE_INSTALL="https://github.com/rupa/j2"
+           ;;
+           kkm)
+           WEB_SITE_INSTALL="https://github.com/netroby/kkm"
+           ;;
+           knockd)
+           WEB_SITE_INSTALL="http://www.zeroflux.org/projects/knock"
            ;;
            lnav)
            WEB_SITE_INSTALL="http://tstack.github.io/lnav/"
@@ -157,6 +190,12 @@ f_application_web_install () {
            ncmatrix)
            WEB_SITE_INSTALL="http://webpages.charter.net/tux/ncmatrix/ncmatrix-1.0.zip"
            ;;
+           ncmpy)
+           WEB_SITE_INSTALL="https://github.com/cykerway/ncmpy"
+           ;;
+           ncp)
+           WEB_SITE_INSTALL="http://www.fefe.de/ncp/"
+           ;;
            ncurses-life)
            WEB_SITE_INSTALL="http://csiuo.com/drupal/content/ncurses-life"
            ;;
@@ -165,6 +204,9 @@ f_application_web_install () {
            ;;
            NERD_tree)
            WEB_SITE_INSTALL="https://github.com/scrooloose/nerdtree/"
+           ;;
+           normalize)
+           WEB_SITE_INSTALL="http://normalize.nongnu.org/"
            ;;
            ntp)
            WEB_SITE_INSTALL="http://www.ntp.org/"
@@ -175,11 +217,20 @@ f_application_web_install () {
            openssh)
            WEB_SITE_INSTALL="http://www.openssh.org/portable.html"
            ;;
+           peyote)
+           WEB_SITE_INSTALL="http://peyote.sourceforge.net/download.html"
+           ;;
+           pip)
+           WEB_SITE_INSTALL="http://pip.openplans.org/"
+           ;;
            re-alpine)
            WEB_SITE_INSTALL="http://sourceforge.net/projects/re-alpine/"
            ;;
            remind)
            WEB_SITE_INSTALL="http://www.roaringpenguin.com/penguin/open_source_remind.php"
+           ;;
+           remupdate)
+           WEB_SITE_INSTALL="https://gist.github.com/scrzbble/5325144"
            ;;
            renameutils)
            WEB_SITE_INSTALL="http://www.nongnu.org/renameutils/"
@@ -243,6 +294,9 @@ f_application_web_install () {
            ;;
            wp-cli)
            WEB_SITE_INSTALL="https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh"
+           ;;
+           wordgrinder)
+           WEB_SITE_INSTALL="http://sourceforge.net/projects/wordgrinder/"
            ;;
            wyrd)
            WEB_SITE_INSTALL="http://pessimization.com/software/wyrd/"

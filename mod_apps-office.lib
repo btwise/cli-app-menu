@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="February-03-2014 15:52"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -124,7 +124,7 @@ f_menu_app_calendar () {
       do    # Start of Calendar Applications until loop.
 #0^0^0^0^1 #MCA cal         - Displays a monthly calendar.
 #0^0^0^1^0 #MCA calcurse    - Calendar and To-Do List; ncurses-based.
-#0^0^0^0^1 #MCA ccal        - Calendar color.
+#0^0^0^0^1 #MCA ccal        - Calendar in color, "cal"-like but with color.
 #0^0^0^0^1 #MCA clcal       - Calendar and appointment reminders.
 #0^0^0^0^1 #MCA dadd        - Date arithmetic using minutes, hours, days, weeks.
 #0^0^0^0^1 #MCA dconv       - Convert a date between calendric systems.
@@ -163,18 +163,20 @@ f_menu_app_calendar2 () {
       f_initvars_menu_app "MCB"
       until [ "$MCB" = "0" ]
       do    # Start of Calendar2 Applications until loop.
-#0^0^0^0^1 #MCB hebcal   - Perpetual Jewish calendar.
-#0^0^0^0^1 #MCB jcal     - Display Jalali (Persian) calendar.
-#0^0^0^0^1 #MCB lunar    - Converts Gregorian date to Chinese lunar calendar.
-#0^0^0^0^1 #MCB mencal   - Calendar to track repeating periodic events every nn days.
-#0^0^0^0^1 #MCB ncal     - Calendar with vertical days.
-#0^0^0^0^1 #MCB pal      - Calendar with events.
-#0^0^0^0^1 #MCB pcal     - Generate PostScript or HTML Calendars.
-#0^0^0^0^1 #MCB pom      - Display phase of moon on given date.
-#0^0^0^0^1 #MCB remind   - Calendar alarms, Sun rise/set, moon phases.
-#0^0^0^0^1 #MCB strptime - Easily format dates any way you want.
-#0^0^0^0^1 #MCB when     - Calendar.
-#0^0^0^1^0 #MCB wyrd     - Calendar, ncurses-based.
+#0^0^0^0^1 #MCB hebcal    - Perpetual Jewish calendar.
+#0^0^0^0^1 #MCB ical2rem  - iCalendar *.ics (Google, Yahoo, Lotus Notes) to Remind format.
+#0^0^0^0^1 #MCB jcal      - Display Jalali (Persian) calendar.
+#0^0^0^0^1 #MCB lunar     - Converts Gregorian date to Chinese lunar calendar.
+#0^0^0^0^1 #MCB mencal    - Calendar to track repeating periodic events every nn days.
+#0^0^0^0^1 #MCB ncal      - Calendar with vertical days.
+#0^0^0^0^1 #MCB pal       - Calendar with events.
+#0^0^0^0^1 #MCB pcal      - Generate PostScript or HTML Calendars.
+#0^0^0^0^1 #MCB pom       - Display phase of moon on given date.
+#0^0^0^0^1 #MCB remind    - Calendar alarms, Sun rise/set, moon phases.
+#0^0^0^0^1 #MCB remupdate - Download Google Calendars then converts to "Remind" format.
+#0^0^0^0^1 #MCB strptime  - Easily format dates any way you want.
+#0^0^0^0^1 #MCB when      - Calendar.
+#0^0^0^1^0 #MCB wyrd      - Calendar, ncurses-based.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Calendar2 Applications Menu"
@@ -544,9 +546,11 @@ f_menu_app_spreadsheets () {
       f_initvars_menu_app "MSP"
       until [ "$MSP" = "0" ]
       do    # Start of Spreadsheet Applications until loop.
-#0^0^0^0^1 #MSP oleo - Full-screen spreadsheet having a more Emacs-like feel.
-#0^0^0^0^1 #MSP sc   - Spreadsheet.
-#0^0^0^0^1 #MSP slsc - Spreadsheet based on sc.
+#0^0^0^0^0 #MSP csvkit  - Suite of utilities for converting to and working with CSV.
+#0^0^0^0^1 #MSP oleo    - Full-screen spreadsheet having a more Emacs-like feel.
+#0^0^0^0^1 #MSP sc      - Spreadsheet.
+#0^0^0^0^1 #MSP slsc    - Spreadsheet based on sc.
+#0^0^0^0^1 #MSP xls2csv - Microsoft Excel to *.csv (comma separated values) converter.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Spreadsheet Applications Menu"
@@ -572,11 +576,12 @@ f_menu_cat_text () {
       f_initvars_menu_app "BTX"
       until [ "$BTX" = "0" ]
       do    # Start of Text Application Category until loop.
-#f_menu_app_text_compare    #BTX Compare     - Show differences between text files.
-#f_menu_app_text_converters #BTX Converters  - Convert between text document/file formats.
-#f_menu_app_text_editors    #BTX Editors     - Create/Edit text documents/files.
-#f_menu_app_text_markup_language #BTX Markup Docs - Create a single source document, publish in many formats.
-#f_menu_app_text_tools      #BTX Tools       - Viewers, spell-check, dictionaries.
+#f_menu_app_text_compare         #BTX Compare         - Show differences between text files.
+#f_menu_app_text_converters      #BTX Converters      - Convert between text document/file formats.
+#f_menu_app_text_editors         #BTX Editors         - Create/Edit text documents/files.
+#f_menu_app_text_markup_language #BTX Markup Docs     - Create a single source document, publish in many formats.
+#f_menu_app_text_tools           #BTX Tools           - Viewers, spell-check, dictionaries.
+#f_menu_app_text_word_processors #BTX Word Processors - Word processors, word processor file format converters.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Application Category Menu"
@@ -850,33 +855,6 @@ f_menu_app_text_editors () {
 } # End of f_menu_app_text_editors
 #
 # +----------------------------------------+
-# |            Function f_groff            |
-# +----------------------------------------+
-#
-f_f_groff () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-      clear # Blank the screen.
-      echo "groff - Use macro command language to output formatted text"
-      echo "        for PostScript printers."
-      echo
-      echo "Usage:" 
-      echo "groff [-abcegiklpstzCEGNRSUVXZ] [-d cs] [-D arg] [-f fam] [-F dir] [-I dir]"
-      echo "      [-K arg] [-L arg] [-m name] [-M dir] [-n num] [-o list] [-P arg]"
-      echo "      [-r cn] [-T dev] [-w name] [-W name] [file ...]"
-      echo "groff -h | --help"
-      echo "groff -v | --version [OPTION ...]"
-      echo
-      echo "*** For more help type: 'man $APP_NAME'"
-      echo "                        '$APP_NAME --help'"
-      echo
-      echo "Now show help. Usage: man $APP_NAME"
-      APP_NAME="groff --help"
-      f_press_enter_key_to_continue
-      fi
-} # End of function f_groff
-#
-# +----------------------------------------+
 # |    Function f_menu_app_text_editors2   |
 # +----------------------------------------+
 #
@@ -918,6 +896,72 @@ f_menu_app_text_editors2 () {
 } # End of f_menu_app_text_editors2
 #
 # +----------------------------------------+
+# |    Function f_menu_app_text_editors3   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTG, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_text_editors3 () {
+      f_initvars_menu_app "MTG"
+      until [ "$MTG" = "0" ]
+      do    # Start of Text Editor Applications until loop.
+#1^0^0^0^0  #MTG NERD_tree       - vim plug-in of directory tree, highlighting, bookmarks, etc. 
+#0^0^0^14^0 #MTG nvi             - vi-clone as close to vi as possible.
+#0^0^0^0^0  #MTG pico            - Simple full-screen text editor.
+#f_joe^0^0^11:NC^0 #MTG rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
+#0^0^0^0^0  #MTG the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
+#0^0^0^14^0 #MTG vi              - Classic full-screen text editor.
+#0^0^0^14^0 #MTG vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
+#0^0^0^14^0 #MTG vim             - vi "Improved" text editor with more features than "vi".
+#0^0^0^14^0 #MTG vim-nox         - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
+#0^0^0^14^0 #MTG vim-scripts     - plugins for vim, adding bells and whistles.
+#0^0^0^14^0 #MTG vim-tiny        - Vi IMproved compact version.
+#0^0^0^14^0 #MTG vim-latexsuite  - LaTeX plugin for vim.
+#0^0^0^0^0  #MTG vim-vimoutliner - Script for building an outline editor on top of vim.
+#0^0^0^0^0  #MTG zile            - Very small Emacs-subset editor.
+            #
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Editor3 Applications Menu"
+            DELIMITER="#MTG" #MTG This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MTG
+            f_menu_item_process $MTG  # Outputs $MENU_ITEM.
+      done  # End of Text Editor Applications until loop.
+            #
+      unset MTG MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_text_editors3
+#
+# +----------------------------------------+
+# |            Function f_groff            |
+# +----------------------------------------+
+#
+f_f_groff () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+      clear # Blank the screen.
+      echo "groff - Use macro command language to output formatted text"
+      echo "        for PostScript printers."
+      echo
+      echo "Usage:" 
+      echo "groff [-abcegiklpstzCEGNRSUVXZ] [-d cs] [-D arg] [-f fam] [-F dir] [-I dir]"
+      echo "      [-K arg] [-L arg] [-m name] [-M dir] [-n num] [-o list] [-P arg]"
+      echo "      [-r cn] [-T dev] [-w name] [-W name] [file ...]"
+      echo "groff -h | --help"
+      echo "groff -v | --version [OPTION ...]"
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      echo "Now show help. Usage: man $APP_NAME"
+      APP_NAME="groff --help"
+      f_press_enter_key_to_continue
+      fi
+} # End of function f_groff
+#
+# +----------------------------------------+
 # |             Function f_jed             |
 # +----------------------------------------+
 #
@@ -937,7 +981,7 @@ f_joe () {
       clear # Blank the screen.
       echo "joe - Text editor with 5 emulations of other text editors"
       echo
-      echo "Usage:" 
+      echo "USAGE:" 
       echo "Regular Usage mode : joe [global-options] [ [local-options] filename ]..."
       echo " WordStar emulation: jstar [global-options] [ [local-options] filename ]..."
       echo "GNU-Emacs emulation: jmacs [global-options] [ [local-options] filename ]..."
@@ -952,42 +996,32 @@ f_joe () {
 } # End of function f_jed
 #
 # +----------------------------------------+
-# |    Function f_menu_app_text_editors3   |
+# |          Function f_NERD_tree          |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: MTG, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_text_editors3 () {
-      f_initvars_menu_app "MTG"
-      until [ "$MTG" = "0" ]
-      do    # Start of Text Editor Applications until loop.
-#0^0^0^14^0 #MTG nvi             - vi-clone as close to vi as possible.
-#0^0^0^0^0  #MTG pico            - Simple full-screen text editor.
-#f_joe^0^0^11:NC^0 #MTG rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
-#0^0^0^0^0  #MTG the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
-#0^0^0^14^0 #MTG vi              - Classic full-screen text editor.
-#0^0^0^14^0 #MTG vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
-#0^0^0^14^0 #MTG vim             - vi "Improved" text editor with more features than "vi".
-#0^0^0^14^0 #MTG vim-nox         - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
-#0^0^0^14^0 #MTG vim-scripts     - plugins for vim, adding bells and whistles.
-#0^0^0^14^0 #MTG vim-tiny        - Vi IMproved compact version.
-#0^0^0^0^0  #MTG vim-vimoutliner - Script for building an outline editor on top of vim.
-#0^0^0^0^0  #MTG wordgrinder     - Word processor, styles, drop-down menus, ncurses-based.
-#0^0^0^0^0  #MTG zile            - Very small Emacs-subset editor.
-            #
-            THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="Text Editor3 Applications Menu"
-            DELIMITER="#MTG" #MTG This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MTG
-            f_menu_item_process $MTG  # Outputs $MENU_ITEM.
-      done  # End of Text Editor Applications until loop.
-            #
-      unset MTG MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_text_editors3
+f_NERD_tree () {
+      clear # Blank the screen.
+      echo "NERD_tree - A vim plug-in displays a hierarchical directory tree."
+      echo
+      echo "FEATURES (from NERD tree web home page):"
+      echo
+      echo "The NERD tree allows you to explore your filesystem and to open files and"
+      echo "directories. It presents the filesystem to you in the form of a tree which you"
+      echo "manipulate with the keyboard and/or mouse. It also allows you to perform"
+      echo "simple filesystem operations."
+      echo
+      echo "Files and directories are displayed in a hierarchical tree structure."
+      echo "Color highlighting is provided for different types of nodes."
+      echo "Directories and files can be bookmarked."
+      echo "Most NERD tree navigation can also be done with the mouse."
+      echo "Filtering of tree content (can be toggled at runtime)."
+      echo "You can have a separate NERD tree for each tab, share trees across tabs, or a mix of both."
+      echo "Many (customisable) mappings are provided to manipulate the tree."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      f_press_enter_key_to_continue
+} # End of function f_NERD_tree
 #
 # +----------------------------------------+
 # |Function f_menu_app_text_markup_language|
@@ -1018,6 +1052,37 @@ f_menu_app_text_markup_language () {
             #
       unset MTM MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_markup_language
+#
+# +----------------------------------------+
+# |Function f_menu_app_text_word_processors|
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTD, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_text_word_processors () {
+      f_initvars_menu_app "MTD"
+      until [ "$MTD" = "0" ]
+      do    # Start of Text Word Processor Applications until loop.
+#0^0^0^0^1 #MTD unoconv     - Converts any document format that LibreOffice imports/exports.
+#0^0^0^0^0 #MTD wordgrinder - Word processor, styles, drop-down menus, ncurses-based.
+#0^0^0^0^1 #MTD wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+#0^0^0^0^1 #MTD wpd2odt     - WordPerfect to OpenDocument converter.
+#0^0^0^0^1 #MTD wpg2odg     - WordPerfect Graphics to OpenDocument converter.
+#0^0^0^0^1 #MTD wps2odt     - Microsoft Works text documents to OpenDocument converter.
+            #
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Word Processor Applications Menu"
+            DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MTD
+            f_menu_item_process $MTD  # Outputs $MENU_ITEM.
+      done  # End of Text Word Processor Applications until loop.
+            #
+      unset MTD MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_text_word_processors
 #
 # +----------------------------------------+
 # |     Function f_menu_app_text_tools     |

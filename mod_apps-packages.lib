@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="February-03-2014 15:52"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -32,9 +32,8 @@ f_menu_app_packages () {
 #0^0^0^0^1 #MPK unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
 #0^0^0^0^1 #MPK urpmi     - Mandriva, Mageia package manager.
 #1^0^0^0^1 #MPK YaST      - GUI OpenSUSE package manager.
-#1^0^0^0^1 #MPK yum       - "Yellow Dog Updated" package manager.
-#1^0^0^0^1 #MPK zypper    - OpenSUSE package manager on which is based YaST GUI.
- #
+#f_menu_app_packages2^0^0^0^1 #MPK MORE...   - More package management applications.
+#
             THIS_FILE="mod_apps-packages.lib"
             MENU_TITLE="Package Management Applications Menu"
             DELIMITER="#MPK" #MPK This 3rd field prevents awk from printing this line into menu options. 
@@ -46,6 +45,33 @@ f_menu_app_packages () {
             #
       unset MPK MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_packages
+#
+# +----------------------------------------+
+# |      Function f_menu_app_packages2     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MPQ, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_packages2 () {
+      f_initvars_menu_app "MPQ"
+      until [ "$MPQ" = "0" ]
+      do    # Start of Package Management Applications until loop.
+#1^0^0^0^1 #MPQ yum       - "Yellow Dog Updated" package manager.
+#1^0^0^0^1 #MPQ zypper    - OpenSUSE package manager on which is based YaST GUI.
+ #
+            THIS_FILE="mod_apps-packages.lib"
+            MENU_TITLE="Package Management2 Applications Menu"
+            DELIMITER="#MPQ" #MPQ This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MPQ
+            f_menu_item_process $MPQ  # Outputs $MENU_ITEM.
+      done  # End of Package Management2 Applications until loop.
+            #
+      unset MPQ MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_packages2
 #
 # +----------------------------------------+
 # |              Function f_apt            |
@@ -223,11 +249,11 @@ f_kkm () {
       echo "kkm search <package name> Search packages (apt-get search)."
       echo "kkm show <package name> Display information of packages (apt-get cache show)."
       echo "kkm update Update package database (apt-get update)."
-      echo "kkm upgrade Upgrade all installed package (apt-get upgrade/dist-upgrade).
+      echo "kkm upgrade Upgrade all installed package (apt-get upgrade/dist-upgrade)."
       echo "kkm install <package name> Install packages (apt-get install)."
       echo "kkm list List installed packages (dpkg --list | grep <package name>)."
       echo
-      echo "https://github.com/netroby/kkm"
+      echo "Homepage: https://github.com/netroby/kkm"
       echo
       echo "INSTALL:"
       echo "mkdir /opt"

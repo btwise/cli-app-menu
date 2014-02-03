@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="February-03-2014 15:52"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio-video    |
@@ -175,7 +175,7 @@ f_menu_app_music_players () {
 #0^0^0^0^0 #MAN mp3blaster   - Music player, playlists, groups, ncurses-based.
 #0^0^0^0^0 #MAN moc          - Music player, ncurses-based.
 #0^0^0^1^0 #MAN ncmpc        - Music player, ncurses-based.
-#f_menu_app_music_players2^0^0^0^0 #MAN MORE...         - For more music player applications.
+#f_menu_app_music_players2^0^0^0^0 #MAN MORE...      - For more music player applications.
             #
             THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Player Applications Menu"
