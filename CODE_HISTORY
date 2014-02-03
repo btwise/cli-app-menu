@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2013 COPYRIGHT 2013 ROBERT D. CHIN
+# ©2014 COPYRIGHT 2014 ROBERT D. CHIN
 #
 # Usage: sh CODE_HISTORY
 #
@@ -38,8 +38,8 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="1.0"
-PROJECT_REVDATE="January-27-2014 21:32"
+PROJECT_REVISION="1.0.2"
+PROJECT_REVDATE="February-02-2014 21:21"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -97,7 +97,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_menu_app_games_arcade added gnuski.
 ##            *f_menu_app_games_card added cpat.
 ##            *f_menu_app_games_tetris added lexter.
-##            *f_menu_app_games_word letterize, lexter.
+##            *f_menu_app_games_word added letterize, lexter.
 ##            *f_menu_app_instant_messaging added ekg2.
 ##            *f_menu_app_lan added ekgping
 ##            *f_menu_app_music_players added jac, ncmpcpp, ncmpy, peyote.

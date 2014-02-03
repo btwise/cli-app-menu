@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # This program, README is under copyright.
-# ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
+# ©2014 Copyright 2014 Robert D. Chin (rdchin at yahoo.com).
 #
 # Usage: sh README
 #
@@ -65,12 +65,12 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 #: |    Revision number and Revision Date   |
 #: +----------------------------------------+
 #:
-# Calculate revision number by counting all lines starting with "## 2013".
-# grep ^ (carot sign) means grep any lines beginning with "##2013".
+# Calculate revision number by counting all lines starting with "## 2014".
+# grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="February-02-2014 02:02"
+REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
+REVDATE="February-02-2014 21:21"
 #:
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
@@ -176,7 +176,7 @@ REVDATE="February-02-2014 02:02"
 #:   give back to the community and perhaps others could build on and improve on
 #:   what I've started.
 #:
-#: Please enjoy . . . bob chin (2013).
+#: Please enjoy . . . bob chin (2014).
 #:                    rdchin at yahoo.com.
 #:
 #:
