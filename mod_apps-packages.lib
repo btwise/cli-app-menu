@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-27-2014 11:20"
+# REVDATE="February-01-2014 22:32"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -25,7 +25,8 @@ f_menu_app_packages () {
 #1^0^0^0^1 #MPK aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
 #0^0^0^0^1 #MPK cupt      - Debian front-end to dpkg package manager.
 #1^0^0^0^1 #MPK dpkg      - Debian package manager.
-#1^0^0^0^1 #MPK pip       - An improved Python package installer. Integrates with virtualenv.
+#1^0^0^0^1 #MPK kkm       - Debian apt tools wrapper, shorter, easier than "apt" commands.
+#1^0^0^0^1 #MPK pip       - Improved Python package installer. Integrates with virtualenv.
 #1^0^0^0^1 #MPK rpm       - RPM (Red Hat) package manager.
 #1^0^0^0^0 #MPK synaptic  - GUI Debian package manager.
 #0^0^0^0^1 #MPK unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
@@ -80,13 +81,13 @@ f_apt-cache () {
       clear # Blank the screen.
       echo "apt - Debian package manager."
       echo
-      echo "Usage:"
+      echo "USAGE:"
       echo "apt-cache show <package name> Show package description and information."
       echo "apt-cache showpkg <package name> Show package general information."
-      echo "apt-cache showsrc - Show source records."
-      echo "apt-cache stats - Show some basic statistics."
-      echo "apt-cache search - Search the package list for a regex pattern."
-      echo "apt-cache pkgnames - List the names of all packages in the system."
+      echo "apt-cache showsrc Show source records."
+      echo "apt-cache stats Show some basic statistics."
+      echo "apt-cache search Search the package list for a regex pattern."
+      echo "apt-cache pkgnames List the names of all packages in the system."
       echo
       echo "apt-cache depends <package name> Show package dependency information."
       echo "apt-cache rdepends <package name> Show package reverse dependency information."
@@ -113,7 +114,7 @@ f_apt-file () {
       echo "installing or downloading it (see dpkg -S and dpkg --contents for more"
       echo "details about listing a package content)."
       echo
-      echo "Usage:"
+      echo "USAGE:"
       echo "apt-file [ options ] [ action ] [ pattern ]"
       echo "apt-file -f [ options ] search [ file ... ]"
       echo "apt-file -D [ options ] search [ binary-packet.deb ... ]"
@@ -138,17 +139,17 @@ f_aptitude () {
       clear # Blank the screen.
       echo "aptitude - Debian package manager."
       echo 
-      echo "Usage:"
+      echo "USAGE:"
       echo "aptitude [-S fname] [-u|-i]"
       echo "aptitude [OPTIONS] <ACTION> ..."
       echo 
-      echo "Options:"
+      echo "OPTIONS:"
       echo " -h    This help text."
       echo " -D    Show the dependencies of automatically changed packages."
       echo " -v    Display extra information. (may be supplied multiple times)."
       echo " -f    Aggressively try to fix broken packages."
       echo  
-      echo "Actions (if none is specified, aptitude will enter interactive mode):"
+      echo "ACTIONS (if none is specified, aptitude will enter interactive mode):"
       echo "search    - Search for a package by name and/or expression."
       echo "show      - Display detailed information about a package."
       echo "install   - Install/upgrade packages."
@@ -190,7 +191,7 @@ f_dpkg () {
       clear # Blank the screen.
       echo "dpkg - Debian package manager."
       echo
-      echo "Usage:"
+      echo "USAGE:"
       echo "dpkg --get-selections List all installed packages."
       echo "dpkg -i <package name> Installs a new software package."
       echo "dpkg -r <package name> Uninstalls a software package."
@@ -208,6 +209,34 @@ f_dpkg () {
       echo
       f_press_enter_key_to_continue
 } # End of function f_dpkg
+#
+# +----------------------------------------+
+# |              Function f_kkm            |
+# +----------------------------------------+
+#
+f_kkm () {
+      clear # Blank the screen.
+      echo "kkm - Debian apt tools wrapper, shorter, easier than "apt" commands."
+      echo
+      echo "USAGE:"
+      echo "kkm clean Clean and remove unused packages (apt-get clean/remove)."
+      echo "kkm search <package name> Search packages (apt-get search)."
+      echo "kkm show <package name> Display information of packages (apt-get cache show)."
+      echo "kkm update Update package database (apt-get update)."
+      echo "kkm upgrade Upgrade all installed package (apt-get upgrade/dist-upgrade).
+      echo "kkm install <package name> Install packages (apt-get install)."
+      echo "kkm list List installed packages (dpkg --list | grep <package name>)."
+      echo
+      echo "https://github.com/netroby/kkm"
+      echo
+      echo "INSTALL:"
+      echo "mkdir /opt"
+      echo "cd /opt && git clone https://github.com/netroby/kkm.git && ln -s /opt/kkm/kkm /usr/sbin/kkm && chmod a+x /usr/sbin/kkm"
+      echo
+      echo "*** For more help type: man kkm"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_kkm
 #
 # +----------------------------------------+
 # |              Function f_pip            |
@@ -239,7 +268,7 @@ f_rpm () {
       clear # Blank the screen.
       echo "rpm - RPM (Red Hat) package manager."
       echo
-      echo "Usage:"
+      echo "USAGE:"
       echo "rpm -q <package name> Show package description and information."
       echo "rpm --query <package name> Show package description and information."
       echo "rpm -U <package name> Upgrade/Install a package."
@@ -297,7 +326,7 @@ f_yum () {
       clear # Blank the screen.
       echo "yum - 'Yellow Dog Updated' package manager."
       echo
-      echo "Usage:"
+      echo "USAGE:"
       echo "yum upgrade <package name> Upgrade/Install a package."
       echo "yum -list <package name> Show package description and information."
       echo "yum search <text> Searches package names, descriptions, summaries."
@@ -321,7 +350,7 @@ f_zypper () {
       clear # Blank the screen.
       echo "zypper - Zypper package manager."
       echo
-      echo "Usage:"
+      echo "USAGE:"
       echo "zypper search -is List installed packages."
       echo "zypper search -d <text> searches package names, descriptions, summaries."
       echo "zypper update Upgrade packages to latest versions."

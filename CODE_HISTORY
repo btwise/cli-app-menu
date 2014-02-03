@@ -80,14 +80,58 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2014-01-27 *f_menu_app_environment added rbash.
-##            *f_menu_app_packet_tools added hunt.
+## 2014-02-02 *f_menu_app_audio_editors added normalize.
+##             Corrected from clvc to cvlc.
+##            *f_menu_app_binhex_editors added gitview.
+##            *f_menu_app_bittorrent added hefur.
+##            *f_menu_app_cdrippers added cdda2wav.
+##            *f_menu_app_development added ldd.
+##            *f_menu_app_file_burn added isodebug, isoinfo, isovfy, mkisofs.
+##            *f_menu_app_file_compression added gitunpack.
+##            *f_menu_app_file_conversion added catdoc, csvkit, ctodo, ical2rem, remupdate, xls2csv.
+##            *f_menu_app_file_find added gitrgrep, gitregrep, gitrfgrep.
+##            *f_menu_app_file_managers added fdclone.
+##            *f_menu_app_file_operations added cwp, entr, fasd, j2, gitwipe, extundelete.
+##            *f_menu_app_file_transfer added npoll, npush.
+##            *f_menu_app_firewalls added knockd, labrea, mason.
+##            *f_menu_app_games_arcade added gnuski.
+##            *f_menu_app_games_card added cpat.
+##            *f_menu_app_games_tetris added lexter.
+##            *f_menu_app_games_word letterize, lexter.
+##            *f_menu_app_instant_messaging added ekg2.
+##            *f_menu_app_lan added ekgping
+##            *f_menu_app_music_players added jac, ncmpcpp, ncmpy, peyote.
+##            *f_menu_app_music_taggers added gramophone, id3fsd, id3tool.
+##            *f_menu_app_network_bandwidth added ibmonitor, iperf3
+##            *f_menu_app_note added cjots.
+##            *f_menu_app_nic_tools added ipsc.
+##            *f_menu_app_packages added cdf, kkm.
+##            *f_menu_app_packet_tools added P0f.
+##            *f_menu_app_radio added cloudruby.
+##            *f_menu_app_sys_health added labrea.
+##            *f_menu_app_sys_logs added last, lastlog, wuzzah.
+##            *f_menu_app_sys_monitors deleted last, added id.
+##            *f_menu_app_sys_peripherals added gitkeys, kbd.
+##            *f_menu_app_sys_process added gitps, ips.
+##            *f_menu_app_text_editors added jupp.
+##            *f_menu_app_todo added etm.
+##            *f_menu_app_wan added lft.
+##
+## 2014-01-27 *f_menu_app_development added highlight.
+##            *f_menu_app_development2 added git.
+##            *f_menu_app_environment added rbash.
+##            *f_menu_app_games_arcade added ascii-invaders.
 ##            *f_menu_app_network_sharing added smbnetfs.
+##            *f_menu_app_note added cjots.
 ##            *f_menu_app_packages added pip. apt-cache, apt-file added help.
 ##             dpkg added more help.
+##            *f_menu_app_packet_tools added hunt.
 ##            *f_menu_app_sys_health added hpcc, smb-nat.
 ##            *f_menu_app_sys_monitors dstat needed a "Press Enter key to
 ##             continue.", ttyload needed a f_run_and_exit.
+##            *f_menu_app_text_tools added fold, highlighter.
+##            *f_menu_app_wan added bing.
+##            *f_menu_app_firewalls added doscan.
 ##
 ## 2014-01-25 *f_menu_app_file_burn fixed xorriso missing quotation mark in echo.
 ##

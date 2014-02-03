@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-27 2014 21:32"
+# REVDATE="February-01 2014 17:03"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1416,6 +1416,9 @@ f_application_install () {
            binhex | frommac | hexbin | macunpack | macsave | macstream | tomac)
            APP_NAME_INSTALL="macutils"
            ;;
+           cdrecord | readcd | cdda2wav | dirsplit | mkisofs | isodebug | isodump |  isoinfo | isovfy | rscsi)
+           APP_NAME_INSTALL="cdrtools"
+           ;;
            clamscan)
            APP_NAME_INSTALL="clamav"
            ;;
@@ -1434,6 +1437,9 @@ f_application_install () {
            fd)
            APP_NAME_INSTALL="fdclone"
            ;;
+           gitfm | gitps | gitview | gitwipe | gitkeys | gitmount | gitaction | gitunpack | gitrgrep | gitregrep | gitrfgrep)
+           APP_NAME_INSTALL="gnuit"
+           ;;
            ifplugstatus)
            APP_NAME_INSTALL="ifplugd"
            ;;
@@ -1451,6 +1457,9 @@ f_application_install () {
            ;;
            nagios3)
            APP_NAME_INSTALL="nagios3-core"
+           ;;
+           npush | npull)
+           APP_NAME_INSTALL="ncp"
            ;;
            photorec)
            APP_NAME_INSTALL="testdisk"

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-27-2014 11:35"
+# REVDATE="February-02-2014 02:02"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -81,6 +81,7 @@ f_menu_app_sys_disks () {
 #0^0^0^0^1 #MSD agedu     - Find wasted disk space.
 #0^0^0^0^1 #MSD badblocks - Scans disks for bad sectors.
 #0^0^0^0^1 #MSD blkid     - Block devices information.
+#0^0^0^0^1 #MSD cdf       - df-like also shows capacity of mount-points.
 #0^0^0^1^0 #MSD cfdisk    - Disk partition tool.
 #0^0^0^0^1 #MSD ddir      - Tree-view of disk space utilization.
 #1^0^0^0^1 #MSD df        - Disk usage and mount points, usage: 'df -hT'.
@@ -92,7 +93,6 @@ f_menu_app_sys_disks () {
 #0^0^0^0^1 #MSD eject     - Ejects media, CD, DVD, floppy disks, SCSI drives, tape drives.
 #0^0^0^1^0 #MSD gt5       - A diff-capable du-browser.
 #0^0^0^0^1 #MSD hdparm    - Show/set disk parameters, settings. 
-#0^0^0^0^1 #MSD lsblk     - List block devices (disks).
 #f_menu_app_sys_disks2^0^0^0^1 #MSD MORE... - For more system disk information applications.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -119,6 +119,7 @@ f_menu_app_sys_disks2 () {
       f_initvars_menu_app "MSE"
       until [ "$MSE" = "0" ]
       do    # Start of System Disks Information Applications until loop.
+#0^0^0^0^1 #MSE lsblk  - List block devices (disks).
 #0^0^0^1^0 #MSE ncdu   - Disk usage monitor, ncurses-based.
 #0^0^0^1^0 #MSE parted - Disk partition tool.
 #1^0^0^0^1 #MSE pydf   - Disk usage df clone written in python.
@@ -252,9 +253,10 @@ f_menu_app_sys_health () {
 #0^0^0^0^1 #MSH cpuburn    - Stress test puts heavy loads on a CPU.
 #0^0^0^1^1 #MSH freshclam  - Clam anti-virus database definition update.
 #1^0^0^0^1 #MSH hpcc       - HPC Challenge benchmark. 7 tests of CPU, memory and network.
+#0^0^0^0^1 #MSH labrea     - Sticky honeypot entraps intruder tying up his CPU.
 #0^0^0^0^1 #MSH lynis      - security auditing tool that tests for security holes in a PC.
 #0^0^0^0^1 #MSH rkhunter   - Root Kit detector.
-#1^0^0^0^1 #MSH smb-nat    - Netbios Auditing of servers running NetBIOS file sharing services.
+#1^0^0^0^1 #MSH smb-nat    - Netbios audit servers running NetBIOS file sharing services.
 #1^0^0^0^1 #MSH stress     - Stress test can simulate a heavy load on CPU.
 #1^0^0^0^1 #MSH tripwire   - Detects/Reports changes in system files.
             #
@@ -469,12 +471,15 @@ f_menu_app_sys_logs () {
 #0^0^0^0^1 #MLO hash       - Show frequency of commands entered at the prompt.
 #0^0^0^0^1 #MLO history    - Show history of commands entered at the prompt.
 #0^0^0^0^1 #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
+#0^0^0^0^1 #MLO last       - Users' login/logout times from /var/log/wtmp.
+#0^0^0^0^1 #MLO lastlog    - Users' login/logout times from /var/log/wtmp.
 #0^0^0^0^1 #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
 #0^0^0^0^1 #MLO logtailer  - Monitor logs for updates and display them.
 #0^0^0^0^1 #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
 #0^0^0^0^1 #MLO multitail  - View multiple log files using multiple panes.
 #0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail-like.
 #0^0^0^0^1 #MLO swatch     - Log file viewer with regexp matching, highlighting & hooks.
+#0^0^0^0^1 #MLO wuzzah     - Users' login/logout events from utmpx records.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Logs Menu"
@@ -706,9 +711,9 @@ f_menu_app_sys_monitors () {
 #0^0^0^1^0 #MSM conky-cli - Versatile, configurable system monitor.
 #1^0^0^0^1 #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
 #0^0^0^1^0 #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
+#0^0^0^0^1 #MSM id        - Print user and group names and information.
 #0^0^0^0^1 #MSM iostat    - CPU usage and disk I/O process monitor.
 #0^0^0^1^0 #MSM iotop     - Disk I/O process monitor.
-#0^0^0^0^1 #MSM last      - Users' login/logout times from /var/log/wtmp.
 #1^0^0^0^1 #MSM mpstat    - CPU microprocessor usage monitor.
 #0^0^0^0^0 #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
 #0^0^0^0^0 #MSM rcconf    - Debian enable/disable startup scripts/services; ncurses-based.
@@ -892,41 +897,69 @@ f_rrdtool () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MSL, MENU_ITEM, MAX.
+#    Uses: MSV, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_peripherals () {
-      f_initvars_menu_app "MSL"
-      until [ "$MSL" = "0" ]
+      f_initvars_menu_app "MSV"
+      until [ "$MSV" = "0" ]
       do    # Start of Peripheral System Information until loop.
-#0^0^0^0^1 #MSL acpitool  - ACPI power/battery settings.
-#1^0^0^0^1 #MSL blkid     - Block devices information.
-#0^0^0^0^1 #MSL cdde      - Detects if a CD is inserted, runs specified program.
-#0^0^0^0^1 #MSL colortest - Test color capabilities of a terminal.
-#0^0^0^0^1 #MSL inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
-#0^0^0^0^1 #MSL lsblk     - List block devices (disks).
-#0^0^0^0^1 #MSL lsof      - Display information about open files.
-#1^0^0^0^1 #MSL lspci     - PCI buses and connected devices.
-#1^0^0^0^1 #MSL lspcmcia  - PCMCIA extended debugging information.
-#0^0^0^0^1 #MSL lsusb     - USB devices.
-#1^0^0^0^1 #MSL pccardctl - PCMCIA card devices.
-#0^0^0^0^1 #MSL printenv  - Environmental variables.
-#0^0^0^0^1 #MSL scanimage - Control flatbed scanners, cameras. -L list of devices.
-#0^0^0^0^1 #MSL setcd     - Control CDROM device, auto-close/eject/locking, set speed.
-#0^0^0^0^1 #MSL uptime    - Display how long PC has been running, # users, load average.
-#0^0^0^0^1 #MSL w         - A combination of uptime and who commands.
+#0^0^0^0^1 #MSV acpitool  - ACPI power/battery settings.
+#1^0^0^0^1 #MSV blkid     - Block devices information.
+#0^0^0^0^1 #MSV cdde      - Detects if a CD is inserted, runs specified program.
+#0^0^0^0^1 #MSV colortest - Test color capabilities of a terminal.
+#0^0^0^0^1 #MSV gitkeys   - Displays the key sequence sent by the pressed key.
+#0^0^0^0^1 #MSV inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
+#0^0^0^0^1 #MSV kbd       - Control keyboard LEDs, repeat/delay rates, keymaps, etc.
+#0^0^0^0^1 #MSV lsblk     - List block devices (disks).
+#0^0^0^0^1 #MSV lsof      - Display information about open files.
+#1^0^0^0^1 #MSV lspci     - PCI buses and connected devices.
+#1^0^0^0^1 #MSV lspcmcia  - PCMCIA extended debugging information.
+#0^0^0^0^1 #MSV lsusb     - USB devices.
+#1^0^0^0^1 #MSV pccardctl - PCMCIA card devices.
+#0^0^0^0^1 #MSV printenv  - Environmental variables.
+#0^0^0^0^1 #MSV scanimage - Control flatbed scanners, cameras. -L list of devices.
+#f_menu_app_sys_peripherals2^0^0^0^1 #MSV MORE...   - For more peripheral system applications.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Peripheral System Information Menu"
-            DELIMITER="#MSL" #MSL This 3rd field prevents awk from printing this line into menu options. 
+            DELIMITER="#MSV" #MSV This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MSL
-            f_menu_item_process $MSL  # Outputs $MENU_ITEM.
+            read MSV
+            f_menu_item_process $MSV  # Outputs $MENU_ITEM.
       done  # End of Peripheral System Information Applications until loop.
             #
-      unset MSL MENU_ITEM  # Throw out this variable.
+      unset MSV MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_sys_peripherals
+#
+# +----------------------------------------+
+# |   Function f_menu_app_sys_peripherals2 |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSW, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_sys_peripherals2 () {
+      f_initvars_menu_app "MSW"
+      until [ "$MSW" = "0" ]
+      do    # Start of Peripheral System Information2 until loop.
+#0^0^0^0^1 #MSW setcd  - Control CDROM device, auto-close/eject/locking, set speed.
+#0^0^0^0^1 #MSW uptime - Display how long PC has been running, # users, load average.
+#0^0^0^0^1 #MSW w      - A combination of uptime and who commands.
+            #
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="Peripheral System Information2 Menu"
+            DELIMITER="#MSW" #MSW This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MSW
+            f_menu_item_process $MSW  # Outputs $MENU_ITEM.
+      done  # End of Peripheral System Information2 Applications until loop.
+            #
+      unset MSW MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_sys_peripherals2
 #
 # +----------------------------------------+
 # |             Function f_blkid           |
@@ -1035,40 +1068,68 @@ f_pccardctl () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MSR, MENU_ITEM, MAX.
+#    Uses: MSQ, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_sys_process () {
+      f_initvars_menu_app "MSQ"
+      until [ "$MSQ" = "0" ]
+      do    # Start of System Process Applications until loop.
+#0^0^0^1^0 #MSQ atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
+#0^0^0^0^1 #MSQ gitps     - Interactive process viewer/killer.
+#0^0^0^3^0 #MSQ htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
+#0^0^0^0^1 #MSQ ips       - "Intelligent process status" with easy tracking of processes.
+#0^0^0^0^1 #MSQ killall   - Kill processes based on full-name of process.
+#0^0^0^0^1 #MSQ pgrep     - Search ps output for full/partial name of process.
+#1^0^0^0^1 #MSQ pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
+#0^0^0^0^1 #MSQ pkill     - Kill processes based on partial name of process.
+#0^0^0^0^1 #MSQ pmap      - View process memory usage.
+#0^0^0^0^1 #MSQ powertop  - Find software components which consume the most power.
+#0^0^0^0^1 #MSQ ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
+#0^0^0^0^1 #MSQ pstree    - Tree view system processes/resources, like "ps" command.
+#0^0^0^0^1 #MSQ pswatcher - Execute commands when certain processes are run.
+#0^0^0^0^1 #MSQ pwdx      - Report current working directory of a process.
+#0^0^0^0^1 #MSQ strace    - Trace process system calls and signals.
+#f_menu_app_sys_process2^0^0^0^1 #MSQ MORE...   - For more system process applications.
+            #
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="System Process Applications Menu"
+            DELIMITER="#MSQ" #MSQ This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MSQ
+            f_menu_item_process $MSQ  # Outputs $MENU_ITEM.
+      done  # End of System Process Applications until loop.
+            #
+      unset MSQ MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_sys_process
+#
+# +----------------------------------------+
+# |     Function f_menu_app_sys_process2   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSR, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_sys_process2 () {
       f_initvars_menu_app "MSR"
       until [ "$MSR" = "0" ]
       do    # Start of System Process Applications until loop.
-#0^0^0^1^0 #MSR atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
-#0^0^0^3^0 #MSR htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
-#0^0^0^0^1 #MSR killall   - Kill processes based on full-name of process.
-#0^0^0^0^1 #MSR pgrep     - Search ps output for full/partial name of process.
-#1^0^0^0^1 #MSR pidstat   - View system processes/resources, PID/USR/System/Guest/CPU/Cmd.
-#0^0^0^0^1 #MSR pkill     - Kill processes based on partial name of process.
-#0^0^0^0^1 #MSR pmap      - View process memory usage.
-#0^0^0^0^1 #MSR powertop  - Find software components which consume the most power.
-#0^0^0^0^1 #MSR ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
-#0^0^0^0^1 #MSR pstree    - Tree view system processes/resources, like "ps" command.
-#0^0^0^0^1 #MSR pswatcher - Execute commands when certain processes are run.
-#0^0^0^0^1 #MSR pwdx      - Report current working directory of a process.
-#0^0^0^0^1 #MSR strace    - Trace process system calls and signals.
 #0^0^0^0^1 #MSR sysctl    - Configure kernel parameters at runtime.
 #0^0^0^1^0 #MSR top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
             #
             THIS_FILE="mod_apps-system.lib"
-            MENU_TITLE="System Process Applications Menu"
+            MENU_TITLE="System Process2 Applications Menu"
             DELIMITER="#MSR" #MSR This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MSR
             f_menu_item_process $MSR  # Outputs $MENU_ITEM.
-      done  # End of System Process Applications until loop.
+      done  # End of System Process2 Applications until loop.
             #
       unset MSR MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_sys_process
+} # End of function f_menu_app_sys_process2
 #
 # +----------------------------------------+
 # |             Function f_pidstat         |

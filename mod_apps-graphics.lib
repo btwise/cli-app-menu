@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-30-2013 18:37"
+# REVDATE="February-02-2014 00:24"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -59,7 +59,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
 #0^0^0^0^1 #MIG jhead      - Display jpeg file properties.
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
-#f_menu_app_image_graphics2^0^0^0^0 #MIG MORE...         - For more image-graphics applications.
+#f_menu_app_image_graphics2^0^0^0^0 #MIG MORE...    - For more image-graphics applications.
             #
             THIS_FILE="mod_apps-graphics.lib"
             MENU_TITLE="Image-Graphics Applications Menu"

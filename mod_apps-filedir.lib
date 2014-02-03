@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-24-2014 22:23"
+# REVDATE="February-01-2014 19:25"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -64,6 +64,7 @@ f_menu_app_binhex_editors () {
 #0^0^0^0^1 #MBH codemetre - Count lines of code w/o comments in source code.
 #0^0^0^0^1 #MBH colout    - Colorize matching text pattern in a text file.
 #0^0^0^0^0 #MBH dhex      - Hexadecimal editor with diff mode, ncurses-based.
+#0^0^0^0^0 #MBH gitview   - ASCII/HEX file viewer.
 #0^0^0^0^0 #MBH hexedit   - Hexadecimal editor.
 #0^0^0^0^0 #MBH hexer     - Hex editor with vi-like bindings.
 #0^0^0^0^0 #MBH tweak     - Hex editor with emacs-like keybindings, ncurses-based.
@@ -99,8 +100,12 @@ f_menu_app_file_burn () {
 #0^0^0^0^0 #MFA burn         - Write audio/data/iso image or copy CDs.
 #0^0^0^0^0 #MFA cdck         - Check the quality of a written CD.
 #1^0^0^0^0 #MFA cdrecord     - CD burning. Obsoleted by wodim. May be hard-linked to wodim.
+#0^0^0^0^0 #MFA isodebug     - Print mkisofs debug information from media.
+#0^0^0^0^0 #MFA isoinfo      - Analyse/verify ISO/9660/Joliet/Rock-Ridge filesystems.
+#0^0^0^0^0 #MFA isovfy       - Verify the ISO-9660 structures.
 #0^0^0^0^0 #MFA lsdvd        - Reads contents of DVDs.
 #0^0^0^0^0 #MFA mkcd         - CD burning.
+#0^0^0^0^0 #MFA mkisofs      - Create hybrid ISO9660/JOLIET/HFS filesystems w/Rock Ridge. 
 #0^0^0^0^0 #MFA mybashburn   - CD burning.
 #0^0^0^0^0 #MFA simpleburner - CD burning.
 #1^0^0^0^0 #MFA wodim        - CD/DVD Write audio/data/iso image. Single line command.
@@ -400,8 +405,8 @@ f_menu_app_file_compression () {
 #0^0^0^0^1 #MFB compress     - file compression creates *.Z compressed files.
 #0^0^0^0^1 #MFB cpio         - Archive files and extract files from archives.
 #0^0^0^0^1 #MFB dtrx         - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z etc.
+#0^0^0^0^1 #MFB gitunpack    - Unpacks archives using other appropriate apps/utilities.
 #0^0^0^0^1 #MFB gunzip       - File decompress gzip files.
-#0^0^0^0^1 #MFB gzip         - File compress, to gzip files.
 #f_menu_app_file_compression2^0^0^0^0 #MFB MORE...      - For more file compression applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
@@ -428,6 +433,7 @@ f_menu_app_file_compression2 () {
       f_initvars_menu_app "MFC"
       until [ "$MFC" = "0" ]
       do    # Start of Backup Applications until loop.
+#0^0^0^0^1 #MFC gzip       - File compress, to gzip files.
 #0^0^0^0^1 #MFC gzexe      - Compress executable file. When run, decompresses/executes.
 #0^0^0^0^1 #MFC lhasa      - Decompresses LHA (.lzh) archive files.
 #0^0^0^0^1 #MFC lzma       - Compress/Decompress files in the LZMA format.
@@ -442,7 +448,6 @@ f_menu_app_file_compression2 () {
 #0^0^0^0^1 #MFC uncompress - decompress *.Z compressed files.
 #0^0^0^0^1 #MFC unp        - Extract many kinds of archive files with one command.
 #0^0^0^0^1 #MFC unxc       - File decompress xz files.
-#0^0^0^0^1 #MFC unzip      - File decompress zip files.
 #f_menu_app_file_compression3^0^0^0^0 #MFC MORE...    - For more file compression applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
@@ -470,6 +475,7 @@ f_menu_app_file_compression3 () {
       f_initvars_menu_app "MFJ"
       until [ "$MFJ" = "0" ]
       do    # Start of Backup Applications until loop.
+#0^0^0^0^1 #MFJ unzip    - File decompress zip files.
 #0^0^0^0^1 #MFJ xz       - File compress xz files.
 #0^0^0^0^1 #MFJ xzcat    - File cat xz files.
 #0^0^0^0^1 #MFJ xzgrep   - File grep xz files.
@@ -509,20 +515,20 @@ f_menu_app_file_conversion () {
       until [ "$MTW" = "0" ]
       do    # Start of File Format Conversion Applications until loop.
 #0^0^0^0^0 #MTW abcm2ps    - Converts ABC music source files to PS sheet music format.
+#0^0^0^0^0 #MTW catdoc     - Microsoft Word to text converter.
+#0^0^0^0^0 #MTW csvkit     - Suite of utilities for converting to and working with CSV.
+#0^0^0^0^1 #MTW ctodo      - intuitive, simple interface; saves data in plain text files.
 #0^0^0^0^1 #MTW dehtml     - Strips HTML code from text.
 #0^0^0^0^1 #MTW ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
 #0^0^0^0^1 #MTW enscript   - Convert text file to Post-Script file.
 #0^0^0^0^1 #MTW html2txt   - Strips HTML code from text.
+#0^0^0^0^1 #MTW ical2rem   - iCalendar *.ics (Google, Yahoo, Lotus Notes) to Remind format.
 #0^0^0^0^1 #MTW pdftops    - Converts PDF to PS (PostScript) format.
 #0^0^0^0^1 #MTW ps2ascii   - Converts PS (PostScript) to text format.
 #0^0^0^0^1 #MTW ps2pdf     - Converts PS (PostScript) to PDF format.
+#0^0^0^0^1 #MTW remupdate  - Download Google Calendars then converts to "Remind" format.
 #1^0^0^0^1 #MTW txt2html   - Converts plain ASCII text to HTML format.
 #1^0^0^0^1 #MTW txt2man    - Converts plain ASCII text to man format.
-#1^0^0^0^1 #MTW txt2pdbdoc - Converts plain ASCII text to PDB doc format for Palm Pilots.
-#1^0^0^0^1 #MTW txt2regex  - Converts human sentences to regex. Regular Expression Wizard.
-#1^0^0^0^1 #MTW txt2tags   - Converts plain ASCII text to a variety of formats.
-#0^0^0^0^1 #MTW unoconv    - Converts any document that LibreOffice imports or exports.
-#0^0^0^0^1 #MTW unrtf      - Converts RTF to HTML, LaTeX, txt, PS.
 #f_menu_app_file_conversion2^0^0^0^1            #MTW MORE...    - More file format conversion applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
@@ -549,8 +555,14 @@ f_menu_app_file_conversion2 () {
       f_initvars_menu_app "MTX"
       until [ "$MTX" = "0" ]
       do    # Start of File Format Conversion Applications until loop.
+#1^0^0^0^1 #MTX txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
+#1^0^0^0^1 #MTX txt2regex   - Converts human sentences to regex. Regular Expression Wizard.
+#1^0^0^0^1 #MTX txt2tags    - Converts plain ASCII text to a variety of formats.
+#0^0^0^0^1 #MTX unoconv     - Converts any document that LibreOffice imports or exports.
+#0^0^0^0^1 #MTX unrtf       - Converts RTF to HTML, LaTeX, txt, PS.
 #0^0^0^0^1 #MTX vilistextum - Strips HTML code from text.
 #0^0^0^0^1 #MTX wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, troff...
+#0^0^0^0^1 #MTX xls2csv     - Microsoft Excel to *.csv (comma separated values) converter.
 #0^0^0^0^1 #MTX xmlto       - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
             #
             THIS_FILE="mod_apps-filedir.lib"
@@ -701,6 +713,7 @@ f_menu_app_text_file_editors () {
 #0^0^0^0^0  #MTH emacs - Full screen text editor with plugins.
 #1^0^0^0^0  #MTH jed   - JED text editor.
 #1^0^0^11^0 #MTH joe   - Text editor. <Ctrl>-K H for help.
+#0^0^0^0^0  #MTH jupp  - Fork of joe editor with enhancements.
 #0^0^0^0^0  #MTH nano  - Simple full-screen text editor.
 #0^0^0^0^0  #MTH pico  - Simple full-screen text editor.
 #0^0^0^0^0  #MTH pyp   - "Pyed Piper" awk-sed-like features using Python-based sub-commands.
@@ -781,7 +794,7 @@ f_menu_app_file_encryption () {
 #0^0^0^0^1 #MFE nasty     - Helps you to recover forgotten PGP/GPG pass-phrase.
 #0^0^0^0^1 #MFE pgp       - Pretty Good Privacy (pgp).
 #0^0^0^0^1 #MFE rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
-#f_menu_app_file_encryption2#0^0^0^0^1 #MFE MORE...   - More file encryption applications.
+#f_menu_app_file_encryption2^0^0^0^1 #MFE MORE...   - More file encryption applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Encryption Applications Menu"
@@ -846,6 +859,9 @@ f_menu_app_file_find () {
 #0^0^0^0^1 #MFF fgrep        - Search files for list of fixed strings. Same as "grep -F".
 #0^0^0^0^1 #MFF file         - Determines file type.
 #1^0^0^0^1 #MFF find         - Find files using pattern matching.
+#0^0^0^0^1 #MFF gitrgrep     - Recursive version of grep.
+#0^0^0^0^1 #MFF gitregrep    - Recursive version of the egrep.
+#0^0^0^0^1 #MFF gitrfgrep    - Recursive version of the fgrep. 
 #0^0^0^0^1 #MFF grep         - Search files for a string.
 #1^0^0^0^1 #MFF locate       - Find files using an internal database, mlocate.
 #0^0^0^0^1 #MFF missidentify - Finds win32 applications.
@@ -943,6 +959,8 @@ f_menu_app_file_transfer () {
 #0^0^0^0^1 #MFT ftpfs  - File transfer client.
 #0^0^0^0^1 #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
 #0^0^0^0^1 #MFT ncftp  - Powerful file transfer client, download directory trees etc.
+#0^0^0^0^1 #MFT npoll  - Client receives "npush" served files across LAN.
+#0^0^0^0^1 #MFT npush  - Serve file across LAN to any "npoll" client. 
 #0^0^0^0^1 #MFT scp    - Secure Copy file transfer via ssh, asks for password if needed.
 #0^0^0^0^1 #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
 #0^0^0^0^1 #MFT wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
@@ -976,7 +994,8 @@ f_menu_app_file_managers () {
 #0^0^0^0^1  #MFM dired    - File manager for Emacs.
 #0^0^0^0^1  #MFM exiftool - Display jpeg file properties in ls-like format.
 #0^0^0^0^1  #MFM findmnt  - Find a filesystem.
-#0^0^0^0^1  #MFM fd       - File and directory management tool.
+#0^0^0^0^0  #MFM fd       - File and directory management tool.
+#0^0^0^0^0  #MFM fdclone  - File manager based on "fd" by Atsushi Idei for MS-DOS(tm).
 #0^0^0^0^1  #MFM jhead    - Display jpeg file properties.
 #0^0^0^0^0  #MFM lfm      - "Last File Manager", "Midnight Commander"-like.
 #0^0^0^0^0  #MFM mc       - File Manager, "Midnight Commander".
@@ -985,8 +1004,7 @@ f_menu_app_file_managers () {
 #0^0^0^1^0  #MFM ranger   - File manager.
 #0^0^0^0^1  #MFM smbc     - Samba file manager for folder shares with Microsoft Windows.
 #0^0^0^0^1  #MFM tree     - Display directory tree.
-#0^0^0^0^0  #MFM vfu      - File manager, ncurses-based.
-#0^0^0^14^0 #MFM vifm     - File manager with vi-like commands.
+#f_menu_app_file_managers2^0^0^0^0             #MFM MORE...  - For more file manager applications.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Manager Applications Menu"
@@ -999,6 +1017,33 @@ f_menu_app_file_managers () {
             #
       unset MFM MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_file_managers
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_managers2  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFN, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_managers2 () {
+      f_initvars_menu_app "MFN"
+      until [ "$MFN" = "0" ]
+      do    # Start of File Manager2 Applications until loop.
+#0^0^0^0^0  #MFN vfu      - File manager, ncurses-based.
+#0^0^0^14^0 #MFN vifm     - File manager with vi-like commands.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Manager2 Applications Menu"
+            DELIMITER="#MFN" #MFN This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFN
+            f_menu_item_process $MFN  # Outputs $MENU_ITEM.
+      done  # End of File Manager2 Applications until loop.
+            #
+      unset MFN MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_file_managers2
 #
 # +----------------------------------------+
 # |   Function f_menu_app_file_operations  |
@@ -1016,9 +1061,13 @@ f_menu_app_file_operations () {
 #f_menu_app_file_backup^0^0^0^1 #MFO Backup    - Backup utilities for files.
 #0^0^0^0^1 #MFO cdargs    - "cd" with bookmarks, can bookmark paths of directories.
 #0^0^0^0^1 #MFO cdd       - "cd" navigate with vi key-bindings h, j, k, l, k, q keys.
+#0^0^0^0^1 #MFO cwp       - "Catenate with Progress" like "cat" with progress indication.
 #0^0^0^0^1 #MFO dd        - Copy a file by bytes or blocks.
 #f_menu_app_file_delundel^0^0^0^1 #MFO Del/Undel - Delete/Undelete utilities for disks and files.
 #0^0^0^0^1 #MFO deurlname - Removes URL encoded characters from file names.
+#0^0^0^0^1 #MFO entr      - Detects file/directory changes, responds by running a command.
+#0^0^0^0^1 #MFO fasd      - Quick access to recently/frequently used files and directories.
+#0^0^0^0^1 #MFO j2        - Quick access to recently/frequently used files and directories.
 #f_menu_app_file_move-copy^0^0^0^1 #MFO Move-Copy - Rename/Move and copy utilities for files.
 #0^0^0^0^1 #MFO sort      - Sort file by lines in alphabetical order.
 #0^0^0^0^1 #MFO vdir      - List directory equivalent to "ls -l".
@@ -1186,10 +1235,10 @@ f_menu_app_file_macintosh () {
       until [ "$MFK" = "0" ]
       do    # Start of Macintosh Applications until loop.
 #0^0^0^0^1 #MFK macunpack - Extract files from Macintosh MacBinary archive.
-#0^0^0^0^1 #MFK hexbin    - Converts files to MacBinary *.bin format.
 #0^0^0^0^1 #MFK macsave   - Reads a sequence of MacBinary archived files and saves them.
 #0^0^0^0^1 #MFK macstream - Converts files to a MacBinary stream written to std. output.
 #0^0^0^0^1 #MFK binhex    - Converts files to BinHex format.
+#0^0^0^0^1 #MFK hexbin    - Converts files to MacBinary *.bin format.
 #0^0^0^0^1 #MFK tomac     - Transmit files to the Macintosh using XMODEM protocol.
 #0^0^0^0^1 #MFK frommac   - Receives files from the Macintosh.
             #
@@ -1249,15 +1298,17 @@ f_menu_app_file_delundel () {
       f_initvars_menu_app "MFD"
       until [ "$MFD" = "0" ]
       do    # Start of File Deletion/Undeletion Applications until loop.
+#0^0^0^0^1 #MFD gitwipe     - Overwrites file contents with a random sequence of numbers.
 #0^0^0^0^1 #MFD shred       - Delete files securely without recovery.
 #0^0^0^0^1 #MFD scrub       - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
 #0^0^0^0^1 #MFD wipe        - Secure file deletion.
 #0^0^0^0^0 #MFD ----------- - -------------------------------------------------------------
 #0^0^0^0^1 #MFD dares       - Rescue data from damaged CDs/DVDs, ncurses-based.
 #0^0^0^0^1 #MFD ddrescue    - Rescue readable data from failing hard disk drives.
+#0^0^0^0^1 #MFD extundelete - Recover deleted files from ext3, ext4, and newer partitions.
 #1^0^0^0^1 #MFD foremost    - File recovery from within a *.img disk image file.
 #0^0^0^0^1 #MFD magicrescue - Scans a block device, rescues files, partitions, disks.
-#0^0^0^0^1 #MFD myrescue    - Rescue data from failing disk drives; read good sectors first.
+#0^0^0^0^1 #MFD myrescue    - Rescue data from failing drives; read good sectors first.
 #1^0^0^0^1 #MFD photorec    - File recovery.
 #1^0^0^0^1 #MFD safecopy    - File recovery.
 #0^0^0^0^1 #MFD safe-rm     - Protect files from rm deletion.
@@ -1371,12 +1422,13 @@ f_menu_app_file_splitters () {
       f_initvars_menu_app "MFS"
       until [ "$MFS" = "0" ]
       do    # Start of File Splitter Applications until loop.
-#1^0^0^0^1 #MFS csplit  - Splits/Joins files.
-#0^0^0^0^1 #MFS cut     - carve up files by character count, byte count, delimited fields.
-#0^0^0^0^1 #MFS hoz     - File splitter using hacha file format.
-#0^0^0^0^1 #MFS lxsplit - Splits/Joins files even greater than 2GB.
-#0^0^0^0^1 #MFS slice   - Divides ASCII file w/delimiters into possibly overlapping slices.
-#1^0^0^0^1 #MFS split   - Splits/Joins files.
+#1^0^0^0^1 #MFS csplit   - Splits/Joins files.
+#0^0^0^0^1 #MFS cut      - carve files by character count, byte count, delimited fields.
+#0^0^0^0^1 #MFS dirsplit - split directory files into fixed-sized chunks, save to CD, DVD.
+#0^0^0^0^1 #MFS hoz      - File splitter using hacha file format.
+#0^0^0^0^1 #MFS lxsplit  - Splits/Joins files even greater than 2GB.
+#0^0^0^0^1 #MFS slice    - Splits ASCII file w/delimiters into possibly overlapping slices.
+#1^0^0^0^1 #MFS split    - Splits/Joins files.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="File Splitter Applications Menu"

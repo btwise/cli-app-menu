@@ -59,7 +59,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG jp2a       - Convert jpg images to ascii images.
 #1^0^0^0^1 #MIG linuxlogo  - Color ANSI system logo
 #0^0^0^0^1 #MIG mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
-#f_menu_app_image_graphics2^0^0^0^0 #MAN MORE...         - For more image-graphics applications.
+#f_menu_app_image_graphics2^0^0^0^0 #MIG MORE...         - For more image-graphics applications.
             #
             THIS_FILE="mod_apps-image.lib"
             MENU_TITLE="Image-Graphics Applications Menu"

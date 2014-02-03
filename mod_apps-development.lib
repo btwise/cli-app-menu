@@ -1,9 +1,9 @@
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="February-01-2014 17:22"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_development    |
@@ -32,7 +32,7 @@ f_menu_app_development () {
 #0^0^0^0^1 #MDE shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
 #0^0^0^0^1 #MDE stx2any          - Markup language, writes to man page format.
 #0^0^0^0^1 #MDE txt2man          - Converts plain ASCII text to man format.
-#0^0^0^0^1 #MDE udo              - Simpler markup language writes to man page format.
+#f_menu_app_development2^0^0^0^1 #MDE MORE...          - For more development applications.
             #
             THIS_FILE="mod_apps-development.lib"
             MENU_TITLE="Development Applications Menu"
@@ -45,3 +45,62 @@ f_menu_app_development () {
       unset MDE MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_development
 #
+# +----------------------------------------+
+# |     Function f_menu_app_development2   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MDF, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_development2 () {
+      f_initvars_menu_app "MDF"
+      until [ "$MDF" = "0" ]
+      do    # Start of Development Applications until loop.
+#1^0^0^0^1 #MDF ldd - Print shared library dependencies.
+#0^0^0^0^1 #MDF udo - Simpler markup language writes to man page format.
+            #
+            THIS_FILE="mod_apps-development.lib"
+            MENU_TITLE="Development2 Applications Menu"
+            DELIMITER="#MDF" #MDF This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MDF
+            f_menu_item_process $MDF  # Outputs $MENU_ITEM.
+      done  # End of Development2 Applications until loop.
+            #
+      unset MDF MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_development2
+#
+# +----------------------------------------+
+# |            Function f_ldd              |
+# +----------------------------------------+
+#
+f_ldd () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "ldd -  print shared library dependencies."
+         echo "USAGE:"
+         echo "       ldd [OPTION]... FILE..."
+         echo
+         echo "DESCRIPTION:"
+         echo "       ldd  prints  the  shared  libraries  required by each program or shared"
+         echo "       library specified on the command line."
+         echo
+         echo "OPTIONS:"
+         echo "       -v --verbose"
+         echo "              Print all information, including, for example, symbol versioning"
+         echo "              information."
+         echo "       -u --unused"
+         echo "              Print unused direct dependencies.  (Since glibc 2.3.4.)"
+         echo "       -d --data-relocs"
+         echo "              Perform relocations and report any missing objects (ELF only)."
+         echo "       -r --function-relocs"
+         echo "              Perform relocations for both data  objects  and  functions,  and"
+         echo "              report any missing objects or functions (ELF only)."
+         echo "       --help Usage information."
+         f_press_enter_key_to_continue
+      fi
+} #End of function f_ldd
+#
+
