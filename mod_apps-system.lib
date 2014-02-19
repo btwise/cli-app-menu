@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="February-19-2014 06:30"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -23,6 +23,7 @@ f_menu_cat_system () {
 #f_menu_app_sys_logs        #BSY Logs        - Log file viewers, command line history.
 #f_menu_app_sys_mainboard   #BSY Mainboard   - Information on PC mainboard, memory, etc.
 #f_menu_app_sys_monitors    #BSY Monitors    - Resources, and disk I/O monitors.
+#f_menu_app_sys_linux       #BSY Linux       - Linux kernel information and configuration.
 #f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
 #f_menu_app_sys_process     #BSY Process     - System process monitoring, killing.
             #
@@ -511,10 +512,8 @@ f_menu_app_sys_mainboard () {
 #1^0^0^0^1 #MSI lsb_release - Linux distro and LSB (Linux Standard Base).
 #0^0^0^0^1 #MSI lscpu       - CPU information.
 #1^0^0^0^1 #MSI lshw        - Main board information.
-#0^0^0^0^1 #MSI lsmod       - Linux kernel module information.
 #0^0^0^0^1 #MSI mbw         - "Copy" memory bandwidth available to userspace programs.
 #1^0^0^1^0 #MSI slabtop     - Kernel slab cache information in real time.
-#1^0^0^0^1 #MSI uname       - Linux kernel information.
 #0^0^0^0^1 #MSI vmstat      - Memory usage RAM and swap, CPU information.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -692,6 +691,39 @@ f_uname () {
 } # End of f_uname
 #
 # +----------------------------------------+
+# |     Function f_menu_app_sys_linux      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_sys_linux () {
+      f_initvars_menu_app "MSL"
+      until [ "$MSL" = "0" ]
+      do    # Start of System Linux Kernel until loop.
+#1^0^0^0^1 #MSL insmod      - Insert a module into the Linux Kernel.
+#1^0^0^0^1 #MSL lsb_release - Linux distro and LSB (Linux Standard Base).
+#0^0^0^0^1 #MSL lsmod       - Linux kernel module information.
+#1^0^0^0^1 #MSL modinfo     - Show information about a Linux Kernel module.
+#0^0^0^0^1 #MSL modprobe    - Add and remove modules from the Linux Kernel.
+#1^0^0^0^1 #MSL rmmod       - Remove a module from the Linux Kernel.
+#1^0^0^1^0 #MSL slabtop     - Kernel slab cache information in real time.
+#1^0^0^0^1 #MSL uname       - Linux kernel information.
+            #
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="Linux Kernel Application Menu"
+            DELIMITER="#MSL" #MSL This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MSL
+            f_menu_item_process $MSL  # Outputs $MENU_ITEM.
+      done  # End of Mainboard System Linux Kernel Applications until loop.
+            #
+      unset MSL MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_sys_linux
+#
+# +----------------------------------------+
 # |    Function f_menu_app_sys_monitors    |
 # +----------------------------------------+
 #
@@ -714,10 +746,10 @@ f_menu_app_sys_monitors () {
 #0^0^0^0^1 #MSM id        - Print user and group names and information.
 #0^0^0^0^1 #MSM iostat    - CPU usage and disk I/O process monitor.
 #0^0^0^1^0 #MSM iotop     - Disk I/O process monitor.
+#0^0^0^1^0 #MSM locale    - Get locale specific information.
 #1^0^0^0^1 #MSM mpstat    - CPU microprocessor usage monitor.
 #0^0^0^0^0 #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
 #0^0^0^0^0 #MSM rcconf    - Debian enable/disable startup scripts/services; ncurses-based.
-#0^0^0^0^0 #MSM ntsysd    - RedHat view/enable/disable startup scripts/services.
 #f_menu_app_sys_monitors2^0^0^0^1 #MSM MORE...   - For more system monitor applications.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -744,6 +776,7 @@ f_menu_app_sys_monitors2 () {
       f_initvars_menu_app "MSN"
       until [ "$MSN" = "0" ]
       do    # Start of System Monitors until loop.
+#0^0^0^0^0 #MSN ntsysd       - RedHat view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN rrdtool      - Round Robin Database Tool stores/displays time-series data.
 #0^0^0^1^0 #MSN saidar       - Monitor system processes, network I/O, disks I/O, free space.
 #0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
@@ -911,14 +944,14 @@ f_menu_app_sys_peripherals () {
 #0^0^0^0^1 #MSV gitkeys   - Displays the key sequence sent by the pressed key.
 #0^0^0^0^1 #MSV inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
 #0^0^0^0^1 #MSV kbd       - Control keyboard LEDs, repeat/delay rates, keymaps, etc.
+#0^0^0^0^1 #MSV loadkeys  - load keyboard translation tables
 #0^0^0^0^1 #MSV lsblk     - List block devices (disks).
 #0^0^0^0^1 #MSV lsof      - Display information about open files.
 #1^0^0^0^1 #MSV lspci     - PCI buses and connected devices.
 #1^0^0^0^1 #MSV lspcmcia  - PCMCIA extended debugging information.
 #0^0^0^0^1 #MSV lsusb     - USB devices.
+#0^0^0^0^1 #MSV mzip      - Change protection mode and eject disk on Zip/Jaz drive.
 #1^0^0^0^1 #MSV pccardctl - PCMCIA card devices.
-#0^0^0^0^1 #MSV printenv  - Environmental variables.
-#0^0^0^0^1 #MSV scanimage - Control flatbed scanners, cameras. -L list of devices.
 #f_menu_app_sys_peripherals2^0^0^0^1 #MSV MORE...   - For more peripheral system applications.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -945,9 +978,11 @@ f_menu_app_sys_peripherals2 () {
       f_initvars_menu_app "MSW"
       until [ "$MSW" = "0" ]
       do    # Start of Peripheral System Information2 until loop.
-#0^0^0^0^1 #MSW setcd  - Control CDROM device, auto-close/eject/locking, set speed.
-#0^0^0^0^1 #MSW uptime - Display how long PC has been running, # users, load average.
-#0^0^0^0^1 #MSW w      - A combination of uptime and who commands.
+#0^0^0^0^1 #MSW printenv  - Environmental variables.
+#0^0^0^0^1 #MSW scanimage - Control flatbed scanners, cameras. -L list of devices.
+#0^0^0^0^1 #MSW setcd     - Control CDROM device, auto-close/eject/locking, set speed.
+#0^0^0^0^1 #MSW uptime    - Display how long PC has been running, # users, load average.
+#0^0^0^0^1 #MSW w         - A combination of uptime and who commands.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="Peripheral System Information2 Menu"

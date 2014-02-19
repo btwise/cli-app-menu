@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="February-19-2014 06:30"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_development    |
@@ -23,12 +23,15 @@ f_menu_app_development () {
 #0^0^0^0^1 #MDE cmdtest          - Test command-line programs/scripts to check the output.
 #0^0^0^0^1 #MDE codemetre        - Count lines of code w/o comments in source code.
 #0^0^0^0^1 #MDE colout           - Colorize matching text pattern in a text file.
+#0^0^0^0^1 #MDE gettext          - Framework for GNU packages for multi-lingual messages.
 #0^0^0^0^1 #MDE githubcli        - "ghi" Interface to GitHub's issues API.
 #0^0^0^0^1 #MDE google-perftools - Analyze performance of C++ programs.
+#0^0^0^0^1 #MDE gprof            - Code profiling tool, detect performance bottlenecks, etc.
 #0^0^0^0^1 #MDE groff            - Enhanced troff editor writes to man page format.
 #0^0^0^0^1 #MDE man2html         - Browse man pages using a web browser.
 #0^0^0^0^1 #MDE man2html-base    - Convert man pages into HTML format.
 #0^0^0^0^1 #MDE mantis           - Web-based issue tracker runs in PHP.
+#0^0^0^0^1 #MDE nl               - Insert line numbers into a text file.
 #0^0^0^0^1 #MDE shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
 #0^0^0^0^1 #MDE stx2any          - Markup language, writes to man page format.
 #0^0^0^0^1 #MDE txt2man          - Converts plain ASCII text to man format.

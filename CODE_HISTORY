@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.0.2"
-PROJECT_REVDATE="February-10-2014 21:45"
+PROJECT_REVDATE="February-19-2014 06:30"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,19 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-02-19 *f_application_install added mtools.
+##            *f_menu_app_environment added f_menu_app_file_macintosh sub-menu
+##             of Apple Macintosh applications.
+##            *f_menu_app_development added gettext, gprof, nl.
+##            *f_menu_app_msdos created, added getswap, mattrib, mcat, mcd,
+##             mcopy, mdel, mdeltree, mdir, mdu, mformat, minfo, mlabel, mmd,
+##             mmount, mmove, mpartition, mrd, mren, mshowfat, mtools,
+##             mtooltest, mtype, ntfscp, ntfslabel, ntfsresize, ntfsundelete,
+##             ntfsundeleteall, winclean.
+##            *f_menu_app_sys_peripherals added loadkeys, mzip.
+##            *f_menu_app_sys_monitors added locale.
+##            *f_menu_app_sys_linux created, added insmod, modinfo, modprobe, rmmod.
 ##
 ## 2014-02-10 *f_application_web_install added many application's web sites.
 ##            *f_choice_array improved documentation comments.

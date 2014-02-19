@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-10-2014 21:45"
+# REVDATE="February-19-2014 06:30"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1460,6 +1460,9 @@ f_application_install () {
            ;;
            lynx)
            APP_NAME_INSTALL="lynx-cur"
+           ;;
+           mattrib | mbadblocks | mcat | mcd | mclasserase | mcopy | mdel | mdeltree | mdir | mdoctorfat | mdu | mformat | minfo | mlabel | mmd | mmount | mpartition | mrd | mread | mmove | mren | mshowfat | mshortname | mtoolstest | mtype | mwrite | mzip)
+           APP_NAME_INSTALL="mtools"
            ;;
            moc)
            APP_NAME_INSTALL="libqt4-dev"
