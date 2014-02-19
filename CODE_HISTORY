@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.0.2"
-PROJECT_REVDATE="February-06-2014 14:52"
+PROJECT_REVDATE="February-10-2014 21:45"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,13 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-02-10 *f_application_web_install added many application's web sites.
+##            *f_choice_array improved documentation comments.
+##            *f_application_install added fbi, ida, exiftran, xtide, todo2
+##              applications to Install Package Name case statement.
+##            *f_menu_app_file_macintosh added uudeview.
+##            *f_menu_app_calendar2 cosmetic improvement.
 ##
 ## 2014-02-06 *f_install_kkm, f_install2_kkm added to allow installation from
 ##             source code.

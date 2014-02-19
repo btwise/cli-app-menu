@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-03-2014 15:52"
+# REVDATE="February-10-2014 21:45"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -176,7 +176,7 @@ f_menu_app_calendar2 () {
 #0^0^0^0^1 #MCB remupdate - Download Google Calendars then converts to "Remind" format.
 #0^0^0^0^1 #MCB strptime  - Easily format dates any way you want.
 #0^0^0^0^1 #MCB when      - Calendar.
-#0^0^0^1^0 #MCB wyrd      - Calendar, ncurses-based.
+#0^0^0^1^0 #MCB wyrd      - Calendar, ncurses-based front-end for "Remind".
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Calendar2 Applications Menu"
@@ -421,7 +421,7 @@ f_menu_app_note () {
 #0^0^0^0^1 #MNO nodau    - Note-taking with search by name or date.
 #0^0^0^0^1 #MNO note     - Manage notes with a DBI-based mysql-module.
 #0^0^0^0^1 #MNO org-mode - Emacs plugin for notes, ToDo lists, and project planning.
-#0^0^0^0^1 #MNO tina     - PIM (personal information manager), ncurses-based.
+#0^0^0^0^0 #MNO tina     - PIM (personal information manager), ncurses-based.
 #0^0^0^0^1 #MNO worklog  - Time-tracking for projects/tasks, running clock, ncurses-based.
             #
             THIS_FILE="mod_apps-office.lib"

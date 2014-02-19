@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-03-2014 15:52"
+# REVDATE="February-10-2014 21:45"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -16,8 +16,32 @@
 f_application_web_install () {
       WEB_SITE_INSTALL=""
       case $APP_NAME_INSTALL in # Start of Web Site case statement.
+           aafire | aainfo | aatest | aasavefont | libaa-bin)
+           WEB_SITE_INSTALL="http://aa-project.sourceforge.net/aalib/"
+           ;;
+           aaxine | cacaxine | fbxine | xine-console)
+           WEB_SITE_INSTALL="https://www.xine-project.org/releases"
+           ;;
+           abc2midi | midi2abc | abc2abc | mftext | midicopy | abcmidi)
+           WEB_SITE_INSTALL="http://abc.sourceforge.net/abcMIDI/original/"
+           ;;
+           adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf | bsdgames)
+           WEB_SITE_INSTALL="ftp://ftp.ibiblio.org/pub/Linux/games/"
+           ;;
+           acat| als | apack | atool | aunpack)
+           WEB_SITE_INSTALL="http://www.nongnu.org/atool/"
+           ;;
+           animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream | imagemagick)
+           WEB_SITE_INSTALL="http://www.imagemagick.org/script/index.php"
+           ;;
+           aria2 | aria2c)
+           WEB_SITE_INSTALL="http://aria2.sourceforge.net/"
+           ;;
            asciiquarium)
            WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
+           ;;
+           barnowl | zcrypt)
+           WEB_SITE_INSTALL="http://barnowl.mit.edu/"
            ;;
            beets)
            WEB_SITE_INSTALL="http://beets.radbox.org/"
@@ -27,6 +51,9 @@ f_application_web_install () {
            ;;
            binclock)
            WEB_SITE_INSTALL="http://www.ngolde.de/binclock.html"
+           ;;
+           binhex | frommac | hexbin | macunpack | macsave | macstream | tomac | macutils)
+           APP_NAME_INSTALL="macutils"
            ;;
            blogger-cli)
            WEB_SITE_INSTALL="http://code.google.com/p/blogger-cli/downloads/detail?name=blogger-cli-0.5.tar.gz&can=2&q="
@@ -43,8 +70,14 @@ f_application_web_install () {
            cdd)
            WEB_SITE_INSTALL="https://github.com/jestor/cdd"
            ;;
+           cdrecord | readcd | cdda2wav | dirsplit | mkisofs | isodebug | isodump |  isoinfo | isovfy | rscsi | cdrtools)
+           WEB_SITE_INSTALL="http://cdrecord.berlios.de/private/cdrecord.html"
+           ;;
            charm)
            WEB_SITE_INSTALL="http://ljcharm.sourceforge.net/t_why.shtml"
+           ;;
+           clamav | clamscan)
+           WEB_SITE_INSTALL="http://www.clamav.net/lang/en/"
            ;;
            clcal)
            WEB_SITE_INSTALL="http://www.hyborian.demon.co.uk/clcal/download.html"
@@ -67,7 +100,7 @@ f_application_web_install () {
            curses)
            WEB_SITE_INSTALL="http://search.cpan.org/CPAN/authors/id/G/GI/GIRAFFED/Curses-1.28.tgz"
            ;;
-           dateutils)
+           dadd | dconv | ddiff | dgrep | dround | dseq | dtest | dateutils)
            WEB_SITE_INSTALL="https://bitbucket.org/hroptatyr/dateutils/downloads"
            ;;
            desmume)
@@ -82,6 +115,9 @@ f_application_web_install () {
            dsol)
            WEB_SITE_INSTALL="http://www.lgdb.org/game/dsol"
            ;;
+           e3*) # covers e3em, e3vi, e3pi, e3ne, e3ws.
+           WEB_SITE_INSTALL="https://sites.google.com/site/e3editor/"
+           ;;
            edbrowse)
            WEB_SITE_INSTALL="http://the-brannons.com/edbrowse/"
            ;;
@@ -91,20 +127,32 @@ f_application_web_install () {
            enpi)
            WEB_SITE_INSTALL="http://enpiscript.blogspot.com/"
            ;;
+           exiftool)
+           WEB_SITE_INSTALL="http://www.sno.phy.queensu.ca/~phil/exiftool/"
+           ;;
            extundelete)
            WEB_SITE_INSTALL="http://extundelete.sourceforge.net/"
            ;;
-           fbv)
-           WEB_SITE_INSTALL="http://freecode.com/projects/fbv"
-           ;;
            fbgrab)
            WEB_SITE_INSTALL="http://hem.bredband.net/gmogmo/fbgrab/"
+           ;;
+           fbgs | fbi | ida | exiftran)
+           WEB_SITE_INSTALL="https://www.kraxel.org/cgit/fbida/"
+           ;;
+           fbv)
+           WEB_SITE_INSTALL="https://github.com/knu/FDclonehttp://freecode.com/projects/fbv"
+           ;;
+           fd | fdclone)
+           WEB_SITE_INSTALL="https://github.com/knu/FDclone"
            ;;
            figlet)
            WEB_SITE_INSTALL="http://www.figlet.org"
            ;;
            fish)
            WEB_SITE_INSTALL="http://fishshell.com/#get_fish_linux"
+           ;;
+           gitfm | gitps | gitview | gitwipe | gitkeys | gitmount | gitaction | gitunpack | gitrgrep | gitregrep | gitrfgrep | gnuit)
+           WEB_SITE_INSTALL="http://www.gnu.org/software/gnuit/"
            ;;
            glances)
            WEB_SITE_INSTALL="https://github.com/nicolargo/glances"
@@ -139,6 +187,9 @@ f_application_web_install () {
            ical2rem)
            WEB_SITE_INSTALL="https://github.com/courts/ical2rem.rb"
            ;;
+           ifplugstatus | ifplugd)
+           WEB_SITE_INSTALL="http://0pointer.de/lennart/projects/ifplugd/"
+           ;;
            iptraf-ng)
            WEB_SITE_INSTALL="https://fedorahosted.org/iptraf-ng/"
            ;;
@@ -151,7 +202,7 @@ f_application_web_install () {
            jfbview)
            WEB_SITE_INSTALL="https://github.com/jichuan89/JFBView.git"
            ;;
-           joe)
+           jstar | jmacs | jpico | rjoe | joe)
            WEB_SITE_INSTALL="www.sourceforge.net/projects/joe-editor"
            ;;
            j2)
@@ -165,6 +216,9 @@ f_application_web_install () {
            ;;
            lnav)
            WEB_SITE_INSTALL="http://tstack.github.io/lnav/"
+           ;;
+           lynx)
+           WEB_SITE_INSTALL="http://lynx.isc.org/"
            ;;
            masterm)
            WEB_SITE_INSTALL="https://github.com/jstitch/masterm/archive/master.zip"
@@ -183,6 +237,12 @@ f_application_web_install () {
            ;;
            most)
            WEB_SITE_INSTALL="http://www.jedsoft.org/most/index.html"
+           ;;
+           mpstat | iostat | pidstat | sadf | sar | sysstat)
+           WEB_SITE_INSTALL="https://github.com/sysstat/sysstat"
+           ;;
+           nagios3 | nagios3-core)
+           WEB_SITE_INSTALL="http://sourceforge.net/projects/nagios/files/nagios-3.x/"
            ;;
            ncdu)
            WEB_SITE_INSTALL="http://dev.yorhel.nl/ncdu"
@@ -220,6 +280,9 @@ f_application_web_install () {
            peyote)
            WEB_SITE_INSTALL="http://peyote.sourceforge.net/download.html"
            ;;
+           photorec)
+           WEB_SITE_INSTALL="http://www.cgsecurity.org/wiki/PhotoRec"
+           ;;
            pip)
            WEB_SITE_INSTALL="http://pip.openplans.org/"
            ;;
@@ -244,7 +307,7 @@ f_application_web_install () {
            portbunny)
            WEB_SITE_INSTALL="http://portbunny.recurity.com/"
            ;;
-           renameutils)
+           qmv | qcp | imv | icp | deurlname | renameutils)
            WEB_SITE_INSTALL="http://download.savannah.nongnu.org/releases/renameutils/renameutils-latest.tar.gz"
            ;;
            slrn)
@@ -256,13 +319,19 @@ f_application_web_install () {
            tbclock)
            WEB_SITE_INSTALL="http://tamentis.com/projects/tbclock/files/tbclock-1.10.tar.gz"
            ;;
+           tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
+           WEB_SITE_INSTALL="http://www.freshports.org/benchmarks/tcpblast"
+           ;;
            textmaze)
            WEB_SITE_INSTALL="http://robobunny.com/projects/textmaze/html/"
+           ;;
+           tide | xtide)
+           WEB_SITE_INSTALL="http://www.flaterco.com/xtide/files.html"
            ;;
            tmux)
            WEB_SITE_INSTALL="http://tmux.sourceforge.net/"
            ;;
-           todo2)
+           todo | todo2 | devtodo)
            WEB_SITE_INSTALL="http://swapoff.org/devtodo.html"
            ;;
            tty-clock)
@@ -270,6 +339,9 @@ f_application_web_install () {
            ;;
            ttyload)
            WEB_SITE_INSTALL="http://www.daveltd.com/src/util/ttyload/"
+           ;;
+           ttyplay | ttyrec)
+           WEB_SITE_INSTALL="http://0xcc.net/ttyrec/index.html.en"
            ;;
            vim)
            WEB_SITE_INSTALL="http://www.vim.org/"
@@ -289,14 +361,20 @@ f_application_web_install () {
            wavemon)
            WEB_SITE_INSTALL="http://eden-feed.erg.abdn.ac.uk/wavemon/"
            ;;
+           weather | weather-util)
+           WEB_SITE_INSTALL="http://fungi.yuggoth.org/weather/"
+           ;;
+           weatherspec)
+           WEB_SITE_INSTALL="http://robobunny.com/projects/weatherspect/html/"
+           ;;
            wicd)
            WEB_SITE_INSTALL="http://wicd.sourceforge.net/"
            ;;
-           wp-cli)
-           WEB_SITE_INSTALL="https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh"
-           ;;
            wordgrinder)
            WEB_SITE_INSTALL="http://sourceforge.net/projects/wordgrinder/"
+           ;;
+           wp-cli)
+           WEB_SITE_INSTALL="https://raw.github.com/wp-cli/wp-cli.github.com/master/installer.sh"
            ;;
            wyrd)
            WEB_SITE_INSTALL="http://pessimization.com/software/wyrd/"
@@ -309,6 +387,9 @@ f_application_web_install () {
            ;;
            xorcurses)
            WEB_SITE_INSTALL="http://jwm-art.net/?p=XorCurses"
+           ;;
+           xz | unxz | xzcat | xzgrep | xz-utils)
+           WEB_SITE_INSTALL="http://tukaani.org/xz/"
            ;;
       esac                      # End of Web Site case statement.
       #

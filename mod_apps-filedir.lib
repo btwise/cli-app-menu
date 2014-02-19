@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="February-10-2014 21:45"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -1241,6 +1241,7 @@ f_menu_app_file_macintosh () {
 #0^0^0^0^1 #MFK hexbin    - Converts files to MacBinary *.bin format.
 #0^0^0^0^1 #MFK tomac     - Transmit files to the Macintosh using XMODEM protocol.
 #0^0^0^0^1 #MFK frommac   - Receives files from the Macintosh.
+#0^0^0^0^1 #MFK uudeview  - Decoder/encoder for *.hqx, uuencode, xxencode, BASE64, BinHex.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Macintosh Applications Menu"

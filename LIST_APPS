@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-02-02 21:07 Sunday
+Last updated: 2014-02-18 23:28 Tuesday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -46,7 +46,7 @@ _______________________________________________________________________________
  mp3blaster   - Music player, playlists, groups, ncurses-based.
  moc          - Music player, ncurses-based.
  ncmpc        - Music player, ncurses-based.
- MORE...         - For more music player applications.
+ MORE...      - For more music player applications.
 
 _______________________________________________________________________________
 *** Audio Player2 Applications Menu ***
@@ -170,7 +170,7 @@ _______________________________________________________________________________
 *** Calendar Applications Menu ***
  cal         - Displays a monthly calendar.
  calcurse    - Calendar and To-Do List; ncurses-based.
- ccal        - Calendar color.
+ ccal        - Calendar in color, "cal"-like but with color.
  clcal       - Calendar and appointment reminders.
  dadd        - Date arithmetic using minutes, hours, days, weeks.
  dconv       - Convert a date between calendric systems.
@@ -187,18 +187,20 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Calendar2 Applications Menu ***
- hebcal   - Perpetual Jewish calendar.
- jcal     - Display Jalali (Persian) calendar.
- lunar    - Converts Gregorian date to Chinese lunar calendar.
- mencal   - Calendar to track repeating periodic events every nn days.
- ncal     - Calendar with vertical days.
- pal      - Calendar with events.
- pcal     - Generate PostScript or HTML Calendars.
- pom      - Display phase of moon on given date.
- remind   - Calendar alarms, Sun rise/set, moon phases.
- strptime - Easily format dates any way you want.
- when     - Calendar.
- wyrd     - Calendar, ncurses-based.
+ hebcal    - Perpetual Jewish calendar.
+ ical2rem  - iCalendar *.ics (Google, Yahoo, Lotus Notes) to Remind format.
+ jcal      - Display Jalali (Persian) calendar.
+ lunar     - Converts Gregorian date to Chinese lunar calendar.
+ mencal    - Calendar to track repeating periodic events every nn days.
+ ncal      - Calendar with vertical days.
+ pal       - Calendar with events.
+ pcal      - Generate PostScript or HTML Calendars.
+ pom       - Display phase of moon on given date.
+ remind    - Calendar alarms, Sun rise/set, moon phases.
+ remupdate - Download Google Calendars then converts to "Remind" format.
+ strptime  - Easily format dates any way you want.
+ when      - Calendar.
+ wyrd      - Calendar, ncurses-based front-end for "Remind".
 
 _______________________________________________________________________________
 *** Calculator Applications Menu ***
@@ -491,6 +493,7 @@ _______________________________________________________________________________
  hexbin    - Converts files to MacBinary *.bin format.
  tomac     - Transmit files to the Macintosh using XMODEM protocol.
  frommac   - Receives files from the Macintosh.
+ uudeview  - Decoder/encoder for *.hqx, uuencode, xxencode, BASE64, BinHex.
 
 _______________________________________________________________________________
 *** File Encryption2 Applications Menu ***
@@ -937,6 +940,9 @@ _______________________________________________________________________________
  wireshark - Packet sniffer/logger.
 
 _______________________________________________________________________________
+*** Network Packet2 Applications Menu ***
+
+_______________________________________________________________________________
 *** Network Sharing Applications Menu ***
  ncpfs     - NetWare file/printer server utilities; nprint, pserver.
  smbc      - Samba file manager for folder shares with Microsoft Windows.
@@ -982,8 +988,7 @@ _______________________________________________________________________________
  unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
  urpmi     - Mandriva, Mageia package manager.
  YaST      - GUI OpenSUSE package manager.
- yum       - "Yellow Dog Updated" package manager.
- zypper    - OpenSUSE package manager on which is based YaST GUI.
+ MORE...   - More package management applications.
 
 _______________________________________________________________________________
 *** Podcatcher Applications Menu ***
@@ -1166,9 +1171,11 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Spreadsheet Applications Menu ***
- oleo - Full-screen spreadsheet having a more Emacs-like feel.
- sc   - Spreadsheet.
- slsc - Spreadsheet based on sc.
+ csvkit  - Suite of utilities for converting to and working with CSV.
+ oleo    - Full-screen spreadsheet having a more Emacs-like feel.
+ sc      - Spreadsheet.
+ slsc    - Spreadsheet based on sc.
+ xls2csv - Microsoft Excel to *.csv (comma separated values) converter.
 
 _______________________________________________________________________________
 *** System Process Applications Menu ***
@@ -1299,6 +1306,15 @@ _______________________________________________________________________________
  wdiff     - Differences between 2 text files shown using +/- signs.
 
 _______________________________________________________________________________
+*** Text Word Processor Applications Menu ***
+ unoconv     - Converts any document format that LibreOffice imports/exports.
+ wordgrinder - Word processor, styles, drop-down menus, ncurses-based.
+ wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+ wpd2odt     - WordPerfect to OpenDocument converter.
+ wpg2odg     - WordPerfect Graphics to OpenDocument converter.
+ wps2odt     - Microsoft Works text documents to OpenDocument converter.
+
+_______________________________________________________________________________
 *** Text Editor Applications Menu ***
  aee           - Advanced Easy Editor.
  aoeui         - Very small editor for Dvorak layout keyboards.
@@ -1338,6 +1354,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Text Editor3 Applications Menu ***
+ NERD_tree       - vim plug-in of directory tree, highlighting, bookmarks, etc. 
  nvi             - vi-clone as close to vi as possible.
  pico            - Simple full-screen text editor.
  rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
@@ -1348,8 +1365,8 @@ _______________________________________________________________________________
  vim-nox         - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
  vim-scripts     - plugins for vim, adding bells and whistles.
  vim-tiny        - Vi IMproved compact version.
+ vim-latexsuite  - LaTeX plugin for vim.
  vim-vimoutliner - Script for building an outline editor on top of vim.
- wordgrinder     - Word processor, styles, drop-down menus, ncurses-based.
  zile            - Very small Emacs-subset editor.
 
 _______________________________________________________________________________
