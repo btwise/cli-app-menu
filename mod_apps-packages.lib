@@ -1,9 +1,9 @@
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="February-06-2014 14:52"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -19,20 +19,21 @@ f_menu_app_packages () {
       do    # Start of Package Management Applications until loop.
 #0^0^0^0^1 #MPK alien     - Converts rpm to deb packages.
 #1^0^0^0^1 #MPK apt       - Debian package manager.
-#0^0^0^0^1 #MPK apt-cache - Show package information, (reverse)/dependency information.
-#0^0^0^0^1 #MPK apt-file  - Search/List files in the Debian package manager w/o installing.
+#1^0^0^0^1 #MPK apt-cache - Show package information, (reverse)/dependency information.
+#1^0^0^0^1 #MPK apt-file  - Search/List files in the Debian package manager w/o installing.
 #1^0^0^0^0 #MPK aptitude  - Debian package manager.
 #1^0^0^0^1 #MPK aptoncd   - GUI makes a CD of Debian packages for installation w/o Internet.
 #0^0^0^0^1 #MPK cupt      - Debian front-end to dpkg package manager.
 #1^0^0^0^1 #MPK dpkg      - Debian package manager.
+#1^1^0^0^1 #MPK kkm       - Debian apt tools wrapper, shorter, easier than "apt" commands.
+#1^0^0^0^1 #MPK pip       - Improved Python package installer. Integrates with virtualenv.
 #1^0^0^0^1 #MPK rpm       - RPM (Red Hat) package manager.
 #1^0^0^0^0 #MPK synaptic  - GUI Debian package manager.
 #0^0^0^0^1 #MPK unshield  - Extracts CAB files from Microsoft-compatible InstallShield.
 #0^0^0^0^1 #MPK urpmi     - Mandriva, Mageia package manager.
 #1^0^0^0^1 #MPK YaST      - GUI OpenSUSE package manager.
-#1^0^0^0^1 #MPK yum       - "Yellow Dog Updated" package manager.
-#1^0^0^0^1 #MPK zypper    - OpenSUSE package manager on which is based YaST GUI.
-            #
+#f_menu_app_packages2^0^0^0^1 #MPK MORE...   - More package management applications.
+#
             THIS_FILE="mod_apps-packages.lib"
             MENU_TITLE="Package Management Applications Menu"
             DELIMITER="#MPK" #MPK This 3rd field prevents awk from printing this line into menu options. 
@@ -46,64 +47,145 @@ f_menu_app_packages () {
 } # End of function f_menu_app_packages
 #
 # +----------------------------------------+
+# |      Function f_menu_app_packages2     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MPQ, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_packages2 () {
+      f_initvars_menu_app "MPQ"
+      until [ "$MPQ" = "0" ]
+      do    # Start of Package Management Applications until loop.
+#1^0^0^0^1 #MPQ yum       - "Yellow Dog Updated" package manager.
+#1^0^0^0^1 #MPQ zypper    - OpenSUSE package manager on which is based YaST GUI.
+ #
+            THIS_FILE="mod_apps-packages.lib"
+            MENU_TITLE="Package Management2 Applications Menu"
+            DELIMITER="#MPQ" #MPQ This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MPQ
+            f_menu_item_process $MPQ  # Outputs $MENU_ITEM.
+      done  # End of Package Management2 Applications until loop.
+            #
+      unset MPQ MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_packages2
+#
+# +----------------------------------------+
 # |              Function f_apt            |
 # +----------------------------------------+
 #
 f_apt () {
-                 APP_NAME="apt"
-                 clear # Blank the screen.
-                 echo "apt - Debian package manager."
-                 echo
-                 echo "Usage:"
-                 echo "apt-cache showpkg <package name> Show package general information."
-                 echo "apt-cache show <package name> Show package description and information."
-                 echo "apt-cache depends <package name> Show package dependency information."
-                 echo "apt-cache rdepends <package name> Show package reverse dependency information."
-                 echo "apt-cache unmet <package name> Show package's unmet dependencies."
-                 echo "apt-get check Check for broken dependencies."
-                 echo "apt-get update Updates package information prior to updating or installing."
-                 echo "apt-get upgrade Upgrade packages to latest versions."
-                 echo "apt-get dist-upgrade Usually used after an 'apt-get upgrade' to upgrade kernel."
-                 echo "apt-get install <package name> Installs a new software package."
-                 echo "apt-get remove <package name> Uninstalls a software package."
-                 echo "apt-get purge <package name> Uninstalls a package and its configuration files."
-                 echo "apt-get autoclean Remove obsolete packages from the local repository."
-                 echo "apt-get autoremove remove packages that are no longer needed."
-                 echo
-                 echo "*** For more help type: man apt / man apt-cache / man apt-get"
-                 echo
-                 f_press_enter_key_to_continue
+      APP_NAME="apt"
+      clear # Blank the screen.
+      echo "apt - Debian package manager."
+      echo
+      echo "Usage:"
+      echo "apt-get check Check for broken dependencies."
+      echo "apt-get update Updates package information prior to updating or installing."
+      echo "apt-get upgrade Upgrade packages to latest versions."
+      echo "apt-get dist-upgrade Usually used after an 'apt-get upgrade' to upgrade kernel."
+      echo "apt-get install <package name> Installs a new software package."
+      echo "apt-get remove <package name> Uninstalls a software package."
+      echo "apt-get purge <package name> Uninstalls a package and its configuration files."
+      echo "apt-get autoclean Remove obsolete packages from the local repository."
+      echo "apt-get autoremove remove packages that are no longer needed."
+      echo
+      echo "*** For more help type: man apt / man apt-get"
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_apt
+#
+# +----------------------------------------+
+# |           Function f_apt-cache         |
+# +----------------------------------------+
+#
+f_apt-cache () {
+      APP_NAME="apt-cache"
+      clear # Blank the screen.
+      echo "apt - Debian package manager."
+      echo
+      echo "USAGE:"
+      echo "apt-cache show <package name> Show package description and information."
+      echo "apt-cache showpkg <package name> Show package general information."
+      echo "apt-cache showsrc Show source records."
+      echo "apt-cache stats Show some basic statistics."
+      echo "apt-cache search Search the package list for a regex pattern."
+      echo "apt-cache pkgnames List the names of all packages in the system."
+      echo
+      echo "apt-cache depends <package name> Show package dependency information."
+      echo "apt-cache rdepends <package name> Show package reverse dependency information."
+      echo "apt-cache unmet <package name> Show package's unmet dependencies."
+      echo
+      echo
+      echo "*** For more help type: man apt-cache"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_apt-cache
+#
+# +----------------------------------------+
+# |            Function f_apt-file         |
+# +----------------------------------------+
+#
+f_apt-file () {
+      APP_NAME="apt-file"
+      clear # Blank the screen.
+      echo "apt-file - Allows you to find in which Debian package a file is included."
+      echo "This application has the same behaviour as the web version found at"
+      echo "http://packages.debian.org."
+      echo
+      echo "Additionally you can list all files included in a package without"
+      echo "installing or downloading it (see dpkg -S and dpkg --contents for more"
+      echo "details about listing a package content)."
+      echo
+      echo "USAGE:"
+      echo "apt-file [ options ] [ action ] [ pattern ]"
+      echo "apt-file -f [ options ] search [ file ... ]"
+      echo "apt-file -D [ options ] search [ binary-packet.deb ... ]"
+      echo
+      echo "OPTIONS:"
+      echo "-l, --package-only Only display package name; do not display file names."
+      echo "-i, --ignore-case Ignore case when searching for pattern."
+      echo
+      echo "ACTIONS:"
+      echo "find, list, purge, search, show, update."
+      echo
+      echo "*** For more help type: man apt-file"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_apt-file
 #
 # +----------------------------------------+
 # |            Function f_aptitude         |
 # +----------------------------------------+
 #
 f_aptitude () {
-                 clear # Blank the screen.
-                 echo "aptitude - Debian package manager."
-                 echo 
-                 echo "Usage:"
-                 echo "aptitude [-S fname] [-u|-i]"
-                 echo "aptitude [OPTIONS] <ACTION> ..."
-                 echo 
-                 echo "Options:"
-                 echo " -h    This help text."
-                 echo " -D    Show the dependencies of automatically changed packages."
-                 echo " -v    Display extra information. (may be supplied multiple times)."
-                 echo " -f    Aggressively try to fix broken packages."
-                 echo  
-                 echo "Actions (if none is specified, aptitude will enter interactive mode):"
-                 echo "search    - Search for a package by name and/or expression."
-                 echo "show      - Display detailed information about a package."
-                 echo "install   - Install/upgrade packages."
-                 echo "reinstall - Download and (possibly) reinstall a currently installed package."
-                 echo "remove    - Remove packages."
-                 echo "purge     - Remove packages and their configuration files."
-                 echo "update    - Download lists of new/upgradable packages."
-                 echo
-                 echo "*** For more help type: man apt / man apt-cache / man apt-get"
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "aptitude - Debian package manager."
+      echo 
+      echo "USAGE:"
+      echo "aptitude [-S fname] [-u|-i]"
+      echo "aptitude [OPTIONS] <ACTION> ..."
+      echo 
+      echo "OPTIONS:"
+      echo " -h    This help text."
+      echo " -D    Show the dependencies of automatically changed packages."
+      echo " -v    Display extra information. (may be supplied multiple times)."
+      echo " -f    Aggressively try to fix broken packages."
+      echo  
+      echo "ACTIONS (if none is specified, aptitude will enter interactive mode):"
+      echo "search    - Search for a package by name and/or expression."
+      echo "show      - Display detailed information about a package."
+      echo "install   - Install/upgrade packages."
+      echo "reinstall - Download and (possibly) reinstall a currently installed package."
+      echo "remove    - Remove packages."
+      echo "purge     - Remove packages and their configuration files."
+      echo "update    - Download lists of new/upgradable packages."
+      echo
+      echo "*** For more help type: man apt / man apt-cache / man apt-get"
+      f_press_enter_key_to_continue
 } # End of function f_aptitude
 #
 # +----------------------------------------+
@@ -111,20 +193,20 @@ f_aptitude () {
 # +----------------------------------------+
 #
 f_aptoncd () {
-                 clear # Blank the screen.
-                 echo "APTonCD - A GUI application and is in the menu for reference only."
-                 echo
-                 echo "However, like many GUI applications, it can be launched by from the CLI."
-                 echo "APTonCD can be launched from the command line with the 'aptoncd' command."
-                 echo
-                 echo "APTonCD allows you to create an installation CD with all the debian packages"
-                 echo "installed on the localhost PC from the /var/cache/apt/archives/ directory."
-                 echo "It is one way to backup the software installed on your PC but such would"
-                 echo "have to be reconfigured afterwards."
-                 echo
-                 echo "APTonCD is fully supported in Ubuntu and works in Debian Etch and Sid."
-                 echo
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "APTonCD - A GUI application and is in the menu for reference only."
+      echo
+      echo "However, like many GUI applications, it can be launched by from the CLI."
+      echo "APTonCD can be launched from the command line with the 'aptoncd' command."
+      echo
+      echo "APTonCD allows you to create an installation CD with all the debian packages"
+      echo "installed on the localhost PC from the /var/cache/apt/archives/ directory."
+      echo "It is one way to backup the software installed on your PC but such would"
+      echo "have to be reconfigured afterwards."
+      echo
+      echo "APTonCD is fully supported in Ubuntu and works in Debian Etch and Sid."
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_aptoncd
 #
 # +----------------------------------------+
@@ -132,50 +214,246 @@ f_aptoncd () {
 # +----------------------------------------+
 #
 f_dpkg () {
-                 clear # Blank the screen.
-                 echo "dpkg - Debian package manager."
-                 echo
-                 echo "Usage:"
-                 echo "dpkg --get-selections List all installed packages."
-                 echo "dpkg-query -l <package name> Show package installation status."
-                 echo "dpkg-query -p <package name> Show package description and information."
-                 echo "dpkg -i <package name> Installs a new software package."
-                 echo "dpkg -r <package name> Uninstalls a software package."
-                 echo "dpkg -P <package name> Uninstalls a package and its configuration files."
-                 echo
-                 echo "*** For more help type: man dpkg / man dpkg-query"
-                 echo
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "dpkg - Debian package manager."
+      echo
+      echo "USAGE:"
+      echo "dpkg --get-selections List all installed packages."
+      echo "dpkg -i <package name> Installs a new software package."
+      echo "dpkg -r <package name> Uninstalls a software package."
+      echo "dpkg -P <package name> Uninstalls a package and its configuration files."
+      echo
+      echo "dpkg-query -l, --list <package-name-pattern> List packages matching pattern."
+      echo "dpkg-query -s, --status <package name> Report status of specified package."
+      echo "dpkg-query -L, --listfiles <package name> Files installed by <package name>."
+      echo "dpkg-query -p <package name> Show package description and information."
+      echo "dpkg-query -S, --search <file name> Search inside packages for <file name>."
+      echo
+      echo "dpkg-deb -I, --info <control file name> Show package and control information."
+      echo
+      echo "*** For more help type: man dpkg / man dpkg-query / man dpkg-deb"
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_dpkg
 #
+# +----------------------------------------+
+# |              Function f_kkm            |
+# +----------------------------------------+
+#
+f_kkm () {
+      clear # Blank the screen.
+      echo "kkm - Debian apt tools wrapper, shorter, easier than "apt" commands."
+      echo
+      echo "USAGE:"
+      echo "kkm clean Clean and remove unused packages (apt-get clean/remove)."
+      echo "kkm search <package name> Search packages (apt-get search)."
+      echo "kkm show <package name> Display information of packages (apt-get cache show)."
+      echo "kkm update Update package database (apt-get update)."
+      echo "kkm upgrade Upgrade all installed package (apt-get upgrade/dist-upgrade)."
+      echo "kkm install <package name> Install packages (apt-get install)."
+      echo "kkm list List installed packages (dpkg --list | grep <package name>)."
+      echo
+      echo "Homepage: https://github.com/netroby/kkm"
+      echo
+      echo "INSTALL:"
+      echo "mkdir /opt"
+      echo "cd /opt && git clone https://github.com/netroby/kkm.git && ln -s /opt/kkm/kkm /usr/sbin/kkm && chmod a+x /usr/sbin/kkm"
+      echo
+      echo "*** For more help type: man kkm"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_kkm
+#
+# +----------------------------------------+
+# |          Function f_install_kkm        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install_kkm () {
+      if [ ! -r "/usr/local/bin/kkm" ] ; then
+         clear  # blank screen
+         echo "This script will install \"unzip\" if needed."
+         echo "Afterwards, \"kkm\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, install "Unzip".
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            clear  # blank screen
+            echo "This script will automatically download and install \"Unzip\"."
+            echo
+            # Check if "Unzip" is installed as a prerequisite.
+            APP_NAME="unzip"
+            f_application_install
+            if [ "$ERROR" != "0" ] ; then
+               # Failure to install "Unzip".
+               echo
+               echo "Installation of \"Unzip\" failed."
+               echo " Skipping installation of \"kkm\"."
+               echo
+               echo -n "Press '"Enter"' key to continue."
+               read X
+               unset X  # Throw out this variable.
+               #
+               # Do not install "kkm".
+               MENU_ITEM_NAME="" # Null so f_application_run does not try to run kkm
+                                 # when it's not installed.
+               APP_NAME=""       # Also prevents checking for Quit Clause.
+            else
+               # Success at installing "Unzip".
+               echo
+               echo "Installation of \"Unzip\" is successful."
+               echo
+               echo -n "Press '"Enter"' key to continue."
+               read X
+               unset X  # Throw out this variable.
+               #
+               # Since dependencies are installed, now install "kkm".
+               f_install2_kkm
+               APP_NAME="kkm" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install "kkm".
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run "kkm"
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+         fi
+         unset ANS # Throw out this variable.
+      fi
+} # End of function f_install_kkm
+#
+# +----------------------------------------+
+# |          Function f_install2_kkm        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: None.
+#
+f_install2_kkm () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"ASCIIQuarium\"."
+      echo "The application itself is a single perl script so perl is a prerequisite."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"kkm\" by using wget from:"
+      echo "   \"https://github.com/netroby/kkm/archive/master.zip\"."
+      echo "3. Decompress and create the installation subdirectory ~/bin/kkm*"
+      echo "4. Copy kkm to /usr/local/bin directory."
+      echo "5. Allow users to run kkm by setting permissions to r-x or 755."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      #
+      # 2. Download "kkm" from https://github.com/netroby/kkm/archive by using wget.
+      wget https://github.com/netroby/kkm/archive/master.zip
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/kkm
+      unzip master.zip
+      cd ~/bin/kkm*/
+      #
+      # 4. Copy kkm to /usr/local/bin directory.
+      if [ ! -d "/usr/local/bin" ] ; then
+         # Target directory is missing, so create it.
+	 sudo mkdir -p /usr/local/bin
+      fi
+      sudo cp ~/bin/kkm*/kkm /usr/local/bin/
+      #
+      # 5. Allow users to run asciiquarium by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/local/bin/kkm
+      #
+      # 6. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"kkm\"."
+      echo
+      echo "To run \"kkm\", select it on the \"Package Applications Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_kkm
+#
+# +----------------------------------------+
+# |              Function f_pip            |
+# +----------------------------------------+
+#
+f_pip () {
+      clear # Blank the screen.
+      echo "pip - An improved Python package installer. It integrates with virtualenv."
+      echo
+      echo "pip doesn't do partial installs, can save package state for replaying, and"
+      echo "can install from non-egg sources, and can install from version control"
+      echo "repositories."
+      echo
+      echo "Homepage: http://pip.openplans.org/"
+      echo
+      echo
+      echo "*** For more help type: man pip"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_pip
+#
+
+
 # +----------------------------------------+
 # |              Function f_rpm            |
 # +----------------------------------------+
 #
 f_rpm () {
-                 clear # Blank the screen.
-                 echo "rpm - RPM (Red Hat) package manager."
-                 echo
-                 echo "Usage:"
-                 echo "rpm -q <package name> Show package description and information."
-                 echo "rpm --query <package name> Show package description and information."
-                 echo "rpm -U <package name> Upgrade/Install a package."
-                 echo "rpm --upgrade <package name> Upgrade/Install a package."
-                 echo "rpm -I <package name> Installs new software packages."
-                 echo "rpm --install <package name> Installs new software packages."
-                 echo "rpm -e <package name> Uninstalls software packages."
-                 echo "rpm --erase <package name> Uninstalls software packages."
-                 echo "rpm -V <package name> Verifies packages."
-                 echo "rpm --verify <package name> Verifies packages."
-                 echo "rpm -F <package name> Freshen (upgrade) installed packages."
-                 echo "rpm --freshen<package name> Freshen (upgrade) installed packages."
-                 echo "rpm --initdb Initialize package database."
-                 echo "rpm --rebuilddb Rebuild package database."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "rpm - RPM (Red Hat) package manager."
+      echo
+      echo "USAGE:"
+      echo "rpm -q <package name> Show package description and information."
+      echo "rpm --query <package name> Show package description and information."
+      echo "rpm -U <package name> Upgrade/Install a package."
+      echo "rpm --upgrade <package name> Upgrade/Install a package."
+      echo "rpm -I <package name> Installs new software packages."
+      echo "rpm --install <package name> Installs new software packages."
+      echo "rpm -e <package name> Uninstalls software packages."
+      echo "rpm --erase <package name> Uninstalls software packages."
+      echo "rpm -V <package name> Verifies packages."
+      echo "rpm --verify <package name> Verifies packages."
+      echo "rpm -F <package name> Freshen (upgrade) installed packages."
+      echo "rpm --freshen<package name> Freshen (upgrade) installed packages."
+      echo "rpm --initdb Initialize package database."
+      echo "rpm --rebuilddb Rebuild package database."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "             '$APP_NAME --help'"
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_rpm
 #
 # +----------------------------------------+
@@ -183,13 +461,13 @@ f_rpm () {
 # +----------------------------------------+
 #
 f_synaptic () {
-                 clear # Blank the screen.
-                 echo "Synaptic - A GUI package manager and is in the menu for reference only."
-                 echo
-                 echo "However, like many GUI applications, it can be launched by from the CLI."
-                 echo "Synaptic can be launched from the command line with the 'synaptic' command."
-                 echo
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "Synaptic - A GUI package manager and is in the menu for reference only."
+      echo
+      echo "However, like many GUI applications, it can be launched by from the CLI."
+      echo "Synaptic can be launched from the command line with the 'synaptic' command."
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_synaptic
 #
 # +----------------------------------------+
@@ -197,13 +475,13 @@ f_synaptic () {
 # +----------------------------------------+
 #
 f_yast () {
-                 clear # Blank the screen.
-                 echo "YaST - A GUI package manager and is in the menu for reference only."
-                 echo
-                 echo "However, like many GUI applications, it can be launched by from the CLI."
-                 echo "YaST can be launched from the command line with the 'yast' command."
-                 echo
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "YaST - A GUI package manager and is in the menu for reference only."
+      echo
+      echo "However, like many GUI applications, it can be launched by from the CLI."
+      echo "YaST can be launched from the command line with the 'yast' command."
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_yast
 #
 # +----------------------------------------+
@@ -211,23 +489,23 @@ f_yast () {
 # +----------------------------------------+
 #
 f_yum () {
-                 clear # Blank the screen.
-                 echo "yum - 'Yellow Dog Updated' package manager."
-                 echo
-                 echo "Usage:"
-                 echo "yum upgrade <package name> Upgrade/Install a package."
-                 echo "yum -list <package name> Show package description and information."
-                 echo "yum search <text> Searches package names, descriptions, summaries."
-                 echo "yum provides <text> Searches files, packages providing a function."
-                 echo "yum update Upgrade packages to latest versions."
-                 echo "yum install <package name> Installs new software packages."
-                 echo "yum groupinstall <application name> Installs new software packages."
-                 echo "yum remove <package name> Uninstalls software packages."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "yum - 'Yellow Dog Updated' package manager."
+      echo
+      echo "USAGE:"
+      echo "yum upgrade <package name> Upgrade/Install a package."
+      echo "yum -list <package name> Show package description and information."
+      echo "yum search <text> Searches package names, descriptions, summaries."
+      echo "yum provides <text> Searches files, packages providing a function."
+      echo "yum update Upgrade packages to latest versions."
+      echo "yum install <package name> Installs new software packages."
+      echo "yum groupinstall <application name> Installs new software packages."
+      echo "yum remove <package name> Uninstalls software packages."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_yum
 #
 # +----------------------------------------+
@@ -235,22 +513,22 @@ f_yum () {
 # +----------------------------------------+
 #
 f_zypper () {
-                 clear # Blank the screen.
-                 echo "zypper - Zypper package manager."
-                 echo
-                 echo "Usage:"
-                 echo "zypper search -is List installed packages."
-                 echo "zypper search -d <text> searches package names, descriptions, summaries."
-                 echo "zypper update Upgrade packages to latest versions."
-                 echo "zypper install <package name> Installs new software packages."
-                 echo "zypper remove <package name> Uninstalls software packages."
-                 echo "zypper refresh Refresh repository package information."
-                 echo "zypper list-updates List updates available for installed packages."
-                 echo "zypper dist-upgrade Upgrade kernel to next version."
-                 echo
-                 echo "*** For more help type: 'man $APP_NAME'"
-                 echo "                        '$APP_NAME --help'"
-                 echo
-                 f_press_enter_key_to_continue
+      clear # Blank the screen.
+      echo "zypper - Zypper package manager."
+      echo
+      echo "USAGE:"
+      echo "zypper search -is List installed packages."
+      echo "zypper search -d <text> searches package names, descriptions, summaries."
+      echo "zypper update Upgrade packages to latest versions."
+      echo "zypper install <package name> Installs new software packages."
+      echo "zypper remove <package name> Uninstalls software packages."
+      echo "zypper refresh Refresh repository package information."
+      echo "zypper list-updates List updates available for installed packages."
+      echo "zypper dist-upgrade Upgrade kernel to next version."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      f_press_enter_key_to_continue
 } # End of function f_zypper
 #

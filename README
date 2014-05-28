@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # This program, README is under copyright.
-# ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
+# ©2014 Copyright 2014 Robert D. Chin (rdchin at yahoo.com).
 #
 # Usage: sh README
 #
@@ -65,12 +65,12 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 #: |    Revision number and Revision Date   |
 #: +----------------------------------------+
 #:
-# Calculate revision number by counting all lines starting with "## 2013".
-# grep ^ (carot sign) means grep any lines beginning with "##2013".
+# Calculate revision number by counting all lines starting with "## 2014".
+# grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-REVISION=$(grep ^"## 2013" -c EDIT_HISTORY) ; REVISION="2013.$REVISION"
-REVDATE="January-01-2014 13:50"
+REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
+REVDATE="May 28, 2014 00:14"
 #:
 #: After each edit made, update the version (date stamp string) of each affected
 #: file along with the EDIT_HISTORY file which contains the project rev date.
@@ -176,7 +176,7 @@ REVDATE="January-01-2014 13:50"
 #:   give back to the community and perhaps others could build on and improve on
 #:   what I've started.
 #:
-#: Please enjoy . . . bob chin (2013).
+#: Please enjoy . . . bob chin (2014).
 #:                    rdchin at yahoo.com.
 #:
 #:
@@ -553,10 +553,13 @@ REVDATE="January-01-2014 13:50"
 #:MCO - Contact List Applications Menu
 #:MDB - Database Applications Menu
 #:MDE - Development Applications Menu
+#:MDF - Development2 Applications Menu
 #:MDL - Dowloader Applications Menu
 #:MED - Education Applications Menu
 #:MEM - E-mail Applications Menu
 #:MEN - Environment Applications Menu
+#:MEO - MSDOS/NTFS Utilities Applications Menu
+#:MEP - MSDOS/NTFS Utilities2 Applications Menu
 #:MFA - File Burn CD/DVD Applications Menu
 #:MFB - File Compression Applications Menu
 #:MFC - File Compression2 Applications Menu
@@ -570,6 +573,7 @@ REVDATE="January-01-2014 13:50"
 #:MFK - File MacIntosh Utilities Menu
 #:MFL - File Encryption2 Applications Menu
 #:MFM - File Manager Applications Menu
+#:MFN - File Manager2 Applications Menu
 #:MFO - File Operations Applications Menu
 #:MFS - File Splitter Applications Menu
 #:MFT - File Transfer Applications Menu
@@ -604,32 +608,38 @@ REVDATE="January-01-2014 13:50"
 #:MNN - NIC Diagnostic Tools Applications Menu
 #:MNO - Note Applications Menu
 #:MNP - Network Packet Applications Menu
-#:MNR - News Reader Applications Menu
+#:MNQ - Network Packet2 Applications Menu
 #:MNS - Network Sharing Applications Menu
 #:MNW - WAN Applications Menu
+#:MNX - WAN Applications2 Menu
 #:MPK - Package Management Applications Menu
 #:MPO - Podcatcher Applications Menu
 #:MPR - Presentation Applications Menu
 #:MPS - PDF-PS Applications Menu
 #:MPT - PDF-PS2 Applications Menu
 #:MRC - Remote Connection Applications Menu
-#:MRS - RSS News Feeder Applications Menu
+#:MRM - News Reader Applications Menu
+#:MRN - News Reader2 Applications Menu
 #:MSB - System Backup Applications Menu
 #:MSC - System Screen Applications Menu
 #:MSD - System Disk Information Applications Menu
 #:MSF - System Software Package Applications Menu
 #:MSH - System Health Applications Menu
 #:MSI - System Mainboard Information Applications Menu
-#:MSL - System Peripherals Information Applications Menu
+#:MSL - System Linux Kernel Application Menu
 #:MSM - System Monitor Applications Menu
 #:MSN - System Monitor2 Applications Menu
-#:MSO - System Other Applications Menu
 #:MSP - Spreadsheet Applications Menu
-#:MSR - System Process Applications Menu
+#:MSQ - System Process Applications Menu
+#:MSR - System Process2 Applications Menu
 #:MSS - Screen-saver Applications Menu
 #:MST - Screen Tools Applications Menu
+#:MSV - System Peripherals Information Applications Menu
+#:MSW - System Peripherals Information2 Applications Menu
+#:MTA - To-Do Applications Menu
+#:MTB - To-Do2 Applications Menu
 #:MTC - Text Compare Applications Menu
-#:MTD - To-Do Applications Menu
+#:MTD - Text Word Processor Applications Menu
 #:MTE - Text Editor Applications Menu
 #:MTF - Text Editor2 Applications Menu
 #:MTG - Text Editor3 Applications Menu

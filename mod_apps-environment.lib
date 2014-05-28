@@ -1,9 +1,9 @@
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-21-2013 11:29"
+# REVDATE="February-19-2014 06:30"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_environment     |
@@ -17,11 +17,14 @@ f_menu_app_environment () {
       f_initvars_menu_app "MEN"
       until [ "$MEN" = "0" ]
       do    # Start of Environment until loop.
+#f_menu_app_file_macintosh^0^0^0^1 #MEN Apple    - Apple Macintosh file utilities.
 #0^0^0^0^1 #MEN desmume  - Nintendo DS emulator.
-#0^0^0^0^1 #MEN dialog   - Command line terminal GUI.
+#0^0^0^0^1 #MEN dialog   - Command line GUI displays dialog boxes in shell scripts.
 #0^0^0^0^1 #MEN dosemu   - DOS emulator.
 #0^0^0^0^1 #MEN fish     - Fish is a shell for interactive use, easy to use.
-#0^0^0^0^1 #MEN whiptail - Command line terminal GUI.
+#f_menu_app_msdos^0^0^0^1 #MEN MSDOS    - Linux utilities for Microsoft DOS files, FAT, NTFS disk drives.
+#1^0^0^0^1 #MEN rbash    - (Or "bash -r") Restricted bash shell limits user's actions.
+#0^0^0^0^1 #MEN whiptail - Command line GUI displays dialog boxes in shell scripts.
             #
             THIS_FILE="mod_apps-environment.lib"
             MENU_TITLE="Environment Applications Menu"
@@ -34,4 +37,140 @@ f_menu_app_environment () {
             #
       unset MEN MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_environment
+#
+# +----------------------------------------+
+# |   Function f_menu_app_file_macintosh   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFK, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_macintosh () {
+      f_initvars_menu_app "MFK"
+      until [ "$MFK" = "0" ]
+      do    # Start of Macintosh Applications until loop.
+#0^0^0^0^1 #MFK macunpack - Extract files from Macintosh MacBinary archive.
+#0^0^0^0^1 #MFK macsave   - Reads a sequence of MacBinary archived files and saves them.
+#0^0^0^0^1 #MFK macstream - Converts files to a MacBinary stream written to std. output.
+#0^0^0^0^1 #MFK binhex    - Converts files to BinHex format.
+#0^0^0^0^1 #MFK hexbin    - Converts files to MacBinary *.bin format.
+#0^0^0^0^1 #MFK tomac     - Transmit files to the Macintosh using XMODEM protocol.
+#0^0^0^0^1 #MFK frommac   - Receives files from the Macintosh.
+#0^0^0^0^1 #MFK uudeview  - Decoder/encoder for *.hqx, uuencode, xxencode, BASE64, BinHex.
+            #
+            THIS_FILE="mod_apps-environment.lib"
+            MENU_TITLE="Macintosh Applications Menu"
+            DELIMITER="#MFK" #MFK This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFK
+            f_menu_item_process $MFK  # Outputs $MENU_ITEM.
+      done  # End of Macintosh Applications until loop.
+            #
+      unset MFK MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_macintosh
+#
+# +----------------------------------------+
+# |        Function f_menu_app_msdos       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MEO, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_msdos () {
+      f_initvars_menu_app "MEO"
+      until [ "$MEO" = "0" ]
+      do    # Start of MSDOS/NTFS Applications until loop.
+#0^0^0^0^1 #MEO getswap    - Use as tempspace MS Windows pagefiles and swap partitions.
+#0^0^0^0^1 #MEO mattrib    - Change MS DOS file attribute flags.
+#0^0^0^0^1 #MEO mbadblocks - tests a floppy disk, and marks the bad blocks in the FAT.
+#0^0^0^0^1 #MEO mcd        - Change MSDOS directory.
+#0^0^0^0^1 #MEO mcopy      - Copy MSDOS files to/from Unix, Linux.
+#0^0^0^0^1 #MEO mcat       - Copy an entire disk image to a floppy disk.
+#0^0^0^0^1 #MEO mdel       - Delete an MSDOS file.
+#0^0^0^0^1 #MEO mdeltree   - Recursively delete an MSDOS directory and its contents.
+#0^0^0^0^1 #MEO mdir       - Display an MSDOS directory.
+#0^0^0^0^1 #MEO mdu        - Display the amount of space occupied by an MSDOS directory.
+#0^0^0^0^1 #MEO mformat    - Add an MSDOS filesystem to a low-level formatted floppy disk.
+#0^0^0^0^1 #MEO minfo      - Print the parameters of a MSDOS filesystem.
+#0^0^0^0^1 #MEO mlabel     - Make an MSDOS volume label.
+#0^0^0^0^1 #MEO mmd        - Make an MSDOS subdirectory.
+#0^0^0^0^1 #MEO mmount     - Mount an MSDOS disk.
+#f_menu_app_msdos2^0^0^0^1 #MEO MORE...    - For more MSDOS/NTFS Applications
+            #
+            THIS_FILE="mod_apps-environment.lib"
+            MENU_TITLE="MSDOS/NTFS Utilities Applications Menu"
+            DELIMITER="#MEO" #MEO This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MEO
+            f_menu_item_process $MEO  # Outputs $MENU_ITEM.
+      done  # End of MSDOS/NTFS Applications until loop.
+            #
+      unset MEO MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_msdos
+#
+# +----------------------------------------+
+# |        Function f_menu_app_msdos2      |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MEP, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_msdos2 () {
+      f_initvars_menu_app "MEP"
+      until [ "$MEP" = "0" ]
+      do    # Start of MSDOS/NTFS Applications until loop.
+#0^0^0^0^1 #MEP mmove           - Move or rename an MSDOS file or subdirectory.
+#0^0^0^0^1 #MEP mpartition      - Partition an MSDOS hard disk.
+#0^0^0^0^1 #MEP mrd             - Remove an MSDOS subdirectory.
+#0^0^0^0^1 #MEP mren            - Rename an existing MSDOS file.
+#0^0^0^0^1 #MEP mshowfat        - Shows FAT clusters allocated to file.
+#0^0^0^0^1 #MEP mtools          - Utilities to access DOS disks in Unix.
+#0^0^0^0^1 #MEP mtoolstest      - Tests and displays the mtools configuration.
+#0^0^0^0^1 #MEP mtype           - Display contents of an MSDOS file.
+#0^0^0^0^1 #MEP ntfscp          - Copy file to an NTFS volume.
+#0^0^0^0^1 #MEP ntfslabel       - Display/change the label on an ntfs file system.
+#0^0^0^0^1 #MEP ntfsresize      - Resize an NTFS filesystem without data loss.
+#0^0^0^0^1 #MEP ntfsundelete    - Recover a deleted file from an NTFS volume.
+#0^0^0^0^1 #MEP ntfsundeleteall - recover deleted files from ntfs volumes
+#0^0^0^0^1 #MEP winclean        - Clean up junk files from a Windows installation.
+            #
+            THIS_FILE="mod_apps-environment.lib"
+            MENU_TITLE="MSDOS/NTFS Utilities2 Applications Menu"
+            DELIMITER="#MEP" #MEP This 3rd field prevents awk from printing this line into menu options. 
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MEP
+            f_menu_item_process $MEP  # Outputs $MENU_ITEM.
+      done  # End of MSDOS/NTFS Applications until loop.
+            #
+      unset MEP MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_msdos2
+#
+# +----------------------------------------+
+# |           Function f_rbash             |
+# +----------------------------------------+
+#
+f_rbash () {
+      clear # Blank the screen.
+      echo "rbash - Restricted bash shell to restrict a user's actions."
+      echo
+      echo "Usage:"
+      echo "tide -l <location name> [OPTIONS]"
+      echo
+      echo "Here are some of the restricted actions:"
+      echo
+      echo "Changing directories with cd."
+      echo "Setting or unsetting the values of SHELL, PATH, ENV, or BASH_ENV."
+      echo "Specifying command names containing /."
+      echo "Redirecting output using the >, >|, <>, >&, &>, and >> redirection operators."
+      echo
+      echo "These restrictions are enforced after any startup files are read."
+      echo
+      echo "*** For more help type: 'man cdrecord'"
+      echo "                        'cdrecord --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_rbash
 #

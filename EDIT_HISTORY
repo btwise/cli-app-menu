@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2013 COPYRIGHT 2013 ROBERT D. CHIN
+# ©2014 COPYRIGHT 2014 ROBERT D. CHIN
 #
 # Usage: sh EDIT_HISTORY
 #
@@ -33,12 +33,12 @@ THIS_FILE="EDIT_HISTORY"
 # Set SCRIPT_PATH to directory path of script.
 f_script_path
 #
-# Calculate revision number by counting all lines starting with "## 2013".
-# grep ^ (carot sign) means grep any lines beginning with "##2013".
+# Calculate revision number by counting all lines starting with "## 2014".
+# grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION="1.0"
-PROJECT_REVDATE="January-02-2014 23:58"
+PROJECT_REVISION="1.0.2"
+PROJECT_REVDATE="May 28, 2014 00:14"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -56,7 +56,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, EDIT_HISTORY is under copyright.
-#LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2014 Copyright 2014 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -79,5 +79,11 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2014-01-02 *Release version 1.0.
+## 2014-05-28 *Release version 1.0.2 Enhancements 142 new applications.
+##             Some cosmetic fixes. Added references to more web sites.
+##
+## 2014-01-02 *Release version 1.0.1 Mini-installer text display of path message
+##             followed by exit message cleaned up to prevent scroll off.
+##
+## 2014-01-02 *Release version 1.0
 ##

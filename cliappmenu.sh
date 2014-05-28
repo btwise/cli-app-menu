@@ -1,12 +1,12 @@
 #!/bin/bash
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-02-2014 23:58"
+REVDATE="February-21-2014 88:88"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -37,7 +37,7 @@ REVDATE="January-02-2014 23:58"
 # +----------------------------------------+
 #
 #LIC This program, cliappmenu.sh is under copyright.
-#LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2014 Copyright 2014 Robert D. Chin (rdchin at yahoo.com).
 #LIC
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ REVDATE="January-02-2014 23:58"
 #:    give back to the community and perhaps others could build on and improve
 #:    on what I've started.
 #:
-#: Please enjoy . . . bob chin (2013).
+#: Please enjoy . . . bob chin (2014).
 #:                    rdchin at yahoo.com.
 #:
 #:
@@ -211,7 +211,7 @@ SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # Outputs: GUI (dialog, whiptail, text).
 #
 f_detect_ui () {
-      command -v dialog &>/dev/null # 1=standard messages, 2=error messages, &=both.
+      command -v dialog >/dev/null # "&>/dev/null" does not work in Debian distro. 1=standard messages, 2=error messages, &=both.
       ERROR=$?
       # Is Dialog GUI installed?
       if [ $ERROR -eq 0 ] ; then
@@ -219,7 +219,7 @@ f_detect_ui () {
          GUI="dialog" # test diagnostic line.
       else
          # Is Whiptail GUI installed?
-         command -v whiptail &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         command -v whiptail >/dev/null # "&>/dev/null" does not work in Debian distro. 1=standard messages, 2=error messages, &=both.
          ERROR=$?
          if [ $ERROR -eq 0 ] ; then
             # Yes, Whiptail installed.
@@ -1647,8 +1647,8 @@ f_main_help () {
 # Outputs: None.
 #
 f_main_about () {
-      # Calculate project revision number by counting all lines starting with "## 2013".
-      # grep ^ (carot sign) means grep any lines beginning with "##2013".
+      # Calculate project revision number by counting all lines starting with "## 2014".
+      # grep ^ (carot sign) means grep any lines beginning with "##2014".
       # grep -c means count the lines that match the pattern.
       #
       if [ ! -r $THIS_DIR"/EDIT_HISTORY" ] ; then
@@ -1682,7 +1682,7 @@ f_main_about () {
          PROJECT_REVISION="Unknown, edit history is unavailable."
 	 PROJECT_REVDATE="Unknown, edit history is unavailable."
       else
-         PROJECT_REVISION=$(grep ^"## 2013" -c $THIS_DIR"/EDIT_HISTORY") ; PROJECT_REVISION="2013.$PROJECT_REVISION"
+         PROJECT_REVISION=$(grep ^"## 2014" -c $THIS_DIR"/EDIT_HISTORY") ; PROJECT_REVISION="2014.$PROJECT_REVISION"
          PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= $THIS_DIR"/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
       fi
       #

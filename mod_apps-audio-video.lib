@@ -1,9 +1,9 @@
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-13-2013 23:59"
+# REVDATE="February-03-2014 15:52"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio-video    |
@@ -20,7 +20,7 @@ f_menu_cat_audio-video () {
 #f_menu_app_cdrippers        #BAU CD Rippers       - Copy music off CD-ROM to files.
 #f_menu_app_audio_editors    #BAU Audio Editors    - Audio editors/converters of file formats.
 #f_menu_app_music_players    #BAU Music Players    - Play music CD-ROM or music files. Jukebox, playlists.
-#f_menu_app_radio            #BAU Radio            - Listen to Internet radio stations.
+#f_menu_app_radio            #BAU Radio-Music      - Listen to Internet radio stations and music sites.
 #f_menu_app_speech_synthesis #BAU Speech Synthesis - Text-to-speech. Have text files read back to you.
 #f_menu_app_video_editors    #BAU Video Editors    - Video editors, transcoders, converters.
 #f_menu_app_video_players    #BAU Video Players    - Video players/downloaders.
@@ -51,12 +51,14 @@ f_menu_app_cdrippers () {
       do    # Start of CD Rippers Applications until loop.
 #0^0^0^0^1 #MAC abcde      - Audio CD ripper.
 #0^0^0^0^1 #MAC acripper   - Audio CD ripper.
+#0^0^0^0^1 #MAC cdda2wav   - CD-audio extraction program with paranoia support. 
 #0^0^0^0^1 #MAC cdparanoia - Audio CD ripper.
 #0^0^0^0^1 #MAC cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
 #0^0^0^0^1 #MAC cdrskin    - CD/DVD/BD writing tool.
 #0^0^0^0^0 #MAC cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
 #0^0^0^0^1 #MAC crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
 #0^0^0^0^1 #MAC jack       - Audio CD ripper.
+#0^0^0^0^1 #MAC gramophone - play/rip/record/process CDs, sound files. Ncurses-based.
 #0^0^0^0^1 #MAC lxdvdrip   - Audio CD ripper.
 #0^0^0^0^1 #MAC ripit      - Audio CD ripper.
 #0^0^0^0^1 #MAC rubyripper - Audio CD ripper.
@@ -98,6 +100,7 @@ f_menu_app_audio_editors () {
 #0^0^0^0^1 #MAU mftext    - Dump MIDI file as text.
 #0^0^0^0^1 #MAU midi2abc  - Convert standard MIDI files to ABC music source format.
 #0^0^0^0^1 #MAU midicopy  - Extract/copy specific MIDI file tracks/channels/time intervals.
+#0^0^0^0^1 #MAU normalize - Adjusts volume of multiple audio files to a standard level.
 #0^0^0^0^1 #MAU sox       - Audio file cut/paste and combine, speed playback.
             #
             THIS_FILE="mod_apps-audio-video.lib"
@@ -129,6 +132,8 @@ f_menu_app_music_taggers () {
 #0^0^0^0^0 #MAT dagger   - Tag and rename (based on tag) MP3 and OGG Vorbis files.
 #0^0^0^0^0 #MAT easytag  - Music tagger.
 #0^0^0^0^0 #MAT id3ed    - Music tagger.
+#0^0^0^0^0 #MAT id3fsd   - Directory tree based on music tags rather than file names.
+#0^0^0^0^0 #MAT id3tool  - Music tagger.
 #0^0^0^0^0 #MAT lltag    - Music tagger.
             #
             THIS_FILE="mod_apps-audio-video.lib"
@@ -157,11 +162,12 @@ f_menu_app_music_players () {
       do    # Start of Music Player Applications until loop.
 #0^0^0^0^0 #MAN adcd         - Very simple CD player.
 #0^0^0^0^0 #MAN camp         - Music player with Graphic visualizer.
-#0^0^0^0^0 #MAN clvc         - Music player, ncurses-based, depends on vlc.
+#0^0^0^0^0 #MAN cvlc         - Music player, ncurses-based, depends on vlc.
 #0^0^0^1^0 #MAN cmus         - Music player, MP3,  Ogg Vorbis, ncurses-based.
 #0^0^0^0^0 #MAN consolecandy - MP3 player with spectrum analyzer and other eye-candy.
 #0^0^0^0^0 #MAN cplay        - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
 #0^0^0^0^0 #MAN dcd          - CD player.
+#0^0^0^0^0 #MAN jac          - CD player, creates playlist.
 #0^0^0^0^0 #MAN juke         - Music Jukebox, ncurses-based.
 #0^0^0^0^0 #MAN mcdp         - CD player, adjust volume, repeat track/cd, ncurses-based.
 #0^0^0^0^0 #MAN mcplay       - Playlist ncurses-based.
@@ -169,8 +175,7 @@ f_menu_app_music_players () {
 #0^0^0^0^0 #MAN mp3blaster   - Music player, playlists, groups, ncurses-based.
 #0^0^0^0^0 #MAN moc          - Music player, ncurses-based.
 #0^0^0^1^0 #MAN ncmpc        - Music player, ncurses-based.
-#0^0^0^1^0 #MAN ncmpcpp      - Music player and visualizer, ncurses-based.
-#f_menu_app_music_players2^0^0^0^0 #MAN MORE...         - For more music player applications.
+#f_menu_app_music_players2^0^0^0^0 #MAN MORE...      - For more music player applications.
             #
             THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Player Applications Menu"
@@ -196,8 +201,11 @@ f_menu_app_music_players2 () {
       f_initvars_menu_app "MAO"
       until [ "$MAO" = "0" ]
       do    # Start of Music Player Applications2 until loop.
+#0^0^0^0^0 #MAO ncmpy           - A [Python+Curses] MPD client. Playback, playlist, lyrics.
+#0^0^0^1^0 #MAO ncmpcpp         - Music player and visualizer, ncurses-based.
 #0^0^0^0^0 #MAO opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
 #0^0^0^0^0 #MAO orpheus         - Music player ncurses-based.
+#0^0^0^0^0 #MAO peyote          - With cuesheet support, wv, wav, flac, ape, ogg, mp3, m4a.
 #0^0^0^0^0 #MAO pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
 #f_menu_app_music_players3^0^0^0^0 #MAO MORE...         - For more music player applications.
 
@@ -295,14 +303,15 @@ f_menu_app_radio () {
       f_initvars_menu_app "MAR"
       until [ "$MAR" = "0" ]
       do    # Start of Radio Applications until loop.
-#0^0^0^1^0 #MAR dradio   - Streaming radio on world-wide web.
-#0^0^0^0^0 #MAR radio    - Streaming radio, ncurses-based.
-#0^0^0^0^1 #MAR pianobar - Streaming radio player for Pandora Radio.
-#0^0^0^0^0 #MAR pyradio  - Streaming radio, written in python.
-#0^0^0^0^1 #MAR shell-fm - Streaming radio player for last.fm radio.
+#0^0^0^1^0 #MAR cloudruby - Interfaces with music cloud service "Soundcloud.com".
+#0^0^0^1^0 #MAR dradio    - Streaming radio on world-wide web.
+#0^0^0^0^0 #MAR radio     - Streaming radio, ncurses-based.
+#0^0^0^0^1 #MAR pianobar  - Streaming radio player for Pandora Radio.
+#0^0^0^0^0 #MAR pyradio   - Streaming radio, written in python.
+#0^0^0^0^1 #MAR shell-fm  - Streaming radio player for last.fm radio.
             #
             THIS_FILE="mod_apps-audio-video.lib"
-            MENU_TITLE="Radio Applications Menu"
+            MENU_TITLE="Streaming Radio-Music sites Applications Menu"
             DELIMITER="#MAR" #MAR This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 

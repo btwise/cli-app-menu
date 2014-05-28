@@ -1,9 +1,9 @@
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26-2013 18:16"
+# REVDATE="February-02-2014 21:21"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -22,14 +22,13 @@ f_menu_cat_internet () {
 #f_menu_app_downloaders       #BIN Downloaders       - Download files, videos. and calculate file checksums.
 #f_menu_app_email             #BIN Email             - Email clients.
 #f_menu_app_fax               #BIN FAX               - FAX clients.
-#f_menu_app_file_transfer     #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
+#f_menu_app_network_file_xfer #BIN FTP/HTTP          - File transfer via FTP, HTTP clients.
 #f_menu_app_instant_messaging #BIN IM and Tweets     - Tweet, AIM/ICQ, Yahoo!, MSN, IRC, Jabber/Google Talk...
 #f_menu_app_irc_clients       #BIN IRC Clients       - Internet Relay Chat clients.
 #f_menu_app_lan_chat          #BIN LAN Chat          - Local Area Network Chat (not IRC).
-#f_menu_app_news_readers      #BIN News Readers      - Read USEnet news.
+#f_menu_app_news_readers      #BIN News Readers      - Read news, RSS feeds, Usenet messages.
 #f_menu_app_podcatchers       #BIN Podcatcher        - Podcaster readers.
 #f_menu_app_remote_connection #BIN Remote Connection - Connect to other PCs remotely, cloud services.
-#f_menu_app_rssfeeders        #BIN RSS Feeders       - RSS news, messages.
 #f_menu_app_web_browsers      #BIN Web Browsers      - Internet web  browsers.
             #
             THIS_FILE="mod_apps-internet.lib"
@@ -62,6 +61,7 @@ f_menu_app_bittorrent () {
 #0^0^0^0^1 #MBT bittorrent   - Torrent file transfer.
 #0^0^0^0^1 #MBT ctorrent     - Torrent file transfer.
 #0^0^0^0^1 #MBT deluge       - Torrent downloader, user-interfaces GTK+, web, console.
+#0^0^0^0^1 #MBT hefur        - Bittorrent tracker, not a client/downloader; written in C++.
 #0^0^0^0^1 #MBT mldonkey     - Downloader supports BitTorrent/eDonkey/HTTP/FTP.
 #0^0^0^0^1 #MBT rtorrent     - Torrent file transfer.
 #0^0^0^0^1 #MBT transmission - Torrent client web, console, Mac, GTK+ and Qt GUI clients.
@@ -307,38 +307,38 @@ f_menu_app_fax () {
 } # End of function f_menu_app_fax
 #
 # +----------------------------------------+
-# |   Function f_menu_app_file_tranfer     |
+# | Function f_menu_app_network_file_xfer |
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MFT, MENU_ITEM, MAX.
+#    Uses: MFU, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_app_file_transfer () {
-      f_initvars_menu_app "MFT"
-      until [ "$MFT" = "0" ]
-      do    # Start of File Transfer Applications until loop.
-#0^0^0^0^1 #MFT cmdftp - File transfer client.
-#0^0^0^0^1 #MFT curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
-#0^0^0^0^1 #MFT ftp    - File transfer via Internet standard File Transfer Protocol.
-#0^0^0^0^1 #MFT ftpfs  - File transfer client.
-#0^0^0^0^1 #MFT lftp   - Sophisticated sftp/ftp/http download/upload client program.
-#0^0^0^0^1 #MFT ncftp  - Powerful file transfer client, download directory trees etc.
-#0^0^0^0^1 #MFT scp    - Secure Copy file transfer via ssh, asks for password if needed.
-#0^0^0^0^1 #MFT woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
-#0^0^0^0^1 #MFT wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
+f_menu_app_network_file_xfer () {
+      f_initvars_menu_app "MFU"
+      until [ "$MFU" = "0" ]
+      do    # Start of Network File Transfer Applications until loop.
+#0^0^0^0^1 #MFU cmdftp - File transfer client.
+#0^0^0^0^1 #MFU curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
+#0^0^0^0^1 #MFU ftp    - File transfer via Internet standard File Transfer Protocol.
+#0^0^0^0^1 #MFU ftpfs  - File transfer client.
+#0^0^0^0^1 #MFU lftp   - Sophisticated sftp/ftp/http download/upload client program.
+#0^0^0^0^1 #MFU ncftp  - Powerful file transfer client, download directory trees etc.
+#0^0^0^0^1 #MFU scp    - Secure Copy file transfer via ssh, asks for password if needed.
+#0^0^0^0^1 #MFU woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+#0^0^0^0^1 #MFU wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
             #
             THIS_FILE="mod_apps-internet.lib"
-            MENU_TITLE="File Transfer Applications Menu"
-            DELIMITER="#MFT" #MFT This 3rd field prevents awk from printing this line into menu options. 
+            MENU_TITLE="Network File Transfer Applications Menu"
+            DELIMITER="#MFU" #MFU This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MFT
-            f_menu_item_process $MFT  # Outputs $MENU_ITEM.
-      done  # End of File Transfer Applications until loop.
+            read MFU
+            f_menu_item_process $MFU  # Outputs $MENU_ITEM.
+      done  # End of Network File Transfer Applications until loop.
             #
-      unset MFT MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_file_transfer
+      unset MFU MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_network_file_xfer
 #
 # +----------------------------------------+
 # | Function f_menu_app_instant_messaging  |
@@ -358,6 +358,7 @@ f_menu_app_instant_messaging () {
 #0^0^0^0^1 #MIM centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
 #0^0^0^0^1 #MIM centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
 #0^0^0^0^1 #MIM climm        - Supports ICQ, Jabber, XMPP, GoogleTalk.
+#0^0^0^0^1 #MIM ekg2         - IM client supports plugins GG, Jabber, IRCs; nCurses, GTK2.
 #0^0^0^0^1 #MIM emacs-jabber - Jabber client for Emacs.
 #0^0^0^0^0 #MIM finch        - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster.
 #0^0^0^0^1 #MIM freetalk     - Jabber client.
@@ -462,37 +463,72 @@ f_menu_app_lan_chat () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MNR, MENU_ITEM, MAX.
+#    Uses: MRM, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_news_readers () {
-      f_initvars_menu_app "MNR"
-      until [ "$MNR" = "0" ]
-      do    # Start of RSS Feeder Applications until loop.
-#0^0^0^0^1 #MNR cortex     - Dump news web page to text.
-#0^0^0^0^1 #MNR gnus       - News reader and E-mail client for Emacs.
-#0^0^0^0^1 #MNR hacker-top - Dump news web page to text.
-#0^0^0^0^1 #MNR nn         - News reader.
-#0^0^0^0^1 #MNR reddit-top - Dump news web page to text.
-#0^0^0^0^1 #MNR rn         - News reader.
-#0^0^0^0^1 #MNR slrn       - News reader.
-#0^0^0^0^1 #MNR tin        - News reader.
-#0^0^0^0^1 #MNR trn        - News reader.
+      f_initvars_menu_app "MRM"
+      until [ "$MRM" = "0" ]
+      do    # Start of News Reader Applications until loop.
+#0^0^0^0^1 #MRM canto      - RSS feeder.
+#0^0^0^0^1 #MRM cortex     - Dump news web page to text.
+#0^0^0^0^1 #MRM gnus       - News reader and E-mail client for Emacs.
+#0^0^0^0^1 #MRM hacker-top - Dump news web page to text.
+#0^0^0^0^1 #MRM hdlns      - Display BBC news headlines via RSS feed.
+#0^0^0^0^1 #MRM newsbeuter - RSS feeder.
+#0^0^0^0^1 #MRM nn         - News reader.
+#0^0^0^0^1 #MRM nrss       - RSS feeder.
+#0^0^0^0^1 #MRM olive      - RSS feeder.
+#0^0^0^0^1 #MRM raggle     - RSS feeder.
+#0^0^0^0^1 #MRM rawdog     - RSS feeder.
+#0^0^0^0^1 #MRM reddit-top - Dump news web page to text.
+#0^0^0^0^1 #MRM rn         - News reader.
+#0^0^0^0^1 #MRM rsstail    - RSS feeder.
+#0^0^0^0^1 #MRM snownews   - RSS feeder.
+#f_menu_app_news_readers2^0^0^0^0 #MRM MORE...      - For more news reader applications.
             #
             THIS_FILE="mod_apps-internet.lib"
             MENU_TITLE="News Reader Applications Menu"
-            DELIMITER="#MNR" #MNR This 3rd field prevents awk from printing this line into menu options. 
+            DELIMITER="#MRM" #MRM This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MNR
-            f_menu_item_process $MNR  # Outputs $MENU_ITEM.
+            read MRM
+            f_menu_item_process $MRM  # Outputs $MENU_ITEM.
       done  # End of News Reader Applications until loop.
             #
-      unset MNR MENU_ITEM  # Throw out this variable.
+      unset MRM MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_news_readers
 #
 # +----------------------------------------+
-# |     Function f_menu_app_podcatchers     |
+# |     Function f_menu_app_news_readers2  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MRN, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_news_readers2 () {
+      f_initvars_menu_app "MRN"
+      until [ "$MRN" = "0" ]
+      do    # Start of News Reader Applications until loop.
+#0^0^0^0^1 #MRN slrn       - News reader.
+#0^0^0^0^1 #MRN tin        - News reader.
+#0^0^0^0^1 #MRN trn        - News reader.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="News Reader2 Applications Menu"
+            DELIMITER="#MRN" #MRN This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MRN
+            f_menu_item_process $MRN  # Outputs $MENU_ITEM.
+      done  # End of News Reader2 Applications until loop.
+            #
+      unset MRN MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_news_readers2
+#
+# +----------------------------------------+
+# |     Function f_menu_app_podcatchers    |
 # +----------------------------------------+
 #
 #  Inputs: None. 
@@ -551,39 +587,6 @@ f_menu_app_remote_connection () {
             #
       unset MRC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_remote_connection
-#
-# +----------------------------------------+
-# |     Function f_menu_app_rssfeeders      |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MRS, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_rssfeeders () {
-      f_initvars_menu_app "MRS"
-      until [ "$MRS" = "0" ]
-      do    # Start of RSS Feeder Applications until loop.
-            #MRS canto      - RSS feeder.
-            #MRS newsbeuter - RSS feeder.
-            #MRS nrss       - RSS feeder.
-            #MRS olive      - RSS feeder.
-            #MRS raggle     - RSS feeder.
-            #MRS rawdog     - RSS feeder.
-            #MRS rsstail    - RSS feeder.
-            #MRS snownews   - RSS feeder.
-            #
-            THIS_FILE="mod_apps-internet.lib"
-            MENU_TITLE="RSS Feeder Applications Menu"
-            DELIMITER="#MRS" #MRS This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MRS
-            f_menu_item_process $MRS  # Outputs $MENU_ITEM.
-      done  # End of RSS Feeder Applications until loop.
-            #
-      unset MRS MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_rssfeeders
 #
 # +----------------------------------------+
 # |    Function f_menu_app_web_browsers    |

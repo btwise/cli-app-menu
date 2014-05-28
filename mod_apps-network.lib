@@ -1,9 +1,9 @@
-# ©2013 Copyright 2013 Robert D. Chin
+# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-26-2013 18:16"
+# REVDATE="May 28, 2014 00:14"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -83,9 +83,13 @@ f_menu_app_firewalls () {
       until [ "$MNF" = "0" ]
       do    # Start of Firewall Applications until loop.
 #1^0^0^0^1 #MNF arptables - Firewall configuration rules for an ARP chain.
+#0^0^0^0^1 #MNF doscan    - lists PCs listening for a TCP connection.
 #1^0^0^0^1 #MNF iptables  - Firewall configuration rules for an IP chain.
 #0^0^0^1^0 #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
+#0^0^0^0^1 #MNF knockd    - Port-knocking server.
 #0^0^0^0^0 #MNF knocker   - TCP security port scanner written in C, using threads.
+#0^0^0^0^1 #MNF labrea    - Sticky honeypot entraps intruder tying up his CPU.
+#0^0^0^0^0 #MNF mason     - Firewall that exactly matches the types of TCP/IP traffic.
 #1^0^0^0^0 #MNF portbunny - Port scanner created by Recurity Labs.
 #0^0^0^0^0 #MNF strobe    - Port scanner.
 #1^0^0^0^1 #MNF ufw       - Firewall configuration and status.
@@ -215,12 +219,15 @@ f_menu_app_lan () {
       until [ "$MNL" = "0" ]
       do    # Start of LAN Applications until loop.
 #1^0^0^0^1    #MNL arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
+#0^0^0^0^1    #MNL ekgping     - Ping with audio "ekg" sounds.
+#0^0^0^0^1    #MNL hostname    - Show or set the system's host name.
 #1^0^0^0^1    #MNL ip          - Shows routing, devices, policy routing and tunnels.
 #f_ip^0^0^0^1 #MNL ip addr     - Protocol (IP or IPv6) address on a device.
 #f_ip^0^0^0^1 #MNL ip link     - Shows network device.
 #f_ip^0^0^0^1 #MNL ip neighbor - ARP or NDISC cache entry.
+#0^0^0^0^1    #MNL ipcalc      - Calculator for IPv4 address ranges.
 #1^0^0^0^1    #MNL ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
-#0^0^0^0^1    #MNL sipcalc     - ip subnet calculator.
+#0^0^0^0^1    #MNL sipcalc     - Advanced IPv4, IPv6 subnet calculator.
 #1^0^0^0^1    #MNL ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
 #0^0^0^0^1    #MNL subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
 #0^0^0^0^1    #MNL wuzzah      - LAN user login/out tracker.
@@ -371,20 +378,22 @@ f_menu_app_wan () {
       f_initvars_menu_app "MNW"
       until [ "$MNW" = "0" ]
       do    # Start of WAN Applications until loop.
-#0^0^0^0^1     #MNW dig         - Query Internet domain name servers.
-#0^0^0^0^1     #MNW dnstop      - Analyze and display tables of DNS traffic.
-#0^0^0^0^1     #MNW dnstracer   - Trace URL back to referencing DNS servers.
-#1^0^0^0^1     #MNW ip          - Shows routing, devices, policy routing and tunnels.
-#f_ip^0^0^0^1  #MNW ip route    - Shows routing.
-#1^0^0^0^1     #MNW mtr         - Traceroute tool, has features of ping and traceroute.
-#1^0^0^20:NC^1 #MNW nslookup    - Query Internet domain name servers.
-#1^0^0^0^1     #MNW ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
-#0^0^0^0^1     #MNW route       - Shows routing table.
-#1^0^0^1:NC^0  #MNW speedometer - Check LAN/WAN connectivity speed.
-#1^0^0^0^1     #MNW ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
-#1^0^0^0^1     #MNW traceroute  - Traceroute tool, trace network path to destination. 
-#1^0^0^0^1     #MNW tracepath   - Traceroute tool, trace network path to destination, show MTU.
-#1^0^0^0^1     #MNW traceproto  - Traceroute tool, trace network path to destination. 
+#0^0^0^0^1     #MNW bing          - Measure LAN/WAN connection speed.
+#0^0^0^0^1     #MNW dig           - Query Internet domain name servers.
+#0^0^0^0^1     #MNW dnsdomainname - Show the system's DNS domain name.
+#0^0^0^0^1     #MNW dnstop        - Analyze and display tables of DNS traffic.
+#0^0^0^0^1     #MNW dnstracer     - Trace URL back to referencing DNS servers.
+#0^0^0^0^1     #MNW domainname    - Show or set the system's NIS/YP domain name.
+#1^0^0^0^1     #MNW ip            - Shows routing, devices, policy routing and tunnels.
+#f_ip^0^0^0^1  #MNW ip route      - Shows routing.
+#0^0^0^0^1     #MNW lft           - Traceroute tool, sends TCP SYN, FIN, listens for TCP, ICMP.
+#1^0^0^0^1     #MNW mtr           - Traceroute tool, has features of ping and traceroute.
+#0^0^0^0^1     #MNW nisdomainname - Show or set the system's NIS/YP domain name.
+#1^0^0^20:NC^1 #MNW nslookup      - Query Internet domain name servers.
+#1^0^0^0^1     #MNW ping          - Check LAN/WAN connectivity by pinging IP address, hostname.
+#0^0^0^0^1     #MNW route         - Shows routing table.
+#1^0^0^1:NC^0  #MNW speedometer   - Measure LAN/WAN connection speed.
+#f_menu_app_wan2^0^0^0^1 #MNW MORE...       - For more WAN applications.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="WAN Applications Menu"
@@ -397,6 +406,36 @@ f_menu_app_wan () {
             #
       unset MNW MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_wan
+#
+# +----------------------------------------+
+# |         Function f_menu_app_wan2       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MNX, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_wan2 () {
+      f_initvars_menu_app "MNX"
+      until [ "$MNX" = "0" ]
+      do    # Start of WAN Applications2 until loop.
+#1^0^0^0^1     #MNX ss            - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
+#1^0^0^0^1     #MNX traceroute    - Trace network path to destination. 
+#1^0^0^0^1     #MNX tracepath     - Trace network path to destination, show MTU.
+#1^0^0^0^1     #MNX traceproto    - Trace network path to destination. 
+#0^0^0^0^1     #MSI ypdomainname  - Show or set the system's NIS/YP domain name.
+            #
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="WAN Applications2 Menu"
+            DELIMITER="#MNX" #MNX This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MNX
+            f_menu_item_process $MNX  # Outputs $MENU_ITEM.
+      done  # End of WAN Applications2 until loop.
+            #
+      unset MNX MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_wan2
 #
 # +----------------------------------------+
 # |              Function f_mtr            |
@@ -563,18 +602,20 @@ f_menu_app_network_bandwidth () {
       f_initvars_menu_app "MNB"
       until [ "$MNB" = "0" ]
       do    # Start of Network Bandwidth Applications until loop.
-#0^0^0^0^0    #MNB bmon     - Bandwidth monitor and rate estimator.
-#0^0^0^0^0    #MNB bwm-ng   - Bandwidth graphical monitor.
-#0^0^0^0^0    #MNB cbm      - Color Bandwidth Meter, ncurses based display.
-#1^0^0^0^1    #MNB ifstat   - Bandwidth statistics. (See also dstat, System Monitors Menu).
-#1^0^0^1:NC^0 #MNB iftop    - Bandwidth statistics.
-#1^0^0^1:NC^0 #MNB jnettop  - Bandwidth statistics across streams.
-#0^0^0^1^0    #MNB nethogs  - Bandwidth statistics by process.
-#0^0^0^1^0    #MNB nload    - Bandwidth graphical monitor in real-time; ncurses based display.
-#0^0^0^1:NC^0 #MNB pktstat  - Display active connections and bandwidth in real-time.
-#0^0^0^0^1    #MNB statnet  - Bandwidth statistics.
-#0^0^0^1^0    #MNB trafshow - Bandwidth statistics; ncurses based.
-#0^0^0^1^0    #MNB wavemon  - Wireless bandwidth, signal strength histogram.
+#0^0^0^0^0    #MNB bmon      - Bandwidth monitor and rate estimator.
+#0^0^0^0^0    #MNB bwm-ng    - Bandwidth graphical monitor.
+#0^0^0^0^0    #MNB cbm       - Color Bandwidth Meter; ncurses-based display.
+#1^0^0^0^1    #MNB ifstat    - Bandwidth statistics. (See also dstat, System Monitors Menu).
+#1^0^0^1:NC^0 #MNB iftop     - Bandwidth statistics.
+#0^0^0^0^0    #MNB ibmonitor - Bandwidth monitor, totals, max, avg in Kbps and KBps.
+#0^0^0^0^0    #MNB iperf     - Bandwidth monitor, UDP/TCP packets, CPU usage, JSON output.
+#1^0^0^1:NC^0 #MNB jnettop   - Bandwidth statistics across streams.
+#0^0^0^1^0    #MNB nethogs   - Bandwidth statistics by process.
+#0^0^0^1^0    #MNB nload     - Bandwidth graphical monitor in real-time; ncurses-based.
+#0^0^0^1:NC^0 #MNB pktstat   - Display active connections and bandwidth in real-time.
+#0^0^0^0^1    #MNB statnet   - Bandwidth statistics.
+#0^0^0^1^0    #MNB trafshow  - Bandwidth statistics; ncurses based.
+#0^0^0^1^0    #MNB wavemon   - Wireless bandwidth, signal strength histogram.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Bandwidth Monitor Applications Menu"
@@ -667,7 +708,7 @@ f_menu_app_network_monitors () {
 #1^0^0^0^1    #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
 #0^0^0^0^0    #MNM nc        - Netcat reads/writes data across network.
 #1^0^0^1:NC^0 #MNM netstat   - Print network connections, routing tables, interface stats, etc.
-#1^0^0^1^0    #MNM netwatch  - Protocol monitor; ncurses based.
+#1^0^0^1^1    #MNM netwatch  - Protocol monitor; ncurses based.
 #1^0^0^0^0    #MNM ntop      - Display network usage and status information in a web browser.
 #1^0^0^0^0    #MNM opennms   - Network management application. Discovery, reports, statistics.
 #0^0^0^0^1    #MNM pmacct    - Traffic information monitor.
@@ -831,6 +872,7 @@ f_menu_app_nic_tools () {
 #1^0^0^0^1    #MNN ip           - Shows routing, devices, policy routing and tunnels.
 #f_ip^0^0^0^1 #MNN ip addr      - Protocol (IP or IPv6) address on a device.
 #f_ip^0^0^0^1 #MNN ip neighbor  - ARP or NDISC cache entry.
+#0^0^0^0^1    #MNN ipsc         - NIC configuration.
 #0^0^0^0^1    #MNN iwconfig     - Wireless NIC configuration.
 #1^0^0^0^1    #MNN iwlist       - Get detailed information from wired/wireless NICs.
 #1^0^0^0^1    #MNN macchanger   - Change the hardware MAC address on wired/wireless NICs.
@@ -959,9 +1001,11 @@ f_menu_app_packet_tools () {
       f_initvars_menu_app "MNP"
       until [ "$MNP" = "0" ]
       do    # Start of Packet Tools Applications until loop.
+#0^0^0^0^1 #MNP hunt      - Description-en: Packet sniffer can monitor, reset connections.
 #0^0^0^0^1 #MNP kismet    - Wireless network detector, packet sniffer, auditor.
 #1^0^0^0^1 #MNP ngrep     - Network packet analyzer.
 #0^0^0^0^1 #MNP nmap      - Network Mapper, mapping, auditing, security scanning.
+#1^0^0^0^1 #MNP P0f       - Sophisticated, passive traffic fingerprinting OS, browser, etc.
 #0^0^0^0^1 #MNP packit    - Network auditing, spoofing, security testing.
 #f_run_and_exit "snort" "snort"^0^0^0^1 #MNP snort     - Packet sniffer/logger, Network Intrusion Detection System.
 #1^0^0^0^1 #MNP tcpdump   - Packet sniffer/logger.
@@ -984,14 +1028,34 @@ f_menu_app_packet_tools () {
 # +----------------------------------------+
 #
 f_ngrep () {
-       clear # Blank the screen.
-       echo "ngrep - Network packet analyzer."
-       echo
-       echo "Note: ngrep needs root permissions."
-       echo "      You need to use 'sudo ngrep'."
-       echo
-       f_run_and_exit "ngrep" "ngrep"
+      clear # Blank the screen.
+      echo "ngrep - Network packet analyzer."
+      echo
+      echo "Note: ngrep needs root permissions."
+      echo "      You need to use 'sudo ngrep'."
+      echo
+      f_run_and_exit "ngrep" "ngrep"
 } # End of function f_ngrep
+#
+# +----------------------------------------+
+# |            Function f_p0f              |
+# +----------------------------------------+
+#
+f_p0f () {
+      clear # Blank the screen.
+      echo "P0f uses only passive traffic fingerprinting methods to identify machines OS,"
+      echo "web browser, uptime, LAN topography, server applications."
+      echo
+      echo "P0f can be used to monitor a network, detect network interconnects,"
+      echo "and forensics."
+      echo
+      echo "http://lcamtuf.coredump.cx/p0f3/"
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_p0f
 #
 # +----------------------------------------+
 # |          Function f_tcpdump            |
@@ -1028,6 +1092,8 @@ f_menu_app_network_sharing () {
 #0^0^0^0^1 #MNS ncpfs     - NetWare file/printer server utilities; nprint, pserver.
 #1^0^0^0^1 #MNS smbc      - Samba file manager for folder shares with Microsoft Windows.
 #0^0^0^0^1 #MNS smbclient - Samba client (share folders with Microsoft Windows).
+#0^0^0^0^1 #MNS smbget    - Download files with a wget-like utility over SMB.
+#0^0^0^0^1 #MNS smbnetfs  - Browse all Samba shares easily in one place (mount-point).
 #0^0^0^0^1 #MNS smbstatus - Samba files lock status.
 #0^0^0^0^1 #MNS testparm  - Samba configuration display.
 #0^0^0^0^1 #MNS woof      - Woof (Web Offer One File) copies files via the HTTP protocol.
@@ -1068,39 +1134,39 @@ f_smbc () {
 #
 f_web_site () {
 case $APP_NAME in # Start of case statement.
-     #
-     # The order of the case pattern matching clauses is necessary.
-     #
-     # Does $APP_NAME start with 'sudo'?
-     # Does $APP_NAME have no spaces?
-     # If so, treat as a web browser without a specified web site.
-     #
-     'sudo '*' '* | *' '*) # Command has at least one space.
-     # It is assumed that users who do "sudo <application name> <options>"
-     # know what they are doing and do not need to be prompted to provide
-     # a web site and do not call f_web_site in the application case statments.
-     # i.e. "sudo nslookup www.lxer.com"
-     #
-     # This case pattern matching statement will allow any other sudo formats
-     # i.e. For links browser, "sudo -width 80 links -driver atheos -html-images 0".
-     #
-     ;;
-     *[!' ']*) # It has no spaces in name. No spaces means no web site specified.
-     echo
-     echo "When using a web browser or network application directly from the command line,"
-     echo "use the syntax: $APP_NAME [WEB_SITE]"
-     echo
-     echo -n "Enter the name of the web site: (i.e. www.lxer.com) "
-     read WEB_SITE
-     #
-     # If no web site specified, default to a web site. Note the test command
-     # has $WEB_SITE in quotes because it may not be set prior to this test.
-     if [ -z "$WEB_SITE" ] ; then
+      #
+      # The order of the case pattern matching clauses is necessary.
+      #
+      # Does $APP_NAME start with 'sudo'?
+      # Does $APP_NAME have no spaces?
+      # If so, treat as a web browser without a specified web site.
+      #
+      'sudo '*' '* | *' '*) # Command has at least one space.
+      # It is assumed that users who do "sudo <application name> <options>"
+      # know what they are doing and do not need to be prompted to provide
+      # a web site and do not call f_web_site in the application case statments.
+      # i.e. "sudo nslookup www.lxer.com"
+      #
+      # This case pattern matching statement will allow any other sudo formats
+      # i.e. For links browser, "sudo -width 80 links -driver atheos -html-images 0".
+      #
+      ;;
+      *[!' ']*) # It has no spaces in name. No spaces means no web site specified.
+      echo
+      echo "When using a web browser or network application directly from the command line,"
+      echo "use the syntax: $APP_NAME [WEB_SITE]"
+      echo
+      echo -n "Enter the name of the web site: (i.e. www.lxer.com) "
+      read WEB_SITE
+      #
+      # If no web site specified, default to a web site. Note the test command
+      # has $WEB_SITE in quotes because it may not be set prior to this test.
+      if [ -z "$WEB_SITE" ] ; then
          WEB_SITE="http://www.lxer.com"
-     fi
-     #
-     APP_NAME="$APP_NAME $WEB_SITE"
-     ;;
+      fi
+      #
+      APP_NAME="$APP_NAME $WEB_SITE"
+      ;;
 esac # End of case statement.
 } # End of function f_web_site
 #
