@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-02-18 23:28 Tuesday
+Last updated: 2014-05-28 01:43 Wednesday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -257,12 +257,15 @@ _______________________________________________________________________________
  cmdtest          - Test command-line programs/scripts to check the output.
  codemetre        - Count lines of code w/o comments in source code.
  colout           - Colorize matching text pattern in a text file.
+ gettext          - Framework for GNU packages for multi-lingual messages.
  githubcli        - "ghi" Interface to GitHub's issues API.
  google-perftools - Analyze performance of C++ programs.
+ gprof            - Code profiling tool, detect performance bottlenecks, etc.
  groff            - Enhanced troff editor writes to man page format.
  man2html         - Browse man pages using a web browser.
  man2html-base    - Convert man pages into HTML format.
  mantis           - Web-based issue tracker runs in PHP.
+ nl               - Insert line numbers into a text file.
  shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
  stx2any          - Markup language, writes to man page format.
  txt2man          - Converts plain ASCII text to man format.
@@ -322,12 +325,50 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Environment Applications Menu ***
+ Apple    - Apple Macintosh file utilities.
  desmume  - Nintendo DS emulator.
  dialog   - Command line GUI displays dialog boxes in shell scripts.
  dosemu   - DOS emulator.
  fish     - Fish is a shell for interactive use, easy to use.
+ MSDOS    - Linux utilities for Microsoft DOS files, FAT, NTFS disk drives.
  rbash    - (Or "bash -r") Restricted bash shell limits user's actions.
  whiptail - Command line GUI displays dialog boxes in shell scripts.
+
+_______________________________________________________________________________
+*** MSDOS/NTFS Utilities Applications Menu ***
+ getswap    - Use as tempspace MS Windows pagefiles and swap partitions.
+ mattrib    - Change MS DOS file attribute flags.
+ mbadblocks - tests a floppy disk, and marks the bad blocks in the FAT.
+ mcd        - Change MSDOS directory.
+ mcopy      - Copy MSDOS files to/from Unix, Linux.
+ mcat       - Copy an entire disk image to a floppy disk.
+ mdel       - Delete an MSDOS file.
+ mdeltree   - Recursively delete an MSDOS directory and its contents.
+ mdir       - Display an MSDOS directory.
+ mdu        - Display the amount of space occupied by an MSDOS directory.
+ mformat    - Add an MSDOS filesystem to a low-level formatted floppy disk.
+ minfo      - Print the parameters of a MSDOS filesystem.
+ mlabel     - Make an MSDOS volume label.
+ mmd        - Make an MSDOS subdirectory.
+ mmount     - Mount an MSDOS disk.
+ MORE...    - For more MSDOS/NTFS Applications
+
+_______________________________________________________________________________
+*** MSDOS/NTFS Utilities2 Applications Menu ***
+ mmove           - Move or rename an MSDOS file or subdirectory.
+ mpartition      - Partition an MSDOS hard disk.
+ mrd             - Remove an MSDOS subdirectory.
+ mren            - Rename an existing MSDOS file.
+ mshowfat        - Shows FAT clusters allocated to file.
+ mtools          - Utilities to access DOS disks in Unix.
+ mtoolstest      - Tests and displays the mtools configuration.
+ mtype           - Display contents of an MSDOS file.
+ ntfscp          - Copy file to an NTFS volume.
+ ntfslabel       - Display/change the label on an ntfs file system.
+ ntfsresize      - Resize an NTFS filesystem without data loss.
+ ntfsundelete    - Recover a deleted file from an NTFS volume.
+ ntfsundeleteall - recover deleted files from ntfs volumes
+ winclean        - Clean up junk files from a Windows installation.
 
 _______________________________________________________________________________
 *** File Burn CD/DVD Applications Menu ***
@@ -486,6 +527,14 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** File MacIntosh Utilities Menu ***
+ macunpack - Extract files from Macintosh MacBinary archive.
+ macsave   - Reads a sequence of MacBinary archived files and saves them.
+ macstream - Converts files to a MacBinary stream written to std. output.
+ binhex    - Converts files to BinHex format.
+ hexbin    - Converts files to MacBinary *.bin format.
+ tomac     - Transmit files to the Macintosh using XMODEM protocol.
+ frommac   - Receives files from the Macintosh.
+ uudeview  - Decoder/encoder for *.hqx, uuencode, xxencode, BASE64, BinHex.
  macunpack - Extract files from Macintosh MacBinary archive.
  macsave   - Reads a sequence of MacBinary archived files and saves them.
  macstream - Converts files to a MacBinary stream written to std. output.
@@ -812,6 +861,7 @@ _______________________________________________________________________________
  multitail  - View multiple log files using multiple panes.
  since      - Shows new changes in log files since last run. Tail-like.
  swatch     - Log file viewer with regexp matching, highlighting & hooks.
+ wall       - Send a message to logged in users.
  wuzzah     - Users' login/logout events from utmpx records.
 
 _______________________________________________________________________________
@@ -838,7 +888,7 @@ _______________________________________________________________________________
  ifstat    - Bandwidth statistics. (See also dstat, System Monitors Menu).
  iftop     - Bandwidth statistics.
  ibmonitor - Bandwidth monitor, totals, max, avg in Kbps and KBps.
- iperf3    - Bandwidth monitor, UDP/TCP packets, CPU usage, JSON output.
+ iperf     - Bandwidth monitor, UDP/TCP packets, CPU usage, JSON output.
  jnettop   - Bandwidth statistics across streams.
  nethogs   - Bandwidth statistics by process.
  nload     - Bandwidth graphical monitor in real-time; ncurses-based.
@@ -871,13 +921,15 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** LAN Applications Menu ***
  arping      - Check LAN connectivity by pinging MAC, IP address/hostname.
- ekgping     - ping with audio "ekg" sounds.
+ ekgping     - Ping with audio "ekg" sounds.
+ hostname    - Show or set the system's host name.
  ip          - Shows routing, devices, policy routing and tunnels.
  ip addr     - Protocol (IP or IPv6) address on a device.
  ip link     - Shows network device.
  ip neighbor - ARP or NDISC cache entry.
+ ipcalc      - Calculator for IPv4 address ranges.
  ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
- sipcalc     - ip subnet calculator.
+ sipcalc     - Advanced IPv4, IPv6 subnet calculator.
  ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
  subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
  wuzzah      - LAN user login/out tracker.
@@ -947,6 +999,7 @@ _______________________________________________________________________________
  ncpfs     - NetWare file/printer server utilities; nprint, pserver.
  smbc      - Samba file manager for folder shares with Microsoft Windows.
  smbclient - Samba client (share folders with Microsoft Windows).
+ smbget    - Download files with a wget-like utility over SMB.
  smbnetfs  - Browse all Samba shares easily in one place (mount-point).
  smbstatus - Samba files lock status.
  testparm  - Samba configuration display.
@@ -954,22 +1007,29 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** WAN Applications Menu ***
- bing        - Measure LAN/WAN connection speed.
- dig         - Query Internet domain name servers.
- dnstop      - Analyze and display tables of DNS traffic.
- dnstracer   - Trace URL back to referencing DNS servers.
- ip          - Shows routing, devices, policy routing and tunnels.
- ip route    - Shows routing.
- lft         - Traceroute tool, sends TCP SYN, FIN, listens for TCP, ICMP.
- mtr         - Traceroute tool, has features of ping and traceroute.
- nslookup    - Query Internet domain name servers.
- ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
- route       - Shows routing table.
- speedometer - Measure LAN/WAN connection speed.
- ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
- traceroute  - Traceroute tool, trace network path to destination. 
- tracepath   - Traceroute tool, trace network path to destination, show MTU.
- traceproto  - Traceroute tool, trace network path to destination. 
+ bing          - Measure LAN/WAN connection speed.
+ dig           - Query Internet domain name servers.
+ dnsdomainname - Show the system's DNS domain name.
+ dnstop        - Analyze and display tables of DNS traffic.
+ dnstracer     - Trace URL back to referencing DNS servers.
+ domainname    - Show or set the system's NIS/YP domain name.
+ ip            - Shows routing, devices, policy routing and tunnels.
+ ip route      - Shows routing.
+ lft           - Traceroute tool, sends TCP SYN, FIN, listens for TCP, ICMP.
+ mtr           - Traceroute tool, has features of ping and traceroute.
+ nisdomainname - Show or set the system's NIS/YP domain name.
+ nslookup      - Query Internet domain name servers.
+ ping          - Check LAN/WAN connectivity by pinging IP address, hostname.
+ route         - Shows routing table.
+ speedometer   - Measure LAN/WAN connection speed.
+ MORE...       - For more WAN applications.
+
+_______________________________________________________________________________
+*** WAN Applications2 Menu ***
+ ss            - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
+ traceroute    - Trace network path to destination. 
+ tracepath     - Trace network path to destination, show MTU.
+ traceproto    - Trace network path to destination. 
 
 _______________________________________________________________________________
 *** Package Management Applications Menu ***
@@ -1125,17 +1185,34 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** System Mainboard Information Applications Menu ***
- dmidecode   - Main board information.
- free        - Memory usage RAM and swap.
- hdparm      - Hard disk drive information.
+ ypdomainname  - Show or set the system's NIS/YP domain name.
+ dmidecode     - Main board information.
+ dnsdomainname - Show the system's DNS domain name
+ domainname    - Show or set the system's NIS/YP domain name
+ free          - Memory usage RAM and swap.
+ hdparm        - Hard disk drive information.
+ hostname      - Show or set the system's host name
+ lsb_release   - Linux distro and LSB (Linux Standard Base).
+ lscpu         - CPU information.
+ lshw          - Main board information.
+ mbw           - "Copy" memory bandwidth available to userspace programs.
+ nisdomainname - Show or set the system's NIS/YP domain name
+ slabtop       - Kernel slab cache information in real time.
+ vmstat        - Memory usage RAM and swap, CPU information.
+ ypdomainname  - Show or set the system's NIS/YP domain name
+
+_______________________________________________________________________________
+*** System Linux Kernel Application Menu ***
+ ctrlaltdel  - Set the function of the Ctrl-Alt-Del combination.
+ insmod      - Insert a module into the Linux Kernel.
  lsb_release - Linux distro and LSB (Linux Standard Base).
- lscpu       - CPU information.
- lshw        - Main board information.
  lsmod       - Linux kernel module information.
- mbw         - "Copy" memory bandwidth available to userspace programs.
+ modinfo     - Show information about a Linux Kernel module.
+ modprobe    - Add and remove modules from the Linux Kernel.
+ rmmod       - Remove a module from the Linux Kernel.
  slabtop     - Kernel slab cache information in real time.
  uname       - Linux kernel information.
- vmstat      - Memory usage RAM and swap, CPU information.
+ which       - Show the pathnames of commands, applications, and files.
 
 _______________________________________________________________________________
 *** System Monitor Applications Menu ***
@@ -1150,14 +1227,15 @@ _______________________________________________________________________________
  id        - Print user and group names and information.
  iostat    - CPU usage and disk I/O process monitor.
  iotop     - Disk I/O process monitor.
+ locale    - Get locale specific information.
  mpstat    - CPU microprocessor usage monitor.
  nmon      - CPU usage, memory, network, disk usage, processes, resources.
  rcconf    - Debian enable/disable startup scripts/services; ncurses-based.
- ntsysd    - RedHat view/enable/disable startup scripts/services.
  MORE...   - For more system monitor applications.
 
 _______________________________________________________________________________
 *** System Monitor2 Applications Menu ***
+ ntsysd       - RedHat view/enable/disable startup scripts/services.
  rrdtool      - Round Robin Database Tool stores/displays time-series data.
  saidar       - Monitor system processes, network I/O, disks I/O, free space.
  sysv-rc-conf - Debian view/enable/disable startup scripts/services.
@@ -1165,9 +1243,6 @@ _______________________________________________________________________________
  tload        - System load average graphical monitor.
  ttyload      - Color-coded graphs of CPU load average.
  yacpi        - ACPI monitor, ncurses-based.
-
-_______________________________________________________________________________
-*** System Other Applications Menu ***
 
 _______________________________________________________________________________
 *** Spreadsheet Applications Menu ***
@@ -1180,6 +1255,7 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** System Process Applications Menu ***
  atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
+ fuser     - Identify processes using files or sockets.
  gitps     - Interactive process viewer/killer.
  htop      - View system processes/resources; bar graph of CPU/Mem/Swap.
  ips       - "Intelligent process status" with easy tracking of processes.
@@ -1193,11 +1269,11 @@ _______________________________________________________________________________
  pstree    - Tree view system processes/resources, like "ps" command.
  pswatcher - Execute commands when certain processes are run.
  pwdx      - Report current working directory of a process.
- strace    - Trace process system calls and signals.
  MORE...   - For more system process applications.
 
 _______________________________________________________________________________
 *** System Process2 Applications Menu ***
+ strace    - Trace process system calls and signals.
  sysctl    - Configure kernel parameters at runtime.
  top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
 
@@ -1237,24 +1313,27 @@ _______________________________________________________________________________
  blkid     - Block devices information.
  cdde      - Detects if a CD is inserted, runs specified program.
  colortest - Test color capabilities of a terminal.
+ findfs    - Find a filesystem by label or UUID.
  gitkeys   - Displays the key sequence sent by the pressed key.
  inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
  kbd       - Control keyboard LEDs, repeat/delay rates, keymaps, etc.
+ loadkeys  - load keyboard translation tables
  lsblk     - List block devices (disks).
  lsof      - Display information about open files.
  lspci     - PCI buses and connected devices.
  lspcmcia  - PCMCIA extended debugging information.
  lsusb     - USB devices.
- pccardctl - PCMCIA card devices.
- printenv  - Environmental variables.
- scanimage - Control flatbed scanners, cameras. -L list of devices.
+ mzip      - Change protection mode and eject disk on Zip/Jaz drive.
  MORE...   - For more peripheral system applications.
 
 _______________________________________________________________________________
 *** System Peripherals Information2 Applications Menu ***
- setcd  - Control CDROM device, auto-close/eject/locking, set speed.
- uptime - Display how long PC has been running, # users, load average.
- w      - A combination of uptime and who commands.
+ pccardctl - PCMCIA card devices.
+ printenv  - Environmental variables.
+ scanimage - Control flatbed scanners, cameras. -L list of devices.
+ setcd     - Control CDROM device, auto-close/eject/locking, set speed.
+ uptime    - Display how long PC has been running, # users, load average.
+ w         - A combination of uptime and who commands.
 
 _______________________________________________________________________________
 *** To-Do Applications Menu ***
@@ -1406,6 +1485,7 @@ _______________________________________________________________________________
  ispell    - Spell check allows text files as input with user dictionary.
  sdcv      - Use StarDict formatted dictionaries (must have own dictionary).
  spell     - Spell check allows keyboard or text files as input.
+ uniq      - Remove duplicate lines from a sorted file.
  wc        - Counts words, lines, characters, bytes of a text file.
 
 _______________________________________________________________________________
