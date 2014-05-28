@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="1.1"
+PROJECT_REVISION="1.1.1"
 PROJECT_REVDATE="May-28-2014 16:54"
 clear
 echo "Project version: $PROJECT_REVISION"
@@ -78,6 +78,11 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-05-28 *Release version 1.1.1 NERD_tree, gprof fixed descriptions
+##             that were too long.
+##            *f_menu_app_development fixed too many menu items, moved menu
+##             items to f_menu_app_development2.
 ##
 ## 2014-05-28 *Release version 1.1. Added 142 new applications since 1.0.1.
 ##            *f_menu_app_sys_mainboard added dnsdomainname, domainname,
