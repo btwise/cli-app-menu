@@ -84,7 +84,6 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_menu_app_lan added hostname.
 ##            *f_menu_app_wan added dnsdomainname, domainname, nisdomainname,
 ##             ypdomainname.
-##            *f_menu_app_wan2 created.
 ##            *f_menu_app_text_tools added uniq.
 ##            *f_menu_app_sys_linux added ctrlaltdel, which.
 ##            *f_menu_app_sys_peripherals added findfs.

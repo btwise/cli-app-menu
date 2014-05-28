@@ -420,9 +420,9 @@ f_menu_app_wan2 () {
       until [ "$MNX" = "0" ]
       do    # Start of WAN Applications2 until loop.
 #1^0^0^0^1     #MNX ss            - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
-#1^0^0^0^1     #MNX traceroute    - Trace network path to destination. 
-#1^0^0^0^1     #MNX tracepath     - Trace network path to destination, show MTU.
-#1^0^0^0^1     #MNX traceproto    - Trace network path to destination. 
+#1^0^0^0^1     #MNX traceroute    - Traceroute tool, trace network path to destination. 
+#1^0^0^0^1     #MNX tracepath     - Traceroute tool, trace network path to destination, show MTU.
+#1^0^0^0^1     #MNX traceproto    - Traceroute tool, trace network path to destination. 
 #0^0^0^0^1     #MSI ypdomainname  - Show or set the system's NIS/YP domain name.
             #
             THIS_FILE="mod_apps-network.lib"
