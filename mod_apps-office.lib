@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="May 28, 2014 00:14"
+# REVDATE="May-28-2014 16:54"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -907,7 +907,7 @@ f_menu_app_text_editors3 () {
       f_initvars_menu_app "MTG"
       until [ "$MTG" = "0" ]
       do    # Start of Text Editor Applications until loop.
-#1^0^0^0^0  #MTG NERD_tree       - vim plug-in of directory tree, highlighting, bookmarks, etc. 
+#1^0^0^0^0  #MTG NERD_tree       - vim directory tree plug-in, highlighting, bookmarks, etc.
 #0^0^0^14^0 #MTG nvi             - vi-clone as close to vi as possible.
 #0^0^0^0^0  #MTG pico            - Simple full-screen text editor.
 #f_joe^0^0^11:NC^0 #MTG rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-19-2014 06:30"
+# REVDATE="May-28-2014 16:54"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_development    |
@@ -26,15 +26,12 @@ f_menu_app_development () {
 #0^0^0^0^1 #MDE gettext          - Framework for GNU packages for multi-lingual messages.
 #0^0^0^0^1 #MDE githubcli        - "ghi" Interface to GitHub's issues API.
 #0^0^0^0^1 #MDE google-perftools - Analyze performance of C++ programs.
-#0^0^0^0^1 #MDE gprof            - Code profiling tool, detect performance bottlenecks, etc.
+#0^0^0^0^1 #MDE gprof            - Code profiling, detect performance bottlenecks, etc.
 #0^0^0^0^1 #MDE groff            - Enhanced troff editor writes to man page format.
 #0^0^0^0^1 #MDE man2html         - Browse man pages using a web browser.
 #0^0^0^0^1 #MDE man2html-base    - Convert man pages into HTML format.
 #0^0^0^0^1 #MDE mantis           - Web-based issue tracker runs in PHP.
 #0^0^0^0^1 #MDE nl               - Insert line numbers into a text file.
-#0^0^0^0^1 #MDE shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
-#0^0^0^0^1 #MDE stx2any          - Markup language, writes to man page format.
-#0^0^0^0^1 #MDE txt2man          - Converts plain ASCII text to man format.
 #f_menu_app_development2^0^0^0^1 #MDE MORE...          - For more development applications.
             #
             THIS_FILE="mod_apps-development.lib"
@@ -60,8 +57,11 @@ f_menu_app_development2 () {
       f_initvars_menu_app "MDF"
       until [ "$MDF" = "0" ]
       do    # Start of Development Applications until loop.
-#1^0^0^0^1 #MDF ldd - Print shared library dependencies.
-#0^0^0^0^1 #MDF udo - Simpler markup language writes to man page format.
+#0^0^0^0^1 #MDF shelltestrunner - Test command-line programs/scripts, runs parallel tests.
+#0^0^0^0^1 #MDF stx2any         - Markup language, writes to man page format.
+#0^0^0^0^1 #MDF txt2man         - Converts plain ASCII text to man format.
+#1^0^0^0^1 #MDF ldd             - Print shared library dependencies.
+#0^0^0^0^1 #MDF udo             - Simpler markup language writes to man page format.
             #
             THIS_FILE="mod_apps-development.lib"
             MENU_TITLE="Development2 Applications Menu"
