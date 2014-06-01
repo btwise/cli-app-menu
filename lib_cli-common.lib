@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-19-2014 06:30"
+# REVDATE="May-31-2014 23:24"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -614,6 +614,7 @@ f_quit_app_clause () {
       #%%21. "quit" or "exit"
       #%%22. "q or to pause press "p"
       #%%23. "any key"
+      #%%24. <Ctrl>-Q
       #%% # End of list marker (and awk field marker), DO NOT remove.
           # This marker prevents awk from printing any more lines found by grep "#%%" below
           # and including this line.
