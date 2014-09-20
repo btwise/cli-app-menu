@@ -1,4 +1,4 @@
-#!/bin/bash
+a#!/bin/bash
 #
 # ©2014 COPYRIGHT 2014 ROBERT D. CHIN
 #
@@ -38,8 +38,8 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="1.1.1"
-PROJECT_REVDATE="May-31-2014 01:15"
+PROJECT_REVISION="1.1.2"
+PROJECT_REVDATE="September-19-2014 15:23"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,15 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-09-19 *f_main_about deleted display of Rev. Date of file cliappmenu.sh.
+##            *f_menu_app_file_backup added pax.
+##            *f_menu_app_file_encryption added pass.
+##            *f_menu_app_file_managers added autojump, wcd. Moved cdargs, cdd,
+##             entr, fasd, j2 from f_menu_app_file_operations.
+##            *f_menu_app_file_move-copy moved dd from f_menu_app_file_operations.
+##            *f_menu_app_file_operations added awk, gawk, igawk, sed.
+##            *f_menu_app_todo improved task description.
 ##
 ## 2014-05-29 *f_quit_app_clause added <Ctrl>-Q.
 ##            *f_menu_app_text_editors added enpi.

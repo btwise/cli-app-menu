@@ -70,7 +70,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
-REVDATE="May 31, 2014 23:24"
+REVDATE="September-19-2014 15:23"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -317,8 +317,8 @@ REVDATE="May 31, 2014 23:24"
 #:             See f_application_install for more details.
 #:
 #:             If install fails, then this custom install function will be run
-#:             for made to download the source code from the application
-#:             maintainer's web site, compile, and install the application.
+#:             to download the source code from the application maintainer's
+#:             web site then compiles and installs the application.
 #:
 #: field 3    *if <string> then function name is <string>.
 #: 0/string   *if 0 then ignored. No function is run.

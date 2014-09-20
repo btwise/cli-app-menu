@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="May-28-2014 16:54"
+REVDATE="September-19-2014 15:23"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1682,7 +1682,7 @@ f_main_about () {
          PROJECT_REVISION="Unknown, edit history is unavailable."
 	 PROJECT_REVDATE="Unknown, edit history is unavailable."
       else
-         PROJECT_REVISION=$(grep ^"## 2014" -c $THIS_DIR"/EDIT_HISTORY") ; PROJECT_REVISION="2014.$PROJECT_REVISION"
+         PROJECT_REVISION=$(grep ^PROJECT_REVISION $THIS_DIR"/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
          PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= $THIS_DIR"/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
       fi
       #
@@ -1693,9 +1693,6 @@ f_main_about () {
       clear # Blank the screen.
       echo "Project version: $PROJECT_REVISION"
       echo " Last edited on: $PROJECT_REVDATE"
-      echo
-      echo "   Project file: cliappmenu.sh"
-      echo " Last edited on: $REVDATE"
       echo
       echo "Main Menu script cliappmenu.sh is located in:"
       echo "$MAINMENU_DIR"

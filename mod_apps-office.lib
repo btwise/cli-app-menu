@@ -1416,19 +1416,19 @@ f_menu_app_todo () {
       do    # Start of ToDo Applications until loop.
 #0^0^0^1^0  #MTA beeswax  - To-Do List.
 #0^0^0^1^0  #MTA calcurse - Calendar and To-Do List; ncurses-based.
-#0^0^0^0^1  #MTA diary    - Diary & To Do List uses grep, date, etc. with your text editor.
+#0^0^0^0^1  #MTA diary    - Diary & To-Do List uses grep, date, etc. with your text editor.
 #0^0^0^0^1  #MTA diary-f  - Fork of "diary" enhanced "view"/"cat", non-latin locales.
 #0^0^0^0^1  #MTA doneyet  - To-Do List.
 #0^0^0^0^1  #MTA etm      - Event and task manager.
 #0^0^0^0^0  #MTA hnb      - To-Do List and note taker, ncurses-based application.
 #0^0^0^0^1  #MTA ikog     - To-Do List
-#0^0^0^0^1  #MTA org-mode - Emacs plugin for notes, ToDo lists, and project planning.
-#0^0^0^0^1  #MTA task     - ToDo lists.
-#0^0^0^21^0 #MTA tdl      - To Do List manager.
+#0^0^0^0^1  #MTA org-mode - Emacs plugin for notes, To-Do lists, and project planning.
+#0^0^0^0^1  #MTA task     - Taskwarrior To-Do lists synchronize multiple PCs.
+#0^0^0^21^0 #MTA tdl      - To-Do List manager.
 #1^0^0^0^0  #MTA todo     - To-Do List hierarchical. Install package "devtodo".
 #1^0^0^0^0  #MTA todo2    - "devtodo2" application is a todo2 list, 5-levels of priorties.
 #0^0^0^0^0  #MTA tudu     - To-Do List hierarchical tasks.
-#0^0^0^0^1  #MTA w2do     - To Do with support for group, due date and priority categories.
+#0^0^0^0^1  #MTA w2do     - To-Do with support for group, due date and priority categories.
 #f_menu_app_todo2^0^0^0^0 #MTA MORE...  - More To-Do applications.
             #
             THIS_FILE="mod_apps-office.lib"

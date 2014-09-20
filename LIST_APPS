@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-05-28 01:43 Wednesday
+Last updated: 2014-09-19 16:07 Friday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -260,21 +260,21 @@ _______________________________________________________________________________
  gettext          - Framework for GNU packages for multi-lingual messages.
  githubcli        - "ghi" Interface to GitHub's issues API.
  google-perftools - Analyze performance of C++ programs.
- gprof            - Code profiling tool, detect performance bottlenecks, etc.
+ gprof            - Code profiling, detect performance bottlenecks, etc.
  groff            - Enhanced troff editor writes to man page format.
  man2html         - Browse man pages using a web browser.
  man2html-base    - Convert man pages into HTML format.
  mantis           - Web-based issue tracker runs in PHP.
  nl               - Insert line numbers into a text file.
- shelltestrunner  - Test command-line programs/scripts, runs parallel tests.
- stx2any          - Markup language, writes to man page format.
- txt2man          - Converts plain ASCII text to man format.
  MORE...          - For more development applications.
 
 _______________________________________________________________________________
 *** Development2 Applications Menu ***
- ldd - Print shared library dependencies.
- udo - Simpler markup language writes to man page format.
+ shelltestrunner - Test command-line programs/scripts, runs parallel tests.
+ stx2any         - Markup language, writes to man page format.
+ txt2man         - Converts plain ASCII text to man format.
+ ldd             - Print shared library dependencies.
+ udo             - Simpler markup language writes to man page format.
 
 _______________________________________________________________________________
 *** Dowloader Applications Menu ***
@@ -459,8 +459,8 @@ _______________________________________________________________________________
  mdecrypt  - Decrypts files encrypted by mcrypt.
  mimencode - Encodes a file to the MIME standard.
  nasty     - Helps you to recover forgotten PGP/GPG pass-phrase.
+ pass      - Manage passwords (uses gpg, pwgen, git, xsel).
  pgp       - Pretty Good Privacy (pgp).
- rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
  MORE...   - More file encryption applications.
 
 _______________________________________________________________________________
@@ -495,6 +495,7 @@ _______________________________________________________________________________
 *** File Move-Copy Applications Menu ***
  adcpmvsrc - Replaces cp, mv, features progress bar, MiB/s, time remaining.
  advcpmv   - Replaces cp, mv, features progress bar, MiB/s, time remaining.
+ dd        - Copy a file by bytes or blocks.
  icp       - "interactive cp" allows file name to be edited in terminal.
  imv       - "interactive mv" allows file name to be edited in terminal.
  mmv       - Move/copy/append/link multiple files using wildcard patterns.
@@ -505,6 +506,7 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** File Backup Applications Menu ***
  dtrx  - Use tar without remembering which flags for each file to use.
+ pax   - multiple file tar archiver and copier, preserves file metadata.
  rsync - File backup, mirror, directories and files.
  tar   - File backup, compress files.
 
@@ -546,6 +548,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** File Encryption2 Applications Menu ***
+ rephrase  - Recover partially forgotten PGP/GPG pass-phrase.
  scrypt    - Uses the scrypt key derivation function. Better than bcrypt.
  sha1pass  - Create a password hash. Usage: sha1pass [PASSWORD][SALT]
  truecrypt - Program released under TrueCrypt License (not Open-source).
@@ -557,45 +560,50 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** File Manager Applications Menu ***
+ autojump - Jump to favorite directory using partial directory name.
+ cdargs   - "cd" with bookmarks, can bookmark paths of directories.
+ cdd      - "cd" navigate with vi key-bindings h, j, k, l, k, q keys.
  clex     - File manager.
  detox    - File name clean up.
  dired    - File manager for Emacs.
+ entr     - Detects file/directory changes, responds by running a command.
  exiftool - Display jpeg file properties in ls-like format.
+ fasd     - Quick access to recently/frequently used files and directories.
  findmnt  - Find a filesystem.
  fd       - File and directory management tool.
  fdclone  - File manager based on "fd" by Atsushi Idei for MS-DOS(tm).
+ j2       - Quick access to recently/frequently used files and directories.
  jhead    - Display jpeg file properties.
  lfm      - "Last File Manager", "Midnight Commander"-like.
- mc       - File Manager, "Midnight Commander".
- ncdt     - Display directory tree with tree summary, MP3 file information.
- pilot    - Simple file browser from Aline.
- ranger   - File manager.
- smbc     - Samba file manager for folder shares with Microsoft Windows.
- tree     - Display directory tree.
  MORE...  - For more file manager applications.
 
 _______________________________________________________________________________
 *** File Manager2 Applications Menu ***
- vfu      - File manager, ncurses-based.
- vifm     - File manager with vi-like commands.
+ mc     - File Manager, "Midnight Commander".
+ ncdt   - Display directory tree with tree summary, MP3 file information.
+ pilot  - Simple file browser from Aline.
+ ranger - File manager.
+ smbc   - Samba file manager for folder shares with Microsoft Windows.
+ tree   - Display directory tree.
+ vdir   - List directory equivalent to "ls -l".
+ vfu    - File manager, ncurses-based.
+ vifm   - File manager with vi-like commands.
+ wcd    - Jump to a directory using partial directory name (wildcards).
+ xd     - Smart "cd" change directory; uses abbreviated directory names.
 
 _______________________________________________________________________________
 *** File Operations Applications Menu ***
  Apple     - Apple Macintosh file utilities.
+ awk       - Manipulate strings within a file parsed with delimiters.
  Backup    - Backup utilities for files.
- cdargs    - "cd" with bookmarks, can bookmark paths of directories.
- cdd       - "cd" navigate with vi key-bindings h, j, k, l, k, q keys.
  cwp       - "Catenate with Progress" like "cat" with progress indication.
- dd        - Copy a file by bytes or blocks.
  Del/Undel - Delete/Undelete utilities for disks and files.
  deurlname - Removes URL encoded characters from file names.
- entr      - Detects file/directory changes, responds by running a command.
- fasd      - Quick access to recently/frequently used files and directories.
- j2        - Quick access to recently/frequently used files and directories.
+ gawk       - awk-like, the GNU Project's implementation of awk.
+ igawk      - gawk with includes.
  Move-Copy - Rename/Move and copy utilities for files.
+ sed       - String substitution within a file without using an editor.
  sort      - Sort file by lines in alphabetical order.
- vdir      - List directory equivalent to "ls -l".
- xd        - Smart "cd" change directory; uses abbreviated directory names.
 
 _______________________________________________________________________________
 *** File Splitter Applications Menu ***
@@ -1339,19 +1347,19 @@ _______________________________________________________________________________
 *** To-Do Applications Menu ***
  beeswax  - To-Do List.
  calcurse - Calendar and To-Do List; ncurses-based.
- diary    - Diary & To Do List uses grep, date, etc. with your text editor.
+ diary    - Diary & To-Do List uses grep, date, etc. with your text editor.
  diary-f  - Fork of "diary" enhanced "view"/"cat", non-latin locales.
  doneyet  - To-Do List.
  etm      - Event and task manager.
  hnb      - To-Do List and note taker, ncurses-based application.
  ikog     - To-Do List
- org-mode - Emacs plugin for notes, ToDo lists, and project planning.
- task     - ToDo lists.
- tdl      - To Do List manager.
+ org-mode - Emacs plugin for notes, To-Do lists, and project planning.
+ task     - Taskwarrior To-Do lists synchronize multiple PCs.
+ tdl      - To-Do List manager.
  todo     - To-Do List hierarchical. Install package "devtodo".
  todo2    - "devtodo2" application is a todo2 list, 5-levels of priorties.
  tudu     - To-Do List hierarchical tasks.
- w2do     - To Do with support for group, due date and priority categories.
+ w2do     - To-Do with support for group, due date and priority categories.
  MORE...  - More To-Do applications.
 
 _______________________________________________________________________________
@@ -1408,35 +1416,36 @@ _______________________________________________________________________________
  efte          - Configurable editor, drop-down menus, ncurses-based.
  elvis-console - vi-clone. Multiple files/windows, spell-check, highlight.
  emacs         - Full screen text editor with plugins.
+ enpi          - Bash script allows formatted text in text editors.
  fte-console   - fte for consoles, no internationalization I18N support.
- fte-terminal  - fte for xterm, vt100 terminals.
  MORE...       - For more text editor applications.
 
 _______________________________________________________________________________
 *** Text Editor2 Applications Menu ***
- groff     - Format text via macros, create man pages to PS printers.
- jed       - JED ncurses-based. Also consider package: jed-extra.
- jmacs     - Joe Editor, GNU-EMACS emulation mode.
- joe       - Joe editor. <Ctrl>-K H for help.
- jove      - Jonathan's Own Version of Emacs, ncurses-based.
- jpico     - Joe Editor, PICO emulation mode.
- jstar     - Joe Editor, WordStar emulation mode.
- jupp      - Fork of joe editor with enhancements.
- le        - LE editor text/hex mode, drop-down menus, ncurses-based.
- ledit     - line editor used with interactive commands.
- levi      - Very small vi-clone. From the 1980's.
- mg        - Microscopic GNU Emacs-style editor.
- nano      - Simple full-screen text editor more powerful than pico.
- nano-tiny - tiny build of nano.
- ne        - Nice Editor. Drop-down menus, ncurses-based. 
+ fte-terminal - fte for xterm, vt100 terminals.
+ groff        - Format text via macros, create man pages to PS printers.
+ jed          - JED ncurses-based. Also consider package: jed-extra.
+ jmacs        - Joe Editor, GNU-EMACS emulation mode.
+ joe          - Joe editor. <Ctrl>-K H for help.
+ jove         - Jonathan's Own Version of Emacs, ncurses-based.
+ jpico        - Joe Editor, PICO emulation mode.
+ jstar        - Joe Editor, WordStar emulation mode.
+ jupp         - Fork of joe editor with enhancements.
+ le           - LE editor text/hex mode, drop-down menus, ncurses-based.
+ ledit        - line editor used with interactive commands.
+ levi         - Very small vi-clone. From the 1980's.
+ mg           - Microscopic GNU Emacs-style editor.
+ nano         - Simple full-screen text editor more powerful than pico.
+ nano-tiny    - tiny build of nano.
  MORE...   - For more text editor applications.
 
 _______________________________________________________________________________
 *** Text Editor3 Applications Menu ***
- NERD_tree       - vim plug-in of directory tree, highlighting, bookmarks, etc. 
+ ne              - Nice Editor. Drop-down menus, ncurses-based. 
+ NERD_tree       - vim plug-in directory tree, highlighting, bookmarks, etc.
  nvi             - vi-clone as close to vi as possible.
  pico            - Simple full-screen text editor.
- rjoe            - Joe Editor, only edit file(s) specified "rjoe <filenames>.
+ rjoe            - Joe Editor, only edit file(s) specified rjoe <filenames>.
  the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
  vi              - Classic full-screen text editor.
  vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
