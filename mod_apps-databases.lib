@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="September-24-2014 15:23"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_databases     |
@@ -22,6 +22,7 @@ f_menu_app_databases () {
 #0^0^0^0^1 #MDB edb               - Database program for GNU Emacs.
 #0^0^0^0^1 #MDB freecdb           - Create and read constant databases (up to 4 GB).
 #0^0^0^0^1 #MDB lbdb              - Little Brother's Database for mutt mail reader.
+#0^0^0^0^1 #MDB mange             - CSV file editor.
 #0^0^0^0^1 #MDB mysql-client      - MySQL database client, (latest recommended version).
 #0^0^0^0^1 #MDB mysql-server      - MySQL database server, (latest recommended version).
 #0^0^0^0^1 #MDB postgresql        - Metapackage for object-relational SQL database.

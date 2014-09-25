@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="May 31, 2014 23:24"
+# REVDATE="September-24-2014 15:23"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -210,6 +210,7 @@ f_menu_app_clocks () {
 #0^0^0^0^1 #MCL leave            - Text "alarm" tells you when it's time to leave.
 #0^0^0^0^1 #MCL saytime          - Audio clock.
 #0^0^0^0^1 #MCL tbclock          - Binary clock, binary numbers 1/0 tells time.
+#0^0^0^0^1 #MCL tty-clock        - Display a digital clack full-screen.
 #0^0^0^0^1 #MCL tzwatch          - Displays time/date in specified time zones on console.
 #0^0^0^8^0 #MCL vtclock          - Full-screen clock also shows 1 line text, ncurses-based.
             #
@@ -547,9 +548,10 @@ f_menu_app_spreadsheets () {
       until [ "$MSP" = "0" ]
       do    # Start of Spreadsheet Applications until loop.
 #0^0^0^0^0 #MSP csvkit  - Suite of utilities for converting to and working with CSV.
+#0^0^0^0^0 #MSP mange   - CSV file editor.
 #0^0^0^0^1 #MSP oleo    - Full-screen spreadsheet having a more Emacs-like feel.
 #0^0^0^0^1 #MSP sc      - Spreadsheet.
-#0^0^0^0^1 #MSP slsc    - Spreadsheet based on sc.
+#0^0^0^0^1 #MSP slsc    - Spreadsheet based on sc with menus, help, color.
 #0^0^0^0^1 #MSP xls2csv - Microsoft Excel to *.csv (comma separated values) converter.
             #
             THIS_FILE="mod_apps-office.lib"

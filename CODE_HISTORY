@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.1.2"
-PROJECT_REVDATE="September-19-2014 15:23"
+PROJECT_REVDATE="September-24-2014 15:23"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,17 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-09-24 *f_menu_app_clocks added tty-clock.
+##            *f_menu_app_databases added mange.
+##            *f_menu_app_development added aphex, linkchecker.
+##            *f_menu_app_games_arcade added ascii-invaders.
+##            *f_menu_app_games_card added tty-solitaire.
+##            *f_menu_app_lan added pipcalc.
+##            *f_menu_app_network_monitors added httpry.
+##            *f_menu_app_nic_tools added warcarrier.
+##            *f_menu_app_screen_tools added TermRecord.
+##            *f_menu_app_spreadsheets added mange, updated description of slsc.
 ##
 ## 2014-09-19 *f_main_about deleted display of Rev. Date of file cliappmenu.sh.
 ##            *f_menu_app_file_backup added pax.

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="September-24-2014 15:23"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_screen_tools    |
@@ -23,6 +23,7 @@ f_menu_app_screen_tools () {
 #0^0^0^0^1  #MST screenfetch - Distro logo with PC and linux kernel information.
 #0^0^0^0^1  #MST script      - Records terminal input/output (keystrokes).
 #0^0^0^0^1  #MST scrot       - Framebuffer screenshot tool.
+#0^0^0^0^1  #MST TermRecord  - Records terminal session output to an HTML file.
 #1^0^0^19^1 #MST ttyplay     - Playback "ttyrec" recording of terminal actions.
 #1^0^0^20^0 #MST ttyrec      - Records terminal input/output and also timing-information.
 #0^0^0^0^1  #MST welcome21   - Distro logo (ANSI) with PC and linux kernel information.

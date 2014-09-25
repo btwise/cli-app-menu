@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="May-31-2014 23:24"
+# REVDATE="September-24-2014 15:23"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_development    |
@@ -17,6 +17,7 @@ f_menu_app_development () {
       f_initvars_menu_app "MDE"
       until [ "$MDE" = "0" ]
       do    # Start of Development Applications until loop.
+#0^0^0^0^1 #MDE aphex            - Tiny hex editor. edits are written immediately, no undo.
 #0^0^0^0^1 #MDE apropos          - Search linux man(ual) files for a forgotten command.
 #0^0^0^0^1 #MDE bugz             - Interface to Bugzilla bug tracking tool.
 #0^0^0^0^1 #MDE cil              - Issue tracker and add/edit, list issues.
@@ -28,10 +29,9 @@ f_menu_app_development () {
 #0^0^0^0^1 #MDE google-perftools - Analyze performance of C++ programs.
 #0^0^0^0^1 #MDE gprof            - Code profiling, detect performance bottlenecks, etc.
 #0^0^0^0^1 #MDE groff            - Enhanced troff editor writes to man page format.
+#0^0^0^0^1 #MDE linkchecker      - Check if web page links are working.
 #0^0^0^0^1 #MDE man2html         - Browse man pages using a web browser.
 #0^0^0^0^1 #MDE man2html-base    - Convert man pages into HTML format.
-#0^0^0^0^1 #MDE mantis           - Web-based issue tracker runs in PHP.
-#0^0^0^0^1 #MDE nl               - Insert line numbers into a text file.
 #f_menu_app_development2^0^0^0^1 #MDE MORE...          - For more development applications.
             #
             THIS_FILE="mod_apps-development.lib"
@@ -57,6 +57,8 @@ f_menu_app_development2 () {
       f_initvars_menu_app "MDF"
       until [ "$MDF" = "0" ]
       do    # Start of Development Applications until loop.
+#0^0^0^0^1 #MDF mantis           - Web-based issue tracker runs in PHP.
+#0^0^0^0^1 #MDF nl               - Insert line numbers into a text file.
 #0^0^0^0^1 #MDF shelltestrunner - Test command-line programs/scripts, runs parallel tests.
 #0^0^0^0^1 #MDF stx2any         - Markup language, writes to man page format.
 #0^0^0^0^1 #MDF txt2man         - Converts plain ASCII text to man format.

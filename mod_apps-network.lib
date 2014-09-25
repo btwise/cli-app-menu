@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="May-28-2014 16:54"
+# REVDATE="September-24-2014 15:23"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -227,6 +227,7 @@ f_menu_app_lan () {
 #f_ip^0^0^0^1 #MNL ip neighbor - ARP or NDISC cache entry.
 #0^0^0^0^1    #MNL ipcalc      - Calculator for IPv4 address ranges.
 #1^0^0^0^1    #MNL ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
+#0^0^0^0^1    #MNL pipcalc     - IP calculator intended to work like Red Hat's IP calculator.
 #0^0^0^0^1    #MNL sipcalc     - Advanced IPv4, IPv6 subnet calculator.
 #1^0^0^0^1    #MNL ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
 #0^0^0^0^1    #MNL subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
@@ -703,6 +704,7 @@ f_menu_app_network_monitors () {
       f_initvars_menu_app "MNM"
       until [ "$MNM" = "0" ]
       do    # Start of Network Monitor Applications until loop.
+#0^0^0^0^1    #MNM httpry    - Light-weight network traffic logging tool.
 #0^0^0^0^0    #MNM iptraf    - IP LAN monitor, ncurses based display.
 #0^0^0^0^0    #MNM iptraf-ng - Fork of iptraf.
 #1^0^0^0^1    #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
@@ -880,6 +882,7 @@ f_menu_app_nic_tools () {
 #0^0^0^0^1    #MNN mii-diag     - NIC configuration of network cards.
 #1^0^0^0^0    #MNN netload      - NIC network load; ncurses based.
 #0^0^0^0^1    #MNN nictools-pci - NIC configuration of specific oem network cards.
+#0^0^0^0^0    #MNN warcarrier   - Wireless network detector ncurses-based.
 #0^0^0^0^0    #MNN wicd-curses  - Scan and connect to wired/wireless networks.
             #
             THIS_FILE="mod_apps-network.lib"

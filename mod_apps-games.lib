@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="September-24-2014 15:23"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -54,21 +54,21 @@ f_menu_app_games_arcade () {
       f_initvars_menu_app "MGA"
       until [ "$MGA" = "0" ]
       do    # Start of Arcade Games until loop.
-#0^0^0^0^0  #MGA asciijump   - Ski jump game.
-#0^0^0^0^0  #MGA asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
-#0^0^0^0^1  #MGA freesweep   - Minesweeper game.
-#0^0^0^0^0  #MGA gnuski      - Downhill skiing while avoiding trees.
-#0^0^0^0^0  #MGA moon-buggy  - Drive a moon buggy on the moon.
-#0^0^0^1^1  #MGA ninvaders   - Space invaders-like game ncurses-based.
-#0^0^0^0^0  #MGA nsnake      - Variation of BSD's snake game.
-#f_menu_app_games_pacman^0^0^0^0 #MGA Pac-Man     - "Pac-Man" clones.
-#0^0^0^0^0  #MGA robots      - Be chased by killer robots.
-#0^0^0^18^0 #MGA snake       - Be chased by a snake while collecting money.
-#0^0^0^0^0  #MGA spacezero   - Space combat in real-time, 2-player network game.
-#f_menu_app_games_tetris^0^0^0^0 #MGA Tetris      - "Tetris" clones.
-#0^0^0^9^0  #MGA worm        - Be a growing worm, don't crash into yourself.
-#0^1^0^1^0  #MGA xorcurses   - based on Xor released in 1987 by Astral Software.
-#f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...     - For more arcade game applications.
+#0^0^0^0^0  #MGA ascii-invaders - Space Invader clone.
+#0^0^0^0^0  #MGA asciijump      - Ski jump game.
+#0^0^0^0^0  #MGA asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#0^0^0^0^1  #MGA freesweep      - Minesweeper game.
+#0^0^0^0^0  #MGA gnuski         - Downhill skiing while avoiding trees.
+#0^0^0^0^0  #MGA moon-buggy     - Drive a moon buggy on the moon.
+#0^0^0^1^1  #MGA ninvaders      - Space invaders-like game ncurses-based.
+#0^0^0^0^0  #MGA nsnake         - Variation of BSD's snake game.
+#f_menu_app_games_pacman^0^0^0^0 #MGA Pac-Man        - "Pac-Man" clones.
+#0^0^0^0^0  #MGA robots         - Be chased by killer robots.
+#0^0^0^18^0 #MGA snake          - Be chased by a snake while collecting money.
+#0^0^0^0^0  #MGA spacezero      - Space combat in real-time, 2-player network game.
+#f_menu_app_games_tetris^0^0^0^0 #MGA Tetris         - "Tetris" clones.
+#0^0^0^9^0  #MGA worm           - Be a growing worm, don't crash into yourself.
+#f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...        - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade Game Menu"
@@ -94,8 +94,9 @@ f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
       until [ "$MGB" = "0" ]
       do    # Start of Arcade2 Games until loop.
-#0^0^0^18^0 #MGB zsnake - Variation of BSD's snake game.
-#0^1^0^0^0  #MGB ztrack - First-person car racing game in amazing 3-D ASCII.
+#0^1^0^1^0  #MGB xorcurses - based on Xor released in 1987 by Astral Software.
+#0^0^0^18^0 #MGB zsnake    - Variation of BSD's snake game.
+#0^1^0^0^0  #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Arcade2 Game Menu"
@@ -485,12 +486,13 @@ f_menu_app_games_card () {
       f_initvars_menu_app "MGD"
       until [ "$MGD" = "0" ]
       do    # Start of Card Games until loop.
-#0^0^0^0^0 #MGD canfield - Solitaire card game with betting.
-#0^0^0^0^0 #MGD cpat     - Solitaire collection; curses-based.
-#f_run_and_exit "Cribbage" "cribbage"^0^0^0^0 #MGD cribbage - Cribbage Card game.
-#0^0^0^0^0 #MGD dsol     - dSol Solitaire card game.
-#0^0^0^0^0 #MGD freecell - Freecell card game.
-#0^0^0^0^0 #MGD go-fish  - Go Fish card game.
+#0^0^0^0^0 #MGD canfield     - Solitaire card game with betting.
+#0^0^0^0^0 #MGD cpat         - Solitaire collection; curses-based.
+#f_run_and_exit "Cribbage" "cribbage"^0^0^0^0 #MGD cribbage     - Cribbage Card game.
+#0^0^0^0^0 #MGD dsol         - dSol Solitaire card game.
+#0^0^0^0^0 #MGD freecell     - Freecell card game.
+#0^0^0^0^0 #MGD go-fish      - Go Fish card game.
+#0^0^0^0^0 #MGD ttysolitaire - Color ncurses-based solitaire game.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Card Game Menu"
