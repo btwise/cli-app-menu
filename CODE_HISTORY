@@ -79,7 +79,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-09-24 *f_menu_app_clocks added tty-clock.
+## 2014-09-24 *f_menu_app_clocks added tty-clock (also in f_menu_app_games).
 ##            *f_menu_app_databases added mange.
 ##            *f_menu_app_development added aphex, linkchecker.
 ##            *f_menu_app_games_arcade added ascii-invaders.

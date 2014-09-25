@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-10-2014 21:45"
+# REVDATE="September-24-2014 15:23"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -321,6 +321,9 @@ f_application_web_install () {
            ;;
            tcpblast | netload | trafshow | netwatch | strobe | statnet | tcpspray)
            WEB_SITE_INSTALL="http://www.freshports.org/benchmarks/tcpblast"
+           ;;
+           TermRecord | termrecord)
+           WEB_SITE_INSTALL="https://github.com/theonewolf/TermRecord"
            ;;
            textmaze)
            WEB_SITE_INSTALL="http://robobunny.com/projects/textmaze/html/"
