@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-09-19 16:07 Friday
+Last updated: 2014-09-24 23:02 Wednesday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -225,6 +225,7 @@ _______________________________________________________________________________
  leave            - Text "alarm" tells you when it's time to leave.
  saytime          - Audio clock.
  tbclock          - Binary clock, binary numbers 1/0 tells time.
+ tty-clock        - Display a digital clack full-screen.
  tzwatch          - Displays time/date in specified time zones on console.
  vtclock          - Full-screen clock also shows 1 line text, ncurses-based.
 
@@ -239,6 +240,7 @@ _______________________________________________________________________________
  edb               - Database program for GNU Emacs.
  freecdb           - Create and read constant databases (up to 4 GB).
  lbdb              - Little Brother's Database for mutt mail reader.
+ mange             - CSV file editor.
  mysql-client      - MySQL database client, (latest recommended version).
  mysql-server      - MySQL database server, (latest recommended version).
  postgresql        - Metapackage for object-relational SQL database.
@@ -251,6 +253,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Development Applications Menu ***
+ aphex            - Tiny hex editor. edits are written immediately, no undo.
  apropos          - Search linux man(ual) files for a forgotten command.
  bugz             - Interface to Bugzilla bug tracking tool.
  cil              - Issue tracker and add/edit, list issues.
@@ -262,14 +265,15 @@ _______________________________________________________________________________
  google-perftools - Analyze performance of C++ programs.
  gprof            - Code profiling, detect performance bottlenecks, etc.
  groff            - Enhanced troff editor writes to man page format.
+ linkchecker      - Check if web page links are working.
  man2html         - Browse man pages using a web browser.
  man2html-base    - Convert man pages into HTML format.
- mantis           - Web-based issue tracker runs in PHP.
- nl               - Insert line numbers into a text file.
  MORE...          - For more development applications.
 
 _______________________________________________________________________________
 *** Development2 Applications Menu ***
+ mantis           - Web-based issue tracker runs in PHP.
+ nl               - Insert line numbers into a text file.
  shelltestrunner - Test command-line programs/scripts, runs parallel tests.
  stx2any         - Markup language, writes to man page format.
  txt2man         - Converts plain ASCII text to man format.
@@ -644,26 +648,27 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Arcade Games Menu ***
- asciijump   - Ski jump game.
- asciiportal - ASCIIpOrtal, go through a side-scrolling puzzle maze.
- freesweep   - Minesweeper game.
- gnuski      - Downhill skiing while avoiding trees.
- moon-buggy  - Drive a moon buggy on the moon.
- ninvaders   - Space invaders-like game ncurses-based.
- nsnake      - Variation of BSD's snake game.
- Pac-Man     - "Pac-Man" clones.
- robots      - Be chased by killer robots.
- snake       - Be chased by a snake while collecting money.
- spacezero   - Space combat in real-time, 2-player network game.
- Tetris      - "Tetris" clones.
- worm        - Be a growing worm, don't crash into yourself.
- xorcurses   - based on Xor released in 1987 by Astral Software.
- MORE...     - For more arcade game applications.
+ ascii-invaders - Space Invader clone.
+ asciijump      - Ski jump game.
+ asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+ freesweep      - Minesweeper game.
+ gnuski         - Downhill skiing while avoiding trees.
+ moon-buggy     - Drive a moon buggy on the moon.
+ ninvaders      - Space invaders-like game ncurses-based.
+ nsnake         - Variation of BSD's snake game.
+ Pac-Man        - "Pac-Man" clones.
+ robots         - Be chased by killer robots.
+ snake          - Be chased by a snake while collecting money.
+ spacezero      - Space combat in real-time, 2-player network game.
+ Tetris         - "Tetris" clones.
+ worm           - Be a growing worm, don't crash into yourself.
+ MORE...        - For more arcade game applications.
 
 _______________________________________________________________________________
 *** Arcade2 Games Menu ***
- zsnake - Variation of BSD's snake game.
- ztrack - First-person car racing game in amazing 3-D ASCII.
+ xorcurses - based on Xor released in 1987 by Astral Software.
+ zsnake    - Variation of BSD's snake game.
+ ztrack    - First-person car racing game in amazing 3-D ASCII.
 
 _______________________________________________________________________________
 *** Board Games Menu ***
@@ -674,12 +679,13 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Card Games Menu ***
- canfield - Solitaire card game with betting.
- cpat     - Solitaire collection; curses-based.
- cribbage - Cribbage Card game.
- dsol     - dSol Solitaire card game.
- freecell - Freecell card game.
- go-fish  - Go Fish card game.
+ canfield     - Solitaire card game with betting.
+ cpat         - Solitaire collection; curses-based.
+ cribbage     - Cribbage Card game.
+ dsol         - dSol Solitaire card game.
+ freecell     - Freecell card game.
+ go-fish      - Go Fish card game.
+ ttysolitaire - Color ncurses-based solitaire game.
 
 _______________________________________________________________________________
 *** MUD (Multi-user Dungeons) Menu ***
@@ -937,6 +943,7 @@ _______________________________________________________________________________
  ip neighbor - ARP or NDISC cache entry.
  ipcalc      - Calculator for IPv4 address ranges.
  ping        - Check LAN/WAN connectivity by pinging IP address or hostname.
+ pipcalc     - IP calculator intended to work like Red Hat's IP calculator.
  sipcalc     - Advanced IPv4, IPv6 subnet calculator.
  ss          - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
  subnetcalc  - IPv4/IPv6 subnet calculator, address, broadcast, hosts info.
@@ -944,6 +951,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Network Monitor Applications Menu ***
+ httpry    - Light-weight network traffic logging tool.
  iptraf    - IP LAN monitor, ncurses based display.
  iptraf-ng - Fork of iptraf.
  nagios3   - IP LAN monitor. Display network hosts, devices, connections.
@@ -973,6 +981,7 @@ _______________________________________________________________________________
  mii-diag     - NIC configuration of network cards.
  netload      - NIC network load; ncurses based.
  nictools-pci - NIC configuration of specific oem network cards.
+ warcarrier   - Wireless network detector ncurses-based.
  wicd-curses  - Scan and connect to wired/wireless networks.
 
 _______________________________________________________________________________
@@ -1255,9 +1264,10 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Spreadsheet Applications Menu ***
  csvkit  - Suite of utilities for converting to and working with CSV.
+ mange   - CSV file editor.
  oleo    - Full-screen spreadsheet having a more Emacs-like feel.
  sc      - Spreadsheet.
- slsc    - Spreadsheet based on sc.
+ slsc    - Spreadsheet based on sc with menus, help, color.
  xls2csv - Microsoft Excel to *.csv (comma separated values) converter.
 
 _______________________________________________________________________________
@@ -1311,6 +1321,7 @@ _______________________________________________________________________________
  screenfetch - Distro logo with PC and linux kernel information.
  script      - Records terminal input/output (keystrokes).
  scrot       - Framebuffer screenshot tool.
+ TermRecord  - Records terminal session output to an HTML file.
  ttyplay     - Playback "ttyrec" recording of terminal actions.
  ttyrec      - Records terminal input/output and also timing-information.
  welcome21   - Distro logo (ANSI) with PC and linux kernel information.
