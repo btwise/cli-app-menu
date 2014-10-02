@@ -1870,7 +1870,7 @@ f_ask_download_file () {
                read X
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                    MODFILE=$2
+                    MOD_FILE=$2
                     f_download_file
                     X="YES"
                     ;;
