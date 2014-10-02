@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.2"
-PROJECT_REVDATE="October-02-2014 12:28"
+PROJECT_REVDATE="October-02-2014 15:28"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -91,6 +91,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##             behind the scenes." to menu.
 ##             Deleted "Edit History   - All the craziness behind the scenes."
 ##             from menu.
+##            *f_update_all_modules deleted extraneous "Press 'Enter' key to
+##             continue." message and unneeded code.
 ##            *f_update_edit_hist deleted, do not allow edits of EDIT_HISTORY
 ##             from menu.
 ##

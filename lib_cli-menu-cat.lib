@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="October-02-2014 15:28"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -667,11 +667,6 @@ f_update_all_modules () {
       done
       DELIMITER=$XXSTR
       THIS_FILE=$YSTR
-      #
-      # Restore MENU_TITLE since it determines which menu and menu item options to use.
-      # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
-      MENU_TITLE="Software Module Manager Menu"
-      f_press_enter_key_to_continue
       unset X XSTR XXSTR YSTR 
 } # End of function f_update_all_modules
 #
