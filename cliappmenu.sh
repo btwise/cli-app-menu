@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="September-19-2014 15:23"
+REVDATE="October-02-2014 12:28"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1722,14 +1722,14 @@ f_main_configure () {
       #
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_menu_term_color^0^0^0^0       #AAC Colors       - Set default font/background colors.
-#f_menu_uncolor^0^0^0^0          #AAC Un-colors    - Set font color for unavailable library modules.
-#f_reinstall_readme^0^0^0^1      #AAC Install      - Instructions to re-install script into another directory.
-#f_update_software^0^0^0^0       #AAC Update       - Update this Main Menu program from the GitHub repository.
-#f_menu_module_manager^0^0^0^0   #AAC Modules      - Add/Delete/Remove/Restore/Update software modules.
-#f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List files   - List all support and library program files.
-#f_update_edit_hist^0^0^0^0      #AAC Edit History - Make changes to the Edit History.
-#f_update_list_apps^0^0^0^1      #AAC List apps    - Update list of applications in activated software modules.
+#f_update_software^0^0^0^0       #AAC Update program     - Update menu scripts from the GitHub repository.
+#f_update_all_modules^0^0^0^0    #AAC Update all modules - Update all installed modules from GitHub repository.
+#f_menu_module_manager^0^0^0^0   #AAC Manage Modules     - Add/Delete/Remove/Restore/Update selected modules.
+#f_update_list_apps^0^0^0^1      #AAC Update App List    - Update list of applications in ACTIVATED modules.
+#f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List files         - List all support and library program files.
+#f_menu_term_color^0^0^0^0       #AAC Colors             - Set default font/background colors.
+#f_menu_uncolor^0^0^0^0          #AAC Un-colors          - Set font color for unavailable library modules.
+#f_reinstall_readme^0^0^0^1      #AAC Install to new dir - Instructions to re-install script into another dir.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Configuration Menu"
@@ -1761,9 +1761,10 @@ f_main_information () {
       until [ "$AAG" = "0" ]
       do    # Start of Configuration Menu until loop.
 #f_main_about^0^0^0^0         #AAG About CLI Menu - What version am I using.
-#f_main_documentation^0^0^0^0 #AAG Documentation  - Script documentation, programmer notes, HOW-TOs.
-#f_main_edit_history^0^0^0^0  #AAG Edit History   - All the craziness behind the scenes.
 #f_main_license^0^0^0^0       #AAG License        - Licensing, GPL.
+#f_main_documentation^0^0^0^0 #AAG Documentation  - Script documentation, programmer notes, HOW-TOs.
+#f_main_edit_history^0^0^0^0  #AAG Version        - Version/Release History.
+#f_main_code_history^0^0^0^0  #AAG Code History   - All the craziness behind the scenes.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Information Menu"
@@ -1786,34 +1787,7 @@ f_main_information () {
 # Outputs: None.
 #
 f_main_documentation () {
-      X="" # Initialize scratch variable.
-      clear # Blank the screen.
-      if [ ! -r $THIS_DIR"/README" ] ; then
-         while [  "$X" != "YES" -a "$X" != "NO" ]
-         do
-               clear # Blank the screen.
-               #
-               # Use different color font for error messages.
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               #
-               echo ">>>The file README is either missing or cannot be read.<<<"
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-               echo
-               echo -n "Download README from GitHub.com? (Y/n) "
-               read X
-               case $X in # Start of git download case statement.
-                    "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                    MOD_FILE="README"
-                    f_download_file
-                    X="YES"
-                    ;;
-                    [Nn] | [Nn][Oo])
-                    X="NO"
-                    ;;
-               esac         # End of git download case statement.
-         done
-      fi
+      f_ask_download_file $THIS_DIR "README"
       #
       if [ -r $THIS_DIR"/README" ] ; then
          # Display README Documentation (all lines beginning with "#:" but do not print "#:").
@@ -1834,34 +1808,7 @@ f_main_documentation () {
 # Outputs: None.
 #
 f_main_edit_history () {
-      X="" # Initialize scratch variable.
-      clear # Blank the screen.
-      if [ ! -r $THIS_DIR"/EDIT_HISTORY" ] ; then
-         while [  "$X" != "YES" -a "$X" != "NO" ]
-         do
-               clear # Blank the screen.
-               #
-               # Use different color font for error messages.
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               #
-               echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-               echo
-               echo -n "Download EDIT_HISTORY from GitHub.com? (Y/n) "
-               read X
-               case $X in # Start of git download case statement.
-                    "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                    MOD_FILE="EDIT_HISTORY"
-                    f_download_file
-                    X="YES"
-                    ;;
-                    [Nn] | [Nn][Oo])
-                    X="NO"
-                    ;;
-               esac         # End of git download case statement.
-         done
-      fi
+      f_ask_download_file $THIS_DIR "EDIT_HISTORY"
       #
       if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
          # Display Edit History (all lines beginning with "##" but do not print "##").
@@ -1873,6 +1820,69 @@ f_main_edit_history () {
       #
       unset X
 } # End of function f_menu_edit_history
+#
+# +----------------------------------------+
+# |      Function f_main_code_history      |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: X.
+# Outputs: None.
+#
+f_main_code_history () {
+      f_ask_download_file $THIS_DIR "CODE_HISTORY"
+      #
+      if [ -r $THIS_DIR"/CODE_HISTORY" ] ; then
+         # Display Edit History (all lines beginning with "##" but do not print "##").
+         # sed substitutes null for "##" at the beginning of each line so it is not printed.
+         # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         sed -n 's/^##//'p $THIS_DIR"/CODE_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+         PRESS_KEY=0
+      fi
+      #
+      unset X
+} # End of function f_menu_code_history
+#
+# +----------------------------------------+
+# |      Function f_ask_download_file      |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, MOD_FILE.
+#    Uses: X.
+# Outputs: None.
+#
+f_ask_download_file () {
+      X="" # Initialize scratch variable.
+      clear # Blank the screen.
+      if [ ! -r $1"/$2" ] ; then
+         while [  "$X" != "YES" -a "$X" != "NO" ]
+         do
+               clear # Blank the screen.
+               #
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               #
+               echo ">>>The file $2 is either missing or cannot be read.<<<"
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+               echo -n "Download $2 from GitHub.com? (Y/n) "
+               read X
+               case $X in # Start of git download case statement.
+                    "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                    MODFILE=$2
+                    f_download_file
+                    X="YES"
+                    ;;
+                    [Nn] | [Nn][Oo])
+                    X="NO"
+                    ;;
+               esac         # End of git download case statement.
+         done
+      fi
+      #
+      unset X
+} # End of function f_ask_download_file
 #
 # +----------------------------------------+
 # |         Function f_main_license        |
@@ -2377,61 +2387,6 @@ f_update_software () {
       done
       unset X
 } # End of function f_update
-#
-# +----------------------------------------+
-# |       Function f_update_edit_hist      |  
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: AAC, MENU_ITEM.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_update_edit_hist () {
-      clear # Blank the screen.
-      if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
-         APP_NAME="jed $THIS_DIR/EDIT_HISTORY"
-         PRESS_KEY=0
-         f_application_run
-      else
-         while [  "$X" != "YES" -a "$X" != "NO" ]
-         do
-               clear # Blank the screen.
-               #
-               # Use different color font for error messages.
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               #
-               echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-               echo
-               echo -n "Download EDIT_HISTORY from GitHub.com? (Y/n) "
-               read X
-               case $X in # Start of git download case statement.
-                    "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                    ANS=""
-                    MOD_FILE="EDIT_HISTORY"
-                    f_download_file
-                    X="YES"
-                    ;;
-                    [Nn] | [Nn][Oo])
-                    X="NO"
-                    ;;
-               esac         # End of git download case statement.
-         done
-      fi
-      #
-      if [ ! -r $THIS_DIR"/EDIT_HISTORY" ] ; then
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_update_edit_hist
 #
 # +----------------------------------------+
 # |       Function f_update_list_apps      |  
