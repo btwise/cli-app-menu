@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-02-2014 12:28"
+REVDATE="October-02-2014 22:09"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1761,10 +1761,10 @@ f_main_information () {
       until [ "$AAG" = "0" ]
       do    # Start of Configuration Menu until loop.
 #f_main_about^0^0^0^0         #AAG About CLI Menu - What version am I using.
-#f_main_license^0^0^0^0       #AAG License        - Licensing, GPL.
-#f_main_documentation^0^0^0^0 #AAG Documentation  - Script documentation, programmer notes, HOW-TOs.
 #f_main_edit_history^0^0^0^0  #AAG Version        - Version/Release History.
+#f_main_documentation^0^0^0^0 #AAG Documentation  - Script documentation, programmer notes, HOW-TOs.
 #f_main_code_history^0^0^0^0  #AAG Code History   - All the craziness behind the scenes.
+#f_main_license^0^0^0^0       #AAG License        - Licensing, GPL.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Information Menu"
@@ -2507,10 +2507,10 @@ until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Launch a command-line application.
 #f_main_list_apps        #AAA List Applications   - List apps in active sub-menus (downloaded modules).
-#f_main_search_apps      #AAA Search Applications - Search within active sub-menus (downloaded modules).
-#f_main_help             #AAA Help and Features   - How to use and what can it do.
-#f_main_configure        #AAA Configure           - Update software, change colors, edit History, etc.
-#f_main_information      #AAA Information         - Documentation, edit history, license, script version.
+#f_main_search_apps      #AAA Find an application - Search within active sub-menus (downloaded modules).
+#f_main_help             #AAA Help and Features   - Basic usage and what can it do.
+#f_main_configure        #AAA Configure           - Update software, manage modules, change colors, etc.
+#f_main_information      #AAA Information         - About, version, documentation, code history, license.
       #
       THIS_FILE="cliappmenu.sh"
       MENU_TITLE="Main Menu"

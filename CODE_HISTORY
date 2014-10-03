@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.2"
-PROJECT_REVDATE="October-02-2014 15:28"
+PROJECT_REVDATE="October-02-2014 22:09"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,7 +79,9 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-02 *f_main_configure added "Update all modules" to menu and
+## 2014-10-02 *Main Menu clarified menu item descriptions.
+##            *f_main_information clarified menu item descriptions.
+##            *f_main_configure added "Update all modules" to menu and
 ##             clarified descriptions.
 ##             Changed "List apps" to "Update App List"
 ##             Deleted "Edit History - Make changes to the Edit History."
