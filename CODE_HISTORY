@@ -79,7 +79,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-02 *Main Menu clarified menu item descriptions.
+## 2014-10-02 *Release version 1.2
+##            *Main Menu clarified menu item descriptions.
 ##            *f_main_information clarified menu item descriptions.
 ##            *f_main_configure added "Update all modules" to menu and
 ##             clarified descriptions.
@@ -98,7 +99,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_update_edit_hist deleted, do not allow edits of EDIT_HISTORY
 ##             from menu.
 ##
-## 2014-09-24 *f_menu_app_clocks added tty-clock (also in f_menu_app_games).
+## 2014-09-24 *Testing version 1.1.2.
+##            *f_menu_app_clocks added tty-clock (also in f_menu_app_games).
 ##            *f_menu_app_databases added mange.
 ##            *f_menu_app_development added aphex, linkchecker.
 ##            *f_menu_app_games_arcade added ascii-invaders.
@@ -121,12 +123,13 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## 2014-05-29 *f_quit_app_clause added <Ctrl>-Q.
 ##            *f_menu_app_text_editors added enpi.
 ##
-## 2014-05-28 *Release version 1.1.1 NERD_tree, gprof fixed descriptions
-##             that were too long.
+## 2014-05-28 *Release version 1.1.1.
+##            *NERD_tree, gprof fixed descriptions that were too long.
 ##            *f_menu_app_development fixed too many menu items, moved menu
 ##             items to f_menu_app_development2.
 ##
-## 2014-05-28 *Release version 1.1. Added 142 new applications since 1.0.1.
+## 2014-05-28 *Release version 1.1.
+##            *Added 142 new applications since 1.0.1.
 ##            *f_menu_app_sys_mainboard added dnsdomainname, domainname,
 ##             hostname, nisdomainname, ypdomainname.
 ##            *f_menu_app_lan added hostname.
@@ -242,7 +245,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##             added tre-agrep.
 ##            *mod_apps-system.lib acpi needed a "Press Enter key to continue."
 ##
-## 2014-01-02 *Release version 1.0.1 Mini-installer text display of path message
+## 2014-01-02 *Release version 1.0.1.
+##            *Mini-installer text display of path message
 ##             followed by exit message cleaned up to prevent scroll off.##
 ##
 ## 2014-01-02 *Release version 1.0.

@@ -79,9 +79,10 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2014-10-02 "Testing version 1.2 Improve Configuration Menu and Configuration Menu.
+## 2014-10-02 *Release version 1.2 Improved Configuration Menu and
+##              Information Menu. Added 17 new applications.
 ##
-## 2014-09-24 "Testing version 1.1.2 Added 9 new applications.
+## 2014-09-24 *Testing version 1.1.2 Added 9 new applications.
 ##
 ## 2014-09-19 *Testing version 1.1.2 Added 8 new applications.
 ##
