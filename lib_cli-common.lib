@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="May-31-2014 23:24"
+# REVDATE="October-3-2014 12:12"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -538,12 +538,12 @@ f_eval_funct () {
          case "$2" in
               1)  # if 1st field is a "1" then <f_app-name> Custom application function for general usage.
               if [ "$XSTR" = 1 ] ; then
-                 XSTR="f_$MENU_ITEM_NAME"   
+                 XSTR="f_$MENU_ITEM_NAME"
               fi
               ;;
               2)  # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
               if [ "$XSTR" = 1 ] ; then
-                 XSTR="f_install_$MENU_ITEM_NAME"   
+                 XSTR="f_install_$MENU_ITEM_NAME"
               fi
               ;;
               # 3rd field "<f_any_name>" is called after the display of the Quit Code message.

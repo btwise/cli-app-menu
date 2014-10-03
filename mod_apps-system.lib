@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="May-28-2014 16:54"
+# REVDATE="October-03-2014 12:12"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -840,7 +840,7 @@ f_menu_app_sys_monitors2 () {
 #0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
 #f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
-#f_run_and_exit "ttyload" "ttyload^0^0^8^1 #MSN ttyload      - Color-coded graphs of CPU load average.
+#f_run_and_exit "ttyload" "ttyload"^0^0^8^1 #MSN ttyload      - Color-coded graphs of CPU load average.
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.
             #
             THIS_FILE="mod_apps-system.lib"
