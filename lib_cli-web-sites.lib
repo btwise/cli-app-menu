@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2014 15:23"
+# REVDATE="October-10-2014 16:02"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -151,6 +151,9 @@ f_application_web_install () {
            fish)
            WEB_SITE_INSTALL="http://fishshell.com/#get_fish_linux"
            ;;
+           galaxis)
+           WEB_SITE_INSTALL="http://www.catb.org/~esr/galaxis/"
+           ;;
            gitfm | gitps | gitview | gitwipe | gitkeys | gitmount | gitaction | gitunpack | gitrgrep | gitregrep | gitrfgrep | gnuit)
            WEB_SITE_INSTALL="http://www.gnu.org/software/gnuit/"
            ;;
@@ -244,6 +247,9 @@ f_application_web_install () {
            nagios3 | nagios3-core)
            WEB_SITE_INSTALL="http://sourceforge.net/projects/nagios/files/nagios-3.x/"
            ;;
+           namebench)
+           WEB_SITE_INSTALL="https://code.google.com/p/namebench/"
+           ;;
            ncdu)
            WEB_SITE_INSTALL="http://dev.yorhel.nl/ncdu"
            ;;
@@ -313,6 +319,9 @@ f_application_web_install () {
            slrn)
            WEB_SITE_INSTALL="http://slrn.sourceforge.net/"
            ;;
+           speedtest-cli)
+           WEB_SITE_INSTALL="https://github.com/sivel/speedtest-cli"
+           ;;
            surfraw)
            WEB_SITE_INSTALL="http://surfraw.alioth.debian.org/"
            ;;
@@ -327,6 +336,9 @@ f_application_web_install () {
            ;;
            textmaze)
            WEB_SITE_INSTALL="http://robobunny.com/projects/textmaze/html/"
+           ;;
+           tetrix)
+           WEB_SITE_INSTALL="http://www.catb.org/esr/tetrix/"
            ;;
            tide | xtide)
            WEB_SITE_INSTALL="http://www.flaterco.com/xtide/files.html"
@@ -399,7 +411,13 @@ f_application_web_install () {
       # Is a web site for install/download specified?
       case $WEB_SITE_INSTALL in # Start of Web Install case statement.
            "")
-           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           echo
+           echo "I failed to automatically download the source code as I don't know where"
+           echo "to get it from."
+           echo
+           echo "You will have to do an Internet search to find a web site to download the"
+           echo "software. Please be sure to download from a reputable web site."
+           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            ;;
            *) # if web site is specified, then go there.
            echo

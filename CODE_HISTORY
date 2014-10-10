@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.2"
-PROJECT_REVDATE="October-03-2014 12:12"
+PROJECT_REVDATE="October-10-2014 16:02"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,15 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-03 *f-sub_menu remove extraneous spaces.
-##            *f_menu_app_sys_monitors2 "ttyload" fix missing quote in
+## 2014-10-10 *f_menu_app_games_arcade added galaxis.
+##            *f_menu_app_games_tetris added tetrix. 
+##            *f_menu_app_math added datamash, octave.
+##            *f_menu_app_wan added geoip, geoiplookup, namebench, speedtest-cli.
+##            *README added "#:MNX - WAN Applications2 Menu" as Main Menu option
+##             "Find an Application" was not detecting any apps in this menu.
+##
+## 2014-10-03 *f-sub_menu removed extraneous spaces.
+##            *f_menu_app_sys_monitors2 "ttyload" fixed missing quote in
 ##             menu item option field 1 to pass a parameter to a function.
 ##
 ## 2014-10-02 *Release version 1.2

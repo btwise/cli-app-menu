@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="October-10-2014 16:02"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
@@ -165,10 +165,12 @@ f_menu_app_math () {
       do    # Start of Mathematic Applications until loop.
 #0^0^0^10^0 #MMA arithmetic     - Basic arithmetic quiz.
 #0^0^0^0^1  #MMA axiom          - General purpose computer algebra system.
+#0^0^0^0^1  #MMA datamash       - Calculate statistics mean, avg, stdev, min, max, sum.
 #0^0^0^0^1  #MMA dicelab        - evaluate the statistical distribution of dice rolls.
 #0^0^0^0^1  #MMA mathomatic     - Portable CAS (Computer Algebra System)
 #0^0^0^0^1  #MMA ministat       - Fundamental statistical comparison of 1 or 2 data sets.
 #1^0^0^0^1  #MMA num-utils      - Collection of programs; avg, normal, random, range, etc.
+#0^0^0^0^1  #MMA octave         - Matlab compatible language for (non)linear equations.
 #0^0^0^0^1  #MMA open-axiom     - Open scientific computation platform.
 #0^0^0^0^1  #MMA plotutils      - Plot 2-dimensional scientific data.
 #0^0^0^0^1  #MMA pi             - Calculate Archimedes constant Pi to arbitrary precision.

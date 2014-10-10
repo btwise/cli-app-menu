@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2014 15:23"
+# REVDATE="October-10-2014 16:02"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -385,15 +385,15 @@ f_menu_app_wan () {
 #0^0^0^0^1     #MNW dnstop        - Analyze and display tables of DNS traffic.
 #0^0^0^0^1     #MNW dnstracer     - Trace URL back to referencing DNS servers.
 #0^0^0^0^1     #MNW domainname    - Show or set the system's NIS/YP domain name.
+#1^0^0^0^1     #MNW geoip         - Show country of origin for any IP address. (RHEL pkg).
+#0^0^0^0^1     #MNW geoiplookup   - Show country of origin for any IP address. (Debian pkg).
 #1^0^0^0^1     #MNW ip            - Shows routing, devices, policy routing and tunnels.
 #f_ip^0^0^0^1  #MNW ip route      - Shows routing.
 #0^0^0^0^1     #MNW lft           - Traceroute tool, sends TCP SYN, FIN, listens for TCP, ICMP.
 #1^0^0^0^1     #MNW mtr           - Traceroute tool, has features of ping and traceroute.
+#0^0^0^0^1     #MNW namebench     - Find the fastest DNS servers.
 #0^0^0^0^1     #MNW nisdomainname - Show or set the system's NIS/YP domain name.
 #1^0^0^20:NC^1 #MNW nslookup      - Query Internet domain name servers.
-#1^0^0^0^1     #MNW ping          - Check LAN/WAN connectivity by pinging IP address, hostname.
-#0^0^0^0^1     #MNW route         - Shows routing table.
-#1^0^0^1:NC^0  #MNW speedometer   - Measure LAN/WAN connection speed.
 #f_menu_app_wan2^0^0^0^1 #MNW MORE...       - For more WAN applications.
             #
             THIS_FILE="mod_apps-network.lib"
@@ -420,6 +420,10 @@ f_menu_app_wan2 () {
       f_initvars_menu_app "MNX"
       until [ "$MNX" = "0" ]
       do    # Start of WAN Applications2 until loop.
+#1^0^0^0^1     #MNX ping          - Check LAN/WAN connectivity by pinging IP address, hostname.
+#0^0^0^0^1     #MNX route         - Shows routing table.
+#1^0^0^0:NC^0  #MNX speedometer   - Measure LAN/WAN connection speed.
+#0^1^0^0^1     #MNX speedtest-cli - Test the speed of LAN/WAN connection using Speedtest.net.
 #1^0^0^0^1     #MNX ss            - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
 #1^0^0^0^1     #MNX traceroute    - Trace network path to destination. 
 #1^0^0^0^1     #MNX tracepath     - Trace network path to destination, show MTU.
@@ -437,6 +441,25 @@ f_menu_app_wan2 () {
             #
       unset MNX MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_wan2
+#
+# +----------------------------------------+
+# |             Function f_geoip           |
+# +----------------------------------------+
+#
+f_geoip () {
+      clear # Blank the screen.
+      echo "Please note:"
+      echo
+      echo "This software is packaged for RPM only. RHEL, CentOS, etc. distributions."
+      echo
+      echo "       The run-time command is: geoiplookup."
+      echo
+      echo "The RPM name of the package is: geoip."
+      echo
+      echo "To install the program the RPM package name is 'geoip' but to run the program"
+      echo "from the command line, the run-time command is 'geoiplookup'."
+      f_press_enter_key_to_continue
+} # End of function f_geoip
 #
 # +----------------------------------------+
 # |              Function f_mtr            |
@@ -486,7 +509,6 @@ f_nslookup () {
          echo "*** For more help type: 'man $APP_NAME'"
          echo "                        '$APP_NAME --help'"
          echo
-         #. mod_apps-network.lib 
          f_web_site
          echo
          echo "Now run nslookup. Usage: $APP_NAME"
@@ -527,6 +549,81 @@ f_speedometer () {
          unset ANS
       fi
 } # End of function f_speedometer
+#
+# +----------------------------------------+
+# |    Function f_install_speedtest-cli    |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_speedtest-cli () {
+      clear  # blank screen
+      echo "Speedtest-cli - Test the speed of your LAN/WAN connection using Speedtest.net."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"speedtest-cli\" using wget from the author's web page."
+      echo "   \"https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py\""
+      echo "3. Move \"speedtest-cli\" to \"/usr/local/bin\" directory."
+      echo "4.  Allow users to run speedtest-cli by setting permissions to r-x or 755."
+      echo "5. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install speedtest-cli.
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # 1. Change directory to your home folder.
+         cd ~
+         #
+         # 2. Download \"speedtest-cli\" using wget from the author's web page.
+         wget -O speedtest-cli https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py
+         #
+         # 3. Move \"speedtest-cli\" to \"/usr/local/bin\" directory.
+         sudo mv ~/speedtest-cli /usr/local/bin/
+         #
+         # 4.  Allow users to run textmaze by setting permissions to r-x or 755.
+         sudo chmod 755 /usr/local/bin/speedtest-cli
+         #
+         # 5. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
+         #    Is the directory /usr/local/bin in your PATH of directories?
+         #    Check the $PATH
+         if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+            echo "If needed, edit file \"~/.bashrc\" PATH."
+            echo "Append the directory name to your environment $PATH."
+            echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+            echo "export PATH"
+            echo
+            echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+            echo "Either logout or exit from Terminal and re-launch Terminal."
+            echo
+         fi
+         echo
+         echo "Finished running installation script for \"speedtest-cli\"."
+         echo
+         echo "To run \"speedtest-cli\", select it on the \"WAN Applications2 Menu\"."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         APP_NAME="speedtest-cli" # Set to correct name for f_application_run.
+         APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+      else
+         # No, Do not install speedtest-cli.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run speedtest-cli.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_speedtest-cli
 #
 # +----------------------------------------+
 # |         Function f_traceroute          |
