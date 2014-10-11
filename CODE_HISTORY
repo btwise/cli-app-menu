@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.2"
-PROJECT_REVDATE="October-10-2014 16:02"
+PROJECT_REVDATE="October-11-2014 11:23"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,12 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-10-11 *f_menu_app_games_simulation added sst, trekx.
+##             Also added help for sst, trek, trekx.
+##             The game startrek would not compile C properly but leave it in
+##             the program code but omit it from the application menu for now.
+##             Changed install messages in other games for clarity.
 ##
 ## 2014-10-10 *f_menu_app_games_arcade added galaxis.
 ##            *f_menu_app_games_tetris added tetrix. 

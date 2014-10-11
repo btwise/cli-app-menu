@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-10-2014 16:02"
+# REVDATE="October-11-2014 11:23"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -230,7 +230,7 @@ f_install2_xorcurses () {
       echo "This script will automatically download and install \"XorCurses\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"XorCurses\" using wget from:"
       echo "   http://jwm-art.net/art/archive"
       echo "3. Decompress and create the installation subdirectory ~/bin/xorcurses*"
@@ -354,7 +354,7 @@ f_install2_ztrack () {
       echo "This script will automatically download and install \"Ztrack\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"Ztrack\" using wget from:"
       echo "   http://www.ibiblio.org/pub/Linux/games/arcade"
       echo "3. Decompress and create the installation subdirectory ~/bin/ztrack*"
@@ -632,7 +632,7 @@ f_install2_textmaze () {
       echo "The application itself is a single perl script so perl is a prerequisite."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"TextMaze\" by using wget from:"
       echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
@@ -886,7 +886,7 @@ f_install_term-animation () {
       echo "This script will automatically download and install \"Term::Animation\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"Term::Animation\" by using wget from:"
       echo "   \"http:=//search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz\"."
       echo "3. Decompress and create the installation subdirectory ~/Term-Animation*"
@@ -945,7 +945,7 @@ f_install2_asciiquarium () {
       echo "The application itself is a single perl script so perl is a prerequisite."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"asciiquarium\" by using wget from:"
       echo "   \"http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/asciiquarium*"
@@ -1067,7 +1067,7 @@ f_install2_bsod () {
       echo "This script will automatically download and install \"bsod\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"bsod\" by using wget from:"
       echo "   \"http://www.vanheusden.com/bsod/bsod-0.1.tgz\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/bsod*"
@@ -1193,7 +1193,7 @@ f_install2_cclock () {
       echo "This script will automatically download and install \"cclock\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"cclock\" by using wget from:"
       echo "   \"http://sourceforge.net/projects/cclock/files/latest/download/cclock-0.96.tar.bz2\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/cclock*"
@@ -1313,7 +1313,7 @@ f_install2_textmaze () {
       echo "The application itself is a single perl script so perl is a prerequisite."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
       echo "2. Download \"TextMaze\" by using wget from:"
       echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
@@ -1427,8 +1427,14 @@ f_menu_app_games_simulation () {
 #0^0^0^1^0  #MGI bb        - ASCII-art movie demo based on AAlib.
 #0^0^0^1^0  #MGI sail      - Command a Man O'War fighting ship.
 #0^0^0^0^0  #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
+#1^1^0^0^1  #MGI sst       - Super Star Trek. Many enhancements, read sst.doc for details.
+#0^1^0^0^1  #    startrek  - Super Star Trek Clasic (v1.1 1996) by Chris Nystrom.
+            #    Note: Game "startrek" is commented out of this menu because of C compile problems.
+            #          However the f_install_startrek code is still listed below
+            #          because it still retrieves the source C code.
+#1^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
+#1^1^0^0^1  #MGI trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
 #f_starwars^0^0^0^0 #MGI star wars - Star Wars movie in ASCII.
-#0^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
 #0^1^0^0^0  #MGI ztrack    - First-person car racing game.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -1442,6 +1448,233 @@ f_menu_app_games_simulation () {
             #
       unset MGI MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_simulation
+#
+# +----------------------------------------+
+# |          Function f_install_sst        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_sst () {
+      clear  # blank screen
+      echo "sst - Super Star Trek"
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin/sst folder, creating it as necessary."
+      echo "2. Download \"sst\" using wget from the author's web page."
+      echo "   \"http://www.almy.us/files/sstlinux.tar.gz\""
+      echo "3. Decompress and extract \"sst\" and \"sst.doc\" from the *.tar.gz file."
+      echo "4. Move \"sst\" to \"/usr/local/bin\" directory."
+      echo "5. Allow users to run \"sst\" by setting permissions to r-x or 755."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install "sst".
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # 1. Change directory to your ~/bin/sst folder.
+         cd ~
+         if [ ! -d "~/bin" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin
+         fi
+         #
+         if [ ! -d "~/bin/sst" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin/sst
+         fi
+         #
+         cd ~/bin/sst
+         # 
+         #
+         # 2. Download "sst" using wget from the author's web page.
+         wget http://www.almy.us/files/sstlinux.tar.gz
+         #
+         # 3. Decompress and extract "sst" and "sst.doc" from the *.tar.gz file.
+         tar -xvf sstlinux.tar.gz
+         #
+         # 4. Move "sst" to "/usr/local/bin" directory.
+         sudo cp sst /usr/local/bin/
+         #
+         # 5.  Allow users to run "sst" by setting permissions to r-x or 755.
+         sudo chmod 755 /usr/local/bin/sst
+         #
+         # 6. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
+         #    Is the directory "/usr/local/bin" in your PATH of directories?
+         #    Check the $PATH
+         if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+            echo "If needed, edit file \"~/.bashrc\" PATH."
+            echo "Append the directory name to your environment $PATH."
+            echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+            echo "export PATH"
+            echo
+            echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+            echo "Either logout or exit from Terminal and re-launch Terminal."
+            echo
+         fi
+         echo
+         echo "-------------------------------------------------"
+         echo "Finished running installation script for \"sst\"."
+         echo "-------------------------------------------------"
+         echo
+         echo "To run \"sst\", select it on the \"Simulation Games and Animation Menu\"."
+         echo
+         echo "For instructions on playing:"
+         echo "Read the \"sst.doc\" file in your \"~/bin/sst\" directory."
+         echo
+         echo "While playing the game, for help type '?' at the COMMAND> prompt."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         APP_NAME="sst" # Set to correct name for f_application_run.
+         APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+      else
+         # No, Do not install sst.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_sst
+#
+# +----------------------------------------+
+# |               Function f_sst           |
+# +----------------------------------------+
+f_sst () {      clear # Blank the screen.
+      echo "sst - Super Star Trek."
+      echo
+      echo "For instructions while playing the game:"
+      echo "Type a '?' at the 'COMMAND>' prompt."
+      echo 
+      echo "COMMAND> ?"
+      echo "UNRECOGNIZED COMMAND. LEGAL COMMANDS ARE:"
+      echo "   SRSCAN    MOVE      PHASERS   CALL"
+      echo "   STATUS    IMPULSE   PHOTONS   ABANDON"
+      echo "   LRSCAN    WARP      SHIELDS   DESTRUCT"
+      echo "   CHART     REST      DOCK      QUIT"
+      echo "   DAMAGES   REPORT    SENSORS   ORBIT"
+      echo "   TRANSPORT MINE      CRYSTALS  SHUTTLE"
+      echo "   PLANETS   REQUEST   DEATHRAY  FREEZE"
+      echo "   COMPUTER  EMEXIT    PROBE     COMMANDS"
+      echo "   HELP"
+      echo
+      echo "To quit game:"
+      echo "COMMAND> QUIT"
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+}  #End of function f_sst
+#
+# +----------------------------------------+
+# |       Function f_install_startrek      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_startrek () {
+      clear  # blank screen
+      echo "--------------------------------------------------------------------------"
+      echo "Programmer's note: I could not get this C-language source code to compile."
+      echo "                   Hopefully you can compile it."
+      echo "--------------------------------------------------------------------------"
+      echo
+      echo "startrek - Super Star Trek Classic (v1.1) ported to C by Chris Nystrom"
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin/startrek folder, creating it as necessary."
+      echo "2. Download \"startrek.c\" source code using wget from the author's web page."
+      echo "   \"http://www.dunnington.u-net.com/public/startrek/startrek.c\""
+      echo "3. Compile the C source code to create the \"startrek\" file."
+      echo "4. Copy \"startrek\" to \"/usr/local/bin\" directory."
+      echo "5. Allow users to run \"startrek\" by setting permissions to r-x or 755."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install startrek.
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # 1. Change directory to your home/bin/startrek folder.
+         cd ~
+         if [ ! -d "~/bin" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin
+         fi
+         #
+         if [ ! -d "~/bin/startrek" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin/startrek
+         fi
+         #
+         cd ~/bin/startrek
+         # 
+         # 2. Download "startrek.c" using wget from the author's web page.
+         wget http://www.dunnington.u-net.com/public/startrek/startrek.c
+         #
+         # 3. Compile the C source code to create the startrek file.
+         gcc -Wall -W -Werror startrek.c -o startrek
+         # or make startrek
+         #
+         # 4. Move "startrek" to "/usr/local/bin" directory.
+         sudo cp ~/startrek /usr/local/bin/
+         #
+         # 5.  Allow users to run "startrek" by setting permissions to r-x or 755.
+         sudo chmod 755 /usr/local/bin/startrek
+         #
+         # 6. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
+         #    Is the directory "/usr/local/bin" in your PATH of directories?
+         #    Check the $PATH
+         if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+            echo "If needed, edit file \"~/.bashrc\" PATH."
+            echo "Append the directory name to your environment $PATH."
+            echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+            echo "export PATH"
+            echo
+            echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+            echo "Either logout or exit from Terminal and re-launch Terminal."
+            echo
+         fi
+         echo
+         echo "------------------------------------------------------"
+         echo "Finished running installation script for \"startrek\"."
+         echo "------------------------------------------------------"
+         echo
+         echo "To run \"startrek\", select it on the \"Simulation Games and Animation Menu\"."
+         echo
+         echo "IMPORTANT: For instructions on playing, type \"-\" while playing the game."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         APP_NAME="startrek" # Set to correct name for f_application_run.
+         APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+      else
+         # No, Do not install startrek.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_startrek
 #
 # +----------------------------------------+
 # |           Function f_starwars          |
@@ -1459,6 +1692,159 @@ f_starwars () {
       echo
       f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
 }  #End of function f_starwars
+#
+# +----------------------------------------+
+# |             Function f_trek            |
+# +----------------------------------------+
+#
+f_trek () {
+      clear # Blank the screen.
+      echo "Trek - Star Trek game included in the package bsdgames."
+      echo
+      echo "For instructions while playing the game:"
+      echo 
+      echo "Type a '?' at the 'Command:' prompt."
+      echo 
+      echo "Command: ?"
+      echo "abandon       capture         cloak      computer"
+      echo "damages      destruct          dock          help"
+      echo "impulse        lrscan          move       phasers"
+      echo "    ram          dump          rest        shield"
+      echo " srscan        status     terminate       torpedo"
+      echo " undock        visual          warp"
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+}  #End of function f_trek
+#
+# +----------------------------------------+
+# |         Function f_install_trekx       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_trekx () {
+      clear  # blank screen
+      echo "trekx - Trek 73 a Star Trek game from 1973"
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin/trek73 folder, creating it as necessary."
+      echo "2. Download \"trekx\" using wget from the author's web page."
+      echo "   \"http://highlandsun.com/hyc/trek73c.tgz\""
+      echo "3. Decompress and extract \"trekx.c\", \"Makefile\", and \"Makefile.O\" from the *.tgz file."
+      echo "4. Compile the C source code to create the \"trekx\" file."
+      echo "5. Copy \"trekx\" to \"/usr/local/bin\" directory."
+      echo "6. Allow users to run \"trekx\" by setting permissions to r-x or 755."
+      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install trekx.
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # 1. Change directory to your home/bin/trek73c folder.
+         cd ~
+         if [ ! -d "~/bin" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin
+         fi
+         #
+         if [ ! -d "~/bin/trek73c" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin/trek73c
+         fi
+         #
+         cd ~/bin/trek73c
+         # 
+         # 2. Download "trekx" using wget from the author's web page.
+         wget http://highlandsun.com/hyc/trek73c.tgz
+         #
+         # 3. Decompress and extract "trekx.c", "Makefile" and "Makefile.O" from the *.tgz file."
+         tar -xvf trek73c.tgz
+         #
+         # 4. Compile the C source code to create the trekx file.
+         make trekx
+         #
+         # 4. Move \"speedtest-cli\" to \"/usr/local/bin\" directory.
+         sudo cp ~/bin/trek73c/trekx /usr/local/bin/
+         #
+         # 5.  Allow users to run trekx by setting permissions to r-x or 755.
+         sudo chmod 755 /usr/local/bin/trekx
+         #
+         # 6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
+         #    Is the directory /usr/local/bin in your PATH of directories?
+         #    Check the $PATH
+         if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+            echo "If needed, edit file \"~/.bashrc\" PATH."
+            echo "Append the directory name to your environment $PATH."
+            echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+            echo "export PATH"
+            echo
+            echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+            echo "Either logout or exit from Terminal and re-launch Terminal."
+            echo
+         fi
+         echo
+         echo "-------------------------------------------------------------"
+         echo "Finished running installation script for \"trekx\" (Trek 73)."
+         echo "-------------------------------------------------------------"
+         echo
+         echo "To run \"trekx\", select it on the \"Simulation Games and Animation Menu\"."
+         echo
+         echo "IMPORTANT: For instructions on playing, type \"-\" while playing the game."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         APP_NAME="trekx" # Set to correct name for f_application_run.
+         APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+      else
+         # No, Do not install sst.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_trekx
+#
+# +----------------------------------------+
+# |              Function f_trekx          |
+# +----------------------------------------+
+f_trekx () {      clear # Blank the screen.
+      echo "trekx - Super Star Trek."
+      echo
+      echo "For instructions while playing the game:"
+      echo "Type a '-' (dash) at the 'CODE>' prompt."
+      echo 
+      echo "CODE> -"
+      echo "1  Fire Phasers                  q  Lock Phasers"
+      echo "2  Fire Photon Torpedoes         w  Lock Tubes"
+      echo "3  Anti-Matter Probe Control     e  Alter Power Distribution"
+      echo "4  Load/Unload Torpedoes         r  Change Firing Parameters"
+      echo "5  Change Course & Speed         t  Alter Display Radius"
+      echo "6  Pursue Enemy Vessel           y  Run from Enemy Vessel"
+      echo "7  Damage Report                 u  Scan Enemy Vessel"
+      echo "8  Self-Destruction              i  Engineering Separation"
+      echo "9  Ask Enemy to Surrender        o  Surrender"
+      echo "0  Attempt Defenseless Ruse      p  Attempt Corbomite Bluff"
+      echo "-  List Commands                 [  Quit Game"
+      echo
+      echo "To quit game: Type a left square-bracket at the CODE> prompt"
+      echo "CODE> ["
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+}  #End of function f_trekx
 #
 # +----------------------------------------+
 # |   Function f_menu_app_games_strategy   |

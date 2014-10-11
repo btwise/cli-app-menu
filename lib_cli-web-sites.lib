@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-10-2014 16:02"
+# REVDATE="October-11-2014 11:23"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -322,6 +322,12 @@ f_application_web_install () {
            speedtest-cli)
            WEB_SITE_INSTALL="https://github.com/sivel/speedtest-cli"
            ;;
+           sst)
+           WEB_SITE_INSTALL="http://www.almy.us/sst.html"
+           ;;
+           startrek)
+           WEB_SITE_INSTALL="http://www.dunnington.u-net.com/public/startrek/"
+           ;;
            surfraw)
            WEB_SITE_INSTALL="http://surfraw.alioth.debian.org/"
            ;;
@@ -348,6 +354,9 @@ f_application_web_install () {
            ;;
            todo | todo2 | devtodo)
            WEB_SITE_INSTALL="http://swapoff.org/devtodo.html"
+           ;;
+           trekx | trek73)
+           WEB_SITE_INSTALL="http://highlandsun.com/hyc/"
            ;;
            tty-clock)
            WEB_SITE_INSTALL="http://github.com/xorg62/tty-clock"

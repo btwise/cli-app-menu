@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-09-24 23:02 Wednesday
+Last updated: 2014-10-11 13:15 Saturday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -652,6 +652,7 @@ _______________________________________________________________________________
  asciijump      - Ski jump game.
  asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
  freesweep      - Minesweeper game.
+ galaxis        - Find lifeboats in space before oxygen runs out.
  gnuski         - Downhill skiing while avoiding trees.
  moon-buggy     - Drive a moon buggy on the moon.
  ninvaders      - Space invaders-like game ncurses-based.
@@ -661,11 +662,11 @@ _______________________________________________________________________________
  snake          - Be chased by a snake while collecting money.
  spacezero      - Space combat in real-time, 2-player network game.
  Tetris         - "Tetris" clones.
- worm           - Be a growing worm, don't crash into yourself.
  MORE...        - For more arcade game applications.
 
 _______________________________________________________________________________
 *** Arcade2 Games Menu ***
+ worm      - Be a growing worm, don't crash into yourself.
  xorcurses - based on Xor released in 1987 by Astral Software.
  zsnake    - Variation of BSD's snake game.
  ztrack    - First-person car racing game in amazing 3-D ASCII.
@@ -734,8 +735,10 @@ _______________________________________________________________________________
  bb        - ASCII-art movie demo based on AAlib.
  sail      - Command a Man O'War fighting ship.
  sl        - Steam locomotive (when you mis-type 'ls' command).
- star wars - Star Wars movie in ASCII.
+ sst       - Super Star Trek. Many enhancements, read sst.doc for details.
  trek      - Star Trek blast Klingons.
+ trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
+ star wars - Star Wars movie in ASCII.
  ztrack    - First-person car racing game.
 
 _______________________________________________________________________________
@@ -771,6 +774,7 @@ _______________________________________________________________________________
  lexter   - Create words in a tetris-like game.
  netris   - Tetris-like game.
  petris   - Tetris-like game.
+ tetrix   - Tetris-like game.
  vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
 
 _______________________________________________________________________________
@@ -882,10 +886,12 @@ _______________________________________________________________________________
 *** Mathematics Application Menu ***
  arithmetic     - Basic arithmetic quiz.
  axiom          - General purpose computer algebra system.
+ datamash       - Calculate statistics mean, avg, stdev, min, max, sum.
  dicelab        - evaluate the statistical distribution of dice rolls.
  mathomatic     - Portable CAS (Computer Algebra System)
  ministat       - Fundamental statistical comparison of 1 or 2 data sets.
  num-utils      - Collection of programs; avg, normal, random, range, etc.
+ octave         - Matlab compatible language for (non)linear equations.
  open-axiom     - Open scientific computation platform.
  plotutils      - Plot 2-dimensional scientific data.
  pi             - Calculate Archimedes constant Pi to arbitrary precision.
@@ -1030,19 +1036,23 @@ _______________________________________________________________________________
  dnstop        - Analyze and display tables of DNS traffic.
  dnstracer     - Trace URL back to referencing DNS servers.
  domainname    - Show or set the system's NIS/YP domain name.
+ geoip         - Show country of origin for any IP address. (RHEL pkg).
+ geoiplookup   - Show country of origin for any IP address. (Debian pkg).
  ip            - Shows routing, devices, policy routing and tunnels.
  ip route      - Shows routing.
  lft           - Traceroute tool, sends TCP SYN, FIN, listens for TCP, ICMP.
  mtr           - Traceroute tool, has features of ping and traceroute.
+ namebench     - Find the fastest DNS servers.
  nisdomainname - Show or set the system's NIS/YP domain name.
  nslookup      - Query Internet domain name servers.
- ping          - Check LAN/WAN connectivity by pinging IP address, hostname.
- route         - Shows routing table.
- speedometer   - Measure LAN/WAN connection speed.
  MORE...       - For more WAN applications.
 
 _______________________________________________________________________________
 *** WAN Applications2 Menu ***
+ ping          - Check LAN/WAN connectivity by pinging IP address, hostname.
+ route         - Shows routing table.
+ speedometer   - Measure LAN/WAN connection speed.
+ speedtest-cli - Test the speed of LAN/WAN connection using Speedtest.net.
  ss            - Show sockets, PACKET, TCP, UDP, DCCP, RAW, state filtering.
  traceroute    - Trace network path to destination. 
  tracepath     - Trace network path to destination, show MTU.
@@ -1160,7 +1170,7 @@ _______________________________________________________________________________
  vlock    - Locks virtual console or current terminal.
 
 _______________________________________________________________________________
-*** System Disk Information Applications Menu ***
+*** System Disks Information Applications Menu ***
  agedu     - Find wasted disk space.
  badblocks - Scans disks for bad sectors.
  blkid     - Block devices information.
@@ -1177,6 +1187,16 @@ _______________________________________________________________________________
  gt5       - A diff-capable du-browser.
  hdparm    - Show/set disk parameters, settings. 
  MORE... - For more system disk information applications.
+
+_______________________________________________________________________________
+*** System Disks Information2 Menu *** Applications Menu
+ lsblk  - List block devices (disks).
+ ncdu   - Disk usage monitor, ncurses-based.
+ parted - Disk partition tool.
+ pydf   - Disk usage df clone written in python.
+ tdu    - Tree-view of disk space utilization; ncurses-based.
+ tree   - Tree-view of disk space utilization.
+ uuid   - Use ls -l to show disk uuid number.
 
 _______________________________________________________________________________
 *** System Software Package Applications Menu ***
