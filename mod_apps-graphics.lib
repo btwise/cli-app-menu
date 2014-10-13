@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -106,42 +106,6 @@ f_menu_app_image_graphics2 () {
 } # End of function f_menu_app_image_graphics
 #
 # +----------------------------------------+
-# |          Function f_linuxlogo          |
-# +----------------------------------------+
-#
-f_linuxlogo () { 
-      ANS=-1 # Initialize $ANS for until loop.
-      until [ "$ANS" -ge 1 -a "$ANS" -le 26 ]
-      do
-            clear # Blank the screen.
-            APP_NAME="linuxlogo -L list"
-            f_application_run
-            echo -n "Enter number (1-26): "
-            read ANS
-            done
-            #
-            APP_NAME="linuxlogo -L "$ANS
-            unset ans
-}  #End of function f_linuxlogo
-#
-# +----------------------------------------+
-# |           Function f_starwars          |
-# +----------------------------------------+
-#
-f_starwars () {
-      clear # Blank the screen.
-      echo "Star Wars ASCII Movie"
-      echo
-      echo The movie is played by running command:
-      echo telnet towel.blinkenlights.nl
-      echo
-      echo If telnet hangs while trying the ip-address,
-      echo then re-run this program and try again.
-      echo
-      f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
-}  #End of function f_starwars
-#
-# +----------------------------------------+
 # |    Function f_menu_app_imagemagick     |
 # +----------------------------------------+
 #
@@ -176,4 +140,40 @@ f_menu_app_imagemagick () {
             #
       unset MIK MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_imagemagick
+#
+# +----------------------------------------+
+# |          Function f_linuxlogo          |
+# +----------------------------------------+
+#
+f_linuxlogo () { 
+      ANS=-1 # Initialize $ANS for until loop.
+      until [ "$ANS" -ge 1 -a "$ANS" -le 26 ]
+      do
+            clear # Blank the screen.
+            APP_NAME="linuxlogo -L list"
+            f_application_run
+            echo -n "Enter number (1-26): "
+            read ANS
+            done
+            #
+            APP_NAME="linuxlogo -L "$ANS
+            unset ans
+}  # End of function f_linuxlogo
+#
+# +----------------------------------------+
+# |           Function f_starwars          |
+# +----------------------------------------+
+#
+f_starwars () {
+      clear # Blank the screen.
+      echo "Star Wars ASCII Movie"
+      echo
+      echo The movie is played by running command:
+      echo telnet towel.blinkenlights.nl
+      echo
+      echo If telnet hangs while trying the ip-address,
+      echo then re-run this program and try again.
+      echo
+      f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
+}  # End of function f_starwars
 #

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-06-2014 14:52"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -72,6 +72,146 @@ f_menu_app_packages2 () {
             #
       unset MPQ MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_packages2
+#
+# +----------------------------------------+
+# |          Function f_install_kkm        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install_kkm () {
+      if [ ! -r "/usr/local/bin/kkm" ] ; then
+         clear  # blank screen
+         echo "This script will install \"unzip\" if needed."
+         echo "Afterwards, \"kkm\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, install "Unzip".
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            clear  # blank screen
+            echo "This script will automatically download and install \"Unzip\"."
+            echo
+            # Check if "Unzip" is installed as a prerequisite.
+            APP_NAME="unzip"
+            f_application_install
+            if [ "$ERROR" != "0" ] ; then
+               # Failure to install "Unzip".
+               echo
+               echo "Installation of \"Unzip\" failed."
+               echo " Skipping installation of \"kkm\"."
+               echo
+               echo -n "Press '"Enter"' key to continue."
+               read X
+               unset X  # Throw out this variable.
+               #
+               # Do not install "kkm".
+               MENU_ITEM_NAME="" # Null so f_application_run does not try to run kkm
+                                 # when it's not installed.
+               APP_NAME=""       # Also prevents checking for Quit Clause.
+            else
+               # Success at installing "Unzip".
+               echo
+               echo "Installation of \"Unzip\" is successful."
+               echo
+               echo -n "Press '"Enter"' key to continue."
+               read X
+               unset X  # Throw out this variable.
+               #
+               # Since dependencies are installed, now install "kkm".
+               f_install2_kkm
+               APP_NAME="kkm" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install "kkm".
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run "kkm"
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+         fi
+         unset ANS # Throw out this variable.
+      fi
+} # End of function f_install_kkm
+#
+# +----------------------------------------+
+# |          Function f_install2_kkm        |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: None.
+#
+f_install2_kkm () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"ASCIIQuarium\"."
+      echo "The application itself is a single perl script so perl is a prerequisite."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"kkm\" by using wget from:"
+      echo "   \"https://github.com/netroby/kkm/archive/master.zip\"."
+      echo "3. Decompress and create the installation subdirectory ~/bin/kkm*"
+      echo "4. Copy kkm to /usr/local/bin directory."
+      echo "5. Allow users to run kkm by setting permissions to r-x or 755."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      #
+      # 2. Download "kkm" from https://github.com/netroby/kkm/archive by using wget.
+      wget https://github.com/netroby/kkm/archive/master.zip
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/kkm
+      unzip master.zip
+      cd ~/bin/kkm*/
+      #
+      # 4. Copy kkm to /usr/local/bin directory.
+      if [ ! -d "/usr/local/bin" ] ; then
+         # Target directory is missing, so create it.
+	 sudo mkdir -p /usr/local/bin
+      fi
+      sudo cp ~/bin/kkm*/kkm /usr/local/bin/
+      #
+      # 5. Allow users to run asciiquarium by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/local/bin/kkm
+      #
+      # 6. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"kkm\"."
+      echo
+      echo "To run \"kkm\", select it on the \"Package Applications Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_kkm
 #
 # +----------------------------------------+
 # |              Function f_apt            |
@@ -265,146 +405,6 @@ f_kkm () {
 } # End of function f_kkm
 #
 # +----------------------------------------+
-# |          Function f_install_kkm        |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
-#
-f_install_kkm () {
-      if [ ! -r "/usr/local/bin/kkm" ] ; then
-         clear  # blank screen
-         echo "This script will install \"unzip\" if needed."
-         echo "Afterwards, \"kkm\" will be installed."
-         echo
-         echo -n "Do you wish to continue (y/N)? "
-         read ANS
-         #
-         # Yes, install "Unzip".
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            clear  # blank screen
-            echo "This script will automatically download and install \"Unzip\"."
-            echo
-            # Check if "Unzip" is installed as a prerequisite.
-            APP_NAME="unzip"
-            f_application_install
-            if [ "$ERROR" != "0" ] ; then
-               # Failure to install "Unzip".
-               echo
-               echo "Installation of \"Unzip\" failed."
-               echo " Skipping installation of \"kkm\"."
-               echo
-               echo -n "Press '"Enter"' key to continue."
-               read X
-               unset X  # Throw out this variable.
-               #
-               # Do not install "kkm".
-               MENU_ITEM_NAME="" # Null so f_application_run does not try to run kkm
-                                 # when it's not installed.
-               APP_NAME=""       # Also prevents checking for Quit Clause.
-            else
-               # Success at installing "Unzip".
-               echo
-               echo "Installation of \"Unzip\" is successful."
-               echo
-               echo -n "Press '"Enter"' key to continue."
-               read X
-               unset X  # Throw out this variable.
-               #
-               # Since dependencies are installed, now install "kkm".
-               f_install2_kkm
-               APP_NAME="kkm" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
-            fi
-         else
-            # No, Do not install "kkm".
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run "kkm"
-                              # when it's not installed.
-            APP_NAME=""       # Also prevents checking for Quit Clause.
-         fi
-         unset ANS # Throw out this variable.
-      fi
-} # End of function f_install_kkm
-#
-# +----------------------------------------+
-# |          Function f_install2_kkm        |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: None.
-#
-f_install2_kkm () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"ASCIIQuarium\"."
-      echo "The application itself is a single perl script so perl is a prerequisite."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
-      echo "2. Download \"kkm\" by using wget from:"
-      echo "   \"https://github.com/netroby/kkm/archive/master.zip\"."
-      echo "3. Decompress and create the installation subdirectory ~/bin/kkm*"
-      echo "4. Copy kkm to /usr/local/bin directory."
-      echo "5. Allow users to run kkm by setting permissions to r-x or 755."
-      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
-      echo
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home/bin folder.
-      cd ~
-      if [ ! -d "~/bin" ] ; then
-         # Target directory is missing, so create it.
-	 mkdir ~/bin
-      fi
-      cd ~/bin
-      #
-      # 2. Download "kkm" from https://github.com/netroby/kkm/archive by using wget.
-      wget https://github.com/netroby/kkm/archive/master.zip
-      #
-      # 3. Decompress and create the installation subdirectory ~/bin/kkm
-      unzip master.zip
-      cd ~/bin/kkm*/
-      #
-      # 4. Copy kkm to /usr/local/bin directory.
-      if [ ! -d "/usr/local/bin" ] ; then
-         # Target directory is missing, so create it.
-	 sudo mkdir -p /usr/local/bin
-      fi
-      sudo cp ~/bin/kkm*/kkm /usr/local/bin/
-      #
-      # 5. Allow users to run asciiquarium by setting permissions to r-x or 755 for all users.
-      sudo chmod 755 /usr/local/bin/kkm
-      #
-      # 6. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
-      # Is the directory /usr/local/bin in your PATH of directories?
-      # Check the $PATH
-      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
-         echo "If needed, edit file \"~/.bashrc\" PATH."
-         echo "Append the directory name to your environment $PATH."
-         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
-         echo "export PATH"
-         echo
-         echo "       >>> IMPORTANT <<<"
-         echo "After editing the file, .bashrc:"
-         echo "Close Terminal for changes to take effect."
-         echo "Either logout or exit from Terminal and re-launch Terminal."
-         echo
-      fi
-      echo
-      echo "Finished running installation script for \"kkm\"."
-      echo
-      echo "To run \"kkm\", select it on the \"Package Applications Menu\"."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-} # End of function f_install2_kkm
-#
-# +----------------------------------------+
 # |              Function f_pip            |
 # +----------------------------------------+
 #
@@ -424,8 +424,6 @@ f_pip () {
       f_press_enter_key_to_continue
 } # End of function f_pip
 #
-
-
 # +----------------------------------------+
 # |              Function f_rpm            |
 # +----------------------------------------+

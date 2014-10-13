@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2014 15:23"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -225,157 +225,6 @@ f_menu_app_clocks () {
             #
       unset MCL MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_clocks
-#
-# +----------------------------------------+
-# |          Function f_binclock           |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: None.
-# Outputs: None.
-#
-f_binclock () {
-      clear  # blank screen
-      echo "binclock - Display binary clock on console."
-      echo
-      echo "Usage: binclock [OPTIONS]"
-
-      echo "Short options:"
-      echo "-v      print the version number + release date + exit."
-      echo "-h      print version info and startup options  + exit."
-      echo "-l      loop the time every second."
-      echo "-n      shows the time with an additional normal format."
-      echo "-t      show traditional binary output (without color)"
-      echo
-      echo "long options:"
-      echo "--color=[on|off] default: on"
-      echo
-      echo "Now run binclock. Usage: binclock -nl"
-      APP_NAME="binclock -nl"
-      echo
-      f_run_and_exit "binclock" "binclock -nl"
-} # End of f_binclock
-#
-# +----------------------------------------+
-# |       Function f_install_cclock        |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: None.
-# Outputs: None.
-#
-f_install_cclock () {
-      if [ ! -r "/usr/bin/cclock" ] ; then
-         clear  # blank screen
-         echo "This script will install \"cclock\" without using a software package manager."
-         echo
-         echo "If you wish to de-install \"'cclock\", you will have to delete files manually"
-         echo "by typing: \"sudo rm /usr/bin/cclock /usr/share/man/man1/cclock.1\"."
-         echo
-         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
-         echo "Afterwards, \"cclock\" will be installed."
-         echo
-         echo -n "Do you wish to continue (y/N)? "
-         read ANS
-         #
-         # Yes, Install cclock.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
-            if [ "$ERROR" = "0" ] ; then
-               # Error code 1 $?=1 means no --help available.
-               # Error code 0 (zero) where $?=0 means no error.
-               #
-               # Since dependencies are installed, now install Ztrack.
-               f_install2_cclock
-               APP_NAME="cclock" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
-            fi
-         else
-            # No, Do not install cclock.
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run cclock.
-                              # when it's not installed.
-            APP_NAME=""       # Also prevents checking for Quit Clause.
-            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-         fi
-         unset ANS
-      fi
-} # End of f_install_cclock
-#
-# +----------------------------------------+
-# |         Function f_install2_cclock     |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
-#
-f_install2_cclock () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"cclock\"."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home folder."
-      echo "2. Download \"cclock\" using wget from:"
-      echo "   http://sourceforge.net/projects/cclock/files/latest/download"
-      echo "3. Decompress and create the installation subdirectory ~/bin/cclock*"
-      echo "4. Install cclock via:"
-      echo "                           sudo make install"
-      echo
-      echo "   Installs files to \"/usr/bin/\" and \"/usr/share/man/man1/cclock.1\"."
-      echo
-      echo "5. Allow users to run cclock by setting permissions to r-x or 755 for all users."
-      echo "6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc."
-      echo
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home/bin folder.
-      cd ~
-      if [ ! -d "~/bin" ] ; then
-         # Target directory is missing, so create it.
-	 mkdir ~/bin
-      fi
-      # 
-      # 2. Download "cclock" from "http://sourceforge.net/projects/cclock/files/latest/download"
-      #    by using wget.
-      cd ~/bin
-      wget http://sourceforge.net/projects/cclock/files/latest/download/cclock-0.96.tar.bz2
-      #
-      # 3. Decompress and create the installation subdirectory ~/bin/cclock*.
-      tar -xf cclock*
-      #
-      # 4. Make and install cclock.
-      cd ~/bin/cclock*
-      sudo make install
-      #
-      # 5. Allow users to run cclock by setting permissions to r-x or 755 for all users.
-      sudo chmod 755 /usr/bin/cclock*
-      #
-      # 6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc.
-      # Is the directory /usr/bin in your PATH of directories?
-      # Check the $PATH
-      if [[ ! "$PATH" == *":/usr/bin"* ]] ; then
-         echo "If needed, edit file \"~/.bashrc\" PATH."
-         echo "Append the directory name to your environment $PATH."
-         echo $(tput bold)'PATH=$PATH'":/usr/bin"
-         echo "export PATH"
-         echo
-         echo "       >>> IMPORTANT <<<"
-         echo "After editing the file, .bashrc:"
-         echo "Close Terminal for changes to take effect."
-         echo "Either logout or exit from Terminal and re-launch Terminal."
-         echo
-      fi
-      echo
-      echo "Finished running installation script for \"cclock\"."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-} # End of function f_install2_cclock
 #
 # +----------------------------------------+
 # |      Function f_menu_app_contacts      |
@@ -632,35 +481,6 @@ f_menu_app_text_compare () {
 } # End of f_menu_app_text_compare
 #
 # +----------------------------------------+
-# |             Function f_comm            |
-# +----------------------------------------+
-#
-f_comm () {
-           clear # Blank the screen.
-           echo "comm - compare two sorted files line by line." 
-           echo
-           echo "Usage:"
-           echo "comm [OPTION]... FILE1 FILE2"
-           echo
-           echo "Output is in three columns of quoted lines."
-           echo
-           echo "  Column 1      Column 2          Column 3"
-           echo "Lines unique  Lines unique      Lines common"
-           echo "  to FILE1      to FILE2     to FILE1 and FILE2"
-           echo
-           echo "OPTIONS:"
-           echo "         -1                 Suppress column 1."
-           echo "         -2                 Suppress column 2."
-           echo "         -3                 Suppress column 3."
-           echo "         --no-check order   Do not check files for sort order."
-           echo 
-           echo "*** For more help type: 'man comm'"
-           echo "                        'comm --help'"
-           echo
-           f_press_enter_key_to_continue
-} # End of function f_comm
-#
-# +----------------------------------------+
 # |   Function f_menu_app_text_converters  |
 # +----------------------------------------+
 #
@@ -696,124 +516,6 @@ f_menu_app_text_converters () {
             #
       unset MTV MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_converters
-#
-# +----------------------------------------+
-# |           Function f_txt2html          |
-# +----------------------------------------+
-#
-f_txt2html () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "txt2html - Convert plain text files to html." 
-         echo
-         echo "Usage:"
-         echo "txt2html [ --append_file filename ] [ --append_head filename ]"
-         echo "         [ --body_deco string ] [ --bold_delimiter string ]"
-         echo "         [ --bullets string ] [ --bullets_ordered string ]"
-         echo "         [ --caps_tag tag ]"
-         echo
-         echo "*** For more help type: 'man txt2html'"
-         echo "                        'txt2html --help'"
-         echo
-         echo "Now show help. Usage: man txt2html"
-         APP_NAME="man txt2html"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_txt2html
-#
-# +----------------------------------------+
-# |           Function f_txt2man           |
-# +----------------------------------------+
-#
-f_txt2man () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "txt2man - Convert plain text files to man pages." 
-         echo
-         echo "Usage:"
-         echo "txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
-         echo "        [-I txt] [-B txt] [-d date] [ifile]"
-         echo
-         echo "*** For more help type: 'man txt2man'"
-         echo "                        'txt2man --help'"
-         echo
-         echo "Now show help. Usage: man txt2man"
-         APP_NAME="man txt2man"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_txt2man
-#
-# +----------------------------------------+
-# |          Function f_txt2pdbdoc         |
-# +----------------------------------------+
-#
-f_txt2pdbdoc () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "txt2pdbdoc - Convert plain text files to (Palm Pilot Database) Doc file *.pdb."
-         echo "             for PalmPilots & DocReaders. (Does anyone still have a PalmPilot?)"
-         echo
-         echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
-         echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
-         echo "       txt2pdbdoc -V"
-         echo
-         echo "*** For more help type: 'man txt2pdbdoc'"
-         echo "                        'txt2pdbdoc --help'"
-         echo
-         echo "Now show help. Usage: man txt2pdbdoc"
-         APP_NAME="man txt2pdbdoc"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_txt2pdbdoc
-#
-# +----------------------------------------+
-# |          Function f_txt2regex          |
-# +----------------------------------------+
-#
-f_txt2regex () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "txt2regex - Convert human sentences to regex." 
-         echo
-         echo "Usage:"
-         echo "txt2regex --all|--prog <p1,p2,...,pN>"
-         echo
-         echo "*** For more help type: 'man txt2regex'"
-         echo "                        'txt2regex --help'"
-         echo
-         echo "Now show help. Usage: man txt2regex"
-         APP_NAME="man txt2regex"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_txt2regex
-#
-# +----------------------------------------+
-# |          Function f_txt2tags           |
-# +----------------------------------------+
-#
-f_txt2tags () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "txt2tags - Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook,"
-         echo "           DokuWiki, Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page,"
-         echo "           MoinMoin, PageMaker, Plain Text, PmWiki, SGML, Wikipedia and XHTML."
-         echo 
-         echo "Usage:"
-         echo "txt2tags [OPTIONS] [FILE]... "
-         echo
-         echo "*** For more help type: 'man txt2tags'"
-         echo "                        'txt2tags --help'"
-         echo
-         echo "Now show help. Usage: man txt2tags"
-         APP_NAME="man txt2tags"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_txt2tags
 #
 # +----------------------------------------+
 # |     Function f_menu_app_text_editors   |
@@ -938,95 +640,6 @@ f_menu_app_text_editors3 () {
 } # End of f_menu_app_text_editors3
 #
 # +----------------------------------------+
-# |            Function f_groff            |
-# +----------------------------------------+
-#
-f_f_groff () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-      clear # Blank the screen.
-      echo "groff - Use macro command language to output formatted text"
-      echo "        for PostScript printers."
-      echo
-      echo "Usage:" 
-      echo "groff [-abcegiklpstzCEGNRSUVXZ] [-d cs] [-D arg] [-f fam] [-F dir] [-I dir]"
-      echo "      [-K arg] [-L arg] [-m name] [-M dir] [-n num] [-o list] [-P arg]"
-      echo "      [-r cn] [-T dev] [-w name] [-W name] [file ...]"
-      echo "groff -h | --help"
-      echo "groff -v | --version [OPTION ...]"
-      echo
-      echo "*** For more help type: 'man $APP_NAME'"
-      echo "                        '$APP_NAME --help'"
-      echo
-      echo "Now show help. Usage: man $APP_NAME"
-      APP_NAME="groff --help"
-      f_press_enter_key_to_continue
-      fi
-} # End of function f_groff
-#
-# +----------------------------------------+
-# |             Function f_jed             |
-# +----------------------------------------+
-#
-f_jed () {
-      APP_NAME_TMP=$MENU_ITEM # Save jed <OPTIONS>.
-      APP_NAME="jed-extra"  # Install jed-extra package before running/installing jed.
-      f_application_install_question
-      APP_NAME=$APP_NAME_TMP
-      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-} # End of function f_jed
-#
-# +----------------------------------------+
-# |             Function f_joe             |
-# +----------------------------------------+
-#
-f_joe () {
-      clear # Blank the screen.
-      echo "joe - Text editor with 5 emulations of other text editors"
-      echo
-      echo "USAGE:" 
-      echo "Regular Usage mode : joe [global-options] [ [local-options] filename ]..."
-      echo " WordStar emulation: jstar [global-options] [ [local-options] filename ]..."
-      echo "GNU-Emacs emulation: jmacs [global-options] [ [local-options] filename ]..."
-      echo "    Restricted mode: rjoe [global-options] [ [local-options] filename ]..."
-      echo "     PICO emulation: jpico [global-options] [ [local-options] filename ]..."
-      echo
-      echo "Available at: www.sourceforge.net/projects/joe-editor."
-      echo
-      echo "*** For more help type: 'man $APP_NAME'"
-      echo "                        '$APP_NAME --help'"
-      f_press_enter_key_to_continue
-} # End of function f_jed
-#
-# +----------------------------------------+
-# |          Function f_NERD_tree          |
-# +----------------------------------------+
-#
-f_NERD_tree () {
-      clear # Blank the screen.
-      echo "NERD_tree - A vim plug-in displays a hierarchical directory tree."
-      echo
-      echo "FEATURES (from NERD tree web home page):"
-      echo
-      echo "The NERD tree allows you to explore your filesystem and to open files and"
-      echo "directories. It presents the filesystem to you in the form of a tree which you"
-      echo "manipulate with the keyboard and/or mouse. It also allows you to perform"
-      echo "simple filesystem operations."
-      echo
-      echo "Files and directories are displayed in a hierarchical tree structure."
-      echo "Color highlighting is provided for different types of nodes."
-      echo "Directories and files can be bookmarked."
-      echo "Most NERD tree navigation can also be done with the mouse."
-      echo "Filtering of tree content (can be toggled at runtime)."
-      echo "You can have a separate NERD tree for each tab, share trees across tabs, or a mix of both."
-      echo "Many (customisable) mappings are provided to manipulate the tree."
-      echo
-      echo "*** For more help type: 'man $APP_NAME'"
-      echo "                        '$APP_NAME --help'"
-      f_press_enter_key_to_continue
-} # End of function f_NERD_tree
-#
-# +----------------------------------------+
 # |Function f_menu_app_text_markup_language|
 # +----------------------------------------+
 #
@@ -1125,6 +738,195 @@ f_menu_app_text_tools () {
 } # End of f_menu_app_text_tools
 #
 # +----------------------------------------+
+# |        Function f_menu_app_todo        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTA, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_todo () {
+      f_initvars_menu_app "MTA"
+      until [ "$MTA" = "0" ]
+      do    # Start of ToDo Applications until loop.
+#0^0^0^1^0  #MTA beeswax  - To-Do List.
+#0^0^0^1^0  #MTA calcurse - Calendar and To-Do List; ncurses-based.
+#0^0^0^0^1  #MTA diary    - Diary & To-Do List uses grep, date, etc. with your text editor.
+#0^0^0^0^1  #MTA diary-f  - Fork of "diary" enhanced "view"/"cat", non-latin locales.
+#0^0^0^0^1  #MTA doneyet  - To-Do List.
+#0^0^0^0^1  #MTA etm      - Event and task manager.
+#0^0^0^0^0  #MTA hnb      - To-Do List and note taker, ncurses-based application.
+#0^0^0^0^1  #MTA ikog     - To-Do List
+#0^0^0^0^1  #MTA org-mode - Emacs plugin for notes, To-Do lists, and project planning.
+#0^0^0^0^1  #MTA task     - Taskwarrior To-Do lists synchronize multiple PCs.
+#0^0^0^21^0 #MTA tdl      - To-Do List manager.
+#1^0^0^0^0  #MTA todo     - To-Do List hierarchical. Install package "devtodo".
+#1^0^0^0^0  #MTA todo2    - "devtodo2" application is a todo2 list, 5-levels of priorties.
+#0^0^0^0^0  #MTA tudu     - To-Do List hierarchical tasks.
+#0^0^0^0^1  #MTA w2do     - To-Do with support for group, due date and priority categories.
+#f_menu_app_todo2^0^0^0^0 #MTA MORE...  - More To-Do applications.
+            #
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="To-Do Applications Menu"
+            DELIMITER="#MTA" #MTA This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MTA
+            f_menu_item_process $MTA  # Outputs $MENU_ITEM.
+      done  # End of ToDo Applications until loop.
+            #
+      unset MTA MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_todo
+#
+# +----------------------------------------+
+# |        Function f_menu_app_todo2       |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTB, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_todo2 () {
+      f_initvars_menu_app "MTB"
+      until [ "$MTB" = "0" ]
+      do    # Start of ToDo2 Applications until loop.
+#0^0^0^0^1  #MTB yaGTD    - To-Do List based on "Getting Things Done" methodology.
+#0^0^0^0^0  #MTB yokadi   - Project/task manager which uses SQLite.
+            #
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="To-Do2 Applications Menu"
+            DELIMITER="#MTB" #MTB This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MTB
+            f_menu_item_process $MTB  # Outputs $MENU_ITEM.
+      done  # End of ToDo2 Applications until loop.
+            #
+      unset MTB MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_todo2
+#
+# +----------------------------------------+
+# |       Function f_install_cclock        |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: None.
+# Outputs: None.
+#
+f_install_cclock () {
+      if [ ! -r "/usr/bin/cclock" ] ; then
+         clear  # blank screen
+         echo "This script will install \"cclock\" without using a software package manager."
+         echo
+         echo "If you wish to de-install \"'cclock\", you will have to delete files manually"
+         echo "by typing: \"sudo rm /usr/bin/cclock /usr/share/man/man1/cclock.1\"."
+         echo
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"cclock\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install cclock.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_cclock
+               APP_NAME="cclock" # Set to correct name for f_application_run.
+               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+            fi
+         else
+            # No, Do not install cclock.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run cclock.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS
+      fi
+} # End of f_install_cclock
+#
+# +----------------------------------------+
+# |         Function f_install2_cclock     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_cclock () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"cclock\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home folder."
+      echo "2. Download \"cclock\" using wget from:"
+      echo "   http://sourceforge.net/projects/cclock/files/latest/download"
+      echo "3. Decompress and create the installation subdirectory ~/bin/cclock*"
+      echo "4. Install cclock via:"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to \"/usr/bin/\" and \"/usr/share/man/man1/cclock.1\"."
+      echo
+      echo "5. Allow users to run cclock by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      # 
+      # 2. Download "cclock" from "http://sourceforge.net/projects/cclock/files/latest/download"
+      #    by using wget.
+      cd ~/bin
+      wget http://sourceforge.net/projects/cclock/files/latest/download/cclock-0.96.tar.bz2
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/cclock*.
+      tar -xf cclock*
+      #
+      # 4. Make and install cclock.
+      cd ~/bin/cclock*
+      sudo make install
+      #
+      # 5. Allow users to run cclock by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/bin/cclock*
+      #
+      # 6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"cclock\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_cclock
+#
+# +----------------------------------------+
 # |            Function f_aspell           |
 # +----------------------------------------+
 #
@@ -1173,6 +975,65 @@ f_aspell () {
          fi
       fi
 } #End of function f_aspell
+#
+# +----------------------------------------+
+# |          Function f_binclock           |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: None.
+# Outputs: None.
+#
+f_binclock () {
+      clear  # blank screen
+      echo "binclock - Display binary clock on console."
+      echo
+      echo "Usage: binclock [OPTIONS]"
+
+      echo "Short options:"
+      echo "-v      print the version number + release date + exit."
+      echo "-h      print version info and startup options  + exit."
+      echo "-l      loop the time every second."
+      echo "-n      shows the time with an additional normal format."
+      echo "-t      show traditional binary output (without color)"
+      echo
+      echo "long options:"
+      echo "--color=[on|off] default: on"
+      echo
+      echo "Now run binclock. Usage: binclock -nl"
+      APP_NAME="binclock -nl"
+      echo
+      f_run_and_exit "binclock" "binclock -nl"
+} # End of f_binclock
+#
+# +----------------------------------------+
+# |             Function f_comm            |
+# +----------------------------------------+
+#
+f_comm () {
+           clear # Blank the screen.
+           echo "comm - compare two sorted files line by line." 
+           echo
+           echo "Usage:"
+           echo "comm [OPTION]... FILE1 FILE2"
+           echo
+           echo "Output is in three columns of quoted lines."
+           echo
+           echo "  Column 1      Column 2          Column 3"
+           echo "Lines unique  Lines unique      Lines common"
+           echo "  to FILE1      to FILE2     to FILE1 and FILE2"
+           echo
+           echo "OPTIONS:"
+           echo "         -1                 Suppress column 1."
+           echo "         -2                 Suppress column 2."
+           echo "         -3                 Suppress column 3."
+           echo "         --no-check order   Do not check files for sort order."
+           echo 
+           echo "*** For more help type: 'man comm'"
+           echo "                        'comm --help'"
+           echo
+           f_press_enter_key_to_continue
+} # End of function f_comm
 #
 # +----------------------------------------+
 # |           Function f_hunspell          |
@@ -1344,133 +1205,93 @@ f_spell () {
 } # End of function f_spell
 #
 # +----------------------------------------+
-# |              Function f_wc             |
+# |            Function f_groff            |
 # +----------------------------------------+
 #
-f_wc () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file are specified.
+f_f_groff () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
       if [[ ! "$APP_NAME" == *" "* ]] ; then
-         APP_NAME="wc"
-         clear # Blank the screen.
-         echo "wc - Word Count"
-         echo
-         echo "Usage:"
-         echo "wc [OPTIONS] [FILE]..."
-         echo
-         echo "-c, --bytes      prints the byte counts."
-         echo "-m, --chars      prints the character counts."
-         echo "-l  --lines      prints the new line counts."
-         echo "-w  --words      prints the word counts."
-         echo
-         echo "Example: Type the sentences below"
-         echo "Line 1 This is the first line."
-         echo "Line 2 This is the second Line."
-         echo "      2      14      63"
-         echo "    Lines   Words   Characters"
-         echo
-         echo
-         echo "*** For more help type: 'man $APP_NAME'"
-         echo "                        '$APP_NAME --help'"
-         echo
-         echo -n "Enter name of text file to check spelling: "
-         read ANS
-         if [ -z $ANS ] ; then   #String has zero length.
-            clear # Blank the screen.
-            echo "Missing filename."
-            echo "Usage: wc <filename>"
-            echo
-            echo "Since no filename, now run '' in interactive mode."
-            echo
-            echo "Interactive usage:"
-            echo
-            echo "Example: Type the sentences below"
-            echo "Line 1 This is the first line."
-            echo "Line 2 This is the second Line."
-            echo "      2      14      63"
-            echo "    Lines   Words   Characters"
-            echo
-            f_how_to_quit_application "<Ctrl>-D" "no-clear"
-            APP_NAME="wc"
-            f_application_run
-            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-         elif [ -r $ANS ] ; then   #Filename exists and is readable.
-            APP_NAME="wc $ANS"
-            f_application_run
-         else
-            echo "The file $ANS is either missing or cannot be read."
-            echo "Entering interactive mode."
-            f_press_enter_key_to_continue
-         fi
-       fi
-} # End of function f_wc
+      clear # Blank the screen.
+      echo "groff - Use macro command language to output formatted text"
+      echo "        for PostScript printers."
+      echo
+      echo "Usage:" 
+      echo "groff [-abcegiklpstzCEGNRSUVXZ] [-d cs] [-D arg] [-f fam] [-F dir] [-I dir]"
+      echo "      [-K arg] [-L arg] [-m name] [-M dir] [-n num] [-o list] [-P arg]"
+      echo "      [-r cn] [-T dev] [-w name] [-W name] [file ...]"
+      echo "groff -h | --help"
+      echo "groff -v | --version [OPTION ...]"
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      echo "Now show help. Usage: man $APP_NAME"
+      APP_NAME="groff --help"
+      f_press_enter_key_to_continue
+      fi
+} # End of function f_groff
 #
 # +----------------------------------------+
-# |        Function f_menu_app_todo        |
+# |             Function f_jed             |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: MTA, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_todo () {
-      f_initvars_menu_app "MTA"
-      until [ "$MTA" = "0" ]
-      do    # Start of ToDo Applications until loop.
-#0^0^0^1^0  #MTA beeswax  - To-Do List.
-#0^0^0^1^0  #MTA calcurse - Calendar and To-Do List; ncurses-based.
-#0^0^0^0^1  #MTA diary    - Diary & To-Do List uses grep, date, etc. with your text editor.
-#0^0^0^0^1  #MTA diary-f  - Fork of "diary" enhanced "view"/"cat", non-latin locales.
-#0^0^0^0^1  #MTA doneyet  - To-Do List.
-#0^0^0^0^1  #MTA etm      - Event and task manager.
-#0^0^0^0^0  #MTA hnb      - To-Do List and note taker, ncurses-based application.
-#0^0^0^0^1  #MTA ikog     - To-Do List
-#0^0^0^0^1  #MTA org-mode - Emacs plugin for notes, To-Do lists, and project planning.
-#0^0^0^0^1  #MTA task     - Taskwarrior To-Do lists synchronize multiple PCs.
-#0^0^0^21^0 #MTA tdl      - To-Do List manager.
-#1^0^0^0^0  #MTA todo     - To-Do List hierarchical. Install package "devtodo".
-#1^0^0^0^0  #MTA todo2    - "devtodo2" application is a todo2 list, 5-levels of priorties.
-#0^0^0^0^0  #MTA tudu     - To-Do List hierarchical tasks.
-#0^0^0^0^1  #MTA w2do     - To-Do with support for group, due date and priority categories.
-#f_menu_app_todo2^0^0^0^0 #MTA MORE...  - More To-Do applications.
-            #
-            THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="To-Do Applications Menu"
-            DELIMITER="#MTA" #MTA This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MTA
-            f_menu_item_process $MTA  # Outputs $MENU_ITEM.
-      done  # End of ToDo Applications until loop.
-            #
-      unset MTA MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_todo
+f_jed () {
+      APP_NAME_TMP=$MENU_ITEM # Save jed <OPTIONS>.
+      APP_NAME="jed-extra"  # Install jed-extra package before running/installing jed.
+      f_application_install_question
+      APP_NAME=$APP_NAME_TMP
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+} # End of function f_jed
 #
 # +----------------------------------------+
-# |        Function f_menu_app_todo2       |
+# |             Function f_joe             |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: MTB, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
+f_joe () {
+      clear # Blank the screen.
+      echo "joe - Text editor with 5 emulations of other text editors"
+      echo
+      echo "USAGE:" 
+      echo "Regular Usage mode : joe [global-options] [ [local-options] filename ]..."
+      echo " WordStar emulation: jstar [global-options] [ [local-options] filename ]..."
+      echo "GNU-Emacs emulation: jmacs [global-options] [ [local-options] filename ]..."
+      echo "    Restricted mode: rjoe [global-options] [ [local-options] filename ]..."
+      echo "     PICO emulation: jpico [global-options] [ [local-options] filename ]..."
+      echo
+      echo "Available at: www.sourceforge.net/projects/joe-editor."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      f_press_enter_key_to_continue
+} # End of function f_jed
 #
-f_menu_app_todo2 () {
-      f_initvars_menu_app "MTB"
-      until [ "$MTB" = "0" ]
-      do    # Start of ToDo2 Applications until loop.
-#0^0^0^0^1  #MTB yaGTD    - To-Do List based on "Getting Things Done" methodology.
-#0^0^0^0^0  #MTB yokadi   - Project/task manager which uses SQLite.
-            #
-            THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="To-Do2 Applications Menu"
-            DELIMITER="#MTB" #MTB This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MTB
-            f_menu_item_process $MTB  # Outputs $MENU_ITEM.
-      done  # End of ToDo2 Applications until loop.
-            #
-      unset MTB MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_todo2
+# +----------------------------------------+
+# |          Function f_NERD_tree          |
+# +----------------------------------------+
+#
+f_NERD_tree () {
+      clear # Blank the screen.
+      echo "NERD_tree - A vim plug-in displays a hierarchical directory tree."
+      echo
+      echo "FEATURES (from NERD tree web home page):"
+      echo
+      echo "The NERD tree allows you to explore your filesystem and to open files and"
+      echo "directories. It presents the filesystem to you in the form of a tree which you"
+      echo "manipulate with the keyboard and/or mouse. It also allows you to perform"
+      echo "simple filesystem operations."
+      echo
+      echo "Files and directories are displayed in a hierarchical tree structure."
+      echo "Color highlighting is provided for different types of nodes."
+      echo "Directories and files can be bookmarked."
+      echo "Most NERD tree navigation can also be done with the mouse."
+      echo "Filtering of tree content (can be toggled at runtime)."
+      echo "You can have a separate NERD tree for each tab, share trees across tabs, or a mix of both."
+      echo "Many (customisable) mappings are provided to manipulate the tree."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      f_press_enter_key_to_continue
+} # End of function f_NERD_tree
 #
 # +----------------------------------------+
 # |             Function f_todo            |
@@ -1533,4 +1354,183 @@ f_todo2 () {
       echo "Now run devtodo2. Usage: todo2"
       f_press_enter_key_to_continue
 } # End of function f_todo2
+#
+# +----------------------------------------+
+# |           Function f_txt2html          |
+# +----------------------------------------+
+#
+f_txt2html () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2html - Convert plain text files to html." 
+         echo
+         echo "Usage:"
+         echo "txt2html [ --append_file filename ] [ --append_head filename ]"
+         echo "         [ --body_deco string ] [ --bold_delimiter string ]"
+         echo "         [ --bullets string ] [ --bullets_ordered string ]"
+         echo "         [ --caps_tag tag ]"
+         echo
+         echo "*** For more help type: 'man txt2html'"
+         echo "                        'txt2html --help'"
+         echo
+         echo "Now show help. Usage: man txt2html"
+         APP_NAME="man txt2html"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2html
+#
+# +----------------------------------------+
+# |           Function f_txt2man           |
+# +----------------------------------------+
+#
+f_txt2man () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2man - Convert plain text files to man pages." 
+         echo
+         echo "Usage:"
+         echo "txt2man [-hpTX] [-t mytitle] [-P pname] [-r rel] [-s sect] [-v vol]"
+         echo "        [-I txt] [-B txt] [-d date] [ifile]"
+         echo
+         echo "*** For more help type: 'man txt2man'"
+         echo "                        'txt2man --help'"
+         echo
+         echo "Now show help. Usage: man txt2man"
+         APP_NAME="man txt2man"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2man
+#
+# +----------------------------------------+
+# |          Function f_txt2pdbdoc         |
+# +----------------------------------------+
+#
+f_txt2pdbdoc () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2pdbdoc - Convert plain text files to (Palm Pilot Database) Doc file *.pdb."
+         echo "             for PalmPilots & DocReaders. (Does anyone still have a PalmPilot?)"
+         echo
+         echo "Usage: txt2pdbdoc [-b] [-c] [-v] document-name file.txt file.pdb"
+         echo "       txt2pdbdoc -d [-D] [-v] file.pdb [ file.txt ]"
+         echo "       txt2pdbdoc -V"
+         echo
+         echo "*** For more help type: 'man txt2pdbdoc'"
+         echo "                        'txt2pdbdoc --help'"
+         echo
+         echo "Now show help. Usage: man txt2pdbdoc"
+         APP_NAME="man txt2pdbdoc"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2pdbdoc
+#
+# +----------------------------------------+
+# |          Function f_txt2regex          |
+# +----------------------------------------+
+#
+f_txt2regex () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2regex - Convert human sentences to regex." 
+         echo
+         echo "Usage:"
+         echo "txt2regex --all|--prog <p1,p2,...,pN>"
+         echo
+         echo "*** For more help type: 'man txt2regex'"
+         echo "                        'txt2regex --help'"
+         echo
+         echo "Now show help. Usage: man txt2regex"
+         APP_NAME="man txt2regex"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2regex
+#
+# +----------------------------------------+
+# |          Function f_txt2tags           |
+# +----------------------------------------+
+#
+f_txt2tags () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "txt2tags - Convert plain text files to ASCII Art, AsciiDoc, Creole, DocBook,"
+         echo "           DokuWiki, Google Code Wiki, HTML, LaTeX, Lout, MagicPoint, Man page,"
+         echo "           MoinMoin, PageMaker, Plain Text, PmWiki, SGML, Wikipedia and XHTML."
+         echo 
+         echo "Usage:"
+         echo "txt2tags [OPTIONS] [FILE]... "
+         echo
+         echo "*** For more help type: 'man txt2tags'"
+         echo "                        'txt2tags --help'"
+         echo
+         echo "Now show help. Usage: man txt2tags"
+         APP_NAME="man txt2tags"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_txt2tags
+#
+# +----------------------------------------+
+# |              Function f_wc             |
+# +----------------------------------------+
+#
+f_wc () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         APP_NAME="wc"
+         clear # Blank the screen.
+         echo "wc - Word Count"
+         echo
+         echo "Usage:"
+         echo "wc [OPTIONS] [FILE]..."
+         echo
+         echo "-c, --bytes      prints the byte counts."
+         echo "-m, --chars      prints the character counts."
+         echo "-l  --lines      prints the new line counts."
+         echo "-w  --words      prints the word counts."
+         echo
+         echo "Example: Type the sentences below"
+         echo "Line 1 This is the first line."
+         echo "Line 2 This is the second Line."
+         echo "      2      14      63"
+         echo "    Lines   Words   Characters"
+         echo
+         echo
+         echo "*** For more help type: 'man $APP_NAME'"
+         echo "                        '$APP_NAME --help'"
+         echo
+         echo -n "Enter name of text file to check spelling: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            clear # Blank the screen.
+            echo "Missing filename."
+            echo "Usage: wc <filename>"
+            echo
+            echo "Since no filename, now run '' in interactive mode."
+            echo
+            echo "Interactive usage:"
+            echo
+            echo "Example: Type the sentences below"
+            echo "Line 1 This is the first line."
+            echo "Line 2 This is the second Line."
+            echo "      2      14      63"
+            echo "    Lines   Words   Characters"
+            echo
+            f_how_to_quit_application "<Ctrl>-D" "no-clear"
+            APP_NAME="wc"
+            f_application_run
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="wc $ANS"
+            f_application_run
+         else
+            echo "The file $ANS is either missing or cannot be read."
+            echo "Entering interactive mode."
+            f_press_enter_key_to_continue
+         fi
+       fi
+} # End of function f_wc
 #

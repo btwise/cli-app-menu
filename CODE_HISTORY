@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="1.2"
-PROJECT_REVDATE="October-11-2014 11:23"
+PROJECT_REVDATE="October-12-2014 17:30"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,17 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-10-12 *mod_apps-audio-video.lib rearranged functions alphabetically.
+##            *mod_apps-education.lib rearranged functions alphabetically.
+##            *mod_apps-filedir.lib rearranged functions alphabetically.
+##            *mod_apps-games.lib rearranged functions alphabetically.
+##            *mod_apps-graphics.lib rearranged functions alphabetically.
+##            *mod_apps-internet.lib rearranged functions alphabetically.
+##            *mod_apps-network.lib rearranged functions alphabetically.
+##            *mod_apps-office.lib rearranged functions alphabetically.
+##            *mod_apps-packages.lib rearranged functions alphabetically.
+##            *mod_apps-system.lib rearranged functions alphabetically.
 ##
 ## 2014-10-11 *f_menu_app_games_simulation added sst, trekx.
 ##             Also added help for sst, trek, trekx.

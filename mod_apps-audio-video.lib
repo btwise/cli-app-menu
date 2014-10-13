@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-03-2014 15:52"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio-video    |
@@ -36,44 +36,6 @@ f_menu_cat_audio-video () {
             #
       unset BAU MENU_ITEM # Throw out this variable.
 } # End of function f_menu_cat_audio-video
-#
-# +----------------------------------------+
-# |      Function f_menu_app_cdrippers     |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MENU_ITEM, MAC, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_cdrippers () {
-      f_initvars_menu_app "MAC"
-      until [ "$MAC" = "0" ]
-      do    # Start of CD Rippers Applications until loop.
-#0^0^0^0^1 #MAC abcde      - Audio CD ripper.
-#0^0^0^0^1 #MAC acripper   - Audio CD ripper.
-#0^0^0^0^1 #MAC cdda2wav   - CD-audio extraction program with paranoia support. 
-#0^0^0^0^1 #MAC cdparanoia - Audio CD ripper.
-#0^0^0^0^1 #MAC cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
-#0^0^0^0^1 #MAC cdrskin    - CD/DVD/BD writing tool.
-#0^0^0^0^0 #MAC cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
-#0^0^0^0^1 #MAC crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
-#0^0^0^0^1 #MAC jack       - Audio CD ripper.
-#0^0^0^0^1 #MAC gramophone - play/rip/record/process CDs, sound files. Ncurses-based.
-#0^0^0^0^1 #MAC lxdvdrip   - Audio CD ripper.
-#0^0^0^0^1 #MAC ripit      - Audio CD ripper.
-#0^0^0^0^1 #MAC rubyripper - Audio CD ripper.
-            #
-            THIS_FILE="mod_apps-audio-video.lib"
-            MENU_TITLE="CD Rippers Applications Menu"
-            DELIMITER="#MAC" #MAC This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MAC
-            f_menu_item_process $MAC  # Outputs $MENU_ITEM.
-      done  # End of CD Rippers Applications until loop.
-            #
-      unset MAC MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_cdrippers
 #
 # +----------------------------------------+
 # |    Function f_menu_app_audio_editors   |
@@ -116,37 +78,42 @@ f_menu_app_audio_editors () {
 } # End of f_menu_app_audio_editors
 #
 # +----------------------------------------+
-# |    Function f_menu_app_music_taggers   |
+# |      Function f_menu_app_cdrippers     |
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MENU_ITEM, MAT, MAX.
+#    Uses: MENU_ITEM, MAC, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_app_music_taggers () {
-      f_initvars_menu_app "MAT"
-      until [ "$MAT" = "0" ]
-      do    # Start of Music Tagger Applications until loop.
-#0^0^0^0^0 #MAT audiotag - Music tagger.
-#0^0^0^0^0 #MAT beets    - Music tagger.
-#0^0^0^0^0 #MAT dagger   - Tag and rename (based on tag) MP3 and OGG Vorbis files.
-#0^0^0^0^0 #MAT easytag  - Music tagger.
-#0^0^0^0^0 #MAT id3ed    - Music tagger.
-#0^0^0^0^0 #MAT id3fsd   - Directory tree based on music tags rather than file names.
-#0^0^0^0^0 #MAT id3tool  - Music tagger.
-#0^0^0^0^0 #MAT lltag    - Music tagger.
+f_menu_app_cdrippers () {
+      f_initvars_menu_app "MAC"
+      until [ "$MAC" = "0" ]
+      do    # Start of CD Rippers Applications until loop.
+#0^0^0^0^1 #MAC abcde      - Audio CD ripper.
+#0^0^0^0^1 #MAC acripper   - Audio CD ripper.
+#0^0^0^0^1 #MAC cdda2wav   - CD-audio extraction program with paranoia support. 
+#0^0^0^0^1 #MAC cdparanoia - Audio CD ripper.
+#0^0^0^0^1 #MAC cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
+#0^0^0^0^1 #MAC cdrskin    - CD/DVD/BD writing tool.
+#0^0^0^0^0 #MAC cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
+#0^0^0^0^1 #MAC crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
+#0^0^0^0^1 #MAC jack       - Audio CD ripper.
+#0^0^0^0^1 #MAC gramophone - play/rip/record/process CDs, sound files. Ncurses-based.
+#0^0^0^0^1 #MAC lxdvdrip   - Audio CD ripper.
+#0^0^0^0^1 #MAC ripit      - Audio CD ripper.
+#0^0^0^0^1 #MAC rubyripper - Audio CD ripper.
             #
             THIS_FILE="mod_apps-audio-video.lib"
-            MENU_TITLE="Music Tagger Applications Menu"
-            DELIMITER="#MAT" #MAT This 3rd field prevents awk from printing this line into menu options. 
+            MENU_TITLE="CD Rippers Applications Menu"
+            DELIMITER="#MAC" #MAC This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MAT
-            f_menu_item_process $MAT  # Outputs $MENU_ITEM.
-      done  # End of Music Tagger Applications until loop.
+            read MAC
+            f_menu_item_process $MAC  # Outputs $MENU_ITEM.
+      done  # End of CD Rippers Applications until loop.
             #
-      unset MAT MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_music_taggers
+      unset MAC MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_cdrippers
 #
 # +----------------------------------------+
 # |    Function f_menu_app_music_players   |
@@ -290,6 +257,39 @@ f_menu_app_music_players4 () {
             #
       unset MAQ MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_music_players4
+#
+# +----------------------------------------+
+# |    Function f_menu_app_music_taggers   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MENU_ITEM, MAT, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_music_taggers () {
+      f_initvars_menu_app "MAT"
+      until [ "$MAT" = "0" ]
+      do    # Start of Music Tagger Applications until loop.
+#0^0^0^0^0 #MAT audiotag - Music tagger.
+#0^0^0^0^0 #MAT beets    - Music tagger.
+#0^0^0^0^0 #MAT dagger   - Tag and rename (based on tag) MP3 and OGG Vorbis files.
+#0^0^0^0^0 #MAT easytag  - Music tagger.
+#0^0^0^0^0 #MAT id3ed    - Music tagger.
+#0^0^0^0^0 #MAT id3fsd   - Directory tree based on music tags rather than file names.
+#0^0^0^0^0 #MAT id3tool  - Music tagger.
+#0^0^0^0^0 #MAT lltag    - Music tagger.
+            #
+            THIS_FILE="mod_apps-audio-video.lib"
+            MENU_TITLE="Music Tagger Applications Menu"
+            DELIMITER="#MAT" #MAT This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MAT
+            f_menu_item_process $MAT  # Outputs $MENU_ITEM.
+      done  # End of Music Tagger Applications until loop.
+            #
+      unset MAT MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_music_taggers
 #
 # +----------------------------------------+
 # |        Function f_menu_app_radio       |

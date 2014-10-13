@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-10-2014 16:02"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1375,8 +1375,9 @@ f_application_install () {
       # 4. Install fails? No, installation is successful, DONE AND EXIT.
       # 5. Yes install failed, display error message and then check for a custom install function.
       # 6. Is there a custom install function specified in the menu? No, skip to step 8.
-      # 7. Yes, try to install again by using the custom install function
-      #     (Usually a custom install function will download source code from web and then compile it).
+      # 7. Yes, try to install again by using the custom install function.
+      #    Custom install function format: f_install_<application name>.
+      #    (Usually a custom install function will download source code from web and then compile it).
       # 8. Is a maintainer's web site specified by lib_cli-web-sites.lib? No, DONE AND EXIT
       # 9. Yes, does user want to download application source code from the maintainer's web site?
       # 10. Yes, download source code and leave it to the user to manually compile.
@@ -1494,6 +1495,9 @@ f_application_install () {
            ;;
            todo | todo2)
            APP_NAME_INSTALL="devtodo"
+           ;;
+           trek73)
+           APP_NAME_INSTALL="trekx"
            ;;
            ttyplay)
            APP_NAME_INSTALL="ttyrec"

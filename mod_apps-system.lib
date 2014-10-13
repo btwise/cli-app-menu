@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-03-2014 12:12"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -141,98 +141,6 @@ f_menu_app_sys_disks2 () {
 } # End of function f_menu_app_sys_disks2
 #
 # +----------------------------------------+
-# |              Function f_df             |
-# +----------------------------------------+
-#
-f_df () {
-      clear # Blank the screen.
-      echo "df - Displays free space on disk"
-      echo
-      echo "Usage:"
-      echo "df [OPTION]... [FILE]..."
-      echo "df [OPTION]... --files0-from=F"
-      echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
-      echo "   --total                 produce a grand total"
-      echo "   -t, --type=TYPE         limit listing to specific file systems"
-      echo "   -T, --print-type        print file system type"
-      echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
-      echo
-      echo "*** For more help type: 'man df'"
-      echo "                        'df --help'"
-      echo
-      echo "Display total disk usage in human-readable format."
-      echo
-      echo "Now run du. Usage: df -hT"
-      APP_NAME="df -hT"
-      f_press_enter_key_to_continue
-} # End of function f_df
-#
-# +----------------------------------------+
-# |              Function f_du             |
-# +----------------------------------------+
-#
-f_du () {
-      clear # Blank the screen.
-      echo "du - Displays disk usage per directory"
-      echo
-      echo "Usage:"
-      echo "du [OPTION]... [FILE]..."
-      echo "du [OPTION]... --files0-from=F"
-      echo "   -h, --human-readable  human-readable format (e.g., 1K 234M 2G)"
-      echo "   -c, --total           produce a grand total"
-      echo "   -S, --separate-dirs   do not include sub-folders"
-      echo "   -s, --summarize       display only a total"
-      echo "   --exclude=PATTERN     exclude files matching PATTERN"
-      echo "   -d, --max-depth=N     N  or  fewer  levels  below"
-      echo
-      echo "*** For more help type: 'man du'"
-      echo "                        'du --help'"
-      echo
-      echo "Display total disk usage in human-readable format."
-      echo
-      echo "Now run du. Usage: du -hsc"
-      APP_NAME="du -hsc"
-      f_press_enter_key_to_continue
-} # End of function f_du
-#
-# +----------------------------------------+
-# |             Function f_pydf            |
-# +----------------------------------------+
-#
-f_pydf () {
-      clear # Blank the screen.
-      echo "pydf - Displays free space on disk"
-      echo
-      echo "Usage:"
-      echo "pydf [OPTION]... [FILE]..."
-      echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
-      echo "   -k, --kilobytes"
-      echo "   -m, --megabytes"
-      echo "   -g, --gigabytes"
-      echo
-      echo "*** For more help type: 'man df'"
-      echo "                        'df --help'"
-      echo
-      echo "Display total disk usage in human-readable format."
-      echo
-      echo "Now run df. Usage: pydf -hT"
-      APP_NAME="pydf -hT"
-      f_press_enter_key_to_continue
-} # End of function f_pydf
-#
-# +----------------------------------------+
-# |             Function f_uuid            |
-# +----------------------------------------+
-#
-f_uuid () {
-      clear # Blank the screen.
-      echo "To find the UUID of a disk, type: ls -l /dev/disk/by-uuid."
-      APP_NAME="ls -l /dev/disk/by-uuid"
-      f_application_run             
-      f_press_enter_key_to_continue
-} # End of function f_uuid
-#
-# +----------------------------------------+
 # |     Function f_menu_app_sys_health     |
 # +----------------------------------------+
 #
@@ -272,188 +180,6 @@ f_menu_app_sys_health () {
             #
       unset MSH MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_sys_health
-#
-# +----------------------------------------+
-# |           Function f_arp-scan          |
-# +----------------------------------------+
-#
-f_arp-scan () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "arp-scan - ARP Scanner."
-         echo
-         echo "Usage:"
-         echo "arp-scan [OPTIONS] [HOSTS]..."
-         echo
-         echo "       --localnet or -l"
-         echo "              Generate addresses from network  interface  configuration.   Use"
-         echo "              the  network  interface  IP address and network mask to generate"
-         echo "              the list of target host addresses.  The list  will  include  the"
-         echo "              network  and  broadcast  addresses,  so  an interface address of"
-         echo "              10.0.0.1 with netmask 255.255.255.0 would  generate  256  target"
-         echo "              hosts  from  10.0.0.0  to 10.0.0.255 inclusive."
-         echo
-         echo "       --interface=<s> or -I <s>"
-         echo "              Use  network  interface  <s>."
-         echo
-         echo "Now run arp-scan on this PC as an example."
-         echo "Usage: arp-scan -I <interface>"
-         echo
-         f_press_enter_key_to_continue
-         f_find_NIC
-         APP_NAME="arp-scan -I $ANS"
-      fi
-} # End of function f_arp-scan
-#
-# +----------------------------------------+
-# |           Function f_arpwatch          |
-# +----------------------------------------+
-#
-f_arpwatch () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "arpwatch - Keep track of ethernet/ip address pairings"
-         echo
-         echo "Arpwatch  keeps  track  for  ethernet/ip  address  pairings. It syslogs"
-         echo "activity and reports certain changes via email.  Arpwatch uses  pcap(3)"
-         echo "to listen for arp packets on a local ethernet interface."
-         echo
-         echo "Usage:"
-         echo "arpwatch [-dN] [-f datafile] [-i interface] [-n net[/width]] [-r file]"
-         echo "         [-s sendmail_path] [-p] [-a] [-m addr] [-u username]"
-         echo "         [-R seconds ] [-Q] [-z ignorenet/ignoremask]"
-         echo
-         echo "Now run man arpwatch. Usage: man arpwatch"
-         echo
-         APP_NAME="man arpwatch"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_arpwatch
-#
-# +----------------------------------------+
-# |           Function f_clamscan          |
-# +----------------------------------------+
-#
-f_clamscan () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "clamscan -  Anti-virus scanner"
-         echo
-         echo "Usage:" 
-         echo "clamscan [OPTIONS] [FILE/DIRECTORY/-]"
-         echo "         --recursive -r  will recursively scan a directory."
-         echo "         --verbose   -v  be verbose."
-         echo "         --infected  -i  only print infected files."
-         echo "         --bell          sound bell on virus detection."
-         echo
-         echo "*** For more help type: 'man clamscan'"
-         echo "                        'clamscan --help'"
-         echo
-         echo "Clam anti-virus will now scan the folder, please be patient"
-         echo "since Clam anti-virus is slow to scan, but thorough."
-         echo
-         echo "Now run clamscan. Usage: clamscan -r ~"
-         echo
-         APP_NAME="clamscan -r ~"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_clamscan
-#
-# +----------------------------------------+
-# |             Function f_hpcc            |
-# +----------------------------------------+
-#
-f_hpcc () {
-      echo "hpcc -  HPC Challenge benchmark"
-      echo
-      echo "The High Performance Computing (HPC) Challenge benchmark runs a suite"
-      echo "of 7 tests that measure the performance of CPU, memory and network for"
-      echo "HPC clusters.  Amongst others, it includes the High-Performance LINPACK"
-      echo "(HPL) benchmark, used by the Top500 ranking (http://www.top500.org/)."
-      echo
-      f_press_enter_key_to_continue
-} # End of function f_hpcc
-#
-# +----------------------------------------+
-# |            Function f_smb-nat          |
-# +----------------------------------------+
-#
-f_smb-nat () {
-      clear # Blank the screen.
-      echo "smb-nat    - Netbios Auditing of servers running NetBIOS file sharing services."
-      echo
-      echo "This tool can perform various security checks on remote servers running"
-      echo "NetBIOS file sharing services. It is capable of enumerating shares and make"
-      echo "break-in attempts using a (user-provided) list of users and passwords."
-      echo
-      echo "*** For more help type: 'man $APP_NAME'"
-      echo "                '$APP_NAME --help'"
-      echo
-      f_press_enter_key_to_continue
-
-} # End of function f_smb-nat
-#
-# +----------------------------------------+
-# |            Function f_stress           |
-# +----------------------------------------+
-#
-f_stress () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "stress - A tool to impose load on and stress test a computer system"
-         echo
-         echo "The application, 'stress' is a tool that imposes a configurable amount of CPU,"
-         echo "memory, I/O, or disk stress on a POSIX-compliant operating system and reports"
-         echo "any errors it detects."
-         echo
-         echo "The application 'stress' is not a benchmark."
-         echo
-         echo "It is a tool used by:"
-         echo "System Administrators to evaluate how well their systems will scale,"
-         echo "Kernel Programmers to evaluate perceived performance characteristics, and by"
-         echo "Systems Programmers to expose the classes of bugs which only or more frequently"
-         echo "manifest themselves when the system is under heavy load."
-         echo
-         echo "*** For more help type: 'man $APP_NAME'"
-         echo "                '$APP_NAME --help'"
-         echo
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_stress
-#
-# +----------------------------------------+
-# |           Function f_tripwire          |
-# +----------------------------------------+
-#
-f_tripwire () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "tripwire - Detects unauthorized file changes"
-         echo
-         echo "*** For more help type: 'man tripwire' for use and operation."
-         echo "*** For more help type: 'man twadmin' - create, encode policy, config files."
-         echo "*** For more help type: 'man twprint' - print database."
-         echo "*** For more help type: 'man siggen' - display hash values for files."
-         echo "*** For more help type: 'man twconfig' - explanation of config files."
-         echo "*** For more help type: 'man twpolicy' - explanation of policy files."
-         echo "*** For more help type: 'man twfiles' - overview of files, settings."
-         echo
-         echo "Usage:"
-         echo "Database Initialization:  tripwire [-m i|--init] [OPTIONS]"
-         echo "Integrity Checking:  tripwire [-m c|--check] [object1 [object2...]]"
-         echo "Database Update:  tripwire [-m u|--update]"
-         echo "Policy Update:  tripwire [-m p|--update-policy] policyfile.txt"
-         echo "Test:  tripwire [-m t|--test] --email address"
-         echo "Type 'tripwire [mode] --help' OR"
-         echo "'tripwire --help mode [mode...]' OR"
-         echo "'tripwire --help all' for extended help"
-         echo
-         echo "Now run man tripwire. Usage: man tripwire"
-         echo
-         APP_NAME="man tripwire"
-         f_press_enter_key_to_continue
-      fi
-} # End of function f_tripwire
 #
 # +----------------------------------------+
 # |      Function f_menu_app_sys_logs      |
@@ -496,56 +222,6 @@ f_menu_app_sys_logs () {
 } # End of f_menu_app_sys_logs
 #
 # +----------------------------------------+
-# |           Function f_wall              |
-# +----------------------------------------+
-#
-f_wall () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "wall - Write a message to users."
-         echo
-         echo "Usage:"
-         echo "wall [options] [<file>]"
-         echo
-         echo "Options:"
-         echo "-n, --nobanner          do not print banner, works only for root"
-         echo "-t, --timeout <timeout> write timeout in seconds"
-         echo "-V, --version           output version information and exit"
-         echo "-h, --help              display this help and exit"
-         echo
-         echo "*** For more help type: 'man wall'" 
-         echo "                        'wall --help'"
-         echo
-         echo "Now run wall and prompt for filename. Usage: less <filename>."
-         echo
-         echo -n "Enter name of text file to display to users: "
-         read ANS
-         if [ -z $ANS ] ; then   #String has zero length.
-            echo
-            echo "Missing filename."
-            echo "Usage: wall <filename>"
-            echo
-            echo "Now run wall. Usage: wall --help"
-            echo
-            APP_NAME="wall --help"
-            f_press_enter_key_to_continue
-         elif [ -r $ANS ] ; then   #Filename exists and is readable.
-            APP_NAME="wall $ANS"
-         else
-            echo "The file $ANS is either missing or cannot be read."
-            echo "Missing or unreadable filename."
-            echo "Usage: wall <filename>"
-            echo
-            echo "Now run wall. Usage: wall --help"
-            echo
-            APP_NAME="wall --help"
-            f_press_enter_key_to_continue
-         fi
-      fi
-} #End of function f_wall
-#
-# +----------------------------------------+
 # |   Function f_menu_app_sys_mainboard    |
 # +----------------------------------------+
 #
@@ -583,168 +259,6 @@ f_menu_app_sys_mainboard () {
             #
       unset MSI MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_sys_mainboard
-#
-# +----------------------------------------+
-# |             Function f_free            |
-# +----------------------------------------+
-#
-f_free () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "free - Display the amount of free and used memory both RAM and swap"
-         echo
-         echo "Usage:"
-         echo "free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
-         echo
-         echo "*** For more help type: 'man free'"
-         echo "                        'free --help'"
-         echo
-         echo "Display in MB Megabytes with column totals, for 5 times every 2 seconds."
-         echo
-         echo "Now run free. Usage: free -m -t -s 2 -c 5"
-         APP_NAME="free -m -t -s 2 -c 5"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_free
-#
-# +----------------------------------------+
-# |            Function f_hdparm           |
-# +----------------------------------------+
-#
-f_hdparm () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "hdparm - Get SATA/IDE hard disk drive parameters."
-         echo
-         echo "Usage:"
-         echo "hdparm [OPTIONS..] [DEVICE ...]"
-         echo
-         echo "*** For more help type: 'man hdparm'"
-         echo "                'hdparm --help'"
-         echo
-         echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
-         echo
-         echo "Now run hdparm. Usage: 'hdparm -I /dev/sda'"
-         APP_NAME="hdparm -I /dev/sda"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_hdparm
-#
-# +----------------------------------------+
-# |          Function f_lsb_release        |
-# +----------------------------------------+
-#
-f_lsb_release () {
-
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "lsb_release - print distribution-specific information"
-         echo "The  lsb_release command provides certain LSB (Linux Standard Base) and"
-         echo "distribution-specific information."
-         echo
-         echo "Usage:" 
-         echo "If no options are given, the -v option is assumed."
-         echo
-         echo "lsb_release [OPTIONS]"
-         echo "            -v, --version   Version of lsb_release."
-         echo "            -i, --id        Display the distributor's ID."
-         echo "            -r, --release   Display the release number."
-         echo "            -c, --codename  Display the code name of the currently installed"
-         echo "                            distribution."
-         echo "            -a, --all       Display all of the above information."
-         echo
-         echo "Now run lsb_release. Usage: 'lsb_release -a'"
-         APP_NAME="lsb_release -a"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_lsb_release
-#
-# +----------------------------------------+
-# |             Function f_lshw            |
-# +----------------------------------------+
-#
-f_lshw () {
-
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "lshw - Displays main board information"
-         echo
-         echo "Usage:"
-         echo "lshw [ -version ]"
-         echo "lshw [ -help ]"
-         echo "lshw [ -X ]"
-         echo "lshw  [ -html ] [ -short ] [ -xml ] [ -json ] [ -businfo ] [ -dump filename ]"
-         echo "[ -class class... ] [ -disable test... ] [ -enable test... ] [ -sanitize ]"
-         echo "[ -numeric ] [ -quiet ]"
-         echo
-         echo "*** For more help type: 'man lshw'"
-         echo "                'lshw --help'"
-         echo
-         echo "Display short report."
-         echo
-         echo "Now run lshw. Usage: lshw -short"
-         echo
-         echo "Please wait a few moments as the report is completed."
-         APP_NAME="lshw -short"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_lshw
-#
-# +----------------------------------------+
-# |            Function f_slabtop          |
-# +----------------------------------------+
-#
-f_slabtop () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "slabtop - Display kernel slab cache information in real time."
-         echo
-         echo "slabtop displays a listing of the top caches sorted by  one  of  the  listed"
-         echo "sort  criteria.   It also displays a statistics header filled with slab"
-         echo "layer information."
-         echo
-         echo "Usage:"
-         echo "slabtop [OPTIONS]"
-         echo
-         echo "slabtop  displays  detailed kernel slab cache information in real time."
-         echo
-         echo "*** For more help type: 'man slabtop'"
-         echo "                        'slabtop --help'"
-         echo
-         echo "If you get error message: 'fopen /proc/slabinfo: Permission denied'"
-         echo "Then try running with sudo command i.e. 'sudo slabtop'."
-         echo
-         f_press_enter_key_to_continue
-      fi
-} # End of f_slabtop
-#
-# +----------------------------------------+
-# |             Function f_uname           |
-# +----------------------------------------+
-#
-f_uname () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "uname - print system information"
-         echo
-         echo "Usage:" 
-         echo "If no options are given, the -s option is assumed."
-         echo
-         echo "uname [OPTIONS]"
-         echo "      -a, --all  print  all  information."
-         echo "      -s, --kernel-name"
-         echo "      -r, --kernel-release"
-         echo "      -v, --kernel-version"
-         echo "      -m, --machine    print the machine hardware name"
-         echo "      -p, --processor"
-         echo "      -i, --hardware-platform"
-         echo "      -o, --operating-system"
-         echo
-         echo "Now run uname. Usage: uname -a"
-         APP_NAME="uname -a"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_uname
 #
 # +----------------------------------------+
 # |     Function f_menu_app_sys_linux      |
@@ -856,134 +370,6 @@ f_menu_app_sys_monitors2 () {
 } # End of f_menu_app_sys_monitors2
 #
 # +----------------------------------------+
-# |             Function f_cacti           |
-# +----------------------------------------+
-#
-f_cacti () {
-      clear # Blank the screen.
-      echo "cacti - Frontend to rrdtool for monitoring systems and services."
-      echo
-      echo "Cacti is a complete frontend to rrdtool, it stores all of the necessary"
-      echo "information to create graphs and populates them with data in a MySQL"
-      echo "database.  The frontend is completely PHP driven.  Along with being able"
-      echo "to maintain Graphs, Data Sources, and Round Robin Archives in a"
-      echo "database, cacti handles the data gathering also.  There is also SNMP"
-      echo "support for those used to creating traffic graphs with MRTG."
-      echo
-      echo "This package requires a functional MySQL database server on either the"
-      echo "installation host or remotely accessible system.  If you do not already"
-      echo "have a database server available, you should also install mysql-server."
-      echo
-      echo "Homepage: http://www.cacti.net/"
-      echo
-      echo "*** For more help type: 'man cacti'"
-      echo "                        'cacti --help'"
-      echo
-      APP_NAME="cacti"
-      f_press_enter_key_to_continue
-} # End of f_cacti
-#
-# +----------------------------------------+
-# |           Function f_chkconfig         |
-# +----------------------------------------+
-#
-f_chkconfig () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "chkconfig - Manipulate run-level services at boot time."
-         echo
-         echo "Usage:"
-         echo "chkconfig -t|--terse [names]"
-         echo "chkconfig -s|--set [name state]"
-         echo "chkconfig -e|--edit [names]"
-         echo "chkconfig -c|--check name [state]"
-         echo "chkconfig -l|--list [--deps] [names]"
-         echo "chkconfig -A|--allservices"
-         echo "chkconfig -a|--add [names]"
-         echo "chkconfig -d|--del [names]"
-         echo
-         echo "*** For more help type: 'man chkconfig'"
-         echo "                        'chkconfig --help'"
-         echo
-         echo "Now run chkconfig. Usage: chkconfig -l"
-         APP_NAME="chkconfig -l"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_chkconfig
-#
-# +----------------------------------------+
-# |             Function f_dstat           |
-# +----------------------------------------+
-#
-f_dstat () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "dstat - Display system resource statistics."
-         echo
-         echo "Usage:"
-         echo "dstat [-afv] [OPTIONS..] [DELAY [COUNT]]"
-         echo
-         echo "*** For more help type: 'man dstat'"
-         echo "                        'dstat --help'"
-         echo
-         echo "dstat this PC (localhost) for 10 times as an example."
-         echo
-         echo "Now run dstat. Usage: dstat 1 10"
-         APP_NAME="dstat 1 10"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_dstat
-#
-# +----------------------------------------+
-# |             Function f_mpstat          |
-# +----------------------------------------+
-#
-f_mpstat () {
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "mpstat - Display CPU statistics."
-         echo
-         echo "Usage:"
-         echo "mpstat [ -A ] [ -I { SUM | CPU | SCPU | ALL } ] [ -u ]"
-         echo "[ -P { cpu [,...] | ON | ALL } ] [ -V ] [ interval [ count ] ]"
-         echo
-         echo "*** For more help type: 'man mpstat'"
-         echo "                        'mpstat --help'"
-         echo
-         echo "mpstat this PC's CPU (localhost) for 5 times every 2 seconds as an example."
-         echo
-         echo "Now run mpstat. Usage: dstat 2 5"
-         APP_NAME="mpstat 2 5"
-         f_press_enter_key_to_continue
-      fi
-} # End of f_mpstat
-#
-# +----------------------------------------+
-# |            Function f_rrdtool          |
-# +----------------------------------------+
-#
-f_rrdtool () {
-      clear # Blank the screen.
-      echo "rrdtool   - The Round Robin Database Tool stores/displays time-series data."
-      echo
-      echo "The Round Robin Database Tool (RRDtool) is a system to store and display"
-      echo "time-series data (e.g. network bandwidth, machine-room temperature,"
-      echo "server load average). It stores the data in Round Robin Databases (RRDs),"
-      echo "a very compact way that will not expand over time. RRDtool processes the"
-      echo "extracted data to enforce a certain data density, allowing for useful"
-      echo "graphical representation of data values."
-      echo
-      echo "RRDtool is often used via various wrappers that can poll data from devices"
-      echo "and feed data into RRDs, as well as provide a friendlier user interface and"
-      echo "customized graphs."
-      echo
-      echo "*** For more help type: 'man rrdtool'"
-      echo "                        'rrdtool --help'"
-      echo
-      f_press_enter_key_to_continue
-} # End of f_rrdtool
-#
-# +----------------------------------------+
 # |   Function f_menu_app_sys_peripherals  |
 # +----------------------------------------+
 #
@@ -1056,108 +442,6 @@ f_menu_app_sys_peripherals2 () {
 } # End of f_menu_app_sys_peripherals2
 #
 # +----------------------------------------+
-# |             Function f_blkid           |
-# +----------------------------------------+
-#
-f_blkid () {
-      clear # Blank the screen.
-      echo "blkid - Locate/print block device attributes"
-      echo
-      echo "The blkid program is the command-line interface to working with the libblkid(3)"
-      echo "library.  It can determine the type of content (e.g. filesystem or swap) that a"
-      echo "block device holds, and also attributes (tokens, NAME=value pairs) from the"
-      echo "content metadata (e.g. LABEL or UUID fields)."
-      echo
-      echo "blkid has two main forms of operation: either searching for a device with a"
-      echo "specific NAME=value pair, or displaying NAME=value pairs  for  one  or more"
-      echo "specified devices."
-      echo
-      echo "Usage:"
-      echo "blkid -L label | -U uuid"
-      echo "blkid [-dghlv] [-c file] [-w file] [-o format] [-s tag] [-t NAME=value][device]"
-      echo "blkid -p [-O offset] [-S size] [-o format] [-s tag] [-n list] [-u list] device"
-      echo "blkid -i [-o format] [-s tag] device ..."
-      echo
-      echo "*** For more help type: 'man blkid'"
-      echo "                        'blkid --help'"
-      echo
-      f_press_enter_key_to_continue
-} # End of f_blkid
-#
-# +----------------------------------------+
-# |              Function f_lspci          |
-# +----------------------------------------+
-#
-f_lspci () {
-      clear # Blank the screen.
-      echo "lspci - list all PCI devices with detailed information."
-      echo
-      echo "Usage:"
-      echo "lspci [OPTIONS]"
-      echo
-      echo "OPTIONS"
-      echo "   Basic display modes"
-      echo "       -m     List PCI devices in a backward-compatible machine readable form."
-      echo "       -mm    List PCI devices in a machine readable form for easy parsing."
-      echo "       -t     Show  a tree-like diagram with all buses, bridges, devices etc."
-      echo
-      echo "   Display options"
-      echo "       -v     Be verbose and display detailed information about all devices."
-      echo "       -vv    Be very verbose and display more details."
-      echo "       -vvv   Be  even  more  verbose."
-      echo
-      echo "*** For more help type: 'man lspci'"
-      echo "                        'lspci --help'"
-      echo
-      echo "Now run lspci. Usage: lspci -tvv"
-      APPNAME="lspci -tvv"
-      f_press_enter_key_to_continue
-} # End of f_lspci
-#
-# +----------------------------------------+
-# |            Function f_lspcmcia         |
-# +----------------------------------------+
-#
-f_lspcmcia () {
-      clear # Blank the screen.
-      echo "lspcmcia - Display extended PCMCIA debugging information."
-      echo
-      echo "lspcmcia is an alias for pccardctl ls, provided for convenience."
-      echo
-      echo "Usage:"
-      echo "lspcmcia [-V] [-v ...] [socket]"
-      echo
-      echo "*** For more help type: 'man lspcmcia'"
-      echo "                        'lspcmcia --help'"
-      echo
-      f_press_enter_key_to_continue
-} # End of f_lspcmcia
-#
-# +----------------------------------------+
-# |            Function f_pccardctl        |
-# +----------------------------------------+
-#
-f_pccardctl () {
-      clear # Blank the screen.
-      echo "pccardctl - PCMCIA card control utility."
-      echo
-      echo "pccardctl  is  used  to monitor and control the state of PCMCIA sockets."
-      echo "If a socket number is specified, the command will be applied to just one"
-      echo "socket; otherwise, all sockets will be affected."
-      echo
-      echo "If pccardctl is executed by root, all commands are available."
-      echo "If it is executed by an unpriviledged user, only the informational commands"
-      echo "are accessible."
-      echo
-      echo "Usage:"
-      echo "pccardctl [-V] [-v ...] command [socket]"
-      echo
-      echo "*** For more help type: 'man pccardctl'"
-      echo "           'pccardctl --help'"
-      f_press_enter_key_to_continue
-} # End of f_pccardctl
-#
-# +----------------------------------------+
 # |     Function f_menu_app_sys_process    |
 # +----------------------------------------+
 #
@@ -1225,6 +509,473 @@ f_menu_app_sys_process2 () {
             #
       unset MSR MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_sys_process2
+#
+# +----------------------------------------+
+# |           Function f_arp-scan          |
+# +----------------------------------------+
+#
+f_arp-scan () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "arp-scan - ARP Scanner."
+         echo
+         echo "Usage:"
+         echo "arp-scan [OPTIONS] [HOSTS]..."
+         echo
+         echo "       --localnet or -l"
+         echo "              Generate addresses from network  interface  configuration.   Use"
+         echo "              the  network  interface  IP address and network mask to generate"
+         echo "              the list of target host addresses.  The list  will  include  the"
+         echo "              network  and  broadcast  addresses,  so  an interface address of"
+         echo "              10.0.0.1 with netmask 255.255.255.0 would  generate  256  target"
+         echo "              hosts  from  10.0.0.0  to 10.0.0.255 inclusive."
+         echo
+         echo "       --interface=<s> or -I <s>"
+         echo "              Use  network  interface  <s>."
+         echo
+         echo "Now run arp-scan on this PC as an example."
+         echo "Usage: arp-scan -I <interface>"
+         echo
+         f_press_enter_key_to_continue
+         f_find_NIC
+         APP_NAME="arp-scan -I $ANS"
+      fi
+} # End of function f_arp-scan
+#
+# +----------------------------------------+
+# |           Function f_arpwatch          |
+# +----------------------------------------+
+#
+f_arpwatch () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "arpwatch - Keep track of ethernet/ip address pairings"
+         echo
+         echo "Arpwatch  keeps  track  for  ethernet/ip  address  pairings. It syslogs"
+         echo "activity and reports certain changes via email.  Arpwatch uses  pcap(3)"
+         echo "to listen for arp packets on a local ethernet interface."
+         echo
+         echo "Usage:"
+         echo "arpwatch [-dN] [-f datafile] [-i interface] [-n net[/width]] [-r file]"
+         echo "         [-s sendmail_path] [-p] [-a] [-m addr] [-u username]"
+         echo "         [-R seconds ] [-Q] [-z ignorenet/ignoremask]"
+         echo
+         echo "Now run man arpwatch. Usage: man arpwatch"
+         echo
+         APP_NAME="man arpwatch"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_arpwatch
+#
+# +----------------------------------------+
+# |             Function f_blkid           |
+# +----------------------------------------+
+#
+f_blkid () {
+      clear # Blank the screen.
+      echo "blkid - Locate/print block device attributes"
+      echo
+      echo "The blkid program is the command-line interface to working with the libblkid(3)"
+      echo "library.  It can determine the type of content (e.g. filesystem or swap) that a"
+      echo "block device holds, and also attributes (tokens, NAME=value pairs) from the"
+      echo "content metadata (e.g. LABEL or UUID fields)."
+      echo
+      echo "blkid has two main forms of operation: either searching for a device with a"
+      echo "specific NAME=value pair, or displaying NAME=value pairs  for  one  or more"
+      echo "specified devices."
+      echo
+      echo "Usage:"
+      echo "blkid -L label | -U uuid"
+      echo "blkid [-dghlv] [-c file] [-w file] [-o format] [-s tag] [-t NAME=value][device]"
+      echo "blkid -p [-O offset] [-S size] [-o format] [-s tag] [-n list] [-u list] device"
+      echo "blkid -i [-o format] [-s tag] device ..."
+      echo
+      echo "*** For more help type: 'man blkid'"
+      echo "                        'blkid --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_blkid
+#
+# +----------------------------------------+
+# |             Function f_cacti           |
+# +----------------------------------------+
+#
+f_cacti () {
+      clear # Blank the screen.
+      echo "cacti - Frontend to rrdtool for monitoring systems and services."
+      echo
+      echo "Cacti is a complete frontend to rrdtool, it stores all of the necessary"
+      echo "information to create graphs and populates them with data in a MySQL"
+      echo "database.  The frontend is completely PHP driven.  Along with being able"
+      echo "to maintain Graphs, Data Sources, and Round Robin Archives in a"
+      echo "database, cacti handles the data gathering also.  There is also SNMP"
+      echo "support for those used to creating traffic graphs with MRTG."
+      echo
+      echo "This package requires a functional MySQL database server on either the"
+      echo "installation host or remotely accessible system.  If you do not already"
+      echo "have a database server available, you should also install mysql-server."
+      echo
+      echo "Homepage: http://www.cacti.net/"
+      echo
+      echo "*** For more help type: 'man cacti'"
+      echo "                        'cacti --help'"
+      echo
+      APP_NAME="cacti"
+      f_press_enter_key_to_continue
+} # End of f_cacti
+#
+# +----------------------------------------+
+# |           Function f_chkconfig         |
+# +----------------------------------------+
+#
+f_chkconfig () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "chkconfig - Manipulate run-level services at boot time."
+         echo
+         echo "Usage:"
+         echo "chkconfig -t|--terse [names]"
+         echo "chkconfig -s|--set [name state]"
+         echo "chkconfig -e|--edit [names]"
+         echo "chkconfig -c|--check name [state]"
+         echo "chkconfig -l|--list [--deps] [names]"
+         echo "chkconfig -A|--allservices"
+         echo "chkconfig -a|--add [names]"
+         echo "chkconfig -d|--del [names]"
+         echo
+         echo "*** For more help type: 'man chkconfig'"
+         echo "                        'chkconfig --help'"
+         echo
+         echo "Now run chkconfig. Usage: chkconfig -l"
+         APP_NAME="chkconfig -l"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_chkconfig
+#
+# +----------------------------------------+
+# |           Function f_clamscan          |
+# +----------------------------------------+
+#
+f_clamscan () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "clamscan -  Anti-virus scanner"
+         echo
+         echo "Usage:" 
+         echo "clamscan [OPTIONS] [FILE/DIRECTORY/-]"
+         echo "         --recursive -r  will recursively scan a directory."
+         echo "         --verbose   -v  be verbose."
+         echo "         --infected  -i  only print infected files."
+         echo "         --bell          sound bell on virus detection."
+         echo
+         echo "*** For more help type: 'man clamscan'"
+         echo "                        'clamscan --help'"
+         echo
+         echo "Clam anti-virus will now scan the folder, please be patient"
+         echo "since Clam anti-virus is slow to scan, but thorough."
+         echo
+         echo "Now run clamscan. Usage: clamscan -r ~"
+         echo
+         APP_NAME="clamscan -r ~"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_clamscan
+#
+# +----------------------------------------+
+# |              Function f_df             |
+# +----------------------------------------+
+#
+f_df () {
+      clear # Blank the screen.
+      echo "df - Displays free space on disk"
+      echo
+      echo "Usage:"
+      echo "df [OPTION]... [FILE]..."
+      echo "df [OPTION]... --files0-from=F"
+      echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+      echo "   --total                 produce a grand total"
+      echo "   -t, --type=TYPE         limit listing to specific file systems"
+      echo "   -T, --print-type        print file system type"
+      echo "   -x, --exclude-type=TYPE limit listing to file systems not of type TYPE"
+      echo
+      echo "*** For more help type: 'man df'"
+      echo "                        'df --help'"
+      echo
+      echo "Display total disk usage in human-readable format."
+      echo
+      echo "Now run du. Usage: df -hT"
+      APP_NAME="df -hT"
+      f_press_enter_key_to_continue
+} # End of function f_df
+#
+# +----------------------------------------+
+# |             Function f_dstat           |
+# +----------------------------------------+
+#
+f_dstat () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "dstat - Display system resource statistics."
+         echo
+         echo "Usage:"
+         echo "dstat [-afv] [OPTIONS..] [DELAY [COUNT]]"
+         echo
+         echo "*** For more help type: 'man dstat'"
+         echo "                        'dstat --help'"
+         echo
+         echo "dstat this PC (localhost) for 10 times as an example."
+         echo
+         echo "Now run dstat. Usage: dstat 1 10"
+         APP_NAME="dstat 1 10"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_dstat
+#
+# +----------------------------------------+
+# |              Function f_du             |
+# +----------------------------------------+
+#
+f_du () {
+      clear # Blank the screen.
+      echo "du - Displays disk usage per directory"
+      echo
+      echo "Usage:"
+      echo "du [OPTION]... [FILE]..."
+      echo "du [OPTION]... --files0-from=F"
+      echo "   -h, --human-readable  human-readable format (e.g., 1K 234M 2G)"
+      echo "   -c, --total           produce a grand total"
+      echo "   -S, --separate-dirs   do not include sub-folders"
+      echo "   -s, --summarize       display only a total"
+      echo "   --exclude=PATTERN     exclude files matching PATTERN"
+      echo "   -d, --max-depth=N     N  or  fewer  levels  below"
+      echo
+      echo "*** For more help type: 'man du'"
+      echo "                        'du --help'"
+      echo
+      echo "Display total disk usage in human-readable format."
+      echo
+      echo "Now run du. Usage: du -hsc"
+      APP_NAME="du -hsc"
+      f_press_enter_key_to_continue
+} # End of function f_du
+#
+# +----------------------------------------+
+# |             Function f_free            |
+# +----------------------------------------+
+#
+f_free () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "free - Display the amount of free and used memory both RAM and swap"
+         echo
+         echo "Usage:"
+         echo "free [-b|-k|-m|-g] [-c count] [-l] [-o] [-t] [-s delay] [-V]"
+         echo
+         echo "*** For more help type: 'man free'"
+         echo "                        'free --help'"
+         echo
+         echo "Display in MB Megabytes with column totals, for 5 times every 2 seconds."
+         echo
+         echo "Now run free. Usage: free -m -t -s 2 -c 5"
+         APP_NAME="free -m -t -s 2 -c 5"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_free
+#
+# +----------------------------------------+
+# |            Function f_hdparm           |
+# +----------------------------------------+
+#
+f_hdparm () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "hdparm - Get SATA/IDE hard disk drive parameters."
+         echo
+         echo "Usage:"
+         echo "hdparm [OPTIONS..] [DEVICE ...]"
+         echo
+         echo "*** For more help type: 'man hdparm'"
+         echo "                'hdparm --help'"
+         echo
+         echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
+         echo
+         echo "Now run hdparm. Usage: 'hdparm -I /dev/sda'"
+         APP_NAME="hdparm -I /dev/sda"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_hdparm
+#
+# +----------------------------------------+
+# |             Function f_hpcc            |
+# +----------------------------------------+
+#
+f_hpcc () {
+      echo "hpcc -  HPC Challenge benchmark"
+      echo
+      echo "The High Performance Computing (HPC) Challenge benchmark runs a suite"
+      echo "of 7 tests that measure the performance of CPU, memory and network for"
+      echo "HPC clusters.  Amongst others, it includes the High-Performance LINPACK"
+      echo "(HPL) benchmark, used by the Top500 ranking (http://www.top500.org/)."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_hpcc
+#
+# +----------------------------------------+
+# |          Function f_lsb_release        |
+# +----------------------------------------+
+#
+f_lsb_release () {
+
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "lsb_release - print distribution-specific information"
+         echo "The  lsb_release command provides certain LSB (Linux Standard Base) and"
+         echo "distribution-specific information."
+         echo
+         echo "Usage:" 
+         echo "If no options are given, the -v option is assumed."
+         echo
+         echo "lsb_release [OPTIONS]"
+         echo "            -v, --version   Version of lsb_release."
+         echo "            -i, --id        Display the distributor's ID."
+         echo "            -r, --release   Display the release number."
+         echo "            -c, --codename  Display the code name of the currently installed"
+         echo "                            distribution."
+         echo "            -a, --all       Display all of the above information."
+         echo
+         echo "Now run lsb_release. Usage: 'lsb_release -a'"
+         APP_NAME="lsb_release -a"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_lsb_release
+#
+# +----------------------------------------+
+# |             Function f_lshw            |
+# +----------------------------------------+
+#
+f_lshw () {
+
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "lshw - Displays main board information"
+         echo
+         echo "Usage:"
+         echo "lshw [ -version ]"
+         echo "lshw [ -help ]"
+         echo "lshw [ -X ]"
+         echo "lshw  [ -html ] [ -short ] [ -xml ] [ -json ] [ -businfo ] [ -dump filename ]"
+         echo "[ -class class... ] [ -disable test... ] [ -enable test... ] [ -sanitize ]"
+         echo "[ -numeric ] [ -quiet ]"
+         echo
+         echo "*** For more help type: 'man lshw'"
+         echo "                'lshw --help'"
+         echo
+         echo "Display short report."
+         echo
+         echo "Now run lshw. Usage: lshw -short"
+         echo
+         echo "Please wait a few moments as the report is completed."
+         APP_NAME="lshw -short"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_lshw
+#
+# +----------------------------------------+
+# |            Function f_lspcmcia         |
+# +----------------------------------------+
+#
+f_lspcmcia () {
+      clear # Blank the screen.
+      echo "lspcmcia - Display extended PCMCIA debugging information."
+      echo
+      echo "lspcmcia is an alias for pccardctl ls, provided for convenience."
+      echo
+      echo "Usage:"
+      echo "lspcmcia [-V] [-v ...] [socket]"
+      echo
+      echo "*** For more help type: 'man lspcmcia'"
+      echo "                        'lspcmcia --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_lspcmcia
+#
+# +----------------------------------------+
+# |              Function f_lspci          |
+# +----------------------------------------+
+#
+f_lspci () {
+      clear # Blank the screen.
+      echo "lspci - list all PCI devices with detailed information."
+      echo
+      echo "Usage:"
+      echo "lspci [OPTIONS]"
+      echo
+      echo "OPTIONS"
+      echo "   Basic display modes"
+      echo "       -m     List PCI devices in a backward-compatible machine readable form."
+      echo "       -mm    List PCI devices in a machine readable form for easy parsing."
+      echo "       -t     Show  a tree-like diagram with all buses, bridges, devices etc."
+      echo
+      echo "   Display options"
+      echo "       -v     Be verbose and display detailed information about all devices."
+      echo "       -vv    Be very verbose and display more details."
+      echo "       -vvv   Be  even  more  verbose."
+      echo
+      echo "*** For more help type: 'man lspci'"
+      echo "                        'lspci --help'"
+      echo
+      echo "Now run lspci. Usage: lspci -tvv"
+      APPNAME="lspci -tvv"
+      f_press_enter_key_to_continue
+} # End of f_lspci
+#
+# +----------------------------------------+
+# |             Function f_mpstat          |
+# +----------------------------------------+
+#
+f_mpstat () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "mpstat - Display CPU statistics."
+         echo
+         echo "Usage:"
+         echo "mpstat [ -A ] [ -I { SUM | CPU | SCPU | ALL } ] [ -u ]"
+         echo "[ -P { cpu [,...] | ON | ALL } ] [ -V ] [ interval [ count ] ]"
+         echo
+         echo "*** For more help type: 'man mpstat'"
+         echo "                        'mpstat --help'"
+         echo
+         echo "mpstat this PC's CPU (localhost) for 5 times every 2 seconds as an example."
+         echo
+         echo "Now run mpstat. Usage: dstat 2 5"
+         APP_NAME="mpstat 2 5"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_mpstat
+#
+# +----------------------------------------+
+# |            Function f_pccardctl        |
+# +----------------------------------------+
+#
+f_pccardctl () {
+      clear # Blank the screen.
+      echo "pccardctl - PCMCIA card control utility."
+      echo
+      echo "pccardctl  is  used  to monitor and control the state of PCMCIA sockets."
+      echo "If a socket number is specified, the command will be applied to just one"
+      echo "socket; otherwise, all sockets will be affected."
+      echo
+      echo "If pccardctl is executed by root, all commands are available."
+      echo "If it is executed by an unpriviledged user, only the informational commands"
+      echo "are accessible."
+      echo
+      echo "Usage:"
+      echo "pccardctl [-V] [-v ...] command [socket]"
+      echo
+      echo "*** For more help type: 'man pccardctl'"
+      echo "           'pccardctl --help'"
+      f_press_enter_key_to_continue
+} # End of f_pccardctl
 #
 # +----------------------------------------+
 # |             Function f_pidstat         |
@@ -1303,6 +1054,131 @@ f_pswatcher () {
 } # End of f_pswatcher
 #
 # +----------------------------------------+
+# |             Function f_pydf            |
+# +----------------------------------------+
+#
+f_pydf () {
+      clear # Blank the screen.
+      echo "pydf - Displays free space on disk"
+      echo
+      echo "Usage:"
+      echo "pydf [OPTION]... [FILE]..."
+      echo "   -h, --human-readable    format (e.g., 1K 234M 2G)"
+      echo "   -k, --kilobytes"
+      echo "   -m, --megabytes"
+      echo "   -g, --gigabytes"
+      echo
+      echo "*** For more help type: 'man df'"
+      echo "                        'df --help'"
+      echo
+      echo "Display total disk usage in human-readable format."
+      echo
+      echo "Now run df. Usage: pydf -hT"
+      APP_NAME="pydf -hT"
+      f_press_enter_key_to_continue
+} # End of function f_pydf
+#
+# +----------------------------------------+
+# |            Function f_rrdtool          |
+# +----------------------------------------+
+#
+f_rrdtool () {
+      clear # Blank the screen.
+      echo "rrdtool   - The Round Robin Database Tool stores/displays time-series data."
+      echo
+      echo "The Round Robin Database Tool (RRDtool) is a system to store and display"
+      echo "time-series data (e.g. network bandwidth, machine-room temperature,"
+      echo "server load average). It stores the data in Round Robin Databases (RRDs),"
+      echo "a very compact way that will not expand over time. RRDtool processes the"
+      echo "extracted data to enforce a certain data density, allowing for useful"
+      echo "graphical representation of data values."
+      echo
+      echo "RRDtool is often used via various wrappers that can poll data from devices"
+      echo "and feed data into RRDs, as well as provide a friendlier user interface and"
+      echo "customized graphs."
+      echo
+      echo "*** For more help type: 'man rrdtool'"
+      echo "                        'rrdtool --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of f_rrdtool
+#
+# +----------------------------------------+
+# |            Function f_slabtop          |
+# +----------------------------------------+
+#
+f_slabtop () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "slabtop - Display kernel slab cache information in real time."
+         echo
+         echo "slabtop displays a listing of the top caches sorted by  one  of  the  listed"
+         echo "sort  criteria.   It also displays a statistics header filled with slab"
+         echo "layer information."
+         echo
+         echo "Usage:"
+         echo "slabtop [OPTIONS]"
+         echo
+         echo "slabtop  displays  detailed kernel slab cache information in real time."
+         echo
+         echo "*** For more help type: 'man slabtop'"
+         echo "                        'slabtop --help'"
+         echo
+         echo "If you get error message: 'fopen /proc/slabinfo: Permission denied'"
+         echo "Then try running with sudo command i.e. 'sudo slabtop'."
+         echo
+         f_press_enter_key_to_continue
+      fi
+} # End of f_slabtop
+#
+# +----------------------------------------+
+# |            Function f_smb-nat          |
+# +----------------------------------------+
+#
+f_smb-nat () {
+      clear # Blank the screen.
+      echo "smb-nat    - Netbios Auditing of servers running NetBIOS file sharing services."
+      echo
+      echo "This tool can perform various security checks on remote servers running"
+      echo "NetBIOS file sharing services. It is capable of enumerating shares and make"
+      echo "break-in attempts using a (user-provided) list of users and passwords."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                '$APP_NAME --help'"
+      echo
+      f_press_enter_key_to_continue
+
+} # End of function f_smb-nat
+#
+# +----------------------------------------+
+# |            Function f_stress           |
+# +----------------------------------------+
+#
+f_stress () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "stress - A tool to impose load on and stress test a computer system"
+         echo
+         echo "The application, 'stress' is a tool that imposes a configurable amount of CPU,"
+         echo "memory, I/O, or disk stress on a POSIX-compliant operating system and reports"
+         echo "any errors it detects."
+         echo
+         echo "The application 'stress' is not a benchmark."
+         echo
+         echo "It is a tool used by:"
+         echo "System Administrators to evaluate how well their systems will scale,"
+         echo "Kernel Programmers to evaluate perceived performance characteristics, and by"
+         echo "Systems Programmers to expose the classes of bugs which only or more frequently"
+         echo "manifest themselves when the system is under heavy load."
+         echo
+         echo "*** For more help type: 'man $APP_NAME'"
+         echo "                '$APP_NAME --help'"
+         echo
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_stress
+#
+# +----------------------------------------+
 # |            Function f_sysctl           |
 # +----------------------------------------+
 #
@@ -1332,4 +1208,128 @@ f_sysctl () {
       echo "                        '$APP_NAME --help'"
       f_press_enter_key_to_continue
 } # End of f_sysctl
+#
+# +----------------------------------------+
+# |           Function f_tripwire          |
+# +----------------------------------------+
+#
+f_tripwire () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "tripwire - Detects unauthorized file changes"
+         echo
+         echo "*** For more help type: 'man tripwire' for use and operation."
+         echo "*** For more help type: 'man twadmin' - create, encode policy, config files."
+         echo "*** For more help type: 'man twprint' - print database."
+         echo "*** For more help type: 'man siggen' - display hash values for files."
+         echo "*** For more help type: 'man twconfig' - explanation of config files."
+         echo "*** For more help type: 'man twpolicy' - explanation of policy files."
+         echo "*** For more help type: 'man twfiles' - overview of files, settings."
+         echo
+         echo "Usage:"
+         echo "Database Initialization:  tripwire [-m i|--init] [OPTIONS]"
+         echo "Integrity Checking:  tripwire [-m c|--check] [object1 [object2...]]"
+         echo "Database Update:  tripwire [-m u|--update]"
+         echo "Policy Update:  tripwire [-m p|--update-policy] policyfile.txt"
+         echo "Test:  tripwire [-m t|--test] --email address"
+         echo "Type 'tripwire [mode] --help' OR"
+         echo "'tripwire --help mode [mode...]' OR"
+         echo "'tripwire --help all' for extended help"
+         echo
+         echo "Now run man tripwire. Usage: man tripwire"
+         echo
+         APP_NAME="man tripwire"
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_tripwire
+#
+# +----------------------------------------+
+# |             Function f_uuid            |
+# +----------------------------------------+
+#
+f_uuid () {
+      clear # Blank the screen.
+      echo "To find the UUID of a disk, type: ls -l /dev/disk/by-uuid."
+      APP_NAME="ls -l /dev/disk/by-uuid"
+      f_application_run             
+      f_press_enter_key_to_continue
+} # End of function f_uuid
+#
+# +----------------------------------------+
+# |             Function f_uname           |
+# +----------------------------------------+
+#
+f_uname () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "uname - print system information"
+         echo
+         echo "Usage:" 
+         echo "If no options are given, the -s option is assumed."
+         echo
+         echo "uname [OPTIONS]"
+         echo "      -a, --all  print  all  information."
+         echo "      -s, --kernel-name"
+         echo "      -r, --kernel-release"
+         echo "      -v, --kernel-version"
+         echo "      -m, --machine    print the machine hardware name"
+         echo "      -p, --processor"
+         echo "      -i, --hardware-platform"
+         echo "      -o, --operating-system"
+         echo
+         echo "Now run uname. Usage: uname -a"
+         APP_NAME="uname -a"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_uname
+#
+# +----------------------------------------+
+# |           Function f_wall              |
+# +----------------------------------------+
+#
+f_wall () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "wall - Write a message to users."
+         echo
+         echo "Usage:"
+         echo "wall [options] [<file>]"
+         echo
+         echo "Options:"
+         echo "-n, --nobanner          do not print banner, works only for root"
+         echo "-t, --timeout <timeout> write timeout in seconds"
+         echo "-V, --version           output version information and exit"
+         echo "-h, --help              display this help and exit"
+         echo
+         echo "*** For more help type: 'man wall'" 
+         echo "                        'wall --help'"
+         echo
+         echo "Now run wall and prompt for filename. Usage: less <filename>."
+         echo
+         echo -n "Enter name of text file to display to users: "
+         read ANS
+         if [ -z $ANS ] ; then   #String has zero length.
+            echo
+            echo "Missing filename."
+            echo "Usage: wall <filename>"
+            echo
+            echo "Now run wall. Usage: wall --help"
+            echo
+            APP_NAME="wall --help"
+            f_press_enter_key_to_continue
+         elif [ -r $ANS ] ; then   #Filename exists and is readable.
+            APP_NAME="wall $ANS"
+         else
+            echo "The file $ANS is either missing or cannot be read."
+            echo "Missing or unreadable filename."
+            echo "Usage: wall <filename>"
+            echo
+            echo "Now run wall. Usage: wall --help"
+            echo
+            APP_NAME="wall --help"
+            f_press_enter_key_to_continue
+         fi
+      fi
+} #End of function f_wall
 #

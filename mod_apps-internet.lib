@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -109,18 +109,6 @@ f_menu_app_bloggers () {
 } # End of function f_menu_app_bloggers
 #
 # +----------------------------------------+
-# |         Function f_nanoblogger         |
-# +----------------------------------------+
-#
-f_nanblogger () {
-      APP_NAME_TMP=$MENU_ITEM # Save jed <OPTIONS>.
-      APP_NAME="nanoblogger-extra"  # Install jed-extra package before running/installing jed.
-      f_application_install_question
-      APP_NAME=$APP_NAME_TMP
-      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-} # End of function f_nanoblogger
-#
-# +----------------------------------------+
 # |     Function f_menu_app_downloaders    |
 # +----------------------------------------+
 #
@@ -156,88 +144,6 @@ f_menu_app_downloaders () {
             #
       unset MDL MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_downloaders
-#
-# +----------------------------------------+
-# |           Function f_md5pass           |
-# +----------------------------------------+
-#
-f_md5pass () {
-      clear # Blank the screen.
-      echo "md5pass - Create a password hash."
-      echo
-      echo "Usage:"
-      echo "md5pass [PASSWORD] [SALT]"
-      echo
-      echo "*** For more help type: 'man md5pass'"
-      echo
-      echo "md5pass without any SALT value causes a random salt value to be generated."
-      echo "Now run md5pass. Usage: 'md5pass'."
-      echo
-      f_press_enter_key_to_continue
-} # End of function f_md5pass
-#
-# +----------------------------------------+
-# |           Function f_md5sum            |
-# +----------------------------------------+
-#
-f_md5sum () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "md5sum - Display md5 checksum."
-         echo
-         echo "Usage:"
-         echo "md5sum [OPTION]... [FILE]..."
-         echo
-         echo "*** For more help type: 'man md5sum'"
-         echo "                        'md5sum --help'"
-         echo
-         echo "Now show help. Usage: man md5sum"
-         f_press_enter_key_to_continue
-         APP_NAME="man md5sum"
-      fi
-} # End of function f_md5sum
-#
-# +----------------------------------------+
-# |           Function f_sha1pass          |
-# +----------------------------------------+
-#
-f_sha1pass () {
-      clear # Blank the screen.
-      echo "sha1pass - Create a password hash."
-      echo
-      echo "Usage:"
-      echo "sha1pass [PASSWORD] [SALT]"
-      echo "*** For more help type: 'man sha1pass'"
-      echo
-      echo "sha1pass without any SALT value causes a random salt value to be generated."
-      echo "Now run sha1pass. Usage: 'sha1pass'."
-      echo
-      f_press_enter_key_to_continue
-} # End of function f_sha1pass
-#
-# +----------------------------------------+
-# |           Function f_sha1sum           |
-# +----------------------------------------+
-#
-f_sha1sum () {
-      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
-      if [[ ! "$APP_NAME" == *" "* ]] ; then
-         clear # Blank the screen.
-         echo "sha1sum - Display sha1 checksum."
-         echo
-         echo "Usage:"
-         echo "sha1sum [OPTION]... [FILE]..."
-         echo
-         echo "*** For more help type: 'man sha1sum'"
-         echo "                        'sha1sum --help'"
-         echo
-         echo "Now show help. Usage: man sha1sum"
-         echo
-         f_press_enter_key_to_continue
-         APP_NAME="man sha1sum"
-      fi
-} # End of function f_sha1sum
 #
 # +----------------------------------------+
 # |        Function f_menu_app_email       |
@@ -307,40 +213,6 @@ f_menu_app_fax () {
 } # End of function f_menu_app_fax
 #
 # +----------------------------------------+
-# | Function f_menu_app_network_file_xfer |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MFU, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_network_file_xfer () {
-      f_initvars_menu_app "MFU"
-      until [ "$MFU" = "0" ]
-      do    # Start of Network File Transfer Applications until loop.
-#0^0^0^0^1 #MFU cmdftp - File transfer client.
-#0^0^0^0^1 #MFU curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
-#0^0^0^0^1 #MFU ftp    - File transfer via Internet standard File Transfer Protocol.
-#0^0^0^0^1 #MFU ftpfs  - File transfer client.
-#0^0^0^0^1 #MFU lftp   - Sophisticated sftp/ftp/http download/upload client program.
-#0^0^0^0^1 #MFU ncftp  - Powerful file transfer client, download directory trees etc.
-#0^0^0^0^1 #MFU scp    - Secure Copy file transfer via ssh, asks for password if needed.
-#0^0^0^0^1 #MFU woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
-#0^0^0^0^1 #MFU wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
-            #
-            THIS_FILE="mod_apps-internet.lib"
-            MENU_TITLE="Network File Transfer Applications Menu"
-            DELIMITER="#MFU" #MFU This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MFU
-            f_menu_item_process $MFU  # Outputs $MENU_ITEM.
-      done  # End of Network File Transfer Applications until loop.
-            #
-      unset MFU MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_network_file_xfer
-#
-# +----------------------------------------+
 # | Function f_menu_app_instant_messaging  |
 # +----------------------------------------+
 #
@@ -377,24 +249,6 @@ f_menu_app_instant_messaging () {
             #
       unset MIM MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_instant_messaging
-#
-# +----------------------------------------+
-# |           Function f_barnowl           |
-# +----------------------------------------+
-#
-f_barnowl () {
-      clear # Blank the screen.
-      echo "BarnOwl - Internet Messenger."
-      echo
-      echo "Usage:"
-      echo "barnowl"
-      echo "Inside barnowl type ':help' (colon help) for built-in help page."
-      echo
-      echo "*** For more help type: 'man $APP_NAME'"
-      echo "                        '$APP_NAME --help'"
-      echo
-      f_how_to_quit_application ":q (colon q)" "no-clear"
-} # End of function f_barnowl
 #
 # +----------------------------------------+
 # |    Function f_menu_app_irc_clients     |
@@ -457,6 +311,40 @@ f_menu_app_lan_chat () {
             #
       unset MNC MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_lan_chat
+#
+# +----------------------------------------+
+# | Function f_menu_app_network_file_xfer |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFU, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_network_file_xfer () {
+      f_initvars_menu_app "MFU"
+      until [ "$MFU" = "0" ]
+      do    # Start of Network File Transfer Applications until loop.
+#0^0^0^0^1 #MFU cmdftp - File transfer client.
+#0^0^0^0^1 #MFU curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
+#0^0^0^0^1 #MFU ftp    - File transfer via Internet standard File Transfer Protocol.
+#0^0^0^0^1 #MFU ftpfs  - File transfer client.
+#0^0^0^0^1 #MFU lftp   - Sophisticated sftp/ftp/http download/upload client program.
+#0^0^0^0^1 #MFU ncftp  - Powerful file transfer client, download directory trees etc.
+#0^0^0^0^1 #MFU scp    - Secure Copy file transfer via ssh, asks for password if needed.
+#0^0^0^0^1 #MFU woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+#0^0^0^0^1 #MFU wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
+            #
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Network File Transfer Applications Menu"
+            DELIMITER="#MFU" #MFU This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFU
+            f_menu_item_process $MFU  # Outputs $MENU_ITEM.
+      done  # End of Network File Transfer Applications until loop.
+            #
+      unset MFU MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_network_file_xfer
 #
 # +----------------------------------------+
 # |     Function f_menu_app_news_readers   |
@@ -621,6 +509,118 @@ f_menu_app_web_browsers () {
             #
       unset MWB MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_web_browsers
+#
+# +----------------------------------------+
+# |           Function f_barnowl           |
+# +----------------------------------------+
+#
+f_barnowl () {
+      clear # Blank the screen.
+      echo "BarnOwl - Internet Messenger."
+      echo
+      echo "Usage:"
+      echo "barnowl"
+      echo "Inside barnowl type ':help' (colon help) for built-in help page."
+      echo
+      echo "*** For more help type: 'man $APP_NAME'"
+      echo "                        '$APP_NAME --help'"
+      echo
+      f_how_to_quit_application ":q (colon q)" "no-clear"
+} # End of function f_barnowl
+#
+# +----------------------------------------+
+# |           Function f_md5pass           |
+# +----------------------------------------+
+#
+f_md5pass () {
+      clear # Blank the screen.
+      echo "md5pass - Create a password hash."
+      echo
+      echo "Usage:"
+      echo "md5pass [PASSWORD] [SALT]"
+      echo
+      echo "*** For more help type: 'man md5pass'"
+      echo
+      echo "md5pass without any SALT value causes a random salt value to be generated."
+      echo "Now run md5pass. Usage: 'md5pass'."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_md5pass
+#
+# +----------------------------------------+
+# |           Function f_md5sum            |
+# +----------------------------------------+
+#
+f_md5sum () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "md5sum - Display md5 checksum."
+         echo
+         echo "Usage:"
+         echo "md5sum [OPTION]... [FILE]..."
+         echo
+         echo "*** For more help type: 'man md5sum'"
+         echo "                        'md5sum --help'"
+         echo
+         echo "Now show help. Usage: man md5sum"
+         f_press_enter_key_to_continue
+         APP_NAME="man md5sum"
+      fi
+} # End of function f_md5sum
+#
+# +----------------------------------------+
+# |         Function f_nanoblogger         |
+# +----------------------------------------+
+#
+f_nanblogger () {
+      APP_NAME_TMP=$MENU_ITEM # Save jed <OPTIONS>.
+      APP_NAME="nanoblogger-extra"  # Install jed-extra package before running/installing jed.
+      f_application_install_question
+      APP_NAME=$APP_NAME_TMP
+      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+} # End of function f_nanoblogger
+#
+# +----------------------------------------+
+# |           Function f_sha1pass          |
+# +----------------------------------------+
+#
+f_sha1pass () {
+      clear # Blank the screen.
+      echo "sha1pass - Create a password hash."
+      echo
+      echo "Usage:"
+      echo "sha1pass [PASSWORD] [SALT]"
+      echo "*** For more help type: 'man sha1pass'"
+      echo
+      echo "sha1pass without any SALT value causes a random salt value to be generated."
+      echo "Now run sha1pass. Usage: 'sha1pass'."
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_sha1pass
+#
+# +----------------------------------------+
+# |           Function f_sha1sum           |
+# +----------------------------------------+
+#
+f_sha1sum () {
+      # If APP_NAME has no spaces, then neither [OPTIONS] nor file name are specified.
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "sha1sum - Display sha1 checksum."
+         echo
+         echo "Usage:"
+         echo "sha1sum [OPTION]... [FILE]..."
+         echo
+         echo "*** For more help type: 'man sha1sum'"
+         echo "                        'sha1sum --help'"
+         echo
+         echo "Now show help. Usage: man sha1sum"
+         echo
+         f_press_enter_key_to_continue
+         APP_NAME="man sha1sum"
+      fi
+} # End of function f_sha1sum
 #
 # +----------------------------------------+
 # |          Function f_web_site           |

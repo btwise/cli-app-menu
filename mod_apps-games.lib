@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-11-2014 11:23"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -112,314 +112,6 @@ f_menu_app_games_arcade2 () {
 } # End of f_menu_app_games_arcade2
 #
 # +----------------------------------------+
-# |    Function f_menu_app_games_tetris    |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MGL, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_games_tetris () {
-      f_initvars_menu_app "MGL"
-      until [ "$MGL" = "0" ]
-      do    # Start of Tetris Games until loop.
-#0^0^0^0^0 #MGL bastet   - Tetris-like game.
-#0^0^0^0^0 #MGL ctris    - Tetris-like game.
-#0^0^0^0^0 #MGL lexter   - Create words in a tetris-like game.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGL netris   - Tetris-like game.
-#0^0^0^5^0 #MGL petris   - Tetris-like game.
-#0^0^0^0^0 #MGL tetrix   - Tetris-like game.
-#0^0^0^5^0 #MGL vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
-            #
-            THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Tetris-like Game Menu"
-            DELIMITER="#MGL" #MGL This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MGL
-            f_menu_item_process $MGL  # Outputs $MENU_ITEM.
-            done  # End of Tetris Games until loop.
-            #
-      unset MGL MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_games_tetris
-#
-# +----------------------------------------+
-# |    Function f_menu_app_games_pacman    |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MGM, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_games_pacman () {
-      f_initvars_menu_app "MGM"
-      until [ "$MGM" = "0" ]
-      do    # Start of "Pac-Man"-like Games until loop.
-#0^0^0^0^1 #MGM myman          - "Pac-Man"-like game, ncurses-based.
-#0^0^0^0^1 #MGM pacman4console - "Pac-Man"-like game, ncurses-based.
-#0^0^0^0^0 #MGM yaourt         - "Pac-Man"-like game, ncurses-based.
-            #
-            THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="\"Pac-Man\"-like Game Menu"
-            DELIMITER="#MGM" #MGM This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MGM
-            f_menu_item_process $MGM  # Outputs $MENU_ITEM.
-            done  # End of "Pac-Man"-like Games until loop.
-            #
-      unset MGM MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_games_pacman
-#
-# +----------------------------------------+
-# |       Function f_install_xorcurses     |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
-#
-f_install_xorcurses () {
-      if [ ! -r "/usr/local/share/XorCurses" ] ; then
-         clear  # blank screen
-         echo "This script will install XorCurses without using a software package manager."
-         echo
-         echo "If you wish to de-install XorCurses, you will have to delete files manually"
-         echo "by typing: \"sudo rm -r /usr/local/bin/ /usr/local/share/XorCurses\"."
-         echo
-         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
-         echo "Afterwards, \"XorCurses\" will be installed."
-         echo
-         echo -n "Do you wish to continue (y/N)? "
-         read ANS
-         #
-         # Yes, Install XorCurses.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
-            if [ "$ERROR" = "0" ] ; then
-               # Error code 1 $?=1 means no --help available.
-               # Error code 0 (zero) where $?=0 means no error.
-               #
-               # Since dependencies are installed, now install XorCurses.
-               f_install2_xorcurses
-               APP_NAME="xorcurses" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
-            fi
-         else
-            # No, Do not install XorCurses.
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run XorCurses.
-                              # when it's not installed.
-            APP_NAME=""       # Also prevents checking for Quit Clause.
-            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-         fi
-         unset ANS  # Throw out this variable.
-      fi
-} # End of function f_install_xorcurses
-#
-# +----------------------------------------+
-# |       Function f_install2_xorcurses    |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
-#
-f_install2_xorcurses () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"XorCurses\"."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
-      echo "2. Download \"XorCurses\" using wget from:"
-      echo "   http://jwm-art.net/art/archive"
-      echo "3. Decompress and create the installation subdirectory ~/bin/xorcurses*"
-      echo "4. Install XorCurses via:"
-      echo "                           make"
-      echo "                           sudo make install"
-      echo
-      echo "   Installs files to /usr/local/bin/ and /usr/local/share/XorCurses."
-      echo
-      echo "5. Allow users to run XorCurses by setting permissions to r-x or 755 for all users."
-      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
-      echo
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home/bin folder.
-      cd ~
-      if [ ! -d "~/bin" ] ; then
-         # Target directory is missing, so create it.
-	 mkdir ~/bin
-      fi
-      cd ~/bin
-      # 
-      # 2. Download "XorCurses" from "http://jwm-art.net/art/archive" by using wget.
-      wget http://jwm-art.net/art/archive/XorCurses-0.2.2.tar.bz2
-      #
-      # 3. Decompress and create the installation subdirectory ~/bin/xorcurses*.
-      tar -xf XorCurses-0.2.2.tar.bz2
-      cd ~/bin/XorCurses-0.2.2
-      #
-      # 4. Make and install XorCurses.
-      make
-      sudo make install
-      # 
-      # 5. Allow users to run XorCurses by setting permissions to r-x or 755 for all users.
-      sudo chmod 755 /usr/local/bin/xorcurses
-      #
-      # 6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
-      # Is the directory /usr/local/bin in your PATH of directories?
-      # Check the $PATH
-      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
-         echo "If needed, edit file \"~/.bashrc\" PATH."
-         echo "Append the directory name to your environment $PATH."
-         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
-         echo "export PATH"
-         echo
-         echo "       >>> IMPORTANT <<<"
-         echo "After editing the file, .bashrc:"
-         echo "Close Terminal for changes to take effect."
-         echo "Either logout or exit from Terminal and re-launch Terminal."
-         echo
-      fi
-      echo
-      echo "Finished running installation script for \"XorCurses\"."
-      echo
-      echo "To run \"XorCurses\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-} # End of function f_install2_xorcurses
-#
-# +----------------------------------------+
-# |        Function f_install_ztrack       |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
-#
-f_install_ztrack () {
-      if [ ! -r "/usr/games/ztrack" ] ; then
-         clear  # blank screen
-         echo "This script will install Ztrack without using a software package manager."
-         echo
-         echo "If you wish to de-install Ztrack, you will have to delete files manually"
-         echo "by typing: \"sudo rm /usr/games/ztrack\"."
-         echo
-         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
-         echo "Afterwards, \"Ztrack\" will be installed."
-         echo
-         echo -n "Do you wish to continue (y/N)? "
-         read ANS
-         #
-         # Yes, Install Ztrack.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
-            if [ "$ERROR" = "0" ] ; then
-               # Error code 1 $?=1 means no --help available.
-               # Error code 0 (zero) where $?=0 means no error.
-               #
-               # Since dependencies are installed, now install Ztrack.
-               f_install2_ztrack
-               APP_NAME="ztrack" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
-           fi
-         else
-            # No, Do not install Ztrack.
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run Ztrack.
-                              # when it's not installed.
-            APP_NAME=""       # Also prevents checking for Quit Clause.
-            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-         fi
-         unset ANS  # Throw out this variable.
-      fi
-} # End of function f_install_ztrack
-#
-# +----------------------------------------+
-# |         Function f_install2_ztrack     |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
-#
-f_install2_ztrack () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"Ztrack\"."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
-      echo "2. Download \"Ztrack\" using wget from:"
-      echo "   http://www.ibiblio.org/pub/Linux/games/arcade"
-      echo "3. Decompress and create the installation subdirectory ~/bin/ztrack*"
-      echo "4. Install Ztrack via:"
-      echo "                           make"
-      echo "                           sudo make install"
-      echo
-      echo "   Installs files to /usr/local/bin/."
-      echo
-      echo "5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users."
-      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
-      echo
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home/bin folder.
-      cd ~
-      if [ ! -d "~/bin" ] ; then
-         # Target directory is missing, so create it.
-	 mkdir ~/bin
-      fi
-      # 
-      # 2. Download "Ztrack" from "http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz" by using wget.
-      cd ~/bin
-      wget http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz
-      #
-      # 3. Decompress and create the installation subdirectory ~/bin/ztrack*.
-      tar -xf ztrack-1.0.tar.gz
-      #
-      # 4. Make and install Ztrack.
-      cd ~/bin/ztrack*
-      make
-      sudo make install
-      #
-      # 5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users.
-      sudo chmod 755 /usr/games/ztrack*
-      #
-      # 6. Add directory \"/usr/games\" to your PATH command in ~/.bashrc.
-      # Is the directory /usr/games in your PATH of directories?
-      # Check the $PATH
-      if [[ ! "$PATH" == *":/usr/games"* ]] ; then
-         echo "If needed, edit file \"~/.bashrc\" PATH."
-         echo "Append the directory name to your environment $PATH."
-         echo $(tput bold)'PATH=$PATH'":/usr/games"
-         echo "export PATH"
-         echo
-         echo "       >>> IMPORTANT <<<"
-         echo "After editing the file, .bashrc:"
-         echo "Close Terminal for changes to take effect."
-         echo "Either logout or exit from Terminal and re-launch Terminal."
-         echo
-      fi
-      echo
-      echo "Finished running installation script for \"Ztrack\"."
-      echo
-      echo "To run \"Ztrack\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-} # End of function f_install2_ztrack
-#
-# +----------------------------------------+
 # |     Function f_menu_app_games_board    |
 # +----------------------------------------+
 #
@@ -447,34 +139,6 @@ f_menu_app_games_board () {
             #
       unset MGC MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_board
-#
-# +----------------------------------------+
-# |            Function f_atom4            |
-# +----------------------------------------+
-#
-f_atom4 () {
-      APP_NAME="atom4 -mt"
-} # End of f_atom4
-#
-# +----------------------------------------+
-# |            Function f_gnubg            |
-# +----------------------------------------+
-#
-f_gnubg () {
-      APP_NAME="gnubg -t"
-      clear # Blank the screen.
-      echo "gnubg - GNU Backgammon."
-      echo
-      echo "gnubg -t starts backgammon in text mode."
-      echo
-      echo "At the prompt, type: \"new game\" to start a new game."
-      echo "           (No game)  new game"
-      echo
-      echo "                     \"help\" for playing commands."
-      echo
-      echo "                     \"q\" or \"quit\" to end game."
-      f_press_enter_key_to_continue
-} # End of f_gnubg
 #
 # +----------------------------------------+
 # |     Function f_menu_app_games_card     |
@@ -536,6 +200,34 @@ f_menu_app_games_mud () {
 } # End of f_menu_app_games_mud
 #
 # +----------------------------------------+
+# |    Function f_menu_app_games_pacman    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGM, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_pacman () {
+      f_initvars_menu_app "MGM"
+      until [ "$MGM" = "0" ]
+      do    # Start of "Pac-Man"-like Games until loop.
+#0^0^0^0^1 #MGM myman          - "Pac-Man"-like game, ncurses-based.
+#0^0^0^0^1 #MGM pacman4console - "Pac-Man"-like game, ncurses-based.
+#0^0^0^0^0 #MGM yaourt         - "Pac-Man"-like game, ncurses-based.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="\"Pac-Man\"-like Game Menu"
+            DELIMITER="#MGM" #MGM This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGM
+            f_menu_item_process $MGM  # Outputs $MENU_ITEM.
+            done  # End of "Pac-Man"-like Games until loop.
+            #
+      unset MGM MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_pacman
+#
+# +----------------------------------------+
 # |    Function f_menu_app_games_puzzle    |
 # +----------------------------------------+
 #
@@ -573,134 +265,6 @@ f_menu_app_games_puzzle () {
             #
       unset MGF MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_games_puzzle
-#
-# +----------------------------------------+
-# |       Function f_install_textmaze      |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
-#
-f_install_textmaze () {
-      if [ ! -r "/usr/local/bin/textmaze" ] ; then
-         clear  # blank screen
-         echo "Textmaze - a playable maze drawn on-screen."
-         echo
-         echo "This script will do the following:"
-         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
-         echo "Afterwards, \"TextMaze\" will be installed."
-         echo
-         echo -n "Do you wish to continue (y/N)? "
-         read ANS
-         #
-         # Yes, Install TextMaze.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
-            if [ "$ERROR" = "0" ] ; then
-               # Error code 1 $?=1 means no --help available.
-               # Error code 0 (zero) where $?=0 means no error.
-               #
-               # Since dependencies are installed, now install TextMaze.
-               f_install2_textmaze
-               APP_NAME="textmaze" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
-            fi
-         else
-            # No, Do not install TextMaze.
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run textmaze.
-                              # when it's not installed.
-            APP_NAME=""       # Also prevents checking for Quit Clause.
-            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-         fi
-         unset ANS
-      fi
-} # End of function f_install_textmaze
-#
-# +----------------------------------------+
-# |       Function f_install2_textmaze     |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: X.
-# Outputs: None.
-#
-f_install2_textmaze () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"TextMaze\"."
-      echo "The application itself is a single perl script so perl is a prerequisite."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
-      echo "2. Download \"TextMaze\" by using wget from:"
-      echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
-      echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
-      echo "4. Substitute line of textmaze to indicate the correct perl evironment."
-      echo "5. Copy \"textmaze\" to \"/usr/local/bin\" directory."
-      echo "6. Allow users to run textmaze by setting permissions to r-x or 755."
-      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
-      echo
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home/bin folder.
-      cd ~
-      if [ ! -d "~/bin" ] ; then
-         # Target directory is missing, so create it.
-	 mkdir ~/bin
-      fi
-      cd ~/bin
-      #
-      # 2. Download "textmaze" from robobunny.com by using wget.
-      wget http://robobunny.com/projects/textmaze/textmaze.tar.gz
-      #
-      # 3. Decompress and create the installation subdirectory ~/bin/TextMaze
-      tar -xvzf textmaze.tar.gz
-      cd ~/bin/TextMaze*/
-      #
-      # 4. Substitute line for proper perl environment.
-      #    Change from <old-string>: "#!/usr/local/bin/perl"
-      #    Change   to <new-string>: "#!/usr/bin/env perl"
-      #    sed -i "s|<old-string>|<new-string>|" <target filename>
-      sed -i "s|#!/usr/local/bin/perl|#!/usr/bin/env perl|" textmaze
-      #
-      # 5. Copy TextMaze to /usr/local/bin directory.
-      if [ ! -d "/usr/local/bin" ] ; then
-         # Target directory is missing, so create it.
-	 sudo mkdir -p /usr/local/bin
-      fi
-      sudo cp ~/bin/TextMaze*/textmaze /usr/local/bin/
-      #
-      # 6. Allow users to run TextMaze by setting permissions to r-x or 755 for all users.
-      sudo chmod 755 /usr/local/bin/textmaze
-      #
-      # 7. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
-      # Is the directory /usr/local/bin in your PATH of directories?
-      # Check the $PATH
-      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
-         echo "If needed, edit file \"~/.bashrc\" PATH."
-         echo "Append the directory name to your environment $PATH."
-         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
-         echo "export PATH"
-         echo
-         echo "       >>> IMPORTANT <<<"
-         echo "After editing the file, .bashrc:"
-         echo "Close Terminal for changes to take effect."
-         echo "Either logout or exit from Terminal and re-launch Terminal."
-         echo
-      fi
-      echo
-      echo "Finished running installation script for \"TextMaze\"."
-      echo
-      echo "To run \"TextMaze\", select it on the \"Puzzle Game Menu\"."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-} # End of f_install2_textmaze
 #
 # +----------------------------------------+
 # |      Function f_menu_app_games_quiz    |
@@ -806,6 +370,146 @@ f_menu_app_games_screensaver () {
 } # End of f_menu_app_games_screensaver
 #
 # +----------------------------------------+
+# |  Function f_menu_app_games_simulation  |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGI, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_simulation () {
+      f_initvars_menu_app "MGI"
+      until [ "$MGI" = "0" ]
+      do    # Start of Simulation Games until loop.
+#f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
+#0^0^0^1^0  #MGI bb        - ASCII-art movie demo based on AAlib.
+#0^0^0^1^0  #MGI sail      - Command a Man O'War fighting ship.
+#0^0^0^0^0  #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
+#1^1^0^0^1  #MGI sst       - Super Star Trek. Many enhancements, read sst.doc for details.
+#0^1^0^0^1  #    startrek  - Super Star Trek Clasic (v1.1 1996) by Chris Nystrom.
+            #    Note: Game "startrek" is commented out of this menu because of C compile problems.
+            #          However the f_install_startrek code is still listed below
+            #          because it still retrieves the source C code.
+#1^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
+#1^1^0^0^1  #MGI trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
+#f_starwars^0^0^0^0 #MGI star wars - Star Wars movie in ASCII.
+#0^1^0^0^0  #MGI ztrack    - First-person car racing game.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Simulation Games and Animation Menu"
+            DELIMITER="#MGI" #MGI This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGI
+            f_menu_item_process $MGI  # Outputs $MENU_ITEM.
+            done  # End of Simulation Games until loop.
+            #
+      unset MGI MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_simulation
+#
+# +----------------------------------------+
+# |   Function f_menu_app_games_strategy   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGJ, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_strategy () {
+      f_initvars_menu_app "MGJ"
+      until [ "$MGJ" = "0" ]
+      do    # Start of Strategy Games until loop.
+#0^0^0^1^0 #MGJ empire     - war game build armies, planes, ships, capture cities.
+#0^0^0^0^0 #MGJ gomoku     - 2-player game of 5-in-a-row.
+#0^0^0^0^0 #MGJ hunt       - Multi-user game. Kill everyone else.
+#0^0^0^0^0 #MGJ mille      - Travel 700 miles card game.
+#0^0^0^0^0 #MGJ vms-empire - "Risk"-like game of moving armies to conquer continents.
+#1^0^0^0^1 #MGJ wargames   - Computer prompt from movie "War Games". 
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Strategy Game Menu"
+            DELIMITER="#MGJ" #MGJ This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGJ
+            f_menu_item_process $MGJ  # Outputs $MENU_ITEM.
+            done  # End of Strategy Games until loop.
+            #
+      unset MGJ MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_strategy
+#
+# +----------------------------------------+
+# |    Function f_menu_app_games_tetris    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGL, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_tetris () {
+      f_initvars_menu_app "MGL"
+      until [ "$MGL" = "0" ]
+      do    # Start of Tetris Games until loop.
+#0^0^0^0^0 #MGL bastet   - Tetris-like game.
+#0^0^0^0^0 #MGL ctris    - Tetris-like game.
+#0^0^0^0^0 #MGL lexter   - Create words in a tetris-like game.
+#f_run_and_exit "netris" "netris"^0^0^0^0 #MGL netris   - Tetris-like game.
+#0^0^0^5^0 #MGL petris   - Tetris-like game.
+#0^0^0^0^0 #MGL tetrix   - Tetris-like game.
+#0^0^0^5^0 #MGL vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Tetris-like Game Menu"
+            DELIMITER="#MGL" #MGL This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGL
+            f_menu_item_process $MGL  # Outputs $MENU_ITEM.
+            done  # End of Tetris Games until loop.
+            #
+      unset MGL MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_tetris
+#
+# +----------------------------------------+
+# |     Function f_menu_app_games_word     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MGK, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_games_word () {
+      f_initvars_menu_app "MGK"
+      until [ "$MGK" = "0" ]
+      do    # Start of Word Games until loop.
+#0^0^0^10^0 #MGK boggle    - Word search game.
+#1^0^0^0^1  #MGK boxes     - Displays text with a decorative display.
+#0^0^0^10^0 #MGK figlet    - Creates banner with outline font.
+#0^0^0^0^1  #MGK fortune   - Displays witty words and sayings.
+#0^0^0^0^1  #MGK hangman   - Classic hangman word game.
+#0^0^0^10^1 #MGK hodie     - Date and time in Latin.
+#0^0^0^0^0  #MGK letterize - Creates strings from numbers on a touch-tone telephone keypad.
+#0^0^0^0^1  #MGK lexter    - Create words in a tetris-like game.
+#0^0^0^10^0 #MGK pig       - Converts text into pig-latin.
+#1^0^0^0^1  #MGK rev       - Reverse typing (not Boston Red Sox "Reverse the Curse").
+#0^0^0^0^1  #MGK rl        - Randomize Lines scrambles words of a text file.
+#0^0^0^0^1  #MGK shuf      - Randomize Lines scrambles words of a text file.
+#0^0^0^0^1  #MGK tac       - Display text file in reverse line order, last line first.
+#0^0^0^10^0 #MGK toilet    - Creates banner with bold font.
+            #
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Word Game Menu"
+            DELIMITER="#MGK" #MGK This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MGK
+            f_menu_item_process $MGK  # Outputs $MENU_ITEM.
+            done  # End of Word Games until loop.
+            #
+      unset MGK MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_games_word
+#
+# +----------------------------------------+
 # |     Function f_install_asciiquarium    |
 # +----------------------------------------+
 #
@@ -860,8 +564,16 @@ f_install_asciiquarium () {
                #
                # Since dependencies are installed, now install ASCIIQuarium.
                f_install2_asciiquarium
-               APP_NAME="asciiquarium" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+               #
+               # Since dependent packages may have been installed causing
+               # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+               # original name along with APP_NAME_INSTALL for web install.
+               #
+               # Set APP_NAME to correct name for f_application_run.
+               APP_NAME="asciiquarium"
+               #
+               # Set APP_NAME_INSTALL for f_application_web_install.
+               APP_NAME_INSTALL=$APP_NAME
             fi
          else
             # No, Do not install ASCIIQuarium.
@@ -872,64 +584,6 @@ f_install_asciiquarium () {
          unset ANS # Throw out this variable.
       fi
 } # End of function f_install_asciiquarium
-#
-# +----------------------------------------+
-# |    Function f_install_term-animation   |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: None.
-#
-f_install_term-animation () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"Term::Animation\"."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
-      echo "2. Download \"Term::Animation\" by using wget from:"
-      echo "   \"http:=//search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz\"."
-      echo "3. Decompress and create the installation subdirectory ~/Term-Animation*"
-      echo "4. Install Term::Animation via:"
-      echo "                                 perl Makefile.PL"
-      echo "                                 make"
-      echo "                                 make test"
-      echo "                                 make install"
-      echo
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home/bin folder.
-      cd ~
-      if [ ! -d "~/bin" ] ; then
-         # Target directory is missing, so create it.
-	 mkdir ~/bin
-      fi
-      cd ~/bin
-      #
-      # 2. Download "Term::Animation" from:
-      #    http://search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz
-      # by using wget.
-      wget http://search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz
-      #
-      # 3. Decompress and create the installation subdirectory ~/bin/Term-Animation*
-      tar -xvzf Term-Animation-2.6.tar.gz
-      cd Term-Animation-2.6
-      #
-      # 4. Install Term::Animation via "perl Makefile.PL", "make", "make test", "make install".
-      perl Makefile.PL
-      make
-      make test
-      sudo make install
-      echo
-      echo "Finished running installation script for \"Term::Animation\"."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-} # End of function f_install_term-animation
 #
 # +----------------------------------------+
 # |     Function f_install2_asciiquarium   |
@@ -1040,8 +694,16 @@ f_install_bsod () {
                #
                # Since dependencies are installed, now install bsod.
                f_install2_bsod
-               APP_NAME="bsod" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+               #
+               # Since dependent packages may have been installed causing
+               # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+               # original name along with APP_NAME_INSTALL for web install.
+               #
+               # Set APP_NAME to correct name for f_application_run.
+               APP_NAME="bsod"
+               #
+               # Set APP_NAME_INSTALL for f_application_web_install.
+               APP_NAME_INSTALL=$APP_NAME
             fi
          else
             # No, Do not install bsod.
@@ -1166,8 +828,16 @@ f_install_cclock () {
                #
                # Since dependencies are installed, now install cclock.
                f_install2_cclock
-               APP_NAME="cclock" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+               #
+               # Since dependent packages may have been installed causing
+               # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+               # original name along with APP_NAME_INSTALL for web install.
+               #
+               # Set APP_NAME to correct name for f_application_run.
+               APP_NAME="cclock"
+               #
+               # Set APP_NAME_INSTALL for f_application_web_install.
+               APP_NAME_INSTALL=$APP_NAME
             fi
          else
             # No, Do not install cclock.
@@ -1256,200 +926,6 @@ f_install2_cclock () {
 } # End of function f_install2_cclock
 #
 # +----------------------------------------+
-# |       Function f_install_textmaze      |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: ANS.
-# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
-#
-f_install_textmaze () {
-      if [ ! -r "/usr/local/bin/textmaze" ] ; then
-         clear  # blank screen
-         echo "Textmaze - a playable maze drawn on-screen."
-         echo
-         echo "This script will do the following:"
-         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
-         echo "Afterwards, \"TextMaze\" will be installed."
-         echo
-         echo -n "Do you wish to continue (y/N)? "
-         read ANS
-         #
-         # Yes, Install TextMaze.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
-            # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
-            if [ "$ERROR" = "0" ] ; then
-               # Error code 1 $?=1 means no --help available.
-               # Error code 0 (zero) where $?=0 means no error.
-               #
-               # Since dependencies are installed, now install TextMaze.
-               f_install2_textmaze
-               APP_NAME="textmaze" # Set to correct name for f_application_run.
-               APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
-            fi
-         else
-            # No, Do not install TextMaze.
-            MENU_ITEM_NAME="" # Null so f_application_run does not try to run textmaze.
-                              # when it's not installed.
-            APP_NAME=""       # Also prevents checking for Quit Clause.
-            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-         fi
-         unset ANS
-      fi
-} # End of function f_install_textmaze
-#
-# +----------------------------------------+
-# |       Function f_install2_textmaze     |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: X.
-# Outputs: None.
-#
-f_install2_textmaze () {
-      clear  # blank screen
-      echo "This script will automatically download and install \"TextMaze\"."
-      echo "The application itself is a single perl script so perl is a prerequisite."
-      echo
-      echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
-      echo "2. Download \"TextMaze\" by using wget from:"
-      echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
-      echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
-      echo "4. Substitute line of textmaze to indicate the correct perl evironment."
-      echo "5. Copy \"textmaze\" to \"/usr/local/bin\" directory."
-      echo "6. Allow users to run textmaze by setting permissions to r-x or 755."
-      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
-      echo
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-      #
-      # 1. Change directory to your home/bin folder.
-      cd ~
-      if [ ! -d "~/bin" ] ; then
-         # Target directory is missing, so create it.
-	 mkdir ~/bin
-      fi
-      cd ~/bin
-      #
-      # 2. Download "textmaze" from robobunny.com by using wget.
-      wget http://robobunny.com/projects/textmaze/textmaze.tar.gz
-      #
-      # 3. Decompress and create the installation subdirectory ~/bin/TextMaze
-      tar -xvzf textmaze.tar.gz
-      cd ~/bin/TextMaze*/
-      #
-      # 4. Substitute line for proper perl environment.
-      #    Change from <old-string>: "#!/usr/local/bin/perl"
-      #    Change   to <new-string>: "#!/usr/bin/env perl"
-      #    sed -i "s|<old-string>|<new-string>|" <target filename>
-      sed -i "s|#!/usr/local/bin/perl|#!/usr/bin/env perl|" textmaze
-      #
-      # 5. Copy TextMaze to /usr/local/bin directory.
-      if [ ! -d "/usr/local/bin" ] ; then
-         # Target directory is missing, so create it.
-	 sudo mkdir -p /usr/local/bin
-      fi
-      sudo cp ~/bin/TextMaze*/textmaze /usr/local/bin/
-      #
-      # 6. Allow users to run TextMaze by setting permissions to r-x or 755 for all users.
-      sudo chmod 755 /usr/local/bin/textmaze
-      #
-      # 7. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
-      # Is the directory /usr/local/bin in your PATH of directories?
-      # Check the $PATH
-      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
-         echo "If needed, edit file \"~/.bashrc\" PATH."
-         echo "Append the directory name to your environment $PATH."
-         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
-         echo "export PATH"
-         echo
-         echo "       >>> IMPORTANT <<<"
-         echo "After editing the file, .bashrc:"
-         echo "Close Terminal for changes to take effect."
-         echo "Either logout or exit from Terminal and re-launch Terminal."
-         echo
-      fi
-      echo
-      echo "Finished running installation script for \"TextMaze\"."
-      echo
-      echo "To run \"TextMaze\", select it on the \"Screen-saver Applications Menu\"."
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-} # End of f_install2_textmaze
-#
-# +----------------------------------------+
-# |              Function f_hint           |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: None.
-# Outputs: None.
-#
-f_hint () {
-      clear  # blank screen
-      echo "To use as a screensaver with an inactivity time-out:"
-      echo
-      echo "1. Install application \"screen\" (under System Category Menu/Screens Menu)."
-      echo
-      echo "2. Create file \"~/.screenrc\ in your home directory."
-      echo
-      echo "   File \"~/.screenrc\" should contain the following lines:"
-      echo
-      echo "        blankerprg $APP_NAME"
-      echo "        idle 120 blanker"
-      echo
-      echo "   Where \"idle 120\" is the number of seconds of inactivity time-out."
-      echo "   You can change it from 120 to any number of seconds you want."
-      echo
-      echo
-      # f_press_enter_key_to_continue
-} # End of function f_hint
-#
-# +----------------------------------------+
-# |  Function f_menu_app_games_simulation  |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MGI, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_games_simulation () {
-      f_initvars_menu_app "MGI"
-      until [ "$MGI" = "0" ]
-      do    # Start of Simulation Games until loop.
-#f_run_and_exit "Air Traffic Controller" "atc"^0^0^0^1 #MGI atc       - Air traffic controller.
-#0^0^0^1^0  #MGI bb        - ASCII-art movie demo based on AAlib.
-#0^0^0^1^0  #MGI sail      - Command a Man O'War fighting ship.
-#0^0^0^0^0  #MGI sl        - Steam locomotive (when you mis-type 'ls' command).
-#1^1^0^0^1  #MGI sst       - Super Star Trek. Many enhancements, read sst.doc for details.
-#0^1^0^0^1  #    startrek  - Super Star Trek Clasic (v1.1 1996) by Chris Nystrom.
-            #    Note: Game "startrek" is commented out of this menu because of C compile problems.
-            #          However the f_install_startrek code is still listed below
-            #          because it still retrieves the source C code.
-#1^0^0^16^0 #MGI trek      - Star Trek blast Klingons.
-#1^1^0^0^1  #MGI trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
-#f_starwars^0^0^0^0 #MGI star wars - Star Wars movie in ASCII.
-#0^1^0^0^0  #MGI ztrack    - First-person car racing game.
-            #
-            THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Simulation Games and Animation Menu"
-            DELIMITER="#MGI" #MGI This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MGI
-            f_menu_item_process $MGI  # Outputs $MENU_ITEM.
-            done  # End of Simulation Games until loop.
-            #
-      unset MGI MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_games_simulation
-#
-# +----------------------------------------+
 # |          Function f_install_sst        |
 # +----------------------------------------+
 #
@@ -1535,8 +1011,15 @@ f_install_sst () {
          read X
          unset X  # Throw out this variable.
          #
-         APP_NAME="sst" # Set to correct name for f_application_run.
-         APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+         # Since dependent packages may have been installed causing
+         # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+         # original name along with APP_NAME_INSTALL for web install.
+         #
+         # Set APP_NAME to correct name for f_application_run.
+         APP_NAME="sst"
+         #
+         # Set APP_NAME_INSTALL for f_application_web_install.
+         APP_NAME_INSTALL=$APP_NAME
       else
          # No, Do not install sst.
          MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
@@ -1546,35 +1029,6 @@ f_install_sst () {
       fi
       unset ANS
 } # End of function f_install_sst
-#
-# +----------------------------------------+
-# |               Function f_sst           |
-# +----------------------------------------+
-f_sst () {      clear # Blank the screen.
-      echo "sst - Super Star Trek."
-      echo
-      echo "For instructions while playing the game:"
-      echo "Type a '?' at the 'COMMAND>' prompt."
-      echo 
-      echo "COMMAND> ?"
-      echo "UNRECOGNIZED COMMAND. LEGAL COMMANDS ARE:"
-      echo "   SRSCAN    MOVE      PHASERS   CALL"
-      echo "   STATUS    IMPULSE   PHOTONS   ABANDON"
-      echo "   LRSCAN    WARP      SHIELDS   DESTRUCT"
-      echo "   CHART     REST      DOCK      QUIT"
-      echo "   DAMAGES   REPORT    SENSORS   ORBIT"
-      echo "   TRANSPORT MINE      CRYSTALS  SHUTTLE"
-      echo "   PLANETS   REQUEST   DEATHRAY  FREEZE"
-      echo "   COMPUTER  EMEXIT    PROBE     COMMANDS"
-      echo "   HELP"
-      echo
-      echo "To quit game:"
-      echo "COMMAND> QUIT"
-      echo
-      echo -n "Press '"Enter"' key to continue."
-      read X
-      unset X  # Throw out this variable.
-}  #End of function f_sst
 #
 # +----------------------------------------+
 # |       Function f_install_startrek      |
@@ -1664,8 +1118,16 @@ f_install_startrek () {
          read X
          unset X  # Throw out this variable.
          #
-         APP_NAME="startrek" # Set to correct name for f_application_run.
-         APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+         # Since dependent packages may have been installed causing
+         # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+         # original name along with APP_NAME_INSTALL for web install.
+         #
+         # Set APP_NAME to correct name for f_application_run.
+         APP_NAME="startrek"
+         #
+         # Set APP_NAME_INSTALL for f_application_web_install.
+         APP_NAME_INSTALL=$APP_NAME
+         #
       else
          # No, Do not install startrek.
          MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
@@ -1677,46 +1139,198 @@ f_install_startrek () {
 } # End of function f_install_startrek
 #
 # +----------------------------------------+
-# |           Function f_starwars          |
+# |    Function f_install_term-animation   |
 # +----------------------------------------+
 #
-f_starwars () {
-      clear # Blank the screen.
-      echo "Star Wars ASCII Movie"
-      echo
-      echo The movie is played by running command:
-      echo telnet towel.blinkenlights.nl
-      echo
-      echo If telnet hangs while trying the ip-address,
-      echo then re-run this program and try again.
-      echo
-      f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
-}  #End of function f_starwars
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: None.
 #
-# +----------------------------------------+
-# |             Function f_trek            |
-# +----------------------------------------+
-#
-f_trek () {
-      clear # Blank the screen.
-      echo "Trek - Star Trek game included in the package bsdgames."
+f_install_term-animation () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"Term::Animation\"."
       echo
-      echo "For instructions while playing the game:"
-      echo 
-      echo "Type a '?' at the 'Command:' prompt."
-      echo 
-      echo "Command: ?"
-      echo "abandon       capture         cloak      computer"
-      echo "damages      destruct          dock          help"
-      echo "impulse        lrscan          move       phasers"
-      echo "    ram          dump          rest        shield"
-      echo " srscan        status     terminate       torpedo"
-      echo " undock        visual          warp"
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "2. Download \"Term::Animation\" by using wget from:"
+      echo "   \"http:=//search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz\"."
+      echo "3. Decompress and create the installation subdirectory ~/Term-Animation*"
+      echo "4. Install Term::Animation via:"
+      echo "                                 perl Makefile.PL"
+      echo "                                 make"
+      echo "                                 make test"
+      echo "                                 make install"
+      echo
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-}  #End of function f_trek
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      #
+      # 2. Download "Term::Animation" from:
+      #    http://search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz
+      # by using wget.
+      wget http://search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/Term-Animation*
+      tar -xvzf Term-Animation-2.6.tar.gz
+      cd Term-Animation-2.6
+      #
+      # 4. Install Term::Animation via "perl Makefile.PL", "make", "make test", "make install".
+      perl Makefile.PL
+      make
+      make test
+      sudo make install
+      echo
+      echo "Finished running installation script for \"Term::Animation\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install_term-animation
+#
+# +----------------------------------------+
+# |       Function f_install_textmaze      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_textmaze () {
+      if [ ! -r "/usr/local/bin/textmaze" ] ; then
+         clear  # blank screen
+         echo "Textmaze - a playable maze drawn on-screen."
+         echo
+         echo "This script will do the following:"
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"TextMaze\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install TextMaze.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install TextMaze.
+               f_install2_textmaze
+               #
+               # Since dependent packages may have been installed causing
+               # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+               # original name along with APP_NAME_INSTALL for web install.
+               #
+               # Set APP_NAME to correct name for f_application_run.
+               APP_NAME="textmaze"
+               #
+               # Set APP_NAME_INSTALL for f_application_web_install.
+               APP_NAME_INSTALL=$APP_NAME
+            fi
+         else
+            # No, Do not install TextMaze.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run textmaze.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS
+      fi
+} # End of function f_install_textmaze
+#
+# +----------------------------------------+
+# |       Function f_install2_textmaze     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: X.
+# Outputs: None.
+#
+f_install2_textmaze () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"TextMaze\"."
+      echo "The application itself is a single perl script so perl is a prerequisite."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "2. Download \"TextMaze\" by using wget from:"
+      echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
+      echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
+      echo "4. Substitute line of textmaze to indicate the correct perl evironment."
+      echo "5. Copy \"textmaze\" to \"/usr/local/bin\" directory."
+      echo "6. Allow users to run textmaze by setting permissions to r-x or 755."
+      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      #
+      # 2. Download "textmaze" from robobunny.com by using wget.
+      wget http://robobunny.com/projects/textmaze/textmaze.tar.gz
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/TextMaze
+      tar -xvzf textmaze.tar.gz
+      cd ~/bin/TextMaze*/
+      #
+      # 4. Substitute line for proper perl environment.
+      #    Change from <old-string>: "#!/usr/local/bin/perl"
+      #    Change   to <new-string>: "#!/usr/bin/env perl"
+      #    sed -i "s|<old-string>|<new-string>|" <target filename>
+      sed -i "s|#!/usr/local/bin/perl|#!/usr/bin/env perl|" textmaze
+      #
+      # 5. Copy TextMaze to /usr/local/bin directory.
+      if [ ! -d "/usr/local/bin" ] ; then
+         # Target directory is missing, so create it.
+	 sudo mkdir -p /usr/local/bin
+      fi
+      sudo cp ~/bin/TextMaze*/textmaze /usr/local/bin/
+      #
+      # 6. Allow users to run TextMaze by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/local/bin/textmaze
+      #
+      # 7. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"TextMaze\"."
+      echo
+      echo "To run \"TextMaze\", select it on the \"Puzzle Game Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of f_install2_textmaze
 #
 # +----------------------------------------+
 # |         Function f_install_trekx       |
@@ -1804,10 +1418,17 @@ f_install_trekx () {
          read X
          unset X  # Throw out this variable.
          #
-         APP_NAME="trekx" # Set to correct name for f_application_run.
-         APP_NAME_INSTALL=$APP_NAME # Set for web_install if needed.
+         # Since dependent packages may have been installed causing
+         # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+         # original name along with APP_NAME_INSTALL for web install.
+         #
+         # Set APP_NAME to correct name for f_application_run.
+         APP_NAME="trekx"
+         #
+         # Set APP_NAME_INSTALL for f_application_web_install.
+         APP_NAME_INSTALL=$APP_NAME
       else
-         # No, Do not install sst.
+         # No, Do not install trekx.
          MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
                            # when it's not installed.
          APP_NAME=""       # Also prevents checking for Quit Clause.
@@ -1817,125 +1438,276 @@ f_install_trekx () {
 } # End of function f_install_trekx
 #
 # +----------------------------------------+
-# |              Function f_trekx          |
+# |       Function f_install_xorcurses     |
 # +----------------------------------------+
-f_trekx () {      clear # Blank the screen.
-      echo "trekx - Super Star Trek."
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install_xorcurses () {
+      if [ ! -r "/usr/local/share/XorCurses" ] ; then
+         clear  # blank screen
+         echo "This script will install XorCurses without using a software package manager."
+         echo
+         echo "If you wish to de-install XorCurses, you will have to delete files manually"
+         echo "by typing: \"sudo rm -r /usr/local/bin/ /usr/local/share/XorCurses\"."
+         echo
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"XorCurses\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install XorCurses.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install XorCurses.
+               f_install2_xorcurses
+               #
+               # Since dependent packages may have been installed causing
+               # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+               # original name along with APP_NAME_INSTALL for web install.
+               #
+               # Set APP_NAME to correct name for f_application_run.
+               APP_NAME="xorcurses"
+               #
+               # Set APP_NAME_INSTALL for f_application_web_install.
+               APP_NAME_INSTALL=$APP_NAME
+            fi
+         else
+            # No, Do not install XorCurses.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run XorCurses.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS  # Throw out this variable.
+      fi
+} # End of function f_install_xorcurses
+#
+# +----------------------------------------+
+# |       Function f_install2_xorcurses    |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_xorcurses () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"XorCurses\"."
       echo
-      echo "For instructions while playing the game:"
-      echo "Type a '-' (dash) at the 'CODE>' prompt."
-      echo 
-      echo "CODE> -"
-      echo "1  Fire Phasers                  q  Lock Phasers"
-      echo "2  Fire Photon Torpedoes         w  Lock Tubes"
-      echo "3  Anti-Matter Probe Control     e  Alter Power Distribution"
-      echo "4  Load/Unload Torpedoes         r  Change Firing Parameters"
-      echo "5  Change Course & Speed         t  Alter Display Radius"
-      echo "6  Pursue Enemy Vessel           y  Run from Enemy Vessel"
-      echo "7  Damage Report                 u  Scan Enemy Vessel"
-      echo "8  Self-Destruction              i  Engineering Separation"
-      echo "9  Ask Enemy to Surrender        o  Surrender"
-      echo "0  Attempt Defenseless Ruse      p  Attempt Corbomite Bluff"
-      echo "-  List Commands                 [  Quit Game"
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "2. Download \"XorCurses\" using wget from:"
+      echo "   http://jwm-art.net/art/archive"
+      echo "3. Decompress and create the installation subdirectory ~/bin/xorcurses*"
+      echo "4. Install XorCurses via:"
+      echo "                           make"
+      echo "                           sudo make install"
       echo
-      echo "To quit game: Type a left square-bracket at the CODE> prompt"
-      echo "CODE> ["
+      echo "   Installs files to /usr/local/bin/ and /usr/local/share/XorCurses."
+      echo
+      echo "5. Allow users to run XorCurses by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
       unset X  # Throw out this variable.
-}  #End of function f_trekx
-#
-# +----------------------------------------+
-# |   Function f_menu_app_games_strategy   |
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MGJ, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_games_strategy () {
-      f_initvars_menu_app "MGJ"
-      until [ "$MGJ" = "0" ]
-      do    # Start of Strategy Games until loop.
-#0^0^0^1^0 #MGJ empire     - war game build armies, planes, ships, capture cities.
-#0^0^0^0^0 #MGJ gomoku     - 2-player game of 5-in-a-row.
-#0^0^0^0^0 #MGJ hunt       - Multi-user game. Kill everyone else.
-#0^0^0^0^0 #MGJ mille      - Travel 700 miles card game.
-#0^0^0^0^0 #MGJ vms-empire - "Risk"-like game of moving armies to conquer continents.
-#1^0^0^0^1 #MGJ wargames   - Computer prompt from movie "War Games". 
-            #
-            THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Strategy Game Menu"
-            DELIMITER="#MGJ" #MGJ This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MGJ
-            f_menu_item_process $MGJ  # Outputs $MENU_ITEM.
-            done  # End of Strategy Games until loop.
-            #
-      unset MGJ MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_games_strategy
-#
-# +----------------------------------------+
-# |            Function f_wargames         |
-# +----------------------------------------+
-#
-f_wargames () {
-      clear # Blank the screen.
-      echo "wargames - Question asked by the WOPR super-computer."
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      cd ~/bin
+      # 
+      # 2. Download "XorCurses" from "http://jwm-art.net/art/archive" by using wget.
+      wget http://jwm-art.net/art/archive/XorCurses-0.2.2.tar.bz2
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/xorcurses*.
+      tar -xf XorCurses-0.2.2.tar.bz2
+      cd ~/bin/XorCurses-0.2.2
+      #
+      # 4. Make and install XorCurses.
+      make
+      sudo make install
+      # 
+      # 5. Allow users to run XorCurses by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/local/bin/xorcurses
+      #
+      # 6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/local/bin in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
       echo
-      echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
-      echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
-      echo "the backdoor of a top-secret U.S. Air Force super-computer."
-      echo "The WOPR (War Operation Planned Response) controls the U.S. nuclear arsenal."
+      echo "Finished running installation script for \"XorCurses\"."
       echo
-      echo "Notice the computer equipment David uses, the acoustic modem, and floppy drive."
+      echo "To run \"XorCurses\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
       echo
-      echo "WOPR asks this question when David first hacks the backdoor, making David think"
-      echo "that it is simply a recreational program."
-      echo
-      f_press_enter_key_to_continue
-} # End of f_wargames
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_xorcurses
 #
 # +----------------------------------------+
-# |     Function f_menu_app_games_word     |
+# |        Function f_install_ztrack       |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: MGK, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
 #
-f_menu_app_games_word () {
-      f_initvars_menu_app "MGK"
-      until [ "$MGK" = "0" ]
-      do    # Start of Word Games until loop.
-#0^0^0^10^0 #MGK boggle    - Word search game.
-#1^0^0^0^1  #MGK boxes     - Displays text with a decorative display.
-#0^0^0^10^0 #MGK figlet    - Creates banner with outline font.
-#0^0^0^0^1  #MGK fortune   - Displays witty words and sayings.
-#0^0^0^0^1  #MGK hangman   - Classic hangman word game.
-#0^0^0^10^1 #MGK hodie     - Date and time in Latin.
-#0^0^0^0^0  #MGK letterize - Creates strings from numbers on a touch-tone telephone keypad.
-#0^0^0^0^1  #MGK lexter    - Create words in a tetris-like game.
-#0^0^0^10^0 #MGK pig       - Converts text into pig-latin.
-#1^0^0^0^1  #MGK rev       - Reverse typing (not Boston Red Sox "Reverse the Curse").
-#0^0^0^0^1  #MGK rl        - Randomize Lines scrambles words of a text file.
-#0^0^0^0^1  #MGK shuf      - Randomize Lines scrambles words of a text file.
-#0^0^0^0^1  #MGK tac       - Display text file in reverse line order, last line first.
-#0^0^0^10^0 #MGK toilet    - Creates banner with bold font.
-            #
-            THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Word Game Menu"
-            DELIMITER="#MGK" #MGK This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MGK
-            f_menu_item_process $MGK  # Outputs $MENU_ITEM.
-            done  # End of Word Games until loop.
-            #
-      unset MGK MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_games_word
+f_install_ztrack () {
+      if [ ! -r "/usr/games/ztrack" ] ; then
+         clear  # blank screen
+         echo "This script will install Ztrack without using a software package manager."
+         echo
+         echo "If you wish to de-install Ztrack, you will have to delete files manually"
+         echo "by typing: \"sudo rm /usr/games/ztrack\"."
+         echo
+         echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
+         echo "Afterwards, \"Ztrack\" will be installed."
+         echo
+         echo -n "Do you wish to continue (y/N)? "
+         read ANS
+         #
+         # Yes, Install Ztrack.
+         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+            # Install libncurses-dev and ncurses-dev as pre-requisites.
+            f_ncurses
+            if [ "$ERROR" = "0" ] ; then
+               # Error code 1 $?=1 means no --help available.
+               # Error code 0 (zero) where $?=0 means no error.
+               #
+               # Since dependencies are installed, now install Ztrack.
+               f_install2_ztrack
+               #
+               # Since dependent packages may have been installed causing
+               # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+               # original name along with APP_NAME_INSTALL for web install.
+               #
+               # Set APP_NAME to correct name for f_application_run.
+               APP_NAME="ztrack"
+               #
+               # Set APP_NAME_INSTALL for f_application_web_install.
+               APP_NAME_INSTALL=$APP_NAME
+           fi
+         else
+            # No, Do not install Ztrack.
+            MENU_ITEM_NAME="" # Null so f_application_run does not try to run Ztrack.
+                              # when it's not installed.
+            APP_NAME=""       # Also prevents checking for Quit Clause.
+            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+         fi
+         unset ANS  # Throw out this variable.
+      fi
+} # End of function f_install_ztrack
+#
+# +----------------------------------------+
+# |         Function f_install2_ztrack     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: APP_NAME, MENU_ITEM (both set to null).
+#
+f_install2_ztrack () {
+      clear  # blank screen
+      echo "This script will automatically download and install \"Ztrack\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "2. Download \"Ztrack\" using wget from:"
+      echo "   http://www.ibiblio.org/pub/Linux/games/arcade"
+      echo "3. Decompress and create the installation subdirectory ~/bin/ztrack*"
+      echo "4. Install Ztrack via:"
+      echo "                           make"
+      echo "                           sudo make install"
+      echo
+      echo "   Installs files to /usr/local/bin/."
+      echo
+      echo "5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users."
+      echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. Change directory to your home/bin folder.
+      cd ~
+      if [ ! -d "~/bin" ] ; then
+         # Target directory is missing, so create it.
+	 mkdir ~/bin
+      fi
+      # 
+      # 2. Download "Ztrack" from "http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz" by using wget.
+      cd ~/bin
+      wget http://www.ibiblio.org/pub/Linux/games/arcade/ztrack-1.0.tar.gz
+      #
+      # 3. Decompress and create the installation subdirectory ~/bin/ztrack*.
+      tar -xf ztrack-1.0.tar.gz
+      #
+      # 4. Make and install Ztrack.
+      cd ~/bin/ztrack*
+      make
+      sudo make install
+      #
+      # 5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users.
+      sudo chmod 755 /usr/games/ztrack*
+      #
+      # 6. Add directory \"/usr/games\" to your PATH command in ~/.bashrc.
+      # Is the directory /usr/games in your PATH of directories?
+      # Check the $PATH
+      if [[ ! "$PATH" == *":/usr/games"* ]] ; then
+         echo "If needed, edit file \"~/.bashrc\" PATH."
+         echo "Append the directory name to your environment $PATH."
+         echo $(tput bold)'PATH=$PATH'":/usr/games"
+         echo "export PATH"
+         echo
+         echo "       >>> IMPORTANT <<<"
+         echo "After editing the file, .bashrc:"
+         echo "Close Terminal for changes to take effect."
+         echo "Either logout or exit from Terminal and re-launch Terminal."
+         echo
+      fi
+      echo
+      echo "Finished running installation script for \"Ztrack\"."
+      echo
+      echo "To run \"Ztrack\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+} # End of function f_install2_ztrack
+#
+# +----------------------------------------+
+# |            Function f_atom4            |
+# +----------------------------------------+
+#
+f_atom4 () {
+      APP_NAME="atom4 -mt"
+} # End of f_atom4
 #
 # +----------------------------------------+
 # |            Function f_boxes            |
@@ -1991,6 +1763,54 @@ f_boxes () {
 } # End of function f_rev
 #
 # +----------------------------------------+
+# |            Function f_gnubg            |
+# +----------------------------------------+
+#
+f_gnubg () {
+      APP_NAME="gnubg -t"
+      clear # Blank the screen.
+      echo "gnubg - GNU Backgammon."
+      echo
+      echo "gnubg -t starts backgammon in text mode."
+      echo
+      echo "At the prompt, type: \"new game\" to start a new game."
+      echo "           (No game)  new game"
+      echo
+      echo "                     \"help\" for playing commands."
+      echo
+      echo "                     \"q\" or \"quit\" to end game."
+      f_press_enter_key_to_continue
+} # End of f_gnubg
+#
+# +----------------------------------------+
+# |              Function f_hint           |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_hint () {
+      clear  # blank screen
+      echo "To use as a screensaver with an inactivity time-out:"
+      echo
+      echo "1. Install application \"screen\" (under System Category Menu/Screens Menu)."
+      echo
+      echo "2. Create file \"~/.screenrc\ in your home directory."
+      echo
+      echo "   File \"~/.screenrc\" should contain the following lines:"
+      echo
+      echo "        blankerprg $APP_NAME"
+      echo "        idle 120 blanker"
+      echo
+      echo "   Where \"idle 120\" is the number of seconds of inactivity time-out."
+      echo "   You can change it from 120 to any number of seconds you want."
+      echo
+      echo
+      # f_press_enter_key_to_continue
+} # End of function f_hint
+#
+# +----------------------------------------+
 # |             Function f_rev             |
 # +----------------------------------------+
 #
@@ -2037,4 +1857,126 @@ f_rev () {
       fi
       APP_NAME=""
 } # End of function f_rev
+#
+# +----------------------------------------+
+# |               Function f_sst           |
+# +----------------------------------------+
+f_sst () {      clear # Blank the screen.
+      echo "sst - Super Star Trek."
+      echo
+      echo "For instructions while playing the game:"
+      echo "Type a '?' at the 'COMMAND>' prompt."
+      echo 
+      echo "COMMAND> ?"
+      echo "UNRECOGNIZED COMMAND. LEGAL COMMANDS ARE:"
+      echo "   SRSCAN    MOVE      PHASERS   CALL"
+      echo "   STATUS    IMPULSE   PHOTONS   ABANDON"
+      echo "   LRSCAN    WARP      SHIELDS   DESTRUCT"
+      echo "   CHART     REST      DOCK      QUIT"
+      echo "   DAMAGES   REPORT    SENSORS   ORBIT"
+      echo "   TRANSPORT MINE      CRYSTALS  SHUTTLE"
+      echo "   PLANETS   REQUEST   DEATHRAY  FREEZE"
+      echo "   COMPUTER  EMEXIT    PROBE     COMMANDS"
+      echo "   HELP"
+      echo
+      echo "To quit game:"
+      echo "COMMAND> QUIT"
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+}  #End of function f_sst
+#
+# +----------------------------------------+
+# |           Function f_starwars          |
+# +----------------------------------------+
+#
+f_starwars () {
+      clear # Blank the screen.
+      echo "Star Wars ASCII Movie"
+      echo
+      echo The movie is played by running command:
+      echo telnet towel.blinkenlights.nl
+      echo
+      echo If telnet hangs while trying the ip-address,
+      echo then re-run this program and try again.
+      echo
+      f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
+}  #End of function f_starwars
+#
+# +----------------------------------------+
+# |             Function f_trek            |
+# +----------------------------------------+
+#
+f_trek () {
+      clear # Blank the screen.
+      echo "Trek - Star Trek game included in the package bsdgames."
+      echo
+      echo "For instructions while playing the game:"
+      echo 
+      echo "Type a '?' at the 'Command:' prompt."
+      echo 
+      echo "Command: ?"
+      echo "abandon       capture         cloak      computer"
+      echo "damages      destruct          dock          help"
+      echo "impulse        lrscan          move       phasers"
+      echo "    ram          dump          rest        shield"
+      echo " srscan        status     terminate       torpedo"
+      echo " undock        visual          warp"
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+}  #End of function f_trek
+#
+# +----------------------------------------+
+# |              Function f_trekx          |
+# +----------------------------------------+
+f_trekx () {      clear # Blank the screen.
+      echo "trekx - Super Star Trek."
+      echo
+      echo "For instructions while playing the game:"
+      echo "Type a '-' (dash) at the 'CODE>' prompt."
+      echo 
+      echo "CODE> -"
+      echo "1  Fire Phasers                  q  Lock Phasers"
+      echo "2  Fire Photon Torpedoes         w  Lock Tubes"
+      echo "3  Anti-Matter Probe Control     e  Alter Power Distribution"
+      echo "4  Load/Unload Torpedoes         r  Change Firing Parameters"
+      echo "5  Change Course & Speed         t  Alter Display Radius"
+      echo "6  Pursue Enemy Vessel           y  Run from Enemy Vessel"
+      echo "7  Damage Report                 u  Scan Enemy Vessel"
+      echo "8  Self-Destruction              i  Engineering Separation"
+      echo "9  Ask Enemy to Surrender        o  Surrender"
+      echo "0  Attempt Defenseless Ruse      p  Attempt Corbomite Bluff"
+      echo "-  List Commands                 [  Quit Game"
+      echo
+      echo "To quit game: Type a left square-bracket at the CODE> prompt"
+      echo "CODE> ["
+      echo
+      echo -n "Press '"Enter"' key to continue."
+      read X
+      unset X  # Throw out this variable.
+}  #End of function f_trekx
+#
+# +----------------------------------------+
+# |            Function f_wargames         |
+# +----------------------------------------+
+#
+f_wargames () {
+      clear # Blank the screen.
+      echo "wargames - Question asked by the WOPR super-computer."
+      echo
+      echo "From the 1983 movie 'WarGames' starring Matthew Broderick, Ally Sheedy,"
+      echo "Dabney Coleman, and John Wood. David (Matthew Broderick) unknowingly hacks into"
+      echo "the backdoor of a top-secret U.S. Air Force super-computer."
+      echo "The WOPR (War Operation Planned Response) controls the U.S. nuclear arsenal."
+      echo
+      echo "Notice the computer equipment David uses, the acoustic modem, and floppy drive."
+      echo
+      echo "WOPR asks this question when David first hacks the backdoor, making David think"
+      echo "that it is simply a recreational program."
+      echo
+      f_press_enter_key_to_continue
+} # End of f_wargames
 #

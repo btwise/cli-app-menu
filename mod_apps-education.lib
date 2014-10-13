@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-10-2014 16:02"
+# REVDATE="October-12-2014 17:30"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_education      |
@@ -41,82 +41,6 @@ f_menu_app_education () {
             #
       unset MED MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_education
-#
-# +----------------------------------------+
-# |            Function f_metar            |
-# +----------------------------------------+
-#
-f_metar () {
-      clear # Blank the screen.
-      echo "metar - Weather conditions from NOAA."
-      echo
-      echo "Usage:"
-      echo "metar [-dvh] stations"
-      echo
-      echo "For a list of stations go to URL:"
-      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
-      echo
-      echo "*** For more help type: 'man metar'"
-      echo "                        'metar --help'"
-      echo
-      f_press_enter_key_to_continue
-} # End of function f_metar
-#
-# +----------------------------------------+
-# |            Function f_tide             |
-# +----------------------------------------+
-#
-f_tide () {
-      clear # Blank the screen.
-      echo "tide - Schedule of high/low tides."
-      echo
-      echo "Usage:"
-      echo "tide -l <location name> [OPTIONS]"
-      echo
-      echo "tide -l Boston -f t -m g"
-      echo
-      echo "[OPTIONS]"
-      echo "-f t - output format is text."
-      echo "-m g - mode is graphical."
-      echo
-      echo "*** For more help type: 'man tide'"
-      echo "                        'tide --help'"
-      echo
-      f_press_enter_key_to_continue
-} # End of function f_tide
-#
-# +----------------------------------------+
-# |           Function f_weather           |
-# +----------------------------------------+
-#
-f_weather () {
-      clear # Blank the screen.
-      echo "weather - Weather conditions from NOAA." 
-      echo
-      echo "Home web page: http://fungi.yuggoth.org/weather/"
-      echo
-      echo "Usage:"
-      echo "weather [OPTIONS] stations"
-      echo
-      echo  "Stations:"
-      echo 
-      echo  "U.S. ZIP Code"
-      echo  "<longitude, latitude> i.e. '35-52n, 78-43w'"
-      echo
-      echo "[OPTIONS]"
-      echo "-a  --alert     Alerts"
-      echo "-f              Local forcast"
-      echo "    --imperial  Convert between metric and imperial units"
-      echo "-m              metric units"
-      echo
-      echo "For a list of stations go to URL:"
-      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
-      echo
-      echo "*** For more help type: 'man weather'"
-      echo "                        'weather --help'"
-      echo
-      f_press_enter_key_to_continue
-} # End of function f_weather
 #
 # +----------------------------------------+
 # |      Function f_menu_app_hamradio      |
@@ -192,6 +116,26 @@ f_menu_app_math () {
 } # End of function f_menu_app_math
 #
 # +----------------------------------------+
+# |            Function f_metar            |
+# +----------------------------------------+
+#
+f_metar () {
+      clear # Blank the screen.
+      echo "metar - Weather conditions from NOAA."
+      echo
+      echo "Usage:"
+      echo "metar [-dvh] stations"
+      echo
+      echo "For a list of stations go to URL:"
+      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
+      echo
+      echo "*** For more help type: 'man metar'"
+      echo "                        'metar --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_metar
+#
+# +----------------------------------------+
 # |          Function f_num-utils          |
 # +----------------------------------------+
 #
@@ -215,3 +159,60 @@ f_num-utils () {
       echo "  * numrange: Generate a set of numbers in a range expression."
       echo "  * numround: Round each number according to its value."
 } # End of function f_num-utils
+#
+# +----------------------------------------+
+# |            Function f_tide             |
+# +----------------------------------------+
+#
+f_tide () {
+      clear # Blank the screen.
+      echo "tide - Schedule of high/low tides."
+      echo
+      echo "Usage:"
+      echo "tide -l <location name> [OPTIONS]"
+      echo
+      echo "tide -l Boston -f t -m g"
+      echo
+      echo "[OPTIONS]"
+      echo "-f t - output format is text."
+      echo "-m g - mode is graphical."
+      echo
+      echo "*** For more help type: 'man tide'"
+      echo "                        'tide --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_tide
+#
+# +----------------------------------------+
+# |           Function f_weather           |
+# +----------------------------------------+
+#
+f_weather () {
+      clear # Blank the screen.
+      echo "weather - Weather conditions from NOAA." 
+      echo
+      echo "Home web page: http://fungi.yuggoth.org/weather/"
+      echo
+      echo "Usage:"
+      echo "weather [OPTIONS] stations"
+      echo
+      echo  "Stations:"
+      echo 
+      echo  "U.S. ZIP Code"
+      echo  "<longitude, latitude> i.e. '35-52n, 78-43w'"
+      echo
+      echo "[OPTIONS]"
+      echo "-a  --alert     Alerts"
+      echo "-f              Local forcast"
+      echo "    --imperial  Convert between metric and imperial units"
+      echo "-m              metric units"
+      echo
+      echo "For a list of stations go to URL:"
+      echo "http://weather.noaa.gov/pub/data/observations/metar/stations/"
+      echo
+      echo "*** For more help type: 'man weather'"
+      echo "                        'weather --help'"
+      echo
+      f_press_enter_key_to_continue
+} # End of function f_weather
+#
