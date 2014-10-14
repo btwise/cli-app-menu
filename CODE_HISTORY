@@ -38,8 +38,8 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="1.2"
-PROJECT_REVDATE="October-12-2014 17:30"
+PROJECT_REVISION="2.0"
+PROJECT_REVDATE="October-14-2014 01:03"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,6 +79,18 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
+## 2014-10-14 *Testing version 2.0
+##            *New functionality, can now "Find and run" an application
+##             from the Main Menu.
+##            *f_application_error Bug fix change APPNAME to APP_NAME.
+##            *f_application_install clarified instructions and messages.
+##            *f_main_search_apps enhanced to also run an application.
+##            *f_mod_update added comment about updating modules.
+##            *f_quit_app_clause clarified comments and removed trailing
+##             <space> from string $QUIT_FIELD.
+##            *f_run_app added to run an application.
+##            *f_spell clarified help instructions.
+##
 ## 2014-10-12 *mod_apps-audio-video.lib rearranged functions alphabetically.
 ##            *mod_apps-education.lib rearranged functions alphabetically.
 ##            *mod_apps-filedir.lib rearranged functions alphabetically.
@@ -89,6 +101,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *mod_apps-office.lib rearranged functions alphabetically.
 ##            *mod_apps-packages.lib rearranged functions alphabetically.
 ##            *mod_apps-system.lib rearranged functions alphabetically.
+##            *f_install_galaxis created to install galaxis.
 ##
 ## 2014-10-11 *f_menu_app_games_simulation added sst, trekx.
 ##             Also added help for sst, trek, trekx.
@@ -103,7 +116,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *README added "#:MNX - WAN Applications2 Menu" as Main Menu option
 ##             "Find an Application" was not detecting any apps in this menu.
 ##
-## 2014-10-03 *f-sub_menu removed extraneous spaces.
+## 2014-10-03 *Testing version 1.2.1
+##            *f-sub_menu removed extraneous spaces.
 ##            *f_menu_app_sys_monitors2 "ttyload" fixed missing quote in
 ##             menu item option field 1 to pass a parameter to a function.
 ##

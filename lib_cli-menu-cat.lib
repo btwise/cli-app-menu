@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-02-2014 15:28"
+# REVDATE="October-14-2014 01:03"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -523,7 +523,13 @@ f_mod_restore () {
 f_mod_update () {
            # Update and invoke an existing module.
            if [ -e $1/$2 ] ; then  # <module file name> <Followed by whitespace>
+              #
               # Function f_download_file can use sudo permissions if needed.
+              #
+              # Note: Function "f_download_file" calls "f_wget_file" which
+              #       deletes the software module (file) before downloading
+              #       a new copy from the GitHub repository branch.
+              #
               f_download_file
            else
               if [ -r $1/$2.tar.gz ] ; then

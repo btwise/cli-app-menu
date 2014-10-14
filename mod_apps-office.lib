@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-14-2014 01:03"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -670,37 +670,6 @@ f_menu_app_text_markup_language () {
 } # End of f_menu_app_text_markup_language
 #
 # +----------------------------------------+
-# |Function f_menu_app_text_word_processors|
-# +----------------------------------------+
-#
-#  Inputs: None. 
-#    Uses: MTD, MENU_ITEM, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_app_text_word_processors () {
-      f_initvars_menu_app "MTD"
-      until [ "$MTD" = "0" ]
-      do    # Start of Text Word Processor Applications until loop.
-#0^0^0^0^1 #MTD unoconv     - Converts any document format that LibreOffice imports/exports.
-#0^0^0^24^0 #MTD wordgrinder - Word processor, styles, drop-down menus, ncurses-based.
-#0^0^0^0^1 #MTD wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
-#0^0^0^0^1 #MTD wpd2odt     - WordPerfect to OpenDocument converter.
-#0^0^0^0^1 #MTD wpg2odg     - WordPerfect Graphics to OpenDocument converter.
-#0^0^0^0^1 #MTD wps2odt     - Microsoft Works text documents to OpenDocument converter.
-            #
-            THIS_FILE="mod_apps-office.lib"
-            MENU_TITLE="Text Word Processor Applications Menu"
-            DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MTD
-            f_menu_item_process $MTD  # Outputs $MENU_ITEM.
-      done  # End of Text Word Processor Applications until loop.
-            #
-      unset MTD MENU_ITEM  # Throw out this variable.
-} # End of f_menu_app_text_word_processors
-#
-# +----------------------------------------+
 # |     Function f_menu_app_text_tools     |
 # +----------------------------------------+
 #
@@ -804,6 +773,37 @@ f_menu_app_todo2 () {
             #
       unset MTB MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_todo2
+#
+# +----------------------------------------+
+# |Function f_menu_app_text_word_processors|
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MTD, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_text_word_processors () {
+      f_initvars_menu_app "MTD"
+      until [ "$MTD" = "0" ]
+      do    # Start of Text Word Processor Applications until loop.
+#0^0^0^0^1 #MTD unoconv     - Converts any document format that LibreOffice imports/exports.
+#0^0^0^24^0 #MTD wordgrinder - Word processor, styles, drop-down menus, ncurses-based.
+#0^0^0^0^1 #MTD wp2x        - Converts WordPerfect 5.x documents to HTML, LaTeX, txt, troff.
+#0^0^0^0^1 #MTD wpd2odt     - WordPerfect to OpenDocument converter.
+#0^0^0^0^1 #MTD wpg2odg     - WordPerfect Graphics to OpenDocument converter.
+#0^0^0^0^1 #MTD wps2odt     - Microsoft Works text documents to OpenDocument converter.
+            #
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Text Word Processor Applications Menu"
+            DELIMITER="#MTD" #MTD This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MTD
+            f_menu_item_process $MTD  # Outputs $MENU_ITEM.
+      done  # End of Text Word Processor Applications until loop.
+            #
+      unset MTD MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_text_word_processors
 #
 # +----------------------------------------+
 # |       Function f_install_cclock        |
@@ -1169,26 +1169,25 @@ f_spell () {
          read ANS
          if [ -z $ANS ] ; then   #String has zero length.
             clear # Blank the screen.
-            echo "Missing filename."
-            echo "Usage: spell <filename>"
-            echo
-            echo "Since no filename, now run 'spell' in interactive mode."
+            echo "Since no filename was entered, you will be using interactive mode."
             echo
             echo "Interactive usage:"
             echo
-            echo "Example: Type the sentence below"
-            echo "The wrong spelling is recieve, while the correct spelling is receive"
+            echo "Example: Type the incorrectly spelled word below"
+            echo 
+            echo "recieve"
             echo
             echo "recieve <<--spell responds with this word."
             echo
-            echo "The word 'recieve' is repeated on the screen because it is mis-spelled."
+            echo "(Words spelled incorrectly are repeated on the screen.)"
             echo
-            echo "Now type the word(s) or sentence to spell check."
+            echo "When words are spelled correctly, there will be no response from the"
+            echo "\"spell\" program. So if you see nothing, the spelling is correct."
             echo
-            echo "If the word has the wrong spelling, it will be repeated on the screen."
-            echo "If the word has the correct spelling, it will not be repeated."
+            echo "--------------------------------------------------------------------------"
+            echo "NOW ENTERING INTERACTIVE MODE OF SPELL"
+            echo "A blank screen will appear, now type the word you wish to spell correctly."
             echo
-            f_how_to_quit_application "<Ctrl>-D" "no-clear"
             APP_NAME="spell"
          elif [ -r $ANS ] ; then   #Filename exists and is readable.
             APP_NAME="spell $ANS"

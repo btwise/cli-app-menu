@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-12-2014 22:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -58,7 +58,7 @@ f_menu_app_games_arcade () {
 #0^0^0^0^0  #MGA asciijump      - Ski jump game.
 #0^0^0^0^0  #MGA asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
 #0^0^0^0^1  #MGA freesweep      - Minesweeper game.
-#0^0^0^0^0  #MGA galaxis        - Find lifeboats in space before oxygen runs out.
+#0^1^0^0^0  #MGA galaxis        - Find lifeboats in space before oxygen runs out.
 #0^0^0^0^0  #MGA gnuski         - Downhill skiing while avoiding trees.
 #0^0^0^0^0  #MGA moon-buggy     - Drive a moon buggy on the moon.
 #0^0^0^1^1  #MGA ninvaders      - Space invaders-like game ncurses-based.
@@ -71,7 +71,7 @@ f_menu_app_games_arcade () {
 #f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...        - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Arcade Game Menu"
+            MENU_TITLE="Arcade Games Menu"
             DELIMITER="#MGA" #MGA This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -100,7 +100,7 @@ f_menu_app_games_arcade2 () {
 #0^1^0^0^0  #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Arcade2 Game Menu"
+            MENU_TITLE="Arcade2 Games Menu"
             DELIMITER="#MGB" #MGB This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -161,7 +161,7 @@ f_menu_app_games_card () {
 #0^0^0^0^0 #MGD ttysolitaire - Color ncurses-based solitaire game.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Card Game Menu"
+            MENU_TITLE="Card Games Menu"
             DELIMITER="#MGD" #MGD This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -188,7 +188,7 @@ f_menu_app_games_mud () {
 #0^0^0^0^1 #MGE tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="MUD Game Menu"
+            MENU_TITLE="MUD Games Menu"
             DELIMITER="#MGE" #MGE This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -216,7 +216,7 @@ f_menu_app_games_pacman () {
 #0^0^0^0^0 #MGM yaourt         - "Pac-Man"-like game, ncurses-based.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="\"Pac-Man\"-like Game Menu"
+            MENU_TITLE="\"Pac-Man\"-like Games Menu"
             DELIMITER="#MGM" #MGM This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -255,7 +255,7 @@ f_menu_app_games_puzzle () {
 #0^1^0^1^0    #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Puzzle Game Menu"
+            MENU_TITLE="Puzzle Games Menu"
             DELIMITER="#MGF" #MGF This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -284,7 +284,7 @@ f_menu_app_games_quiz () {
 #0^0^0^1^1  #MGG quiz       - Quiz with choice of assorted topics.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Quiz Game Menu"
+            MENU_TITLE="Quiz Games Menu"
             DELIMITER="#MGG" #MGG This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -318,7 +318,7 @@ f_menu_app_games_rpg () {
 #0^0^0^0^1 #MGH wump       - Hunt the Wumpus, watch out for bats, pits.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="RPG Game Menu"
+            MENU_TITLE="RPG Games Menu"
             DELIMITER="#MGH" #MGH This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -427,7 +427,7 @@ f_menu_app_games_strategy () {
 #1^0^0^0^1 #MGJ wargames   - Computer prompt from movie "War Games". 
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Strategy Game Menu"
+            MENU_TITLE="Strategy Games Menu"
             DELIMITER="#MGJ" #MGJ This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -459,7 +459,7 @@ f_menu_app_games_tetris () {
 #0^0^0^5^0 #MGL vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Tetris-like Game Menu"
+            MENU_TITLE="Tetris-like Games Menu"
             DELIMITER="#MGL" #MGL This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -498,7 +498,7 @@ f_menu_app_games_word () {
 #0^0^0^10^0 #MGK toilet    - Creates banner with bold font.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Word Game Menu"
+            MENU_TITLE="Word Games Menu"
             DELIMITER="#MGK" #MGK This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -655,7 +655,7 @@ f_install2_asciiquarium () {
       echo
       echo "Finished running installation script for \"ASCIIQuarium\"."
       echo
-      echo "To run \"ASCIIQuarium\", select it on the \"Screen-saver Applications Menu\"."
+      echo "To run \"ASCIIQuarium\", select it on the \"Screen-saver Games Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
@@ -789,7 +789,7 @@ f_install2_bsod () {
       echo
       echo "Finished running installation script for \"bsod\"."
       echo
-      echo "To run \"bsod\", select it on the \"Screen-saver Applications Menu\"."
+      echo "To run \"bsod\", select it on the \"Screen-saver Games Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
@@ -924,6 +924,123 @@ f_install2_cclock () {
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_cclock
+#
+# +----------------------------------------+
+# |       Function f_install_galaxis       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_galaxis () {
+      clear  # blank screen
+      echo "galaxis - Rescue 4 lifeboats from a crippled interstellar liner."
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your home/bin/galaxis folder, creating it as necessary."
+      echo "2. Download \"galaxis\" using wget from the author's web page."
+      echo "    \"http://www.catb.org/~esr/galaxis/galaxis-1.9.tar.gz\""
+      echo "3. Decompress and extract \"galaxis.c\" from the *.tgz file."
+      echo "4. Compile the C source code to create the \"galaxis\" file."
+      echo "5. Copy \"galaxis\" to \"/usr/local/bin\" directory."
+      echo "6. Copy \"galaxis\" to "/usr/local/bin" directory."
+      echo "7. Allow users to run \"galaxis\" by setting permissions to r-x or 755."
+      echo "8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install galaxis.
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # 1. Change directory to your home/bin/trek73c folder.
+         cd ~
+         if [ ! -d "~/bin" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin
+         fi
+         #
+         if [ ! -d "~/bin/galaxis" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin/galaxis
+         fi
+         #
+         cd ~/bin/galaxis
+         # 
+         # 2. Download "galaxis" using wget from the author's web page.
+         wget http://www.catb.org/~esr/galaxis/galaxis-1.9.tar.gz
+         #
+         # 3. Decompress and extract "galaxis.c", "Makefile", etc. from the *.tar.gz file."
+         tar -xvf galaxis-1.9.tar.gz
+         #
+         cd galaxis-
+         #
+         # 4. Compile the C source code to create the galaxis file.
+         make galaxis
+         #
+         # 5. Copy \"galaxis\" to "/usr/local/bin" directory.
+         sudo cp ~/bin/galaxis/galaxis-/galaxis /usr/local/bin/
+         #
+         # 6. Copy man pages for galaxis to "usr/share/man/man6" directory
+         gzip ~/bin/galaxis/galaxis-/galaxis.6
+         #
+         if [ -r ~/bin/galaxis/galaxis-/galaxis.6.gz ] ; then
+            sudo cp ~/bin/galaxis/galaxis-/galaxis.6.gz /usr/share/man/man6/
+         else
+            sudo cp ~/bin/galaxis/galaxis-/galaxis.6 /usr/share/man/man6/
+         fi
+         #
+         # 7.  Allow users to run galaxis by setting permissions to r-x or 755.
+         sudo chmod 755 /usr/local/bin/galaxis
+         #
+         # 8. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
+         #    Is the directory /usr/local/bin in your PATH of directories?
+         #    Check the $PATH
+         if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+            echo "If needed, edit file \"~/.bashrc\" PATH."
+            echo "Append the directory name to your environment $PATH."
+            echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+            echo "export PATH"
+            echo
+            echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+            echo "Either logout or exit from Terminal and re-launch Terminal."
+            echo
+         fi
+         echo
+         echo "-------------------------------------------------------------"
+         echo "Finished running installation script for \"galaxis\"."
+         echo "-------------------------------------------------------------"
+         echo
+         echo "To run \"galaxis\", select it on the \"Arcade Games Menu\"."
+         echo
+         echo "IMPORTANT: For instructions on playing, type \"?\" while playing the game."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         # Since dependent packages may have been installed causing
+         # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+         # original name along with APP_NAME_INSTALL for web install.
+         #
+         # Set APP_NAME to correct name for f_application_run.
+         APP_NAME="galaxis"
+         #
+         # Set APP_NAME_INSTALL for f_application_web_install.
+         APP_NAME_INSTALL=$APP_NAME
+      else
+         # No, Do not install galaxis.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_galaxis
 #
 # +----------------------------------------+
 # |          Function f_install_sst        |
@@ -1325,7 +1442,7 @@ f_install2_textmaze () {
       echo
       echo "Finished running installation script for \"TextMaze\"."
       echo
-      echo "To run \"TextMaze\", select it on the \"Puzzle Game Menu\"."
+      echo "To run \"TextMaze\", select it on the \"Puzzle Games Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
@@ -1384,7 +1501,7 @@ f_install_trekx () {
          # 4. Compile the C source code to create the trekx file.
          make trekx
          #
-         # 4. Move \"speedtest-cli\" to \"/usr/local/bin\" directory.
+         # 4. Move "trekx" to "/usr/local/bin" directory.
          sudo cp ~/bin/trek73c/trekx /usr/local/bin/
          #
          # 5.  Allow users to run trekx by setting permissions to r-x or 755.
@@ -1562,7 +1679,7 @@ f_install2_xorcurses () {
       echo
       echo "Finished running installation script for \"XorCurses\"."
       echo
-      echo "To run \"XorCurses\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
+      echo "To run \"XorCurses\", select it on the \"Arcade Games Menu\" or \"Board Games Menu\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X
@@ -1694,7 +1811,7 @@ f_install2_ztrack () {
       echo
       echo "Finished running installation script for \"Ztrack\"."
       echo
-      echo "To run \"Ztrack\", select it on the \"Arcade Game Menu\" or \"Puzzle Game Menu\"."
+      echo "To run \"Ztrack\", select it on the \"Arcade Games Menu\" or \"Simulation Games\"."
       echo
       echo -n "Press '"Enter"' key to continue."
       read X

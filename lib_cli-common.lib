@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-14-2014 01:03"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -406,7 +406,7 @@ f_menu_item_process () {
 #
 #  Inputs: DELIMITER, THIS_FILE, MENU_ITEM.
 #    Uses: XNUM, MENU_ITEM, MENU_ITEM_NAME.
-# Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME. (If invalid, then APPNAME is null).
+# Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME. (If invalid, then APP_NAME is null).
 #
 f_menu_item_valid () {
       # Get application name from menu.
@@ -515,7 +515,7 @@ f_menu_item_info () {
 # |          Function f_eval_funct         |
 # +----------------------------------------+
 #
-#  Inputs: $1, $2.
+#  Inputs: $1, $2, $MENU_ITEM_NAME
 #          $1=$MENU_ITEM_OPT.
 #          $2=$Field number.
 #    Uses: X, XSTR.
@@ -622,10 +622,10 @@ f_quit_app_clause () {
       # Does MENU_ITEM_OPT Quit field contain string?
       # Extract Quit field, 4th field.
       QUIT_FIELD=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $4}')
-      if [ "$QUIT_FIELD" != "0" -a -n "$QUIT_FIELD" ] ; then  # If Quit field is non-zero.
+      if [ "$QUIT_FIELD" != "0" -a -n "$QUIT_FIELD" ] ; then  # If Quit field is not "0" and has a non-zero length.
          #
          NO_CLEAR=""
-         # Convert QUIT_FIELD "nc to upper-case.
+         # Convert QUIT_FIELD "nc" to upper-case if there is one.
          QUIT_FIELD=$(echo $QUIT_FIELD | tr '[:lower:]' '[:upper:]')
          #
          if [[ "$QUIT_FIELD" == *":NC"* ]] ; then
@@ -649,7 +649,10 @@ f_quit_app_clause () {
          #         To pass QUIT_FIELD into awk so that field is printed by awk,
          #         insert "QUIT_FIELD=$QUIT_FIELD" after '{print $QUIT_FIELD}'.
          QUIT_FIELD=$(echo $XSTR | awk -F "#%%" '{print $QUIT_FIELD}' QUIT_FIELD=$QUIT_FIELD | awk -F "." '{print $2}')
-         #QUIT_FIELD="\"$QUIT_FIELD\""  # Add quotation marks around string.
+         #
+         # Remove any <spaces> at the end of the string QUIT_FIELD.
+         QUIT_FIELD=$(echo $QUIT_FIELD | sed 's/ *$//')
+         #
          f_how_to_quit_application "$QUIT_FIELD" $NO_CLEAR
       fi
       #
@@ -1099,6 +1102,88 @@ f_application_run () {
 } # End of function f_application_run
 #
 # +----------------------------------------+
+# |          Function f_run_app            |
+# +----------------------------------------+
+#
+#  Inputs: $THIS_DIR, $1=Search string.
+#    Uses: $THIS_DIR/LIST_APPS, APP_NAME, MENU_ITEM_OPT, MOD_FILE.
+# Outputs: None.
+# Search LIST_APPS file for application names and display the list to allow user to run an application.
+#
+f_run_app () {
+                  # APP_NAME="-1"
+                  while [ -n "$APP_NAME" ]
+                  do
+                        clear # Blank the screen.
+                        echo "Search results of \"$1\"".
+                        echo
+                        # Search LIST_APPS - The application names are at the begining of each line and are preceded by a <space>.
+                        # To find these names, the basic command is: grep ^" "$XSTR
+                        #
+                        # Old code: 
+                        # grep --ignore-case -C 9 --color=always ^" "$1 $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+                        #
+                        # Display actual search results on screen.
+                        grep --ignore-case --color=always ^" "$1 $THIS_DIR"/LIST_APPS"
+                        echo
+                        echo "If you want to run the application now, type the full name at the prompt."
+                        echo "To quit, press 'Enter' key."
+                        echo
+                        echo -n "Name of application to run: "
+                        read APP_NAME
+                        if [ -n "$APP_NAME" ] ; then
+                           # 1. Search all files mod_apps-* listing which ones contain the application name.
+                           # 2. Invoke the file mod_apps-* (also called a module).
+                           # 3. Extract the MENU_ITEM_OPT string from the file mod_apps-*.
+                           # 4. Run the application with f_application_run.
+                           #
+                           # 1. Search for function declaration "f_<application name> () {" in all files.
+                           #    Example: if application name is "elinks" search for "f_elinks () {" in all files.
+                           #
+                           MOD_FILE=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $THIS_DIR/* | awk -F ":" '{print $1}')
+                           #
+                           # If If an f_<application name> is found in 2 or more mod_apps-* files,
+                           # then $MOD_FILE will have a space between the mod_apps-* file names.
+                           case $MOD_FILE in
+                                *" "*)
+                                # If an f_<application name> is found in 2 or more mod_apps-* files,
+                                # awk makes sure only the first mod_apps_* file name is used.
+                                MOD_FILE=$(echo $MOD_FILE | awk -F " " '{print $1}')
+                                ;;
+                           esac
+                           #
+                           # MOD_FILE now includes full directory path "$THIS_DIR/<Module file name>".
+                           #
+                           # 2. Invoke the module library, file mod_apps-*
+                           if [ -r $MOD_FILE ] ; then
+                              . $MOD_FILE  # Invoke module library.
+                           fi
+                           #
+                           # 3. Extract MENU_ITEM_OPT string.
+                           # grep finds lines in all mod_apps-* files with <special menu item marker> <space> <APP_NAME>.
+                           # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+                           # Sed strips off any trailing spaces.
+                           MENU_ITEM_OPT=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $MOD_FILE) # | awk -F "#" '{print $2}' | sed 's/ *$//')
+                           #
+                           # Specify 1st field of $MENU_ITEM_OPT for function #1.
+                           f_eval_funct "$MENU_ITEM_OPT" 1
+                           #
+                           # Specify 4th field of $MENU_ITEM_OPT for Quit Clause.
+                           f_quit_app_clause
+                           #
+                           # Specify 3rd field of $MENU_ITEM_OPT for function #3.
+                           f_eval_funct "$MENU_ITEM_OPT" 3
+                           #
+                           # 4. Run application program.
+                           #
+                           f_application_run
+                           f_press_enter_key_to_continue
+                        fi
+                  done
+                  unset APP_NAME MENU_ITEM_OPT MOD_FILE
+} # End of function f_run_app
+#
+# +----------------------------------------+
 # |       Function f_application_error     |
 # +----------------------------------------+
 #
@@ -1109,7 +1194,7 @@ f_application_run () {
 #
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
-         case $APPNAME in # Start of AppName case statement.
+         case $APP_NAME in # Start of APP_NAME case statement.
               sudo' '*)
               # Strip 'sudo', options and parameters from APP_NAME by using awk command.
               APP_NAME_TMP=$(echo $APP_NAME | awk '{print $2;}')
@@ -1121,7 +1206,7 @@ f_application_error () {
               # i.e. "dstat --version", then extract "dstat" as package name.
               APP_NAME_TMP=$(echo $APP_NAME | awk '{print $1;}')
               ;;
-         esac             # End of AppName case statement.
+         esac             # End of APP_NAME case statement.
          #
          # Be sure variable is set to redisplay current menu afterwards.
          CHOICE_MAIN=-1 # Initialize to -1 to force until loop
@@ -1544,6 +1629,12 @@ f_application_install () {
             echo "                  for the application and its source code."
             echo
             echo "I will now try to automatically download/install from source code, if possible."
+            echo
+            echo "Messages on the progress of the install should appear below."
+            echo
+            echo "If there are no messages, then nothing happened."
+            echo "Then try browsing to the web page where the source code is located."
+            echo
             f_press_enter_key_to_continue
             # If install via package manager failed then see if there is a custom install function.
             # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1586,6 +1677,12 @@ f_application_install () {
          #   echo "                  for the application and its source code."
          #   echo
          #   echo "Will now try to automatically download/install from source code, if possible."
+         #   echo
+         #   echo "Messages on the progress of the install should appear below."
+         #   echo
+         #   echo "If there are no messages, then nothing happened."
+         #   echo "Then try browsing to the web page where the source code is located."
+         #   echo
          #   f_press_enter_key_to_continue
          #   If install via package manager failed then see if there is a custom install function.
          #   if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1618,6 +1715,12 @@ f_application_install () {
             echo "                  for the application and its source code."
             echo
             echo "I will now try to automatically download/install from source code, if possible."
+            echo
+            echo "Messages on the progress of the install should appear below."
+            echo
+            echo "If there are no messages, then nothing happened."
+            echo "Then try browsing to the web page where the source code is located."
+            echo
             f_press_enter_key_to_continue
             # If install via package manager failed then see if there is a custom install function.
             # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1652,6 +1755,12 @@ f_application_install () {
             echo "                  for the application and its source code."
             echo
             echo "I will now try to automatically download/install from source code, if possible."
+            echo
+            echo "Messages on the progress of the install should appear below."
+            echo
+            echo "If there are no messages, then nothing happened."
+            echo "Then try browsing to the web page where the source code is located."
+            echo
             f_press_enter_key_to_continue
             # If install via package manager failed then see if there is a custom install function.
             # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
@@ -1675,6 +1784,12 @@ f_application_install () {
          echo "                  for the application and its source code."
          echo
          echo "I will now try to automatically download/install from source code, if possible."
+         echo
+         echo "Messages on the progress of the install should appear below."
+         echo
+         echo "If there are no messages, then nothing happened."
+         echo "Then try browsing to the web page where the source code is located."
+         echo
          f_press_enter_key_to_continue
          # If install via package manager failed then see if there is a custom install function.
          # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
