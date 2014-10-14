@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-02-2014 22:09"
+REVDATE="October-14-2014 12:42"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -2035,28 +2035,27 @@ f_main_search_apps () {
          while [ -n "$XSTR" ]
          do
                clear # Blank the screen.
-               echo "Search for a software package featured in this menu script."
+               echo "--- Find & Run an Application ---"
+               echo
+               echo "Find an application featured in this menu script."
                echo
                echo "To quit, press 'Enter' key."
                echo
-               echo -n "Enter name of software package or search string: "
+               echo -n "Enter name of application or software package: "
                read XSTR
                if [ -n "$XSTR" ] ;then
                   echo
                   echo "Please note:"
-                  echo "Even if '$XSTR' is found, it may not be available for your Linux distribution."
+                  echo "Even if \"$XSTR\" is found,"
+                  echo "it may not be available for your Linux distribution."
                   echo
                   echo "Not all Linux distributions will have all packages featured in this menu."
                   echo "i.e. A software package available in Red Hat may not be available in Debian,"
                   echo "     and vice versa."
-                  echo
-                  echo
-                  echo "To start search:"
                   f_press_enter_key_to_continue
                   #
-                  # Search LIST_APPS
-                  grep --ignore-case -C 9 --color=always $XSTR $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
-               fi
+                  f_run_app $XSTR
+               fi 
          done
          unset XSTR  # Throw out this variable.
       fi
@@ -2505,9 +2504,9 @@ f_initvars_menu_app "AAA"
       #
 until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
-#f_menu_cat_applications #AAA Applications        - Launch a command-line application.
+#f_menu_cat_applications #AAA Applications        - Run an application.
 #f_main_list_apps        #AAA List Applications   - List apps in active sub-menus (downloaded modules).
-#f_main_search_apps      #AAA Find an application - Search within active sub-menus (downloaded modules).
+#f_main_search_apps      #AAA Find and Run        - Find & run an application in active sub-menus.
 #f_main_help             #AAA Help and Features   - Basic usage and what can it do.
 #f_main_configure        #AAA Configure           - Update software, manage modules, change colors, etc.
 #f_main_information      #AAA Information         - About, version, documentation, code history, license.

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-14-2014 01:03"
+# REVDATE="October-14-2014 12:42"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -469,7 +469,7 @@ f_menu_item_valid () {
       export MENU_ITEM MENU_ITEM_NAME APP_NAME
       unset XNUM
       #
-} # End of function f_menu_item_process
+} # End of function f_menu_item_valid
 #
 # +----------------------------------------+
 # |        Function f_menu_item_info       |
@@ -558,7 +558,7 @@ f_eval_funct () {
       #
       unset X XSTR
       #
-} # End of function f-sub_menu
+} # End of function f_eval_funct
 #
 # +----------------------------------------+
 # |       Function f_quit_app_clause       |
@@ -991,7 +991,7 @@ f_application_help () {
                         # Convert string to integer -1. Also indicates valid menu choice.
                         # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
            APP_NAME=""  # Make sure that application is not run after displaying message.
-                        # Make sure that f_application_run is not run.           ;;
+                        # Make sure that f_application_run is not run.
            ;;
       esac
 #
@@ -1106,12 +1106,12 @@ f_application_run () {
 # +----------------------------------------+
 #
 #  Inputs: $THIS_DIR, $1=Search string.
-#    Uses: $THIS_DIR/LIST_APPS, APP_NAME, MENU_ITEM_OPT, MOD_FILE.
+#    Uses: $THIS_DIR/LIST_APPS, APP_NAME, MENU_ITEM_OPT, MENU_ITEM_NAME, MOD_FILE.
 # Outputs: None.
 # Search LIST_APPS file for application names and display the list to allow user to run an application.
 #
 f_run_app () {
-                  # APP_NAME="-1"
+                  APP_NAME="-1"
                   while [ -n "$APP_NAME" ]
                   do
                         clear # Blank the screen.
@@ -1124,60 +1124,121 @@ f_run_app () {
                         # grep --ignore-case -C 9 --color=always ^" "$1 $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
                         #
                         # Display actual search results on screen.
-                        grep --ignore-case --color=always ^" "$1 $THIS_DIR"/LIST_APPS"
-                        echo
-                        echo "If you want to run the application now, type the full name at the prompt."
-                        echo "To quit, press 'Enter' key."
-                        echo
-                        echo -n "Name of application to run: "
-                        read APP_NAME
-                        if [ -n "$APP_NAME" ] ; then
-                           # 1. Search all files mod_apps-* listing which ones contain the application name.
-                           # 2. Invoke the file mod_apps-* (also called a module).
-                           # 3. Extract the MENU_ITEM_OPT string from the file mod_apps-*.
-                           # 4. Run the application with f_application_run.
-                           #
-                           # 1. Search for function declaration "f_<application name> () {" in all files.
-                           #    Example: if application name is "elinks" search for "f_elinks () {" in all files.
-                           #
-                           MOD_FILE=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $THIS_DIR/* | awk -F ":" '{print $1}')
-                           #
-                           # If If an f_<application name> is found in 2 or more mod_apps-* files,
-                           # then $MOD_FILE will have a space between the mod_apps-* file names.
-                           case $MOD_FILE in
-                                *" "*)
-                                # If an f_<application name> is found in 2 or more mod_apps-* files,
-                                # awk makes sure only the first mod_apps_* file name is used.
-                                MOD_FILE=$(echo $MOD_FILE | awk -F " " '{print $1}')
-                                ;;
-                           esac
-                           #
-                           # MOD_FILE now includes full directory path "$THIS_DIR/<Module file name>".
-                           #
-                           # 2. Invoke the module library, file mod_apps-*
-                           if [ -r $MOD_FILE ] ; then
-                              . $MOD_FILE  # Invoke module library.
-                           fi
-                           #
-                           # 3. Extract MENU_ITEM_OPT string.
-                           # grep finds lines in all mod_apps-* files with <special menu item marker> <space> <APP_NAME>.
-                           # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
-                           # Sed strips off any trailing spaces.
-                           MENU_ITEM_OPT=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $MOD_FILE) # | awk -F "#" '{print $2}' | sed 's/ *$//')
-                           #
-                           # Specify 1st field of $MENU_ITEM_OPT for function #1.
-                           f_eval_funct "$MENU_ITEM_OPT" 1
-                           #
-                           # Specify 4th field of $MENU_ITEM_OPT for Quit Clause.
-                           f_quit_app_clause
-                           #
-                           # Specify 3rd field of $MENU_ITEM_OPT for function #3.
-                           f_eval_funct "$MENU_ITEM_OPT" 3
-                           #
-                           # 4. Run application program.
-                           #
-                           f_application_run
+                        grep --color=always ^" "$1 $THIS_DIR"/LIST_APPS"
+                        ERROR=$? # Save error flag condition.
+                        # Error code 2 means grep had an error.
+                        # Error code 1 means grep did not find any matches.
+                        # Error code 0 (zero) where $?=0 means grep found matches.
+                        #
+                        if [ $ERROR -ne 0 ] ; then # No results found, quit out of f_run_app.
+                           APP_NAME="" # to quit out of while-loop of f_run_app.
+                           # Use different color font for error messages.
+                           f_term_color $ECOLOR $BCOLOR
+                           echo -n $(tput bold)
+                           echo	
+                           echo "No applications beginning with \"$1\" were found."
+                           f_term_color $FCOLOR $BCOLOR
+                           echo $(tput bold)
                            f_press_enter_key_to_continue
+                        else
+                           echo
+                           echo "If you want to run the application now, type the full name at the prompt."
+                           echo "To quit, press 'Enter' key."
+                           echo
+                           #
+                           # if Search LIST_APPS finds no matching application names, then exit.
+                           #
+                           echo -n "Name of application to run: "
+                           read APP_NAME
+                           #
+                           # Find any matches for APP_NAME to see if it is a valid application name.
+                           # Redirect error and standard output to null device.
+                           grep -w --color=always \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* &>/dev/null # 1=standard messages, 2=error messages, &=both.
+                           ERROR=$? # Save error flag condition.
+                           # Error code 2 means grep had an error.
+                           # Error code 1 means grep did not find any matches.
+                           # Error code 0 (zero) where $?=0 means grep found matches.
+                           #
+                           # If grep did not find any matches for APP_NAME or APP_NAME="" or APP_NAME does not match search for application.
+                           if [ $ERROR -ne 0 -a -n "$APP_NAME" ] ; then # No results found, quit out of f_run_app.
+                              # Use different color font for error messages.
+                              f_term_color $ECOLOR $BCOLOR
+                              echo -n $(tput bold)
+                              echo
+                              echo "No application \"$APP_NAME\" was found."
+                              f_term_color $FCOLOR $BCOLOR
+                              echo $(tput bold)
+                              f_press_enter_key_to_continue
+                               APP_NAME="" # to quit out of while-loop of f_run_app.
+                           #
+                           # If APP_NAME="".
+                           elif [ -z "$APP_NAME" ] ; then
+                              APP_NAME="" # to quit out of while-loop of f_run_app.
+                           #
+                           # If search results does not match the beginning of APP_NAME.
+                           elif ! [[ "$APP_NAME" == "$1"* ]] ; then
+                              # Use different color font for error messages.
+                              f_term_color $ECOLOR $BCOLOR
+                              echo -n $(tput bold)
+                              echo
+                              echo "Application \"$APP_NAME\" does not match previous search results."
+                              f_term_color $FCOLOR $BCOLOR
+                              echo $(tput bold)
+                              f_press_enter_key_to_continue
+                              APP_NAME="" # to quit out of while-loop of f_run_app.
+                           else
+                              # 1. Search all files mod_apps-* listing which ones contain the application name.
+                              # 2. Invoke the file mod_apps-* (also called a module).
+                              # 3. Extract the MENU_ITEM_OPT string from the file mod_apps-*.
+                              # 4. Run the application with f_application_run.
+                              #
+                              # 1. Search for function declaration "f_<application name> () {" in all files.
+                              #    Example: if application name is "elinks" search for "f_elinks () {" in all files.
+                              #
+                              MOD_FILE=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* | awk -F ":" '{print $1}')
+                              #
+                              # If If an f_<application name> is found in 2 or more mod_apps-* files,
+                              # then $MOD_FILE will have a <CR><LF> (New Line) between the mod_apps-* file names.
+                              #
+                              # Extract only the first mod_app-* file name when there are more than one.
+                              # Use a temporary file for the awk input file. 
+                              # A piped input did not work for unknown reasons. i.e. echo $MOD_FILE | awk '{print $1}'
+                              # so a temporary file had to be used instead.
+                              echo $MOD_FILE > ~/.cliappmenu.tmp
+                              MOD_FILE=$(awk '{print $1}' ~/.cliappmenu.tmp)
+                              rm ~/.cliappmenu.tmp
+                              #
+                              # MOD_FILE now includes full directory path "$THIS_DIR/<Module file name>".
+                              #
+                              # 2. Invoke the module library, file mod_apps-*
+                              if [ -r $MOD_FILE ] ; then
+                                 . $MOD_FILE  # Invoke module library.
+                              fi
+                              #
+                              # 3. Extract MENU_ITEM_OPT string.
+                              # grep finds lines in all mod_apps-* files with <special menu item marker> <space> <APP_NAME>.
+                              # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+                              # Sed strips off any trailing spaces.
+                              MENU_ITEM_OPT=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $MOD_FILE | awk -F "#" '{print $2}' | sed 's/ *$//')
+                              #
+                              # MENU_ITEM, MENU_ITEM_NAME is needed for f_eval_funct.
+                              MENU_ITEM_NAME=$APP_NAME
+                              MENU_ITEM=$APP_NAME
+                              #
+                              # Specify 1st field of $MENU_ITEM_OPT for function #1.
+                              f_eval_funct "$MENU_ITEM_OPT" 1
+                              #
+                              # Specify 4th field of $MENU_ITEM_OPT for Quit Clause.
+                              f_quit_app_clause
+                              #
+                              # Specify 3rd field of $MENU_ITEM_OPT for function #3.
+                              f_eval_funct "$MENU_ITEM_OPT" 3
+                              #
+                              # 4. Run application program.
+                              #
+                              f_application_run
+                              f_press_enter_key_to_continue
+                           fi
                         fi
                   done
                   unset APP_NAME MENU_ITEM_OPT MOD_FILE
