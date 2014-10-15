@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-14-2014 12:42"
+REVDATE="October-14-2014 16:10"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -300,7 +300,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/home/robert"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -341,7 +341,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/some_directory/cli-app-menu"
+      THIS_DIR="/home/robert/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -1971,14 +1971,14 @@ f_main_license () {
 } # End of function f_main_license
 #
 # +----------------------------------------+
-# |        Function f_main_list_apps       |
+# |        Function f_main_list_menus      |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
-#    Uses: None.
+#    Uses: X.
 # Outputs: None.
 #
-f_main_list_apps () {
+f_main_list_menus () {
       if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
          clear # Blank the screen.
          #
@@ -1998,9 +1998,31 @@ f_main_list_apps () {
       fi
       # display LIST_APPS
       if [ -r $THIS_DIR"/LIST_APPS" ] ; then
-         less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
-         fi
-} # End of function f_main_list_apps
+         clear # Blank the screen.
+         echo "--- List Applications ---"
+         echo
+         echo "You can List all menus and applications"
+         echo "You can Find which menu contains an application."
+         echo
+         echo -n "Do you want to \"List all menus\" or \"Find a menu\"? (List/Find) "
+         read X
+         case $X in
+              [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt])
+              less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
+              ;;
+              [Ff] | [Ff][Ii | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
+              echo
+              echo
+              echo "Enter the name of the application to show the menu where it is listed."
+              echo
+              echo -n "Enter application name : "
+              read X
+              grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+              ;;
+         esac
+     fi
+     unset X
+} # End of function f_main_list_menus
 #
 # +----------------------------------------+
 # |       Function f_main_search_apps      |
@@ -2041,7 +2063,7 @@ f_main_search_apps () {
                echo
                echo "To quit, press 'Enter' key."
                echo
-               echo -n "Enter name of application or software package: "
+               echo -n "Enter the name of the application or software package: "
                read XSTR
                if [ -n "$XSTR" ] ;then
                   echo
@@ -2505,8 +2527,8 @@ f_initvars_menu_app "AAA"
 until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Run an application.
-#f_main_list_apps        #AAA List Applications   - List apps in active sub-menus (downloaded modules).
-#f_main_search_apps      #AAA Find and Run        - Find & run an application in active sub-menus.
+#f_main_list_menus       #AAA List or Find Menus  - List all menus or find a menu containing an app.
+#f_main_search_apps      #AAA Find and Run        - Find & run an application in active menus.
 #f_main_help             #AAA Help and Features   - Basic usage and what can it do.
 #f_main_configure        #AAA Configure           - Update software, manage modules, change colors, etc.
 #f_main_information      #AAA Information         - About, version, documentation, code history, license.

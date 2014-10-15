@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-10-11 13:15 Saturday
+Last updated: 2014-10-14 15:49 Tuesday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -1015,9 +1015,6 @@ _______________________________________________________________________________
  wireshark - Packet sniffer/logger.
 
 _______________________________________________________________________________
-*** Network Packet2 Applications Menu ***
-
-_______________________________________________________________________________
 *** Network Sharing Applications Menu ***
  ncpfs     - NetWare file/printer server utilities; nprint, pserver.
  smbc      - Samba file manager for folder shares with Microsoft Windows.
@@ -1197,9 +1194,6 @@ _______________________________________________________________________________
  tdu    - Tree-view of disk space utilization; ncurses-based.
  tree   - Tree-view of disk space utilization.
  uuid   - Use ls -l to show disk uuid number.
-
-_______________________________________________________________________________
-*** System Software Package Applications Menu ***
 
 _______________________________________________________________________________
 *** System Health Applications Menu ***

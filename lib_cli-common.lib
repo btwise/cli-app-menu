@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-14-2014 12:42"
+# REVDATE="October-14-2014 16:10"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1119,9 +1119,6 @@ f_run_app () {
                         echo
                         # Search LIST_APPS - The application names are at the begining of each line and are preceded by a <space>.
                         # To find these names, the basic command is: grep ^" "$XSTR
-                        #
-                        # Old code: 
-                        # grep --ignore-case -C 9 --color=always ^" "$1 $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
                         #
                         # Display actual search results on screen.
                         grep --color=always ^" "$1 $THIS_DIR"/LIST_APPS"

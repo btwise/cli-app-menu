@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-14-2014 12:42"
+PROJECT_REVDATE="October-14-2014 16:10"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -82,8 +82,14 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## 2014-10-14 *Testing version 2.0
 ##            *New functionality, can now "Find and run" an application
 ##             from the Main Menu.
+##            *New functionality "List or Find Menus" finds a menu containing
+##             an application.
+##            *Main Menu deleted "List Applications".
+##            *README updated to delete 2 unused application menu names.
 ##            *f_application_error Bug fix change APPNAME to APP_NAME.
 ##            *f_application_install clarified instructions and messages.
+##            *f_main_list_menus renamed from f_main_list_apps to reflect
+##             new purpose of function.
 ##            *f_main_search_apps enhanced to also run an application.
 ##            *f_mod_update added comment about updating modules.
 ##            *f_quit_app_clause clarified comments and removed trailing
