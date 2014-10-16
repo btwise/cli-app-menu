@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-16-2014 10:23"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -137,7 +137,7 @@ f_install_kkm () {
 } # End of function f_install_kkm
 #
 # +----------------------------------------+
-# |          Function f_install2_kkm        |
+# |          Function f_install2_kkm       |
 # +----------------------------------------+
 #
 #  Inputs: None.
@@ -187,6 +187,7 @@ f_install2_kkm () {
       #
       # 5. Allow users to run asciiquarium by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/local/bin/kkm
+      ERROR=$? # Save error flag condition.
       #
       # 6. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
       # Is the directory /usr/local/bin in your PATH of directories?

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-11-2014 11:23"
+# REVDATE="October-16-2014 10:23"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -37,8 +37,14 @@ f_application_web_install () {
            aria2 | aria2c)
            WEB_SITE_INSTALL="http://aria2.sourceforge.net/"
            ;;
+           asciiportal)
+           WEB_SITE_INSTALL="https://github.com/cymonsgames/ASCIIpOrtal"
+           ;;
            asciiquarium)
            WEB_SITE_INSTALL="http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz"
+           ;;
+           ascii-invaders | invaders)
+           WEB_SITE_INSTALL="https://github.com/macdice/ascii-invaders/archive/master.zip"
            ;;
            barnowl | zcrypt)
            WEB_SITE_INSTALL="http://barnowl.mit.edu/"
@@ -162,6 +168,9 @@ f_application_web_install () {
            ;;
            gnupg)
            WEB_SITE_INSTALL="http://www.gnupg.org/"
+           ;;
+           gnuski)
+           WEB_SITE_INSTALL="http://sourceforge.net/projects/gnuski/files/latest/download"
            ;;
            gramophone)
            WEB_SITE_INSTALL="http://www.opensourcepartners.nl/~costar/gramofile/"
@@ -420,21 +429,36 @@ f_application_web_install () {
       # Is a web site for install/download specified?
       case $WEB_SITE_INSTALL in # Start of Web Install case statement.
            "")
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo -n $(tput bold)
            echo
+           echo --------------------------------------------------------------------------
            echo "I failed to automatically download the source code as I don't know where"
            echo "to get it from."
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            echo
            echo "You will have to do an Internet search to find a web site to download the"
            echo "software. Please be sure to download from a reputable web site."
            PRESS_KEY=1 # Display "Press 'Enter' key to continue."
            ;;
            *) # if web site is specified, then go there.
+           #
+           # Use different color font for error messages.
+           f_term_color $ECOLOR $BCOLOR
+           echo -n $(tput bold)
+           echo
+           echo --------------------------------------------------------------------------
+           echo "The automatic download/install from source code failed somehow..."
+           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            echo
            echo "If application did not install properly, do want to use the elinks web browser"
            echo -n "to visit the project's web site to download manually (y/N)? "
            read ANS
            case $ANS in # Start of Install case statement.
                 [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                echo "When using the elinks text web browser, select \"Save\" to download a file."
                 APP_NAME_TMP="$APP_NAME" # Save name of application that did not install properly.
                 APP_NAME="elinks $WEB_SITE_INSTALL"
                 f_how_to_quit_application "q"

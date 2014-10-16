@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 22:00"
+# REVDATE="October-16-2014 10:23"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -21,7 +21,7 @@ f_menu_cat_games () {
 #f_menu_app_games_board       #BGA Board Games    - Classic board games.
 #f_menu_app_games_card        #BGA Card Games     - Played with a deck of playing cards.
 #f_menu_app_games_mud         #BGA MUD Games      - Multi-user dungeon adventure games.
-#f_menu_app_games_puzzle      #BGA Puzzles        - Tetris-clones, create punch card/paper tape codes.
+#f_menu_app_games_puzzle      #BGA Puzzles        - Mastermind clones, suduku, mazes, create punch card/tapes.
 #f_menu_app_games_quiz        #BGA Quiz Games     - Challenge your mind.
 #f_menu_app_games_rpg         #BGA RPG Games      - Single-player role-playing games.
 #f_menu_app_games_screensaver #BGA Screen-savers  - For when you're away.
@@ -54,12 +54,12 @@ f_menu_app_games_arcade () {
       f_initvars_menu_app "MGA"
       until [ "$MGA" = "0" ]
       do    # Start of Arcade Games until loop.
-#0^0^0^0^0  #MGA ascii-invaders - Space Invader clone.
+#0^1^0^0^0  #MGA ascii-invaders - Space Invader clone.
 #0^0^0^0^0  #MGA asciijump      - Ski jump game.
-#0^0^0^0^0  #MGA asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#1^1^0^0^0  #MGA asciiportal    - ASCIIpOrtal, go through a side-scrolling puzzle maze.
 #0^0^0^0^1  #MGA freesweep      - Minesweeper game.
 #0^1^0^0^0  #MGA galaxis        - Find lifeboats in space before oxygen runs out.
-#0^0^0^0^0  #MGA gnuski         - Downhill skiing while avoiding trees.
+#0^1^0^0^0  #MGA gnuski         - Downhill skiing while avoiding trees.
 #0^0^0^0^0  #MGA moon-buggy     - Drive a moon buggy on the moon.
 #0^0^0^1^1  #MGA ninvaders      - Space invaders-like game ncurses-based.
 #0^0^0^0^0  #MGA nsnake         - Variation of BSD's snake game.
@@ -239,7 +239,7 @@ f_menu_app_games_puzzle () {
       f_initvars_menu_app "MGF"
       until [ "$MGF" = "0" ]
       do    # Start of Puzzle Games until loop.
-#0^0^0^0^0    #MGF asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
+#1^1^0^0^0    #MGF asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
 #f_run_and_exit "bcd" "bcd"^0^0^0^0 #MGF bcd           - Reformat input as a punch card.
 #0^0^0^0^1    #MGF dab           - 2-players try to complete the most boxes.
 #0^0^0^0^0    #MGF braincurses   - Guess the pattern of 4 pegs in 4 colors.
@@ -453,7 +453,7 @@ f_menu_app_games_tetris () {
 #0^0^0^0^0 #MGL bastet   - Tetris-like game.
 #0^0^0^0^0 #MGL ctris    - Tetris-like game.
 #0^0^0^0^0 #MGL lexter   - Create words in a tetris-like game.
-#f_run_and_exit "netris" "netris"^0^0^0^0 #MGL netris   - Tetris-like game.
+#1^0^0^0^0 #MGL netris   - Tetris-like game.
 #0^0^0^5^0 #MGL petris   - Tetris-like game.
 #0^0^0^0^0 #MGL tetrix   - Tetris-like game.
 #0^0^0^5^0 #MGL vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
@@ -510,12 +510,226 @@ f_menu_app_games_word () {
 } # End of f_menu_app_games_word
 #
 # +----------------------------------------+
+# |   Function f_install_ascii-invaders    |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_ascii-invaders () {
+      clear  # blank screen
+      echo "ascii-invaders - An ASCII-art game like Space Invaders using Curses."
+      echo "(c) 2001, 2013 Thomas Munro"
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
+      echo "2. Download \"ascii-invaders\" using wget from the author's web page."
+      echo "   \"https://github.com/macdice/ascii-invaders/archive/master.zip\""
+      echo "3. Decompress and create the installation subdirectory ~/bin/ascii-invaders"
+      echo "4. Compile the C source code to create the \"invaders\" file."
+      echo "5. Copy \"invaders\" to \"/usr/local/bin\" directory."
+      echo "6. Allow users to run \"invaders\" by setting permissions to r-x or 755."
+      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install ascii-invaders.
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # 1. Change directory to your ~/bin/ascii-invaders folder.
+         cd ~
+         if [ ! -d "~/bin" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin
+         fi
+         #
+         if [ ! -d "~/bin/ascii-invaders" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin/ascii-invaders
+         fi
+         #
+         cd ~/bin/ascii-invaders
+         # 
+         # 2. Download "ascii-invaders" using wget from the author's web page.
+         wget https://github.com/macdice/ascii-invaders/archive/master.zip
+         #
+         # 3. Decompress ascii-invaders-master.zip
+         unzip master.zip 
+         #
+         # 3. Compile the C source code to create the ascii-invaders file.
+         cd ascii-invaders-master
+         make invaders.c 
+         #
+         # 4. Move "ascii-invaders" to "/usr/local/bin" directory.
+         sudo cp invaders /usr/local/bin/
+         #
+         # 5.  Allow users to run "ascii-invaders" by setting permissions to r-x or 755.
+         sudo chmod 755 /usr/local/bin/invaders
+         ERROR=$? # Save error flag condition.
+         #
+         # 6. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
+         #    Is the directory "/usr/local/bin" in your PATH of directories?
+         #    Check the $PATH
+         if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+            echo "If needed, edit file \"~/.bashrc\" PATH."
+            echo "Append the directory name to your environment $PATH."
+            echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+            echo "export PATH"
+            echo
+            echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+            echo "Either logout or exit from Terminal and re-launch Terminal."
+            echo
+         fi
+         echo
+         echo "------------------------------------------------------"
+         echo "Finished running installation script for \"ascii-invaders\"."
+         echo "------------------------------------------------------"
+         echo
+         echo "To run \"ascii-invaders\", select it on the \"Arcade Games Menu\"."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         # Since dependent packages may have been installed causing
+         # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+         # original name along with APP_NAME_INSTALL for web install.
+         #
+         # Set APP_NAME to correct name for f_application_run.
+         APP_NAME="ascii-invaders"
+         #
+         # Set APP_NAME_INSTALL for f_application_web_install.
+         APP_NAME_INSTALL=$APP_NAME
+         #
+      else
+         # No, Do not install ascii-invaders.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_ascii-invaders
+#
+# +----------------------------------------+
+# |     Function f_install_asciiportal     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_asciiportal () {
+      clear  # blank screen
+      echo "asciiportal - An ASCII-art game like Space Invaders using Curses."
+      echo "(c) 2001, 2013 Thomas Munro"
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
+      echo "2. Download \"asciiportal\" using wget from the author's web page."
+      echo "   \"https://github.com/cymonsgames/ASCIIpOrtal/archive/master.zip\""
+      echo "3. Decompress and create the installation subdirectory ~/bin/asciiportal"
+      echo "4. Compile the C source code to create the \"asciiportal\" file."
+      echo "5. Copy \"asciiportal\" to \"/usr/local/bin\" directory."
+      echo "6. Allow users to run \"asciiportal\" by setting permissions to r-x or 755."
+      echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install asciiportal.
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # 1. Change directory to your ~/bin/asciiportal folder.
+         cd ~
+         if [ ! -d "~/bin" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin
+         fi
+         #
+         if [ ! -d "~/bin/asciiportal" ] ; then
+            # Target directory is missing, so create it.
+            mkdir ~/bin/asciiportal
+         fi
+         #
+         cd ~/bin/asciiportal
+         # 
+         # 2. Download "asciiportal" using wget from the author's web page.
+         wget https://github.com/cymonsgames/ASCIIpOrtal/archive/master.zip
+         #
+         # 3. Decompress asciiportal-master.zip
+         unzip master.zip 
+         #
+         # 3. Compile the C source code to create the asciiportal file.
+         cd ASCIIpOrtal-master
+         make
+         #
+         # 4. Move "asciiportal" to "/usr/local/bin" directory.
+         sudo cp asciiportal /usr/local/bin/
+         #
+         # 5.  Allow users to run "asciiportal" by setting permissions to r-x or 755.
+         sudo chmod 755 /usr/local/bin/asciiportal
+         ERROR=$? # Save error flag condition.
+         #
+         # 6. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
+         #    Is the directory "/usr/local/bin" in your PATH of directories?
+         #    Check the $PATH
+         if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+            echo "If needed, edit file \"~/.bashrc\" PATH."
+            echo "Append the directory name to your environment $PATH."
+            echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+            echo "export PATH"
+            echo
+            echo "       >>> IMPORTANT <<<"
+            echo "After editing the file, .bashrc:"
+            echo "Close Terminal for changes to take effect."
+            echo "Either logout or exit from Terminal and re-launch Terminal."
+            echo
+         fi
+         echo
+         echo "------------------------------------------------------"
+         echo "Finished running installation script for \"asciiportal\"."
+         echo "------------------------------------------------------"
+         echo
+         echo "To run \"asciiportal\", select it on the \"Arcade Games Menu\"."
+         echo
+         echo -n "Press '"Enter"' key to continue."
+         read X
+         unset X  # Throw out this variable.
+         #
+         # Since dependent packages may have been installed causing
+         # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+         # original name along with APP_NAME_INSTALL for web install.
+         #
+         # Set APP_NAME to correct name for f_application_run.
+         APP_NAME="asciiportal"
+         #
+         # Set APP_NAME_INSTALL for f_application_web_install.
+         APP_NAME_INSTALL=$APP_NAME
+         #
+      else
+         # No, Do not install asciiportal.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_asciiportal
+#
+# +----------------------------------------+
 # |     Function f_install_asciiquarium    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+# Outputs: ERROR, APP_NAME, MENU_ITEM (both set to null).
 #
 f_install_asciiquarium () {
       if [ ! -r "/usr/local/bin/asciiquarium" ] ; then
@@ -591,7 +805,7 @@ f_install_asciiquarium () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_install2_asciiquarium () {
       clear  # blank screen
@@ -599,7 +813,7 @@ f_install2_asciiquarium () {
       echo "The application itself is a single perl script so perl is a prerequisite."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
       echo "2. Download \"asciiquarium\" by using wget from:"
       echo "   \"http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/asciiquarium*"
@@ -612,7 +826,7 @@ f_install2_asciiquarium () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home/bin folder.
+      # 1. Change directory to your ~/bin folder.
       cd ~
       if [ ! -d "~/bin" ] ; then
          # Target directory is missing, so create it.
@@ -636,6 +850,7 @@ f_install2_asciiquarium () {
       #
       # 5. Allow users to run asciiquarium by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/local/bin/asciiquarium
+      ERROR=$? # Save error flag condition.
       #
       # 6. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
       # Is the directory /usr/local/bin in your PATH of directories?
@@ -668,7 +883,7 @@ f_install2_asciiquarium () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+# Outputs: ERROR, APP_NAME, MENU_ITEM (both set to null).
 #
 f_install_bsod () {
       if [ ! -r "/usr/local/bin/bsod" ] ; then
@@ -687,7 +902,7 @@ f_install_bsod () {
          # Yes, Install bsod.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
+            f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
@@ -722,18 +937,18 @@ f_install_bsod () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_install2_bsod () {
       clear  # blank screen
       echo "This script will automatically download and install \"bsod\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
       echo "2. Download \"bsod\" by using wget from:"
       echo "   \"http://www.vanheusden.com/bsod/bsod-0.1.tgz\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/bsod*"
-      echo "4. Install Ztrack via:"
+      echo "4. Install bsod via:"
       echo "                           sudo make install"
       echo
       echo "5. Copy \"bsod\" to /usr/local/bin directory."
@@ -745,7 +960,7 @@ f_install2_bsod () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home/bin folder.
+      # 1. Change directory to your ~/bin folder.
       cd ~
       if [ ! -d "~/bin" ] ; then
          # Target directory is missing, so create it.
@@ -770,6 +985,7 @@ f_install2_bsod () {
       #
       # 5. Allow users to run bsod by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/local/bin/bsod
+      ERROR=$? # Save error flag condition.
       #
       # 6. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
       # Is the directory /usr/local/bin in your PATH of directories?
@@ -802,7 +1018,7 @@ f_install2_bsod () {
 #
 #  Inputs: None. 
 #    Uses: ANS.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_install_cclock () {
       if [ ! -r "/usr/bin/cclock" ] ; then
@@ -821,7 +1037,7 @@ f_install_cclock () {
          # Yes, Install cclock.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
+            f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
@@ -856,14 +1072,14 @@ f_install_cclock () {
 #
 #  Inputs: None.
 #    Uses: X
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_install2_cclock () {
       clear  # blank screen
       echo "This script will automatically download and install \"cclock\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
       echo "2. Download \"cclock\" by using wget from:"
       echo "   \"http://sourceforge.net/projects/cclock/files/latest/download/cclock-0.96.tar.bz2\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/cclock*"
@@ -880,7 +1096,7 @@ f_install2_cclock () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home/bin folder.
+      # 1. Change directory to your ~/bin folder.
       cd ~
       if [ ! -d "~/bin" ] ; then
          # Target directory is missing, so create it.
@@ -901,6 +1117,7 @@ f_install2_cclock () {
       #
       # 5. Allow users to run cclock by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/bin/cclock*
+      ERROR=$? # Save error flag condition.
       #
       # 6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc.
       # Is the directory /usr/bin in your PATH of directories?
@@ -931,14 +1148,14 @@ f_install2_cclock () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
 #
 f_install_galaxis () {
       clear  # blank screen
       echo "galaxis - Rescue 4 lifeboats from a crippled interstellar liner."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin/galaxis folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin/galaxis folder, creating it as necessary."
       echo "2. Download \"galaxis\" using wget from the author's web page."
       echo "    \"http://www.catb.org/~esr/galaxis/galaxis-1.9.tar.gz\""
       echo "3. Decompress and extract \"galaxis.c\" from the *.tgz file."
@@ -955,7 +1172,7 @@ f_install_galaxis () {
       # Yes, Install galaxis.
       if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
          #
-         # 1. Change directory to your home/bin/trek73c folder.
+         # 1. Change directory to your ~/bin/trek73c folder.
          cd ~
          if [ ! -d "~/bin" ] ; then
             # Target directory is missing, so create it.
@@ -983,7 +1200,7 @@ f_install_galaxis () {
          # 5. Copy \"galaxis\" to "/usr/local/bin" directory.
          sudo cp ~/bin/galaxis/galaxis-/galaxis /usr/local/bin/
          #
-         # 6. Copy man pages for galaxis to "usr/share/man/man6" directory
+         # 6. Compress and copy man pages for galaxis to "usr/share/man/man6" directory
          gzip ~/bin/galaxis/galaxis-/galaxis.6
          #
          if [ -r ~/bin/galaxis/galaxis-/galaxis.6.gz ] ; then
@@ -994,6 +1211,7 @@ f_install_galaxis () {
          #
          # 7.  Allow users to run galaxis by setting permissions to r-x or 755.
          sudo chmod 755 /usr/local/bin/galaxis
+         ERROR=$? # Save error flag condition.
          #
          # 8. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
          #    Is the directory /usr/local/bin in your PATH of directories?
@@ -1043,19 +1261,135 @@ f_install_galaxis () {
 } # End of function f_install_galaxis
 #
 # +----------------------------------------+
+# |        Function f_install_gnuski       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ANS.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+#
+f_install_gnuski () {
+      clear  # blank screen
+      echo "gnuski - A down-hill skiing game using Curses."
+      echo "(c) 2001, 2013 Thomas Munro"
+      echo
+      echo "This script will do the following:"
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
+      echo "2. Download \"gnuski\" using wget from the author's web page."
+      echo "\http://sourceforge.net/projects/gnuski/files/latest/download\""
+      echo "3. Decompress and create the installation subdirectory ~/bin/gnuski"
+      echo "4. Install ncurses if needed."
+      echo "5. Compile the C source code to create the \"gnuski\" file."
+      echo "6. Copy \"gnuski\" to \"/usr/local/bin\" directory."
+      echo "7. Allow users to run \"gnuski\" by setting permissions to r-x or 755."
+      echo "8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
+      echo
+      echo
+      echo -n "Do you wish to continue (y/N)? "
+      read ANS
+      #
+      # Yes, Install gnuski.
+      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         #
+         # Install libncurses-dev and ncurses-dev as pre-requisites.
+         f_install_ncurses
+         if [ "$ERROR" = "0" ] ; then
+            # Error code 1 $?=1 means no --help available.
+            # Error code 0 (zero) where $?=0 means no error.
+            #
+            # 1. Change directory to your ~/bin/gnuski folder.
+            cd ~
+            if [ ! -d "~/bin" ] ; then
+               # Target directory is missing, so create it.
+               mkdir ~/bin
+            fi
+            #
+            if [ ! -d "~/bin/gnuski" ] ; then
+               # Target directory is missing, so create it.
+               mkdir ~/bin/gnuski
+            fi
+            #
+            cd ~/bin/gnuski
+            # 
+            # 2. Download "gnuski" using wget from the author's web page.
+            wget http://downloads.sourceforge.net/project/gnuski/gnuski/gnuski-0.3/gnuski-0.3.tar.gz
+            #
+
+            # 3. Decompress gnuski-master.zip
+            tar -xvf gnuski-0.3.tar.gz
+            #
+            # 3. Compile the C source code to create the gnuski file.
+            cd gnuski
+            make
+            #
+            # 4. Move "gnuski" to "/usr/local/bin" directory.
+            sudo cp gnuski /usr/local/bin/
+            #
+            # 5.  Allow users to run "gnuski" by setting permissions to r-x or 755.
+            sudo chmod 755 /usr/local/bin/gnuski
+            ERROR=$? # Save error flag condition.
+            #
+            # 6. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
+            #    Is the directory "/usr/local/bin" in your PATH of directories?
+            #    Check the $PATH
+            if [[ ! "$PATH" == *":/usr/local/bin"* ]] ; then
+               echo "If needed, edit file \"~/.bashrc\" PATH."
+               echo "Append the directory name to your environment $PATH."
+               echo $(tput bold)'PATH=$PATH'":/usr/local/bin"
+               echo "export PATH"
+               echo
+               echo "       >>> IMPORTANT <<<"
+               echo "After editing the file, .bashrc:"
+               echo "Close Terminal for changes to take effect."
+               echo "Either logout or exit from Terminal and re-launch Terminal."
+               echo
+            fi
+            echo
+            echo "------------------------------------------------------"
+            echo "Finished running installation script for \"gnuski\"."
+            echo "------------------------------------------------------"
+            echo
+            echo "To run \"gnuski\", select it on the \"Arcade Games Menu\"."
+            echo
+            echo -n "Press '"Enter"' key to continue."
+            read X
+            unset X  # Throw out this variable.
+            #
+            # Since dependent packages may have been installed causing
+            # changes in APP_NAME/APP_NAME_INSTALL, set APP_NAME to the 
+            # original name along with APP_NAME_INSTALL for web install.
+            #
+            # Set APP_NAME to correct name for f_application_run.
+            APP_NAME="gnuski"
+            #
+            # Set APP_NAME_INSTALL for f_application_web_install.
+            APP_NAME_INSTALL=$APP_NAME
+            #
+         fi
+      else
+         # No, Do not install gnuski.
+         MENU_ITEM_NAME="" # Null so f_application_run does not try to run sst.
+                           # when it's not installed.
+         APP_NAME=""       # Also prevents checking for Quit Clause.
+         PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+      fi
+      unset ANS
+} # End of function f_install_gnuski
+#
+# +----------------------------------------+
 # |          Function f_install_sst        |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
 #
 f_install_sst () {
       clear  # blank screen
       echo "sst - Super Star Trek"
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin/sst folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin/sst folder, creating it as necessary."
       echo "2. Download \"sst\" using wget from the author's web page."
       echo "   \"http://www.almy.us/files/sstlinux.tar.gz\""
       echo "3. Decompress and extract \"sst\" and \"sst.doc\" from the *.tar.gz file."
@@ -1096,6 +1430,7 @@ f_install_sst () {
          #
          # 5.  Allow users to run "sst" by setting permissions to r-x or 755.
          sudo chmod 755 /usr/local/bin/sst
+         ERROR=$? # Save error flag condition.
          #
          # 6. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
          #    Is the directory "/usr/local/bin" in your PATH of directories?
@@ -1153,7 +1488,7 @@ f_install_sst () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
 #
 f_install_startrek () {
       clear  # blank screen
@@ -1165,7 +1500,7 @@ f_install_startrek () {
       echo "startrek - Super Star Trek Classic (v1.1) ported to C by Chris Nystrom"
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin/startrek folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin/startrek folder, creating it as necessary."
       echo "2. Download \"startrek.c\" source code using wget from the author's web page."
       echo "   \"http://www.dunnington.u-net.com/public/startrek/startrek.c\""
       echo "3. Compile the C source code to create the \"startrek\" file."
@@ -1180,7 +1515,7 @@ f_install_startrek () {
       # Yes, Install startrek.
       if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
          #
-         # 1. Change directory to your home/bin/startrek folder.
+         # 1. Change directory to your ~/bin/startrek folder.
          cd ~
          if [ ! -d "~/bin" ] ; then
             # Target directory is missing, so create it.
@@ -1206,6 +1541,7 @@ f_install_startrek () {
          #
          # 5.  Allow users to run "startrek" by setting permissions to r-x or 755.
          sudo chmod 755 /usr/local/bin/startrek
+         ERROR=$? # Save error flag condition.
          #
          # 6. Add directory "/usr/local/bin" to your PATH command in ~/.bashrc.
          #    Is the directory "/usr/local/bin" in your PATH of directories?
@@ -1261,14 +1597,14 @@ f_install_startrek () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_install_term-animation () {
       clear  # blank screen
       echo "This script will automatically download and install \"Term::Animation\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
       echo "2. Download \"Term::Animation\" by using wget from:"
       echo "   \"http:=//search.cpan.org/CPAN/authors/id/K/KB/KBAUCOM/Term-Animation-2.6.tar.gz\"."
       echo "3. Decompress and create the installation subdirectory ~/Term-Animation*"
@@ -1283,7 +1619,7 @@ f_install_term-animation () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home/bin folder.
+      # 1. Change directory to your ~/bin folder.
       cd ~
       if [ ! -d "~/bin" ] ; then
          # Target directory is missing, so create it.
@@ -1305,6 +1641,7 @@ f_install_term-animation () {
       make
       make test
       sudo make install
+      ERROR=$? # Save error flag condition.
       echo
       echo "Finished running installation script for \"Term::Animation\"."
       echo
@@ -1319,7 +1656,7 @@ f_install_term-animation () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
 #
 f_install_textmaze () {
       if [ ! -r "/usr/local/bin/textmaze" ] ; then
@@ -1336,7 +1673,7 @@ f_install_textmaze () {
          # Yes, Install TextMaze.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
+            f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
@@ -1371,7 +1708,7 @@ f_install_textmaze () {
 #
 #  Inputs: None.
 #    Uses: X.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_install2_textmaze () {
       clear  # blank screen
@@ -1379,7 +1716,7 @@ f_install2_textmaze () {
       echo "The application itself is a single perl script so perl is a prerequisite."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
       echo "2. Download \"TextMaze\" by using wget from:"
       echo "   \"http://robobunny.com/projects/textmaze\textmaze.tar.gz.\"."
       echo "3. Decompress and create the installation subdirectory ~/bin/TextMaze*"
@@ -1393,7 +1730,7 @@ f_install2_textmaze () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home/bin folder.
+      # 1. Change directory to your ~/bin folder.
       cd ~
       if [ ! -d "~/bin" ] ; then
          # Target directory is missing, so create it.
@@ -1423,6 +1760,7 @@ f_install2_textmaze () {
       #
       # 6. Allow users to run TextMaze by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/local/bin/textmaze
+      ERROR=$? # Save error flag condition.
       #
       # 7. Add directory /usr/local/bin to your PATH command in ~/.bashrc.
       # Is the directory /usr/local/bin in your PATH of directories?
@@ -1455,14 +1793,14 @@ f_install2_textmaze () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
+# Outputs: ERROR, MENU_ITEM_NAME, APPNAME, APP_NAME_INSTALL, PRESS_KEY.
 #
 f_install_trekx () {
       clear  # blank screen
       echo "trekx - Trek 73 a Star Trek game from 1973"
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin/trek73 folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin/trek73 folder, creating it as necessary."
       echo "2. Download \"trekx\" using wget from the author's web page."
       echo "   \"http://highlandsun.com/hyc/trek73c.tgz\""
       echo "3. Decompress and extract \"trekx.c\", \"Makefile\", and \"Makefile.O\" from the *.tgz file."
@@ -1478,7 +1816,7 @@ f_install_trekx () {
       # Yes, Install trekx.
       if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
          #
-         # 1. Change directory to your home/bin/trek73c folder.
+         # 1. Change directory to your ~/bin/trek73c folder.
          cd ~
          if [ ! -d "~/bin" ] ; then
             # Target directory is missing, so create it.
@@ -1506,6 +1844,7 @@ f_install_trekx () {
          #
          # 5.  Allow users to run trekx by setting permissions to r-x or 755.
          sudo chmod 755 /usr/local/bin/trekx
+         ERROR=$? # Save error flag condition.
          #
          # 6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
          #    Is the directory /usr/local/bin in your PATH of directories?
@@ -1560,7 +1899,7 @@ f_install_trekx () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+# Outputs: ERROR, APP_NAME, MENU_ITEM (both set to null).
 #
 f_install_xorcurses () {
       if [ ! -r "/usr/local/share/XorCurses" ] ; then
@@ -1579,7 +1918,7 @@ f_install_xorcurses () {
          # Yes, Install XorCurses.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
+            f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
@@ -1614,14 +1953,14 @@ f_install_xorcurses () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+# Outputs: ERROR, APP_NAME, MENU_ITEM (both set to null).
 #
 f_install2_xorcurses () {
       clear  # blank screen
       echo "This script will automatically download and install \"XorCurses\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
       echo "2. Download \"XorCurses\" using wget from:"
       echo "   http://jwm-art.net/art/archive"
       echo "3. Decompress and create the installation subdirectory ~/bin/xorcurses*"
@@ -1639,7 +1978,7 @@ f_install2_xorcurses () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home/bin folder.
+      # 1. Change directory to your ~/bin folder.
       cd ~
       if [ ! -d "~/bin" ] ; then
          # Target directory is missing, so create it.
@@ -1660,6 +1999,7 @@ f_install2_xorcurses () {
       # 
       # 5. Allow users to run XorCurses by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/local/bin/xorcurses
+      ERROR=$? # Save error flag condition.
       #
       # 6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc.
       # Is the directory /usr/local/bin in your PATH of directories?
@@ -1692,7 +2032,7 @@ f_install2_xorcurses () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+# Outputs: ERROR, APP_NAME, MENU_ITEM (both set to null).
 #
 f_install_ztrack () {
       if [ ! -r "/usr/games/ztrack" ] ; then
@@ -1711,7 +2051,7 @@ f_install_ztrack () {
          # Yes, Install Ztrack.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
+            f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
@@ -1728,7 +2068,7 @@ f_install_ztrack () {
                #
                # Set APP_NAME_INSTALL for f_application_web_install.
                APP_NAME_INSTALL=$APP_NAME
-           fi
+            fi
          else
             # No, Do not install Ztrack.
             MENU_ITEM_NAME="" # Null so f_application_run does not try to run Ztrack.
@@ -1746,14 +2086,14 @@ f_install_ztrack () {
 #
 #  Inputs: None.
 #    Uses: ANS.
-# Outputs: APP_NAME, MENU_ITEM (both set to null).
+# Outputs: ERROR, APP_NAME, MENU_ITEM (both set to null).
 #
 f_install2_ztrack () {
       clear  # blank screen
       echo "This script will automatically download and install \"Ztrack\"."
       echo
       echo "This script will do the following:"
-      echo "1. Change directory to your home/bin folder, creating it as necessary."
+      echo "1. Change directory to your ~/bin folder, creating it as necessary."
       echo "2. Download \"Ztrack\" using wget from:"
       echo "   http://www.ibiblio.org/pub/Linux/games/arcade"
       echo "3. Decompress and create the installation subdirectory ~/bin/ztrack*"
@@ -1771,7 +2111,7 @@ f_install2_ztrack () {
       read X
       unset X  # Throw out this variable.
       #
-      # 1. Change directory to your home/bin folder.
+      # 1. Change directory to your ~/bin folder.
       cd ~
       if [ ! -d "~/bin" ] ; then
          # Target directory is missing, so create it.
@@ -1792,6 +2132,7 @@ f_install2_ztrack () {
       #
       # 5. Allow users to run Ztrack by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/games/ztrack*
+      ERROR=$? # Save error flag condition.
       #
       # 6. Add directory \"/usr/games\" to your PATH command in ~/.bashrc.
       # Is the directory /usr/games in your PATH of directories?
@@ -1817,6 +2158,37 @@ f_install2_ztrack () {
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_ztrack
+#
+# +----------------------------------------+
+# |         Function f_asciiportal         |
+# +----------------------------------------+
+#
+f_asciiportal () {
+      APP_NAME="asciiportal"
+      clear # Blank the screen.
+      echo "asciiportal - Inspired by Increpare's Portile game ."
+      echo
+      echo "Within the game you can use the following keys to play:"
+      echo "Left/Right Arrows . Move Left/Right"
+      echo "Up/Down Arrows .... Move Up/Down Ladders"
+      echo "                    or adjust aim."
+      echo "Number Pad Keys ... Quick Aim."
+      echo "Z/0 ............... Fire Blue Portal"
+      echo "X/PERIOD .......... Fire Yellow Portal"
+      echo "SPACE/5 ........... Fire 'Next' Portal"
+      echo "C ................. Clear Portals"
+      echo
+      echo "ESC/F1 ............ Menu"
+      echo "P ................. In-game Pause"
+      echo "F2 ................ Change Portal Render"
+      echo "F3 ................ Set to Default Speed"
+      echo "+ ................. Increase Game Speed"
+      echo "- ................. Decrease Game Speed"
+      echo "R ................. Restart Level"
+      echo "M ................. Mute/Unmute music"
+      echo "? ................. This menu"
+      f_press_enter_key_to_continue
+} # End of f_asciiportal
 #
 # +----------------------------------------+
 # |            Function f_atom4            |
@@ -1926,6 +2298,73 @@ f_hint () {
       echo
       # f_press_enter_key_to_continue
 } # End of function f_hint
+#
+# +----------------------------------------+
+# |            Function f_netris           |
+# +----------------------------------------+
+#
+f_netris () {
+      APP_NAME="netris"
+      clear # Blank the screen.
+      echo "netris - Tetris-like game."
+      echo "Netris version 0.52 (C) 1994-1996,1999  Mark H. Weaver <mhw@netris.org>"
+      echo "Usage: netris <options>"
+      echo "  -h         Print usage information"
+      echo "  -w         Wait for connection"
+      echo "  -c <host>  Initiate connection"
+      echo "  -p <port>  Set port number (default is 9284)"
+      echo "  -k <keys>  Remap keys.  The argument is a prefix of the string"
+      echo "               containing the keys in order: left, rotate, right, drop,"
+      echo "               down-faster, toggle-spying, pause, faster, redraw, new."
+      echo "               \"^\" prefixes controls.  (default is \"jkl mspf^ln\")"
+      echo "  -i <sec>   Set the step-down interval, in seconds"
+      echo "  -r <robot> Execute <robot> (a command) as a robot controlling"
+      echo "               the game instead of the keyboard"
+      echo "  -F           Use fair robot interface"
+      echo "  -s <seed>	Start with given random seed"
+      echo "  -D        Drops go into drop mode"
+      echo "              This means that sliding off a cliff after a drop causes"
+      echo "              another drop automatically"
+      echo "  -S        Disable inverse/bold/color for slow terminals"
+      echo "  -C        Disable color"
+      echo "  -H        Show distribution and warranty information"
+      echo "  -R        Show rules"
+      echo
+      f_run_and_exit "netris" "netris"
+} # End of f_netris
+#
+# +----------------------------------------+
+# |            Function f_pente            |
+# +----------------------------------------+
+#
+f_pente () {
+      clear # Blank the screen.
+      echo "   Pente 2.2.5 by William Shubert - 31 July 2001"
+      echo
+      echo "    -version,--version Print version information"
+      echo "            -showthink Show computer thinking"
+      echo
+      echo "  Display type options:"
+      echo "     -[no]X11,-[no]x11 X11"
+      echo "           -[no]curses Curses"
+      echo "             -[no]text Plain text"
+      echo
+      echo "  X11 Switches:"
+      echo "                 -name Name to use for X resource database"
+      echo "               -adfile Set name of ad file"
+      echo "           -[no]iconic Start up as an icon"
+      echo "             -geometry Starting geometry"
+      echo "             -icongeom Icon geometry"
+      echo "              -display Display to use"
+      echo "            -[no]color Use color if possible"
+      echo "          -[no]stealth Stealth mode"
+      echo "             -language Language"
+      echo "               -volume Sound volume, 0..100"
+      echo "               -silent Same as \"-volume 0\""
+      echo
+      echo "          -help,--help Show this message"
+      APP_NAME="pente -curses"
+} # End of f_pente
 #
 # +----------------------------------------+
 # |             Function f_rev             |

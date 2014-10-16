@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-14-2014 01:03"
+# REVDATE="October-16-2014 10:23"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -830,7 +830,7 @@ f_install_cclock () {
          # Yes, Install cclock.
          if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
-            f_ncurses
+            f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
                # Error code 1 $?=1 means no --help available.
                # Error code 0 (zero) where $?=0 means no error.
@@ -902,6 +902,7 @@ f_install2_cclock () {
       #
       # 5. Allow users to run cclock by setting permissions to r-x or 755 for all users.
       sudo chmod 755 /usr/bin/cclock*
+      ERROR=$? # Save error flag condition.
       #
       # 6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc.
       # Is the directory /usr/bin in your PATH of directories?

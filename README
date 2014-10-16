@@ -70,7 +70,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
-REVDATE="October-14-2014 16:10"
+REVDATE="October-16-2014 10:23"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -275,23 +275,47 @@ REVDATE="October-14-2014 16:10"
 #:    #0^0^0^0^0 #MXX appname1  - Description Application1 name.
 #:    #1^0^0^0^1 #MXX appname2  - Description Application2 name.
 #:    #0^1^0^3:NC^0 #MXX appname3  - Description Application3 name.
+#:    #1^1^1^19^1 #MXX appname4  - Description Application4 name.
 #:
 #:    appname1 - Has no custom functions before running application, appname1.
-#:    appname2 - Has a custom function f_appname2 to run before running
-#:               application, appname2.
+#:
+#:    appname2 - Has <field 1> a custom function f_appname2 to run before
+#:               running application, appname2.
 #:               Will display a "Press 'Enter' key to continue." message after
-#:               running appname2.
-#:    appname3 - Custom install function, f_install_appname3 will run before
-#:               running appname3.
+#:               running application, appname2.
+#:
+#:    appname3 - Has <field 2> custom install function, f_install_appname3
+#:                will run before running application, appname3.
+#:
 #:               Custom install functions run if the distro's software package
 #:               manager fails to install the application if it is missing.
 #:               Usually the custom install function will download, compile
 #:               source code from the software maintainer's web site.
 #:
-#:               A Quit-Code "3:NC" means display message below
+#:               Has <field 4> a Quit-Code "3:NC" which displays message below
 #:               without clearing screen:
 #:
 #:                                To quit "appname3", type "Q" or <F10>
+#:
+#:    appname4 - Has <field 1> a custom function f_appname2 to run before running
+#:               application, appname2. This will run before any custom install
+#:               function.
+#:
+#:               Also has <field 2> custom install function,
+#:               f_install_appname3 which will run before running appname3.
+#:
+#:               Custom install functions run if the distro's software package
+#:               manager fails to install the application if it is missing.
+#:               Usually the custom install function will download, compile
+#:               source code from the software maintainer's web site.
+#:
+#:               Also has <field 4> a Quit-Code "19" which displays message below
+#:               after clearing the screen:
+#:
+#:                         To quit "apapname4", type <Ctrl>-Z or <Ctrl>-C
+#:
+#:               Also has <field 5> which displays:
+#:                         "Press 'Enter' key to continue".
 #:
 #:    f) Format of Menu: 
 #: <Menu item options> <SPACE> <Special menu item marker> <SPACE> 

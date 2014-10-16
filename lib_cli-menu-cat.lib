@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-14-2014 01:03"
+# REVDATE="October-16-2014 10:23"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -677,14 +677,14 @@ f_update_all_modules () {
 } # End of function f_update_all_modules
 #
 # +----------------------------------------+
-# |           Function f_ncurses           |
+# |       Function f_install_ncurses       |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null), ERROR.
 #
-f_ncurses () {
+f_install_ncurses () {
       clear  # blank screen
       echo "This script will automatically install \"libncurses-dev\"."
       echo
@@ -741,5 +741,5 @@ f_ncurses () {
                            # when it's not installed.
          APP_NAME=""       # Also prevents checking for Quit Clause.
       unset ANS
-} # End of function f_ncurses
+} # End of function f_install_ncurses
 #

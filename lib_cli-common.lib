@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-14-2014 16:10"
+# REVDATE="October-16-2014 10:23"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -1673,38 +1673,79 @@ f_application_install () {
             #
             # Use different color font for error messages.
             f_term_color $ECOLOR $BCOLOR
-            echo $(tput bold)
-            #
-            echo
+            echo -n $(tput bold)
             echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo
-            echo 
-            echo "Not all applications in this menu are available on all linux distributions."
-            echo "                       >>>Try doing a web search <<<"
-            echo "                  for the application and its source code."
-            echo
-            echo "I will now try to automatically download/install from source code, if possible."
-            echo
-            echo "Messages on the progress of the install should appear below."
-            echo
-            echo "If there are no messages, then nothing happened."
-            echo "Then try browsing to the web page where the source code is located."
-            echo
+            f_app_install_mssg
             f_press_enter_key_to_continue
+            #
             # If install via package manager failed then see if there is a custom install function.
-            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+            #
+            # Reset $ERROR to detect if custom install function fails.
+            ERROR=0
             f_eval_funct "$MENU_ITEM_OPT" 2
-            # Try downloading source code from a web site and manually installing.
-            f_application_web_install  # Forced output PRESS_KEY=0.
+            #
+            if [ $ERROR -ne 0 ] ; then
+               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+               #
+               # Try downloading source code from a web site and manually installing.
+               f_application_web_install  # Forced output PRESS_KEY=0.
+            fi
          fi
          #
       elif [ -d /var/lib/slackpkg ] ; then
          # if <slackware linux installation directory> exists, then use slackpkg or installpkg 
          # for slackware packages.
          sudo slackpkg install $APP_NAME_INSTALL
+         ERROR=$? # Save error flag condition.
+         # 
+         # # This if statement is commented out because slackpkg has error code $?=0 even
+         # # if install fails.
+         # 
+         # # COMMENTED OUT FOR SLACKPKG BECAUSE ERROR CODE IS ALWAYS 0 WHETHER OR NOT IT 
+         # # INSTALLED OK.
+         #
+         # # To Do List: find a way to indicate a failed install and alter if statement below.
+         #
+         #if [ $ERROR -ne 0 ] ; then
+         #   # Error code 1 $?=1 means installation failed.
+         #   # Error code 0 (zero) where $?=0 means no error.
+         #   echo -n $(tput bold)
+         #
+         #   # Use different color font for error messages.
+         #   f_term_color $ECOLOR $BCOLOR
+         #   echo -n $(tput bold)
+         #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
+         #   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
+         #   echo "is not available for this linux distribution."
+         #   echo
+         #   f_app_install_mssg
+         #   f_press_enter_key_to_continue
+         #
+         #   # If install via package manager failed then see if there is a custom install function.
+         #   # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         #
+         #   # Reset $ERROR to detect if custom install function fails.
+         # ERROR=0
+         # f_eval_funct "$MENU_ITEM_OPT" 2
+         # #
+         #   if [ $ERROR -ne 0 ] ; then
+         #      # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+         #      #
+         #      # Try downloading source code from a web site and manually installing.
+         #      f_application_web_install  # Forced output PRESS_KEY=0.
+         #   fi
+         #fi
+         #
+      elif [ -d /var/lib/installpkg ] ; then
+         # if <slackware linux installation directory> exists, then use slackpkg or installpkg 
+         # for slackware packages.
+         sudo installpkg install $APP_NAME_INSTALL
          ERROR=$? # Save error flag condition.
          # 
          # This if statement is commented out because slackpkg has error code $?=0 even
@@ -1720,33 +1761,30 @@ f_application_install () {
          #   # Error code 0 (zero) where $?=0 means no error.
          #   echo -n $(tput bold)
          #
-         #   Use different color font for error messages.
+         #   # Use different color font for error messages.
          #   f_term_color $ECOLOR $BCOLOR
-         #   echo $(tput bold)
-         #
-         #   echo
+         #   echo -n $(tput bold)
          #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
          #   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
          #   echo "is not available for this linux distribution."
          #   echo
-         #   echo "Not all applications in this menu are available on all linux distributions."
-         #   echo "                       >>>Try doing a web search <<<"
-         #   echo "                  for the application and its source code."
-         #   echo
-         #   echo "Will now try to automatically download/install from source code, if possible."
-         #   echo
-         #   echo "Messages on the progress of the install should appear below."
-         #   echo
-         #   echo "If there are no messages, then nothing happened."
-         #   echo "Then try browsing to the web page where the source code is located."
-         #   echo
+         #   f_app_install_mssg
          #   f_press_enter_key_to_continue
-         #   If install via package manager failed then see if there is a custom install function.
-         #   if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+         #
+         #   # If install via package manager failed then see if there is a custom install function.
+         #   # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         #
+         #   # Reset $ERROR to detect if custom install function fails.
+         #   ERROR=0
          #   f_eval_funct "$MENU_ITEM_OPT" 2
-         #   Try downloading source code from a web site and manually installing.
-         #   f_application_web_install
+         #   #
+         #   if [ $ERROR -ne 0 ] ; then
+         #      # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+         #      #
+         #      # Try downloading source code from a web site and manually installing.
+         #      f_application_web_install  # Forced output PRESS_KEY=0.
+         #   fi
          #fi
          #
       elif [ -d /var/lib/pacman ] ; then
@@ -1760,31 +1798,28 @@ f_application_install () {
             #
             # Use different color font for error messages.
             f_term_color $ECOLOR $BCOLOR
-            echo $(tput bold)
-            #
-            echo
+            echo -n $(tput bold)
             echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo 
-            echo "Not all applications in this menu are available on all linux distributions."
-            echo "                       >>>Try doing a web search <<<"
-            echo "                  for the application and its source code."
-            echo
-            echo "I will now try to automatically download/install from source code, if possible."
-            echo
-            echo "Messages on the progress of the install should appear below."
-            echo
-            echo "If there are no messages, then nothing happened."
-            echo "Then try browsing to the web page where the source code is located."
-            echo
+            f_app_install_mssg
             f_press_enter_key_to_continue
+            #
             # If install via package manager failed then see if there is a custom install function.
-            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+            # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+            #
+            # Reset $ERROR to detect if custom install function fails.
+            ERROR=0
             f_eval_funct "$MENU_ITEM_OPT" 2
-            # Try downloading source code from a web site and manually installing.
-            f_application_web_install
+            #
+            if [ $ERROR -ne 0 ] ; then
+               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+               #
+               # Try downloading source code from a web site and manually installing.
+               f_application_web_install  # Forced output PRESS_KEY=0.
+            fi
          fi
          #
          # rpm is last because some Slackware-based distros have rpm directories also.
@@ -1800,14 +1835,67 @@ f_application_install () {
             #
             # Use different color font for error messages.
             f_term_color $ECOLOR $BCOLOR
-            echo $(tput bold)
-            #
-            echo
+            echo -n $(tput bold)
             echo "Command \"sudo rpm -ivh $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
             echo "is not available for this linux distribution."
             echo
+            f_app_install_mssg
+            f_press_enter_key_to_continue
+            #
+            # If install via package manager failed then see if there is a custom install function.
+            # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+            #
+            # Reset $ERROR to detect if custom install function fails.
+            ERROR=0
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            #
+            if [ $ERROR -ne 0 ] ; then
+               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+               #
+               # Try downloading source code from a web site and manually installing.
+               f_application_web_install  # Forced output PRESS_KEY=0.
+            fi
+         fi
+      else
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo "You will have to install the $APP_NAME_INSTALL package manually."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
+         echo
+         f_app_install_mssg
+         f_press_enter_key_to_continue
+         #
+         # If install via package manager failed then see if there is a custom install function.
+         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         #
+         # Reset $ERROR to detect if custom install function fails.
+         ERROR=0
+         f_eval_funct "$MENU_ITEM_OPT" 2
+         #
+            if [ $ERROR -ne 0 ] ; then
+               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+               #
+               # Try downloading source code from a web site and manually installing.
+               f_application_web_install  # Forced output PRESS_KEY=0.
+            fi
+      fi
+      #
+} # End of function f_application_install
+#
+# +----------------------------------------+
+# |      Function f_app_install_mssg       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_app_install_mssg () {
             echo "Not all applications in this menu are available on all linux distributions."
             echo "                       >>>Try doing a web search <<<"
             echo "                  for the application and its source code."
@@ -1819,44 +1907,8 @@ f_application_install () {
             echo "If there are no messages, then nothing happened."
             echo "Then try browsing to the web page where the source code is located."
             echo
-            f_press_enter_key_to_continue
-            # If install via package manager failed then see if there is a custom install function.
-            # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
-            f_eval_funct "$MENU_ITEM_OPT" 2
-            # Try downloading source code from a web site and manually installing.
-            f_application_web_install
-         fi
-      else
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo
-         echo "You will have to install the $APP_NAME_INSTALL package manually."
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
-         echo
-         echo "Not all applications in this menu are available on all linux distributions."
-         echo "                       >>>Try doing a web search <<<"
-         echo "                  for the application and its source code."
-         echo
-         echo "I will now try to automatically download/install from source code, if possible."
-         echo
-         echo "Messages on the progress of the install should appear below."
-         echo
-         echo "If there are no messages, then nothing happened."
-         echo "Then try browsing to the web page where the source code is located."
-         echo
-         f_press_enter_key_to_continue
-         # If install via package manager failed then see if there is a custom install function.
-         # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
-         f_eval_funct "$MENU_ITEM_OPT" 2
-         # Try downloading source code from a web site and manually installing.
-         f_application_web_install  # See library file "lib_cli-web-sites.lib".
-      fi
       #
-} # End of function f_application_install
+} # End of function f_app_install_mssg
 #
 # +----------------------------------------+
 # |       Function f_download_file         |

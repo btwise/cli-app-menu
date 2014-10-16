@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-14-2014 16:10"
+PROJECT_REVDATE="October-16-2014 10:23"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,28 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2014-10-16 *Testing version 2.0
+##            *New functionality, web install runs only if automatic install and
+##             custom install both fail.
+##            *f_application_install improved comments and add code to run
+##             f_application_web_install function only if custom install
+##             function f_install_<application> fails.
+##            *f_app_install_mssg added called by f_application_install.
+##            *f_application_web_install added ascii-invaders, asciiportal,
+##             gnuski. Changed color of error message to standard $ECOLOR.
+##            *f_ascii_portal added.
+##            *f_install_ascii-invaders added.
+##            *f_install_asciiportal added.
+##            *f_install_gnuski added.
+##            *f_install_ncurses renamed from f_ncurses to reflect purpose
+##             of function.
+##            *f_install2_kkm fixed comment.
+##            *f_menu_cat_games changed Puzzles description.
+##            *f_ncurses renamed to f_install_ncurses.
+##            *f_netris added.
+##            *f_pente added.
+##            *README clarified menu item option field descriptions.
 ##
 ## 2014-10-14 *Testing version 2.0
 ##            *New functionality, can now "Find and run" an application
