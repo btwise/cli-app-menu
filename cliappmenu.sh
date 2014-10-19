@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-14-2014 16:10"
+REVDATE="October-18-2014 23:28"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -300,7 +300,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/home/robert"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -341,7 +341,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/some_directory/cli-app-menu"
+      THIS_DIR="/home/robert/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -1722,10 +1722,10 @@ f_main_configure () {
       #
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_update_software^0^0^0^0       #AAC Update program     - Update menu scripts from the GitHub repository.
+#f_update_software^0^0^0^1       #AAC Update program     - Update menu scripts from the GitHub repository.
 #f_update_all_modules^0^0^0^0    #AAC Update all modules - Update all installed modules from GitHub repository.
 #f_menu_module_manager^0^0^0^0   #AAC Manage Modules     - Add/Delete/Remove/Restore/Update selected modules.
-#f_update_list_apps^0^0^0^1      #AAC Update App List    - Update list of applications in ACTIVATED modules.
+#f_update_list_apps^0^0^0^0      #AAC Update App List    - Update list of applications in ACTIVATED modules.
 #f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List files         - List all support and library program files.
 #f_menu_term_color^0^0^0^0       #AAC Colors             - Set default font/background colors.
 #f_menu_uncolor^0^0^0^0          #AAC Un-colors          - Set font color for unavailable library modules.
@@ -1871,7 +1871,14 @@ f_ask_download_file () {
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                     MOD_FILE=$2
-                    f_download_file
+                    # Check if there is an internet connection before doing a download.
+                    f_test_internet_connection
+                    #
+                    # If internet connection OK, then download.
+                    if [ $ERROR -eq 0 ] ; then
+                       f_download_file
+                    fi
+                    #
                     X="YES"
                     ;;
                     [Nn] | [Nn][Oo])
@@ -1994,7 +2001,6 @@ f_main_list_menus () {
          f_press_enter_key_to_continue
          # Download/Update file LIST_APPS.
          f_update_list_apps
-         f_press_enter_key_to_continue
       fi
       # display LIST_APPS
       if [ -r $THIS_DIR"/LIST_APPS" ] ; then
@@ -2049,7 +2055,6 @@ f_main_search_apps () {
          f_press_enter_key_to_continue
          # Download/Update file LIST_APPS.
          f_update_list_apps
-         f_press_enter_key_to_continue
       fi
       #
       if [ -r $THIS_DIR"/LIST_APPS" ] ; then
@@ -2367,45 +2372,58 @@ f_update_config_file () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_update_software () {
-      # Are either of the directories read-only?
-      if [ ! -w $MAINMENU_DIR -o ! -w $THIS_DIR ] ; then 
-         # Yes, then need sudo permissions.
-         # Ask for sudo permissions password using an innocuous command.
+      # Check if there is an internet connection before doing a download.
+      f_test_internet_connection
+      #
+      # If internet connection OK, then download.
+      if [ $ERROR -eq 0 ] ; then
+         #
+         # Are either of the directories read-only?
+         if [ ! -w $MAINMENU_DIR -o ! -w $THIS_DIR ] ; then 
+            # Yes, then need sudo permissions.
+            # Ask for sudo permissions password using an innocuous command.
+            echo
+            echo "You need sudo permissions to update this software."
+            sudo echo &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         fi
          echo
-         echo "You need sudo permissions to update this software."
-         sudo echo &>/dev/null # 1=standard messages, 2=error messages, &=both.
+         echo "Choose the branch from where you want to update the software."
+         for MOD_FILE in cliappmenu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
+         do
+            echo "_____________________________________________________________________"
+            echo
+            echo "Update \"$MOD_FILE\" from the GitHub software repository?"
+            # Ask download from which branch and wget.
+            f_wget_file
+            #
+            # Pause to read any error messages for the last MOD_FILE.
+            if [ "$MOD_FILE" = "LIST_APPS" ] ; then
+               f_press_enter_key_to_continue
+            fi
+            #
+         done
+         PRESS_KEY=0  # Do not use "Press Enter key" but use "Q" or "Quit" so message above is read.
+                      # f_wget also sets it to 1 but if module is not downloaded then still set to 0.
+         X=-1  # intialize until-loop.
+         until [ "$X" = "0" ]
+         do    # Start of Update Menu until loop.
+               clear # Blank the screen.
+               echo
+               echo "Files cliappmenu.sh and cliappmenu.tar.gz (backup) are in folder:"
+               echo "\"$MAINMENU_DIR\"."
+               echo
+               echo "All other software program files are in folder:"
+               echo "\"$THIS_DIR\"."
+               echo
+               echo -n "'0', (R)eturn, to go back to the previous menu. "
+               read X
+               case $X in
+                    [Rr] | [Rr][Ee] | [Rr][Ee][Tt]*)
+                    X=0
+                    ;;
+               esac
+         done
       fi
-      echo
-      echo "Choose the branch from where you want to update the software."
-      for MOD_FILE in cliappmenu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
-      do
-         echo "_____________________________________________________________________"
-         echo
-         echo "Update \"$MOD_FILE\" from the GitHub software repository?"
-         # Ask download from which branch and wget.
-         f_wget_file
-      done
-      PRESS_KEY=0  # Do not use "Press Enter key" but use "Q" or "Quit" so message above is read.
-                   # f_wget also sets it to 1 but if module is not downloaded then still set to 0.
-      X=-1  # intialize until-loop.
-      until [ "$X" = "0" ]
-      do    # Start of Update Menu until loop.
-            clear # Blank the screen.
-            echo
-            echo "Files cliappmenu.sh and cliappmenu.tar.gz (backup) are in folder:"
-            echo "\"$MAINMENU_DIR\"."
-            echo
-            echo "All other software program files are in folder:"
-            echo "\"$THIS_DIR\"."
-            echo
-            echo -n "'0', (R)eturn, to go back to the previous menu. "
-            read X
-            case $X in
-                 [Rr] | [Rr][Ee] | [Rr][Ee][Tt]*)
-                 X=0
-                 ;;
-	 esac
-      done
       unset X
 } # End of function f_update
 #
@@ -2414,14 +2432,16 @@ f_update_software () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: AAC, MENU_ITEM.
+#    Uses: AAC, MENU_ITEM, Y.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_update_list_apps () {
-      X="" # Initialize scratch variable.
-      while [  "$X" != "YES" -a "$X" != "NO" ]
+      Y="" # Initialize scratch variable.
+      while [  "$Y" != "YES" -a "$Y" != "NO" ]
       do
              clear # Blank the screen.
+             echo "--- Update App List ---"
+             echo
              echo "This will update the list of applications available only in the modules"
              echo "currently downloaded into the software module library directory."
              echo
@@ -2435,16 +2455,37 @@ f_update_list_apps () {
              echo "\"$THIS_DIR/LIST_APPS\""
              echo
              echo -n "Are you ready to update the file, \"LIST_APPS\"? (y/N) "
-             read X
-             case $X in
+             read Y
+             case $Y in
                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                  . lib_cli-common.lib ;  f_create_LIST_APPS
-                  echo ; echo "File \"LIST_APPS\" is updated."
-                  X="YES"
+                  # if README file is missing, download it from GitHub.
+                  f_ask_download_file $THIS_DIR "README"
+                  #
+                  # Was download of README successful?
+                  if [ -r $THIS_DIR/README ] ; then
+                     . lib_cli-common.lib
+                     f_create_LIST_APPS
+                     echo ; echo "File \"LIST_APPS\" is updated."
+                     f_press_enter_key_to_continue
+                  else
+                     # Use different color font for error messages.
+                     f_term_color $ECOLOR $BCOLOR
+                     echo $(tput bold)
+                     #
+                     echo "File \"LIST_APPS\" is not updated."
+                     echo "because the $THIS_DIR/README file is missing."
+                     #
+                     f_term_color $FCOLOR $BCOLOR
+                     echo $(tput bold)
+                     f_press_enter_key_to_continue
+                  fi
+                  # f_press_enter_key_to_continue
+                  Y="YES"
                   ;;
                   "" | [Nn] | [Nn][Oo])
                   echo ; echo "File \"LIST_APPS\" is not updated."
-                  X="NO"
+                  f_press_enter_key_to_continue
+                  Y="NO"
                   ;;
              esac
       done

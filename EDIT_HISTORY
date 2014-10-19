@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-16-2014 10:23"
+PROJECT_REVDATE="October-18-2014 20:53"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -83,9 +83,13 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *New functionality "Find and Run" an application from the
 ##             Main Menu.
 ##            *New functionality "List or Find Menus" from the Main Menu.
-##            *New functionality, web install runs only if automatic install and
-##             custom install both fail.
-##            *Added 9 new applications. 
+##            *Changed functionality, web install runs only if automatic install
+##             fails and custom install either fails or does not exist.
+##            *Bug fixed if updating program/modules without an Internet
+##             connection, files would be deleted (to make room for new ones).
+##             Now if updating program/modules without an Internet connection,
+##             files are unaffected and not deleted.
+##            *Added 10 new applications. 
 ##
 ## 2014-10-03 *Testing version 1.2.1
 ##            *Bug fix.

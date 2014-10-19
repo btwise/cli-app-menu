@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-16-2014 10:23"
+# REVDATE="October-18-2014 23:28"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -519,7 +519,7 @@ f_menu_item_info () {
 #          $1=$MENU_ITEM_OPT.
 #          $2=$Field number.
 #    Uses: X, XSTR.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_eval_funct () {
       #
@@ -534,26 +534,57 @@ f_eval_funct () {
       #
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
       #
+      case "$2" in
+           1)  # if 1st field is a "1" then <f_app-name> Custom application function for general usage.
+           if [ "$XSTR" = 1 ] ; then
+              XSTR="f_$MENU_ITEM_NAME"
+           fi
+           ;;
+           2)
+           # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+           if [ "$XSTR" = 1 ] ; then
+              # Set $XSTR to the name of the custom installation function.
+              XSTR="f_install_$MENU_ITEM_NAME"
+           fi
+           ;;
+           # 3rd field "<f_any_name>" is called after the display of the Quit Code message.
+      esac
+      #
+      # Value of string $XSTR is now:
+      # "0"                    if field 1 is "0"
+      # "f_<App Name>"         if field 1 is "1".
+      # "f_<any function>      if field 1 is <any functionn>
+      #
+      # "0"                    if field 2 is "0"
+      # "f_install_<App Name>" if field 2 is "1".
+      # "f_<any function>      if field 2 is <any functionn>
+      # 
+      # "0"                    if field 3 is "0"
+      # "f_<any function>      if field 3 is <any functionn>
+      #
+      # Do not eval $XSTR if it is "0".
+      #
+      # echo "About to eval \"$XSTR\" of field $2 of \"$MENU_ITEM_OPT\"."  # Diagnostic Line.
+      # f_press_enter_key_to_continue                                      # Diagnostic Line.
+      #
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
-         case "$2" in
-              1)  # if 1st field is a "1" then <f_app-name> Custom application function for general usage.
-              if [ "$XSTR" = 1 ] ; then
-                 XSTR="f_$MENU_ITEM_NAME"
-              fi
-              ;;
-              2)  # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
-              if [ "$XSTR" = 1 ] ; then
-                 XSTR="f_install_$MENU_ITEM_NAME"
-              fi
-              ;;
-              # 3rd field "<f_any_name>" is called after the display of the Quit Code message.
-         esac
-         #
          eval $XSTR  # Invoke (run) the function.
-         if [ $? -ne 0 ] ; then
-            echo "Command or function not found: $XSTR."
-            f_press_enter_key_to_continue
-         fi
+         #
+         # echo "Post-eval \"$XSTR\" of field $2 of \"$MENU_ITEM_OPT\" ERROR CODE: $ERROR"  # Diagnostic Line.
+         # f_press_enter_key_to_continue                                                    # Diagnostic Line.
+      fi
+      #
+      if [ $? -ne 0 ] ; then
+         echo "Failed: $XSTR."
+         f_press_enter_key_to_continue
+      fi
+      #
+      # If field 2 is 0 (no custom install function)
+      # then set ERROR=1 to force attempt of a web install
+      # as per logic in f_application_install.
+      #
+      if [ $2 = 2 -a "$XSTR" = 0 ] ; then
+         ERROR=1
       fi
       #
       unset X XSTR
@@ -734,9 +765,21 @@ f_how_to_quit_application () {
       if [ -z $2 ] ; then
          clear # Blank the screen.
       fi
-      echo
-      echo "To quit \"$APP_NAME\", type $1."
-      f_press_enter_key_to_continue
+      # If $APP_NAME in a web browser application then format may be too long for a 80-character display.
+      # Format OF $APP_NAME could be "<APP_NAME>", <APP_NAME> <Web site>", "sudo <APP_NAME> <OPTIONS> <Web site>".
+      # If $APP_NAME includes a web application, shorten the message.
+      case $APP_NAME in
+           *elinks* | *fbcmd* | *links* | *links2* | *lynx* | *pastebinit* | *retawq* | *surfraw* | *w3m*)
+           echo
+           echo "To quit the web browser, type $1."
+           f_press_enter_key_to_continue
+           ;;
+           *)
+           echo
+           echo "To quit \"$APP_NAME\", type $1."
+           f_press_enter_key_to_continue
+           ;;
+      esac
       #
 } # End of function how_to_quit_application
 #
@@ -1214,8 +1257,13 @@ f_run_app () {
                               #
                               # 3. Extract MENU_ITEM_OPT string.
                               # grep finds lines in all mod_apps-* files with <special menu item marker> <space> <APP_NAME>.
-                              # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
-                              # Sed strips off any trailing spaces.
+                              #      #1^1^0^0^1  #MXX trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
+                              #
+                              # Then awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+                              #      #1^1^0^0^1  
+                              #
+                              # Finally, sed strips off any trailing spaces.
+                              #
                               MENU_ITEM_OPT=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $MOD_FILE | awk -F "#" '{print $2}' | sed 's/ *$//')
                               #
                               # MENU_ITEM, MENU_ITEM_NAME is needed for f_eval_funct.
@@ -1292,13 +1340,13 @@ f_application_error () {
                 # Display error message.
                 f_display_error_code
                 echo
-                echo "Try running $APP_NAME_TMP without the sudo command."
+                echo "Try running \"$APP_NAME_TMP\" without the sudo command."
                 echo "There is a possibility that the application is not installed."
                 ;;
                 *)
                 # Display error message.
                 f_display_error_code
-                echo "Run $APP_NAME again this time using sudo?"
+                echo "Run \"$APP_NAME\" again this time using sudo?"
                 echo -n "Use sudo (temporary root permissions) (y/N)? "
                 read ANS
                 case $ANS in  # Start of Use SUDO case statement.
@@ -1317,7 +1365,8 @@ f_application_error () {
                         f_term_color $ECOLOR $BCOLOR
                         echo $(tput bold)
                         #
-                        echo "Running sudo $APP_NAME_SUDO failed."
+                        echo "Running \"sudo $APP_NAME_SUDO\" failed."
+                        #
                         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                         echo "May be caused by bad sudo password, or user has no permission to use sudo,"
                         echo "or bad $APP_NAME_TMP syntax."
@@ -1341,7 +1390,8 @@ f_application_error () {
            echo $(tput bold)
            #
            echo "Missing operand (file name(s) or names)."
-           echo "Try running $APP_NAME_TMP again this time using operands."
+           echo "Try running \"$APP_NAME_TMP\" again this time using operands."
+           #
            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            echo
            echo "Operands may be filenames as in the examples below."
@@ -1361,7 +1411,8 @@ f_application_error () {
            f_term_color $ECOLOR $BCOLOR
            echo $(tput bold)
            #
-           echo "This $APP_NAME_TMP application may be locked and in use by another process."
+           echo "This \"$APP_NAME_TMP\" application may be locked and in use by another process."
+           #
            echo
            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            ;;
@@ -1392,7 +1443,8 @@ f_application_error () {
            f_term_color $ECOLOR $BCOLOR
            echo $(tput bold)
            #
-           echo "This $APP_NAME_TMP application is not installed."
+           echo "This \"$APP_NAME_TMP\" application"
+           echo "cannot be run since it is not yet installed."
            echo
            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            ;;
@@ -1405,14 +1457,14 @@ f_application_error () {
                 # Display error message.
                 f_display_error_code
                 echo
-                echo "Try running $APP_NAME_TMP without the sudo command."
+                echo "Try running \"$APP_NAME_TMP\" without the sudo command."
                 echo "There is a possibility that the application is not installed."
                 ;;
                 *)
                 # Display error message.
                 f_display_error_code
                 echo
-                echo "Run $APP_NAME again this time using sudo?"
+                echo "Run \"$APP_NAME\" again this time using sudo?"
                 echo -n "Use sudo (temporary root permissions) (y/N)? "
                 read ANS
                 case $ANS in  # Start of Use SUDO case statement.
@@ -1431,11 +1483,12 @@ f_application_error () {
                         f_term_color $ECOLOR $BCOLOR
                         echo $(tput bold)
                         #
-                        echo "Running sudo $APP_NAME_SUDO failed."
+                        echo "Running \"sudo $APP_NAME_SUDO\" failed."
+                        #
                         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                         echo "May be caused by bad sudo password, or user has no permission to use sudo,"
                         echo "or bad $APP_NAME_TMP syntax."
-                        echo "Consult help using man $APP_NAME_TMP."
+                        echo "Consult help using \"man $APP_NAME_TMP\"."
                         echo
                      fi
                      ;;
@@ -1471,7 +1524,7 @@ f_display_error_code () {
       echo "**********************************************************************"
       echo
       echo "          ***********"
-      echo "Error code >>> $ERROR <<<  from $APP_NAME_TMP application."
+      echo "Error code >>> $ERROR <<<  from \"$APP_NAME_TMP\" application."
       echo "          ***********"
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
 } # End of function f_display_error_code
@@ -1485,8 +1538,9 @@ f_display_error_code () {
 # Outputs: ERROR, PRESS_KEY.
 #
 f_application_install_question () {
-                 echo -n "Do you want to install $APP_NAME (y/N)? "
+                 echo -n "Do you want to install \"$APP_NAME\" (y/N)? "
                  read INSTALL_ANS
+                 echo
                  case $INSTALL_ANS in # Start of Install Application Option case statement.
                       [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
                       INSTALL_ANS="YES"
@@ -1511,25 +1565,37 @@ f_application_install_question () {
 #
 f_application_install () {
       #
-      # 1. Strip off "sudo" or "run-time parameters" from $APP_NAME to get basic application name.
+      # 1. Strip off "sudo" or "run-time parameters" from $APP_NAME to get
+      #    basic application name.
       # 2. Since the application name may not match the software package name,
-      #    get the corresponding package name used by the distro's software package manager.
+      #    get the corresponding package name used by the distro's software
+      #    package manager.
       # 3. Try installing application using distro's software package manager.
-      # 4. Install fails? No, installation is successful, DONE AND EXIT.
-      # 5. Yes install failed, display error message and then check for a custom install function.
-      # 6. Is there a custom install function specified in the menu? No, skip to step 8.
+      #    Determine which application installation manager is used 
+      #    by checking if the requisite directory exists.
+      # 4. Install sucessful? Yes, DONE AND EXIT.
+      # 5. No, install failed, display error message and then check for a
+      #    custom install function.
+      # 6. Is there a custom install function specified in the menu?
+      #    No, skip to step 9.
       # 7. Yes, try to install again by using the custom install function.
       #    Custom install function format: f_install_<application name>.
-      #    (Usually a custom install function will download source code from web and then compile it).
-      # 8. Is a maintainer's web site specified by lib_cli-web-sites.lib? No, DONE AND EXIT
-      # 9. Yes, does user want to download application source code from the maintainer's web site?
-      # 10. Yes, download source code and leave it to the user to manually compile.
+      #    (Usually a custom install function will download source code
+      #    from web and then compile it).
+      # 8. Did custom install succeed? Yes, DONE AND EXIT.
+      # 9. Is a maintainer's web site specified by lib_cli-web-sites.lib?
+      #    No, DONE AND EXIT
+      # 10. Yes, does user want to download application source code from the
+      #     maintainer's web site?
+      # 11. Yes, download source code and leave it to the user
+      #     to manually compile.
       #
       APP_NAME_INSTALL=$APP_NAME 
       # Default of APP_NAME_INSTALL is simply APP_NAME. 
       # This may be modified below in the Installation Package Name
       # case statement.
       #
+      # 1. Strip off "sudo" or "run-time parameters" from $APP_NAME to get basic application name.
       case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
            *' '*)  
            # If string APP_NAME/APP_NAME_INSTALL includes spaces for
@@ -1541,11 +1607,165 @@ f_application_install () {
            ;;
       esac                      # End of APP_NAME_INSTALL case statement.
       #
-      # Below are cases where the APP_NAME is not the same as the
-      # package name used to install the application.
-      # i.e. The game 'trek' is installed using the package called 'bsdgames'.
+      # 2. Since the application name may not match the software package name,
+      #    get the corresponding package name used by the distro's software package manager.
+      f_match_pkg_name_to_app_name
       #
-      case $APP_NAME_INSTALL in # Start of Install Package Name case statement.
+      # 3. Try installing application using distro's software package manager.
+      #    Determine which application installation manager is used 
+      #    by checking if the requisite directory exists.
+      #
+      # 4 to 11. Are included in code below.
+      #
+         # If /etc/apt directory exists, then use apt-get install
+         # for Debian-based packages.
+      if [ -d /etc/apt ] ; then 
+         f_install_using_apt
+         #
+         # If <slackware linux installation directory> exists,
+         # then use slackpkg or installpkg for slackware packages.
+      elif [ -d /var/lib/slackpkg ] ; then
+         # f_install_using_slackpkg 
+         echo
+         # This if statement is commented out because slackpkg has
+         # error code $?=0 even if the install fails.
+         #
+         # If <slackware linux installation directory> exists,
+         # then use slackpkg or installpkg for slackware packages.
+      elif [ -d /var/lib/installpkg ] ; then
+         # f_install_using_installpkg 
+         echo
+         # This if statement is commented out because slackpkg has
+         # error code $?=0 even if the install fails.
+         #
+         # if <arch linux installation directory> exists, then use pacman
+         # for arch linux packages.
+      elif [ -d /var/lib/pacman ] ; then
+         f_install_using_pacman
+         #
+         # if /var/lib/rpm directory exists, then use rpm install
+         # for RPM-based packages.
+         # rpm is last because some Slackware-based distros have rpm directories also.
+      elif [ -d /var/lib/rpm ] ; then 
+         f_install_using_rpm
+         #
+      else
+         f_install_using_no-auto
+         #
+      fi
+      #
+      if [ "$ERROR" -ne 0 ] ; then
+         # If install via package manager failed then see if there is a custom install function.
+         # If 2nd field is a "1" then custom installation function exists.
+         #
+         # awk extracts the 2nd field from $MENU_ITEM_OPT.
+         XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $2}')
+         #
+         # If custom install function exists, run it.
+         # $XSTR can either be 0, 1, "f_<custom install name>".
+         if [ "$XSTR" != 0 ] ; then
+            # Reset $ERROR to detect if custom install function fails.
+            ERROR=0
+            echo
+            echo "Attempting to automatically download/install from source code, if possible."
+            echo
+            echo "Messages on the progress of the install should appear below."
+            f_press_enter_key_to_continue
+            f_eval_funct "$MENU_ITEM_OPT" 2
+            if [ $ERROR -ne 0 ] ; then
+               # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
+               # If install via custom install function failed then see if there is a web install function.
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
+               echo -n $(tput bold)
+               echo
+               echo --------------------------------------------------------------------------
+               echo "The automatic download/install from source code failed somehow..."
+               #
+               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               f_web_install
+            fi
+         else
+            # If custom install function does not exist, does a web install function exist?
+            # Is there a known web site with the source code?
+            # If web install function exists, run it.
+            f_web_install         
+         fi
+      fi
+} # End of function f_application_install
+#
+# +----------------------------------------+
+# |         Function f_web_install         |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_web_install () {
+      # Does a web install function exist?
+      f_application_web_install
+      #
+      # Value of $WEB_SITE_INSTALL
+      # ""              No web site is specified.
+      # <web site name> Web site of application source code
+
+      #  if a web install function exists run it.
+      if [ -n "$WEB_SITE_INSTALL" ] ; then
+         #
+         echo
+         echo "Do want to use the elinks web browser to visit the project's web site"
+         echo -n "and download the application manually? (y/N) "
+         read ANS
+         case $ANS in # Start of Install case statement.
+              [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+              clear  # Blank the screen.
+              echo "IMPORTANT:"
+              echo "When using the elinks web browser, select \"Save\" to download a file."
+              f_press_enter_key_to_continue
+              APP_NAME_TMP="$APP_NAME" # Save name of application that did not install properly.
+              APP_NAME="elinks $WEB_SITE_INSTALL"
+              f_how_to_quit_application "q"
+              f_application_run
+              APP_NAME="$APP_NAME_TMP" # Restore name of application that did not install properly.
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              ;;
+              [Nn] | [Nn][Oo] | *)
+              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+              ;;
+         esac         # End of Install case statement.
+         unset ANS  # Throw out this variable.
+      else
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo
+         echo --------------------------------------------------------------------------
+         echo "I failed to automatically download the source code as I don't know where"
+         echo "to get it from."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+         echo "You will have to do an Internet search to find a web site to download the"
+         echo "software. Please be sure to download from a reputable web site."
+         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+      fi
+} # End of function f_web_install
+#
+# +----------------------------------------+
+# | Function f_match_pkg_name_to_app_name  |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+# Below are cases where the APP_NAME is not the same as the
+# package name used to install the application.
+# i.e. The game 'trek' is installed using the package called 'bsdgames'.
+#
+f_match_pkg_name_to_app_name () {
+      case $APP_NAME_INSTALL in # Start of Match Name case statement.
            aafire | aainfo | aatest | aasavefont)
            APP_NAME_INSTALL="libaa-bin"
            ;;
@@ -1651,183 +1871,179 @@ f_application_install () {
            xz | unxz | xzcat | xzgrep)
            APP_NAME_INSTALL="xz-utils"
            ;;
-      esac # End of Install Package Name case statement.
+      esac # End of Match Name case statement.
+} # End of function f_match_pkg_name_to_app_name
+#
+# +----------------------------------------+
+# |      Function f_install_using_apt      |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_install_using_apt () {
+      sudo apt-get install $APP_NAME_INSTALL
+      ERROR=$? # Save error flag condition.
+      if [ $ERROR -ne 0 ] ; then
+         # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "Perhaps the software package \"$APP_NAME_INSTALL\""
+         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo
+         f_app_install_mssg
+         #
+      fi
+} # End of function f_install_using_apt
+#
+# +----------------------------------------+
+# |   Function f_install_using_slackpkg    |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_install_using_slackpkg () {
+      sudo slackpkg install $APP_NAME_INSTALL
+      ERROR=$? # Save error flag condition.
+      # To Do List: find a way to indicate a failed install and alter if statement below.
       #
-      # 1. Determine which application installation manager is used 
-      #    by checking if the requisite directory exists.
-      # 2. If it does exist, then use the corresponding application
-      #    installation manager.
-      # 3  Installation failed? No, installation successful. DONE AND EXIT.
-      # 3. Yes, (error code 1), then check for a 
-      #    custom application install function, and if so, try running it.
-      # 4. Lastly, if a project web site is specified, ask if user wants to install
-      #    by downloading either compiled or source code from the project's web site.
+      if [ $ERROR -ne 0 ] ; then
+         # Error code 1 $?=1 means installation failed.
+         # Error code 0 (zero) where $?=0 means no error.
+         echo -n $(tput bold)
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "Perhaps the software package \"$APP_NAME_INSTALL\""
+         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo
+         f_app_install_mssg
+         # If install via package manager failed then see if there is a custom install function.
+         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         #
+         # Reset $ERROR to detect if custom install function fails.
+         ERROR=0
+         f_eval_funct "$MENU_ITEM_OPT" 2
+         #
+         if [ $ERROR -ne 0 ] ; then
+            # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
+            #
+            # Try downloading source code from a web site and manually installing.
+            f_application_web_install  # Forced output PRESS_KEY=0.
+         fi
+      fi
+} # End of function f_install_using_apt
+#
+# +----------------------------------------+
+# |  Function f_install_using_installkpkg  |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_install_using_installpkg () {
+      sudo installpkg install $APP_NAME_INSTALL
+      ERROR=$? # Save error flag condition.
+      # 
+      # This if statement is commented out because slackpkg has error code $?=0 even
+      # if install fails.
+      # 
+      # To Do List: find a way to indicate a failed install and alter if statement below.
       #
-      if [ -d /etc/apt ] ; then 
-         # if /etc/apt directory exists, then use apt-get install
-         # for Debian-based packages.
-         sudo apt-get install $APP_NAME_INSTALL
-         ERROR=$? # Save error flag condition.
+      if [ $ERROR -ne 0 ] ; then
+         # Error code 1 $?=1 means installation failed.
+         # Error code 0 (zero) where $?=0 means no error.
+         echo -n $(tput bold)
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "Perhaps the software package \"$APP_NAME_INSTALL\""
+         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo
+         f_app_install_mssg
+         #
+         # If install via package manager failed then see if there is a custom install function.
+         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         #
+         # Reset $ERROR to detect if custom install function fails.
+         ERROR=0
+         f_eval_funct "$MENU_ITEM_OPT" 2
+         #
+         if [ $ERROR -ne 0 ] ; then
+            # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
+            #
+            # Try downloading source code from a web site and manually installing.
+            f_application_web_install  # Forced output PRESS_KEY=0.
+         fi
+      fi
+} # End of function f_install_using_installpkg
+#
+# +----------------------------------------+
+# |     Function f_install_using_pacman    |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_install_using_pacman () {
+      sudo pacman -S $APP_NAME_INSTALL
+      ERROR=$? # Save error flag condition.
+      if [ $ERROR -ne 0 ] ; then
+         # Error code 1 $?=1 means installation failed.
+         # Error code 0 (zero) where $?=0 means no error.
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo "Perhaps the software package \"$APP_NAME_INSTALL\""
+         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo 
+         f_app_install_mssg
+         #
+         # If install via package manager failed then see if there is a custom install function.
+         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         #
+         # Reset $ERROR to detect if custom install function fails.
+         ERROR=0
+         f_eval_funct "$MENU_ITEM_OPT" 2
+         #
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
             #
-            # Use different color font for error messages.
-            f_term_color $ECOLOR $BCOLOR
-            echo -n $(tput bold)
-            echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
-            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-            echo "is not available for this linux distribution."
-            echo
-            f_app_install_mssg
-            f_press_enter_key_to_continue
-            #
-            # If install via package manager failed then see if there is a custom install function.
-            # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
-            #
-            # Reset $ERROR to detect if custom install function fails.
-            ERROR=0
-            f_eval_funct "$MENU_ITEM_OPT" 2
-            #
-            if [ $ERROR -ne 0 ] ; then
-               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
-               #
-               # Try downloading source code from a web site and manually installing.
-               f_application_web_install  # Forced output PRESS_KEY=0.
-            fi
+            # Try downloading source code from a web site and manually installing.
+            f_application_web_install  # Forced output PRESS_KEY=0.
          fi
-         #
-      elif [ -d /var/lib/slackpkg ] ; then
-         # if <slackware linux installation directory> exists, then use slackpkg or installpkg 
-         # for slackware packages.
-         sudo slackpkg install $APP_NAME_INSTALL
-         ERROR=$? # Save error flag condition.
-         # 
-         # # This if statement is commented out because slackpkg has error code $?=0 even
-         # # if install fails.
-         # 
-         # # COMMENTED OUT FOR SLACKPKG BECAUSE ERROR CODE IS ALWAYS 0 WHETHER OR NOT IT 
-         # # INSTALLED OK.
-         #
-         # # To Do List: find a way to indicate a failed install and alter if statement below.
-         #
-         #if [ $ERROR -ne 0 ] ; then
-         #   # Error code 1 $?=1 means installation failed.
-         #   # Error code 0 (zero) where $?=0 means no error.
-         #   echo -n $(tput bold)
-         #
-         #   # Use different color font for error messages.
-         #   f_term_color $ECOLOR $BCOLOR
-         #   echo -n $(tput bold)
-         #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
-         #   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-         #   echo "is not available for this linux distribution."
-         #   echo
-         #   f_app_install_mssg
-         #   f_press_enter_key_to_continue
-         #
-         #   # If install via package manager failed then see if there is a custom install function.
-         #   # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
-         #
-         #   # Reset $ERROR to detect if custom install function fails.
-         # ERROR=0
-         # f_eval_funct "$MENU_ITEM_OPT" 2
-         # #
-         #   if [ $ERROR -ne 0 ] ; then
-         #      # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
-         #      #
-         #      # Try downloading source code from a web site and manually installing.
-         #      f_application_web_install  # Forced output PRESS_KEY=0.
-         #   fi
-         #fi
-         #
-      elif [ -d /var/lib/installpkg ] ; then
-         # if <slackware linux installation directory> exists, then use slackpkg or installpkg 
-         # for slackware packages.
-         sudo installpkg install $APP_NAME_INSTALL
-         ERROR=$? # Save error flag condition.
-         # 
-         # This if statement is commented out because slackpkg has error code $?=0 even
-         # if install fails.
-         # 
-         # COMMENTED OUT FOR SLACKPKG BECAUSE ERROR CODE IS ALWAYS 0 WHETHER OR NOT IT 
-         # INSTALLED OK.
-         #
-         # To Do List: find a way to indicate a failed install and alter if statement below.
-         #
-         #if [ $ERROR -ne 0 ] ; then
-         #   # Error code 1 $?=1 means installation failed.
-         #   # Error code 0 (zero) where $?=0 means no error.
-         #   echo -n $(tput bold)
-         #
-         #   # Use different color font for error messages.
-         #   f_term_color $ECOLOR $BCOLOR
-         #   echo -n $(tput bold)
-         #   echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
-         #   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         #   echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-         #   echo "is not available for this linux distribution."
-         #   echo
-         #   f_app_install_mssg
-         #   f_press_enter_key_to_continue
-         #
-         #   # If install via package manager failed then see if there is a custom install function.
-         #   # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
-         #
-         #   # Reset $ERROR to detect if custom install function fails.
-         #   ERROR=0
-         #   f_eval_funct "$MENU_ITEM_OPT" 2
-         #   #
-         #   if [ $ERROR -ne 0 ] ; then
-         #      # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
-         #      #
-         #      # Try downloading source code from a web site and manually installing.
-         #      f_application_web_install  # Forced output PRESS_KEY=0.
-         #   fi
-         #fi
-         #
-      elif [ -d /var/lib/pacman ] ; then
-         # if <arch linux installation directory> exists, then use pacman
-         # for arch linux packages.
-         sudo pacman -S $APP_NAME_INSTALL
-         ERROR=$? # Save error flag condition.
-         if [ $ERROR -ne 0 ] ; then
-            # Error code 1 $?=1 means installation failed.
-            # Error code 0 (zero) where $?=0 means no error.
-            #
-            # Use different color font for error messages.
-            f_term_color $ECOLOR $BCOLOR
-            echo -n $(tput bold)
-            echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
-            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-            echo "is not available for this linux distribution."
-            echo 
-            f_app_install_mssg
-            f_press_enter_key_to_continue
-            #
-            # If install via package manager failed then see if there is a custom install function.
-            # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
-            #
-            # Reset $ERROR to detect if custom install function fails.
-            ERROR=0
-            f_eval_funct "$MENU_ITEM_OPT" 2
-            #
-            if [ $ERROR -ne 0 ] ; then
-               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
-               #
-               # Try downloading source code from a web site and manually installing.
-               f_application_web_install  # Forced output PRESS_KEY=0.
-            fi
-         fi
-         #
-         # rpm is last because some Slackware-based distros have rpm directories also.
-      elif [ -d /var/lib/rpm ] ; then 
-         # if /var/lib/rpm directory exists, then use rpm install
-         # for RPM-based packages.
+      fi
+      #
+} # End of function f_install_using_pacman
+#
+# +----------------------------------------+
+# |       Function f_install_using_rpm     |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_install_using_rpm () {
          sudo rpm -ivh $APP_NAME_INSTALL 
-         # Assume if not Debian, then Red Hat distro packages.
          ERROR=$? # Save error flag condition.
          if [ $ERROR -ne 0 ] ; then
             # Error code 1 $?=1 means installation failed.
@@ -1839,10 +2055,9 @@ f_application_install () {
             echo "Command \"sudo rpm -ivh $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-            echo "is not available for this linux distribution."
+            echo "is not pre-packaged in the software repositories for this linux distribution."
             echo
             f_app_install_mssg
-            f_press_enter_key_to_continue
             #
             # If install via package manager failed then see if there is a custom install function.
             # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
@@ -1852,40 +2067,47 @@ f_application_install () {
             f_eval_funct "$MENU_ITEM_OPT" 2
             #
             if [ $ERROR -ne 0 ] ; then
-               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+               # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
                #
                # Try downloading source code from a web site and manually installing.
                f_application_web_install  # Forced output PRESS_KEY=0.
             fi
          fi
-      else
+} # End of function f_install_using_rpm
+#
+# +----------------------------------------+
+# |    Function f_install_using_no-auto    |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#    Uses: None.
+# Outputs: ERROR.
+#
+f_install_using_no-auto () {
+      # Use different color font for error messages.
+      f_term_color $ECOLOR $BCOLOR
+      echo -n $(tput bold)
+      echo "You will have to install the $APP_NAME_INSTALL package manually."
+      echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
+      echo
+      f_app_install_mssg
+      #
+      # If install via package manager failed then see if there is a custom install function.
+      # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+      #
+      # Reset $ERROR to detect if custom install function fails.
+      ERROR=0
+      f_eval_funct "$MENU_ITEM_OPT" 2
+      #
+      if [ $ERROR -ne 0 ] ; then
+         # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
          #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo -n $(tput bold)
-         echo "You will have to install the $APP_NAME_INSTALL package manually."
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo "Automatic install is only available for apt, rpm, slackpkg, pacman package managers."
-         echo
-         f_app_install_mssg
-         f_press_enter_key_to_continue
-         #
-         # If install via package manager failed then see if there is a custom install function.
-         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
-         #
-         # Reset $ERROR to detect if custom install function fails.
-         ERROR=0
-         f_eval_funct "$MENU_ITEM_OPT" 2
-         #
-            if [ $ERROR -ne 0 ] ; then
-               # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
-               #
-               # Try downloading source code from a web site and manually installing.
-               f_application_web_install  # Forced output PRESS_KEY=0.
-            fi
+         # Try downloading source code from a web site and manually installing.
+         f_application_web_install  # Forced output PRESS_KEY=0.
       fi
       #
-} # End of function f_application_install
+} # End of function f_install_using_no-auto
 #
 # +----------------------------------------+
 # |      Function f_app_install_mssg       |
@@ -1896,27 +2118,50 @@ f_application_install () {
 # Outputs: None.
 #
 f_app_install_mssg () {
-            echo "Not all applications in this menu are available on all linux distributions."
-            echo "                       >>>Try doing a web search <<<"
-            echo "                  for the application and its source code."
-            echo
-            echo "I will now try to automatically download/install from source code, if possible."
-            echo
-            echo "Messages on the progress of the install should appear below."
-            echo
-            echo "If there are no messages, then nothing happened."
-            echo "Then try browsing to the web page where the source code is located."
-            echo
+      echo
+      echo "Not all Linux distributions include all applications featured in this menu."
+      echo
+      echo "i.e. An application or software package that is available in the Red Hat Linux"
+      echo "     distribution may not be available in the Debian Linux distribution,"
+      echo "     and vice versa."
+      echo
       #
 } # End of function f_app_install_mssg
+#
+# +----------------------------------------+
+# |   Function f_test_internet_connection  |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ERROR, ECOLOR, BCOLOR.
+# Outputs: ERROR.
+#
+f_test_internet_connection () {
+      # Check if there is an internet connection before doing a download.
+      echo
+      echo "Test internet connection:"
+      ping -c 1 -q 8.8.4.4
+      ERROR=$?
+      #
+      if [ $ERROR -ne 0 ] ; then
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo "Error pinging web site, the Internet may be disconnected."
+         echo "Cannot download \"$MOD_FILE\" at this time."
+         #
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_test_internet_connection
 #
 # +----------------------------------------+
 # |       Function f_download_file         |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE
+#  Inputs: BRANCH, MOD_FILE.
 #    Uses: BRANCH, WEB_SITE.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY.
 #
 # Download a single file $MOD_FILE from $WEB_SITE.
 #
@@ -1928,7 +2173,9 @@ f_download_file () {
            mod_apps*.lib)  # Module files only
            # Ask download from which branch and wget.
            f_wget_file
-           if [ "$BRANCH" != "SKIP" ] ; then
+           #
+           # Check to see if download was successful before invoking module.
+           if [ "$BRANCH" != "SKIP" ] && [ -r $THIS_DIR/$MOD_FILE ] ; then
               # $MOD_FILE exists in current directory so make it accessible.
               . $THIS_DIR/$MOD_FILE # Invoke module library.
            fi
@@ -1944,9 +2191,9 @@ f_download_file () {
 # |       Function f_wget_file             |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE
+#  Inputs: BRANCH, MOD_FILE.
 #    Uses: BRANCH, WEB_SITE.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1.
 #
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
@@ -1955,17 +2202,18 @@ f_wget_file () {
       f_ask_which_branch_download  # Download from which git branch, TESTING or MASTER?
                                    # BRANCH="MASTER"/"TESTING"/"DEVELOP"/"SKIP", WEB_SITE,
                                    # PRESS_KEY=0/1
+      #
       f_wget_file_2
+      #
 } # End of f_wget_file
-#
 #
 # +----------------------------------------+
 # |      Function f_wget_file_2            |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE
+#  Inputs: BRANCH, MOD_FILE, THIS_DIR, WEB_SITE.
 #    Uses: BRANCH, WEB_SITE.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1.
 #
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
@@ -1978,14 +2226,14 @@ f_wget_file_2 () {
             # Delete any old files except if file is "cliappmenu.sh".
             # Permission to delete file?
             if [ -w $THIS_DIR/$MOD_FILE ] ; then
-               rm $THIS_DIR/$MOD_FILE # Delete old file.
+               mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak  # Rename old file as a backup.
                ERROR=$?
             else
                # File either does not exist or is not writable without sudo.
                # Does file exist?
                if [ -e $THIS_DIR/$MOD_FILE ] ; then
                   # Need sudo permissions to delete file.
-                  sudo rm $THIS_DIR/$MOD_FILE # Delete old file.
+                  sudo mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak  # Rename old file as a backup.
                   ERROR=$?
                fi
             fi
@@ -1993,7 +2241,9 @@ f_wget_file_2 () {
             if [ $ERROR -ne 0 ] ; then
                f_term_color $ECOLOR $BCOLOR
                echo $(tput bold)
-               echo -n "Error deleting older file \"$MOD_FILE\"."
+               #
+               echo -n "Error renaming older file as a backup \"$MOD_FILE.bak\"."
+               #
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             fi
             # Download the module except if file is "cli-app-menu.sh".
@@ -2025,8 +2275,13 @@ f_wget_file_2 () {
             if [ $ERROR -ne 0 ] ; then
                f_term_color $ECOLOR $BCOLOR
                echo $(tput bold)
+               #
                echo "Error downloading file \"$MOD_FILE\"."
+               #
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            else
+               echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
                echo
             fi
          else
@@ -2036,7 +2291,7 @@ f_wget_file_2 () {
             # Make backup copy of the file.
             # Permission to backup the file?
             if [ -w $MAINMENU_DIR/$MOD_FILE ] ; then  
-               mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+               mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak  # Rename old file as a backup.
                # tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                ERROR=$?
             else
@@ -2044,7 +2299,7 @@ f_wget_file_2 () {
                # Does file exist?
                if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
                   # Need sudo permissions to backup file.
-                  sudo mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+                  sudo mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak  # Rename old file as a backup.
                   # sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                   ERROR=$?
                fi
@@ -2053,33 +2308,13 @@ f_wget_file_2 () {
             if [ $ERROR -ne 0 ] ; then
                f_term_color $ECOLOR $BCOLOR
                echo $(tput bold)
-               echo "Error making back-up file \"$MOD_FILE\"."
+               #
+               echo "Error making back-up file \"$MOD_FILE.bak\"."
+               #
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
             fi
-            # Delete cliappmenu.sh after making back-up copy.
-            # Was file back-up successful and have permission to delete the original file?
-            if [ -w $MAINMENU_DIR/$MOD_FILE ] && [ -w $MAINMENU_DIR/$MOD_FILE.tar.gz ] ; then
-               rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
-               ERROR=$?
-            else
-               # File either does not exist or is not writable without sudo.
-               # Does file exist?
-               if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
-                  # Need sudo permissions to delete file.
-                  sudo rm $MAINMENU_DIR/$MOD_FILE # Delete old file.
-                  ERROR=$?
-               fi
-            fi
             #
-            if [ $ERROR -ne 0 ] ; then
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)  
-               echo -n "Error deleting older file, \"$MOD_FILE\"."
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            fi
-            # Download cliappmenu.sh.
-            # Permission to download file?
             if [ -w $THIS_DIR/$MOD_FILE ] ; then  
                wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
                ERROR=$?
@@ -2092,24 +2327,27 @@ f_wget_file_2 () {
             if [ $ERROR -ne 0 ] ; then
                f_term_color $ECOLOR $BCOLOR
                echo $(tput bold)
+               #
                echo "Error downloading file \"$MOD_FILE\"."
+               #
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+               echo
+            else
+               echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
                echo
             fi
          fi   
-         echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
-         echo
          PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-      fi # If BRANCH=SKIP.
+      fi
 } # End of f_wget_file_2
 #
 # +----------------------------------------+
 # |  Function f_ask_which_branch_download  |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH
+#  Inputs: BRANCH.
 #    Uses: ANS, XSTR.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY
+# Outputs: BRANCH, WEB_SITE, PRESS_KEY.
 #
 f_ask_which_branch_download () {
       XSTR="(MASTER/testing/develop/skip)"  # Set default prompt options.
@@ -2187,9 +2425,9 @@ f_ask_which_branch_download () {
 # |       Function f_create_LIST_APPS      |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR
-#    Uses: MOD_FILE, XSTR
-# Outputs: File LIST_APPS
+#  Inputs: THIS_DIR.
+#    Uses: MOD_FILE, XSTR.
+# Outputs: File LIST_APPS.
 #
 # File LIST_APPS may be recreated at any time from the command line.
 # Prerequisite: README file and ALL module files, mod_apps-*.lib
@@ -2334,7 +2572,7 @@ f_create_LIST_APPS () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: XSTR, MOD_FILE, MAX
+#    Uses: XSTR, MOD_FILE, MAX.
 # Outputs: MAX.
 #
 f_show_max_menu_items () {
@@ -2378,6 +2616,7 @@ f_show_max_menu_items () {
                     echo $(tput bold)
                     #
                     echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
+                    #
                     echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
                  fi
               fi

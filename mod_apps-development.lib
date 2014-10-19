@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2014 15:23"
+# REVDATE="October-18-2014 20:53"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_development    |
@@ -23,7 +23,7 @@ f_menu_app_development () {
 #0^0^0^0^1 #MDE cil              - Issue tracker and add/edit, list issues.
 #0^0^0^0^1 #MDE cmdtest          - Test command-line programs/scripts to check the output.
 #0^0^0^0^1 #MDE codemetre        - Count lines of code w/o comments in source code.
-#0^0^0^0^1 #MDE colout           - Colorize matching text pattern in a text file.
+#0^0^0^0^0 #MDE colout           - Colorize matching text pattern in a text file.
 #0^0^0^0^1 #MDE gettext          - Framework for GNU packages for multi-lingual messages.
 #0^0^0^0^1 #MDE githubcli        - "ghi" Interface to GitHub's issues API.
 #0^0^0^0^1 #MDE google-perftools - Analyze performance of C++ programs.

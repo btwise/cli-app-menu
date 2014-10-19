@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-16-2014 10:23"
+# REVDATE="October-18-2014 20:53"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -328,6 +328,9 @@ f_application_web_install () {
            slrn)
            WEB_SITE_INSTALL="http://slrn.sourceforge.net/"
            ;;
+           spacezero)
+           WEB_SITE_INSTALL="http://spacezero.sourceforge.net/"
+           ;;
            speedtest-cli)
            WEB_SITE_INSTALL="https://github.com/sivel/speedtest-cli"
            ;;
@@ -425,53 +428,4 @@ f_application_web_install () {
            WEB_SITE_INSTALL="http://tukaani.org/xz/"
            ;;
       esac                      # End of Web Site case statement.
-      #
-      # Is a web site for install/download specified?
-      case $WEB_SITE_INSTALL in # Start of Web Install case statement.
-           "")
-           #
-           # Use different color font for error messages.
-           f_term_color $ECOLOR $BCOLOR
-           echo -n $(tput bold)
-           echo
-           echo --------------------------------------------------------------------------
-           echo "I failed to automatically download the source code as I don't know where"
-           echo "to get it from."
-           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-           echo
-           echo "You will have to do an Internet search to find a web site to download the"
-           echo "software. Please be sure to download from a reputable web site."
-           PRESS_KEY=1 # Display "Press 'Enter' key to continue."
-           ;;
-           *) # if web site is specified, then go there.
-           #
-           # Use different color font for error messages.
-           f_term_color $ECOLOR $BCOLOR
-           echo -n $(tput bold)
-           echo
-           echo --------------------------------------------------------------------------
-           echo "The automatic download/install from source code failed somehow..."
-           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-           echo
-           echo "If application did not install properly, do want to use the elinks web browser"
-           echo -n "to visit the project's web site to download manually (y/N)? "
-           read ANS
-           case $ANS in # Start of Install case statement.
-                [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
-                echo "When using the elinks text web browser, select \"Save\" to download a file."
-                APP_NAME_TMP="$APP_NAME" # Save name of application that did not install properly.
-                APP_NAME="elinks $WEB_SITE_INSTALL"
-                f_how_to_quit_application "q"
-                f_application_run
-                APP_NAME="$APP_NAME_TMP" # Restore name of application that did not install properly.
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-                [Nn] | [Nn][Oo] | *)
-                PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-                ;;
-           esac         # End of Install case statement.
-           unset ANS  # Throw out this variable.
-           ;;
-      esac                      # End of Web Install case statement.
 } # End of function f_application_web_install
-#
