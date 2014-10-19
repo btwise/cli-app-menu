@@ -79,10 +79,12 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2014-10-14 *Testing version 2.0
+## 2014-10-18 *Testing version 2.0
 ##            *New functionality "Find and Run" an application from the
-##             Main Menu.
+##             Main Menu rather than the application menus.
 ##            *New functionality "List or Find Menus" from the Main Menu.
+##            *New functionality, test internet connection before downloading
+##             new applications or modules or before updating the modules.
 ##            *Changed functionality, web install runs only if automatic install
 ##             fails and custom install either fails or does not exist.
 ##            *Bug fixed if updating program/modules without an Internet

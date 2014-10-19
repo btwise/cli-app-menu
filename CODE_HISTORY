@@ -104,8 +104,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_wget_file_2 changed to backup old files by mv to <old file>.bak
 ##             rather than rm <old file> before downloading <new file>.
 ##
-## 2014-10-16 *New functionality, web install runs only if the automatic install
-##             fails and custom install fails or is missing.
+## 2014-10-16 *Changed functionality, web install runs only if automatic install
+##             fails and custom install either fails or is does not exist.
 ##            *f_application_install improved comments and add code to run
 ##             f_application_web_install function if custom install
 ##             function f_install_<application> fails or does not exist.
