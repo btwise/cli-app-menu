@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2014 23:28"
+# REVDATE="October-20-2014 11:11"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -16,13 +16,15 @@
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
       # If displaying any menus existing in cliappmenu.sh
-      # i.e. Main Menu, Download Menu, Configuration Menu, Terminal Colors Menu.
+      # i.e. Main Menu, Download Menu, Configuration Menu,
+      #      or Terminal Colors Menu.
       # then this if statement allows for cliappmenu.sh to be in a different
       # directory from all other files.
       # i.e. /home/<username>/cliappmenu.sh
       #      /home/<username>/bin/$THIS_DIR/<All other module library files>.
       if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" -o "$DELIMITER" = "#AAG" ] ; then
-         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
+         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files,
+                                 # module libraries etc.
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
       clear  # Blank the screen.
@@ -34,7 +36,8 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
          echo "0 - Quit to command line prompt." # Option for Main Menu only.
       # Display message for Application Category Menu, Configuration Menu.
       elif [ "$DELIMITER" = "#AAB" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAG" ] ; then
-         echo "0 - Return to Main Menu." # Option for Application Category, Configuration Menus.
+         echo "0 - Return to Main Menu." # Option for Application Category,
+                                         # Configuration Menus.
       else
          echo "0 - Return to previous menu." # Option for all other sub-menus.
       fi
@@ -50,7 +53,8 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       #
       MAX=$((MAX=$MAX-1))
       #
-      # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
+      # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1"
+      #                          instead of "11".
       #
       # The following command awk '{<if condition>{print field}}
       # will print the menu items. The command automatically calculates the
@@ -87,40 +91,50 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # 
       # Both Application Category Menu and Sofware Module Manager Menu
       # indicate active/inactive modules with the use of differing fonts.
-      # However, both menus use the same $DELIMITER="#AAB" with only the menu title changed.
+      # However, both menus use the same $DELIMITER="#AAB" with only the
+      #  menu title changed.
       # All other menus simply use bold font.
       #
       if [ "$DELIMITER" = "#AAB" ] ; then
          XNUM=0
-         # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+         # for-loop awk command uses back-ticks to execute resulting in name
+         # of mod_apps-*.lib.
          for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
          do
              let XNUM++
-             # Setting XSTR=$(...) strips the whitespace from the menu item. It's not grep/awk's fault.
+             # Setting XSTR=$(...) strips the whitespace from the menu item.
+             # It's not grep/awk's fault.
              # XSTR=$(grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
              #
-             # Display menu items in bold font if module exists or standard font if module does not exist.
-             if [ -r $THIS_DIR/$X ] ; then  # X=<module file name> <Followed by whitespace>
+             # Display menu items in bold font if module exists or standard
+             # font if module does not exist.
+             if [ -r $THIS_DIR/$X ] ; then
+                # X=<module file name> <Followed by whitespace>
                 # Module exists, display menu item in bold font.
                 f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold) ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
              else
-                # If UCOLOR="" is unset, then use same color font, but not bold font for missing module.
+                # If UCOLOR="" is unset, then use same color font, but not bold
+                # font for missing module.
                 if [ -z $UCOLOR ] ; then
-                   # Module missing, display menu item in same color font but not bold font, then return to bold font.
-                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                   # Module missing, display menu item in same color font but
+                   # not bold font, then return to bold font.
+                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ; echo -n $(tput bold)
                 else
-                   # Module missing, display menu item in different color font but not bold font, then return to bold font.
-                   echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ;  f_term_color $FCOLOR $BCOLOR
+                   # Module missing, display menu item in different color font
+                   # but not bold font, then return to bold font.
+                   echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ; f_term_color $FCOLOR $BCOLOR  ; echo -n $(tput bold)
                 fi
              fi
          done
-      else   #All other application/sub-menus display menu items in default bold font.
-         echo -n $(tput bold)
+      else   # All other application/sub-menus display menu items
+             # in default bold font.
+         echo -n $(tput bold) ; f_term_color $FCOLOR $BCOLOR
          awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_DIR/$THIS_FILE
       fi
       #
       f_choice_array  # Create array to handle numeric answer to menu choices.
-                      # Caution: Also uses $XNUM which is used in for loop above.
+                      # Caution: Also uses $XNUM which is used
+                      #          in the for-loop above.
       #
       case $DELIMITER in
            # Main Menu.
@@ -130,7 +144,8 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            ;;
            # Sub-menus called from Main Menu.
            "#AAB" | "#AAC" | "#AAG")
-           echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
+           echo -n $(tput bold)  # Needed if last module in list is in normal
+                                 # (not bold) font.
            echo
            if [ "$DELIMITER" = "#AAB" -a "$MENU_TITLE" = "Software Module Manager Menu" ] ; then
               echo "'0', (R)eturn, to go back to the previous menu."
@@ -141,7 +156,8 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            ;;
            # Terminal Colors Menu.
            "#AAD" | "#AAE")
-           echo -n $(tput bold)  # Needed if last module in list is in normal (not bold) font.
+           echo -n $(tput bold)  # Needed if last module in list is in normal
+                                 # (not bold) font.
            echo
            echo "'0', (R)eturn, to go back to the previous menu."
            ;;
@@ -223,13 +239,18 @@ f_choice_array () {
       #    If not, CHOICE[n]="Help", CHOICE[n+1]="and"
       #    rather than CHOICE[n]="Help and" (after substituting <space> for "%").
       #                    
-      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_DIR/$THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'` # Use back-ticks to redirect, not single quotes.
+      for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_DIR/$THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
+      # Use back-ticks above before 1st awk and as last character to redirect,
+      # do not mistake them for single quotes.
       #
-      # When creating CHOICE array, example: change XSTR="Help%and" to "Help and".
+      # When creating CHOICE array, example:
+      # change XSTR="Help%and" to "Help and".
       do
            XSTR=${XSTR/[%]/ }    # Substitute <space> for "%" to restore name.
            CHOICE[$XNUM]=$XSTR   # 
-           XNUM=`expr $XNUM + 1` # Use back-ticks to redirect, not single quotes.
+           XNUM=`expr $XNUM + 1` 
+      # Use back-ticks above before expr and as last character to redirect,
+      # do not mistake them for single quotes.
       done
       #
       unset XSTR  # Throw out this variable.
@@ -241,37 +262,50 @@ f_choice_array () {
 # +----------------------------------------+
 #
 #  Inputs: $*, CHOICE[$MENU_ITEM], MAX.
-#          Where "$*" is the complete user-entered string passed as a set of arguments.
+#          Where "$*" is the complete user-entered string 
+#          passed as a set of arguments.
 #    Uses: None.
 # Outputs: None.
 #
 f_menu_item_process () {
       #
-      # 1. After menu is displayed, process user-entered string (menu-item selection or any user-input).
-      # 2. Did user enter command to exit menu? Yes, exit menu.
-      # 3. Did user enter command for application help i.e. <appname> --help or man <appname>?
+      # 1. After menu is displayed, process user-entered string
+      #    (menu-item selection or any user-input).
+      # 2. Did user enter command to exit menu?
+      #    Yes, exit menu.
+      # 3. Did user enter command for application help?
+      #    i.e. <appname> --help or man <appname>.
       #    Yes, display help and then re-display menu.
-      # 4. Is user-input a valid choice (menu item option)? No, trap bad responses and re-display menu.
-      # 5. Is field 1 specified? Yes, run function specified by field 1.
-      # 6. Is field 4 specified? Yes, display message about how to quit application.
-      # 7. Is field 3 specified? Yes, run function specified by field 3.
-      # 8. Is the menu an application menu? Yes, run application, $APP_NAME by running the function
+      # 4. Is user-input a valid choice (menu item option)?
+      #    No, trap bad responses and re-display menu.
+      # 5. Is field 1 specified?
+      #    Yes, run function specified by field 1.
+      # 6. Is field 4 specified?
+      #    Yes, display message about how to quit application.
+      # 7. Is field 3 specified?
+      #    Yes, run function specified by field 3.
+      # 8. Is the menu an application menu?
+      #    Yes, run application, $APP_NAME by running the function
       #    f_application_run.
       # 9. Redisplay menu.
       #
-      MENU_ITEM=$*  # The complete user-entered string passed as a set of arguments.
-                    # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+      # The complete user-entered string passed as a set of arguments.
+      # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
+      MENU_ITEM=$*  
+      #
       PRESS_KEY=0 # Reset flag.
-                    #
+      #
       case $MENU_ITEM in
            # Quit?
            0)
            MENU_ITEM=0
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
-           [1-9] | [1-9][0-9]) # Change MENU_ITEM from a number to an alpha string.
+           [1-9] | [1-9][0-9]) # Change MENU_ITEM from a number to
+                               # an alpha string.
            if [  "$MENU_ITEM" -ge 1 -a "$MENU_ITEM" -le $MAX ] ; then
-              MENU_ITEM=${CHOICE[$MENU_ITEM]} #MENU_ITEM now is an alpha string.
+              # MENU_ITEM now is an alpha string.
+              MENU_ITEM=${CHOICE[$MENU_ITEM]} 
            fi
            ;;
       esac
@@ -297,51 +331,60 @@ f_menu_item_process () {
       ERROR=0 # Reset error flag.
       #
       # Format of menu item options:
-      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX Application Name - Description of application."
       #   field-1  field-2  field-3  field-4   field-5   Marker 
       #
       # field 1    *if 1 then function name is f_<MENU_ITEM_NAME>.
       # 1/0/string *if <string> then function name is <string>.
       #            *if 0 then ignored. No function is run.
       #
-      #             When this menu item is selected, this function is run before displaying the
-      #             Quit-Code on the screen.
+      #             When this menu item is selected, this function is run
+      #             before displaying the Quit-Code on the screen.
       #
       # field 2    *if 1 then function name is f_install_<MENU_ITEM_NAME>.
       # 1/0/string  A function to install an application may be specified here.
       #            *if <string> then function name is <string>.
       #            *if 0 then ignored. No function is run.
       #
-      #            This custom installation function is called only after the distro's software
-      #            package manager has failed to install the application usually because the
-      #            application is not pre-packaged for the linux distro (distribution).
+      #            This custom installation function is called only after the
+      #            distro's software package manager has failed to install the
+      #            application usually because the application is not
+      #            pre-packaged for the linux distro (distribution).
       #            See f_application_install for more details.
       #
-      #            If install fails, then this custom install function will be run which can be
-      #            made to download the source code from the application maintainer's web site
-      #            and then compile and install the application.
+      #            If install fails, then this custom install function will be
+      #            run which can be made to download the source code from the
+      #            application maintainer's web site and then compile and
+      #            install the application.
       #
       # field 3    *if <string> then function name is <string>.
       # 0/string   *if 0 then ignored. No function is run.
       #
-      #             When this menu item is selected, this function is run after displaying the
-      #             Quit-Code on the screen.
+      #             When this menu item is selected, this function is run after
+      #             displaying the Quit-Code on the screen.
       #
       # field 4    *Quit-Code. See f_quit_app_clause for more details.
       # string
       #
-      # field 5    *Sets PRESS_KEY=0/1 to display "Press 'Enter' key to continue".
-      # 1/0         See f_press_key for more details. This allows the user to see any messages displayed
-      #             by the application after it has been run. Without PRESS_KEY=1, the screen is cleared
-      #             for the menu to display and the user would miss any messages.
+      # field 5    *Sets PRESS_KEY=0/1 to display:
+      #             "Press 'Enter' key to continue".
+      # 1/0         See f_press_key for more details.
+      #             This allows the user to see any messages displayed by the
+      #             application after it has been run.
+      #             Without PRESS_KEY=1, the screen is cleared to display the
+      #             menu and the user would miss any messages.
       #
-      #             This setting may be overridden by any custom functions which follow.
-      #             It is useful if the custom function displays a help message or man synopsis
-      #             so you don't have to worry about coding for PRESS_KEY within that custom function.
+      #             This setting may be overridden by any custom functions
+      #             which follow.
+      #             It is useful if the custom function displays a help message
+      #             which sets  PRESS_KEY=1
+      #             or has a f_press_enter_key_to_continue or a man page (which
+      #             does not need a PRESS_KEY=1). so you don't have to worry
+      #             about coding for PRESS_KEY within that custom function.
       #
-      #             This can be used to initialize PRESS_KEY as it is set before any custom functions
-      #             in fields 1, 2, or 3 are run.
-      #
+      #             This can be used to initialize PRESS_KEY as it is set
+      #             before any custom functions in fields 1, 2, or 3 are run.
+      #             
       if [ "$MENU_ITEM" != 0 -a "$MENU_ITEM" != -1 -a -n "$MENU_ITEM" ] ; then
          # Is MENU_ITEM a valid choice?
          f_menu_item_valid # APP_NAME="" for invalid name.
@@ -351,7 +394,9 @@ f_menu_item_process () {
             #
             f_menu_item_info
             #
-            # Set PRESS_KEY default before any custom functions since they may also set PRESS_KEY.
+            # Set PRESS_KEY default before any custom functions
+            # since they may also set PRESS_KEY.
+            # PRESS_KEY is set depending on the value of field 5.
             f_press_key
             #
             # Specify 1st field of $MENU_ITEM_OPT for function #1.
@@ -369,13 +414,16 @@ f_menu_item_process () {
             f_eval_funct "$MENU_ITEM_OPT" 3
             #
             # Run application program.
-            # $APP_NAME="" is set when f_run_and_exit is run prior within function #1, #2, or #3.
-            # Don't run "applications" in Main Menu or any of its sub-menus because there are none.
+            # $APP_NAME="" is set when f_run_and_exit is run prior within
+            # function #1, #2, or #3.
+            # Don't run "applications" in Main Menu or any of its sub-menus
+            # because there are none.
             #
             if [ -n "$APP_NAME" -a "$DELIMITER" != "#AAA" -a "$DELIMITER" != "#AAB" -a "$DELIMITER" != "#AAC" -a "$DELIMITER" != "#AAD" -a "$DELIMITER" != "#AAE" -a "$DELIMITER" != "#AAF"  -a "$DELIMITER" != "#AAG" ] ; then
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
-               APP_NAME=""       # when trying to exit sub-menus. It's a tricky loop. 
+               APP_NAME=""       # when trying to exit sub-menus.
+                                 # It's a tricky loop.
                                  # Also prevents checking for Quit Clause.
             fi
          fi
@@ -387,11 +435,14 @@ f_menu_item_process () {
          MENU_ITEM=-1
       fi
       #
-      DELIM=${DELIMITER/\#/}   # Strip off leading "#" of DELIMITER "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
-                               # The "\" treats "#" as a literal hash mark, not as a comment.
-      eval $DELIM=$MENU_ITEM   # Set M[A-Z][A-Z] = $MENU_ITEM
-                               # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
-                               #            0 if "Return to previous menu." Exit Menu loop.
+      # Strip off leading "#" of DELIMITER: "#M[A-Z][A-Z]" to "M[A-Z][A-Z]".
+      # The "\" treats "#" as a literal hash mark, not as a comment.
+      DELIM=${DELIMITER/\#/}   
+      # 
+      # Set M[A-Z][A-Z] = $MENU_ITEM
+      # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
+      #            0 if "Return to previous menu." Exit Menu loop.      
+      eval $DELIM=$MENU_ITEM
       #
       # If application displays information, allow user to read it.
       f_option_press_enter_key
@@ -406,18 +457,24 @@ f_menu_item_process () {
 #
 #  Inputs: DELIMITER, THIS_FILE, MENU_ITEM.
 #    Uses: XNUM, MENU_ITEM, MENU_ITEM_NAME.
-# Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME. (If invalid, then APP_NAME is null).
+# Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME.
+#          (If invalid, then APP_NAME is null).
 #
 f_menu_item_valid () {
       # Get application name from menu.
       XNUM=1
       APP_NAME="" # Set application name to null value.
-      # Cycle through entire CHOICE[$XNUM] array to find matching $MENU_ITEM_NAME.
+      #
+      # Cycle through entire CHOICE[$XNUM] array
+      # to find matching $MENU_ITEM_NAME.
       while [ $XNUM -ge 1 -a $XNUM -le $MAX ]
       do
-            # If no "sudo" or any [OPTIONS] in command then convert MENU_ITEM to lower case.
+            # If no "sudo" or any [OPTIONS] in command then convert MENU_ITEM
+            # to lower case.
             # If command contains "sudo" or any [OPTIONS] then don't touch.
-            # Assume any sudo-user knows what to type because [OPTIONS] are case-sensitive.
+            # Assume any sudo-user knows what to type because [OPTIONS] are
+            # case-sensitive.
+            #
             if [[ ! "$MENU_ITEM" == *" -"* ]] ; then
                if [[ ! "$MENU_ITEM" == "sudo"* ]] ; then
                   # Convert to lower-case.
@@ -426,7 +483,8 @@ f_menu_item_valid () {
             fi
             # Set (next) MENU_ITEM_NAME from CHOICE array.
             MENU_ITEM_NAME=${CHOICE[$XNUM]}
-            # Convert MENU_ITEM_NAME to lower-case. (Sub-menus choice "MORE..." are in upper-case).
+            # Convert MENU_ITEM_NAME to lower-case.
+            # (Sub-menus choice "MORE..." are in upper-case).
             MENU_ITEM_NAME=$(echo $MENU_ITEM_NAME | tr '[:upper:]' '[:lower:]')
             #
             # Does MENU_ITEM begin with sudo?
@@ -434,8 +492,11 @@ f_menu_item_valid () {
                # if grep -q $MENU_ITEM_NAME <<<$MENU_ITEM ; then
                # Yes, sudo
                # Is MENU_ITEM a valid choice?
-               # This pattern matching statement will allow any other sudo formats
-               # i.e. links web browser, "sudo -width 80 links -driver atheos -html-images 0".       
+               # This pattern matching statement will allow
+               # any other sudo formats
+               # i.e. links web browser:
+               #      "sudo -width 80 links -driver atheos -html-images 0".
+               #
                if [[ "$MENU_ITEM" == *"$MENU_ITEM_NAME"* ]] ; then 
                   APP_NAME=$MENU_ITEM
                   let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
@@ -447,21 +508,27 @@ f_menu_item_valid () {
                # Is MENU_ITEM a valid choice?
                # Does MENU_ITEM_NAME contain MENU_ITEM?
                # i.e. "nslookup" contains "nsl"*.
+               #
                if [[ "$MENU_ITEM_NAME" == "$MENU_ITEM"* ]] ; then
-               # Alternate method: if grep -q "$MENU_ITEM"* <<< "$MENU_ITEM_NAME" ; then
+               # Alternate method:
+               # if grep -q "$MENU_ITEM"* <<< "$MENU_ITEM_NAME" ; then
                   # Valid choice, extract APP_NAME.
                   MENU_ITEM=$MENU_ITEM_NAME
                   APP_NAME=$MENU_ITEM_NAME
-                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+                  let XNUM=$MAX+1  # Valid choice so force exit
+                                   # from While-loop.
+               #
                # Does MENU_ITEM contain MENU_ITEM_NAME? 
                # i.e. "nslookup www.distrowatch.com" contains "nslookup".
                # i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
                elif [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]] ; then 
                   # Valid choice, extract APP_NAME.
                   APP_NAME=$MENU_ITEM
-                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+                  let XNUM=$MAX+1  # Valid choice so force exit
+                                   # from While-loop.
                else
-                  let XNUM++  # Not valid, try next menu item, force stay in menu loop.
+                  let XNUM++  # Not valid, try next menu item, force stay in
+                              # menu loop.
                fi
              fi
       done
@@ -481,18 +548,23 @@ f_menu_item_valid () {
 #
 f_menu_item_info () {
       # Extract MENU_ITEM_OPT string.
-      # Awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+      # Awk extracts everything before " #MXX"
+      # results in #n^n^n^nn:NC as new string.
       #
       MENU_ITEM_OPT=""
       if [ "$DELIMITER" = "#AAA" -o "$DELIMITER" = "#AAC" -o "$DELIMITER" = "#AAD" -o "$DELIMITER" = "#AAE" -o "$DELIMITER" = "#AAF" -o "$DELIMITER" = "#AAG" ] ; then
-         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files module libraries etc. 
+         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files,
+                                 # module libraries etc.
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
       #
-      # grep "$MENU_ITEM_NAME" is in quotes because some menu items have 2 words i.e. "star wars".
-      # grep needs -i because my convention is any sub-menus start with an upper-case letter.
-      # grep needs "$DELIMITER<SPACE>$MENU_ITEM_NAME because some names are in the descriptions
-      # of multiple menu choices i.e. grep -i "morse" would give several hits (results).
+      # grep "$MENU_ITEM_NAME" is in quotes because some menu items
+      # have 2 words i.e. "star wars".
+      # grep needs -i because my convention is any sub-menus start with an
+      # upper-case letter.
+      # grep needs "$DELIMITER<SPACE>$MENU_ITEM_NAME because some names are in
+      # the descriptions of multiple menu choices i.e. grep -i "morse" would
+      # give several hits (results).
       MENU_ITEM_OPT=$(awk -F $DELIMITER '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -i "$DELIMITER $MENU_ITEM_NAME" | awk -F $DELIMITER '{print $1}')
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F $DELIMITER '{print $1}')
       MENU_ITEM_OPT=${MENU_ITEM_OPT/\#/} # Strip off leading "#".
@@ -502,7 +574,8 @@ f_menu_item_info () {
       # i.e. $MENU_ITEM_NAME="morse" matches both "morse", "morsegen".
       # there will be several strings containing "n^n^n^n^n"
       # i.e. "n^n^n^n^n #n^n^n^n^n"
-      # only the first one is valid, use the " #" as a delimiter and take only the first one.
+      # only the first one is valid, use the " #" as a delimiter and take only
+      # the first one.
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
       export MENU_ITEM_OPT
       #
@@ -535,19 +608,22 @@ f_eval_funct () {
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $X}' X=$2)
       #
       case "$2" in
-           1)  # if 1st field is a "1" then <f_app-name> Custom application function for general usage.
+           1)  # if 1st field is a "1" then <f_app-name>
+               # Custom application function for general usage.
            if [ "$XSTR" = 1 ] ; then
               XSTR="f_$MENU_ITEM_NAME"
            fi
            ;;
            2)
-           # if 2nd field is a "1" then <f_install_app-name> Custom application installation function.
+           # if 2nd field is a "1" then <f_install_app-name>
+           # Custom application installation function.
            if [ "$XSTR" = 1 ] ; then
               # Set $XSTR to the name of the custom installation function.
               XSTR="f_install_$MENU_ITEM_NAME"
            fi
            ;;
-           # 3rd field "<f_any_name>" is called after the display of the Quit Code message.
+           # 3rd field "<f_any_name>"
+           # is called after the display of the Quit Code message.
       esac
       #
       # Value of string $XSTR is now:
@@ -647,13 +723,14 @@ f_quit_app_clause () {
       #%%23. "any key"
       #%%24. <Ctrl>-Q
       #%% # End of list marker (and awk field marker), DO NOT remove.
-          # This marker prevents awk from printing any more lines found by grep "#%%" below
-          # and including this line.
+          # This marker prevents awk from printing any more lines found by
+          # grep "#%%" below and including this line.
       #
       # Does MENU_ITEM_OPT Quit field contain string?
       # Extract Quit field, 4th field.
       QUIT_FIELD=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $4}')
-      if [ "$QUIT_FIELD" != "0" -a -n "$QUIT_FIELD" ] ; then  # If Quit field is not "0" and has a non-zero length.
+      # If Quit field is not "0" and has a non-zero length.
+      if [ "$QUIT_FIELD" != "0" -a -n "$QUIT_FIELD" ] ; then
          #
          NO_CLEAR=""
          # Convert QUIT_FIELD "nc" to upper-case if there is one.
@@ -666,17 +743,27 @@ f_quit_app_clause () {
          else
             NO_CLEAR=""  # "no-clear" string is null.
          fi
-         # QUIT_FIELD is now the number designation from the list above, corresponding to the
-         # keystroke sequence needed to quit the application.
-         # i.e. QUIT_FIELD=1 for keystroke sequence "Q", =2 for "Q or quit", =3 for "Q or <F10>"...
-         QUIT_FIELD=`expr $QUIT_FIELD + 1` # Use backticks with expr to increment QUIT_FIELD by 1
-                                           # to get field number for awk (since field #1 is null).
-         XSTR=$(grep "#%%" $THIS_DIR/lib_cli-common.lib)  # Get list of Quit Fields in a single big string.
+         #
+         # QUIT_FIELD is now the number designation from the list above,
+         # corresponding to the keystroke sequence needed to quit the
+         # application.
+         # i.e. QUIT_FIELD=1 for keystroke sequence "Q"
+         #                =2 for "Q or quit"
+         #                =3 for "Q or <F10>"...
+         #
+         QUIT_FIELD=`expr $QUIT_FIELD + 1`
+         # Use backticks with expr to increment QUIT_FIELD by 1 to get field
+         # number for awk (since field #1 is null).
+         #
+         XSTR=$(grep "#%%" $THIS_DIR/lib_cli-common.lib)
+         # Get list of Quit Fields in a single big string.
          # Match integer of QUIT_FIELD to grepped XSTR containg that value.
          #
-         # Extract keystroke sequence from matching grepped string and set QUIT_FIELD to that string.
+         # Extract keystroke sequence from matching grepped string and set
+         # QUIT_FIELD to that string.
          # 1st awk gets "NN. <Keystroke sequence>" i.e "13. <Ctrl>-Z".
-         # 2nd awk strips away numbers "NN." leaving " <Keystroke sequence>" i.e. "<Ctrl>-Z".
+         # 2nd awk strips away numbers "NN." leaving " <Keystroke sequence>"
+         #         i.e. "<Ctrl>-Z".
          #         To pass QUIT_FIELD into awk so that field is printed by awk,
          #         insert "QUIT_FIELD=$QUIT_FIELD" after '{print $QUIT_FIELD}'.
          QUIT_FIELD=$(echo $XSTR | awk -F "#%%" '{print $QUIT_FIELD}' QUIT_FIELD=$QUIT_FIELD | awk -F "." '{print $2}')
@@ -701,11 +788,12 @@ f_quit_app_clause () {
 #
 f_press_key () {
       #
-      # Field 5 sets PRESS_KEY=1/0. May be over-ridden by subsequent functions which also set PRESS_KEY.
+      # Field 5 sets PRESS_KEY=1/0. May be over-ridden by subsequent functions
+      # which also set PRESS_KEY.
       #
       # Format of menu item options:
       # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
-      #   field-1  field-2  field-3  field-4   field-5   Marker 
+      #   field-1  field-2  field-3  field-4   field-5   Marker
       #
       XSTR=$(echo $MENU_ITEM_OPT | awk -F "^" '{print $5}')
       if [ "$XSTR" != 0 -a -n "$XSTR" ] ; then
@@ -765,8 +853,12 @@ f_how_to_quit_application () {
       if [ -z $2 ] ; then
          clear # Blank the screen.
       fi
-      # If $APP_NAME in a web browser application then format may be too long for a 80-character display.
-      # Format OF $APP_NAME could be "<APP_NAME>", <APP_NAME> <Web site>", "sudo <APP_NAME> <OPTIONS> <Web site>".
+      # If $APP_NAME in a web browser application then format may be too long
+      # for a 80-character display.
+      # Format OF $APP_NAME could be:
+      # "<APP_NAME>", <APP_NAME> <Web site>"
+      # "sudo <APP_NAME> <OPTIONS> <Web site>".
+      #
       # If $APP_NAME includes a web application, shorten the message.
       case $APP_NAME in
            *elinks* | *fbcmd* | *links* | *links2* | *lynx* | *pastebinit* | *retawq* | *surfraw* | *w3m*)
@@ -808,8 +900,10 @@ f_term_color () {  # Set terminal display properties.
       # setterm does not work in X-window virtual terminals.
       # setterm -foreground white -background black -bold on -store
       #
-      # set background first because you must reset colors first to get true black background in some
-      # virtual X-terminals. Since "tput setab 0" appears light gray, use "tput sgr0" to reset colors.
+      # set background first because you must reset colors first to get true
+      # black background in some virtual X-terminals. Since "tput setab 0"
+      # appears light gray, use "tput sgr0" to reset colors.
+      #
       # set CNT=1 background color then set CNT=2 font color.
       for CNT in 1 2
       do
@@ -824,7 +918,8 @@ f_term_color () {  # Set terminal display properties.
           case $COLOR in
                [Bb] | [Bb][Ll] | [Bb][Ll][Aa]*)
                if [ $CNT -eq 1 ] ; then
-                  echo -n $(tput sgr0)  # Black background selected. Reset colors to get true black.
+                  echo -n $(tput sgr0)  # Black background selected.
+                                        # Reset colors to get true black.
                else
                   echo -n $(tput $TPUTX 0)  # Black font selected.
                fi
@@ -918,7 +1013,8 @@ f_application_help () {
            # This returns path of application's run-time executable command.
            # Do not display any messages on screen.
            # Redirect error and standard output to null device.
-           command -v $APP_NAME &>/dev/null # 1=standard messages, 2=error messages, &=both.
+           command -v $APP_NAME &>/dev/null
+           # 1=standard messages, 2=error messages, &=both.
            ERROR=$? # Save error flag condition.
            # Error code 1 $?=1 means application is not installed.
            # Error code 0 (zero) where $?=0 means no error.
@@ -942,9 +1038,12 @@ f_application_help () {
               f_application_help_mssg
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
-                        # Convert string to integer -1. Also indicates valid menu choice.
-                        # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
-           APP_NAME=""  # Make sure that application is not run after displaying message.
+                        # Convert string to integer -1.
+                        # Also indicates valid menu choice.
+                        # If valid, f_bad_application_menu_choice will not
+                        # force PRESS_KEY=1.
+           APP_NAME=""  # Make sure that application is not run after
+                        # displaying message.
                         # Make sure that f_application_run is not run.
            ;;
            *--help)
@@ -958,7 +1057,8 @@ f_application_help () {
            # This returns path of application's run-time executable command.
            # Do not display any messages on screen.
            # Redirect error and standard output to null device.
-           command -v $APP_NAME &>/dev/null # 1=standard messages, 2=error messages, &=both.
+           command -v $APP_NAME &>/dev/null
+           # 1=standard messages, 2=error messages, &=both.
            ERROR=$? # Save error flag condition.
            # Error code 1 $?=1 means application is not installed.
            # Error code 0 (zero) where $?=0 means no error.
@@ -979,10 +1079,13 @@ f_application_help () {
               f_application_help_mssg
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
-                        # Convert string to integer -1. Also indicates valid menu choice.
-                        # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
-           APP_NAME=""  # Make sure that application is not run after displaying message.
-                        # Make sure that f_application_run is not run.           ;;
+                        # Convert string to integer -1.
+                        # Also indicates valid menu choice.
+                        # If valid, f_bad_application_menu_choice will not
+                        # force PRESS_KEY=1.
+           APP_NAME=""  # Make sure that application is not run after
+                        # displaying message.
+                        # Make sure that f_application_run is not run.
            ;;
            man' '*)
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
@@ -995,7 +1098,8 @@ f_application_help () {
            # This returns path of application's run-time executable command.
            # Do not display any messages on screen.
            # Redirect error and standard output to null device.
-           command -v $APP_NAME &>/dev/null # 1=standard messages, 2=error messages, &=both.
+           command -v $APP_NAME &>/dev/null
+           # 1=standard messages, 2=error messages, &=both.
            ERROR=$? # Save error flag condition.
            # Error code 1 $?=1 means application not installed.
            # Error code 0 (zero) where $?=0 means no error.
@@ -1031,9 +1135,12 @@ f_application_help () {
               f_application_help_mssg
            fi
            MENU_ITEM=-1 # Force stay in menu until loop.
-                        # Convert string to integer -1. Also indicates valid menu choice.
-                        # If valid, f_bad_application_menu_choice will not force PRESS_KEY=1.
-           APP_NAME=""  # Make sure that application is not run after displaying message.
+                        # Convert string to integer -1.
+                        # Also indicates valid menu choice.
+                        # If valid, f_bad_application_menu_choice will not
+                        # force PRESS_KEY=1.
+           APP_NAME=""  # Make sure that application is not run after
+                        # displaying message.
                         # Make sure that f_application_run is not run.
            ;;
       esac
@@ -1057,7 +1164,8 @@ f_application_help_mssg () {
       echo
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
       #
-      # Note the $APP_NAME is not neccessarily the package name i.e. "trek" is in the "bsdgames" package.
+      # Note the $APP_NAME is not neccessarily the package name
+      # i.e. "trek" is in the "bsdgames" package.
       #
       echo "To install under Debian-based Linux use command:"
       echo "                           sudo apt-get install <application package name>"
@@ -1087,14 +1195,20 @@ f_application_run () {
       #
       # 1. Clear screen.
       # 2. Run application.
-      # 3. Error? No, DONE AND EXIT.
-      # 4. Error codes 1, 13, 62? Yes, then call f_application_error to display error message.
-      #    Error codes 1, 13, 62? Yes, DONE AND EXIT.
-      # 5. Error code 127? Application not installed? No, DONE AND EXIT.
+      # 3. Error?
+      #    No, DONE AND EXIT.
+      # 4. Error codes 1, 13, 62?
       #    Yes, then call f_application_error to display error message.
-      # 6. Does user want to install missing application? No, DONE AND EXIT.
+      #    Error codes 1, 13, 62?
+      #    Yes, DONE AND EXIT.
+      # 5. Error code 127?  Application not installed?
+      #    No, DONE AND EXIT.
+      #    Yes, then call f_application_error to display error message.
+      # 6. Does user want to install missing application?
+      #    No, DONE AND EXIT.
       # 7. Yes, f_application_install_question calls f_application_install.
-      # 8. Was installation successful? No, DONE AND EXIT.
+      # 8. Was installation successful?
+      #    No, DONE AND EXIT.
       # 9  Yes, run application.
       # 10. Call f_application_error to display any error messages.
       # 11. DONE AND EXIT.
@@ -1114,14 +1228,16 @@ f_application_run () {
            127)  # Error code 127 means application is not installed.
            f_application_error # Display error messages.
            # If user decided to install application.
-           f_application_install_question # Install application if INSTALL_ANS="YES".
+           f_application_install_question
+           # Install application if INSTALL_ANS="YES".
            #
            # Test to see if the application was installed successfully.
            # This returns path of application's run-time executable command.
            # Do not display any messages on screen.
            # Redirect error and standard output to null device.
            #
-           command -v $APP_NAME &>/dev/null # 1=standard messages, 2=error messages, &=both.
+           command -v $APP_NAME &>/dev/null
+           # 1=standard messages, 2=error messages, &=both.
            ERROR=$? # Save error flag condition.
            # Error code 1 $?=1 means application not installed.
            # Error code 0 (zero) where $?=0 means no error.
@@ -1151,7 +1267,9 @@ f_application_run () {
 #  Inputs: $THIS_DIR, $1=Search string.
 #    Uses: $THIS_DIR/LIST_APPS, APP_NAME, MENU_ITEM_OPT, MENU_ITEM_NAME, MOD_FILE.
 # Outputs: None.
-# Search LIST_APPS file for application names and display the list to allow user to run an application.
+#
+# Search LIST_APPS file for application names and display the list to allow
+# user to run an application.
 #
 f_run_app () {
                   APP_NAME="-1"
@@ -1160,8 +1278,10 @@ f_run_app () {
                         clear # Blank the screen.
                         echo "Search results of \"$1\"".
                         echo
-                        # Search LIST_APPS - The application names are at the begining of each line and are preceded by a <space>.
-                        # To find these names, the basic command is: grep ^" "$XSTR
+                        # Search LIST_APPS - The application names are at the
+                        # begining of each line and are preceded by a <space>.
+                        # To find these names, the basic command is:
+                        # grep ^" "$XSTR
                         #
                         # Display actual search results on screen.
                         grep --color=always ^" "$1 $THIS_DIR"/LIST_APPS"
@@ -1170,7 +1290,8 @@ f_run_app () {
                         # Error code 1 means grep did not find any matches.
                         # Error code 0 (zero) where $?=0 means grep found matches.
                         #
-                        if [ $ERROR -ne 0 ] ; then # No results found, quit out of f_run_app.
+                        if [ $ERROR -ne 0 ] ; then 
+                           # No results found, quit out of f_run_app.
                            APP_NAME="" # to quit out of while-loop of f_run_app.
                            # Use different color font for error messages.
                            f_term_color $ECOLOR $BCOLOR
@@ -1186,21 +1307,28 @@ f_run_app () {
                            echo "To quit, press 'Enter' key."
                            echo
                            #
-                           # if Search LIST_APPS finds no matching application names, then exit.
+                           # if Search LIST_APPS finds no matching application
+                           # names, then exit.
                            #
                            echo -n "Name of application to run: "
                            read APP_NAME
                            #
-                           # Find any matches for APP_NAME to see if it is a valid application name.
+                           # Find any matches for APP_NAME to see if it is a
+                           # valid application name.
                            # Redirect error and standard output to null device.
-                           grep -w --color=always \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* &>/dev/null # 1=standard messages, 2=error messages, &=both.
+                           grep -w --color=always \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* &>/dev/null
+                           # 1=standard messages, 2=error messages, &=both.
                            ERROR=$? # Save error flag condition.
                            # Error code 2 means grep had an error.
                            # Error code 1 means grep did not find any matches.
-                           # Error code 0 (zero) where $?=0 means grep found matches.
+                           # Error code 0 (zero) where $?=0 means grep found
+                           #                     matches.
                            #
-                           # If grep did not find any matches for APP_NAME or APP_NAME="" or APP_NAME does not match search for application.
-                           if [ $ERROR -ne 0 -a -n "$APP_NAME" ] ; then # No results found, quit out of f_run_app.
+                           # If grep did not find any matches for APP_NAME or
+                           # APP_NAME="" or
+                           # APP_NAME does not match search for application.
+                           if [ $ERROR -ne 0 -a -n "$APP_NAME" ] ; then
+                              # No results found, quit out of f_run_app.
                               # Use different color font for error messages.
                               f_term_color $ECOLOR $BCOLOR
                               echo -n $(tput bold)
@@ -1209,13 +1337,16 @@ f_run_app () {
                               f_term_color $FCOLOR $BCOLOR
                               echo $(tput bold)
                               f_press_enter_key_to_continue
-                               APP_NAME="" # to quit out of while-loop of f_run_app.
-                           #
+                              APP_NAME=""
+                              # to quit out of while-loop of f_run_app.
+                              #
                            # If APP_NAME="".
                            elif [ -z "$APP_NAME" ] ; then
-                              APP_NAME="" # to quit out of while-loop of f_run_app.
-                           #
-                           # If search results does not match the beginning of APP_NAME.
+                              APP_NAME="" # to quit out of while-loop
+                                          # of f_run_app.
+                              #
+                           # If search results does not match
+                           # the beginning of APP_NAME.
                            elif ! [[ "$APP_NAME" == "$1"* ]] ; then
                               # Use different color font for error messages.
                               f_term_color $ECOLOR $BCOLOR
@@ -1225,30 +1356,41 @@ f_run_app () {
                               f_term_color $FCOLOR $BCOLOR
                               echo $(tput bold)
                               f_press_enter_key_to_continue
-                              APP_NAME="" # to quit out of while-loop of f_run_app.
+                              APP_NAME="" # to quit out of while-loop
+                                          # of f_run_app.
                            else
-                              # 1. Search all files mod_apps-* listing which ones contain the application name.
-                              # 2. Invoke the file mod_apps-* (also called a module).
-                              # 3. Extract the MENU_ITEM_OPT string from the file mod_apps-*.
+                              # 1. Search all files mod_apps-* listing which
+                              #    ones contain the application name.
+                              # 2. Invoke the file mod_apps-* (also called a
+                              #    module).
+                              # 3. Extract the MENU_ITEM_OPT string from the
+                              #    file mod_apps-*.
                               # 4. Run the application with f_application_run.
                               #
-                              # 1. Search for function declaration "f_<application name> () {" in all files.
-                              #    Example: if application name is "elinks" search for "f_elinks () {" in all files.
+                              # 1. Search for function declaration
+                              #    "f_<application name> () {" in all files.
+                              #    Example: if application name is "elinks"
+                              #    search for "f_elinks () {" in all files.
                               #
                               MOD_FILE=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* | awk -F ":" '{print $1}')
                               #
-                              # If If an f_<application name> is found in 2 or more mod_apps-* files,
-                              # then $MOD_FILE will have a <CR><LF> (New Line) between the mod_apps-* file names.
+                              # If If an f_<application name> is found in 2 or
+                              # more mod_apps-* files, then $MOD_FILE will have
+                              # a <CR><LF> (New Line) between the mod_apps-*
+                              # file names.
                               #
-                              # Extract only the first mod_app-* file name when there are more than one.
+                              # Extract only the first mod_app-* file name when
+                              # there are more than one.
                               # Use a temporary file for the awk input file. 
-                              # A piped input did not work for unknown reasons. i.e. echo $MOD_FILE | awk '{print $1}'
+                              # A piped input did not work for unknown reasons.
+                              # i.e. echo $MOD_FILE | awk '{print $1}'
                               # so a temporary file had to be used instead.
                               echo $MOD_FILE > ~/.cliappmenu.tmp
                               MOD_FILE=$(awk '{print $1}' ~/.cliappmenu.tmp)
                               rm ~/.cliappmenu.tmp
                               #
-                              # MOD_FILE now includes full directory path "$THIS_DIR/<Module file name>".
+                              # MOD_FILE now includes full directory path
+                              # "$THIS_DIR/<Module file name>".
                               #
                               # 2. Invoke the module library, file mod_apps-*
                               if [ -r $MOD_FILE ] ; then
@@ -1256,17 +1398,20 @@ f_run_app () {
                               fi
                               #
                               # 3. Extract MENU_ITEM_OPT string.
-                              # grep finds lines in all mod_apps-* files with <special menu item marker> <space> <APP_NAME>.
+                              # grep finds lines in all mod_apps-* files with
+                              # <special menu item marker> <space> <APP_NAME>.
                               #      #1^1^0^0^1  #MXX trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
                               #
-                              # Then awk extracts everything before " #MXX" results in #n^n^n^nn:NC as new string.
+                              # Then awk extracts everything before " #MXX"
+                              # results in #n^n^n^nn:NC as new string.
                               #      #1^1^0^0^1  
                               #
                               # Finally, sed strips off any trailing spaces.
                               #
                               MENU_ITEM_OPT=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $MOD_FILE | awk -F "#" '{print $2}' | sed 's/ *$//')
                               #
-                              # MENU_ITEM, MENU_ITEM_NAME is needed for f_eval_funct.
+                              # MENU_ITEM, MENU_ITEM_NAME is needed for
+                              # f_eval_funct.
                               MENU_ITEM_NAME=$APP_NAME
                               MENU_ITEM=$APP_NAME
                               #
@@ -1302,7 +1447,8 @@ f_application_error () {
       if [ $ERROR -ne 0 ] ; then
          case $APP_NAME in # Start of APP_NAME case statement.
               sudo' '*)
-              # Strip 'sudo', options and parameters from APP_NAME by using awk command.
+              # Strip 'sudo', options and parameters from APP_NAME
+              # by using awk command.
               APP_NAME_TMP=$(echo $APP_NAME | awk '{print $2;}')
               ;;
               *)
@@ -1312,29 +1458,36 @@ f_application_error () {
               # i.e. "dstat --version", then extract "dstat" as package name.
               APP_NAME_TMP=$(echo $APP_NAME | awk '{print $1;}')
               ;;
-         esac             # End of APP_NAME case statement.
+         esac # End of APP_NAME case statement.
          #
          # Be sure variable is set to redisplay current menu afterwards.
          CHOICE_MAIN=-1 # Initialize to -1 to force until loop
                         # without exiting Main Menu.
          MENU_ITEM=-1   # Initialize to -1 to force until loop 
                         # without exiting Sub-Category Menu.
-         PRESS_KEY=1    # Display "Press 'Enter' key to continue." for all errors.
+         PRESS_KEY=1    # Display "Press 'Enter' key to continue."
+                        # for all errors.
       fi
       #
       case $ERROR in # Start of Error Number case statement.
-           1) # Error code 1 is a general error code. But it does not always mean there actually was an error.
+           1) # Error code 1 is a general error code. But it does not always
+              # mean there actually was an error.
               # Some applications exit with error code 1 even if successfully run.
-              # The Error Code 1 Number Exceptions case statement, takes care of those weird applications.
-           case $APP_NAME in # Start of Error Code Number 1 Exceptions case statement.
+              # The Error Code 1 Number Exceptions case statement, takes care
+              # of those weird applications.
+              #
+           # Start of Error Code Number 1 Exceptions case statement.
+           case $APP_NAME in
                 *diff*)
                 # Do not display error message if error code 1
                 # and apps colordiff, diff, imediff2, vimdiff, wdiff.
-                # For diff apps, error code 1 means compared files are different, not a real error.
+                # For diff apps, error code 1 means compared files are
+                # different, not a real error.
                 ;;
                 xorcurses)
                 # Do not display error message if error code 1
-                # Application always exits with error code 1 for some bizarre reason.
+                # Application always exits with error code 1 for some
+                # bizarre reason.
                 ;;             
                 sudo' '*)
                 # Display error message.
@@ -1357,7 +1510,8 @@ f_application_error () {
                      # Error code 1 $?=1 means sudo failed.
                      # Error code 0 (zero) where $?=0 means no error.
                      #
-                     if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
+                     if [ $ERROR -ne 0 ] ; then
+                        # Error after running with sudo?
                         # Display error message.
                         f_display_error_code
                         #
@@ -1377,9 +1531,9 @@ f_application_error () {
                      [Nn] | [Nn][Oo] | *)
                      ERROR=0
                      ;;
-                esac     # End of Use SUDO case statement.
+                esac # End of Use SUDO case statement.
                 ;;
-           esac              # End of Error Code Number 1 Exceptions case statement.
+           esac # End of Error Code Number 1 Exceptions case statement.
            ;;
            2) # Error code 2 means operand or files is missing.
            # Display error message.
@@ -1416,9 +1570,10 @@ f_application_error () {
            echo
            echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
            ;;
-           126) # Error code 126 means bad interpreter. Programming language is not installed?
-                # Example: perl programming language cannot be found, or environment not specified
-                #          in the perl script.
+           126) # Error code 126 means bad interpreter.
+                # Programming language is not installed?
+                # Example: perl programming language cannot be found,
+                # or environment not specified in the perl script.
            #
            # Display error message.
            f_display_error_code
@@ -1475,7 +1630,8 @@ f_application_error () {
                      # Error code 1 $?=1 means sudo failed.
                      # Error code 0 (zero) where $?=0 means no error.
                      #
-                     if [ $ERROR -ne 0 ] ; then # Error after running with sudo?
+                     if [ $ERROR -ne 0 ] ; then
+                        # Error after running with sudo?
                         # Display error message.
                         f_display_error_code
                         #
@@ -1495,13 +1651,13 @@ f_application_error () {
                      [Nn] | [Nn][Oo] | *)
                      ERROR=0
                      ;;
-                esac     # End of Use SUDO case statement.
+                esac # End of Use SUDO case statement.
                 unset ANS  # Throw out this variable.
                 ;;
-           esac   # End of sudo-error case statement
+           esac # End of sudo-error case statement
            ;;
       esac # End of Error Number case statement.
-      # This function needs to be followed by a f_press_enter_key_to_continue 
+      # This function needs to be followed by a f_press_enter_key_to_continue
       # or by a f_option_press_enter_key so that messages are displayed.
       unset APP_NAME_TMP
 } # End of function f_application_error
@@ -1541,15 +1697,19 @@ f_application_install_question () {
                  echo -n "Do you want to install \"$APP_NAME\" (y/N)? "
                  read INSTALL_ANS
                  echo
-                 case $INSTALL_ANS in # Start of Install Application Option case statement.
-                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss]) # Yes, install the application.
+                 # Start of Install Application Option case statement.
+                 case $INSTALL_ANS in
+                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
+                      # Yes, install the application.
                       INSTALL_ANS="YES"
                       f_application_install
                       ;;              
-                      [Nn] | [Nn][Oo] | *) # No, do not install the application.
+                      [Nn] | [Nn][Oo] | *)
+                      # No, do not install the application.
                       INSTALL_ANS="NO"
                       ERROR=0
-                      PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+                      PRESS_KEY=0
+                      # Do not display "Press 'Enter' key to continue."
                       ;;
                  esac # End of Install Application Option case statement.
                  unset INSTALL_ANS  # Throw out this variable.
@@ -1595,7 +1755,8 @@ f_application_install () {
       # This may be modified below in the Installation Package Name
       # case statement.
       #
-      # 1. Strip off "sudo" or "run-time parameters" from $APP_NAME to get basic application name.
+      # 1. Strip off "sudo" or "run-time parameters" from $APP_NAME to get
+      #    basic application name.
       case $APP_NAME_INSTALL in # Start of APP_NAME_INSTALL case statement.
            *' '*)  
            # If string APP_NAME/APP_NAME_INSTALL includes spaces for
@@ -1605,10 +1766,11 @@ f_application_install () {
            #
            APP_NAME_INSTALL=$(echo $APP_NAME_INSTALL | awk '{print $1;}')
            ;;
-      esac                      # End of APP_NAME_INSTALL case statement.
+      esac # End of APP_NAME_INSTALL case statement.
       #
       # 2. Since the application name may not match the software package name,
-      #    get the corresponding package name used by the distro's software package manager.
+      #    get the corresponding package name used by the distro's software
+      #    package manager.
       f_match_pkg_name_to_app_name
       #
       # 3. Try installing application using distro's software package manager.
@@ -1645,7 +1807,8 @@ f_application_install () {
          #
          # if /var/lib/rpm directory exists, then use rpm install
          # for RPM-based packages.
-         # rpm is last because some Slackware-based distros have rpm directories also.
+         # rpm is last because some Slackware-based distros have
+         # rpm directories also.
       elif [ -d /var/lib/rpm ] ; then 
          f_install_using_rpm
          #
@@ -1655,7 +1818,8 @@ f_application_install () {
       fi
       #
       if [ "$ERROR" -ne 0 ] ; then
-         # If install via package manager failed then see if there is a custom install function.
+         # If install via package manager failed then see if there is a custom
+         # install function.
          # If 2nd field is a "1" then custom installation function exists.
          #
          # awk extracts the 2nd field from $MENU_ITEM_OPT.
@@ -1673,8 +1837,10 @@ f_application_install () {
             f_press_enter_key_to_continue
             f_eval_funct "$MENU_ITEM_OPT" 2
             if [ $ERROR -ne 0 ] ; then
-               # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
-               # If install via custom install function failed then see if there is a web install function.
+               # Error code 1 $?=1 means custom installation failed.
+               # Error code 0 (zero) where $?=0 means no error.
+               # If install via custom install function failed then
+               # see if there is a web install function.
                # Use different color font for error messages.
                f_term_color $ECOLOR $BCOLOR
                echo -n $(tput bold)
@@ -1686,7 +1852,8 @@ f_application_install () {
                f_web_install
             fi
          else
-            # If custom install function does not exist, does a web install function exist?
+            # If custom install function does not exist,
+            # does a web install function exist?
             # Is there a known web site with the source code?
             # If web install function exists, run it.
             f_web_install         
@@ -1723,17 +1890,19 @@ f_web_install () {
               echo "IMPORTANT:"
               echo "When using the elinks web browser, select \"Save\" to download a file."
               f_press_enter_key_to_continue
-              APP_NAME_TMP="$APP_NAME" # Save name of application that did not install properly.
+              APP_NAME_TMP="$APP_NAME" # Save name of application that did not
+                                       # install properly.
               APP_NAME="elinks $WEB_SITE_INSTALL"
               f_how_to_quit_application "q"
               f_application_run
-              APP_NAME="$APP_NAME_TMP" # Restore name of application that did not install properly.
+              APP_NAME="$APP_NAME_TMP" # Restore name of application that
+                                       # did not install properly.
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
               ;;
               [Nn] | [Nn][Oo] | *)
               PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
               ;;
-         esac         # End of Install case statement.
+         esac # End of Install case statement.
          unset ANS  # Throw out this variable.
       else
          #
@@ -1886,7 +2055,8 @@ f_install_using_apt () {
       sudo apt-get install $APP_NAME_INSTALL
       ERROR=$? # Save error flag condition.
       if [ $ERROR -ne 0 ] ; then
-         # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+         # Error code 1 $?=1 means installation failed.
+         # Error code 0 (zero) where $?=0 means no error.
          #
          # Use different color font for error messages.
          f_term_color $ECOLOR $BCOLOR
@@ -1912,7 +2082,8 @@ f_install_using_apt () {
 f_install_using_slackpkg () {
       sudo slackpkg install $APP_NAME_INSTALL
       ERROR=$? # Save error flag condition.
-      # To Do List: find a way to indicate a failed install and alter if statement below.
+      # To Do List: find a way to indicate a failed install
+      # and alter if statement below.
       #
       if [ $ERROR -ne 0 ] ; then
          # Error code 1 $?=1 means installation failed.
@@ -1928,17 +2099,21 @@ f_install_using_slackpkg () {
          echo "is not pre-packaged in the software repositories for this linux distribution."
          echo
          f_app_install_mssg
-         # If install via package manager failed then see if there is a custom install function.
-         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         # If install via package manager failed then see if there is a
+         # custom install function.
+         # If 2nd field is a "1" then <f_install_app-name> is a
+         # custom installation function.
          #
          # Reset $ERROR to detect if custom install function fails.
          ERROR=0
          f_eval_funct "$MENU_ITEM_OPT" 2
          #
          if [ $ERROR -ne 0 ] ; then
-            # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
+            # Error code 1 $?=1 means custom installation failed.
+            # Error code 0 (zero) where $?=0 means no error.
             #
-            # Try downloading source code from a web site and manually installing.
+            # Try downloading source code from a web site
+            # and manually installing.
             f_application_web_install  # Forced output PRESS_KEY=0.
          fi
       fi
@@ -1956,10 +2131,11 @@ f_install_using_installpkg () {
       sudo installpkg install $APP_NAME_INSTALL
       ERROR=$? # Save error flag condition.
       # 
-      # This if statement is commented out because slackpkg has error code $?=0 even
-      # if install fails.
+      # This if statement is commented out because slackpkg
+      #  has error code $?=0 even if install fails.
       # 
-      # To Do List: find a way to indicate a failed install and alter if statement below.
+      # To Do List: find a way to indicate a failed install
+      # and alter if statement below.
       #
       if [ $ERROR -ne 0 ] ; then
          # Error code 1 $?=1 means installation failed.
@@ -1976,17 +2152,21 @@ f_install_using_installpkg () {
          echo
          f_app_install_mssg
          #
-         # If install via package manager failed then see if there is a custom install function.
-         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         # If install via package manager failed then see if there is a
+         # custom install function.
+         # If 2nd field is a "1" then <f_install_app-name> is a
+         # custom installation function.
          #
          # Reset $ERROR to detect if custom install function fails.
          ERROR=0
          f_eval_funct "$MENU_ITEM_OPT" 2
          #
          if [ $ERROR -ne 0 ] ; then
-            # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
+            # Error code 1 $?=1 means custom installation failed.
+            # Error code 0 (zero) where $?=0 means no error.
             #
-            # Try downloading source code from a web site and manually installing.
+            # Try downloading source code from a web site
+            # and manually installing.
             f_application_web_install  # Forced output PRESS_KEY=0.
          fi
       fi
@@ -2017,17 +2197,21 @@ f_install_using_pacman () {
          echo 
          f_app_install_mssg
          #
-         # If install via package manager failed then see if there is a custom install function.
-         # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+         # If install via package manager failed then see if there is a
+         # custom install function.
+         # If 2nd field is a "1" then <f_install_app-name> is a
+         # custom installation function.
          #
          # Reset $ERROR to detect if custom install function fails.
          ERROR=0
          f_eval_funct "$MENU_ITEM_OPT" 2
          #
          if [ $ERROR -ne 0 ] ; then
-            # Error code 1 $?=1 means installation failed. Error code 0 (zero) where $?=0 means no error.
+            # Error code 1 $?=1 means installation failed.
+            # Error code 0 (zero) where $?=0 means no error.
             #
-            # Try downloading source code from a web site and manually installing.
+            # Try downloading source code from a web site
+            # and manually installing.
             f_application_web_install  # Forced output PRESS_KEY=0.
          fi
       fi
@@ -2059,17 +2243,21 @@ f_install_using_rpm () {
             echo
             f_app_install_mssg
             #
-            # If install via package manager failed then see if there is a custom install function.
-            # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+            # If install via package manager failed then see if there is a
+            # custom install function.
+            # If 2nd field is a "1" then <f_install_app-name> is a
+            # custom installation function.
             #
             # Reset $ERROR to detect if custom install function fails.
             ERROR=0
             f_eval_funct "$MENU_ITEM_OPT" 2
             #
             if [ $ERROR -ne 0 ] ; then
-               # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
+               # Error code 1 $?=1 means custom installation failed.
+               # Error code 0 (zero) where $?=0 means no error.
                #
-               # Try downloading source code from a web site and manually installing.
+               # Try downloading source code from a web site
+               # and manually installing.
                f_application_web_install  # Forced output PRESS_KEY=0.
             fi
          fi
@@ -2093,17 +2281,21 @@ f_install_using_no-auto () {
       echo
       f_app_install_mssg
       #
-      # If install via package manager failed then see if there is a custom install function.
-      # If 2nd field is a "1" then <f_install_app-name> is a custom installation function.
+      # If install via package manager failed then see if there is a
+      # custom install function.
+      # If 2nd field is a "1" then <f_install_app-name> is a
+      # custom installation function.
       #
       # Reset $ERROR to detect if custom install function fails.
       ERROR=0
       f_eval_funct "$MENU_ITEM_OPT" 2
       #
       if [ $ERROR -ne 0 ] ; then
-         # Error code 1 $?=1 means custom installation failed. Error code 0 (zero) where $?=0 means no error.
+         # Error code 1 $?=1 means custom installation failed.
+         # Error code 0 (zero) where $?=0 means no error.
          #
-         # Try downloading source code from a web site and manually installing.
+         # Try downloading source code from a web site
+         # and manually installing.
          f_application_web_install  # Forced output PRESS_KEY=0.
       fi
       #
@@ -2199,8 +2391,10 @@ f_download_file () {
 #
 f_wget_file () {
       # Always ask what branch from which to download.
-      f_ask_which_branch_download  # Download from which git branch, TESTING or MASTER?
-                                   # BRANCH="MASTER"/"TESTING"/"DEVELOP"/"SKIP", WEB_SITE,
+      f_ask_which_branch_download  # Download from which git branch,
+                                   # DEVELOPMENT, TESTING or MASTER?
+                                   # BRANCH="MASTER"/"TESTING"/"DEVELOP"/"SKIP",
+                                   # WEB_SITE,
                                    # PRESS_KEY=0/1
       #
       f_wget_file_2
@@ -2220,20 +2414,23 @@ f_wget_file () {
 f_wget_file_2 () {
       # Always ask what branch from which to download.
       . lib_cli-common.lib # Invoke the common library.
-      # The wget --directory-prefix allows file to be downloaded into a specific directory.
+      # The wget --directory-prefix allows file to be downloaded into a
+      # specific directory.
       if [ "$BRANCH" != "SKIP" ] ; then
          if [ "$MOD_FILE" != "cliappmenu.sh" ] ; then
-            # Delete any old files except if file is "cliappmenu.sh".
-            # Permission to delete file?
+            # Rename any old files except if file is "cliappmenu.sh".
+            # Permission to rename (mv) file?
             if [ -w $THIS_DIR/$MOD_FILE ] ; then
-               mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak  # Rename old file as a backup.
+               # Rename old file as a backup.
+               mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak
                ERROR=$?
             else
                # File either does not exist or is not writable without sudo.
                # Does file exist?
                if [ -e $THIS_DIR/$MOD_FILE ] ; then
-                  # Need sudo permissions to delete file.
-                  sudo mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak  # Rename old file as a backup.
+                  # Need sudo permissions to rename file.
+                  # Rename old file as a backup.
+                  sudo mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak
                   ERROR=$?
                fi
             fi
@@ -2286,12 +2483,14 @@ f_wget_file_2 () {
             fi
          else
             # File is "cliappmenu.sh" so make a back-up copy,
-            #  delete old file, and then download the new version.
+            #  Rename (mv) old file, and then download the new version.
             #
             # Make backup copy of the file.
             # Permission to backup the file?
             if [ -w $MAINMENU_DIR/$MOD_FILE ] ; then  
-               mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak  # Rename old file as a backup.
+               # Rename old file as a backup.
+               mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
+               # Now decided to use "mv" instead of "tar".
                # tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                ERROR=$?
             else
@@ -2299,7 +2498,8 @@ f_wget_file_2 () {
                # Does file exist?
                if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
                   # Need sudo permissions to backup file.
-                  sudo mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak  # Rename old file as a backup.
+                  # Rename old file as a backup.
+                  sudo mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
                   # sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
                   ERROR=$?
                fi
@@ -2438,8 +2638,10 @@ f_ask_which_branch_download () {
 #                2. The Application Category Menu in file lib_cli-menu-cat.lib
 #                   has the module library file names needed.
 #                3. Search grep all module library files for the Special Menu
-#                   Item Markers #MXX which are unique for each application menu.
-#                4. Print result of application menu names with application names.
+#                   Item Markers #MXX which are unique for each
+#                   application menu.
+#                4. Print result of application menu names with
+#                   application names.
 #
 # To recreate LIST_APPS manually:
 # Type this command (without double-quotation marks) at the CLI prompt:
@@ -2454,7 +2656,8 @@ f_create_LIST_APPS () {
       rm $THIS_DIR/LIST_APPS  &>/dev/null # Do not display any errors.
       ERROR=$?
       if [ $ERROR -eq 1 ] ; then
-         sudo rm $THIS_DIR/LIST_APPS &>/dev/null # Do not display any errors due to non-existent file.
+         sudo rm $THIS_DIR/LIST_APPS &>/dev/null # Do not display any errors
+                                                 # due to non-existent file.
       fi
       echo "_______________________________________________________________________________" >> ~/LIST_APPS
       echo -n "Last updated: " >> ~/LIST_APPS 
@@ -2494,25 +2697,32 @@ f_create_LIST_APPS () {
              # XSTR="#:MPS" to grep README file for menu titles.
              # XSTR="#MPS"  to grep mod_apps*.lib files for application names
              #              and descriptions.
-             # XSTR="MPS"   Did not work since README file contained the word "MUMPS"
-             #              which caused problems when displaying the menu title
-             #              for "#:MPS - PDF-PS Applications Menu".
+             # XSTR="MPS"   Did not work since README file contained the word
+             #              "MUMPS" which caused problems when displaying the
+             #              menu title for "#:MPS - PDF-PS Applications Menu".
              #
-             # So somehow XSTR had to be modified within the "for XSTR in" loop.
-             XSTR=${XSTR/:/} # Use string substitution, I just learned how, cool!
-             # Allows change from XSTR=":MPS" to XSTR="MPS" where the colon is stripped out.
+             # So somehow XSTR had to be modified within
+             # the "for XSTR in" for-loop.
+             #
+             # Use string substitution, I just learned how, cool!
+             XSTR=${XSTR/:/}
+             # Allows change from XSTR=":MPS" to XSTR="MPS"
+             # where the colon is stripped out.
              #
              # Print application names and descriptions.
-             # Any new mod_apps*.lib files added must be included as menu items in the Application Menu.
+             # Any new mod_apps*.lib files added must be included as menu items
+             # in the Application Menu.
              #
-             # The for-loop reads file "lib_cli-menu-cat.lib" to get the names of the mod_apps*.lib files.
-             # The for-loop awk command uses back-ticks to execute, getting the names of mod_apps-*.lib.
+             # The for-loop reads file "lib_cli-menu-cat.lib" to get the names 
+             # of the mod_apps*.lib files.
+             # The for-loop awk command uses back-ticks to execute,
+             # getting the names of mod_apps-*.lib.
              #   
              # 1. awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib
              #    if-statement conditional "($2&&!$3)":
              #    Since the special comment marker is "#AAB",
              #    if there is 1 marker (2 fields) then print the 1st field.
-             #    if there are 2 markers (3 fields), then do not print anything.
+             #    if there are 2 markers (3 fields), then do not print at all.
              #    This prevents the lines of code which set the $ DELIMITER
              #    variable from being printed as a menu item, because they
              #    purposely have 2 markers.
@@ -2521,7 +2731,8 @@ f_create_LIST_APPS () {
              #    This will result in: "#mod_a   pps-audio.lib"
              #
              # 2. | awk -F "#" '{print $2}'
-             #    The previous result is piped into this awk statement which simply strips out the "#".
+             #    The previous result is piped into this awk statement which
+             #    simply strips out the "#".
              #    This will result in: MOD_FILE="mod_apps-audio.lib"
              #
              for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
@@ -2530,7 +2741,8 @@ f_create_LIST_APPS () {
                  # Indents one space before application name.
                  #
                  # 1. grep $XSTR $THIS_DIR/$MOD_FILE
-                 #    Search the files mod_apps-*.lib one at a time for the Special Menu Item Marker.
+                 #    Search the files mod_apps-*.lib one at a time for the
+                 #    Special Menu Item Marker.
                  #    
                  #    Example: Suppose XSTR="#MAA ".
                  #    This will find strings like:
@@ -2538,9 +2750,10 @@ f_create_LIST_APPS () {
                  #
                  # 2. awk -F $XSTR '{if ($2&&!$3){print $2}}' 
                  #    if-statement conditional "($2&&!$3)":
-                 #    Since the $DELIMITER is part/all of the special comment marker,
+                 #    Since the $DELIMITER is part/all of the special comment
+                 #    marker,
                  #    if there is 1 marker (2 fields) then print the 2nd field.
-                 #    if there are 2 markers (3 fields), then do not print anything.
+                 #    if there are 2 markers (3 fields), then do not print.
                  #    This prevents the lines of code which set the $ DELIMITER
                  #    variable from being printed as a menu item, because they
                  #    purposely have 2 markers.
@@ -2551,7 +2764,8 @@ f_create_LIST_APPS () {
                     grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}' >> ~/LIST_APPS
                  fi
                  #
-                 echo -n "." # Elipse to indicate function is running displayed on screen display.
+                 echo -n "." # Elipse to indicate function is running displayed
+                             # on screen display. Displays rows of "...".
              done
       done
       #
@@ -2592,23 +2806,27 @@ f_show_max_menu_items () {
           grep $XSTR $THIS_DIR/README
           XSTR=${XSTR/:/} # Use string substitution.
           #
-          # Get name of module library file from the Application Category Menu lib_cli-menu-cat.lib.
-          # for-loop awk command uses back-ticks to execute resulting in name of mod_apps-*.lib.
+          # Get name of module library file from the Application Category Menu
+          # lib_cli-menu-cat.lib.
+          # for-loop awk command uses back-ticks to execute resulting in name
+          # of mod_apps-*.lib.
           for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
           do
               # Human readable list without special comment markers.
               # Indents one space before application name.
               # Is the module library file downloaded in $THIS_DIR?
-              if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists in current directory.
+              if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists
+                                                    # in current directory.
                  MAX=$(grep $XSTR -c $THIS_DIR/$MOD_FILE)
-                 # Subtract 1 since the line DELIMITER=<string> contains the 
+                 # Subtract 1 since the line DELIMITER=<string> contains the
                  # special comment marker but is not part of menu display.
                  #
                  MAX=$((MAX=$MAX-1))
                  #
-                 # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1" not "11".
+                 # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows
+                 # "12-1" not "11".
                  #
-                 if [ $MAX -ge 14 ] ; then # Menus can only have 16 items maximum.
+                 if [ $MAX -ge 14 ] ; then # 16 items maximum in a menu.
                     echo $(tput bold)
                     #
                     # Use different color font for error messages.
@@ -2625,4 +2843,3 @@ f_show_max_menu_items () {
       done
       unset XSTR  # Throw out this variable.
 } # End of function f_show_max_menu_items
-#

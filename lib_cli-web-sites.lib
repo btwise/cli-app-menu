@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2014 20:53"
+# REVDATE="October-20-2014 11:11"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -427,5 +427,5 @@ f_application_web_install () {
            xz | unxz | xzcat | xzgrep | xz-utils)
            WEB_SITE_INSTALL="http://tukaani.org/xz/"
            ;;
-      esac                      # End of Web Site case statement.
+      esac # End of Web Site case statement.
 } # End of function f_application_web_install

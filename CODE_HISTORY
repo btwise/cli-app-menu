@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-18-2014 23:28"
+PROJECT_REVDATE="October-20-2014 11:11"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,13 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-18 *Testing version 2.0
-##            *New functionality, test internet connection before downloading.
+## 2014-10-20 *Testing version 2.0
+##            *cliappmenu.sh comments limited to 80 characters wide.
+##            *lib_cli-menu-cat.lib comments limited to 80 characters wide.
+##            *lib_cli_common.lib comments limited to 80 characters wide.
+##            *lib_cli_web-sites.lib comments limited to 80 characters wide.
+##
+## 2014-10-18 *New functionality, test internet connection before downloading.
 ##            *f_application_install rewritten dispursing code to functions.
 ##            *f_application_web_install move user messages to f_web_install.
 ##            *f_eval_funct added messages for custom installs by function

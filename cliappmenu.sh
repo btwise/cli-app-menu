@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-18-2014 23:28"
+REVDATE="October-20-2014 11:11"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -16,7 +16,8 @@ REVDATE="October-18-2014 23:28"
 # to help CLI newbies to discover what a command line can do.
 #
 # Please see the file README for more information.
-# The "#:" at the beginning of lines below are used to delineate the Help Instructions.
+# The "#:" at the beginning of lines below are used
+# to delineate the Help Instructions.
 #:
 #:   Brief Description
 #:   FILE LOCATIONS of cliappmenu project
@@ -52,7 +53,8 @@ REVDATE="October-18-2014 23:28"
 #LIC You should have received a copy of the GNU General Public License
 #LIC along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# The "#:" at the beginning of lines below are used to delineate the Help Instructions.
+# The "#:" at the beginning of lines below are used
+# to delineate the Help Instructions.
 #:
 #: +----------------------------------------+
 #: |      Why did I write this script?      |
@@ -114,7 +116,8 @@ REVDATE="October-18-2014 23:28"
 # Outputs: None.
 #
 f_test_dash () {
-      # Set default colors in case configuration file is not readable or does not exist.
+      # Set default colors in case configuration file is not readable
+      # or does not exist.
       FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
       #
       if [ "$BASH_VERSION" = '' ]; then
@@ -211,7 +214,9 @@ SCRIPT_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # Outputs: GUI (dialog, whiptail, text).
 #
 f_detect_ui () {
-      command -v dialog >/dev/null # "&>/dev/null" does not work in Debian distro. 1=standard messages, 2=error messages, &=both.
+      command -v dialog >/dev/null
+      # "&>/dev/null" does not work in Debian distro.
+      # 1=standard messages, 2=error messages, &=both.
       ERROR=$?
       # Is Dialog GUI installed?
       if [ $ERROR -eq 0 ] ; then
@@ -219,7 +224,9 @@ f_detect_ui () {
          GUI="dialog" # test diagnostic line.
       else
          # Is Whiptail GUI installed?
-         command -v whiptail >/dev/null # "&>/dev/null" does not work in Debian distro. 1=standard messages, 2=error messages, &=both.
+         command -v whiptail >/dev/null
+         # "&>/dev/null" does not work in Debian distro.
+         # 1=standard messages, 2=error messages, &=both.
          ERROR=$?
          if [ $ERROR -eq 0 ] ; then
             # Yes, Whiptail installed.
@@ -245,7 +252,8 @@ f_main_init_once () {
       # Each user may store default settings in a configuration file
       # in the user's home folder.
       #
-      # Set default colors in case configuration file is not readable or does not exist.
+      # Set default colors in case configuration file is not readable
+      # or does not exist.
       FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
       #
       f_term_color $FCOLOR $BCOLOR # Set terminal color.
@@ -608,7 +616,8 @@ f_change_mainmenu_dir_gui () {
 #
 #  Inputs: $1=Until-Loop variable.
 #    Uses: X, INITVAR.
-# Outputs: MAINMENU_DIR, THIS_DIR, APP_NAME, WEB_BROWSER, TEXT_EDITOR, MENU_ITEM, ERROR.
+# Outputs: MAINMENU_DIR, THIS_DIR, APP_NAME, WEB_BROWSER, TEXT_EDITOR,
+#          MENU_ITEM, ERROR.
 #
 f_initvars_menu_app () {
       echo $(tput bold) # Display bold font for all menus.
@@ -736,8 +745,9 @@ f_valid_files_gui () {
 #
 f_valid_menu_txt () {
       f_initvars_menu_app "AAD"
-      # Please note: The function "f_show_menu" in library module file, "lib-cli-common.lib"
-      #              cannot be used at this time, since that file may not yet exist or
+      # Please note: The function "f_show_menu" in library module file,
+      #              "lib-cli-common.lib" cannot be used at this time,
+      #              since that file may not yet exist or
       #              may need to be downloaded from the GitHub web site.
       #
       MENU_TITLE="Validate Files and Directories Menu"
@@ -805,16 +815,19 @@ f_valid_menu_txt () {
 #
 f_valid_menu_gui () {
       f_initvars_menu_app "AAD"
-      # Please note: The function "f_show_menu" in library module file, "lib-cli-common.lib"
-      #              cannot be used at this time, since that file may not yet exist or
+      # Please note: The function "f_show_menu" in library module file,
+      #              "lib-cli-common.lib" cannot be used at this time,
+      #              since that file may not yet exist or
       #              may need to be downloaded from the GitHub web site.
       #
       NEW_DIR=$2 # Set $NEW_DIR to original (possibly invalid) directory.
       #
       # Get user-entered directory name with dialog/whiptail --inputbox.
       # Save user-input with redirection.
-      # Redirect stderr (standard error) to stdout (standard output) thus capturing the error code.
-      # Redirect stdout to screen (/dev/tty). Capture result of stdout to $NEW_DIR variable.
+      # Redirect stderr (standard error) to stdout (standard output)
+      # thus capturing the error code.
+      # Redirect stdout to screen (/dev/tty).
+      # Capture result of stdout to $NEW_DIR variable.
       until [ "$AAD" = "0" ]
       do    # Start of Validate Menu until loop.
             AAD=$($1 --clear --title "Validate Files and Directories Menu" --menu "\n\nUse (up/down arrow keys) or (0 to 3) or (letters):" 15 70 4 \Quit "Quit to command line prompt." \Download "Download the missing file from the GitHub web site." \Change "Change the directory to the correct one." \List "List files in directory." 2>&1 >/dev/tty)
@@ -919,7 +932,8 @@ f_valid_exit_txt () {
          unset
          exit 1
       else
-         # No, directory not changed, but THIS_DIR variable may have been changed so exit.
+         # No, directory not changed, but THIS_DIR variable may have been
+         # changed so exit.
          f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
          echo
@@ -937,7 +951,8 @@ f_valid_exit_txt () {
 # |        Function f_valid_exit_gui       |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Original Directory, $3=New Directory.
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Original Directory,
+#          $3=New Directory.
 #    Uses: None.
 # Outputs: None.
 #
@@ -1016,7 +1031,8 @@ f_file_download_txt () {
             fi
          fi
       else
-         # No, directory does not exist so cannot download file into the directory.
+         # No, directory does not exist,
+         # so cannot download file into the directory.
          # Use different color font for error messages.
          clear  # Blank the screen.
          f_term_color $ECOLOR $BCOLOR
@@ -1074,7 +1090,8 @@ f_file_download_gui () {
             fi
          fi
       else
-         # No, directory does not exist so cannot download file into the directory.
+         # No, directory does not exist,
+         # so cannot download file into the directory.
          # Use different color font for error messages.
             $1 --title ">>> Error <<<" --msgbox "Required file:\n   \"$3\"\ncannot be downloaded\nbecause directory does not exist:\n   $2" 10 60 
       fi
@@ -1142,7 +1159,8 @@ f_file_dload_txt () {
               ;;
          esac
       else
-         # Directory does not exist so cannot download file into the directory.
+         # Directory does not exist,
+         # so cannot download file into the directory.
          # Use different color font for error messages.
          f_term_color $ECOLOR $BCOLOR
          echo -n $(tput bold)
@@ -1174,7 +1192,7 @@ f_file_dload_gui () {
       clear  # Blank the screen.
       #
       if [ -d "$2" ] ; then
-         # Directory exists so download file into the directory.
+         # Directory exists, so download file into the directory.
          $1 --yesno "Download the file from the GitHub web site.\n\nDownload file:\n   $3\n\ninto the directory:\n   $2\n\nDownload the file now?" 15 70
          ERROR=$?
          case $ERROR in
@@ -1199,7 +1217,8 @@ f_file_dload_gui () {
               else
                  # No, directory is not writeable so use sudo to download.
                  $1 --msgbox "Must use sudo permissions to download \"$MOD_FILE\"." 8 50
-                 f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, $ERROR code.
+                 f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>,
+                                        # $ERROR code.
                  echo $XSTR | sudo -S wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
                  ERROR=$?
                  if [ $ERROR -ne 0 ] ; then
@@ -1209,7 +1228,8 @@ f_file_dload_gui () {
               ;;
          esac
       else
-         # Directory does not exist so cannot download file into the directory.
+         # Directory does not exist,
+         # so cannot download file into the directory.
          # Use different color font for error messages.
             $1 --title ">>> Error <<<" --msgbox "Required file:\n   \"$3\"\ncannot be downloaded\n\nbecause directory does not exist:\n   $2" 15 60 
       fi
@@ -1241,10 +1261,13 @@ f_change_dir () {
                XSTR=$NEW_DIR
             fi
             # If $NEW_DIR=<New directory> then $XSTR=$NEW_DIR.
-            # If $NEW_DIR="QUIT" then $XSTR=$2 <old (possibly invalid) directory>.
+            # If $NEW_DIR="QUIT"
+            # then $XSTR=$2 <old (possibly invalid) directory>.
       done
-      # Set $NEW_DIR in order to update "Validate Files and Directories Menu" message display.
-      # NEW_DIR=<new directory only if it exists> or <old (possibly invalid) directory>.
+      # Set $NEW_DIR in order to update "Validate Files and Directories Menu"
+      # message display.
+      # NEW_DIR=<new directory only if it exists>
+      # or <old (possibly invalid) directory>.
       NEW_DIR=$XSTR
       unset XSTR
 } # End of function f_change_dir
@@ -1311,7 +1334,8 @@ f_ask_new_directory_txt () {
                 f_valid_exit_txt $NEW_DIR $NEW_DIR
                 ;;
                 */)
-                # Strip off the last "/" in the directory name. i.e. Change from "/opt/" to "/opt".
+                # Strip off the last "/" in the directory name.
+                # i.e. Change from "/opt/" to "/opt".
                 # Substitution using bash curly bracket syntax.
                 # Syntax: {<Target string>/<old pattern>/<new pattern>}
                 #               NEW_DIR         %"/"         null
@@ -1350,7 +1374,8 @@ f_ask_new_directory_txt () {
 # |    Function f_ask_new_directory_gui    |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory, SCRIPT_PATH, THIS_FILE.
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory, SCRIPT_PATH,
+#          THIS_FILE.
 #    Uses: ERROR
 # Outputs: NEW_DIR.
 #
@@ -1369,8 +1394,10 @@ f_ask_new_directory_gui () {
            1)
            # Get user-entered directory name with dialog/whiptail --inputbox.
            # Save user-input with redirection.
-           # Redirect stderr (standard error) to stdout (standard output) thus capturing the error code.
-           # Redirect stdout to screen (/dev/tty). Capture result of stdout to $NEW_DIR variable.
+           # Redirect stderr (standard error) to stdout (standard output)
+           # thus capturing the error code.
+           # Redirect stdout to screen (/dev/tty).
+           # Capture result of stdout to $NEW_DIR variable.
            NEW_DIR=$($1 --inputbox "If you want to have the required files in a separate directory from\nthe main script file, then enter a different directory.\n\n(Q)uit, to quit this script.\n\nEnter new directory name:" 15 75 2>&1 >/dev/tty)
            #
            case $NEW_DIR in
@@ -1379,7 +1406,8 @@ f_ask_new_directory_gui () {
                 f_valid_exit_gui $1 $NEW_DIR $NEW_DIR
                 ;;
                 */)
-                # Strip off the last "/" in the directory name. i.e. Change from "/opt/" to "/opt".
+                # Strip off the last "/" in the directory name.
+                # i.e. Change from "/opt/" to "/opt".
                 # Substitution using bash curly bracket syntax.
                 # Syntax: {<Target string>/<old pattern>/<new pattern>}
                 #               NEW_DIR         %"/"         null
@@ -1557,7 +1585,8 @@ f_setup_dir_txt () {
             echo $(tput bold)
             echo -n "Error re-configuring, \"cliappmenu.sh\" to use the directory."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            # Set NEW_DIR back to the old directory since re-configurating failed.
+            # Set NEW_DIR back to the old directory
+            # since re-configurating failed.
             NEW_DIR=$1
          fi 
       else
@@ -1571,7 +1600,8 @@ f_setup_dir_txt () {
             echo -n "Error re-configuring,\"cliappmenu.sh\" to use the directory"
             echo "even when using sudo permissions."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            # Set NEW_DIR back to the old directory since re-configurating failed.
+            # Set NEW_DIR back to the old directory
+            # since re-configurating failed.
             NEW_DIR=$1
          fi
       fi
@@ -1584,7 +1614,8 @@ f_setup_dir_txt () {
 # |       Function f_setup_dir_gui         |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory $3=New Directory, SCRIPT_PATH.
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory $3=New Directory,
+#          SCRIPT_PATH.
 #    Uses: ERROR.
 # Outputs: None.
 #
@@ -1600,7 +1631,8 @@ f_setup_dir_gui () {
          ERROR=$?
          if [ $ERROR -ne 0 ] ; then
             $1 --msgbox --title ">>> Error <<<" "Error re-configuring, \"cliappmenu.sh\" to use the directory." 8 70
-            # Set NEW_DIR back to the old directory since re-configurating failed.
+            # Set NEW_DIR back to the old directory
+            # since re-configurating failed.
             NEW_DIR=$2
          fi 
       else
@@ -1612,11 +1644,14 @@ f_setup_dir_gui () {
             ERROR=$?
             if [ $ERROR -ne 0 ] ; then
                $1 --msgbox --title ">>> Error <<<" "Error re-configuring,\"cliappmenu.sh\" to use the directory\neven when using sudo permissions." 10 70
-               # Set NEW_DIR back to the old directory since re-configuring failed.
+               # Set NEW_DIR back to the old directory
+               # since re-configuring failed.
                NEW_DIR=$2
             fi
          else
-            # Cancel button pressed. Set NEW_DIR back to the old directory since re-configurating failed.
+            # Cancel button pressed.
+            # Set NEW_DIR back to the old directory
+            # since re-configurating failed.
             NEW_DIR=$2
          fi
       fi
@@ -1633,8 +1668,10 @@ f_setup_dir_gui () {
 f_main_help () {
       clear # Blank the screen.
       # Display Help (all lines beginning with "#@" but do not print "#@").
-      # sed substitutes null for "#@" at the beginning of each line so it is not printed.
-      # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+      # sed substitutes null for "#@" at the beginning of each line
+      # so it is not printed.
+      # less -P customizes prompt for
+      # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
       sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 } # End of function f_main_help
 #
@@ -1647,7 +1684,8 @@ f_main_help () {
 # Outputs: None.
 #
 f_main_about () {
-      # Calculate project revision number by counting all lines starting with "## 2014".
+      # Calculate project revision number
+      # by counting all lines starting with "## 2014".
       # grep ^ (carot sign) means grep any lines beginning with "##2014".
       # grep -c means count the lines that match the pattern.
       #
@@ -1674,7 +1712,7 @@ f_main_about () {
                     [Nn] | [Nn][Oo])
                     X="NO"
                     ;;
-               esac         # End of git download case statement.
+               esac # End of git download case statement.
          done
       fi
       #
@@ -1710,13 +1748,13 @@ f_main_about () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: AAC, MENU_ITEM.
+#    Uses: AAC , MENU_ITEM.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_main_configure () {
       f_initvars_menu_app "AAC"
-      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
-      # try to run the menu item's name.
+      # When $DELIMITER is set as above, then f_menu_item_process does not call
+      # f_application_run and try to run the menu item's name.
       # i.e. "Colors", "Un-colors" or "Update", etc.
       # since those are not the names of executable (run-able) applications.
       #
@@ -1753,8 +1791,8 @@ f_main_configure () {
 #
 f_main_information () {
       f_initvars_menu_app "AAG"
-      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
-      # try to run the menu item's name.
+      # When $DELIMITER is set as above, then f_menu_item_process does not call
+      # f_application_run and try to run the menu item's name.
       # i.e. "Colors", "Un-colors" or "Update", etc.
       # since those are not the names of executable (run-able) applications.
       #
@@ -1790,9 +1828,12 @@ f_main_documentation () {
       f_ask_download_file $THIS_DIR "README"
       #
       if [ -r $THIS_DIR"/README" ] ; then
-         # Display README Documentation (all lines beginning with "#:" but do not print "#:").
-         # sed substitutes null for "#:" at the beginning of each line so it is not printed.
-         # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         # Display README Documentation
+         # (all lines beginning with "#:" but do not print "#:").
+         # sed substitutes null for "#:" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
          sed -n 's/^#://'p $THIS_DIR"/README" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
       fi
       #
@@ -1811,9 +1852,12 @@ f_main_edit_history () {
       f_ask_download_file $THIS_DIR "EDIT_HISTORY"
       #
       if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
-         # Display Edit History (all lines beginning with "##" but do not print "##").
-         # sed substitutes null for "##" at the beginning of each line so it is not printed.
-         # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         # Display Edit History
+         # (all lines beginning with "##" but do not print "##").
+         # sed substitutes null for "##" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
          sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
@@ -1833,9 +1877,12 @@ f_main_code_history () {
       f_ask_download_file $THIS_DIR "CODE_HISTORY"
       #
       if [ -r $THIS_DIR"/CODE_HISTORY" ] ; then
-         # Display Edit History (all lines beginning with "##" but do not print "##").
-         # sed substitutes null for "##" at the beginning of each line so it is not printed.
-         # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         # Display Edit History
+         # (all lines beginning with "##" but do not print "##").
+         # sed substitutes null for "##" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
          sed -n 's/^##//'p $THIS_DIR"/CODE_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
@@ -1871,7 +1918,8 @@ f_ask_download_file () {
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                     MOD_FILE=$2
-                    # Check if there is an internet connection before doing a download.
+                    # Check if there is an internet connection
+                    # before doing a download.
                     f_test_internet_connection
                     #
                     # If internet connection OK, then download.
@@ -1884,7 +1932,7 @@ f_ask_download_file () {
                     [Nn] | [Nn][Oo])
                     X="NO"
                     ;;
-               esac         # End of git download case statement.
+               esac # End of git download case statement.
          done
       fi
       #
@@ -1901,9 +1949,12 @@ f_ask_download_file () {
 #
 f_main_license () {
       clear # Blank the screen.
-      # Display License (all lines beginning with "#LIC" but do not print "#LIC").
-      # sed substitutes null for "#LIC" at the beginning of each line so it is not printed.
-      # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+      # Display License
+      # (all lines beginning with "#LIC" but do not print "#LIC").
+      # sed substitutes null for "#LIC" at the beginning of each line
+      # so it is not printed.
+      # less -P customizes prompt for
+      # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
       sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
       X="" # Initialize scratch variable.
       while [  "$X" != "YES" -a "$X" != "NO" ]
@@ -1955,11 +2006,11 @@ f_main_license () {
                                           [Nn] | [Nn][Oo])
                                           X="NO"
                                           ;;
-                                     esac         # End of gnu.org case statement.
+                                     esac # End of gnu.org case statement.
                                done
                                X="NO"
                                                ;;
-                          esac         # End of git download case statement.
+                          esac # End of git download case statement.
                     done
                  fi
                  #
@@ -1971,7 +2022,7 @@ f_main_license () {
                  [Nn] | [Nn][Oo])
                  X="NO"
                  ;;
-            esac         # End of license case statment.
+            esac # End of license case statment.
       done
       #
       unset X
@@ -2113,9 +2164,11 @@ f_term_color () {  # Set terminal display properties.
       # setterm does not work in X-window virtual terminals.
       # setterm -foreground white -background black -bold on -store
       #
-      # set background first because you must reset colors first to get true black background in some
-      # virtual X-terminals. Since "tput setab 0" appears light gray, use "tput sgr0" to reset colors.
-      # set CNT=1 background color then set CNT=2 font color.
+      # Set background first because you must reset colors first to get
+      # true black background in some virtual X-terminals.
+      # Since "tput setab 0" appears light gray,
+      # use "tput sgr0" to reset colors.
+      # Set CNT=1 background color then set CNT=2 font color.
       for CNT in 1 2
       do
           if [ $CNT -eq 1 ] ; then
@@ -2129,7 +2182,8 @@ f_term_color () {  # Set terminal display properties.
           case $COLOR in
                [Bb] | [Bb][Ll] | [Bb][Ll][Aa]*)
                if [ $CNT -eq 1 ] ; then
-                  echo -n $(tput sgr0)  # Black background selected. Reset colors to get true black.
+                  echo -n $(tput sgr0)  # Black background selected.
+                                        # Reset colors to get true black.
                else
                   echo -n $(tput $TPUTX 0)  # Black font selected.
                fi
@@ -2175,8 +2229,8 @@ f_term_color () {  # Set terminal display properties.
 #
 f_menu_term_color () {
       f_initvars_menu_app "AAE"
-      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
-      # try to run the menu item's name.
+      # When $DELIMITER is set as above, then f_menu_item_process does not call
+      # f_application_run and try to run the menu item's name.
       # i.e. "Red", "Green" or "Yellow", etc.
       # since those are not the names of executable (run-able) applications.
       #
@@ -2192,7 +2246,8 @@ f_menu_term_color () {
                              #AAE ------- - -----------------
             #f_color_bw      #AAE BW      - Black   on white.
             #f_color_rw      #AAE RW      - Red     on white.
-            #f_color_wb      #AAE WB      - White   on blue (Classic "Blueprint").
+            #f_color_wb      #AAE WB      - White   on blue
+            #                               (Classic "Blueprint").
             #f_color_yb      #AAE YB      - Yellow  on blue.
             #
             THIS_FILE="cliappmenu.sh"
@@ -2276,8 +2331,8 @@ f_color_yb () {
 #
 f_menu_uncolor () {
       f_initvars_menu_app "AAF"
-      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
-      # try to run the menu item's name.
+      # When $DELIMITER is set as above, then f_menu_item_process does not call
+      # f_application_run and try to run the menu item's name.
       # i.e. "Red", "Green" or "Yellow", etc.
       # since those are not the names of executable (run-able) applications.
       #
@@ -2290,7 +2345,8 @@ f_menu_uncolor () {
             #f_ucolor_magenta #AAF Magenta    - Magenta.
             #f_ucolor_cyan    #AAF Cyan       - Cyan.
             #f_ucolor_white   #AAF White      - White.
-            #f_ucolor_gray    #AAF Gray       - Gray (not available in 8-color terminals).
+            #f_ucolor_gray    #AAF Gray       - Gray (not available in
+            #                                        8-color terminals).
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Colors for Unavailable Menu Items"
@@ -2357,7 +2413,8 @@ f_ucolor_gray () {
 # Outputs: File ~/.cliappmenu.cfg over-written.
 #
 f_update_config_file () {
-      # Update Configuration File: ~/.cliappmenu.conf to save user chosen colors.
+      # Update Configuration File: ~/.cliappmenu.conf
+      # to save user chosen colors.
       echo "f_main_config () {" > ~/.cliappmenu.cfg
       echo "      FCOLOR=\"$FCOLOR\" ; BCOLOR=\"$BCOLOR\" ; UCOLOR=\"$UCOLOR\" ; ECOLOR=\"$ECOLOR\"" >> ~/.cliappmenu.cfg
       echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
@@ -2384,7 +2441,8 @@ f_update_software () {
             # Ask for sudo permissions password using an innocuous command.
             echo
             echo "You need sudo permissions to update this software."
-            sudo echo &>/dev/null # 1=standard messages, 2=error messages, &=both.
+            sudo echo &>/dev/null
+            # 1=standard messages, 2=error messages, &=both.
          fi
          echo
          echo "Choose the branch from where you want to update the software."
@@ -2402,8 +2460,10 @@ f_update_software () {
             fi
             #
          done
-         PRESS_KEY=0  # Do not use "Press Enter key" but use "Q" or "Quit" so message above is read.
-                      # f_wget also sets it to 1 but if module is not downloaded then still set to 0.
+         PRESS_KEY=0  # Do not use "Press Enter key" but use "Q" or "Quit"
+                      # so message above is read.
+                      # f_wget also sets it to 1
+                      # but if module is not downloaded then still set to 0.
          X=-1  # intialize until-loop.
          until [ "$X" = "0" ]
          do    # Start of Update Menu until loop.
@@ -2560,9 +2620,11 @@ f_main_init_once
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_initvars_menu_app "AAA"
-      # When $DELIMITER is set as above, then f_menu_item_process does not call f_application_run and
+      # When $DELIMITER is set as above,
+      # then f_menu_item_process does not call f_application_run and
       # try to run the menu item's name.
-      # i.e. "Applications", "Help and Features" or "About CLI Menu", "Configure", etc.
+      # i.e. "Applications", "Help and Features" or "About CLI Menu",
+      #      "Configure", etc.
       # since those are not the names of executable (run-able) applications.
       #
 until [ "$AAA" = "0" ]
@@ -2580,7 +2642,8 @@ do    # Start of CLI Menu util loop.
       #
       f_show_menu "$MENU_TITLE" "$DELIMITER"
       read AAA
-      f_menu_item_process $AAA  # Outputs $MENU_ITEM. Sets AAA=0 for item option Quit.
+      f_menu_item_process $AAA  # Outputs $MENU_ITEM.
+                                # Sets AAA=0 for item option Quit.
 done  # End of Main Menu until loop.
       #
 unset AAA MENU_ITEM SCRIPT_PATH # Throw out this variable.

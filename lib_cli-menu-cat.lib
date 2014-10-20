@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2014 23:28"
+# REVDATE="October-20-2014 11:11"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -44,9 +44,12 @@ f_menu_module_display () {
       until [ "$AAB" = "0" ]
       do    # Start of Application Category until loop.
             #
-            # Note: field 1 is both the name of a function (see below) and a file name.
-            #       So "mod_apps_audio.lib" is both a function (see below) and a file name.
-            #       The function (below) actually runs another function, "f_menu_cat_audio"
+            # Note: field 1 is both the name of a function (see below)
+            #       and a file name.
+            #       So "mod_apps_audio.lib" is both a function (see below)
+            #       and a file name.
+            #       The function (below) actually runs another function,
+            #       "f_menu_cat_audio"
             #       which is found in the file "mod_apps_audio.lib".
             #
             #mod_apps-audio-video.lib  #AAB Audio-Video  - Music/Video players, editors, utilities.
@@ -87,8 +90,8 @@ f_menu_module_display () {
 } # End of function f_menu_cat_applications
 #
 #
-# Note: Cannot use $DELIMITER in if-statement because $MAX is calculated by grep for $DELIMITER.
-#       So must use $MENU_TITLE instead.
+# Note: Cannot use $DELIMITER in if-statement because $MAX is calculated by
+#       grep for $DELIMITER. So must use $MENU_TITLE instead.
 #
 # Note: Function "f_download_file" calls "f_wget_file" which renames the
 #        software module (file) before downloading a new copy from the
@@ -272,8 +275,10 @@ f_mod_apps-submenu () {
          # $2 exists so make it accessible.
          . $1/$2 # Invoke module library.
          $3
-         # Restore MENU_TITLE since it determines which menu and menu item options to use.
-         # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
+         # Restore MENU_TITLE since it determines which menu and menu item
+         # options to use.
+         # MENU_TITLE is either "Application Categories Menu"
+         # or "Software Module Manager Menu".
          MENU_TITLE="Application Categories Menu"
       else
          # Check if there is an internet connection before doing a download.
@@ -285,8 +290,10 @@ f_mod_apps-submenu () {
          #
          if [ -r $1/$2 ] ; then
             $3
-            # Restore MENU_TITLE since it determines which menu and menu item options to use.
-            # MENU_TITLE is either "Application Categories Menu" or "Software Module Manager Menu".
+            # Restore MENU_TITLE since it determines which menu and menu item
+            # options to use.
+            # MENU_TITLE is either "Application Categories Menu"
+            # or "Software Module Manager Menu".
             MENU_TITLE="Application Categories Menu"
          fi
       fi
@@ -410,7 +417,8 @@ f_mod_add () {
          f_module_remove $1 $2.tar.gz
       fi
       #
-      # Commented out, error message may be confusing to user when trying to "Add a module".
+      # Commented out, error message may be confusing to user when trying to
+      # "Add a module".
       # if [ $ERROR -ne 0 ] ; then
       #    # Use different color font for error messages.
       #    f_term_color $ECOLOR $BCOLOR
@@ -511,7 +519,8 @@ f_mod_restore () {
               f_module_remove $1 $2.tar.gz
            fi
            #
-           # Commented out, error message may be confusing to user when trying to "Restore a module".
+           # Commented out, error message may be confusing to user when trying
+           # to "Restore a module".
            # if [ $ERROR -ne 0 ] ; then
            #    # Use different color font for error messages.
            #    f_term_color $ECOLOR $BCOLOR
@@ -535,8 +544,10 @@ f_mod_restore () {
 #
 f_mod_update () {
            # Update and invoke an existing module.
-           if [ -e $1/$2 ] ; then  # <module file name> <Followed by whitespace>
-              # Check if there is an internet connection before doing a download.
+           if [ -e $1/$2 ] ; then 
+              # <module file name> <Followed by whitespace>
+              # Check if there is an internet connection before
+              # doing a download.
               f_test_internet_connection
               #
               if [ $ERROR != 1 ] ; then
@@ -580,7 +591,8 @@ f_module_archive () {
       if [ -w $1/$2 ] ; then
          # Yes, so archive and remove (deactivate) from menu.
          cd $1 # Change directory so tar will archive file into $1.
-         tar -zcvf $2.tar.gz $2 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+         tar -zcvf $2.tar.gz $2 1>/dev/null
+         # 1=standard messages, 2=error messages, &=both.
          ERROR=$?
       else
          # File either does not exist or you need sudo permission.
@@ -588,7 +600,8 @@ f_module_archive () {
          if [ -e $1/$2 ] ; then
             # Need sudo permissions to backup file.
             cd $1 # Change directory so tar will archive file into THIS_DIR.
-            sudo tar -zcvf $2.tar.gz $2 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+            sudo tar -zcvf $2.tar.gz $2 1>/dev/null
+            # 1=standard messages, 2=error messages, &=both.
             ERROR=$?
          else
             # File does not exist.
@@ -637,7 +650,8 @@ f_module_restore () {
       if [ -w $1/$2.tar.gz ] ; then
          # Yes, then restore (activate) to menu.
          cd $1 # Change directory so tar will restore file into $1.
-         tar -xzvf $1/$2.tar.gz 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+         tar -xzvf $1/$2.tar.gz 1>/dev/null
+         # 1=standard messages, 2=error messages, &=both.
          ERROR=$?
       else
          # File $2.tar.gz either does not exist or is not writeable without sudo.
@@ -647,7 +661,8 @@ f_module_restore () {
             # Yes, $2.tar.gz file exists.
             # Need sudo permissions to backup file.
             cd $1 # Change directory so tar will restore file into $1.
-            sudo tar -xzvf $1/$2.tar.gz 1>/dev/null # 1=standard messages, 2=error messages, &=both.
+            sudo tar -xzvf $1/$2.tar.gz 1>/dev/null
+            # 1=standard messages, 2=error messages, &=both.
             ERROR=$?
          else
             # No, $2.tar.gz file does not exist.
@@ -678,27 +693,35 @@ f_update_all_modules () {
          #
          if [ $ERROR = 0 ] ; then
             #
-            # Extract the name of the module, mod_apps-*.lib file from the Applications Category Menu.
-            # for-loop awk command uses back-ticks to execute, resulting in name of mod_apps-*.lib.
+            # Extract the name of the module, mod_apps-*.lib file from the
+            # Applications Category Menu.
+            #
+            # for-loop awk command uses back-ticks to execute,
+            # resulting in name of mod_apps-*.lib.
             for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
             do
                 # Update only previously installed/downloaded modules.
-                if [ -r $THIS_DIR/$MOD_FILE ] ; then  # <module file name> <Followed by whitespace>
+                if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                   # <module file name> <Followed by whitespace>
                    # Module exists so update to latest version.
                    echo "_____________________________________________________________________"
                    echo
                    echo "Update \"$MOD_FILE\" from the GitHub software repository?"
                    # Ask download from which branch and wget.
                    #
-                   # f_wget_file_2 will rename old files to *.bak before downloading replacement files
-                   # with the exception of file "cliappmenu.sh" which is backed up before download.
+                   # f_wget_file_2 will rename old files to *.bak before
+                   # downloading replacement files
+                   # with the exception of file "cliappmenu.sh" which is
+                   # backed up before download.
                    #
                    f_wget_file_2
                 fi
                 #
-                # Check to see if download was successful before invoking module.
+                # Check to see if download was successful
+                # before invoking module.
                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                   # $MOD_FILE exists in current directory so make it accessible.
+                   # $MOD_FILE exists in current directory
+                   # so make it accessible.
                    . $THIS_DIR/$MOD_FILE # Invoke module library.
                 fi
             done
@@ -772,7 +795,8 @@ f_install_ncurses () {
             unset X  # Throw out this variable.
            fi
       fi
-         # Set to null so that f_application_run doesn't try to run libncurses-dev or ncurses-dev as stand-alone applications.
+         # Set to null so that f_application_run doesn't try to run
+         # libncurses-dev or ncurses-dev as stand-alone applications.
          MENU_ITEM_NAME="" # Null so f_application_run does not try to run.
                            # when it's not installed.
          APP_NAME=""       # Also prevents checking for Quit Clause.
