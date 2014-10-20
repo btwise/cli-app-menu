@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-20-2014 11:11"
+# REVDATE="October-20-2014 11:41"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -111,24 +111,35 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
              if [ -r $THIS_DIR/$X ] ; then
                 # X=<module file name> <Followed by whitespace>
                 # Module exists, display menu item in bold font.
-                f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold) ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                f_term_color $FCOLOR $BCOLOR
+                echo -n $(tput bold)
+                echo -n $XNUM" -"
+                grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
              else
                 # If UCOLOR="" is unset, then use same color font, but not bold
                 # font for missing module.
                 if [ -z $UCOLOR ] ; then
                    # Module missing, display menu item in same color font but
                    # not bold font, then return to bold font.
-                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ; echo -n $(tput bold)
+                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
+                   echo -n $XNUM" -"
+                   grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                   echo -n $(tput bold)
                 else
                    # Module missing, display menu item in different color font
                    # but not bold font, then return to bold font.
-                   echo -n $(tput sgr0) ; f_term_color $UCOLOR $BCOLOR ; echo -n $XNUM" -" ; grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}' ; f_term_color $FCOLOR $BCOLOR  ; echo -n $(tput bold)
+                   echo -n $(tput sgr0)
+                   f_term_color $UCOLOR $BCOLOR
+                   echo -n $XNUM" -"
+                   grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                   f_term_color $FCOLOR $BCOLOR
+                   echo -n $(tput bold)
                 fi
              fi
          done
       else   # All other application/sub-menus display menu items
              # in default bold font.
-         echo -n $(tput bold) ; f_term_color $FCOLOR $BCOLOR
+         echo -n $(tput bold)
          awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_DIR/$THIS_FILE
       fi
       #
