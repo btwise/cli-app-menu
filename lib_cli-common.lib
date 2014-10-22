@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-20-2014 11:41"
+# REVDATE="October-21-2014 88:88"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -2343,18 +2343,23 @@ f_test_internet_connection () {
       # Check if there is an internet connection before doing a download.
       echo
       echo "Test internet connection:"
-      ping -c 1 -q 8.8.4.4
+      echo
+      ping -c 1 -q 8.8.4.4  # Ping Google.com DNS address.
       ERROR=$?
       #
       if [ $ERROR -ne 0 ] ; then
          f_term_color $ECOLOR $BCOLOR
          echo $(tput bold)
          #
-         echo "Error pinging web site, the Internet may be disconnected."
-         echo "Cannot download \"$MOD_FILE\" at this time."
+         echo "Test of Internet connnection failed, the Internet may be disconnected."
+         if [ -n "$MOD_FILE" ] ; then
+            echo "Cannot download \"$MOD_FILE\" at this time."
+         fi
          #
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         f_press_enter_key_to_continue
+         #
+         # Design choice not to insert message "Press 'Enter' key to continue."
+         # to allow display of additional error messages on the same screen.
       fi
 } # End of function f_test_internet_connection
 #
@@ -2416,141 +2421,173 @@ f_wget_file () {
 # |      Function f_wget_file_2            |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE, THIS_DIR, WEB_SITE.
-#    Uses: BRANCH, WEB_SITE.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1.
+#  Inputs: BRANCH, MOD_FILE, MAINMENU_DIR, THIS_DIR, WEB_SITE.
+#    Uses: BRANCH, WEB_SITE, ERROR.
+# Outputs: BRANCH, WEB_SITE, ERROR.
 #
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
 f_wget_file_2 () {
-      # Always ask what branch from which to download.
+      # Beforehand, always ask what branch from which to download.
       . lib_cli-common.lib # Invoke the common library.
       # The wget --directory-prefix allows file to be downloaded into a
       # specific directory.
+      #
+      ERROR=0
       if [ "$BRANCH" != "SKIP" ] ; then
-         if [ "$MOD_FILE" != "cliappmenu.sh" ] ; then
-            # Rename any old files except if file is "cliappmenu.sh".
-            # Permission to rename (mv) file?
-            if [ -w $THIS_DIR/$MOD_FILE ] ; then
-               # Rename old file as a backup.
-               mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak
-               ERROR=$?
+         if [ "$MOD_FILE" = "cliappmenu.sh" ] ; then
+            XXSTR=$THIS_DIR         # Save $THIS_DIR location of other files.
+                                    # module libraries etc.
+            THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
+         fi
+         #
+         # Backup file
+         f_backup_file $THIS_DIR $MOD_FILE
+         if [ $ERROR -eq 0 ] ; then # 
+            # Back-up successful so download file.
+            f_wget_file_3
+            if [ $ERROR -eq 0 ] ; then
+               # Download successful so delete back-up.
+               f_remove_file $THIS_DIR $MOD_FILE.tar.gz
             else
-               # File either does not exist or is not writable without sudo.
-               # Does file exist?
-               if [ -e $THIS_DIR/$MOD_FILE ] ; then
-                  # Need sudo permissions to rename file.
-                  # Rename old file as a backup.
-                  sudo mv $THIS_DIR/$MOD_FILE $THIS_DIR/$MOD_FILE.bak
-                  ERROR=$?
+               # Download failed so restore back-up.
+               f_restore_file $THIS_DIR $MOD_FILE
+               if [ $ERROR -eq 0 ] ; then
+                  # Restore successful so delete back-up.
+                  f_remove_file $THIS_DIR $MOD_FILE.tar.gz
                fi
-            fi
-            #
-            if [ $ERROR -ne 0 ] ; then
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               #
-               echo -n "Error renaming older file as a backup \"$MOD_FILE.bak\"."
-               #
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-            fi
-            # Download the module except if file is "cli-app-menu.sh".
-            # Is directory writable?
-            if [ -w $THIS_DIR ] ; then
-               # Yes, directory is writable.
-               # Does file exist?
-               if [ -w $THIS_DIR/$MOD_FILE ] ; then
-                  wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
-                  ERROR=$?
-               else
-                  if [ -e $THIS_DIR/$MOD_FILE ] ; then
-                     # Need sudo permissions to download file.
-                     sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
-                     ERROR=$?
-                  else
-                     # File does not exist
-                     wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
-                     ERROR=$?
-                  fi
-               fi
-            else
-               # No, directory is not writable.
+            fi   
+         fi
+         #
+         if [ "$MOD_FILE" = "cliappmenu.sh" ] ; then
+            THIS_DIR=$XXSTR         # Restore origanal THIS_DIR.
+         fi
+      fi
+      unset XXSTR
+} # End of f_wget_file_2
+#
+# +----------------------------------------+
+# |      Function f_backup_file            |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
+#    Note: $2 is file name but without the tar.gz extention.
+#    Uses: None.
+# Outputs: ERROR.
+#
+# Back-up a single file $2 (without a tar.gz extention).
+#
+f_backup_file () {
+      f_module_archive $1 $2
+      # ERROR=1 if tar back-up fails.
+      # ERROR=2 if file to be backed-up does not exist.
+      #
+      if [ $ERROR -eq 1 ] ; then
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo "Error making back-up file \"$2.tar.gz\"."
+         #
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      fi
+} # End of f_backup_file
+#
+# +----------------------------------------+
+# |      Function f_restore_file           |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
+#    Note: $2 is file name but without the tar.gz extention.
+#    Uses: None.
+# Outputs: ERROR.
+#
+# Restore a single *.tar.gz file.
+#
+f_restore_file () {
+      f_module_restore $1 $2
+      # ERROR=1 if tar restore fails.
+      # ERROR=2 if file to be restored does not exist.
+      #
+      if [ $ERROR -eq 1 ] ; then
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo "Error restoring file \"$2\"."
+         #
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+      fi
+} # End of f_restore_file
+#
+# +----------------------------------------+
+# |      Function f_remove_file            |
+# +----------------------------------------+
+#
+#  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
+#    Note: $2 is the full file name inncluding any extentions.
+#    Uses: None.
+# Outputs: ERROR.
+#
+# Back-up a single file $MOD_FILE.
+#
+f_remove_file () {
+      f_module_remove $1 $2
+      # ERROR=1 if file deletion fails.
+      # ERROR=2 if file to be deleted does not exist.
+      #
+} # End of f_remove_file
+#
+# +----------------------------------------+
+# |      Function f_wget_file_3            |
+# +----------------------------------------+
+#
+#  Inputs: BRANCH, MOD_FILE, MAINMENU_DIR, THIS_DIR, WEB_SITE.
+#    Uses: BRANCH, WEB_SITE. ERROR
+# Outputs: BRANCH, WEB_SITE, ERROR.
+#
+# wget a single file $MOD_FILE from $WEB_SITE.
+#
+f_wget_file_3 () {
+      ERROR=0
+      #
+      # Download the module except if file is "cli-app-menu.sh".
+      # Is directory writable?
+      if [ -w $THIS_DIR ] ; then
+         # Yes, directory is writable.
+         # Does file exist?
+         if [ -w $THIS_DIR/$MOD_FILE ] ; then
+            wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+            ERROR=$?
+         else
+            if [ -e $THIS_DIR/$MOD_FILE ] ; then
                # Need sudo permissions to download file.
                sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
                ERROR=$?
-            fi
-            #
-            if [ $ERROR -ne 0 ] ; then
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               #
-               echo "Error downloading file \"$MOD_FILE\"."
-               #
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-               echo
             else
-               echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
-               echo
-            fi
-         else
-            # File is "cliappmenu.sh" so make a back-up copy,
-            #  Rename (mv) old file, and then download the new version.
-            #
-            # Make backup copy of the file.
-            # Permission to backup the file?
-            if [ -w $MAINMENU_DIR/$MOD_FILE ] ; then  
-               # Rename old file as a backup.
-               mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
-               # Now decided to use "mv" instead of "tar".
-               # tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
-               ERROR=$?
-            else
-               # File either does not exist or is not writable without sudo.
-               # Does file exist?
-               if [ -e $MAINMENU_DIR/$MOD_FILE ] ; then
-                  # Need sudo permissions to backup file.
-                  # Rename old file as a backup.
-                  sudo mv $MAINMENU_DIR/$MOD_FILE $MAINMENU_DIR/$MOD_FILE.bak
-                  # sudo tar -zcvf $MAINMENU_DIR/$MOD_FILE.tar.gz $MOD_FILE
-                  ERROR=$?
-               fi
-            fi
-            #
-            if [ $ERROR -ne 0 ] ; then
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               #
-               echo "Error making back-up file \"$MOD_FILE.bak\"."
-               #
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-               echo
-            fi
-            #
-            if [ -w $THIS_DIR/$MOD_FILE ] ; then  
-               wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
-               ERROR=$?
-            else
-               # Need sudo permissions to download file.
-               sudo wget --directory-prefix=$MAINMENU_DIR $WEB_SITE$MOD_FILE
+               # File does not exist
+               wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
                ERROR=$?
             fi
-            #
-            if [ $ERROR -ne 0 ] ; then
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               #
-               echo "Error downloading file \"$MOD_FILE\"."
-               #
-               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-               echo
-            else
-               echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
-               echo
-            fi
-         fi   
-         PRESS_KEY=1 # Display "Press 'Enter' key to continue."
+         fi
+      else
+         # No, directory is not writable.
+         # Need sudo permissions to download file.
+         sudo wget --directory-prefix=$THIS_DIR $WEB_SITE$MOD_FILE
+         ERROR=$?
       fi
-} # End of f_wget_file_2
+      #
+      if [ $ERROR -ne 0 ] ; then
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo "Error downloading file \"$MOD_FILE\"."
+         #
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+      else
+         echo "Downloaded file, \"$MOD_FILE\" from github \"$BRANCH\" branch." 
+         echo
+      fi
+} # End of function f_wget_file_3
 #
 # +----------------------------------------+
 # |  Function f_ask_which_branch_download  |
@@ -2799,6 +2836,14 @@ f_create_LIST_APPS () {
 #  Inputs: None.
 #    Uses: XSTR, MOD_FILE, MAX.
 # Outputs: MAX.
+#
+# This function will scan all module files
+# for all menus and count the number of items in each menu.
+#
+# This is a stand-alone function which is used to alert the programmer
+# if the number of menu items is equal to or exceeding 14 menu items.
+# The maximum number of menu items you can have is 16, to still fit on a
+# standard 80x24 line display screen.
 #
 f_show_max_menu_items () {
       #

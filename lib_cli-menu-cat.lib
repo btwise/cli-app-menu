@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-20-2014 11:11"
+# REVDATE="October-21-2014 88:88"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -284,8 +284,12 @@ f_mod_apps-submenu () {
          # Check if there is an internet connection before doing a download.
          f_test_internet_connection
          #
-         if [ $ERROR != 1 ] ; then
+         if [ $ERROR -eq 0 ] ; then
+            # Function f_download_file can use sudo permissions if needed.
             f_download_file
+         else
+            # Allow viewing of error message no internet connection.
+            f_press_enter_key_to_continue
          fi
          #
          if [ -r $1/$2 ] ; then
@@ -404,9 +408,12 @@ f_mod_add () {
          # Check if there is an internet connection before doing a download.
          f_test_internet_connection
          #
-         if [ $ERROR != 1 ] ; then
+         if [ $ERROR -eq 0 ] ; then
             # Function f_download_file can use sudo permissions if needed.
             f_download_file
+         else
+            # Allow viewing of error message no internet connection.
+            f_press_enter_key_to_continue
          fi
          #
       fi
@@ -550,14 +557,12 @@ f_mod_update () {
               # doing a download.
               f_test_internet_connection
               #
-              if [ $ERROR != 1 ] ; then
+              if [ $ERROR -eq 0 ] ; then
                  # Function f_download_file can use sudo permissions if needed.
-                 #
-                 # Note: Function "f_download_file" calls "f_wget_file" which
-                 #       renames the software module (file) before downloading
-                 #       a new copy from the GitHub repository branch.
-                 #
                  f_download_file
+              else
+                 # Allow viewing of error message no internet connection.
+                 f_press_enter_key_to_continue
               fi
               #
            else
@@ -605,7 +610,7 @@ f_module_archive () {
             ERROR=$?
          else
             # File does not exist.
-            ERROR=1
+            ERROR=2
          fi
       fi
 } # End of function f_module_archive
@@ -632,7 +637,7 @@ f_module_remove () {
             ERROR=$?
          else
             # File does not exist.
-            ERROR=1 # Display error message if trying to delete a missing file.
+            ERROR=2 # Display error message if trying to delete a missing file.
          fi
       fi
 } # End of function f_module_remove
@@ -666,7 +671,7 @@ f_module_restore () {
             ERROR=$?
          else
             # No, $2.tar.gz file does not exist.
-            ERROR=1
+            ERROR=2
          fi
       fi
 } # End of function f_module_restore
@@ -677,7 +682,7 @@ f_module_restore () {
 #
 #  Inputs: None. 
 #    Uses: X, XSTR, XXSTR, DELIMITER, THIS_DIR, THIS_FILE, MOD_FILE.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_update_all_modules () {
       XXSTR=$DELIMITER  # Save $DELIMITER. 
@@ -685,13 +690,20 @@ f_update_all_modules () {
       f_initvars_menu_app "AAB"
       DELIMITER="#AAB"
       THIS_FILE="lib_cli-menu-cat.lib"
-      f_ask_which_branch_download
+      MOD_FILE=""  # Null so an older file name is not displayed by function,
+                   # f_test_internet_connection if the test fails.
       #
-      if [ "$BRANCH" != "SKIP" ] ; then
-         # Check if there is an internet connection before doing a download.
-         f_test_internet_connection
+      # Check if there is an internet connection before doing a download.
+      f_test_internet_connection
+      #
+      if [ $ERROR -ne 0 ] ; then
+         # Allow viewing of error message no internet connection.
+         f_press_enter_key_to_continue
          #
-         if [ $ERROR = 0 ] ; then
+      else
+         f_ask_which_branch_download
+         #
+         if [ "$BRANCH" != "SKIP" ] ; then
             #
             # Extract the name of the module, mod_apps-*.lib file from the
             # Applications Category Menu.
@@ -707,13 +719,8 @@ f_update_all_modules () {
                    echo "_____________________________________________________________________"
                    echo
                    echo "Update \"$MOD_FILE\" from the GitHub software repository?"
+                   #
                    # Ask download from which branch and wget.
-                   #
-                   # f_wget_file_2 will rename old files to *.bak before
-                   # downloading replacement files
-                   # with the exception of file "cliappmenu.sh" which is
-                   # backed up before download.
-                   #
                    f_wget_file_2
                 fi
                 #

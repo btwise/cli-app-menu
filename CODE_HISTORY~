@@ -80,6 +80,10 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
 ## 2014-10-21 *Testing version 2.0
+##            *BUG if no internet connection then under "Configuration Menu"
+##             both "Update program" and "Update all modules" after reporting
+##             "Error pinging..." display 2X "Press 'Enter' key to continue."
+##             If internet connection OK, both only display it 1X.
 ##            *f_backup_file added.
 ##            *f_download_file rewritten.
 ##            *f_module_archive edited.
