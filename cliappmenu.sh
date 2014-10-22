@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-20-2014 11:11"
+REVDATE="October-21-2014 23:59"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -2429,6 +2429,9 @@ f_update_config_file () {
 # Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
 #
 f_update_software () {
+      MOD_FILE=""  # Null so an older file name is not displayed by function,
+                   # f_test_internet_connection if the test fails.
+      #
       # Check if there is an internet connection before doing a download.
       f_test_internet_connection
       #
@@ -2485,7 +2488,8 @@ f_update_software () {
          done
       fi
       unset X
-} # End of function f_update
+      unset ERROR
+} # End of function f_update_software
 #
 # +----------------------------------------+
 # |       Function f_update_list_apps      |  

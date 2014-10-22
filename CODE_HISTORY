@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-21-2014 88:88"
+PROJECT_REVDATE="October-21-2014 23:59"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -86,6 +86,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_module_restore edited.
 ##            *f_module_remove edited.
 ##            *f_restore_file added.
+##            *f_update_software added comments.
 ##            *f_wget_file rewritten.
 ##            *f_wget_file2 rewritten.
 ##            *f_wget_file3 added.
