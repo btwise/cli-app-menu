@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-23-2014 18:13"
+# REVDATE="October-23-2014 18:42"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -2413,6 +2413,12 @@ f_wget_file () {
                                    # WEB_SITE,
                                    # PRESS_KEY=0/1
       #
+      # Libraries invoked so that functions in the module management library
+      # may be accessed when doing a program update.
+      # This prevents "<function name> command not found" error messages.
+      #
+      . lib_cli-common.lib # Invoke the common library.
+      . lib_cli-menu-cat.lib # Invoke the module management library.
       f_wget_file_2
       #
 } # End of f_wget_file
@@ -2429,8 +2435,7 @@ f_wget_file () {
 #
 f_wget_file_2 () {
       # Beforehand, always ask what branch from which to download.
-      . lib_cli-common.lib # Invoke the common library.
-      . lib_cli-menu-cat.lib # Invoke the module management library.
+      #
       # The wget --directory-prefix allows file to be downloaded into a
       # specific directory.
       #

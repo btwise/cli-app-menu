@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-23-2014 17:13"
+# REVDATE="October-23-2014 18:42"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -533,8 +533,9 @@ f_mod_restore () {
               ERROR=$?
               if [ $ERROR -ne 0 ] ; then
                  echo "Error deleting old back-up file, \"$2.tar.gz\"."
-           else
-              echo "Removing older module file \"$2.tar.gz\" is successful."
+              else
+                 echo "Removing older module file \"$2.tar.gz\" is successful."
+              fi
            fi
            #
            # Commented out, error message may be confusing to user when trying

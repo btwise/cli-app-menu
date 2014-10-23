@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-23-2014 18:13"
+REVDATE="October-23-2014 18:42"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -2478,6 +2478,17 @@ f_update_software () {
                echo "All other software program files are in folder:"
                echo "\"$THIS_DIR\"."
                echo
+               #
+               # Message to restart script.
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
+               echo $(tput bold)
+               echo "___________________________________________"
+               echo " Re-run script to use new updated script."
+               echo "           >>> Exiting script <<<"
+               echo "___________________________________________"
+               f_term_color $FCOLOR $BCOLOR
+               echo $(tput bold)
                echo -n "'0', (R)eturn, to go back to the previous menu. "
                read X
                case $X in
@@ -2489,6 +2500,8 @@ f_update_software () {
       fi
       unset X
       unset ERROR
+      # Exit function and exit script to system prompt.
+      exit 1
 } # End of function f_update_software
 #
 # +----------------------------------------+
