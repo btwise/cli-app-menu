@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-23-2014 17:13"
+# REVDATE="October-23-2014 18:13"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -2430,6 +2430,7 @@ f_wget_file () {
 f_wget_file_2 () {
       # Beforehand, always ask what branch from which to download.
       . lib_cli-common.lib # Invoke the common library.
+      . lib_cli-menu-cat.lib # Invoke the module management library.
       # The wget --directory-prefix allows file to be downloaded into a
       # specific directory.
       #

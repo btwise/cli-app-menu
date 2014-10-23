@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-21-2014 23:59"
+REVDATE="October-23-2014 18:13"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -2449,7 +2449,7 @@ f_update_software () {
          fi
          echo
          echo "Choose the branch from where you want to update the software."
-         for MOD_FILE in cliappmenu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY LIST_APPS
+         for MOD_FILE in cliappmenu.sh lib_cli-common.lib lib_cli-menu-cat.lib lib_cli-web-sites.lib mod_apps-sample-template.lib README COPYING EDIT_HISTORY CODE_HISTORY LIST_APPS
          do
             echo "_____________________________________________________________________"
             echo
