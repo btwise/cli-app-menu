@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-21-2014 23:59"
+# REVDATE="October-23-2014 88:88"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -2443,24 +2443,32 @@ f_wget_file_2 () {
          #
          # Backup file
          f_backup_file $THIS_DIR $MOD_FILE
-         if [ $ERROR -eq 0 ] ; then # 
-            # Back-up successful so download file.
-            f_wget_file_3
+         if [ $ERROR -eq 0 ] || [ $ERROR -eq 2 ] ; then
+            # ERROR=0 Back-up successful so remove file.
+            # ERROR=2 File does not exist so not backed up
+            #         but still needs to be downloaded.
+            #
+            f_remove_file $THIS_DIR $MOD_FILE
             if [ $ERROR -eq 0 ] ; then
-               # Download successful so delete back-up.
-               f_remove_file $THIS_DIR $MOD_FILE.tar.gz
-            else
-               # Download failed so restore back-up.
-               f_restore_file $THIS_DIR $MOD_FILE
+               # Remove file successful so download new file.
+               # At this point, only the back-up file.tar.gz is in the directory.
+               f_wget_file_3
                if [ $ERROR -eq 0 ] ; then
-                  # Restore successful so delete back-up.
+                  # Download successful so delete back-up.
                   f_remove_file $THIS_DIR $MOD_FILE.tar.gz
-               fi
-            fi   
-         fi
-         #
-         if [ "$MOD_FILE" = "cliappmenu.sh" ] ; then
-            THIS_DIR=$XXSTR         # Restore origanal THIS_DIR.
+               else
+                  # Download failed so restore back-up.
+                  f_restore_file $THIS_DIR $MOD_FILE
+                  if [ $ERROR -eq 0 ] ; then
+                     # Restore successful so delete back-up.
+                     f_remove_file $THIS_DIR $MOD_FILE.tar.gz
+                  fi
+               fi   
+            fi
+            #
+            if [ "$MOD_FILE" = "cliappmenu.sh" ] ; then
+               THIS_DIR=$XXSTR  # Restore origanal THIS_DIR.
+            fi
          fi
       fi
       unset XXSTR
@@ -2471,11 +2479,11 @@ f_wget_file_2 () {
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
-#    Note: $2 is file name but without the tar.gz extention.
+#    Note: $2 is file name (without suffix tar.gz).
 #    Uses: None.
-# Outputs: ERROR.
+# Outputs: ERROR, $1/$2.tar.gz  (Directory/File.tar.gz)
 #
-# Back-up a single file $2 (without a tar.gz extention).
+# Back-up a single file $2 to a compressed file $2.tar.gz.
 #
 f_backup_file () {
       f_module_archive $1 $2
@@ -2497,11 +2505,11 @@ f_backup_file () {
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
-#    Note: $2 is file name but without the tar.gz extention.
+#    Note: $2 is file name (without suffix tar.gz).
 #    Uses: None.
-# Outputs: ERROR.
+# Outputs: ERROR, $1/$2 (Directory/File).
 #
-# Restore a single *.tar.gz file.
+# Restore a single compressed file $2.tar.gz to an uncompressed file $2.
 #
 f_restore_file () {
       f_module_restore $1 $2
@@ -2527,7 +2535,7 @@ f_restore_file () {
 #    Uses: None.
 # Outputs: ERROR.
 #
-# Back-up a single file $MOD_FILE.
+# Remove a single file $MOD_FILE.
 #
 f_remove_file () {
       f_module_remove $1 $2

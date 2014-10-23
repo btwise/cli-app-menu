@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-21-2014 23:59"
+# REVDATE="October-23-2014 17:13"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -463,6 +463,8 @@ f_mod_remove () {
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               echo
               f_press_enter_key_to_continue
+           else
+              echo "Back-up file of module \"$2\" is successful."
            fi
            #
            # Delete file after making back-up copy.
@@ -484,6 +486,8 @@ f_mod_remove () {
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               echo
               f_press_enter_key_to_continue
+           else
+              echo "Removing older module file \"$2\" is successful."
            fi
 } # End of function f_mod_remove
 #
@@ -512,6 +516,8 @@ f_mod_restore () {
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               echo
               f_press_enter_key_to_continue
+           else
+              echo "Restoring module from back-up file \"$2.tar.gz\" is successful."
            fi
            #
            #  Invoke module library if it was successfully restored.
@@ -524,6 +530,11 @@ f_mod_restore () {
            if [ -e $1/$2 ] && [ -e $1/$2.tar.gz ] ; then
               # Delete any $2.tar.gz since it is no longer needed. 
               f_module_remove $1 $2.tar.gz
+              ERROR=$?
+              if [ $ERROR -ne 0 ] ; then
+                 echo "Error deleting old back-up file, \"$2.tar.gz\"."
+           else
+              echo "Removing older module file \"$2.tar.gz\" is successful."
            fi
            #
            # Commented out, error message may be confusing to user when trying
@@ -576,6 +587,7 @@ f_mod_update () {
                  echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                  f_press_enter_key_to_continue
               else
+                 # Neither $2 nor $2.tar.gz exist.
                  echo "Cannot update module since it is de-activated."
                  echo "Try adding it instead."
                  echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
