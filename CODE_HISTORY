@@ -190,7 +190,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *README added "#:MNX - WAN Applications2 Menu" as Main Menu option
 ##             "Find an Application" was not detecting any apps in this menu.
 ##
-## 2014-10-03 *Testing version 1.2.1
+## 2014-10-03 *Release version 1.2.1
 ##            *f-sub_menu removed extraneous spaces.
 ##            *f_menu_app_sys_monitors2 "ttyload" fixed missing quote in
 ##             menu item option field 1 to pass a parameter to a function.
