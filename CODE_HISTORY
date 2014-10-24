@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="1.2"
+PROJECT_REVISION="1.2.1"
 PROJECT_REVDATE="October-03-2014 12:12"
 clear
 echo "Project version: $PROJECT_REVISION"
@@ -79,7 +79,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-03 *f-sub_menu remove extraneous spaces.
+## 2014-10-03 *Release version 1.2.1
+##            *f-sub_menu remove extraneous spaces.
 ##            *f_menu_app_sys_monitors2 "ttyload" fix missing quote in
 ##             menu item option field 1 to pass a parameter to a function.
 ##
