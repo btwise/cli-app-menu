@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-23-2014 21:05"
+PROJECT_REVDATE="October-24-2014 12:22"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,14 +79,26 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-23 *Testing version 2.0
+## 2014-10-24 *Testing version 2.0
+##            *f_menu_item_process added clarifying comments.
+##            *f_menu_module_display added f_press_enter_key_to_continue and
+##             added an example in the comments.
+##            *f_mod_remove deleted unnecessary messages.
+##            *f_mod_restore deleted unnecessary messages.
+##            *f_mod_update added clorifying comments.
+##            *f_test_internet_connection edited messages to be more compact.
+##            *f_update_software now exits only if update is successful, but if
+##             internet connection is bad, then return to Configuration Menu.
+##            *f_wget_file_2 restore functionality to allow the adding
+##             (downloading) of a module/file even if only the back-up file
+##             (*.tar.gz) exists. The re-write broke this functionality.
+##
+## 2014-10-23 *f_menu_item_process fix bug in command eval.
 ##            *f_mod_remove added user message if successful.
 ##            *f_mod_restore edited added user message if successful.
 ##            *f_mod_update added comment.
-##            *f_menu_item_process fix bug in command eval.
 ##
-## 2014-10-21 *Testing version 2.0
-##            *f_backup_file added.
+## 2014-10-21 *f_backup_file added.
 ##            *f_download_file rewritten.
 ##            *f_module_archive edited.
 ##            *f_module_restore edited.

@@ -42,15 +42,16 @@ f_menu_module_manager () {
 f_menu_module_display () {
       f_initvars_menu_app "AAB"
       until [ "$AAB" = "0" ]
-      do    # Start of Application Category until loop.
+      do    # Start of Application Modules until loop.
             #
-            # Note: field 1 is both the name of a function (see below)
+            # Note: Field 1 is both the name of a function (see below)
             #       and a file name.
-            #       So "mod_apps_audio.lib" is both a function (see below)
-            #       and a file name.
-            #       The function (below) actually runs another function,
-            #       "f_menu_cat_audio"
-            #       which is found in the file "mod_apps_audio.lib".
+            #
+            # Example: "mod_apps_audio-video.lib" is both a function and
+            #          a file name.
+            #          The function "mod_apps_audio-video.lib" actually runs
+            #          another function, "f_menu_cat_audio-video"
+            #          which is found in the file "mod_apps_audio-video.lib".
             #
             #mod_apps-audio-video.lib  #AAB Audio-Video  - Music/Video players, editors, utilities.
             #mod_apps-databases.lib    #AAB Databases    - General and specialized databases.
@@ -85,10 +86,10 @@ f_menu_module_display () {
             fi
             #
             f_menu_item_process $AAB
-      done  # End of Application Category until loop.
+      done  # End of Application Modules until loop.
             #
       unset AAB MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_cat_applications
+} # End of function f_menu_module_display
 #
 #
 # Note: Cannot use $DELIMITER in if-statement because $MAX is calculated by
