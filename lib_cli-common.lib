@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-23-2014 21:05"
+# REVDATE="October-24-2014 12:22"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -459,7 +459,18 @@ f_menu_item_process () {
       fi
       #
       # If application displays information, allow user to read it.
+      # Does this override menu item option field #5?
       f_option_press_enter_key
+      #
+      # At least in the "Configuration Menu" "Update all modules" it seems to
+      # override menu item option field #5 even when it is "0".
+      # The menu option item field #1 is "f_update_all_modules"
+      # and is processed through this function f_menu_item_process.
+      #
+      # Note: This does not affect "ALL" option in "Software Module Management
+      # Menu" because "f_update_all_modules" is called directly and this
+      # function "f_menu_item_process" is bypassed.
+
       #
       unset X DELIM RUN MENU_ITEM
       #
@@ -2346,17 +2357,15 @@ f_test_internet_connection () {
       # Check if there is an internet connection before doing a download.
       echo
       echo "Test internet connection:"
-      echo
       ping -c 1 -q 8.8.4.4  # Ping Google.com DNS address.
       ERROR=$?
       #
       if [ $ERROR -ne 0 ] ; then
          f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
+         echo -n $(tput bold)
          echo "Test of Internet connnection failed, the Internet may be disconnected."
          if [ -n "$MOD_FILE" ] ; then
-            echo "Cannot download \"$MOD_FILE\" at this time."
+            echo -n "Cannot download \"$MOD_FILE\" at this time."
          fi
          #
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
@@ -2457,7 +2466,17 @@ f_wget_file_2 () {
             # ERROR=2 File does not exist so not backed up
             #         but still needs to be downloaded.
             #
-            f_remove_file $THIS_DIR $MOD_FILE
+            if [ $ERROR -eq 0 ] ; then
+               # Only remove file if file exists and was backed up.
+               # If only a backup exists (*.tar.gz) then remove is not needed.
+               f_remove_file $THIS_DIR $MOD_FILE
+            fi
+            #
+            if [ $ERROR -eq 2 ] ; then
+               # If only a backup exists (*.tar.gz) then also allow download.
+               ERROR=0
+            fi
+            #
             if [ $ERROR -eq 0 ] ; then
                # Remove file successful so download new file.
                # At this point, only the back-up file.tar.gz is in the directory.

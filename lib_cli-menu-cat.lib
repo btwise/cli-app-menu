@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-23-2014 18:42"
+# REVDATE="October-24-2014 12:22"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -79,6 +79,7 @@ f_menu_module_display () {
                     [Aa][Ll][Ll])
                     AAB="ALL"
                     f_update_all_modules
+                    f_press_enter_key_to_continue
                     ;;
                esac
             fi
@@ -93,7 +94,7 @@ f_menu_module_display () {
 # Note: Cannot use $DELIMITER in if-statement because $MAX is calculated by
 #       grep for $DELIMITER. So must use $MENU_TITLE instead.
 #
-# Note: Function "f_download_file" calls "f_wget_file" which renames the
+# Note: Function "f_download_file" calls "f_wget_file" which backs up the
 #        software module (file) before downloading a new copy from the
 #        GitHub repository branch.
 #
@@ -463,8 +464,6 @@ f_mod_remove () {
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               echo
               f_press_enter_key_to_continue
-           else
-              echo "Back-up file of module \"$2\" is successful."
            fi
            #
            # Delete file after making back-up copy.
@@ -486,8 +485,6 @@ f_mod_remove () {
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               echo
               f_press_enter_key_to_continue
-           else
-              echo "Removing older module file \"$2\" is successful."
            fi
 } # End of function f_mod_remove
 #
@@ -516,8 +513,6 @@ f_mod_restore () {
               echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
               echo
               f_press_enter_key_to_continue
-           else
-              echo "Restoring module from back-up file \"$2.tar.gz\" is successful."
            fi
            #
            #  Invoke module library if it was successfully restored.
@@ -533,8 +528,6 @@ f_mod_restore () {
               ERROR=$?
               if [ $ERROR -ne 0 ] ; then
                  echo "Error deleting old back-up file, \"$2.tar.gz\"."
-              else
-                 echo "Removing older module file \"$2.tar.gz\" is successful."
               fi
            fi
            #
@@ -603,7 +596,11 @@ f_mod_update () {
 #
 #  Inputs: $1=Directory $2=File.
 #    Uses: None.
-# Outputs: ERROR.
+# Outputs: ERROR. 
+#          ERROR=0 Back-up successful.
+#          ERROR=1 Back-up failed.
+#          ERROR=2 File does not exist so not backed up.
+
 #
 f_module_archive () {
       if [ -w $1/$2 ] ; then
@@ -745,9 +742,6 @@ f_update_all_modules () {
                    . $THIS_DIR/$MOD_FILE # Invoke module library.
                 fi
             done
-            #
-            f_press_enter_key_to_continue
-            #
          fi
       fi   
       DELIMITER=$XXSTR

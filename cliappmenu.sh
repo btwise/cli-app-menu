@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-23-2014 18:42"
+REVDATE="October-24-2014 12:22"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1760,7 +1760,7 @@ f_main_configure () {
       #
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_update_software^0^0^0^1       #AAC Update program     - Update menu scripts from the GitHub repository.
+#f_update_software^0^0^0^0       #AAC Update program     - Update menu scripts from the GitHub repository.
 #f_update_all_modules^0^0^0^0    #AAC Update all modules - Update all installed modules from GitHub repository.
 #f_menu_module_manager^0^0^0^0   #AAC Manage Modules     - Add/Delete/Remove/Restore/Update selected modules.
 #f_update_list_apps^0^0^0^0      #AAC Update App List    - Update list of applications in ACTIVATED modules.
@@ -2489,19 +2489,16 @@ f_update_software () {
                echo "___________________________________________"
                f_term_color $FCOLOR $BCOLOR
                echo $(tput bold)
-               echo -n "'0', (R)eturn, to go back to the previous menu. "
-               read X
-               case $X in
-                    [Rr] | [Rr][Ee] | [Rr][Ee][Tt]*)
-                    X=0
-                    ;;
-               esac
+               f_press_enter_key_to_continue
          done
+         #
+         # Exit function and exit script to system prompt.
+         exit 1
+      else
+         f_press_enter_key_to_continue
       fi
       unset X
       unset ERROR
-      # Exit function and exit script to system prompt.
-      exit 1
 } # End of function f_update_software
 #
 # +----------------------------------------+
