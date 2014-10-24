@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-23-2014 18:42"
+# REVDATE="October-23-2014 21:05"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -452,8 +452,11 @@ f_menu_item_process () {
       # 
       # Set M[A-Z][A-Z] = $MENU_ITEM
       # MENU_ITEM=-1 if application successfully run. Stay in Menu loop.
-      #            0 if "Return to previous menu." Exit Menu loop.      
-      eval $DELIM=$MENU_ITEM
+      #            0 if "Return to previous menu." Exit Menu loop.
+      #
+      if [ -n "$DELIM" ] ; then  # if DELIM="" then don't eval.
+         eval $DELIM=$MENU_ITEM
+      fi
       #
       # If application displays information, allow user to read it.
       f_option_press_enter_key
