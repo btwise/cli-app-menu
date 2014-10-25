@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-24-2014 12:22"
+REVDATE="October-24-2014 23:36"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -2467,30 +2467,26 @@ f_update_software () {
                       # so message above is read.
                       # f_wget also sets it to 1
                       # but if module is not downloaded then still set to 0.
-         X=-1  # intialize until-loop.
-         until [ "$X" = "0" ]
-         do    # Start of Update Menu until loop.
-               clear # Blank the screen.
-               echo
-               echo "Files cliappmenu.sh and cliappmenu.tar.gz (backup) are in folder:"
-               echo "\"$MAINMENU_DIR\"."
-               echo
-               echo "All other software program files are in folder:"
-               echo "\"$THIS_DIR\"."
-               echo
-               #
-               # Message to restart script.
-               # Use different color font for error messages.
-               f_term_color $ECOLOR $BCOLOR
-               echo $(tput bold)
-               echo "___________________________________________"
-               echo " Re-run script to use new updated script."
-               echo "           >>> Exiting script <<<"
-               echo "___________________________________________"
-               f_term_color $FCOLOR $BCOLOR
-               echo $(tput bold)
-               f_press_enter_key_to_continue
-         done
+         clear # Blank the screen.
+         echo
+         echo "Files cliappmenu.sh and cliappmenu.tar.gz (backup) are in folder:"
+         echo "\"$MAINMENU_DIR\"."
+         echo
+         echo "All other software program files are in folder:"
+         echo "\"$THIS_DIR\"."
+         echo
+         #
+         # Message to restart script.
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         echo "___________________________________________"
+         echo " Re-run script to use new updated script."
+         echo "           >>> Exiting script <<<"
+         echo "___________________________________________"
+         f_term_color $FCOLOR $BCOLOR
+         echo $(tput bold)
+         f_press_enter_key_to_continue
          #
          # Exit function and exit script to system prompt.
          exit 1
