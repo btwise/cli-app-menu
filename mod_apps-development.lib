@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-18-2014 20:53"
+# REVDATE="October-30-2014 16:32"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_development    |
@@ -20,6 +20,7 @@ f_menu_app_development () {
 #0^0^0^0^1 #MDE aphex            - Tiny hex editor. edits are written immediately, no undo.
 #0^0^0^0^1 #MDE apropos          - Search linux man(ual) files for a forgotten command.
 #0^0^0^0^1 #MDE bugz             - Interface to Bugzilla bug tracking tool.
+#0^0^0^0^1 #MDE checkbashisms    - Check /bin/sh scripts for bash-specific contructs.
 #0^0^0^0^1 #MDE cil              - Issue tracker and add/edit, list issues.
 #0^0^0^0^1 #MDE cmdtest          - Test command-line programs/scripts to check the output.
 #0^0^0^0^1 #MDE codemetre        - Count lines of code w/o comments in source code.
@@ -31,7 +32,6 @@ f_menu_app_development () {
 #0^0^0^0^1 #MDE groff            - Enhanced troff editor writes to man page format.
 #0^0^0^0^1 #MDE linkchecker      - Check if web page links are working.
 #0^0^0^0^1 #MDE man2html         - Browse man pages using a web browser.
-#0^0^0^0^1 #MDE man2html-base    - Convert man pages into HTML format.
 #f_menu_app_development2^0^0^0^1 #MDE MORE...          - For more development applications.
             #
             THIS_FILE="mod_apps-development.lib"
@@ -57,8 +57,9 @@ f_menu_app_development2 () {
       f_initvars_menu_app "MDF"
       until [ "$MDF" = "0" ]
       do    # Start of Development Applications until loop.
-#0^0^0^0^1 #MDF mantis           - Web-based issue tracker runs in PHP.
-#0^0^0^0^1 #MDF nl               - Insert line numbers into a text file.
+#0^0^0^0^1 #MDF man2html-base   - Convert man pages into HTML format.
+#0^0^0^0^1 #MDF mantis          - Web-based issue tracker runs in PHP.
+#0^0^0^0^1 #MDF nl              - Insert line numbers into a text file.
 #0^0^0^0^1 #MDF shelltestrunner - Test command-line programs/scripts, runs parallel tests.
 #0^0^0^0^1 #MDF stx2any         - Markup language, writes to man page format.
 #0^0^0^0^1 #MDF txt2man         - Converts plain ASCII text to man format.

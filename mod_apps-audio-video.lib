@@ -3,17 +3,17 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-30-2014 16:32"
 #
 # +----------------------------------------+
-# |     Function f_menu_cat_audio-video    |
+# |     Function f_menu_cat_audio_video    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: BAU, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_audio-video () {
+f_menu_cat_audio_video () {
       f_initvars_menu_app "BAU"
       until [ "$BAU" = "0" ]
       do    # Start of Audio Application Category until loop.
@@ -35,7 +35,7 @@ f_menu_cat_audio-video () {
       done  # End of Audio-Video Application Category until loop.
             #
       unset BAU MENU_ITEM # Throw out this variable.
-} # End of function f_menu_cat_audio-video
+} # End of function f_menu_cat_audio_video
 #
 # +----------------------------------------+
 # |    Function f_menu_app_audio_editors   |

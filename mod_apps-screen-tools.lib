@@ -46,7 +46,7 @@ f_menu_app_screen_tools () {
 #
 f_linuxlogo () { 
       ANS=-1 # Initialize $ANS for until loop.
-      until [ "$ANS" -ge 1 -a "$ANS" -le 26 ]
+      until [ "$ANS" -ge 1 ] && [ "$ANS" -le 26 ]
       do
             clear # Blank the screen.
             APP_NAME="linuxlogo -L list"

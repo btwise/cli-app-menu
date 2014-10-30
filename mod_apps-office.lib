@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-16-2014 10:23"
+# REVDATE="October-30-2014 16:32"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -828,7 +828,7 @@ f_install_cclock () {
          read ANS
          #
          # Yes, Install cclock.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_install_ncurses
             if [ "$ERROR" = "0" ] ; then

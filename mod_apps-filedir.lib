@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-30-2014 16:32"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -990,7 +990,7 @@ f_adcpmvsrc () {
       echo
       echo -n "Do you wish to continue (y/N)? "
       read ANS
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          f_adcpmvsrc_install
       fi
       #

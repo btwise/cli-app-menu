@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-16-2014 10:23"
+# REVDATE="October-30-2014 16:32"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -91,7 +91,7 @@ f_install_kkm () {
          read ANS
          #
          # Yes, install "Unzip".
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             clear  # blank screen
             echo "This script will automatically download and install \"Unzip\"."
             echo

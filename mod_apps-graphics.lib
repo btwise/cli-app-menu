@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-30-2014 16:32"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -147,7 +147,7 @@ f_menu_app_imagemagick () {
 #
 f_linuxlogo () { 
       ANS=-1 # Initialize $ANS for until loop.
-      until [ "$ANS" -ge 1 -a "$ANS" -le 26 ]
+      until [ "$ANS" -ge 1 ] && [ "$ANS" -le 26 ]
       do
             clear # Blank the screen.
             APP_NAME="linuxlogo -L list"

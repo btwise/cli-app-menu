@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-24-2014 23:36"
+PROJECT_REVDATE="October-30-2014 16:32"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,21 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-24 *Testing version 2.0
-##            *f_menu_item_process added clarifying comments.
+## 2014-10-30 *Testing version 2.0
+##            *f_match_pkg_name_to_app_name added "checkbashisms".
+##            *f_menu_app_development added "checkbashisms".
+##            *All files replaced test statements using "-a", "-o"
+##             with simpler "&&" "||" syntax.
+##            *f_show_menu changed to use function name from
+##             f_menu_module_display and derives the file name from it.
+##            *f_menu_module_display changed names of functions to the standard
+##             where names are no longer both a file name and a function name.
+##            *f_install_using_no-auto renamed to f_install_using_no_auto
+##             to conform to naming conventions, no <dash> in function names.
+##            *f_application_install changed to use f_install_using_no_auto.
+##            *f_menu_cat_audio-video changed to f_menu_cat_audio_video.
+##
+## 2014-10-24 *f_menu_item_process added clarifying comments.
 ##            *f_menu_module_display added f_press_enter_key_to_continue and
 ##             added an example in the comments.
 ##            *f_mod_remove deleted unnecessary messages.

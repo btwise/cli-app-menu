@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-16-2014 10:23"
+# REVDATE="October-30-2014 16:32"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -537,7 +537,7 @@ f_install_ascii-invaders () {
       read ANS
       #
       # Yes, Install ascii-invaders.
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          #
          # 1. Change directory to your ~/bin/ascii-invaders folder.
          cd ~
@@ -644,7 +644,7 @@ f_install_asciiportal () {
       read ANS
       #
       # Yes, Install asciiportal.
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          #
          # 1. Change directory to your ~/bin/asciiportal folder.
          cd ~
@@ -741,7 +741,7 @@ f_install_asciiquarium () {
          read ANS
          #
          # Yes, Install ASCIIQuarium.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             clear  # blank screen
             echo "This script will automatically download and install \"Curses\"."
             echo
@@ -900,7 +900,7 @@ f_install_bsod () {
          read ANS
          #
          # Yes, Install bsod.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
@@ -1035,7 +1035,7 @@ f_install_cclock () {
          read ANS
          #
          # Yes, Install cclock.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
@@ -1170,7 +1170,7 @@ f_install_galaxis () {
       read ANS
       #
       # Yes, Install galaxis.
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          #
          # 1. Change directory to your ~/bin/trek73c folder.
          cd ~
@@ -1289,7 +1289,7 @@ f_install_gnuski () {
       read ANS
       #
       # Yes, Install gnuski.
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          #
          # Install libncurses-dev and ncurses-dev as pre-requisites.
          f_install_ncurses
@@ -1402,7 +1402,7 @@ f_install_sst () {
       read ANS
       #
       # Yes, Install "sst".
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          #
          # 1. Change directory to your ~/bin/sst folder.
          cd ~
@@ -1513,7 +1513,7 @@ f_install_startrek () {
       read ANS
       #
       # Yes, Install startrek.
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          #
          # 1. Change directory to your ~/bin/startrek folder.
          cd ~
@@ -1671,7 +1671,7 @@ f_install_textmaze () {
          read ANS
          #
          # Yes, Install TextMaze.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
@@ -1814,7 +1814,7 @@ f_install_trekx () {
       read ANS
       #
       # Yes, Install trekx.
-      if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+      if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
          #
          # 1. Change directory to your ~/bin/trek73c folder.
          cd ~
@@ -1916,7 +1916,7 @@ f_install_xorcurses () {
          read ANS
          #
          # Yes, Install XorCurses.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
@@ -2049,7 +2049,7 @@ f_install_ztrack () {
          read ANS
          #
          # Yes, Install Ztrack.
-         if [ "$ANS" = "Y" -o "$ANS" = "y" ] ; then
+         if [ "$ANS" = "Y" ] || [ "$ANS" = "y" ] ; then
             # Install libncurses-dev and ncurses-dev as pre-requisites.
             f_install_ncurses
             if [ "$ERROR" = "0" ] ; then
