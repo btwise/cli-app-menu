@@ -70,7 +70,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
-REVDATE="October-16-2014 10:23"
+REVDATE="October-31-2014 17:10"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -514,6 +514,7 @@ REVDATE="October-16-2014 10:23"
 #:                 '-1' stay in menu loop, legitimate choice.
 #: MENU_TITLE    - String; Title of menu.
 #: MOD_FILE      - Module file name.
+#: MOD_FUNC      - Module function name.
 #: NEW_DIR       - String; New directory to be created.
 #: PRESSKEY      - Number: Ask "Press Enter key to continue".
 #:                 '0' Do not ask "Press Enter key to continue".

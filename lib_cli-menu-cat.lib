@@ -3,15 +3,15 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="October-31-2014 17:10"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
 # +----------------------------------------+
 #
-#  Inputs: None
-#    Uses: AAB, MAX, XSTR
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
+#  Inputs: None.
+#    Uses: MENU_TITLE.
+# Outputs: None.
 #
 f_menu_cat_applications () {
       MENU_TITLE="Application Categories Menu"
@@ -22,9 +22,9 @@ f_menu_cat_applications () {
 # |      Function f_menu_module_manager    |
 # +----------------------------------------+
 #
-#  Inputs: None
-#    Uses: AAB, MAX
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
+#  Inputs: None.
+#    Uses: MENU_TITLE.
+# Outputs: None.
 #
 f_menu_module_manager () {
       MENU_TITLE="Software Module Manager Menu"
@@ -35,9 +35,9 @@ f_menu_module_manager () {
 # *****    Application Modules Menu    *****
 # ******************************************
 #
-#  Inputs: None
-#    Uses: AAB, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY
+#  Inputs: MENU_TITLE.
+#    Uses: AAB, THIS_FILE, DELIMITER, MENU_TITLE.
+# Outputs: None.
 #
 f_menu_module_display () {
       f_initvars_menu_app "AAB"
@@ -102,6 +102,7 @@ f_mod_apps_audio_video () {
          # Audio-Video Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_audio_video
       else
+         # Software Module Manager Menu, Audio-Video module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -113,6 +114,7 @@ f_mod_apps_databases () {
          # Database Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_app_databases
       else
+         # Software Module Manager Menu, Database module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -124,6 +126,7 @@ f_mod_apps_development () {
          # Development Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_app_development
       else
+         # Software Module Manager Menu, Development module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -135,6 +138,7 @@ f_mod_apps_education () {
          # Education Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_app_education
       else
+         # Software Module Manager Menu, Education module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -146,6 +150,7 @@ f_mod_apps_environment () {
          # Environment Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_app_environment
       else
+         # Software Module Manager Menu, Environmental module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -157,6 +162,7 @@ f_mod_apps_filedir () {
          # File Management Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_file_management
       else
+         # Software Module Manager Menu, File Management module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -168,6 +174,7 @@ f_mod_apps_games () {
          # Games Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_games
       else
+         # Software Module Manager Menu, Games module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -179,6 +186,7 @@ f_mod_apps_graphics () {
          # Image-Graphics Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_image
       else
+         # Software Module Manager Menu, Image-Graphics module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -190,6 +198,7 @@ f_mod_apps_internet () {
          # Internet Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_internet
       else
+         # Software Module Manager Menu, Internet module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -201,6 +210,7 @@ f_mod_apps_network () {
          # Network Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_network
       else
+         # Software Module Manager Menu, Network module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -212,6 +222,7 @@ f_mod_apps_office () {
          # Office Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_office
       else
+         # Software Module Manager Menu, Office module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -223,6 +234,7 @@ f_mod_apps_packages () {
          # Package Management Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_app_packages
       else
+         # Software Module Manager Menu, Package Management module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -234,6 +246,7 @@ f_mod_apps_screens () {
          # Screen Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_app_screens
       else
+         # Software Module Manager Menu, Screens module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -244,6 +257,7 @@ f_mod_apps_screen_tools () {
          # Screen-Tools Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_app_screen_tools
       else
+         # Software Module Manager Menu, Screen-Tools module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -255,6 +269,7 @@ f_mod_apps_system () {
          # System Applications Menu.
          f_mod_apps_submenu $THIS_DIR $MOD_FILE f_menu_cat_system
       else
+         # Software Module Manager Menu, System module selected.
          f_mod_manager $THIS_DIR $MOD_FILE
       fi
       #
@@ -264,9 +279,22 @@ f_mod_apps_system () {
 # |       Function f_mod_apps_submenu      |
 # +----------------------------------------+
 #
-#  Inputs: $1=directory, $2=file, $3=function
-#    Uses: None.
+#  Inputs: $1=directory, $2=file, $3=function (sub-menu)
+#    Uses: MENU_TITLE, ERROR.
 # Outputs: None.
+#
+# When the user selects an application category or (application) module, this
+# function will either display the sub-menu of applications or download the
+# missing application module (file) automatically so that the sub-menu can be
+# displayed. The behavior assumes that if the module is missing, yet the user
+# wants to display a menu of applications within that module, then the module
+# should be made available to the user by downloading it.
+#
+# If the module file exists, then the sub-menu of applications is displayed
+# as per $3 (the function within the module file which displays the sub-menu).
+#
+# If the module file is missing, the missing module is automatically downloaded
+# while the user is still in the "Application Categories Menu".
 #
 f_mod_apps_submenu () {
       # If library module file exists, then run function $3.
@@ -309,6 +337,9 @@ f_mod_apps_submenu () {
 #  Inputs: $1=Directory, $2=File.
 #    Uses: ANS
 # Outputs: None.
+#
+# Display the appropriate prompt and take the selected action when in the
+# "Software Module Manager Menu".
 #
 f_mod_manager () {
       # Does $2 exist?
@@ -689,8 +720,10 @@ f_module_restore () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: X, XSTR, XXSTR, DELIMITER, THIS_DIR, THIS_FILE, MOD_FILE.
+#    Uses: XSTR, YSTR, DELIMITER, MOD_FILE, MOD_FUNC, THIS_DIR, THIS_FILE.
 # Outputs: ERROR.
+#
+# Automatically update all previously installed, existing modules.
 #
 f_update_all_modules () {
       XXSTR=$DELIMITER  # Save $DELIMITER. 
@@ -718,8 +751,22 @@ f_update_all_modules () {
             #
             # for-loop awk command uses back-ticks to execute,
             # resulting in name of mod_apps-*.lib.
-            for MOD_FILE in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#" '{print $2}'`
+            for MOD_FUNC in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#f_" '{print $2}'`
             do
+                # Convert the function name, $MOD_FILE in the "Application Category Menu"
+                # to a file name, $MOD_FILE.
+                #
+                # The conversion is necessary because the file names may contain
+                # <dash> characters while function names cannot under non-bash shells.
+                #
+                # MOD_FUNC is the <function name>.
+                # MOD_FILE is the <file name> converted from the <function name>.
+                #
+                MOD_FILE=$MOD_FUNC
+                MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}      # Substitute <underscore> for <dash>.
+                MOD_FILE=${MOD_FILE/audio_video/audio-video}  # Substitution for audio-video.
+                MOD_FILE=$MOD_FILE.lib                        # Complete the <file name> change.
+                #
                 # Update only previously installed/downloaded modules.
                 if [ -r $THIS_DIR/$MOD_FILE ] ; then
                    # <module file name> <Followed by whitespace>
@@ -744,7 +791,7 @@ f_update_all_modules () {
       fi   
       DELIMITER=$XXSTR
       THIS_FILE=$YSTR
-      unset X XSTR XXSTR YSTR 
+      unset XSTR YSTR MOD_FUNC MOD_FILE
 } # End of function f_update_all_modules
 #
 # +----------------------------------------+
@@ -754,6 +801,12 @@ f_update_all_modules () {
 #  Inputs: None.
 #    Uses: ANS.
 # Outputs: APP_NAME, MENU_ITEM (both set to null), ERROR.
+#
+# This function installs ncurses which is needed by text applications
+# to draw lines, box corners, and other "graphical" screen effects.
+#
+# This function is in file lib_cli-menu-cat.lib instead of lib_cli-common.lib
+# because the latter file is growing too big.
 #
 f_install_ncurses () {
       clear  # blank screen

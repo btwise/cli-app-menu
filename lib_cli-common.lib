@@ -3,15 +3,15 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="October-31-2014 17:10"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
-#  Inputs: MENU_TITLE, DELIMITER, THIS_DIR, THIS_FILE, MAX.
-#    Uses: X, XX, XNUM, XXSTR, XSTR.
-# Outputs: MAX, XNUM.
+#  Inputs: $1=MENU_TITLE, $2=DELIMITER, THIS_DIR, THIS_FILE.
+#    Uses: X, MOD_FUNC, MOD_FILE, XNUM, XXSTR.
+# Outputs: MAX.
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
@@ -28,7 +28,8 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
          THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
       fi
       clear  # Blank the screen.
-      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo -n $(tput sgr0)  # Reset colors to default normal font.
+      f_term_color $FCOLOR $BCOLOR  # Set terminal color.
       echo -n $(tput bold)
       echo "--- $MENU_TITLE ---"
       echo
@@ -56,102 +57,131 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1"
       #                          instead of "11".
       #
-      # The following command awk '{<if condition>{print field}}
-      # will print the menu items. The command automatically calculates the
-      # menu option numbers for you.
-      #
-      # if $DELIMITER is "#AAB" when the Application Category Menu is
-      # displayed, any modules that are not in the same directory as the menu
-      # script are in lighter font (normal font versus bold font).
-      # Else any other menu always has bold font and does not change fonts.
-      #
-      # To make the Application Category Menu font change bold/normal depending
-      # if a module is loaded (in the same directory) or not loaded:
-      # The for X in loop cycles through all the module function names.
-      # The for X in loop has awk which looks for "#AAB" 1 marker only, in file
-      # lib_cli-menu-cat.lib. The result is "# mod_apps_<module>.lib" and then
-      # this is piped to the second awk which strips away the "#f_" leaving only
-      # the file name and the X=$X.lib completes the file name.
-      #
-      # If the module file name exists/readable in the directory, then apply
-      # bold font, echo the item number and grep "AAB" which finds a single
-      # menu item, which is then piped to awk which prints out the item name
-      # and description. Else the module file name does not exist/not readable
-      # in the directory, then apply normal font and print menu item.
-      #
-      # if statement conditional "($2&&!$3)":
-      # Since the $DELIMITER is the special comment marker, then:
-      # if there is 1 marker (2 fields) then awk will print the menu item.
-      # if there are 2 markers (3 fields), then awk will not print anything.
-      # This prevents the lines of code which set the $ DELIMITER variable from
-      # being printed as a menu item, because they purposely have 2 markers.
-      #
-      # The menu option numbers are incremented using a "let" command.
-      # First set XNUM=0 then in the for-loop, let "XNUM++".
-      # 
-      # Both Application Category Menu and Sofware Module Manager Menu
-      # indicate active/inactive modules with the use of differing fonts.
-      # However, both menus use the same $DELIMITER="#AAB" with only the
-      #  menu title changed.
-      # All other menus simply use bold font.
-      #
       if [ "$DELIMITER" = "#AAB" ] ; then
-         XNUM=0
-         # for-loop awk command uses back-ticks to execute resulting in name
-         # of mod_apps-*.lib.
-         for X in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#f_" '{print $2}'`
+         # Either display the "Application Category Menu" or
+         #                the "Software Module Manager Menu".
+         #
+         # These menus will change fonts, bold/normal of each module listed
+         # depending on whether a module is loaded or not in the same directory
+         # as the file "lib_cli-common.lib".
+         #
+         # So modules (with file names "mod_apps_<module>.lib") that are missing
+         # from the directory are shown in a lighter normal font whereas those
+         # that are available are shown in bold font.
+         #
+         # Otherwise any other menu is an Application Menu (not #AAB) which
+         # always has bold font and does not change fonts.
+         #
+         # To get the file name of the module, it must be derived from the name
+         # of the function in the "Application Category Menu" or the
+         # "Software Module Manager Menu" which share the same "#AAB" menu.
+         #
+         # The "for MOD_FILE in" loop cycles through all the module function
+         # names and contains awk which looks for "#AAB" 1 marker only by using
+         # the awk if-statement conditional statement, "($2&&!$3)", in the
+         # file lib_cli-menu-cat.lib. The result is "#f_mod_apps_<module>"
+         # and then this is piped to the second awk which strips away the "#f_"
+         # leaving only "mod_apps_<module>".
+         #
+         # The result of awk is "mod_apps_<module>" so to get the file name,
+         # MOD_FILE=$MOD_FILE.lib resulting in "mod_apps_<module>.lib".
+         #
+         # The menu item option numbers are incremented using a "let" command.
+         # First set XNUM=0 then in the for-loop, let "XNUM++".
+         #
+         # If the module file name exists/readable in the directory, then apply
+         # bold font, echo the item number and grep "AAB" which finds a single
+         # menu item, which is then piped to awk which prints out the item name
+         # and description.
+         #
+         # Else the module file name does not exist/not readable
+         # in the directory, then apply normal font, echo the item number and
+         # grep "AAB" and so forth to print out the item name and description.
+         #
+         # All other menus are Application Menus and simply use bold font.
+         #
+         XNUM=0  # Initialize menu item option number.
+         #
+         # for-loop awk command uses back-ticks to execute resulting in a
+         # function name which is then converted into a file name of the
+         # module, mod_apps-*.lib.
+         #
+         for MOD_FUNC in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#f_" '{print $2}'`
          do
+             #
+             let XNUM++  # Increment the menu option item number.
+             #
              # Convert the function name in the "Application Category Menu"
              # to a file name.
              #
              # The conversion is necessary because the file names may contain
              # <dash> characters while function names cannot under non-bash shells.
              #
-             #  X is the <function name>.
-             # XX is the <file name> converted from the <function name>.
-             #
-             XX=${X/mod_apps_/mod_apps-}  # Substitute <underscore> for <dash>.
-             XX=${XX/audio_video/audio-video}  # Substitution for audio-video.
-             XX=$XX.lib                   # Complete the <file name> change.
-             #
-             let XNUM++
-             # Setting XSTR=$(...) strips the whitespace from the menu item.
-             # It's not grep/awk's fault.
-             # XSTR=$(grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}')
+             MOD_FILE=$MOD_FUNC
+             MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}      # Substitute <underscore> for <dash>.
+             MOD_FILE=${MOD_FILE/audio_video/audio-video}  # Substitution for audio-video.
+             MOD_FILE=$MOD_FILE.lib                        # Complete the <file name> change.
              #
              # Display menu items in bold font if module exists or standard
              # font if module does not exist.
-             if [ -r $THIS_DIR/$XX ] ; then
-                # X=<module file name> <Followed by whitespace>
+             #
+             if [ -r $THIS_DIR/$MOD_FILE ] ; then
+                # MOD_FILE=<module file name> <Followed by whitespace>
                 # Module exists, display menu item in bold font.
                 f_term_color $FCOLOR $BCOLOR
                 echo -n $(tput bold)
-                echo -n $XNUM" -"
-                grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                echo -n $XNUM" -"  # Display the menu option item number.
+                #
+                # Display the module name and description.
+                grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                echo -n $(tput bold)
              else
                 # If UCOLOR="" is unset, then use same color font, but not bold
                 # font for missing module.
                 if [ -z $UCOLOR ] ; then
                    # Module missing, display menu item in same color font but
                    # not bold font, then return to bold font.
-                   echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
-                   echo -n $XNUM" -"
-                   grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                   echo -n $(tput sgr0)  # Reset colors to default normal font.
+                   f_term_color $FCOLOR $BCOLOR
+                   echo -n $XNUM" -"  # Display the menu option item number.
+                   #
+                   # Display the module name and description.
+                   grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
                    echo -n $(tput bold)
                 else
+                   # UCOLOR is set to a custom color so use that color.
                    # Module missing, display menu item in different color font
                    # but not bold font, then return to bold font.
-                   echo -n $(tput sgr0)
+                   echo -n $(tput sgr0)  # Reset colors to default normal font.
                    f_term_color $UCOLOR $BCOLOR
-                   echo -n $XNUM" -"
-                   grep $X $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
-                   f_term_color $FCOLOR $BCOLOR
+                   echo -n $XNUM" -"  # Display the menu option item number.
+                   #
+                   # Display the module name and description.
+                   grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                   #
+                   f_term_color $FCOLOR $BCOLOR  # Return to normal colors and bold font.
                    echo -n $(tput bold)
                 fi
              fi
          done
-      else   # All other application/sub-menus display menu items
-             # in default bold font.
+      else
+         # All other application/sub-menus display menu items
+         # in default bold font.
+         #
+         # if-statement conditional "($2&&!$3)":
+         # Since the $DELIMITER is the special comment marker, then:
+         # if there is 1 marker (2 fields) then awk will print the menu item.
+         # if there are 2 markers (3 fields), then awk will not print anything.
+         # This prevents the lines of code which set the $DELIMITER variable
+         # from being printed as a menu item, because they purposely have
+         # 2 markers in the same line of code.
+         #
+         # The same command awk '{<if condition>{print field}}
+         # will also print the menu items. The command automatically calculates
+         # the menu item option numbers for you by using $XNUM
+         # where $XNUM++" -$2" increments the menu item and prints the
+         # description of the application.
+         #
          echo -n $(tput bold)
          awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_DIR/$THIS_FILE
       fi
@@ -210,6 +240,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       if [ "$DELIMITER" = "#AAA" ] || [ "$DELIMITER" = "#AAC" ] || [ "$DELIMITER" = "#AAD" ] || [ "$DELIMITER" = "#AAE" ] || [ "$DELIMITER" = "#AAF" ] || [ "$DELIMITER" = "#AAG" ] ; then
          THIS_DIR=$XXSTR  # Restore $THIS_DIR.
       fi
+unset X XXSTR XNUM MOD_FUNC MOD_FILE
 } # End of function f_show_menu
 #
 # +----------------------------------------+
@@ -493,7 +524,7 @@ f_menu_item_process () {
 # |       Function f_menu_item_valid       |
 # +----------------------------------------+
 #
-#  Inputs: DELIMITER, THIS_FILE, MENU_ITEM.
+#  Inputs: DELIMITER, MAX, THIS_FILE, MENU_ITEM.
 #    Uses: XNUM, MENU_ITEM, MENU_ITEM_NAME.
 # Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME.
 #          (If invalid, then APP_NAME is null).
