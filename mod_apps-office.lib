@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="October-31-2014 22:17"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -824,7 +824,7 @@ f_install_cclock () {
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
          echo "Afterwards, \"cclock\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, Install cclock.
@@ -877,7 +877,7 @@ f_install2_cclock () {
       echo "6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -922,7 +922,7 @@ f_install2_cclock () {
       echo
       echo "Finished running installation script for \"cclock\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_cclock

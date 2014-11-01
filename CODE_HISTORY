@@ -39,14 +39,14 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-31-2014 17:10"
+PROJECT_REVDATE="October-31-2014 22:17"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
 echo
 echo "Bash script name: $THIS_FILE"
 echo
-echo -n "Press '"Enter"' key to continue."
+echo -n "Press \"Enter\" key to continue."
 read ANS
 # sed substitutes null for ## at beginning of each line so it is not printed.
 # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
@@ -82,6 +82,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## 2014-10-31 *Testing version 2.0
 ##            *All files replaced test statements using "-a", "-o"
 ##             with easier to read and simpler "&&" "||" syntax.
+##             Standardized format of questions and prompts.
 ##            *f_application_install changed to use f_install_using_no_auto.
 ##            *f_install_using_no-auto renamed to f_install_using_no_auto
 ##             to conform to naming conventions, no <dash> in function names.

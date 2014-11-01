@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="October-31-2014 22:17"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -533,7 +533,7 @@ f_install_ascii-invaders () {
       echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install ascii-invaders.
@@ -592,7 +592,7 @@ f_install_ascii-invaders () {
          echo
          echo "To run \"ascii-invaders\", select it on the \"Arcade Games Menu\"."
          echo
-         echo -n "Press '"Enter"' key to continue."
+         echo -n "Press \"Enter\" key to continue."
          read X
          unset X  # Throw out this variable.
          #
@@ -640,7 +640,7 @@ f_install_asciiportal () {
       echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install asciiportal.
@@ -699,7 +699,7 @@ f_install_asciiportal () {
          echo
          echo "To run \"asciiportal\", select it on the \"Arcade Games Menu\"."
          echo
-         echo -n "Press '"Enter"' key to continue."
+         echo -n "Press \"Enter\" key to continue."
          read X
          unset X  # Throw out this variable.
          #
@@ -737,7 +737,7 @@ f_install_asciiquarium () {
          echo "This script will install \"Curses\" and \"Term::Animation\", if needed."
          echo "Afterwards, \"ASCIIQuarium\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, Install ASCIIQuarium.
@@ -754,7 +754,7 @@ f_install_asciiquarium () {
                echo "Installation of \"Curses\" failed."
                echo " Skipping installation of \"Term::Animation\" and \"ASCIIQuarium\"."
                echo
-               echo -n "Press '"Enter"' key to continue."
+               echo -n "Press \"Enter\" key to continue."
                read X
                unset X  # Throw out this variable.
                #
@@ -767,7 +767,7 @@ f_install_asciiquarium () {
                echo
                echo "Installation of \"Curses\" is successful."
                echo
-               echo -n "Press '"Enter"' key to continue."
+               echo -n "Press \"Enter\" key to continue."
                read X
                unset X  # Throw out this variable.
                # Check if Term::Animation is installed as a prerequisite.
@@ -822,7 +822,7 @@ f_install2_asciiquarium () {
       echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -872,7 +872,7 @@ f_install2_asciiquarium () {
       echo
       echo "To run \"ASCIIQuarium\", select it on the \"Screen-saver Games Menu\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_asciiquarium
@@ -896,7 +896,7 @@ f_install_bsod () {
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
          echo "Afterwards, \"bosd\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, Install bsod.
@@ -956,7 +956,7 @@ f_install2_bsod () {
       echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -1007,7 +1007,7 @@ f_install2_bsod () {
       echo
       echo "To run \"bsod\", select it on the \"Screen-saver Games Menu\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_bsod
@@ -1031,7 +1031,7 @@ f_install_cclock () {
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
          echo "Afterwards, \"cclock\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, Install cclock.
@@ -1092,7 +1092,7 @@ f_install2_cclock () {
       echo "6. Add directory \"/usr/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -1137,7 +1137,7 @@ f_install2_cclock () {
       echo
       echo "Finished running installation script for \"cclock\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_cclock
@@ -1166,7 +1166,7 @@ f_install_galaxis () {
       echo "8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install galaxis.
@@ -1237,7 +1237,7 @@ f_install_galaxis () {
          echo
          echo "IMPORTANT: For instructions on playing, type \"?\" while playing the game."
          echo
-         echo -n "Press '"Enter"' key to continue."
+         echo -n "Press \"Enter\" key to continue."
          read X
          unset X  # Throw out this variable.
          #
@@ -1285,7 +1285,7 @@ f_install_gnuski () {
       echo "8. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install gnuski.
@@ -1351,7 +1351,7 @@ f_install_gnuski () {
             echo
             echo "To run \"gnuski\", select it on the \"Arcade Games Menu\"."
             echo
-            echo -n "Press '"Enter"' key to continue."
+            echo -n "Press \"Enter\" key to continue."
             read X
             unset X  # Throw out this variable.
             #
@@ -1398,7 +1398,7 @@ f_install_sst () {
       echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install "sst".
@@ -1459,7 +1459,7 @@ f_install_sst () {
          echo
          echo "While playing the game, for help type '?' at the COMMAND> prompt."
          echo
-         echo -n "Press '"Enter"' key to continue."
+         echo -n "Press \"Enter\" key to continue."
          read X
          unset X  # Throw out this variable.
          #
@@ -1509,7 +1509,7 @@ f_install_startrek () {
       echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install startrek.
@@ -1567,7 +1567,7 @@ f_install_startrek () {
          echo
          echo "IMPORTANT: For instructions on playing, type \"-\" while playing the game."
          echo
-         echo -n "Press '"Enter"' key to continue."
+         echo -n "Press \"Enter\" key to continue."
          read X
          unset X  # Throw out this variable.
          #
@@ -1615,7 +1615,7 @@ f_install_term-animation () {
       echo "                                 make install"
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -1645,7 +1645,7 @@ f_install_term-animation () {
       echo
       echo "Finished running installation script for \"Term::Animation\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install_term-animation
@@ -1667,7 +1667,7 @@ f_install_textmaze () {
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
          echo "Afterwards, \"TextMaze\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, Install TextMaze.
@@ -1726,7 +1726,7 @@ f_install2_textmaze () {
       echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -1782,7 +1782,7 @@ f_install2_textmaze () {
       echo
       echo "To run \"TextMaze\", select it on the \"Puzzle Games Menu\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of f_install2_textmaze
@@ -1810,7 +1810,7 @@ f_install_trekx () {
       echo "7. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install trekx.
@@ -1870,7 +1870,7 @@ f_install_trekx () {
          echo
          echo "IMPORTANT: For instructions on playing, type \"-\" while playing the game."
          echo
-         echo -n "Press '"Enter"' key to continue."
+         echo -n "Press \"Enter\" key to continue."
          read X
          unset X  # Throw out this variable.
          #
@@ -1912,7 +1912,7 @@ f_install_xorcurses () {
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
          echo "Afterwards, \"XorCurses\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, Install XorCurses.
@@ -1974,7 +1974,7 @@ f_install2_xorcurses () {
       echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -2021,7 +2021,7 @@ f_install2_xorcurses () {
       echo
       echo "To run \"XorCurses\", select it on the \"Arcade Games Menu\" or \"Board Games Menu\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_xorcurses
@@ -2045,7 +2045,7 @@ f_install_ztrack () {
          echo "This script will install \"libncurses-dev\" and \"ncurses-dev\", if needed."
          echo "Afterwards, \"Ztrack\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, Install Ztrack.
@@ -2107,7 +2107,7 @@ f_install2_ztrack () {
       echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -2154,7 +2154,7 @@ f_install2_ztrack () {
       echo
       echo "To run \"Ztrack\", select it on the \"Arcade Games Menu\" or \"Simulation Games\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_ztrack
@@ -2438,7 +2438,7 @@ f_sst () {      clear # Blank the screen.
       echo "To quit game:"
       echo "COMMAND> QUIT"
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 }  #End of function f_sst
@@ -2480,7 +2480,7 @@ f_trek () {
       echo " srscan        status     terminate       torpedo"
       echo " undock        visual          warp"
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 }  #End of function f_trek
@@ -2510,7 +2510,7 @@ f_trekx () {      clear # Blank the screen.
       echo "To quit game: Type a left square-bracket at the CODE> prompt"
       echo "CODE> ["
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 }  #End of function f_trekx

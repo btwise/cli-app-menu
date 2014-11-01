@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-24-2014 23:36"
+REVDATE="October-31-2014 22:17"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -471,7 +471,7 @@ f_missing_config_txt () {
       echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
       echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_missing_config_txt
@@ -672,7 +672,7 @@ f_valid_files_txt () {
             echo
             echo "Choices to fix the problem will be shown in the next menu."
             echo
-            echo -n "Press \"Enter\" key to continue. "
+            echo -n "Press \"Enter\" key to continue."
             read X
          fi
          #
@@ -682,7 +682,7 @@ f_valid_files_txt () {
             f_valid_menu_txt $1 $2
          fi
          f_valid_path_txt $NEW_DIR
-            echo -n "Press \"Enter\" key to continue. "
+            echo -n "Press \"Enter\" key to continue."
             read X
             clear
          f_valid_exit_txt $1 $NEW_DIR
@@ -1451,7 +1451,7 @@ f_ask_create_directory_txt () {
       echo
       echo "Create new directory:"
       echo "   $2"
-      echo -n "Create it now (Y/n)? "
+      echo -n "Create it now? (Y/n): "
       read X
       echo
       case $X in
@@ -1701,7 +1701,7 @@ f_main_about () {
                echo ">>>The file EDIT_HISTORY is either missing or cannot be read.<<<"
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
-               echo -n "Download EDIT_HISTORY from GitHub.com? (Y/n) "
+               echo -n "Download EDIT_HISTORY from GitHub.com? (Y/n): "
                read X
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1760,14 +1760,14 @@ f_main_configure () {
       #
       until [ "$AAC" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_update_software^0^0^0^0       #AAC Update program     - Update menu scripts from the GitHub repository.
-#f_update_all_modules^0^0^0^0    #AAC Update all modules - Update all installed modules from GitHub repository.
+#f_update_software^0^0^0^0       #AAC Update Program     - Update menu scripts from the GitHub repository.
+#f_update_all_modules^0^0^0^0    #AAC Update All Modules - Update all installed modules from GitHub repository.
 #f_menu_module_manager^0^0^0^0   #AAC Manage Modules     - Add/Delete/Remove/Restore/Update selected modules.
 #f_update_list_apps^0^0^0^0      #AAC Update App List    - Update list of applications in ACTIVATED modules.
-#f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List files         - List all support and library program files.
+#f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List Files         - List all support and library program files.
 #f_menu_term_color^0^0^0^0       #AAC Colors             - Set default font/background colors.
 #f_menu_uncolor^0^0^0^0          #AAC Un-colors          - Set font color for unavailable library modules.
-#f_reinstall_readme^0^0^0^1      #AAC Install to new dir - Instructions to re-install script into another dir.
+#f_reinstall_readme^0^0^0^1      #AAC Install to New Dir - HOW-TO re-install script into another directory.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Configuration Menu"
@@ -1913,7 +1913,7 @@ f_ask_download_file () {
                echo ">>>The file $2 is either missing or cannot be read.<<<"
                echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                echo
-               echo -n "Download $2 from GitHub.com? (Y/n) "
+               echo -n "Download $2 from GitHub.com? (Y/n): "
                read X
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1960,7 +1960,7 @@ f_main_license () {
       while [  "$X" != "YES" -a "$X" != "NO" ]
       do
             clear # Blank the screen.
-            echo -n "Read the full license text contained in file 'COPYING'? (Y/n) "
+            echo -n "Read the full license text contained in file \"COPYING\"? (Y/n): "
             read X
             case $X in # Start of license case statment.
                  ""| [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1979,7 +1979,7 @@ f_main_license () {
                           echo ">>>The file COPYING is either missing or cannot be read.<<<"
                           echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                           echo
-                          echo -n "Download COPYING from GitHub.com? (Y/n) "
+                          echo -n "Download \"COPYING\" from GitHub.com? (Y/n): "
                           read X
                           case $X in # Start of git download case statement.
                                "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1992,7 +1992,7 @@ f_main_license () {
                                while [  "$X" != "YES" -a "$X" != "NO" ]
                                do
                                      clear # Blank the screen.
-                                     echo -n "Read the full license text at http://www.gnu.org/licenses/ ? (Y/n) "
+                                     echo -n "Read the full license text at \"http://www.gnu.org/licenses/\"? (Y/n): "
                                      read X
                                      case $X in # Start of gnu.org case statement.
                                           "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -2058,10 +2058,12 @@ f_main_list_menus () {
          clear # Blank the screen.
          echo "--- List Applications ---"
          echo
-         echo "You can List all menus and applications"
-         echo "You can Find which menu contains an application."
+         echo "You can (L)ist all menus and applications"
+         echo "You can (F)ind which menu contains an application."
          echo
-         echo -n "Do you want to \"List all menus\" or \"Find a menu\"? (List/Find) "
+         echo "To quit, press 'Enter' key."
+         echo
+         echo -n "Do you want to \"(L)ist all menus\" or \"(F)ind a menu\"? l/f: "
          read X
          case $X in
               [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt])
@@ -2072,7 +2074,7 @@ f_main_list_menus () {
               echo
               echo "Enter the name of the application to show the menu where it is listed."
               echo
-              echo -n "Enter application name : "
+              echo -n "Enter application name: "
               read X
               grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
               ;;
@@ -2124,7 +2126,7 @@ f_main_search_apps () {
                if [ -n "$XSTR" ] ;then
                   echo
                   echo "Please note:"
-                  echo "Even if \"$XSTR\" is found,"
+                  echo "Even if \"$XSTR\" is found," 
                   echo "it may not be available for your Linux distribution."
                   echo
                   echo "Not all Linux distributions will have all packages featured in this menu."
@@ -2457,8 +2459,11 @@ f_update_software () {
             # Ask download from which branch and wget.
             f_wget_file
             #
-            # Pause to read any error messages for the last MOD_FILE.
+            # Pause to read any error messages for the last MOD_FILE, "LIST_APPS".
             if [ "$MOD_FILE" = "LIST_APPS" ] ; then
+               echo
+               echo "If upgrading from version 1 to version 2, please update all modules also."
+               echo "You may do this by selecting \"Update All Modules\" in the \"Configuration Menu\"."
                f_press_enter_key_to_continue
             fi
             #
@@ -2524,7 +2529,7 @@ f_update_list_apps () {
              echo "The file below contains the list of applications."
              echo "\"$THIS_DIR/LIST_APPS\""
              echo
-             echo -n "Are you ready to update the file, \"LIST_APPS\"? (y/N) "
+             echo -n "Are you ready to update the file, \"LIST_APPS\"? (y/N): "
              read Y
              case $Y in
                   [Yy] | [Yy][Ee] | [Yy][Ee][Ss])

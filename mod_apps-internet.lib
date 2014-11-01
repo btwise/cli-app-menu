@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="October-31-2014 22:17"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -653,7 +653,7 @@ case $APP_NAME in # Start of case statement.
      echo "When using a web browser or network application directly from the command line,"
      echo "use the syntax: $APP_NAME WEB_SITE"
      echo
-     echo -n "Enter the name of the web site: (i.e. www.lxer.com) "
+     echo -n "Enter the name of the web site (i.e. www.lxer.com): "
      read WEB_SITE
      #
      # If no web site specified, default to a web site. Note the test command

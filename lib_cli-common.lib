@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 17:10"
+# REVDATE="October-31-2014 22:17"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -506,7 +506,7 @@ f_menu_item_process () {
       # Does this override menu item option field #5?
       f_option_press_enter_key
       #
-      # At least in the "Configuration Menu" "Update all modules" it seems to
+      # At least in the "Configuration Menu" "Update All Modules" it seems to
       # override menu item option field #5 even when it is "0".
       # The menu option item field #1 is "f_update_all_modules"
       # and is processed through this function f_menu_item_process.
@@ -890,7 +890,7 @@ f_run_and_exit () {
       echo "(There is no way to cleanly return to the menu)."
       echo "Running $1 will exit this menu script."
       echo
-      echo -n "Run $1 and exit script? (y/N)? "
+      echo -n "Run $1 and exit script? (y/N): "
       read X
       case $X in
            [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1036,7 +1036,7 @@ f_term_color () {  # Set terminal display properties.
 f_press_enter_key_to_continue () { # Display message and wait for user input.
       . lib_cli-common.lib # Invoke the common library.
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -1569,7 +1569,7 @@ f_application_error () {
                 # Display error message.
                 f_display_error_code
                 echo "Run \"$APP_NAME\" again this time using sudo?"
-                echo -n "Use sudo (temporary root permissions) (y/N)? "
+                echo -n "Use sudo (temporary root permissions)? (y/N): "
                 read ANS
                 case $ANS in  # Start of Use SUDO case statement.
                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1689,7 +1689,7 @@ f_application_error () {
                 f_display_error_code
                 echo
                 echo "Run \"$APP_NAME\" again this time using sudo?"
-                echo -n "Use sudo (temporary root permissions) (y/N)? "
+                echo -n "Use sudo (temporary root permissions)? (y/N): "
                 read ANS
                 case $ANS in  # Start of Use SUDO case statement.
                      [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -1763,7 +1763,7 @@ f_display_error_code () {
 # Outputs: ERROR, PRESS_KEY.
 #
 f_application_install_question () {
-                 echo -n "Do you want to install \"$APP_NAME\" (y/N)? "
+                 echo -n "Do you want to install \"$APP_NAME\"? (y/N): "
                  read INSTALL_ANS
                  echo
                  # Start of Install Application Option case statement.
@@ -1951,7 +1951,7 @@ f_web_install () {
          #
          echo
          echo "Do want to use the elinks web browser to visit the project's web site"
-         echo -n "and download the application manually? (y/N) "
+         echo -n "and download the application manually? (y/N): "
          read ANS
          case $ANS in # Start of Install case statement.
               [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
@@ -2468,7 +2468,7 @@ f_wget_file () {
       # Always ask what branch from which to download.
       f_ask_which_branch_download  # Download from which git branch,
                                    # DEVELOPMENT, TESTING or MASTER?
-                                   # BRANCH="MASTER"/"TESTING"/"DEVELOP"/"SKIP",
+                                   # BRANCH="MASTER", "TESTING", "DEVELOP", "SKIP".
                                    # WEB_SITE,
                                    # PRESS_KEY=0/1
       #

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="October-31-2014 22:17"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -87,7 +87,7 @@ f_install_kkm () {
          echo "This script will install \"unzip\" if needed."
          echo "Afterwards, \"kkm\" will be installed."
          echo
-         echo -n "Do you wish to continue (y/N)? "
+         echo -n "Do you wish to continue? (y/N): "
          read ANS
          #
          # Yes, install "Unzip".
@@ -104,7 +104,7 @@ f_install_kkm () {
                echo "Installation of \"Unzip\" failed."
                echo " Skipping installation of \"kkm\"."
                echo
-               echo -n "Press '"Enter"' key to continue."
+               echo -n "Press \"Enter\" key to continue."
                read X
                unset X  # Throw out this variable.
                #
@@ -117,7 +117,7 @@ f_install_kkm () {
                echo
                echo "Installation of \"Unzip\" is successful."
                echo
-               echo -n "Press '"Enter"' key to continue."
+               echo -n "Press \"Enter\" key to continue."
                read X
                unset X  # Throw out this variable.
                #
@@ -159,7 +159,7 @@ f_install2_kkm () {
       echo "6. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
       #
@@ -209,7 +209,7 @@ f_install2_kkm () {
       echo
       echo "To run \"kkm\", select it on the \"Package Applications Menu\"."
       echo
-      echo -n "Press '"Enter"' key to continue."
+      echo -n "Press \"Enter\" key to continue."
       read X
       unset X  # Throw out this variable.
 } # End of function f_install2_kkm

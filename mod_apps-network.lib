@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="October-31-2014 22:17"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -421,7 +421,7 @@ f_install_speedtest-cli () {
       echo "5. Add directory \"/usr/local/bin\" to your PATH command in ~/.bashrc."
       echo
       echo
-      echo -n "Do you wish to continue (y/N)? "
+      echo -n "Do you wish to continue? (y/N): "
       read ANS
       #
       # Yes, Install speedtest-cli.
@@ -460,7 +460,7 @@ f_install_speedtest-cli () {
          echo
          echo "To run \"speedtest-cli\", select it on the \"WAN Applications2 Menu\"."
          echo
-         echo -n "Press '"Enter"' key to continue."
+         echo -n "Press \"Enter\" key to continue."
          read X
          unset X  # Throw out this variable.
          #
@@ -1257,7 +1257,7 @@ case $APP_NAME in # Start of case statement.
       echo "When using a web browser or network application directly from the command line,"
       echo "use the syntax: $APP_NAME [WEB_SITE]"
       echo
-      echo -n "Enter the name of the web site: (i.e. www.lxer.com) "
+      echo -n "Enter the name of the web site (i.e. www.lxer.com): "
       read WEB_SITE
       #
       # If no web site specified, default to a web site. Note the test command

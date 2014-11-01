@@ -38,14 +38,14 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-30-2014 16:32"
+PROJECT_REVDATE="October-31-2014 22:17"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
 echo
 echo "Bash script name: $THIS_FILE"
 echo
-echo -n "Press '"Enter"' key to continue."
+echo -n "Press \"Enter\" key to continue."
 read ANS
 # sed substitutes null for ## at beginning of each line so it is not printed.
 # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
