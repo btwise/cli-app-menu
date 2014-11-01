@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-31-2014 22:17"
+PROJECT_REVDATE="October-31-2014 23:32"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -87,7 +87,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_install_using_no-auto renamed to f_install_using_no_auto
 ##             to conform to naming conventions, no <dash> in function names.
 ##            *f_match_pkg_name_to_app_name added "checkbashisms".
-##            *f_menu_app_development added "checkbashisms".
+##            *f_menu_app_development added checkbashisms, sloccount.
 ##            *f_menu_cat_audio-video changed to f_menu_cat_audio_video.
 ##            *f_menu_module_display changed names of functions to the standard
 ##             where names are no longer both a file name and a function name.

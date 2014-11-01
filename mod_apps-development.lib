@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="October-31-2014 23:32"
 #
 # +----------------------------------------+
 # |     Function f_menu_app_development    |
@@ -61,6 +61,7 @@ f_menu_app_development2 () {
 #0^0^0^0^1 #MDF mantis          - Web-based issue tracker runs in PHP.
 #0^0^0^0^1 #MDF nl              - Insert line numbers into a text file.
 #0^0^0^0^1 #MDF shelltestrunner - Test command-line programs/scripts, runs parallel tests.
+#0^0^0^0^1 #MDF sloccount       - SLOCCount counts source lines of code for 29 languages.
 #0^0^0^0^1 #MDF stx2any         - Markup language, writes to man page format.
 #0^0^0^0^1 #MDF txt2man         - Converts plain ASCII text to man format.
 #1^0^0^0^1 #MDF ldd             - Print shared library dependencies.
