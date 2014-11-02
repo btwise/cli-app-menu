@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-31-2014 23:32"
+PROJECT_REVDATE="November-01-2014 23:53"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"

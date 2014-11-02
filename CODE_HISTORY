@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="October-31-2014 23:32"
+PROJECT_REVDATE="November-01-2014 23:53"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,7 +79,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-10-31 *Testing version 2.0
+## 2014-11-01 *Testing version 2.0
 ##            *All files replaced test statements using "-a", "-o"
 ##             with easier to read and simpler "&&" "||" syntax.
 ##             Standardized format of questions and prompts.
@@ -91,8 +91,12 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_menu_cat_audio-video changed to f_menu_cat_audio_video.
 ##            *f_menu_module_display changed names of functions to the standard
 ##             where names are no longer both a file name and a function name.
+##            *f_mod_apps_screen-tools renamed to f_mod_apps_screen_tools.
 ##            *f_show_menu changed to use function name from
 ##             f_menu_module_display and derives the file name from it.
+##             Added special conversion of function name to file name by using
+##             substitution to handle dashes in mod_apps-screen-tools.lib.
+##                                              mod_apps-audio-video.lib.
 ##             Added clarifying comments.
 ##            *f_update_all_modules changed to use function name from
 ##             f_menu_module_display and derives the file name from it.

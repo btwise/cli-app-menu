@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 22:17"
+# REVDATE="November-01-2014 23:53"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -120,6 +120,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
              MOD_FILE=$MOD_FUNC
              MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}      # Substitute <underscore> for <dash>.
              MOD_FILE=${MOD_FILE/audio_video/audio-video}  # Substitution for audio-video.
+             MOD_FILE=${MOD_FILE/screen_tools/screen-tools}  # Substitution for screen-tools.
              MOD_FILE=$MOD_FILE.lib                        # Complete the <file name> change.
              #
              # Display menu items in bold font if module exists or standard

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 17:10"
+# REVDATE="November-01-2014 23:53"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -57,7 +57,7 @@ f_menu_module_display () {
             #f_mod_apps_office       #AAB Office       - Editors, spreadsheets, presenter, organize, calcs, acctg.
             #f_mod_apps_packages     #AAB Packages     - (Un)Install and manage software packages (applications).
             #f_mod_apps_screens      #AAB Screens      - Multiple screen sessions and terminal emulators.
-            #f_mod_apps_screen-tools #AAB Screen-Tools - Screen capture, record/play-back of screen activity etc.
+            #f_mod_apps_screen_tools #AAB Screen-Tools - Screen capture, record/play-back of screen activity etc.
             #f_mod_apps_system       #AAB System       - Monitor system processes, resources, utilities, etc.
             #
             THIS_FILE="lib_cli-menu-cat.lib"
