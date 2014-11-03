@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-01-2014 23:53"
+# REVDATE="November-02-2014 22:22"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -65,9 +65,9 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
          # depending on whether a module is loaded or not in the same directory
          # as the file "lib_cli-common.lib".
          #
-         # So modules (with file names "mod_apps_<module>.lib") that are missing
-         # from the directory are shown in a lighter normal font whereas those
-         # that are available are shown in bold font.
+         # So modules (with file names "mod_apps_<module>.lib") that are
+         # missing from the directory are shown in a lighter normal font
+         # whereas those that are available are shown in bold font.
          #
          # Otherwise any other menu is an Application Menu (not #AAB) which
          # always has bold font and does not change fonts.
@@ -115,13 +115,18 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
              # to a file name.
              #
              # The conversion is necessary because the file names may contain
-             # <dash> characters while function names cannot under non-bash shells.
+             # <dash> characters while function names cannot under
+             # non-bash shells (just trying to follow the naming convention).
              #
              MOD_FILE=$MOD_FUNC
-             MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}      # Substitute <underscore> for <dash>.
-             MOD_FILE=${MOD_FILE/audio_video/audio-video}  # Substitution for audio-video.
-             MOD_FILE=${MOD_FILE/screen_tools/screen-tools}  # Substitution for screen-tools.
-             MOD_FILE=$MOD_FILE.lib                        # Complete the <file name> change.
+             # Substitute <underscore> for <dash>.
+             MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}
+             # Substitution for audio-video.
+             MOD_FILE=${MOD_FILE/audio_video/audio-video}
+             # Substitution for screen-tools.
+             MOD_FILE=${MOD_FILE/screen_tools/screen-tools}
+             # Complete the <file name> change.
+             MOD_FILE=$MOD_FILE.lib
              #
              # Display menu items in bold font if module exists or standard
              # font if module does not exist.
@@ -160,7 +165,8 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
                    # Display the module name and description.
                    grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
                    #
-                   f_term_color $FCOLOR $BCOLOR  # Return to normal colors and bold font.
+                   # Return to normal colors and bold font.
+                   f_term_color $FCOLOR $BCOLOR
                    echo -n $(tput bold)
                 fi
              fi
@@ -293,7 +299,8 @@ f_choice_array () {
       #    Set XSTR to first two words (delimited by "%" of menu choice name).
       #    Example: Main menu item, "Help and Features"
       #    If not, CHOICE[n]="Help", CHOICE[n+1]="and"
-      #    rather than CHOICE[n]="Help and" (after substituting <space> for "%").
+      #    rather than CHOICE[n]="Help and"
+      #    (after substituting <space> for "%").
       #                    
       for XSTR in `awk -F $DELIMITER '{ if ( $2&&!$3 ) { print $2 } }' $THIS_DIR/$THIS_FILE | awk -F " - " '{ print $1 }' | awk '{ if ( $2 ) { print $1"%"$2 } else {print $1 } }'`
       # Use back-ticks above before 1st awk and as last character to redirect,
@@ -569,7 +576,8 @@ f_menu_item_valid () {
                #
                if [[ "$MENU_ITEM" == *"$MENU_ITEM_NAME"* ]] ; then 
                   APP_NAME=$MENU_ITEM
-                  let XNUM=$MAX+1  # Valid choice so force exit from While-loop.
+                  # Valid choice so force exit from While-loop.
+                  let XNUM=$MAX+1
                else
                   let XNUM++  # Not valid, try next menu item.
                fi
@@ -710,14 +718,8 @@ f_eval_funct () {
       #
       # Do not eval $XSTR if it is "0".
       #
-      # echo "About to eval \"$XSTR\" of field $2 of \"$MENU_ITEM_OPT\"."  # Diagnostic Line.
-      # f_press_enter_key_to_continue                                      # Diagnostic Line.
-      #
       if [ "$XSTR" != 0 ] && [ -n "$XSTR" ] ; then
          eval $XSTR  # Invoke (run) the function.
-         #
-         # echo "Post-eval \"$XSTR\" of field $2 of \"$MENU_ITEM_OPT\" ERROR CODE: $ERROR"  # Diagnostic Line.
-         # f_press_enter_key_to_continue                                                    # Diagnostic Line.
       fi
       #
       if [ $? -ne 0 ] ; then
@@ -751,7 +753,7 @@ f_quit_app_clause () {
       # This will display the custom "How to quit" the application message.
       #
       # Format of menu item options: 
-      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+     # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
       #   field-1  field-2  field-3  field-4   field-5   Marker 
       # 
       # Example 1:
@@ -1327,182 +1329,243 @@ f_application_run () {
            f_application_error # Display appropriate error message.
            ;;
       esac
-     #
+      #
 } # End of function f_application_run
 #
 # +----------------------------------------+
 # |          Function f_run_app            |
 # +----------------------------------------+
 #
-#  Inputs: $THIS_DIR, $1=Search string.
-#    Uses: $THIS_DIR/LIST_APPS, APP_NAME, MENU_ITEM_OPT, MENU_ITEM_NAME, MOD_FILE.
+#  Inputs: $1=Search string, THIS_DIR.
+#    Uses: THIS_DIR/LIST_APPS, APP_NAME, ERROR, BCOLOR, ECOLOR, FCOLOR.
 # Outputs: None.
 #
 # Search LIST_APPS file for application names and display the list to allow
 # user to run an application.
 #
 f_run_app () {
-                  APP_NAME="-1"
-                  while [ -n "$APP_NAME" ]
-                  do
-                        clear # Blank the screen.
-                        echo "Search results of \"$1\"".
-                        echo
-                        # Search LIST_APPS - The application names are at the
-                        # begining of each line and are preceded by a <space>.
-                        # To find these names, the basic command is:
-                        # grep ^" "$XSTR
-                        #
-                        # Display actual search results on screen.
-                        grep --color=always ^" "$1 $THIS_DIR"/LIST_APPS"
-                        ERROR=$? # Save error flag condition.
-                        # Error code 2 means grep had an error.
-                        # Error code 1 means grep did not find any matches.
-                        # Error code 0 (zero) where $?=0 means grep found matches.
-                        #
-                        if [ $ERROR -ne 0 ] ; then 
-                           # No results found, quit out of f_run_app.
-                           APP_NAME="" # to quit out of while-loop of f_run_app.
-                           # Use different color font for error messages.
-                           f_term_color $ECOLOR $BCOLOR
-                           echo -n $(tput bold)
-                           echo	
-                           echo "No applications beginning with \"$1\" were found."
-                           f_term_color $FCOLOR $BCOLOR
-                           echo $(tput bold)
-                           f_press_enter_key_to_continue
-                        else
-                           echo
-                           echo "If you want to run the application now, type the full name at the prompt."
-                           echo "To quit, press 'Enter' key."
-                           echo
-                           #
-                           # if Search LIST_APPS finds no matching application
-                           # names, then exit.
-                           #
-                           echo -n "Name of application to run: "
-                           read APP_NAME
-                           #
-                           # Find any matches for APP_NAME to see if it is a
-                           # valid application name.
-                           # Redirect error and standard output to null device.
-                           grep -w --color=always \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* &>/dev/null
-                           # 1=standard messages, 2=error messages, &=both.
-                           ERROR=$? # Save error flag condition.
-                           # Error code 2 means grep had an error.
-                           # Error code 1 means grep did not find any matches.
-                           # Error code 0 (zero) where $?=0 means grep found
-                           #                     matches.
-                           #
-                           # If grep did not find any matches for APP_NAME or
-                           # APP_NAME="" or
-                           # APP_NAME does not match search for application.
-                           if [ $ERROR -ne 0 ] && [ -n "$APP_NAME" ] ; then
-                              # No results found, quit out of f_run_app.
-                              # Use different color font for error messages.
-                              f_term_color $ECOLOR $BCOLOR
-                              echo -n $(tput bold)
-                              echo
-                              echo "No application \"$APP_NAME\" was found."
-                              f_term_color $FCOLOR $BCOLOR
-                              echo $(tput bold)
-                              f_press_enter_key_to_continue
-                              APP_NAME=""
-                              # to quit out of while-loop of f_run_app.
-                              #
-                           # If APP_NAME="".
-                           elif [ -z "$APP_NAME" ] ; then
-                              APP_NAME="" # to quit out of while-loop
-                                          # of f_run_app.
-                              #
-                           # If search results does not match
-                           # the beginning of APP_NAME.
-                           elif ! [[ "$APP_NAME" == "$1"* ]] ; then
-                              # Use different color font for error messages.
-                              f_term_color $ECOLOR $BCOLOR
-                              echo -n $(tput bold)
-                              echo
-                              echo "Application \"$APP_NAME\" does not match previous search results."
-                              f_term_color $FCOLOR $BCOLOR
-                              echo $(tput bold)
-                              f_press_enter_key_to_continue
-                              APP_NAME="" # to quit out of while-loop
-                                          # of f_run_app.
-                           else
-                              # 1. Search all files mod_apps-* listing which
-                              #    ones contain the application name.
-                              # 2. Invoke the file mod_apps-* (also called a
-                              #    module).
-                              # 3. Extract the MENU_ITEM_OPT string from the
-                              #    file mod_apps-*.
-                              # 4. Run the application with f_application_run.
-                              #
-                              # 1. Search for function declaration
-                              #    "f_<application name> () {" in all files.
-                              #    Example: if application name is "elinks"
-                              #    search for "f_elinks () {" in all files.
-                              #
-                              MOD_FILE=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* | awk -F ":" '{print $1}')
-                              #
-                              # If If an f_<application name> is found in 2 or
-                              # more mod_apps-* files, then $MOD_FILE will have
-                              # a <CR><LF> (New Line) between the mod_apps-*
-                              # file names.
-                              #
-                              # Extract only the first mod_app-* file name when
-                              # there are more than one.
-                              # Use a temporary file for the awk input file. 
-                              # A piped input did not work for unknown reasons.
-                              # i.e. echo $MOD_FILE | awk '{print $1}'
-                              # so a temporary file had to be used instead.
-                              echo $MOD_FILE > ~/.cliappmenu.tmp
-                              MOD_FILE=$(awk '{print $1}' ~/.cliappmenu.tmp)
-                              rm ~/.cliappmenu.tmp
-                              #
-                              # MOD_FILE now includes full directory path
-                              # "$THIS_DIR/<Module file name>".
-                              #
-                              # 2. Invoke the module library, file mod_apps-*
-                              if [ -r $MOD_FILE ] ; then
-                                 . $MOD_FILE  # Invoke module library.
-                              fi
-                              #
-                              # 3. Extract MENU_ITEM_OPT string.
-                              # grep finds lines in all mod_apps-* files with
-                              # <special menu item marker> <space> <APP_NAME>.
-                              #      #1^1^0^0^1  #MXX trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
-                              #
-                              # Then awk extracts everything before " #MXX"
-                              # results in #n^n^n^nn:NC as new string.
-                              #      #1^1^0^0^1  
-                              #
-                              # Finally, sed strips off any trailing spaces.
-                              #
-                              MENU_ITEM_OPT=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $MOD_FILE | awk -F "#" '{print $2}' | sed 's/ *$//')
-                              #
-                              # MENU_ITEM, MENU_ITEM_NAME is needed for
-                              # f_eval_funct.
-                              MENU_ITEM_NAME=$APP_NAME
-                              MENU_ITEM=$APP_NAME
-                              #
-                              # Specify 1st field of $MENU_ITEM_OPT for function #1.
-                              f_eval_funct "$MENU_ITEM_OPT" 1
-                              #
-                              # Specify 4th field of $MENU_ITEM_OPT for Quit Clause.
-                              f_quit_app_clause
-                              #
-                              # Specify 3rd field of $MENU_ITEM_OPT for function #3.
-                              f_eval_funct "$MENU_ITEM_OPT" 3
-                              #
-                              # 4. Run application program.
-                              #
-                              f_application_run
-                              f_press_enter_key_to_continue
-                           fi
-                        fi
-                  done
+      APP_NAME="-1"
+      while [ -n "$APP_NAME" ]
+      do
+            clear # Blank the screen.
+            echo "Search results of \"$1\"".
+            echo
+            # Search LIST_APPS - The application names are at the
+            # begining of each line and are preceded by a <space>.
+            # To find these names, the basic command is:
+            # grep ^" "$XSTR
+            #
+            # Display actual search results on screen.
+            grep --color=always ^" "$1 $THIS_DIR"/LIST_APPS"
+            ERROR=$? # Save error flag condition.
+            # Error code 2 means grep had an error.
+            # Error code 1 means grep did not find any matches.
+            # Error code 0 (zero) where $?=0 means grep found matches.
+            #
+            if [ $ERROR -ne 0 ] ; then
+               # No results found, quit out of f_run_app.
+               APP_NAME="" # to quit out of while-loop of f_run_app.
+               # Use different color font for error messages.
+               f_term_color $ECOLOR $BCOLOR
+               echo -n $(tput bold)
+               echo
+               echo "No applications beginning with \"$1\" were found."
+               f_term_color $FCOLOR $BCOLOR
+               echo $(tput bold)
+               f_press_enter_key_to_continue
+            else
+               f_ask_run_app $1
+            fi
+      done
                   unset APP_NAME MENU_ITEM_OPT MOD_FILE
 } # End of function f_run_app
+#
+# +----------------------------------------+
+# |         Function f_ask_run_app         |
+# +----------------------------------------+
+#
+#  Inputs: $1=Search string, THIS_DIR.
+#    Uses: APP_NAME, ERROR.
+# Outputs: None.
+#
+f_ask_run_app () {
+      echo
+      echo "If you want to run the application now, type the FULL NAME at the prompt."
+      echo "without any following options or parameters."
+      echo
+      echo "To quit, press 'Enter' key."
+      echo
+      #
+      echo -n "Name of application to run: "
+      read APP_NAME
+      #
+      # Find any matches for APP_NAME to see if it is a valid application name.
+      #
+      # grep -w OPTION will find only matches where $APP_NAME is a
+      # whole word match and not a partial word match.
+      # i.e. "hto" is not a match to an application name.
+      #      "htop" is a match to an application name.
+      # Note: The regular application menus do accept partial word matches.
+      #
+      # Redirect error and standard output to null device.
+      #          1=standard messages, 2=error messages, &=both.
+      grep -w --color=always \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* &>/dev/null
+      #
+      ERROR=$? # Save error flag condition.
+      # Error code 2 means grep had an error.
+      # Error code 1 means grep did not find any matches.
+      # Error code 0 (zero) where $?=0 means grep found matches.
+      #
+      if [ $ERROR -eq 0 ] && [ -n "$APP_NAME" ] ; then
+         #
+         # case statement replaces if ! [[ "$APP_NAME" == "$1"* ]] ; then
+         #
+         case $APP_NAME in
+              $1*)
+              # $APP_NAME matches the name of an application
+              # found in the previous search results.
+              f_run_app_good
+              ;;
+              *)
+              # $APP_NAME is a valid application name but does not match the
+              # name of an application found in the previous search results.
+              f_run_app_bad
+              ;;
+         esac
+      else
+         # Cannot run APP_NAME because:
+         # 1. grep found no matches for $APP_NAME in any mod_apps-* files.
+         # 2. APP_NAME=""
+         f_run_app_bad
+      fi
+} # End of function f_ask_run_app
+#
+# +----------------------------------------+
+# |         Function f_run_app_bad         |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME, ERROR.
+#    Uses: APP_NAME, BCOLOR, ECOLOR, FCOLOR.
+# Outputs: APP_NAME.
+#
+f_run_app_bad () {
+      # If APP_NAME="" then user wants to exit out.
+      if [ -z "$APP_NAME" ] ; then
+         APP_NAME="" # to quit out of while-loop of f_run_app
+         # without any messages displayed to user.
+         #
+      fi
+      #
+      if [ $ERROR -ne 0 ] && [ -n "$APP_NAME" ] ; then
+         # No results found, quit out of f_run_app.
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo
+         echo "No application \"$APP_NAME\" was found."
+         f_term_color $FCOLOR $BCOLOR
+         echo $(tput bold)
+         f_press_enter_key_to_continue
+         APP_NAME=""
+         # to quit out of while-loop of f_run_app.
+      fi
+      #
+      # If search results do not match the beginning of APP_NAME.
+      # Force user to run only an application found in the previous search.
+      # i.e. User searched for application "htop"
+      # but entered the name "atop" at the run prompt.
+      #
+      if [ $ERROR -eq 0 ] && [ -n "$APP_NAME" ] ; then
+         # $APP_NAME is a valid application name but does not match the
+         # name of an application found in the previous search results.
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo -n $(tput bold)
+         echo
+         echo "Application \"$APP_NAME\" does not match previous search results."
+         f_term_color $FCOLOR $BCOLOR
+         echo $(tput bold)
+         f_press_enter_key_to_continue
+         APP_NAME="" # to quit out of while-loop of f_run_app.
+      fi
+
+} # End of function f_ask_run_app_bad
+#
+# +----------------------------------------+
+# |         Function f_run_app_good        |
+# +----------------------------------------+
+#
+#  Inputs: APP_NAME, ERROR, THIS_DIR.
+#    Uses: MOD_FILE, BCOLOR, ECOLOR, FCOLOR.
+# Outputs: MENU_ITEM, MENU_ITEM_NAME, MENU_ITEM_OPT.
+#
+f_run_app_good () {
+      # 1. Search all files mod_apps-* listing which ones contain the
+      #    application name.
+      # 2. Invoke the file mod_apps-* (also called a module).
+      # 3. Extract the MENU_ITEM_OPT string from the file mod_apps-*.
+      # 4. Run the application with f_application_run.
+      #
+      # 1. Search for function declaration
+      #    "f_<application name> () {" in all files.
+      #    Example: if application name is "elinks"
+      #    search for "f_elinks () {" in all files.
+      #
+      MOD_FILE=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME" " $THIS_DIR/* | awk -F ":" '{print $1}')
+      #
+      # If If an f_<application name> is found in 2 or more mod_apps-* files,
+      # then $MOD_FILE will have a <CR><LF> (New Line) between the mod_apps-*
+      # file names.
+      #
+      # Extract only the first mod_app-* file name when there is more than one.
+      # Use a temporary file for the awk input file.
+      # A piped input did not work for unknown reasons.
+      # i.e. echo $MOD_FILE | awk '{print $1}'
+      # so a temporary file had to be used instead.
+      echo $MOD_FILE > ~/.cliappmenu.tmp
+      MOD_FILE=$(awk '{print $1}' ~/.cliappmenu.tmp)
+      rm ~/.cliappmenu.tmp
+      #
+      # MOD_FILE now includes full directory path
+      # "$THIS_DIR/<Module file name>".
+      #
+      # 2. Invoke the module library, file mod_apps-*
+      if [ -r $MOD_FILE ] ; then
+         . $MOD_FILE  # Invoke module library.
+      fi
+      #
+      # 3. Extract MENU_ITEM_OPT string.
+      # grep finds lines in all mod_apps-* files with
+      # <special menu item marker> <space> <APP_NAME>.
+      #      #1^1^0^0^1  #MXX trekx     - Trek 73 (1973) ported from Turbo PASCAL to C by Howard Chu.
+      #
+      # Then awk extracts everything before " #MXX"
+      # results in #n^n^n^nn:NC as new string.
+      #      #1^1^0^0^1
+      #
+      # Finally, sed strips off any trailing spaces.
+      #
+      MENU_ITEM_OPT=$(grep -w \#[A-Z][A-Z][A-Z]" "$APP_NAME $MOD_FILE | awk -F "#" '{print $2}' | sed 's/ *$//')
+      #
+      # MENU_ITEM, MENU_ITEM_NAME is needed for
+      # f_eval_funct.
+      MENU_ITEM_NAME=$APP_NAME
+      MENU_ITEM=$APP_NAME
+      #
+      # Specify 1st field of $MENU_ITEM_OPT for function #1.
+      f_eval_funct "$MENU_ITEM_OPT" 1
+      #
+      # Specify 4th field of $MENU_ITEM_OPT for Quit Clause.
+      f_quit_app_clause
+      #
+      # Specify 3rd field of $MENU_ITEM_OPT for function #3.
+      f_eval_funct "$MENU_ITEM_OPT" 3
+      #
+      # 4. Run application program.
+      #
+      f_application_run
+      f_press_enter_key_to_continue
+} # End of function f_ask_run_app_good
 #
 # +----------------------------------------+
 # |       Function f_application_error     |
@@ -1542,7 +1605,8 @@ f_application_error () {
       case $ERROR in # Start of Error Number case statement.
            1) # Error code 1 is a general error code. But it does not always
               # mean there actually was an error.
-              # Some applications exit with error code 1 even if successfully run.
+              # Some applications exit with error code 1
+              # even if successfully run.
               # The Error Code 1 Number Exceptions case statement, takes care
               # of those weird applications.
               #
@@ -1626,8 +1690,8 @@ f_application_error () {
            echo "Example: $APP_NAME_TMP <parameters> <filename> <options>"
            echo "Example: find /home -iname test1.txt -print"
            ;;
-           100) # Error code 100 means installation application "apt-get" is locked
-                # by another process.
+           100) # Error code 100 means installation application
+                # "apt-get" is locked by another process.
            # Display error message.
            f_display_error_code
            #
@@ -2467,11 +2531,8 @@ f_download_file () {
 #
 f_wget_file () {
       # Always ask what branch from which to download.
-      f_ask_which_branch_download  # Download from which git branch,
-                                   # DEVELOPMENT, TESTING or MASTER?
-                                   # BRANCH="MASTER", "TESTING", "DEVELOP", "SKIP".
-                                   # WEB_SITE,
-                                   # PRESS_KEY=0/1
+      # Download from which git branch, DEVELOPMENT, TESTING or MASTER?
+      f_ask_which_branch_download
       #
       # Libraries invoked so that functions in the module management library
       # may be accessed when doing a program update.
@@ -2527,7 +2588,7 @@ f_wget_file_2 () {
             #
             if [ $ERROR -eq 0 ] ; then
                # Remove file successful so download new file.
-               # At this point, only the back-up file.tar.gz is in the directory.
+               # Now only the back-up file *.tar.gz is in the directory.
                f_wget_file_3
                if [ $ERROR -eq 0 ] ; then
                   # Download successful so delete back-up.
@@ -2818,87 +2879,122 @@ f_create_LIST_APPS () {
       # Set XSTR to the Special Menu Item Marker.
       for XSTR in $(grep [#]:M[A-Z][A-Z] $THIS_DIR/README | awk '{print $1}')
       do
-             echo >> ~/LIST_APPS
-             # Print application category menu title.
-             echo "_______________________________________________________________________________" >> ~/LIST_APPS
-             echo -n "*** " >> ~/LIST_APPS
-             grep $XSTR $THIS_DIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> ~/LIST_APPS
-             #
-             # Example for setting XSTR within the "for XSTR in" loop:
-             # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
-             # XSTR="#:MPS" to grep README file for menu titles.
-             # XSTR="#MPS"  to grep mod_apps*.lib files for application names
-             #              and descriptions.
-             # XSTR="MPS"   Did not work since README file contained the word
-             #              "MUMPS" which caused problems when displaying the
-             #              menu title for "#:MPS - PDF-PS Applications Menu".
-             #
-             # So somehow XSTR had to be modified within
-             # the "for XSTR in" for-loop.
-             #
-             # Use string substitution, I just learned how, cool!
-             XSTR=${XSTR/:/}
-             # Allows change from XSTR=":MPS" to XSTR="MPS"
-             # where the colon is stripped out.
-             #
-             # Print application names and descriptions.
-             # Any new mod_apps*.lib files added must be included as menu items
-             # in the Application Menu.
-             #
-             # The for-loop reads file "lib_cli-menu-cat.lib" to get the names 
-             # of the mod_apps*.lib files.
-             # The for-loop awk command uses back-ticks to execute,
-             # getting the names of mod_apps-*.lib.
-             #   
-             # 1. awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib
-             #    if-statement conditional "($2&&!$3)":
-             #    Since the special comment marker is "#AAB",
-             #    if there is 1 marker (2 fields) then print the 1st field.
-             #    if there are 2 markers (3 fields), then do not print at all.
-             #    This prevents the lines of code which set the $ DELIMITER
-             #    variable from being printed as a menu item, because they
-             #    purposely have 2 markers.
-             #   
-             #    For menu item "#mod_apps-aud   io.lib #AAB Audio - Music players, editors, utilities."
-             #    This will result in: "#mod_a   pps-audio.lib"
-             #
-             # 2. | awk -F "#" '{print $2}'
-             #    The previous result is piped into this awk statement which
-             #    simply strips out the "#".
-             #    This will result in: MOD_FILE="mod_apps-audio.lib"
-             #
-             for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
-             do
-                 # Human readable list without special comment markers.
-                 # Indents one space before application name.
-                 #
-                 # 1. grep $XSTR $THIS_DIR/$MOD_FILE
-                 #    Search the files mod_apps-*.lib one at a time for the
-                 #    Special Menu Item Marker.
-                 #    
-                 #    Example: Suppose XSTR="#MAA ".
-                 #    This will find strings like:
-                 #    "#MAA ledger        - Ledger using double-entry."
-                 #
-                 # 2. awk -F $XSTR '{if ($2&&!$3){print $2}}' 
-                 #    if-statement conditional "($2&&!$3)":
-                 #    Since the $DELIMITER is part/all of the special comment
-                 #    marker,
-                 #    if there is 1 marker (2 fields) then print the 2nd field.
-                 #    if there are 2 markers (3 fields), then do not print.
-                 #    This prevents the lines of code which set the $ DELIMITER
-                 #    variable from being printed as a menu item, because they
-                 #    purposely have 2 markers.
-                 #    This will result in string with a leading space.
-                 #    " ledger        - Ledger using double-entry." w/delimiter $XSTR.
-                 #
-                 if [ -e $THIS_DIR/$MOD_FILE ] ; then
-                    grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}' >> ~/LIST_APPS
-                 fi
-                 #
-                 echo -n "." # Elipse to indicate function is running displayed
-                             # on screen display. Displays rows of "...".
-             done
+          echo >> ~/LIST_APPS
+          # Print application category menu title.
+          echo "_______________________________________________________________________________" >> ~/LIST_APPS
+          echo -n "*** " >> ~/LIST_APPS
+          grep $XSTR $THIS_DIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}' >> ~/LIST_APPS
+          #
+          # Example for setting XSTR within the "for XSTR in" loop:
+          # Set XSTR from "#:MPS" to "#MPS" Special Menu Item Marker.
+          # XSTR="#:MPS" to grep README file for menu titles.
+          # XSTR="#MPS"  to grep mod_apps*.lib files for application names
+          #              and descriptions.
+          # XSTR="MPS"   Did not work since README file contained the word
+          #              "MUMPS" which caused problems when displaying the
+          #              menu title for "#:MPS - PDF-PS Applications Menu".
+          #
+          # So somehow XSTR had to be modified within
+          # the "for XSTR in" for-loop.
+          #
+          # Use string substitution, I just learned how, cool!
+          XSTR=${XSTR/:/}
+          # Allows change from XSTR=":MPS" to XSTR="MPS"
+          # where the colon is stripped out.
+          #
+          # Print application names and descriptions.
+          # Any new mod_apps*.lib files added must be included as menu items
+          # in the Application Menu.
+          #
+          # The for-loop reads file "lib_cli-menu-cat.lib" to get the names
+          # of the mod_apps*.lib files.
+          # The for-loop awk command uses back-ticks to execute,
+          # getting the names of mod_apps-*.lib.
+          #
+          # 1. awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib
+          #    if-statement conditional "($2&&!$3)":
+          #    Since the special comment marker is "#AAB",
+          #    if there is 1 marker (2 fields) then print the 1st field.
+          #    if there are 2 markers (3 fields), then do not print at all.
+          #    This prevents the lines of code which set the $ DELIMITER
+          #    variable from being printed as a menu item, because they
+          #    purposely have 2 markers.
+          #
+          #    For menu item "#mod_apps-aud   io.lib #AAB Audio - Music players, editors, utilities."
+          #    This will result in: "#mod_a   pps-audio.lib"
+          #
+          # 2. | awk -F "#" '{print $2}'
+          #    The previous result is piped into this awk statement which
+          #    simply strips out the "#".
+          #    This will result in: MOD_FILE="mod_apps-audio.lib"
+          #
+          # To get the file name of the module, it must be derived from the name
+          # of the function in the "Application Category Menu" or the
+          # "Software Module Manager Menu" which share the same "#AAB" menu.
+          #
+          # The "for MOD_FILE in" loop cycles through all the module function
+          # names and contains awk which looks for "#AAB" 1 marker only by using
+          # the awk if-statement conditional statement, "($2&&!$3)", in the
+          # file lib_cli-menu-cat.lib. The result is "#f_mod_apps_<module>"
+          # and then this is piped to the second awk which strips away the "#f_"
+          # leaving only "mod_apps_<module>".
+          #
+          # The result of awk is "mod_apps_<module>" so to get the file name,
+          # MOD_FILE=$MOD_FILE.lib resulting in "mod_apps_<module>.lib".
+          #
+          # for-loop awk command uses back-ticks to execute resulting in a
+          # function name which is then converted into a file name of the
+          # module, mod_apps-*.lib.
+          #
+          for MOD_FUNC in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#f_" '{print $2}'`
+          do
+              #
+              # Convert the function name in the "Application Category Menu"
+              # to a file name.
+              #
+              # The conversion is necessary because the file names may contain
+              # <dash> characters while function names cannot under
+              # non-bash shells (just trying to follow the naming convention).
+              #
+              MOD_FILE=$MOD_FUNC
+              # Substitute <underscore> for <dash>.
+              MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}
+              # Substitution for audio-video.
+              MOD_FILE=${MOD_FILE/audio_video/audio-video}
+              # Substitution for screen-tools.
+              MOD_FILE=${MOD_FILE/screen_tools/screen-tools}
+              # Complete the <file name> change.
+              MOD_FILE=$MOD_FILE.lib
+              # Human readable list without special comment markers.
+              # Indents one space before application name.
+              #
+              # 1. grep $XSTR $THIS_DIR/$MOD_FILE
+              #    Search the files mod_apps-*.lib one at a time for the
+              #    Special Menu Item Marker.
+              #
+              #    Example: Suppose XSTR="#MAA ".
+              #    This will find strings like:
+              #    "#MAA ledger        - Ledger using double-entry."
+              #
+              # 2. awk -F $XSTR '{if ($2&&!$3){print $2}}'
+              #    if-statement conditional "($2&&!$3)":
+              #    Since the $DELIMITER is part/all of the special comment
+              #    marker,
+              #    if there is 1 marker (2 fields) then print the 2nd field.
+              #    if there are 2 markers (3 fields), then do not print.
+              #    This prevents the lines of code which set the $ DELIMITER
+              #    variable from being printed as a menu item, because they
+              #    purposely have 2 markers.
+              #    This will result in string with a leading space.
+              #    " ledger - Ledger using double-entry." w/delimiter $XSTR.
+              #
+              if [ -e $THIS_DIR/$MOD_FILE ] ; then
+                 grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}' >> ~/LIST_APPS
+              fi
+              #
+              echo -n "." # Elipse to indicate function is running displayed
+                          # on screen display. Displays rows of "...".
+          done
       done
       #
       echo "_________________________________End of List___________________________________" >> ~/LIST_APPS
@@ -2937,12 +3033,8 @@ f_show_max_menu_items () {
       #
       # Set XSTR to the Special Menu Item Marker.
       for XSTR in $(grep [#]:M[A-Z][A-Z] "$THIS_DIR/README" | awk '{print $1}')
-      # for XSTR in $(grep --silent [#]:M[A-Z][A-Z] $THIS_DIR/README)
       do
           echo
-          # Print application category menu title.
-          #echo -n "*** "
-          #grep $XSTR $THISDIR/README | awk -F " - " '{print $2}'  | awk '{sub("Menu","Menu ***"); print $0}'
           grep $XSTR $THIS_DIR/README
           XSTR=${XSTR/:/} # Use string substitution.
           #

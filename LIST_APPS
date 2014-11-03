@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-10-14 15:49 Tuesday
+Last updated: 2014-11-02 22:53 Sunday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -256,6 +256,7 @@ _______________________________________________________________________________
  aphex            - Tiny hex editor. edits are written immediately, no undo.
  apropos          - Search linux man(ual) files for a forgotten command.
  bugz             - Interface to Bugzilla bug tracking tool.
+ checkbashisms    - Check /bin/sh scripts for bash-specific contructs.
  cil              - Issue tracker and add/edit, list issues.
  cmdtest          - Test command-line programs/scripts to check the output.
  codemetre        - Count lines of code w/o comments in source code.
@@ -267,14 +268,15 @@ _______________________________________________________________________________
  groff            - Enhanced troff editor writes to man page format.
  linkchecker      - Check if web page links are working.
  man2html         - Browse man pages using a web browser.
- man2html-base    - Convert man pages into HTML format.
  MORE...          - For more development applications.
 
 _______________________________________________________________________________
 *** Development2 Applications Menu ***
- mantis           - Web-based issue tracker runs in PHP.
- nl               - Insert line numbers into a text file.
+ man2html-base   - Convert man pages into HTML format.
+ mantis          - Web-based issue tracker runs in PHP.
+ nl              - Insert line numbers into a text file.
  shelltestrunner - Test command-line programs/scripts, runs parallel tests.
+ sloccount       - SLOCCount counts source lines of code for 29 languages.
  stx2any         - Markup language, writes to man page format.
  txt2man         - Converts plain ASCII text to man format.
  ldd             - Print shared library dependencies.
