@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-01-2014 23:53"
+# REVDATE="November-04-2014 23:18"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -729,7 +729,7 @@ f_update_all_modules () {
       XXSTR=$DELIMITER  # Save $DELIMITER. 
       YSTR=$THIS_FILE   # Save $THIS_FILE.
       f_initvars_menu_app "AAB"
-      DELIMITER="#AAB"
+      DELIMITER="#AAB"  #AAB This 3rd field prevents awk from printing this line into menu options. 
       THIS_FILE="lib_cli-menu-cat.lib"
       MOD_FILE=""  # Null so an older file name is not displayed by function,
                    # f_test_internet_connection if the test fails.

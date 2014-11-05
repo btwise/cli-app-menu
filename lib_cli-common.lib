@@ -3,18 +3,50 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-02-2014 22:22"
+# REVDATE="November-04-2014 23:18"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
 #  Inputs: $1=MENU_TITLE, $2=DELIMITER, THIS_DIR, THIS_FILE.
-#    Uses: X, MOD_FUNC, MOD_FILE, XNUM, XXSTR.
+#    Uses: MOD_FUNC, MOD_FILE, XXSTR.
 # Outputs: MAX.
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
+      #
+      clear  # Blank the screen.
+      echo -n $(tput sgr0)  # Reset colors to default normal font.
+      f_term_color $FCOLOR $BCOLOR  # Set terminal color.
+      echo -n $(tput bold)
+      echo "--- $MENU_TITLE ---"
+      echo
+      # Display first menu item option to exit the menu.
+      case $DELIMITER in
+           "#AAA")
+           # Option for Main Menu only.
+           echo "0 - Quit to command line prompt."
+           ;;
+           "#AAB")
+           # Display option for Application Category Menu
+           # and Software Module Manager Menu.
+           echo "0 - Return to Main Menu."
+           # Now display the rest of the menu with any missing or inactive
+           # modules in a different color and not bold font.
+           f_show_menu_aab
+           ;;
+           "#AAC" | "#AAG" |  "#AAH")
+           # Display option for Configuration Menu,
+           # Information Menu, and List/Find
+           echo "0 - Return to Main Menu."
+           ;;
+           *)
+           # Option for all other sub-menus.
+           echo "0 - Return to previous menu."
+           ;;
+      esac
+      #
       # If displaying any menus existing in cliappmenu.sh
       # i.e. Main Menu, Download Menu, Configuration Menu,
       #      or Terminal Colors Menu.
@@ -22,158 +54,18 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # directory from all other files.
       # i.e. /home/<username>/cliappmenu.sh
       #      /home/<username>/bin/$THIS_DIR/<All other module library files>.
-      if [ "$DELIMITER" = "#AAA" ] || [ "$DELIMITER" = "#AAC" ] || [ "$DELIMITER" = "#AAD" ] || [ "$DELIMITER" = "#AAE" ] || [ "$DELIMITER" = "#AAF" ] || [ "$DELIMITER" = "#AAG" ] ; then
-         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files,
-                                 # module libraries etc.
-         THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
-      fi
-      clear  # Blank the screen.
-      echo -n $(tput sgr0)  # Reset colors to default normal font.
-      f_term_color $FCOLOR $BCOLOR  # Set terminal color.
-      echo -n $(tput bold)
-      echo "--- $MENU_TITLE ---"
-      echo
-      if [ "$DELIMITER" = "#AAA" ] ; then
-         echo "0 - Quit to command line prompt." # Option for Main Menu only.
-      # Display message for Application Category Menu, Configuration Menu.
-      elif [ "$DELIMITER" = "#AAB" ] || [ "$DELIMITER" = "#AAC" ] || [ "$DELIMITER" = "#AAG" ] ; then
-         echo "0 - Return to Main Menu." # Option for Application Category,
-                                         # Configuration Menus.
-      else
-         echo "0 - Return to previous menu." # Option for all other sub-menus.
-      fi
+      case $DELIMITER in
+           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files,
+                                   # module libraries etc.
+           THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
+           ;;
+      esac
       #
-      # Calculate $MAX, the number of menu items using grep -c(ount) option.
-      # Count number of lines containing special comment marker string to get
-      # maximum item number.
-      #
-      MAX=$(grep $DELIMITER -c $THIS_DIR/$THIS_FILE)
-      #
-      # Subtract 1 since the line DELIMITER=<string> contains the 
-      # special comment marker but is not part of menu display.
-      #
-      MAX=$((MAX=$MAX-1))
-      #
-      # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows "12-1"
-      #                          instead of "11".
-      #
-      if [ "$DELIMITER" = "#AAB" ] ; then
-         # Either display the "Application Category Menu" or
-         #                the "Software Module Manager Menu".
-         #
-         # These menus will change fonts, bold/normal of each module listed
-         # depending on whether a module is loaded or not in the same directory
-         # as the file "lib_cli-common.lib".
-         #
-         # So modules (with file names "mod_apps_<module>.lib") that are
-         # missing from the directory are shown in a lighter normal font
-         # whereas those that are available are shown in bold font.
-         #
-         # Otherwise any other menu is an Application Menu (not #AAB) which
-         # always has bold font and does not change fonts.
-         #
-         # To get the file name of the module, it must be derived from the name
-         # of the function in the "Application Category Menu" or the
-         # "Software Module Manager Menu" which share the same "#AAB" menu.
-         #
-         # The "for MOD_FILE in" loop cycles through all the module function
-         # names and contains awk which looks for "#AAB" 1 marker only by using
-         # the awk if-statement conditional statement, "($2&&!$3)", in the
-         # file lib_cli-menu-cat.lib. The result is "#f_mod_apps_<module>"
-         # and then this is piped to the second awk which strips away the "#f_"
-         # leaving only "mod_apps_<module>".
-         #
-         # The result of awk is "mod_apps_<module>" so to get the file name,
-         # MOD_FILE=$MOD_FILE.lib resulting in "mod_apps_<module>.lib".
-         #
-         # The menu item option numbers are incremented using a "let" command.
-         # First set XNUM=0 then in the for-loop, let "XNUM++".
-         #
-         # If the module file name exists/readable in the directory, then apply
-         # bold font, echo the item number and grep "AAB" which finds a single
-         # menu item, which is then piped to awk which prints out the item name
-         # and description.
-         #
-         # Else the module file name does not exist/not readable
-         # in the directory, then apply normal font, echo the item number and
-         # grep "AAB" and so forth to print out the item name and description.
-         #
-         # All other menus are Application Menus and simply use bold font.
-         #
-         XNUM=0  # Initialize menu item option number.
-         #
-         # for-loop awk command uses back-ticks to execute resulting in a
-         # function name which is then converted into a file name of the
-         # module, mod_apps-*.lib.
-         #
-         for MOD_FUNC in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#f_" '{print $2}'`
-         do
-             #
-             let XNUM++  # Increment the menu option item number.
-             #
-             # Convert the function name in the "Application Category Menu"
-             # to a file name.
-             #
-             # The conversion is necessary because the file names may contain
-             # <dash> characters while function names cannot under
-             # non-bash shells (just trying to follow the naming convention).
-             #
-             MOD_FILE=$MOD_FUNC
-             # Substitute <underscore> for <dash>.
-             MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}
-             # Substitution for audio-video.
-             MOD_FILE=${MOD_FILE/audio_video/audio-video}
-             # Substitution for screen-tools.
-             MOD_FILE=${MOD_FILE/screen_tools/screen-tools}
-             # Complete the <file name> change.
-             MOD_FILE=$MOD_FILE.lib
-             #
-             # Display menu items in bold font if module exists or standard
-             # font if module does not exist.
-             #
-             if [ -r $THIS_DIR/$MOD_FILE ] ; then
-                # MOD_FILE=<module file name> <Followed by whitespace>
-                # Module exists, display menu item in bold font.
-                f_term_color $FCOLOR $BCOLOR
-                echo -n $(tput bold)
-                echo -n $XNUM" -"  # Display the menu option item number.
-                #
-                # Display the module name and description.
-                grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
-                echo -n $(tput bold)
-             else
-                # If UCOLOR="" is unset, then use same color font, but not bold
-                # font for missing module.
-                if [ -z $UCOLOR ] ; then
-                   # Module missing, display menu item in same color font but
-                   # not bold font, then return to bold font.
-                   echo -n $(tput sgr0)  # Reset colors to default normal font.
-                   f_term_color $FCOLOR $BCOLOR
-                   echo -n $XNUM" -"  # Display the menu option item number.
-                   #
-                   # Display the module name and description.
-                   grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
-                   echo -n $(tput bold)
-                else
-                   # UCOLOR is set to a custom color so use that color.
-                   # Module missing, display menu item in different color font
-                   # but not bold font, then return to bold font.
-                   echo -n $(tput sgr0)  # Reset colors to default normal font.
-                   f_term_color $UCOLOR $BCOLOR
-                   echo -n $XNUM" -"  # Display the menu option item number.
-                   #
-                   # Display the module name and description.
-                   grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
-                   #
-                   # Return to normal colors and bold font.
-                   f_term_color $FCOLOR $BCOLOR
-                   echo -n $(tput bold)
-                fi
-             fi
-         done
-      else
-         # All other application/sub-menus display menu items
-         # in default bold font.
+      if [ "$DELIMITER" != "#AAB" ] ; then
+         # All menus except Application Category Menu
+         # and Software Module Manager Menu display the menu item options in
+         # standard colored, bold font.
          #
          # if-statement conditional "($2&&!$3)":
          # Since the $DELIMITER is the special comment marker, then:
@@ -204,7 +96,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo "'0', (Q)uit, to quit this script."
            ;;
            # Sub-menus called from Main Menu.
-           "#AAB" | "#AAC" | "#AAG")
+           "#AAB" | "#AAC" | "#AAG" | "#AAH")
            echo -n $(tput bold)  # Needed if last module in list is in normal
                                  # (not bold) font.
            echo
@@ -241,22 +133,156 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            echo "Also accepts application options i.e. <application name> --version"
            ;;
       esac
+      # Calculate $MAX, the number of menu items using grep -c(ount) option.
+      # Count number of lines containing special comment marker string to get
+      # maximum item number.
+      #
+      MAX=$(awk -F "$DELIMITER" '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -c "$DELIMITER")
+      #
       echo
       echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
       #
-      if [ "$DELIMITER" = "#AAA" ] || [ "$DELIMITER" = "#AAC" ] || [ "$DELIMITER" = "#AAD" ] || [ "$DELIMITER" = "#AAE" ] || [ "$DELIMITER" = "#AAF" ] || [ "$DELIMITER" = "#AAG" ] ; then
-         THIS_DIR=$XXSTR  # Restore $THIS_DIR.
-      fi
-unset X XXSTR XNUM MOD_FUNC MOD_FILE
+      case $DELIMITER in
+           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           THIS_DIR=$XXSTR  # Restore $THIS_DIR. Location of all other files,
+                            # module libraries etc.
+           ;;
+      esac
+unset MOD_FUNC MOD_FILE XXSTR   # Throw out this variable.
 } # End of function f_show_menu
+#
+# +----------------------------------------+
+# |         Function f_show_menu_aab       |
+# +----------------------------------------+
+#
+#  Inputs: DELIMITER, THIS_FILE, THIS_DIR.
+#    Uses: XNUM, MOD_FUNC, MOD_FILE, BCOLOR, FCOLOR, UCOLOR.
+# Outputs: None.
+#
+f_show_menu_aab () {
+      # Either display the "Application Category Menu" or
+      #                the "Software Module Manager Menu".
+      #
+      # These menus will change fonts, bold/normal of each module listed
+      # depending on whether a module is loaded or not in the same directory
+      # as the file "lib_cli-common.lib".
+      #
+      # So modules (with file names "mod_apps_<module>.lib") that are
+      # missing from the directory are shown in a lighter normal font
+      # whereas those that are available are shown in bold font.
+      #
+      # Otherwise any other menu is an Application Menu (not #AAB) which
+      # always has bold font and does not change fonts.
+      #
+      # To get the file name of the module, it must be derived from the name
+      # of the function in the "Application Category Menu" or the
+      # "Software Module Manager Menu" which share the same "#AAB" menu.
+      #
+      # The "for MOD_FILE in" loop cycles through all the module function
+      # names and contains awk which looks for "#AAB" 1 marker only by using
+      # the awk if-statement conditional statement, "($2&&!$3)", in the
+      # file lib_cli-menu-cat.lib. The result is "#f_mod_apps_<module>"
+      # and then this is piped to the second awk which strips away the "#f_"
+      # leaving only "mod_apps_<module>".
+      #
+      # The result of awk is "mod_apps_<module>" so to get the file name,
+      # MOD_FILE=$MOD_FILE.lib resulting in "mod_apps_<module>.lib".
+      #
+      # The menu item option numbers are incremented using a "let" command.
+      # First set XNUM=0 then in the for-loop, let "XNUM++".
+      #
+      # If the module file name exists/readable in the directory, then apply
+      # bold font, echo the item number and grep "AAB" which finds a single
+      # menu item, which is then piped to awk which prints out the item name
+      # and description.
+      #
+      # Else the module file name does not exist/not readable
+      # in the directory, then apply normal font, echo the item number and
+      # grep "AAB" and so forth to print out the item name and description.
+      #
+      # All other menus are Application Menus and simply use bold font.
+      #
+      XNUM=0  # Initialize menu item option number.
+      #
+      # for-loop awk command uses back-ticks to execute resulting in a
+      # function name which is then converted into a file name of the
+      # module, mod_apps-*.lib.
+      #
+      for MOD_FUNC in `awk -F $DELIMITER '{if ($2&&!$3){print $1}}' $THIS_DIR/$THIS_FILE | awk -F "#f_" '{print $2}'`
+      do
+          #
+          let XNUM++  # Increment the menu option item number.
+          #
+          # Convert the function name in the "Application Category Menu"
+          # to a file name.
+          #
+          # The conversion is necessary because the file names may contain
+          # <dash> characters while function names cannot under
+          # non-bash shells (just trying to follow the naming convention).
+          #
+          MOD_FILE=$MOD_FUNC
+          # Substitute <underscore> for <dash>.
+          MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}
+          # Substitution for audio-video.
+          MOD_FILE=${MOD_FILE/audio_video/audio-video}
+          # Substitution for screen-tools.
+          MOD_FILE=${MOD_FILE/screen_tools/screen-tools}
+          # Complete the <file name> change.
+          MOD_FILE=$MOD_FILE.lib
+          #
+          # Display menu items in bold font if module exists or standard
+          # font if module does not exist.
+          #
+          if [ -r $THIS_DIR/$MOD_FILE ] ; then
+             # MOD_FILE=<module file name> <Followed by whitespace>
+             # Module exists, display menu item in bold font.
+             f_term_color $FCOLOR $BCOLOR
+             echo -n $(tput bold)
+             echo -n $XNUM" -"  # Display the menu option item number.
+             #
+             # Display the module name and description.
+             grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+             echo -n $(tput bold)
+          else
+             # If UCOLOR="" is unset, then use same color font, but not bold
+             # font for missing module.
+             if [ -z $UCOLOR ] ; then
+                # Module missing, display menu item in same color font but
+                # not bold font, then return to bold font.
+                echo -n $(tput sgr0)  # Reset colors to default normal font.
+                f_term_color $FCOLOR $BCOLOR
+                echo -n $XNUM" -"  # Display the menu option item number.
+                #
+                # Display the module name and description.
+                grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                echo -n $(tput bold)
+             else
+                # UCOLOR is set to a custom color so use that color.
+                # Module missing, display menu item in different color font
+                # but not bold font, then return to bold font.
+                echo -n $(tput sgr0)  # Reset colors to default normal font.
+                f_term_color $UCOLOR $BCOLOR
+                echo -n $XNUM" -"  # Display the menu option item number.
+                #
+                # Display the module name and description.
+                grep $MOD_FUNC $THIS_DIR/$THIS_FILE | grep $DELIMITER | awk -F $DELIMITER '{print $2}'
+                #
+                # Return to normal colors and bold font.
+                f_term_color $FCOLOR $BCOLOR
+                echo -n $(tput bold)
+             fi
+          fi
+      done
+      unset XNUM  # Throw out this variable.
+} # End of function f_show_menu_aab
 #
 # +----------------------------------------+
 # |         Function f_choice_array        |
 # +----------------------------------------+
 #
 #  Inputs: DELIMITER, THIS_FILE.
-#    Uses: XNUM, XSTR
-# Outputs: CHOICE[$XNUM]
+#    Uses: XNUM, XSTR.
+# Outputs: CHOICE[$XNUM].
 #
 f_choice_array () {
       # Create array to handle numeric answer to menu choices.
@@ -310,7 +336,7 @@ f_choice_array () {
       # change XSTR="Help%and" to "Help and".
       do
            XSTR=${XSTR/[%]/ }    # Substitute <space> for "%" to restore name.
-           CHOICE[$XNUM]=$XSTR   # 
+           CHOICE[$XNUM]=$XSTR   # Create CHOICE array.
            XNUM=`expr $XNUM + 1` 
       # Use back-ticks above before expr and as last character to redirect,
       # do not mistake them for single quotes.
@@ -390,7 +416,10 @@ f_menu_item_process () {
          esac
       fi 
       #
+      # Check if MENU_ITEM includes "--help" or "man "
+      # requests for help or man pages.
       f_application_help
+      #
       ERROR=0 # Reset error flag.
       #
       # Format of menu item options:
@@ -482,12 +511,19 @@ f_menu_item_process () {
             # Don't run "applications" in Main Menu or any of its sub-menus
             # because there are none.
             #
-            if [ -n "$APP_NAME" ] && [ "$DELIMITER" != "#AAA" ] && [ "$DELIMITER" != "#AAB" ] && [ "$DELIMITER" != "#AAC" ] && [ "$DELIMITER" != "#AAD" ] && [ "$DELIMITER" != "#AAE" ] && [ "$DELIMITER" != "#AAF"  ] && [ "$DELIMITER" != "#AAG" ] ; then
+            if [ -n "$APP_NAME" ] ; then
+               case $DELIMITER in
+               "#AA"*)
+               # Menu is not an application menu so do not run applications.
+               ;;
+               *)
                f_application_run
                MENU_ITEM_NAME="" # Null so f_application_run is not run twice
                APP_NAME=""       # when trying to exit sub-menus.
                                  # It's a tricky loop.
                                  # Also prevents checking for Quit Clause.
+               ;;
+               esac
             fi
          fi
       fi
@@ -553,7 +589,11 @@ f_menu_item_valid () {
             # case-sensitive.
             #
             if [[ ! "$MENU_ITEM" == *" -"* ]] ; then
+               # MENU_ITEM does not contain <dash> since -[OPTIONS] may need
+               # to be in upper-case so do not convert to lower-case.
                if [[ ! "$MENU_ITEM" == "sudo"* ]] ; then
+                  # Only convert MENU_ITEM to lower-case if it does not contain
+                  # "sudo" assume any sudo-user knows what they are doing.
                   # Convert to lower-case.
                   MENU_ITEM=$(echo $MENU_ITEM | tr '[:upper:]' '[:lower:]')
                fi
@@ -630,11 +670,15 @@ f_menu_item_info () {
       # results in #n^n^n^nn:NC as new string.
       #
       MENU_ITEM_OPT=""
-      if [ "$DELIMITER" = "#AAA" ] || [ "$DELIMITER" = "#AAC" ] || [ "$DELIMITER" = "#AAD" ] || [ "$DELIMITER" = "#AAE" ] || [ "$DELIMITER" = "#AAF" ] || [ "$DELIMITER" = "#AAG" ] ; then
-         XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files,
-                                 # module libraries etc.
-         THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
-      fi
+      #
+      case $DELIMITER in
+      "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           # Save $THIS_DIR. Location of all other files, module libraries etc.
+           XXSTR=$THIS_DIR
+           # Set $THIS_DIR to location of Main Menu.
+           THIS_DIR=$MAINMENU_DIR
+      ;;
+      esac
       #
       # grep "$MENU_ITEM_NAME" is in quotes because some menu items
       # have 2 words i.e. "star wars".
@@ -657,9 +701,13 @@ f_menu_item_info () {
       MENU_ITEM_OPT=$(echo $MENU_ITEM_OPT | awk -F " #" '{print $1}')
       export MENU_ITEM_OPT
       #
-      if [ "$DELIMITER" = "#AAA" ] || [ "$DELIMITER" = "#AAC" ] || [ "$DELIMITER" = "#AAD" ] || [ "$DELIMITER" = "#AAE" ] || [ "$DELIMITER" = "#AAF" ] || [ "$DELIMITER" = "#AAG" ] ; then
-         THIS_DIR=$XXSTR  # Restore $THIS_DIR.
-      fi
+      case $DELIMITER in
+           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           THIS_DIR=$XXSTR  # Restore $THIS_DIR. Location of all other files,
+                            # module libraries etc.
+           ;;
+      esac
+
 } # End of function f_menu_item_info
 #
 # +----------------------------------------+
@@ -3013,17 +3061,25 @@ f_create_LIST_APPS () {
 # |      Function f_show_max_menu_items    |
 # +----------------------------------------+
 #
-#  Inputs: None.
-#    Uses: XSTR, MOD_FILE, MAX.
+#  Inputs: $1=THIS_DIR.
+#    Uses: DELIMITER, MOD_FILE, MENU_ITEM_MAX
 # Outputs: MAX.
 #
 # This function will scan all module files
 # for all menus and count the number of items in each menu.
 #
 # This is a stand-alone function which is used to alert the programmer
-# if the number of menu items is equal to or exceeding 14 menu items.
+# if the number of menu items is equal to or exceeding 15 menu items.
 # The maximum number of menu items you can have is 16, to still fit on a
 # standard 80x24 line display screen.
+#
+# HOW-TO use this function
+# 1. Create a script file, "cli_app_menu_check.sh" in the same directory
+#    as the mod_apps-*.lib module files with the following line:
+#
+#    . lib_cli-common.lib ; f_show_max_menu_items /home/robert/cli-app-menu
+#
+# 2. Then run the script by: "bash cli-app-menu_check.sh"
 #
 f_show_max_menu_items () {
       #
@@ -3031,47 +3087,62 @@ f_show_max_menu_items () {
       # Count number of lines containing special comment marker string to get
       # maximum item number.
       #
-      # Set XSTR to the Special Menu Item Marker.
-      for XSTR in $(grep [#]:M[A-Z][A-Z] "$THIS_DIR/README" | awk '{print $1}')
+      MENU_ITEM_MAX=15
+      #
+      # Set $DELIMITER to the Special Menu Item Marker.
+      for DELIMITER in $(grep [#]:M[A-Z][A-Z] "$1/README" | awk '{print $1}')
       do
-          echo
-          grep $XSTR $THIS_DIR/README
-          XSTR=${XSTR/:/} # Use string substitution.
+          grep "$DELIMITER" $1/README
+          DELIMITER=${DELIMITER/:/} # Use string substitution.
+          # Using sh (DASH) shell will cause "Bad substitution" error.
           #
           # Get name of module library file from the Application Category Menu
           # lib_cli-menu-cat.lib.
           # for-loop awk command uses back-ticks to execute resulting in name
           # of mod_apps-*.lib.
-          for MOD_FILE in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#" '{print $2}'`
+          for MOD_FUNC in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $1/lib_cli-menu-cat.lib | awk -F "#f_" '{print $2}'`
           do
+              #
+              # Convert the function name in the "Application Category Menu"
+              # to a file name.
+              #
+              # The conversion is necessary because the file names may contain
+              # <dash> characters while function names cannot under
+              # non-bash shells (just trying to follow the naming convention).
+              #
+              MOD_FILE=$MOD_FUNC
+              # Substitute <underscore> for <dash>.
+              MOD_FILE=${MOD_FILE/mod_apps_/mod_apps-}
+              # Substitution for audio-video.
+              MOD_FILE=${MOD_FILE/audio_video/audio-video}
+              # Substitution for screen-tools.
+              MOD_FILE=${MOD_FILE/screen_tools/screen-tools}
+              # Complete the <file name> change.
+              MOD_FILE=$MOD_FILE.lib
+              # Human readable list without special comment markers.
+              # Indents one space before application name.
+              #
               # Human readable list without special comment markers.
               # Indents one space before application name.
               # Is the module library file downloaded in $THIS_DIR?
-              if [ -r $THIS_DIR/$MOD_FILE ] ; then  # $MOD_FILE already exists
+              if [ -r $1/$MOD_FILE ] ; then  # $MOD_FILE already exists
                                                     # in current directory.
-                 MAX=$(grep $XSTR -c $THIS_DIR/$MOD_FILE)
-                 # Subtract 1 since the line DELIMITER=<string> contains the
-                 # special comment marker but is not part of menu display.
+                 MAX=$(awk -F "$DELIMITER" '{if ($2&&!$3){print $0}}' $1/$MOD_FILE | grep -c "$DELIMITER")
                  #
-                 MAX=$((MAX=$MAX-1))
-                 #
-                 # Cannot use "MAX=$MAX-1", since if MAX=12 echo $MAX shows
-                 # "12-1" not "11".
-                 #
-                 if [ $MAX -ge 14 ] ; then # 16 items maximum in a menu.
-                    echo $(tput bold)
-                    #
+                 if [ $MAX -ge $MENU_ITEM_MAX ] ; then # 16 items maximum in a menu.
                     # Use different color font for error messages.
                     f_term_color $ECOLOR $BCOLOR
-                    echo $(tput bold)
+                    echo -n $(tput bold)
                     #
                     echo ">>>>>>> WARNING! Number of menu items: $MAX <<<<<<<"
                     #
                     echo -n $(tput sgr0); f_term_color $FCOLOR $BCOLOR
+                 # elif [ $MAX -gt 0 ] ; then
+                 #    echo "        MAX=$MAX"
                  fi
               fi
            #
           done
       done
-      unset XSTR  # Throw out this variable.
+      unset DELIMITER  # Throw out this variable.
 } # End of function f_show_max_menu_items

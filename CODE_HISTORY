@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="November-02-2014 22:22"
+PROJECT_REVDATE="November-04-2014 23:18"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,16 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-11-02 *Testing version 2.0
-##            *lib_cli_common.lib comments limited to 80 characters wide.
+## 2014-11-04 *Testing version 2.0
+##            *f_main_find_menus added called by f_main_list_find_menus.
+##            *f_main_list_find_menus rewritten to standard format.
+##            *f_main_list_menus added called by f_main_list_find_menus.
+##            *f_show_menu rewritten to simplify nested if-statements.
+##            *f_show_menu_aab added to simplify f_show_menu.
+##
+## 2014-11-03 *Main Menu re-ordered menu item options.
+##
+## 2014-11-02 *lib_cli_common.lib comments limited to 80 characters wide.
 ##            *f_ask_run_app added called by f_run_app.
 ##            *f_create_LIST_APPS changed to use function name from
 ##             f_menu_module_display and derives the file name from it.
