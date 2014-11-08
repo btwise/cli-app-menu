@@ -30,7 +30,7 @@ f_menu_cat_games () {
 #f_menu_app_games_word        #BGA Word Games     - Boggle, hangman, pig-latin, create banners.
             #
             THIS_FILE="mod_apps-games.lib"
-            MENU_TITLE="Games Category Menu"
+            MENU_TITLE="Game Categories Menu"
             DELIMITER="#BGA" #BGA This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 

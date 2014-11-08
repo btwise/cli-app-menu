@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 22:17"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -32,7 +32,7 @@ f_menu_cat_internet () {
 #f_menu_app_web_browsers      #BIN Web Browsers      - Internet web  browsers.
             #
             THIS_FILE="mod_apps-internet.lib"
-            MENU_TITLE="Internet Category Menu"
+            MENU_TITLE="Internet Categories Menu"
             DELIMITER="#BIN" #BIN This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -92,7 +92,7 @@ f_menu_app_bloggers () {
       do    # Start of Bloggers Applications until loop.
 #0^0^0^0^1 #MBL blazeblogger - Blogger content management system.
 #0^0^0^0^1 #MBL blogger-cli  - Google blogging client.
-#0^0^0^0^1 #MBL charm        - Blogging client.
+#0^0^0^0^1 #MBL charm        - Blogging client, LiveJournal, Atom, and MetaWeb (WordPress).
 #1^0^0^0^1 #MBL nanoblogger  - Blogger.
 #0^0^0^0^1 #MBL wp-cli       - WordPress blogging client.
             #

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -21,7 +21,7 @@ f_menu_cat_image () {
 #f_menu_app_image_graphics #BIG Tools       - Viewers, ASCII Art, format converters, etc. 
             #
             THIS_FILE="mod_apps-graphics.lib"
-            MENU_TITLE="Image Application Category Menu"
+            MENU_TITLE="Image Application Categories Menu"
             DELIMITER="#BIG" #BIG This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 

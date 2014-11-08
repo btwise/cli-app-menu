@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 22:17"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -33,7 +33,7 @@ f_menu_cat_file_management () {
 #f_menu_app_file_viewers      #BFM Viewers     - View files a page at a time.
             #
             THIS_FILE="mod_apps-filedir.lib"
-            MENU_TITLE="File Management Application Category Menu"
+            MENU_TITLE="File Management Application Categories Menu"
             DELIMITER="#BFM" #BFM This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -856,38 +856,38 @@ f_menu_app_text_compare () {
 # +----------------------------------------+
 #
 #  Inputs: None. 
-#    Uses: MTH, MENU_ITEM, MAX.
+#    Uses: MTI, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_menu_app_text_file_editors () {
-      f_initvars_menu_app "MTH"
-      until [ "$MTH" = "0" ]
+      f_initvars_menu_app "MTI"
+      until [ "$MTI" = "0" ]
       do    # Start of Text Editor Applications until loop.
-#0^0^0^0^1  #MTH aee   - Advanced Easy Editor.
-#0^0^0^15^0 #MTH dav   - Text editor.
-#0^0^0^0^1  #MTH ed    - Classic CLI text editor.
-#0^0^0^0^0  #MTH emacs - Full screen text editor with plugins.
-#1^0^0^0^0  #MTH jed   - JED text editor.
-#1^0^0^11^0 #MTH joe   - Text editor. <Ctrl>-K H for help.
-#0^0^0^0^0  #MTH jupp  - Fork of joe editor with enhancements.
-#0^0^0^0^0  #MTH nano  - Simple full-screen text editor.
-#0^0^0^0^0  #MTH pico  - Simple full-screen text editor.
-#0^0^0^0^0  #MTH pyp   - "Pyed Piper" awk-sed-like features using Python-based sub-commands.
-#0^0^0^0^0  #MTH rrep  - Replace text in files.
-#0^0^0^14^0 #MTH vi    - Classic full-screen text editor.
-#0^0^0^14^0 #MTH vim   - vi "Improved" text editor.
-#0^0^0^12^0 #MTH zile  - Very small Emacs-subset editor.
+#0^0^0^0^1  #MTI aee   - Advanced Easy Editor.
+#0^0^0^15^0 #MTI dav   - Text editor.
+#0^0^0^0^1  #MTI ed    - Classic CLI text editor.
+#0^0^0^0^0  #MTI emacs - Full screen text editor with plugins.
+#1^0^0^0^0  #MTI jed   - JED text editor.
+#1^0^0^11^0 #MTI joe   - Text editor. <Ctrl>-K H for help.
+#0^0^0^0^0  #MTI jupp  - Fork of joe editor with enhancements.
+#0^0^0^0^0  #MTI nano  - Simple full-screen text editor.
+#0^0^0^0^0  #MTI pico  - Simple full-screen text editor.
+#0^0^0^0^0  #MTI pyp   - "Pyed Piper" awk-sed-like features using Python-based sub-commands.
+#0^0^0^0^0  #MTI rrep  - Replace text in files.
+#0^0^0^14^0 #MTI vi    - Classic full-screen text editor.
+#0^0^0^14^0 #MTI vim   - vi "Improved" text editor.
+#0^0^0^12^0 #MTI zile  - Very small Emacs-subset editor.
             #
             THIS_FILE="mod_apps-filedir.lib"
             MENU_TITLE="Text File Editor Applications Menu"
-            DELIMITER="#MTH" #MTH This 3rd field prevents awk from printing this line into menu options. 
+            DELIMITER="#MTI" #MTI This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read MTH
-            f_menu_item_process $MTH  # Outputs $MENU_ITEM.
+            read MTI
+            f_menu_item_process $MTI  # Outputs $MENU_ITEM.
       done  # End of Text Editor Applications until loop.
             #
-      unset MTH MENU_ITEM  # Throw out this variable.
+      unset MTI MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_text_editors
 #
 # +----------------------------------------+

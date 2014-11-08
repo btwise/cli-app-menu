@@ -70,7 +70,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
-REVDATE="November-04-2014 23:18"
+REVDATE="November-07-2014 19:52"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -549,8 +549,8 @@ REVDATE="November-04-2014 23:18"
 #:AAG - Information Menu
 #:AAH - List or Find Menus Menu
 #:
-#:BAU - Audio-Video Categories Menu
-#:BFM - File Management Categories Menu
+#:BAU - Audio-Video Applications Categories Menu
+#:BFM - File Management Application Categories Menu
 #:BGA - Game Categories Menu
 #:BIG - Image Categories Menu
 #:BIN - Internet Categories Menu
@@ -562,17 +562,17 @@ REVDATE="November-04-2014 23:18"
 #:BXC - Sample Template Categories Menu
 #:
 #:MAA - Accounting Applications Menu
-#:MAC - Audio CD Ripper Applications Menu
-#:MAN - Audio Player1 Applications Menu
-#:MAO - Audio Player2 Applications Menu
-#:MAP - Audio Player3 Applications Menu
-#:MAQ - Audio Player4 Applications Menu
-#:MAR - Audio Radio Applications Menu
-#:MAS - Audio Speech Synthesis Applications Menu
-#:MAT - Audio Music Tagger Applications Menu
+#:MAC - CD Rippers Applications Menu
+#:MAN - Music Player Applications Menu
+#:MAO - Music Player2 Applications Menu
+#:MAP - Music Player3 Applications Menu
+#:MAQ - Music Player4 Applications Menu
+#:MAR - Streaming Radio-Music sites Applications Menu
+#:MAS - Speech Synthesis Applications Menu
+#:MAT - Music Tagger Applications Menu
 #:MAU - Audio Editor Applications Menu
-#:MBH - Bin-Hex Editor Applications Menu
-#:MBL - Blog Client Menu
+#:MBH - Binary-Hexadecimal File Editor Applications Menu
+#:MBL - Blog Applications Menu
 #:MBT - Bittorrent Applications Menu
 #:MCA - Calendar Applications Menu
 #:MCB - Calendar2 Applications Menu
@@ -582,23 +582,23 @@ REVDATE="November-04-2014 23:18"
 #:MDB - Database Applications Menu
 #:MDE - Development Applications Menu
 #:MDF - Development2 Applications Menu
-#:MDL - Dowloader Applications Menu
-#:MED - Education Applications Menu
+#:MDL - Downloader-Checksum Applications Menu
+#:MED - Education/Hobby Applications Menu
 #:MEM - E-mail Applications Menu
 #:MEN - Environment Applications Menu
 #:MEO - MSDOS/NTFS Utilities Applications Menu
 #:MEP - MSDOS/NTFS Utilities2 Applications Menu
-#:MFA - File Burn CD/DVD Applications Menu
+#:MFA - CD/DVD File Burning Applications Menu
 #:MFB - File Compression Applications Menu
 #:MFC - File Compression2 Applications Menu
 #:MFD - File Deletion/Undeletion Applications Menu
 #:MFE - File Encryption Applications Menu
-#:MFF - File Search and find Applications Menu
+#:MFF - Find File Applications Menu
 #:MFG - File Checksum Applications Menu
 #:MFH - File Move-Copy Applications Menu
 #:MFI - File Backup Applications Menu
 #:MFJ - File Compression3 Applications Menu
-#:MFK - File MacIntosh Utilities Menu
+#:MFK - MacIntosh Applications Menu
 #:MFL - File Encryption2 Applications Menu
 #:MFM - File Manager Applications Menu
 #:MFN - File Manager2 Applications Menu
@@ -607,62 +607,64 @@ REVDATE="November-04-2014 23:18"
 #:MFT - File Transfer Applications Menu
 #:MFV - File Viewer Applications Menu
 #:MFX - FAX Applications Menu
+#:MFU - Network File Transfer Applications Menu
 #:MGA - Arcade Games Menu
 #:MGB - Arcade2 Games Menu
 #:MGC - Board Games Menu
 #:MGD - Card Games Menu
 #:MGE - MUD (Multi-user Dungeons) Menu
-#:MGF - Puzzles Menu
-#:MGG - Quiz Menu
-#:MGH - RPG (Role-Playing Games) Menu
-#:MGI - Simulation Games Menu
+#:MGF - Puzzle Games Menu
+#:MGG - Quiz Games Menu
+#:MGH - RPG Games Menu
+#:MGI - Simulation Games and Animation Menu
 #:MGJ - Strategy Games Menu
 #:MGK - Word Games Menu
-#:MGL - Tetris Games Menu
-#:MGM - Pac-Man Games Menu
+#:MGL - Tetris-like Games Menu
+#:MGM - Pac-Man-like Games Menu
 #:MHR - Ham Radio Applications Menu
 #:MIG - Image-Graphics Applications Menu
 #:MIH - Image-Graphics2 Applications Menu
 #:MIK - ImageMagick Applications Menu
 #:MIM - Instant Messaging Applications Menu
-#:MIR - Internet Relay Chat (IRC) Applications Menu
+#:MIR - IRC Clients Applications Menu
 #:MLO - System Log Applications Menu
-#:MMA - Mathematics Application Menu
-#:MNB - Network Bandwidth Applications Menu
+#:MMA - Mathematic Applications Menu
+#:MNB - Network Bandwidth Monitor Applications Menu
 #:MNC - LAN Chat Applications Menu
-#:MNF - Firewalls Applications Menu
+#:MNF - Firewall Applications Menu
 #:MNL - LAN Applications Menu
 #:MNM - Network Monitor Applications Menu
-#:MNN - NIC Diagnostic Tools Applications Menu
+#:MNN - NIC Tools Applications Menu
 #:MNO - Note Applications Menu
-#:MNP - Network Packet Applications Menu
+#:MNP - Packet Tools Applications Menu
 #:MNS - Network Sharing Applications Menu
 #:MNW - WAN Applications Menu
 #:MNX - WAN Applications2 Menu
 #:MPK - Package Management Applications Menu
 #:MPO - Podcatcher Applications Menu
+#:MPQ - Package Management2 Applications Menu
 #:MPR - Presentation Applications Menu
-#:MPS - PDF-PS Applications Menu
-#:MPT - PDF-PS2 Applications Menu
+#:MPS - PDF/PS File Applications Menu
+#:MPT - PDF/PS File2 Applications Menu
 #:MRC - Remote Connection Applications Menu
 #:MRM - News Reader Applications Menu
 #:MRN - News Reader2 Applications Menu
-#:MSB - System Backup Applications Menu
-#:MSC - System Screen Applications Menu
-#:MSD - System Disks Information Applications Menu
-#:MSE - System Disks Information2 Menu Applications Menu
+#:MSB - Backup/Archive Applications Menu
+#:MSC - Screen Applications Menu
+#:MSD - System Disks Information Menu
+#:MSE - System Disks Information2 Menu
 #:MSH - System Health Applications Menu
-#:MSI - System Mainboard Information Applications Menu
-#:MSL - System Linux Kernel Application Menu
+#:MSI - Mainboard Information Menu
+#:MSL - Linux Kernel Application Menu
 #:MSM - System Monitor Applications Menu
 #:MSN - System Monitor2 Applications Menu
 #:MSP - Spreadsheet Applications Menu
 #:MSQ - System Process Applications Menu
 #:MSR - System Process2 Applications Menu
-#:MSS - Screen-saver Applications Menu
+#:MSS - Screen-saver Games Menu
 #:MST - Screen Tools Applications Menu
-#:MSV - System Peripherals Information Applications Menu
-#:MSW - System Peripherals Information2 Applications Menu
+#:MSV - System Peripherals Information Menu
+#:MSW - System Peripherals Information2 Menu
 #:MTA - To-Do Applications Menu
 #:MTB - To-Do2 Applications Menu
 #:MTC - Text Compare Applications Menu
@@ -670,12 +672,13 @@ REVDATE="November-04-2014 23:18"
 #:MTE - Text Editor Applications Menu
 #:MTF - Text Editor2 Applications Menu
 #:MTG - Text Editor3 Applications Menu
-#:MTH - Text File Editor Applications Menu
+#:MTH - Text Editor4 Applications Menu
+#:MTI - Text File Editor Applications Menu
 #:MTM - Text Markup Language Applications Menu
 #:MTT - Text Tool Applications Menu
 #:MTV - Text Converter Applications Menu
-#:MTW - Text File Conversion Applications Menu
-#:MTX - Text File Conversion2 Applications Menu
+#:MTW - File Format Conversion Applications Menu
+#:MTX - File Format Conversion2 Applications Menu
 #:MVE - Video Editor Applications Menu
 #:MVI - Video Player/Downloader Applications Menu
 #:MWB - Web Browser Applications Menu

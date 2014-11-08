@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 22:17"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -26,7 +26,7 @@ f_menu_cat_network () {
 #f_menu_app_wan               #BNE WAN          - Test wide-area network connectivity, speed, routing, DNS.
             #
             THIS_FILE="mod_apps-network.lib"
-            MENU_TITLE="Network Application Category Menu"
+            MENU_TITLE="Network Application Categories Menu"
             DELIMITER="#BNE" #BNE This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -204,7 +204,7 @@ f_menu_scat_network_monitors () {
 #f_menu_app_network_monitors  #BNM Structure - Management, status, connections, devices, hosts.
             #
             THIS_FILE="mod_apps-network.lib"
-            MENU_TITLE="Network Monitor Application Category Menu"
+            MENU_TITLE="Network Monitor Application Categories Menu"
             DELIMITER="#BNM" #BNM This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 

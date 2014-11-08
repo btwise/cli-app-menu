@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-20-2014 11:11"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -64,6 +64,9 @@ f_application_web_install () {
            blogger-cli)
            WEB_SITE_INSTALL="http://code.google.com/p/blogger-cli/downloads/detail?name=blogger-cli-0.5.tar.gz&can=2&q="
            ;;
+           bongo)
+           WEB_SITE_INSTALL="https://github.com/dbrock/bongo
+           ;;
            braincurses)
            WEB_SITE_INSTALL="http://freecode.com/projects/braincurses"
            ;;
@@ -72,6 +75,9 @@ f_application_web_install () {
            ;;
            cclock)
            WEB_SITE_INSTALL="http://sourceforge.net/projects/cclock/files/latest/download"
+           ;;
+           ccx2)
+           WEB_SITE_INSTALL="http://palbo.github.com/ccx2
            ;;
            cdd)
            WEB_SITE_INSTALL="https://github.com/jestor/cdd"
@@ -129,6 +135,9 @@ f_application_web_install () {
            ;;
            elinks)
            WEB_SITE_INSTALL="http://elinks.or.cz/"
+           ;;
+           emms)
+           WEB_SITE_INSTALL="EMMS: http://www.gnu.org/software/emms"
            ;;
            enpi)
            WEB_SITE_INSTALL="http://enpiscript.blogspot.com/"
@@ -226,6 +235,9 @@ f_application_web_install () {
            knockd)
            WEB_SITE_INSTALL="http://www.zeroflux.org/projects/knock"
            ;;
+           kuechenstation)
+           WEB_SITE_INSTALL="http://kuechenstation.sourceforge.net"
+           ;;
            lnav)
            WEB_SITE_INSTALL="http://tstack.github.io/lnav/"
            ;;
@@ -244,11 +256,20 @@ f_application_web_install () {
            mencal)
            WEB_SITE_INSTALL="http://kyberdigi.cz/projects/mencal/index.php?l=en"
            ;;
+           mikmod)
+           WEB_SITE_INSTALL="http://mikmod.raphnet.net"
+           ;;
            moc)
            WEB_SITE_INSTALL="http://moc.daper.net/"
            ;;
            most)
            WEB_SITE_INSTALL="http://www.jedsoft.org/most/index.html"
+           ;;
+           mp3blaster)
+           WEB_SITE_INSTALL="http://mp3blaster.sourceforge.net"
+           ;;
+           mpd)
+           WEB_SITE_INSTALL="MPD: http://www.musicpd.org"
            ;;
            mpstat | iostat | pidstat | sadf | sar | sysstat)
            WEB_SITE_INSTALL="https://github.com/sysstat/sysstat"
@@ -265,11 +286,17 @@ f_application_web_install () {
            ncmatrix)
            WEB_SITE_INSTALL="http://webpages.charter.net/tux/ncmatrix/ncmatrix-1.0.zip"
            ;;
+           ncmpcpp)
+           WEB_SITE_INSTALL="http://unkart.ovh.org/ncmpcpp"
+           ;;
            ncmpy)
            WEB_SITE_INSTALL="https://github.com/cykerway/ncmpy"
            ;;
            ncp)
            WEB_SITE_INSTALL="http://www.fefe.de/ncp/"
+           ;;
+           ncurses)
+           WEB_SITE_INSTALL="http://www.gnu.org/software/ncurses"
            ;;
            ncurses-life)
            WEB_SITE_INSTALL="http://csiuo.com/drupal/content/ncurses-life"
@@ -282,6 +309,9 @@ f_application_web_install () {
            ;;
            normalize)
            WEB_SITE_INSTALL="http://normalize.nongnu.org/"
+           ;;
+           nplay)
+           WEB_SITE_INSTALL="https://github.com/mixu/nplay"
            ;;
            ntp)
            WEB_SITE_INSTALL="http://www.ntp.org/"
@@ -387,6 +417,9 @@ f_application_web_install () {
            ;;
            vitetris)
            WEB_SITE_INSTALL="http://www.victornils.net/tetris/"
+           ;;
+           vlc)
+           WEB_SITE_INSTALL="http://www.videolan.org/vlc"
            ;;
            vms-empire)
            WEB_SITE_INSTALL="http://www.catb.org/~esr/vms-empire/"

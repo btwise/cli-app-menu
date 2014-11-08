@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="October-31-2014 22:17"
+REVDATE="November-04-2014 23:18"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -745,7 +745,8 @@ f_valid_files_gui () {
 #
 f_valid_menu_txt () {
       f_initvars_menu_app "AAD"
-      # Please note: The function "f_show_menu" in library module file,
+      # Please note: This menu is a primitive, hard-coded menu because
+      #              the function "f_show_menu" in library module file,
       #              "lib-cli-common.lib" cannot be used at this time,
       #              since that file may not yet exist or
       #              may need to be downloaded from the GitHub web site.
@@ -2029,14 +2030,14 @@ f_main_license () {
 } # End of function f_main_license
 #
 # +----------------------------------------+
-# |        Function f_main_list_menus      |
+# |     Function f_main_list_find_menus    |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: X.
 # Outputs: None.
 #
-f_main_list_menus () {
+f_main_list_find_menus () {
       if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
          clear # Blank the screen.
          #
@@ -2055,40 +2056,67 @@ f_main_list_menus () {
       fi
       # display LIST_APPS
       if [ -r $THIS_DIR"/LIST_APPS" ] ; then
-         clear # Blank the screen.
-         echo "--- List Applications ---"
-         echo
-         echo "You can (L)ist all menus and applications"
-         echo "You can (F)ind which menu contains an application."
-         echo
-         echo "To quit, press 'Enter' key."
-         echo
-         echo -n "Do you want to \"(L)ist all menus\" or \"(F)ind a menu\"? l/f: "
-         read X
-         case $X in
-              [Ll] | [Ll][Ii] | [Ll][Ii][Ss] | [Ll][Ii][Ss][Tt])
-              less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
-              ;;
-              [Ff] | [Ff][Ii | [Ff][Ii][Nn] | [Ff][Ii][Nn][Dd])
-              echo
-              echo
-              echo "Enter the name of the application to show the menu where it is listed."
-              echo
-              echo -n "Enter application name: "
-              read X
-              grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
-              ;;
-         esac
-     fi
-     unset X
+         f_initvars_menu_app "AAH"
+         # When $DELIMITER is set as above, then f_menu_item_process does not call
+         # f_application_run and try to run the menu item's name.
+         # i.e. "Colors", "Un-colors" or "Update", etc.
+         # since those are not the names of executable (run-able) applications.
+         #
+         until [ "$AAH" = "0" ]
+         do    # Start of List/Find Menu until loop.
+#f_main_list_menus^0^0^0^0  #AAH List All Menus - List all menus and applications.
+#f_main_find_menus^0^0^0^0  #AAH Find All Menus - Find menus containing an application.
+               #
+               THIS_FILE="cliappmenu.sh"
+               MENU_TITLE="List or Find Menus Menu"
+               DELIMITER="#AAH" #AAH This 3rd field prevents awk from printing this line into menu options. 
+               #
+               f_show_menu "$MENU_TITLE" "$DELIMITER" 
+               read AAH
+               f_menu_item_process $AAH  # Outputs $MENU_ITEM.
+         done  # End of List/Find Menu until loop.
+         #
+         unset AAH MENU_ITEM  # Throw out this variable.
+      fi
+} # End of function f_main_list_find_menus
+#
+# +----------------------------------------+
+# |        Function f_main_list_menus      |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_list_menus () {
+      less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
 } # End of function f_main_list_menus
+#
+# +----------------------------------------+
+# |        Function f_main_find_menus      |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: X.
+# Outputs: None.
+#
+f_main_find_menus () {
+      echo
+      echo
+      echo "Enter the name of the application to show the menu where it is listed."
+      echo
+      echo -n "Enter application name: "
+      read X
+      grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+unset X
+} # End of function f_main_find_menus
 #
 # +----------------------------------------+
 # |       Function f_main_search_apps      |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
-#    Uses: None.
+#    Uses: XSTR, BCOLOR, ECOLOR, FCOLOR,
 # Outputs: None.
 #
 f_main_search_apps () {
@@ -2238,19 +2266,18 @@ f_menu_term_color () {
       #
       until [ "$AAE" = "0" ]
       do    # Start of Terminal Colors Menu until loop.
-            #f_color_red     #AAE Red     - Red     on black.
-            #f_color_green   #AAE Green   - Green   on black.
-            #f_color_yellow  #AAE Yellow  - Yellow  on black.
-            #f_color_blue    #AAE Blue    - Blue    on black.
-            #f_color_magenta #AAE Magenta - Magenta on black.
-            #f_color_cyan    #AAE Cyan    - Cyan    on black.
-            #f_color_white   #AAE White   - White   on black.
-                             #AAE ------- - -----------------
-            #f_color_bw      #AAE BW      - Black   on white.
-            #f_color_rw      #AAE RW      - Red     on white.
-            #f_color_wb      #AAE WB      - White   on blue
-            #                               (Classic "Blueprint").
-            #f_color_yb      #AAE YB      - Yellow  on blue.
+#f_color_red     #AAE Red     - Red     on black.
+#f_color_green   #AAE Green   - Green   on black.
+#f_color_yellow  #AAE Yellow  - Yellow  on black.
+#f_color_blue    #AAE Blue    - Blue    on black.
+#f_color_magenta #AAE Magenta - Magenta on black.
+#f_color_cyan    #AAE Cyan    - Cyan    on black.
+#f_color_white   #AAE White   - White   on black.
+                 #AAE ------- - -----------------
+#f_color_bw      #AAE BW      - Black   on white.
+#f_color_rw      #AAE RW      - Red     on white.
+#f_color_wb      #AAE WB      - White   on blue (Classic "Blueprint").
+#f_color_yb      #AAE YB      - Yellow  on blue.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Terminal Colors Menu"
@@ -2340,16 +2367,15 @@ f_menu_uncolor () {
       #
       until [ "$AAF" = "0" ]
       do    # Start of Unavailable Colors until loop.
-            #f_ucolor_red     #AAF Red        - Red.
-            #f_ucolor_green   #AAF Green      - Green.
-            #f_ucolor_yellow  #AAF Yellow     - Yellow.
-            #f_ucolor_blue    #AAF Blue       - Blue.
-            #f_ucolor_magenta #AAF Magenta    - Magenta.
-            #f_ucolor_cyan    #AAF Cyan       - Cyan.
-            #f_ucolor_white   #AAF White      - White.
-            #f_ucolor_gray    #AAF Gray       - Gray (not available in
-            #                                        8-color terminals).
-            #
+#f_ucolor_red     #AAF Red        - Red.
+#f_ucolor_green   #AAF Green      - Green.
+#f_ucolor_yellow  #AAF Yellow     - Yellow.
+#f_ucolor_blue    #AAF Blue       - Blue.
+#f_ucolor_magenta #AAF Magenta    - Magenta.
+#f_ucolor_cyan    #AAF Cyan       - Cyan.
+#f_ucolor_white   #AAF White      - White.
+#f_ucolor_gray    #AAF Gray       - Gray (not available in 8-color terminals).
+           #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Colors for Unavailable Menu Items"
             DELIMITER="#AAF" #AAF This 3rd field prevents awk from printing this line into menu options.
@@ -2645,10 +2671,10 @@ f_initvars_menu_app "AAA"
 until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
 #f_menu_cat_applications #AAA Applications        - Run an application.
-#f_main_list_menus       #AAA List or Find Menus  - List all menus or find a menu containing an app.
 #f_main_search_apps      #AAA Find and Run        - Find & run an application in active menus.
-#f_main_help             #AAA Help and Features   - Basic usage and what can it do.
+#f_main_list_find_menus  #AAA List or Find Menus  - List all menus or find a menu containing an app.
 #f_main_configure        #AAA Configure           - Update software, manage modules, change colors, etc.
+#f_main_help             #AAA Help and Features   - Basic usage and what can it do.
 #f_main_information      #AAA Information         - About, version, documentation, code history, license.
       #
       THIS_FILE="cliappmenu.sh"

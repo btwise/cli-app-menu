@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="November-04-2014 23:18"
+PROJECT_REVDATE="November-07-2014 19:52"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,16 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-11-04 *Testing version 2.0
-##            *f_main_find_menus added called by f_main_list_find_menus.
+## 2014-11-07 *Testing version 2.0
+##            *README checked and used actual menu names.
+##
+## 2014-11-05 *Added 8 new applications.
+##            *f_menu_app_music_players added bongo, emms, mikmod, nvlc, kuechenstation,
+##             and vux.
+##            *f_menu_app_text_editors added levee, mped.
+##            *f_menu_app_text_editors4 added.
+##
+## 2014-11-04 *f_main_find_menus added called by f_main_list_find_menus.
 ##            *f_main_list_find_menus rewritten to standard format.
 ##            *f_main_list_menus added called by f_main_list_find_menus.
 ##            *f_show_menu rewritten to simplify nested if-statements.
@@ -100,26 +108,30 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_run_app_bad added called by f_run_app.
 ##            *f_run_app_good added called by f_run_app.
 ##
-## 2014-11-01 *All files replaced test statements using "-a", "-o"
+## 2014-11-01 *Added 1 new application.
+##            *All files standardized format of questions and prompts.
+##            *f_menu_app_development added sloccount.
+##            *f_mod_apps_screen-tools renamed to f_mod_apps_screen_tools.
+##            *f_update_all_modules changed to use function name from
+##             f_menu_module_display and derives the file name from it.
+##             Added clarifying comments.
+
+## 2014-10-30 *Added 1 new application.
+##            *All files replaced test statements using "-a", "-o"
 ##             with easier to read and simpler "&&" "||" syntax.
-##             Standardized format of questions and prompts.
 ##            *f_application_install changed to use f_install_using_no_auto.
 ##            *f_install_using_no-auto renamed to f_install_using_no_auto
 ##             to conform to naming conventions, no <dash> in function names.
 ##            *f_match_pkg_name_to_app_name added "checkbashisms".
-##            *f_menu_app_development added checkbashisms, sloccount.
+##            *f_menu_app_development added checkbashisms.
 ##            *f_menu_cat_audio-video changed to f_menu_cat_audio_video.
 ##            *f_menu_module_display changed names of functions to the standard
 ##             where names are no longer both a file name and a function name.
-##            *f_mod_apps_screen-tools renamed to f_mod_apps_screen_tools.
 ##            *f_show_menu changed to use function name from
 ##             f_menu_module_display and derives the file name from it.
 ##             Added special conversion of function name to file name by using
 ##             substitution to handle dashes in mod_apps-screen-tools.lib.
 ##                                              mod_apps-audio-video.lib.
-##             Added clarifying comments.
-##            *f_update_all_modules changed to use function name from
-##             f_menu_module_display and derives the file name from it.
 ##             Added clarifying comments.
 ##
 ## 2014-10-24 *f_menu_item_process added clarifying comments.
@@ -180,7 +192,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_wget_file_2 changed to backup old files by mv to <old file>.bak
 ##             rather than rm <old file> before downloading <new file>.
 ##
-## 2014-10-16 *Changed functionality, web install runs only if automatic install
+## 2014-10-16 *Added 2 new applications. Deleted 1 non-CLI application.
+##            *Changed functionality, web install runs only if automatic install
 ##             fails and custom install either fails or is does not exist.
 ##            *f_application_install improved comments and add code to run
 ##             f_application_web_install function if custom install
@@ -231,13 +244,15 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *mod_apps-system.lib rearranged functions alphabetically.
 ##            *f_install_galaxis created to install galaxis.
 ##
-## 2014-10-11 *f_menu_app_games_simulation added sst, trekx.
+## 2014-10-11 *Added 2 new applications.
+##            *f_menu_app_games_simulation added sst, trekx.
 ##             Also added help for sst, trek, trekx.
 ##             The game startrek would not compile C properly but leave it in
 ##             the program code but omit it from the application menu for now.
 ##             Changed install messages in other games for clarity.
 ##
-## 2014-10-10 *f_menu_app_games_arcade added galaxis.
+## 2014-10-10 *Added 8 new applications.
+##            *f_menu_app_games_arcade added galaxis.
 ##            *f_menu_app_games_tetris added tetrix. 
 ##            *f_menu_app_math added datamash, octave.
 ##            *f_menu_app_wan added geoip, geoiplookup, namebench, speedtest-cli.

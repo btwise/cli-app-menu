@@ -1,9 +1,9 @@
-# ©2014 Copyright 2014 Robert D. Chin
+q# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-30-2014 16:32"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio_video    |
@@ -16,7 +16,7 @@
 f_menu_cat_audio_video () {
       f_initvars_menu_app "BAU"
       until [ "$BAU" = "0" ]
-      do    # Start of Audio Application Category until loop.
+      do    # Start of Audio-Video Application Category until loop.
 #f_menu_app_cdrippers        #BAU CD Rippers       - Copy music off CD-ROM to files.
 #f_menu_app_audio_editors    #BAU Audio Editors    - Audio editors/converters of file formats.
 #f_menu_app_music_players    #BAU Music Players    - Play music CD-ROM or music files. Jukebox, playlists.
@@ -26,7 +26,7 @@ f_menu_cat_audio_video () {
 #f_menu_app_video_players    #BAU Video Players    - Video players/downloaders.
             #
             THIS_FILE="mod_apps-audio-video.lib"
-            MENU_TITLE="Audio-Video Application Category Menu"
+            MENU_TITLE="Audio-Video Application Categories Menu"
             DELIMITER="#BAU" #BAU This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -128,20 +128,20 @@ f_menu_app_music_players () {
       until [ "$MAN" = "0" ]
       do    # Start of Music Player Applications until loop.
 #0^0^0^0^0 #MAN adcd         - Very simple CD player.
+#0^0^0^0^0 #MAN bongo        - Front-end to Emacs for mpg123, ogg123, timidity, mikmod.
 #0^0^0^0^0 #MAN camp         - Music player with Graphic visualizer.
-#0^0^0^0^0 #MAN cvlc         - Music player, ncurses-based, depends on vlc.
+#0^0^0^0^1 #MAN ccx2         - Front-end to XMMS2 music player.
+#0^0^0^0^1 #MAN cdcd         - CD player. Single-line command, gives prompt.
+#0^0^0^0^1 #MAN clxmms       - Front-end to XMMS music player.
 #0^0^0^1^0 #MAN cmus         - Music player, MP3,  Ogg Vorbis, ncurses-based.
 #0^0^0^0^0 #MAN consolecandy - MP3 player with spectrum analyzer and other eye-candy.
 #0^0^0^0^0 #MAN cplay        - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
+#0^0^0^0^0 #MAN cvlc         - Music player, ncurses-based, depends on vlc.
 #0^0^0^0^0 #MAN dcd          - CD player.
+#0^0^0^0^1 #MAN draai        - A wrapper for mpc. Single-line command.
+#0^0^0^0^0 #MAN emms         - Emacs extension plays MP3, Ogg Vorbis, FLAC, etc.
+#0^0^0^0^0 #MAN herrie       - Music playlist and file browser on split screen.
 #0^0^0^0^0 #MAN jac          - CD player, creates playlist.
-#0^0^0^0^0 #MAN juke         - Music Jukebox, ncurses-based.
-#0^0^0^0^0 #MAN mcdp         - CD player, adjust volume, repeat track/cd, ncurses-based.
-#0^0^0^0^0 #MAN mcplay       - Playlist ncurses-based.
-#0^0^0^0^0 #MAN mjs          - MP3 player, ncurses-based.
-#0^0^0^0^0 #MAN mp3blaster   - Music player, playlists, groups, ncurses-based.
-#0^0^0^0^0 #MAN moc          - Music player, ncurses-based.
-#0^0^0^1^0 #MAN ncmpc        - Music player, ncurses-based.
 #f_menu_app_music_players2^0^0^0^0 #MAN MORE...      - For more music player applications.
             #
             THIS_FILE="mod_apps-audio-video.lib"
@@ -168,13 +168,22 @@ f_menu_app_music_players2 () {
       f_initvars_menu_app "MAO"
       until [ "$MAO" = "0" ]
       do    # Start of Music Player Applications2 until loop.
-#0^0^0^0^0 #MAO ncmpy           - A [Python+Curses] MPD client. Playback, playlist, lyrics.
-#0^0^0^1^0 #MAO ncmpcpp         - Music player and visualizer, ncurses-based.
-#0^0^0^0^0 #MAO opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
-#0^0^0^0^0 #MAO orpheus         - Music player ncurses-based.
-#0^0^0^0^0 #MAO peyote          - With cuesheet support, wv, wav, flac, ape, ogg, mp3, m4a.
-#0^0^0^0^0 #MAO pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
-#f_menu_app_music_players3^0^0^0^0 #MAO MORE...         - For more music player applications.
+#0^0^0^0^0 #MAO juke           - Music Jukebox, ncurses-based.
+#0^0^0^0^1 #MAO kuechenstation - front-end to XMMS2 music player.
+#0^0^0^0^0 #MAO mcdp           - CD player, adjust volume, repeat track/cd, ncurses-based.
+#0^0^0^0^0 #MAO mcplay         - Playlist ncurses-based.
+#0^0^0^0^0 #MAO mikmod         - MOD, XM, IT or S3M player.
+#0^0^0^0^0 #MAO mjs            - MP3 player, ncurses-based.
+#0^0^0^0^1 #MAO mpd            - Music Player Daemon server-side app for playing music.
+#0^0^0^0^0 #MAO mp3blaster     - Music player, playlists, groups, ncurses-based.
+#0^0^0^0^0 #MAO moc            - Music player, ncurses-based.
+#0^0^0^0^1 #MAO moosic         - Front-end to mpd. Auto-starts mpd daemon if needed.
+#0^0^0^0^1 #MAO mpc            - Front-end to mpd. Single-line command.
+#0^0^0^0^1 #MAO mpg123         - Music player MPEG 1.0/2.0/2.5 stream (layers 1, 2 and 3).
+#0^0^0^0^1 #MAO mussort        - Sort music files by artist and album via tag information.
+#0^0^0^1^0 #MAO ncmpc          - Music player, ncurses-based.
+#0^0^0^0^0 #MAO ncmpy          - A [Python+Curses] MPD client. Playback, playlist, lyrics.
+#f_menu_app_music_players3^0^0^0^0 #MAO MORE...        - For more music player applications.
 
             #
             THIS_FILE="mod_apps-audio-video.lib"
@@ -202,20 +211,22 @@ f_menu_app_music_players3 () {
       f_initvars_menu_app "MAP"
       until [ "$MAP" = "0" ]
       do    # Start of Music Player Applications3 until loop.
-#0^0^0^0^1 #MAP mpd     - Music Player Daemon server-side app for playing music.
-#0^0^0^0^1 #MAP moosic  - Front-end to mpd. Auto-starts mpd daemon if needed.
-#0^0^0^0^1 #MAP mpc     - Front-end to mpd. Single-line command.
-#0^0^0^0^1 #MAP draai   - A wrapper for mpc. Single-line command.
-#0^0^0^0^0 #MAP pms     - Front-end to mpd. Playlists, ncurses-based.
-#0^0^0^0^0 #MAP ------- - -----------------------------------------------------------------
-#0^0^0^0^1 #MAP cdcd    - CD player. Single-line command, gives prompt.
-#0^0^0^0^0 #MAP herrie  - Music playlist and file browser on split screen.
-#0^0^0^0^1 #MAP mpg123  - Music player MPEG 1.0/2.0/2.5 stream (layers 1, 2 and 3).
-#0^0^0^0^1 #MAP mussort - Sort music files by artist and album via tag information.
-#0^0^0^0^1 #MAP vimpc   - vi-like music player. List playlists with vi keybindings.
-#0^0^0^0^1 #MAP vitunes - vi-like music player.
-#0^0^0^0^1 #MAP yauap   - Music player based on Gstreamer, MP3, network streams.
-#f_menu_app_music_players4^0^0^0^0 #MAP MORE... - For more music player applications.
+#0^0^0^1^0 #MAP ncmpcpp          - Music player and visualizer, ncurses-based. (Use w/mpd).
+#0^0^0^0^1 #MAP ncxmms2          - Front-end to XMMS2 music player.
+#0^0^0^0^1 #MAP nplay            - Front-end to mplayer.
+#0^0^0^1^0 #MAP nvlc             - vlc-based music player with ncurses interface.
+#0^0^0^1^0 #MAP ogg123           - Plays Ogg Vorbis *.ogg files.
+#0^0^0^0^0 #MAP opencubicplayer  - Graphic visualizer, speed, pitch, filters, ncurses-based.
+#0^0^0^0^0 #MAP orpheus          - Music player ncurses-based.
+#0^0^0^0^0 #MAP peyote           - With cuesheet support, wv, wav, flac, ape, ogg, mp3, m4a.
+#0^0^0^0^0 #MAP pms              - Front-end to mpd. Playlists, ncurses-based.
+#0^0^0^0^0 #MAP pytone           - Jukebox, cross-fading, search, mixer, ncurses-based.
+#0^0^0^0^0 #MAP timidity         - MIDI player or daemon adding MIDI support to ALSA.
+#0^0^0^0^1 #MAP vimpc            - vi-like music player, list playlists w/vi keybindings.
+#0^0^0^0^1 #MAP vitunes          - vi-like music player.
+#0^0^0^0^1 #MAP xmms2-client-cli - Front-end to XMMS2 music player.
+#0^0^0^0^1 #MAP yauap            - Music player based on Gstreamer, MP3, network streams.
+#f_menu_app_music_players4^0^0^0^0 #MAP MORE...          - For more music player applications.
             #
             THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Player3 Applications Menu"
@@ -241,10 +252,7 @@ f_menu_app_music_players4 () {
       f_initvars_menu_app "MAQ"
       until [ "$MAQ" = "0" ]
       do    # Start of Music Players4 Applications until loop.
-#0^0^0^0^1 #MAQ ccx2             - Front-end to XMMS music player.
-#0^0^0^0^1 #MAQ clxmms           - Front-end to XMMS music player.
-#0^0^0^0^1 #MAQ ncxmms2          - Front-end to XMMS music player.
-#0^0^0^0^1 #MAQ xmms2-client-cli - Front-end to XMMS music player.
+#0^0^0^0^1 #MAQ vux - ogg and mp3 player.
             #
             THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Players4 Applications Menu"
@@ -400,8 +408,10 @@ f_menu_app_video_players () {
       until [ "$MVI" = "0" ]
       do    # Start of Video Applications until loop.
 #0^0^0^0^1 #MVI aaxine       - Xine video player.
+#0^0^0^0^1 #MVI bongo        - Front-end to Emacs editor for vlc.
 #0^0^0^0^1 #MVI cacaxine     - Xine video player.
 #0^0^0^0^1 #MVI cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
+#0^0^0^0^0 #MVI ems          - Emacs extension plays video MPEG, WMV, MOV, AVI, OGM, MKV, etc.
 #0^0^0^0^1 #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
 #0^0^0^0^1 #MVI fbxine       - Xine video player.
 #0^0^0^0^1 #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.

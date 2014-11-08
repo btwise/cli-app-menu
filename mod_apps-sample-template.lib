@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_sample_template  |
@@ -40,7 +40,7 @@ f_menu_cat_sample_template () {
 #f_menu_cat_name2 #BXX App2 - This is application category #2.
             #
             THIS_FILE="<Name of this file or library>"
-            MENU_TITLE="<Sample Template> Application Category Menu"
+            MENU_TITLE="<Sample Template> Application Categories Menu"
             DELIMITER="#BXX" #BXX This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 

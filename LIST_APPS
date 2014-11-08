@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-11-02 22:53 Sunday
+Last updated: 2014-11-07 20:49 Friday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -14,7 +14,7 @@ _______________________________________________________________________________
  ledger        - Ledger using double-entry.
 
 _______________________________________________________________________________
-*** Audio CD Ripper Applications Menu ***
+*** CD Rippers Applications Menu ***
  abcde      - Audio CD ripper.
  acripper   - Audio CD ripper.
  cdda2wav   - CD-audio extraction program with paranoia support. 
@@ -30,60 +30,68 @@ _______________________________________________________________________________
  rubyripper - Audio CD ripper.
 
 _______________________________________________________________________________
-*** Audio Player1 Applications Menu ***
+*** Music Player Applications Menu ***
  adcd         - Very simple CD player.
+ bongo        - Front-end to Emacs for mpg123, ogg123, timidity, mikmod.
  camp         - Music player with Graphic visualizer.
- cvlc         - Music player, ncurses-based, depends on vlc.
+ ccx2         - Front-end to XMMS2 music player.
+ cdcd         - CD player. Single-line command, gives prompt.
+ clxmms       - Front-end to XMMS music player.
  cmus         - Music player, MP3,  Ogg Vorbis, ncurses-based.
  consolecandy - MP3 player with spectrum analyzer and other eye-candy.
  cplay        - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
+ cvlc         - Music player, ncurses-based, depends on vlc.
  dcd          - CD player.
+ draai        - A wrapper for mpc. Single-line command.
+ emms         - Emacs extension plays MP3, Ogg Vorbis, FLAC, etc.
+ herrie       - Music playlist and file browser on split screen.
  jac          - CD player, creates playlist.
- juke         - Music Jukebox, ncurses-based.
- mcdp         - CD player, adjust volume, repeat track/cd, ncurses-based.
- mcplay       - Playlist ncurses-based.
- mjs          - MP3 player, ncurses-based.
- mp3blaster   - Music player, playlists, groups, ncurses-based.
- moc          - Music player, ncurses-based.
- ncmpc        - Music player, ncurses-based.
  MORE...      - For more music player applications.
 
 _______________________________________________________________________________
-*** Audio Player2 Applications Menu ***
- ncmpy           - A [Python+Curses] MPD client. Playback, playlist, lyrics.
- ncmpcpp         - Music player and visualizer, ncurses-based.
- opencubicplayer - Graphic visualizer, speed, pitch, filters, ncurses-based.
- orpheus         - Music player ncurses-based.
- peyote          - With cuesheet support, wv, wav, flac, ape, ogg, mp3, m4a.
- pytone          - Jukebox, cross-fading, search, mixer, ncurses-based.
- MORE...         - For more music player applications.
+*** Music Player2 Applications Menu ***
+ juke           - Music Jukebox, ncurses-based.
+ kuechenstation - front-end to XMMS2 music player.
+ mcdp           - CD player, adjust volume, repeat track/cd, ncurses-based.
+ mcplay         - Playlist ncurses-based.
+ mikmod         - MOD, XM, IT or S3M player.
+ mjs            - MP3 player, ncurses-based.
+ mpd            - Music Player Daemon server-side app for playing music.
+ mp3blaster     - Music player, playlists, groups, ncurses-based.
+ moc            - Music player, ncurses-based.
+ moosic         - Front-end to mpd. Auto-starts mpd daemon if needed.
+ mpc            - Front-end to mpd. Single-line command.
+ mpg123         - Music player MPEG 1.0/2.0/2.5 stream (layers 1, 2 and 3).
+ mussort        - Sort music files by artist and album via tag information.
+ ncmpc          - Music player, ncurses-based.
+ ncmpy          - A [Python+Curses] MPD client. Playback, playlist, lyrics.
+ MORE...        - For more music player applications.
 
 _______________________________________________________________________________
-*** Audio Player3 Applications Menu ***
- mpd     - Music Player Daemon server-side app for playing music.
- moosic  - Front-end to mpd. Auto-starts mpd daemon if needed.
- mpc     - Front-end to mpd. Single-line command.
- draai   - A wrapper for mpc. Single-line command.
- pms     - Front-end to mpd. Playlists, ncurses-based.
- ------- - -----------------------------------------------------------------
- cdcd    - CD player. Single-line command, gives prompt.
- herrie  - Music playlist and file browser on split screen.
- mpg123  - Music player MPEG 1.0/2.0/2.5 stream (layers 1, 2 and 3).
- mussort - Sort music files by artist and album via tag information.
- vimpc   - vi-like music player. List playlists with vi keybindings.
- vitunes - vi-like music player.
- yauap   - Music player based on Gstreamer, MP3, network streams.
- MORE... - For more music player applications.
+*** Music Player3 Applications Menu ***
+ ncmpcpp          - Music player and visualizer, ncurses-based. (Use w/mpd).
+ ncxmms2          - Front-end to XMMS2 music player.
+ nplay            - Front-end to mplayer.
+ nvlc             - vlc-based music player with ncurses interface.
+ ogg123           - Plays Ogg Vorbis *.ogg files.
+ opencubicplayer  - Graphic visualizer, speed, pitch, filters, ncurses-based.
+ orpheus          - Music player ncurses-based.
+ peyote           - With cuesheet support, wv, wav, flac, ape, ogg, mp3, m4a.
+ pms              - Front-end to mpd. Playlists, ncurses-based.
+ pytone           - Jukebox, cross-fading, search, mixer, ncurses-based.
+ timidity         - MIDI player or daemon adding MIDI support to ALSA.
+ vimpc            - vi-like music player, list playlists w/vi keybindings.
+ vitunes          - vi-like music player.
+ xmms2-client-cli - Front-end to XMMS2 music player.
+ yauap            - Music player based on Gstreamer, MP3, network streams.
+ MORE...          - For more music player applications.
 
 _______________________________________________________________________________
-*** Audio Player4 Applications Menu ***
- ccx2             - Front-end to XMMS music player.
- clxmms           - Front-end to XMMS music player.
- ncxmms2          - Front-end to XMMS music player.
- xmms2-client-cli - Front-end to XMMS music player.
+*** Music Player4 Applications Menu ***
+ vux - ogg and mp3 player.
 
 _______________________________________________________________________________
-*** Audio Radio Applications Menu ***
+*** Streaming Radio-Music sites Applications Menu ***
  cloudruby - Interfaces with music cloud service "Soundcloud.com".
  dradio    - Streaming radio on world-wide web.
  radio     - Streaming radio, ncurses-based.
@@ -92,14 +100,14 @@ _______________________________________________________________________________
  shell-fm  - Streaming radio player for last.fm radio.
 
 _______________________________________________________________________________
-*** Audio Speech Synthesis Applications Menu ***
+*** Speech Synthesis Applications Menu ***
  ebook-speaker - Reads aloud EPUB and MS Reader eBooks.
  edbrowse      - Audio web browser, editor, and reads aloud email.
  festival      - Reads text from text files or interactively on screen.
  screader      - Reads screen text.
 
 _______________________________________________________________________________
-*** Audio Music Tagger Applications Menu ***
+*** Music Tagger Applications Menu ***
  audiotag - Music tagger.
  beets    - Music tagger.
  dagger   - Tag and rename (based on tag) MP3 and OGG Vorbis files.
@@ -128,7 +136,7 @@ _______________________________________________________________________________
  sox       - Audio file cut/paste and combine, speed playback.
 
 _______________________________________________________________________________
-*** Bin-Hex Editor Applications Menu ***
+*** Binary-Hexadecimal File Editor Applications Menu ***
  bbe       - sed-like editor for binary files.
  beav      - Binary file editor and viewer.
  biew      - Hex and Binary file editor and viewer.
@@ -146,10 +154,10 @@ _______________________________________________________________________________
  xdelta3   - diff binary files. "Delta files" in RFC3284 (VCDIFF) format.
 
 _______________________________________________________________________________
-*** Blog Client Menu ***
+*** Blog Applications Menu ***
  blazeblogger - Blogger content management system.
  blogger-cli  - Google blogging client.
- charm        - Blogging client.
+ charm        - Blogging client, LiveJournal, Atom, and MetaWeb (WordPress).
  nanoblogger  - Blogger.
  wp-cli       - WordPress blogging client.
 
@@ -283,7 +291,7 @@ _______________________________________________________________________________
  udo             - Simpler markup language writes to man page format.
 
 _______________________________________________________________________________
-*** Dowloader Applications Menu ***
+*** Downloader-Checksum Applications Menu ***
  axel       - Downloader accelerator using multiple connections/mirrors.
  aria2c     - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
  cfv        - create/verify many types of checksum files.
@@ -297,7 +305,7 @@ _______________________________________________________________________________
  youtube-dl - Download/Play Youtube videos.
 
 _______________________________________________________________________________
-*** Education Applications Menu ***
+*** Education/Hobby Applications Menu ***
  diatheke    - Holy Bible research tool.
  grass       - GIS Map utility (Geographic Information System).
  gtypist     - Typing tutor displays a sentence for practice.
@@ -377,7 +385,7 @@ _______________________________________________________________________________
  winclean        - Clean up junk files from a Windows installation.
 
 _______________________________________________________________________________
-*** File Burn CD/DVD Applications Menu ***
+*** CD/DVD File Burning Applications Menu ***
  bashburn     - CD/DVD Write audio/data/iso image; features ASCII menus.
  burn         - Write audio/data/iso image or copy CDs.
  cdck         - Check the quality of a written CD.
@@ -470,7 +478,7 @@ _______________________________________________________________________________
  MORE...   - More file encryption applications.
 
 _______________________________________________________________________________
-*** File Search and find Applications Menu ***
+*** Find File Applications Menu ***
  duff         - Duplicate file finder.
  egrep        - Search files for string1 or string2. Same as "grep -E".
  fdupes       - Finds duplicate files uses md5sum and byte comparisons.
@@ -534,7 +542,7 @@ _______________________________________________________________________________
  zipsplit - File compress files to zip files.
 
 _______________________________________________________________________________
-*** File MacIntosh Utilities Menu ***
+*** MacIntosh Applications Menu ***
  macunpack - Extract files from Macintosh MacBinary archive.
  macsave   - Reads a sequence of MacBinary archived files and saves them.
  macstream - Converts files to a MacBinary stream written to std. output.
@@ -649,6 +657,18 @@ _______________________________________________________________________________
  hylafax-client - Works with HylaFAX server software.
 
 _______________________________________________________________________________
+*** Network File Transfer Applications Menu ***
+ cmdftp - File transfer client.
+ curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
+ ftp    - File transfer via Internet standard File Transfer Protocol.
+ ftpfs  - File transfer client.
+ lftp   - Sophisticated sftp/ftp/http download/upload client program.
+ ncftp  - Powerful file transfer client, download directory trees etc.
+ scp    - Secure Copy file transfer via ssh, asks for password if needed.
+ woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+ wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
+
+_______________________________________________________________________________
 *** Arcade Games Menu ***
  ascii-invaders - Space Invader clone.
  asciijump      - Ski jump game.
@@ -696,7 +716,7 @@ _______________________________________________________________________________
  tintin++ - Telnet client to play MUDs (Multi-User Dungeons).
 
 _______________________________________________________________________________
-*** Puzzles Menu ***
+*** Puzzle Games Menu ***
  asciiportal   - ASCIIpOrtal, go through a side-scrolling puzzle maze.
  bcd           - Reformat input as a punch card.
  dab           - 2-players try to complete the most boxes.
@@ -713,14 +733,14 @@ _______________________________________________________________________________
  xorcurses     - based on Xor released in 1987 by Astral Software.
 
 _______________________________________________________________________________
-*** Quiz Menu ***
+*** Quiz Games Menu ***
  arithmetic - Basic arithmetic quiz.
  geekcode   - Code tells others how geeky you are.
  morse      - Morse code training.
  quiz       - Quiz with choice of assorted topics.
 
 _______________________________________________________________________________
-*** RPG (Role-Playing Games) Menu ***
+*** RPG Games Menu ***
  adventure  - Explore Colossal Cave. 
  battlestar - Tropical adventure game.
  GearHead   - Post-nuclear apocalyptic game with 150 machines of destruction.
@@ -732,7 +752,7 @@ _______________________________________________________________________________
  wump       - Hunt the Wumpus, watch out for bats, pits.
 
 _______________________________________________________________________________
-*** Simulation Games Menu ***
+*** Simulation Games and Animation Menu ***
  atc       - Air traffic controller.
  bb        - ASCII-art movie demo based on AAlib.
  sail      - Command a Man O'War fighting ship.
@@ -770,7 +790,7 @@ _______________________________________________________________________________
  toilet    - Creates banner with bold font.
 
 _______________________________________________________________________________
-*** Tetris Games Menu ***
+*** Tetris-like Games Menu ***
  bastet   - Tetris-like game.
  ctris    - Tetris-like game.
  lexter   - Create words in a tetris-like game.
@@ -780,7 +800,7 @@ _______________________________________________________________________________
  vitetris - tetris-like game; 1-2 players, network play, custom graphics etc.
 
 _______________________________________________________________________________
-*** Pac-Man Games Menu ***
+*** Pac-Man-like Games Menu ***
  myman          - "Pac-Man"-like game, ncurses-based.
  pacman4console - "Pac-Man"-like game, ncurses-based.
  yaourt         - "Pac-Man"-like game, ncurses-based.
@@ -855,7 +875,7 @@ _______________________________________________________________________________
  twidge       - Twitter and identi.ca client.
 
 _______________________________________________________________________________
-*** Internet Relay Chat (IRC) Applications Menu ***
+*** IRC Clients Applications Menu ***
  bitchx  - IRC client.
  epic5   - IRC client based on ircI.
  erc     - IRC client for Emacs, powerful, modular, and extensible.
@@ -885,7 +905,7 @@ _______________________________________________________________________________
  wuzzah     - Users' login/logout events from utmpx records.
 
 _______________________________________________________________________________
-*** Mathematics Application Menu ***
+*** Mathematic Applications Menu ***
  arithmetic     - Basic arithmetic quiz.
  axiom          - General purpose computer algebra system.
  datamash       - Calculate statistics mean, avg, stdev, min, max, sum.
@@ -903,7 +923,7 @@ _______________________________________________________________________________
  stda           - Simple tools for data analysis.
 
 _______________________________________________________________________________
-*** Network Bandwidth Applications Menu ***
+*** Network Bandwidth Monitor Applications Menu ***
  bmon      - Bandwidth monitor and rate estimator.
  bwm-ng    - Bandwidth graphical monitor.
  cbm       - Color Bandwidth Meter; ncurses-based display.
@@ -926,7 +946,7 @@ _______________________________________________________________________________
  ytalk   - Multi-user chat program can do multiple connections.
 
 _______________________________________________________________________________
-*** Firewalls Applications Menu ***
+*** Firewall Applications Menu ***
  arptables - Firewall configuration rules for an ARP chain.
  doscan    - lists PCs listening for a TCP connection.
  iptables  - Firewall configuration rules for an IP chain.
@@ -974,7 +994,7 @@ _______________________________________________________________________________
  vnstat    - Traffic information monitor.
 
 _______________________________________________________________________________
-*** NIC Diagnostic Tools Applications Menu ***
+*** NIC Tools Applications Menu ***
  ethtool      - NIC configuration.
  ifconfig     - NIC configuration.
  ifplugstatus - Wireless USB NIC status.
@@ -1005,7 +1025,7 @@ _______________________________________________________________________________
  worklog  - Time-tracking for projects/tasks, running clock, ncurses-based.
 
 _______________________________________________________________________________
-*** Network Packet Applications Menu ***
+*** Packet Tools Applications Menu ***
  hunt      - Description-en: Packet sniffer can monitor, reset connections.
  kismet    - Wireless network detector, packet sniffer, auditor.
  ngrep     - Network packet analyzer.
@@ -1086,11 +1106,16 @@ _______________________________________________________________________________
  uraniacast - Podcatcher.
 
 _______________________________________________________________________________
+*** Package Management2 Applications Menu ***
+ yum       - "Yellow Dog Updated" package manager.
+ zypper    - OpenSUSE package manager on which is based YaST GUI.
+
+_______________________________________________________________________________
 *** Presentation Applications Menu ***
  tpp  - "Text Presentation Program", slideshow, ncurses-based.
 
 _______________________________________________________________________________
-*** PDF-PS Applications Menu ***
+*** PDF/PS File Applications Menu ***
  comparepdf - Compare two PDF files.
  diffpdf    - Compare two PDF files.
  enscript   - Convert text file to Post-Script file.
@@ -1109,7 +1134,7 @@ _______________________________________________________________________________
  MORE...    - For more PDF and PS applications.
 
 _______________________________________________________________________________
-*** PDF-PS2 Applications Menu ***
+*** PDF/PS File2 Applications Menu ***
  ps2pdf - Converts PS (PostScript) to PDF format.
  sdf    - Uses simple markup language output formats PS/PDF/HTML/RTF etc.
  sdop   - Converts a Simplified Docbook XML file to PS (PostScript).
@@ -1148,13 +1173,13 @@ _______________________________________________________________________________
  trn        - News reader.
 
 _______________________________________________________________________________
-*** System Backup Applications Menu ***
+*** Backup/Archive Applications Menu ***
  dtrx  - Use tar without remembering which flags for each file to use.
  rsync - File backup, mirror, directories and files.
  tar   - File backup, compress files.
 
 _______________________________________________________________________________
-*** System Screen Applications Menu ***
+*** Screen Applications Menu ***
  away     - Locks terminal with password and checks for new email.
  byobu    - Multiple sessions.
  dtach    - Emulates detach feature of screen.
@@ -1169,7 +1194,7 @@ _______________________________________________________________________________
  vlock    - Locks virtual console or current terminal.
 
 _______________________________________________________________________________
-*** System Disks Information Applications Menu ***
+*** System Disks Information Menu ***
  agedu     - Find wasted disk space.
  badblocks - Scans disks for bad sectors.
  blkid     - Block devices information.
@@ -1188,7 +1213,7 @@ _______________________________________________________________________________
  MORE... - For more system disk information applications.
 
 _______________________________________________________________________________
-*** System Disks Information2 Menu *** Applications Menu
+*** System Disks Information2 Menu ***
  lsblk  - List block devices (disks).
  ncdu   - Disk usage monitor, ncurses-based.
  parted - Disk partition tool.
@@ -1217,7 +1242,7 @@ _______________________________________________________________________________
  tripwire   - Detects/Reports changes in system files.
 
 _______________________________________________________________________________
-*** System Mainboard Information Applications Menu ***
+*** Mainboard Information Menu ***
  ypdomainname  - Show or set the system's NIS/YP domain name.
  dmidecode     - Main board information.
  dnsdomainname - Show the system's DNS domain name
@@ -1235,7 +1260,7 @@ _______________________________________________________________________________
  ypdomainname  - Show or set the system's NIS/YP domain name
 
 _______________________________________________________________________________
-*** System Linux Kernel Application Menu ***
+*** Linux Kernel Application Menu ***
  ctrlaltdel  - Set the function of the Ctrl-Alt-Del combination.
  insmod      - Insert a module into the Linux Kernel.
  lsb_release - Linux distro and LSB (Linux Standard Base).
@@ -1312,7 +1337,7 @@ _______________________________________________________________________________
  top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
 
 _______________________________________________________________________________
-*** Screen-saver Applications Menu ***
+*** Screen-saver Games Menu ***
  aafire       - Fire on screen.
  asciiquarium - Aquarium on screen.
  boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
@@ -1343,7 +1368,7 @@ _______________________________________________________________________________
  welcome21   - Distro logo (ANSI) with PC and linux kernel information.
 
 _______________________________________________________________________________
-*** System Peripherals Information Applications Menu ***
+*** System Peripherals Information Menu ***
  acpitool  - ACPI power/battery settings.
  blkid     - Block devices information.
  cdde      - Detects if a CD is inserted, runs specified program.
@@ -1362,7 +1387,7 @@ _______________________________________________________________________________
  MORE...   - For more peripheral system applications.
 
 _______________________________________________________________________________
-*** System Peripherals Information2 Applications Menu ***
+*** System Peripherals Information2 Menu ***
  pccardctl - PCMCIA card devices.
  printenv  - Environmental variables.
  scanimage - Control flatbed scanners, cameras. -L list of devices.
@@ -1459,15 +1484,18 @@ _______________________________________________________________________________
  jstar        - Joe Editor, WordStar emulation mode.
  jupp         - Fork of joe editor with enhancements.
  le           - LE editor text/hex mode, drop-down menus, ncurses-based.
- ledit        - line editor used with interactive commands.
+ ledit        - Line editor used with interactive commands.
+ levee        - editor based on vi.
  levi         - Very small vi-clone. From the 1980's.
  mg           - Microscopic GNU Emacs-style editor.
- nano         - Simple full-screen text editor more powerful than pico.
- nano-tiny    - tiny build of nano.
+ mped         - Text editor, ncurses based.
  MORE...   - For more text editor applications.
+ MORE...         - For more text editor applications.
 
 _______________________________________________________________________________
 *** Text Editor3 Applications Menu ***
+ nano            - Simple full-screen text editor more powerful than pico.
+ nano-tiny       - Tiny build of nano.
  ne              - Nice Editor. Drop-down menus, ncurses-based. 
  NERD_tree       - vim plug-in directory tree, highlighting, bookmarks, etc.
  nvi             - vi-clone as close to vi as possible.
@@ -1481,6 +1509,9 @@ _______________________________________________________________________________
  vim-scripts     - plugins for vim, adding bells and whistles.
  vim-tiny        - Vi IMproved compact version.
  vim-latexsuite  - LaTeX plugin for vim.
+
+_______________________________________________________________________________
+*** Text Editor4 Applications Menu ***
  vim-vimoutliner - Script for building an outline editor on top of vim.
  zile            - Very small Emacs-subset editor.
 
@@ -1540,7 +1571,7 @@ _______________________________________________________________________________
  xmlto      - Converts XML to DVI XSL-FO, HTML, XHTML, epub, man, PDF, PS.
 
 _______________________________________________________________________________
-*** Text File Conversion Applications Menu ***
+*** File Format Conversion Applications Menu ***
  abcm2ps    - Converts ABC music source files to PS sheet music format.
  catdoc     - Microsoft Word to text converter.
  csvkit     - Suite of utilities for converting to and working with CSV.
@@ -1559,7 +1590,7 @@ _______________________________________________________________________________
  MORE...    - More file format conversion applications.
 
 _______________________________________________________________________________
-*** Text File Conversion2 Applications Menu ***
+*** File Format Conversion2 Applications Menu ***
  txt2pdbdoc  - Converts plain ASCII text to PDB doc format for Palm Pilots.
  txt2regex   - Converts human sentences to regex. Regular Expression Wizard.
  txt2tags    - Converts plain ASCII text to a variety of formats.
@@ -1587,8 +1618,10 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Video Player/Downloader Applications Menu ***
  aaxine       - Xine video player.
+ bongo        - Front-end to Emacs editor for vlc.
  cacaxine     - Xine video player.
  cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
+ ems          - Emacs extension plays video MPEG, WMV, MOV, AVI, OGM, MKV, etc.
  episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
  fbxine       - Xine video player.
  mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.

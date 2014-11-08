@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-12-2014 17:30"
+# REVDATE="November-07-2014 19:52"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -28,7 +28,7 @@ f_menu_cat_system () {
 #f_menu_app_sys_process     #BSY Process     - System process monitoring, killing.
             #
             THIS_FILE="mod_apps-system.lib"
-            MENU_TITLE="System Category Menu"
+            MENU_TITLE="System Categories Menu"
             DELIMITER="#BSY" #BSY This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
