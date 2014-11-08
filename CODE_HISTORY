@@ -115,7 +115,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_update_all_modules changed to use function name from
 ##             f_menu_module_display and derives the file name from it.
 ##             Added clarifying comments.
-
+##
 ## 2014-10-30 *Added 1 new application.
 ##            *All files replaced test statements using "-a", "-o"
 ##             with easier to read and simpler "&&" "||" syntax.
