@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-04-2014 23:18"
+# REVDATE="November-12-2014 01:45"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -793,6 +793,66 @@ f_update_all_modules () {
       THIS_FILE=$YSTR
       unset XSTR YSTR MOD_FUNC MOD_FILE
 } # End of function f_update_all_modules
+#
+# +----------------------------------------+
+# |      Function f_menu_app_favorites     |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MENU_ITEM, MAX, SAVE_DIR, THIS_DIR.
+# Outputs: ERROR, MENU_TITLE, DELIMITER, MENU_ITEM.
+#
+f_menu_app_favorites () {
+      if [ -r ~/cli-app-menu-favorites.txt ] ; then
+         SAVE_DIR=$THIS_DIR
+         export SAVE_DIR
+         f_initvars_menu_app "MZZ"
+         until [ "$MZZ" = "0" ]
+         do    # Start of Favorite Applications until loop.
+               THIS_DIR=~
+               THIS_FILE="cli-app-menu-favorites.txt"
+               MENU_TITLE="Favorite Applications Menu"
+               DELIMITER="#MZZ" #MZZ This 3rd field prevents awk from printing this line into menu options. 
+               #
+               f_show_menu "$MENU_TITLE" "$DELIMITER" 
+               read MZZ
+               f_menu_item_process $MZZ  # Outputs $MENU_ITEM.
+         done  # End of Favorite Applications until loop.
+         THIS_DIR=$SAVE_DIR
+      else
+         clear  # blank screen
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo ">>>The file \"cli-app-menu-favorites.txt\" is either missing or cannot be read.<<<"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+         echo "The file \"cli-app-menu-favorites.txt\" can be created/updated by going into an"
+         echo "application menu and entering the item number followed by \"f\" of your favorite"
+         echo "application."
+         echo
+         echo "For example, suppose you are in the Arcade Games Menu:"
+         echo
+         echo "--- Arcade Games Menu ---"
+         echo
+         echo "0 - Return to previous menu."
+         echo "1 - ascii-invaders - Space Invader clone."
+         echo "2 - asciijump      - Ski jump game."
+         echo "..."
+         echo "8 - ninvaders      - Space invaders-like game ncurses-based."
+         echo
+         echo "Enter 0 to 15 or letters: 8f"
+         echo
+         echo "The response, \"8f\" indicates that you want to add \"ninvaders\""
+         echo "to your favorites menu."
+         echo
+         echo "The file \"cli-app-menu-favorites.txt\" can also be edited to delete menu entries."
+         f_press_enter_key_to_continue
+      fi
+           #
+      unset MZZ MENU_ITEM  # Throw out this variable.
+} # End of f_menu_app_favorites
 #
 # +----------------------------------------+
 # |       Function f_install_ncurses       |

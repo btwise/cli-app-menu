@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-24-2014 15:23"
+# REVDATE="November-12-2014 01:45"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_databases     |
@@ -40,7 +40,7 @@ f_menu_app_databases () {
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MDB
             f_menu_item_process $MDB  # Outputs $MENU_ITEM.
-      done  # End of <Sample Template> Applications until loop.
+      done  # End of Database Applications until loop.
             #
       unset MDB MENU_ITEM  # Throw out this variable.
 } # End of f_menu_app_databases

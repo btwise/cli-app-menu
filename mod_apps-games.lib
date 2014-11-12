@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 22:17"
+# REVDATE="November-12-2014 01:45"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -346,7 +346,7 @@ f_menu_app_games_screensaver () {
             #f_hint^0^0^8:NC^0  #MSS boinctui     - Not a screen-saver but an idle-CPU BOINC software manager.
             #f_hint^1^0^23:NC^0 #MSS bsod         - Simulate Microsoft XP "Blue screen of death".
             #f_hint^1^0^8:NC^0  #MSS cclock       - Digital clock with huge numbers fills entire screen.
-            #f_hint^0^0^8:NC^0  #MSS cmatrix      - Matrix-like screen-saver.
+            #f_hint^0^0^1:NC^0  #MSS cmatrix      - Matrix-like screen-saver.
             #f_hint^0^0^8:NC^0  #MSS mrzoom       - Displays fractal images. A Mandelbrot fractal explorer.
             #f_hint^0^0^8:NC^0  #MSS ncmatrix     - Matrix-like screen-saver and network traffic visualizer.
             #f_hint^0^0^8:NC^0  #MSS rain         - Rain on screen.

@@ -70,7 +70,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
-REVDATE="November-07-2014 19:52"
+REVDATE="November-12-2014 01:45"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -500,6 +500,7 @@ REVDATE="November-07-2014 19:52"
 #:                 numeric).
 #:                 ' 0' means quit menu.
 #:                 '-1' stay in menu loop, legitimate choice.
+#: CNT           - Number; Scratch variable.
 #: DELIM         - String; Delimiter prefix without the hash "#" mark.
 #: DELIMITER     - String; Delimiter prefix of menu option string.
 #: ERROR         - Number; Save error code number from $? function.
@@ -521,6 +522,7 @@ REVDATE="November-07-2014 19:52"
 #:                 '1' Ask "Press Enter key to continue".
 #: REVDATE       - String; Revision date of shell script.
 #: REVISION      - String; Revision number of shell script.
+#: SAVE_DIR      - String; Saves $THIS_DIR when needed.
 #: THIS_DIR      - Directory containg library modules and support files.
 #: THIS_FILE     - String; name of shell script.
 #: UCOLOR        - Font color for unavailable library modules in Application

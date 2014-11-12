@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="November-07-2014 19:52"
+PROJECT_REVDATE="November-12-2014 01:45"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,12 +79,17 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-11-07 *Testing version 2.0
-##            *README checked and used actual menu names.
+## 2014-11-12 *Testing version 2.0
+##            *New functionality, added "Favorites" option to Main Menu.
+##            *f_menu_app_favorites added.
+##            *f_f_menu_item_process allows favorite apps.
+##            *f_menu_item_valid rewritten and allows adding favorite apps.
+##
+## 2014-11-07 *README checked and used actual menu names.
 ##
 ## 2014-11-05 *Added 8 new applications.
-##            *f_menu_app_music_players added bongo, emms, mikmod, nvlc, kuechenstation,
-##             and vux.
+##            *f_menu_app_music_players added bongo, emms, mikmod, nvlc,
+##             kuechenstation, and vux.
 ##            *f_menu_app_text_editors added levee, mped.
 ##            *f_menu_app_text_editors4 added.
 ##

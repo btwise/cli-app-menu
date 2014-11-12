@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-04-2014 23:18"
+# REVDATE="November-12-2014 01:45"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -59,7 +59,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files,
                                    # module libraries etc.
            THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
-           ;;
+          ;;
       esac
       #
       if [ "$DELIMITER" != "#AAB" ] ; then
@@ -350,10 +350,10 @@ f_choice_array () {
 # |      Function f_menu_item_process      |
 # +----------------------------------------+
 #
-#  Inputs: $*, CHOICE[$MENU_ITEM], MAX.
+#  Inputs: $*, CHOICE[$MENU_ITEM], MAX, SAVE_DIR.
 #          Where "$*" is the complete user-entered string 
 #          passed as a set of arguments.
-#    Uses: None.
+#    Uses: XSTR, MENU_ITEM, PRESS_KEY, THIS_DIR, APP_NAME, DELIM, DELIMITER, ERROR.
 # Outputs: None.
 #
 f_menu_item_process () {
@@ -380,9 +380,13 @@ f_menu_item_process () {
       #
       # The complete user-entered string passed as a set of arguments.
       # i.e. "man <appname>, "<appname> --help" "<web browser><OPTIONS><URL>"
-      MENU_ITEM=$*  
+      MENU_ITEM=$*
       #
       PRESS_KEY=0 # Reset flag.
+      #
+      if [ "$DELIMITER" = "#MZZ" ] ; then
+         THIS_DIR=$SAVE_DIR
+      fi
       #
       case $MENU_ITEM in
            # Quit?
@@ -484,6 +488,14 @@ f_menu_item_process () {
          #
          if [ -n "$APP_NAME" ] ; then # if $MENU_ITEM is a valid choice.
             #
+            # If running "Favorite Applications Menu", then invoke the
+            # corresponding module file mod_apps-<name>.lib.
+            if [ "$DELIMITER" = "#MZZ" ] ; then
+               XSTR=$(grep \#M[A-Z][A-Z]" $APP_NAME " $THIS_DIR/mod_apps-*.lib | awk '{print $1}' | awk -F ":" '{print $1}')
+               XSTR=$(echo $XSTR | awk '{print $1}') 
+               . $XSTR # Invoke module "mod_apps-<name>.lib"
+            fi
+            #
             f_menu_item_info
             #
             # Set PRESS_KEY default before any custom functions
@@ -558,7 +570,10 @@ f_menu_item_process () {
       # Note: This does not affect "ALL" option in "Software Module Management
       # Menu" because "f_update_all_modules" is called directly and this
       # function "f_menu_item_process" is bypassed.
-
+      #
+      if [ "$DELIMITER" = "#MZZ" ] && [ "$MENU_ITEM" != 0 ] && [ "$MENU_ITEM" != -1 ] ; then
+         THIS_DIR=~
+      fi
       #
       unset X DELIM RUN MENU_ITEM
       #
@@ -587,68 +602,72 @@ f_menu_item_valid () {
             # If command contains "sudo" or any [OPTIONS] then don't touch.
             # Assume any sudo-user knows what to type because [OPTIONS] are
             # case-sensitive.
+            case $MENU_ITEM in
+                 "sudo "*)
+                 # If MENU_ITEM contains "sudo", assume any sudo-user knows
+                 # whate they are doing and do not convert to lower-case.
+                 ;;
+                 *" -"*)
+                 # if MENU_ITEM contains <dash>, do not convert to lower-case
+                 # since -[OPTIONS] may need to be in upper-case.
+                 ;;
+                 *)
+                 # Convert to lower-case.
+                 MENU_ITEM=$(echo $MENU_ITEM | tr '[:upper:]' '[:lower:]')
+                 ;;
+            esac
             #
-            if [[ ! "$MENU_ITEM" == *" -"* ]] ; then
-               # MENU_ITEM does not contain <dash> since -[OPTIONS] may need
-               # to be in upper-case so do not convert to lower-case.
-               if [[ ! "$MENU_ITEM" == "sudo"* ]] ; then
-                  # Only convert MENU_ITEM to lower-case if it does not contain
-                  # "sudo" assume any sudo-user knows what they are doing.
-                  # Convert to lower-case.
-                  MENU_ITEM=$(echo $MENU_ITEM | tr '[:upper:]' '[:lower:]')
-               fi
-            fi
             # Set (next) MENU_ITEM_NAME from CHOICE array.
             MENU_ITEM_NAME=${CHOICE[$XNUM]}
             # Convert MENU_ITEM_NAME to lower-case.
             # (Sub-menus choice "MORE..." are in upper-case).
             MENU_ITEM_NAME=$(echo $MENU_ITEM_NAME | tr '[:upper:]' '[:lower:]')
             #
-            # Does MENU_ITEM begin with sudo?
-            if [[ "$MENU_ITEM" == "sudo"* ]] ; then
-               # if grep -q $MENU_ITEM_NAME <<<$MENU_ITEM ; then
-               # Yes, sudo
-               # Is MENU_ITEM a valid choice?
-               # This pattern matching statement will allow
-               # any other sudo formats
-               # i.e. links web browser:
-               #      "sudo -width 80 links -driver atheos -html-images 0".
-               #
-               if [[ "$MENU_ITEM" == *"$MENU_ITEM_NAME"* ]] ; then 
-                  APP_NAME=$MENU_ITEM
-                  # Valid choice so force exit from While-loop.
-                  let XNUM=$MAX+1
-               else
-                  let XNUM++  # Not valid, try next menu item.
-               fi
-            else              
-               # No, no sudo
-               # Is MENU_ITEM a valid choice?
-               # Does MENU_ITEM_NAME contain MENU_ITEM?
-               # i.e. "nslookup" contains "nsl"*.
-               #
-               if [[ "$MENU_ITEM_NAME" == "$MENU_ITEM"* ]] ; then
-               # Alternate method:
-               # if grep -q "$MENU_ITEM"* <<< "$MENU_ITEM_NAME" ; then
-                  # Valid choice, extract APP_NAME.
-                  MENU_ITEM=$MENU_ITEM_NAME
-                  APP_NAME=$MENU_ITEM_NAME
-                  let XNUM=$MAX+1  # Valid choice so force exit
-                                   # from While-loop.
-               #
-               # Does MENU_ITEM contain MENU_ITEM_NAME? 
-               # i.e. "nslookup www.distrowatch.com" contains "nslookup".
-               # i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
-               elif [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]] ; then 
-                  # Valid choice, extract APP_NAME.
-                  APP_NAME=$MENU_ITEM
-                  let XNUM=$MAX+1  # Valid choice so force exit
-                                   # from While-loop.
-               else
-                  let XNUM++  # Not valid, try next menu item, force stay in
-                              # menu loop.
-               fi
-             fi
+            case $MENU_ITEM in
+                 [1-9][f] | [1-9][1-9][f] | [1-9][1-9][1-9][f])
+                 # User wants to mark the application as a "Favorite" application.
+                 # Put the application as a menu item in the "Favorites" menu.
+                 # Valid choice so force exit from While-loop.
+                 f_favorite_app_add
+                 let XNUM=$MAX+1
+                 ;;
+                 "sudo "$MENU_ITEM_NAME*)
+                 # Valid choice, contains $MENU_ITEM_NAME after "sudo".
+                 # This pattern matching statement will allow any other sudo formats
+                 # i.e. links web browser:
+                 #      "sudo links -width 80 -driver atheos -html-images 0".
+                 #
+                 APP_NAME=$MENU_ITEM
+                 # Valid choice so force exit from While-loop.
+                 let XNUM=$MAX+1
+                 ;;
+                 $MENU_ITEM_NAME*)
+                 # Does MENU_ITEM contain MENU_ITEM_NAME? 
+                 # i.e. "nslookup www.distrowatch.com" contains "nslookup".
+                 # i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
+                 # elif [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]] ; then 
+                 # Valid choice, extract APP_NAME.
+                 APP_NAME=$MENU_ITEM
+                 let XNUM=$MAX+1  # Valid choice so force exit
+                                  # from While-loop.
+                 ;;
+            esac
+            #
+            case $MENU_ITEM_NAME in
+                 $MENU_ITEM*)
+                 # Does MENU_ITEM_NAME contain MENU_ITEM?
+                 # i.e. "nslookup" contains "nsl"*.
+                 MENU_ITEM=$MENU_ITEM_NAME
+                 APP_NAME=$MENU_ITEM_NAME
+                 let XNUM=$MAX+1  # Valid choice so force exit
+                                  # from While-loop.
+                 ;;
+            esac
+            #
+            if [ XNUM != $MAX+1 ] ; then
+               let XNUM++  # Not valid, try next menu item, force stay in
+                           # menu loop.
+            fi
       done
       #
       export MENU_ITEM MENU_ITEM_NAME APP_NAME
@@ -672,12 +691,16 @@ f_menu_item_info () {
       MENU_ITEM_OPT=""
       #
       case $DELIMITER in
-      "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
            # Save $THIS_DIR. Location of all other files, module libraries etc.
            XXSTR=$THIS_DIR
            # Set $THIS_DIR to location of Main Menu.
            THIS_DIR=$MAINMENU_DIR
-      ;;
+           ;;
+           "#MZZ")
+           XXSTR=$THIS_DIR
+           THIS_DIR=~
+           ;;
       esac
       #
       # grep "$MENU_ITEM_NAME" is in quotes because some menu items
@@ -702,12 +725,11 @@ f_menu_item_info () {
       export MENU_ITEM_OPT
       #
       case $DELIMITER in
-           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH" | "#MZZ")
            THIS_DIR=$XXSTR  # Restore $THIS_DIR. Location of all other files,
                             # module libraries etc.
            ;;
       esac
-
 } # End of function f_menu_item_info
 #
 # +----------------------------------------+
@@ -1614,6 +1636,36 @@ f_run_app_good () {
       f_application_run
       f_press_enter_key_to_continue
 } # End of function f_ask_run_app_good
+#
+# +----------------------------------------+
+# |       Function f_favorite_app_add      |
+# +----------------------------------------+
+#
+#  Inputs: DELIMITER, THIS_FILE, , THIS_DIR, MENU_ITEM.
+#    Uses: XNUM, XXSTR, XSTR, YSTR, MENU_ITEM_NAME, CHOICE[$XNUM].
+# Outputs: File: "cli-app-menu-favorites.txt" in home directory.
+#
+f_favorite_app_add () {
+       XNUM=$(echo $MENU_ITEM | awk -F "f" '{print $1}')
+       # Set (next) MENU_ITEM_NAME from CHOICE array.
+       MENU_ITEM_NAME=${CHOICE[$XNUM]}
+       # Convert MENU_ITEM_NAME to lower-case.
+       # (Sub-menus choice "MORE..." are in upper-case).
+       MENU_ITEM_NAME=$(echo $MENU_ITEM_NAME | tr '[:upper:]' '[:lower:]')
+       #
+       XXSTR=$(awk -F $DELIMITER '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -i "$DELIMITER $MENU_ITEM_NAME" | awk -F $DELIMITER '{print $0}')
+       #
+       # $XSTR contains the MENU_OPTIONS.
+       XSTR=$(echo $XXSTR | awk -F "#M" '{print $1}')
+       #
+       # $YSTR contains application's name and description.
+       # {$1=$2="";print $0} Print all fields except the first 2 fields.
+       # i.e. Will not print "#0^0^0^0^0 #MAA". But print name and description.
+       YSTR=$(echo $XXSTR | awk '{$1=$2="";print $0}')
+       # Delimiter for Favorites Menu is "#MZZ".
+       XXSTR=$(echo $XSTR" #MZZ "$YSTR)
+       echo $XXSTR >> ~/cli-app-menu-favorites.txt
+} # End of function f_favorite_app_add
 #
 # +----------------------------------------+
 # |       Function f_application_error     |

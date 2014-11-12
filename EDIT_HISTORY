@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="November-07-2014 19:52"
+PROJECT_REVDATE="November-12-2014 01:45"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,14 +79,17 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2014-11-07 *Testing version 2.0
+## 2014-11-12 *Testing version 2.0
+##            *New functionality, Main Menu added "Favorites" to display a
+##             "Favorite Application Menu" and ability to add applications
+##             to that menu by using any application menu.
 ##            *Main Menu re-ordered menu item options.
-##            *New functionality "Find and Run" an application from the
+##            *New functionality, "Find and Run" an application from the
 ##             Main Menu rather than just from the application menus.
-##            *New functionality "List or Find Menus" from the Main Menu.
+##            *New functionality, "List or Find Menus" from the Main Menu.
 ##            *New functionality, test internet connection before downloading
 ##             new applications or modules or before updating the modules.
-##            *New functionality when "Update program" is chosen, after a
+##            *New functionality, when "Update program" is chosen, after a
 ##             successful update occurs, then program will exit to the shell,
 ##             forcing user to use the updated program.
 ##            *Changed functionality, web install runs only if automatic install
