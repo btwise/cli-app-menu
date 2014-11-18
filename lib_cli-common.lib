@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2014 01:45"
+# REVDATE="November-17-2014 21:31"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -337,7 +337,7 @@ f_choice_array () {
       do
            XSTR=${XSTR/[%]/ }    # Substitute <space> for "%" to restore name.
            CHOICE[$XNUM]=$XSTR   # Create CHOICE array.
-           XNUM=`expr $XNUM + 1` 
+           XNUM=`expr $XNUM + 1` # Use expr with back-ticks to increment XNUM.
       # Use back-ticks above before expr and as last character to redirect,
       # do not mistake them for single quotes.
       done
@@ -491,7 +491,10 @@ f_menu_item_process () {
             # If running "Favorite Applications Menu", then invoke the
             # corresponding module file mod_apps-<name>.lib.
             if [ "$DELIMITER" = "#MZZ" ] ; then
-               XSTR=$(grep \#M[A-Z][A-Z]" $APP_NAME " $THIS_DIR/mod_apps-*.lib | awk '{print $1}' | awk -F ":" '{print $1}')
+               # Extract the application name from user-entered $APP_NAME which
+               # may have [OPTIONS] and arguments. i.e. "elinks -lookup jw.org"
+               XSTR=$(echo $APP_NAME | awk '{print $1}')
+               XSTR=$(grep \#M[A-Z][A-Z]" $XSTR " $THIS_DIR/mod_apps-*.lib | awk '{print $1}' | awk -F ":" '{print $1}')
                XSTR=$(echo $XSTR | awk '{print $1}') 
                . $XSTR # Invoke module "mod_apps-<name>.lib"
             fi
@@ -894,7 +897,7 @@ f_quit_app_clause () {
          #                =3 for "Q or <F10>"...
          #
          QUIT_FIELD=`expr $QUIT_FIELD + 1`
-         # Use backticks with expr to increment QUIT_FIELD by 1 to get field
+         # Use back-ticks with expr to increment QUIT_FIELD by 1 to get field
          # number for awk (since field #1 is null).
          #
          XSTR=$(grep "#%%" $THIS_DIR/lib_cli-common.lib)
@@ -3139,7 +3142,7 @@ f_show_max_menu_items () {
       # Count number of lines containing special comment marker string to get
       # maximum item number.
       #
-      MENU_ITEM_MAX=15
+      MENU_ITEM_MAX=16
       #
       # Set $DELIMITER to the Special Menu Item Marker.
       for DELIMITER in $(grep [#]:M[A-Z][A-Z] "$1/README" | awk '{print $1}')

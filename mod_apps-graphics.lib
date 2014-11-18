@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2014 19:52"
+# REVDATE="November-17-2014 21:31"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -44,9 +44,9 @@ f_menu_app_image_graphics () {
       f_initvars_menu_app "MIG"
       until [ "$MIG" = "0" ]
       do    # Start of Image-Graphics Applications until loop.
-#0^0^0^0^1 #MIG aafigure   - ASCII art to image converter.
+#0^0^0^0^1 #MIG aafigure   - ASCII-art to image converter.
 #0^0^0^0^1 #MIG asciitopgm - Convert ASCII graphics into a portable graymap.
-#0^0^0^0^1 #MIG aview      - Image and ASCII art image viewer.
+#0^0^0^0^1 #MIG aview      - Image and ASCII-art image viewer.
 #0^0^0^1^0 #MIG bb         - ASCII-art movie demo based on AAlib.
 #0^0^0^0^1 #MIG caca-utils - Image viewer and converter jpg to ascii images.
 #0^0^0^0^1 #MIG duhdraw    - ncurses-based ASCII-art editor.
@@ -54,7 +54,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG fbgrab     - Framebuffer screenshot tool.
 #0^0^0^0^1 #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
 #0^0^0^0^1 #MIG fbv        - Image viewer framebuffer console.
-#0^0^0^0^1 #MIG fim        - Image and ASCII art image viewer.
+#0^0^0^0^1 #MIG fim        - Image and ASCII-art image viewer.
 #0^0^0^0^1 #MIG hasciicam  - ASCII web camera images.
 #0^0^0^0^1 #MIG jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
 #0^0^0^0^1 #MIG jhead      - Display jpeg file properties.
@@ -62,7 +62,7 @@ f_menu_app_image_graphics () {
 #f_menu_app_image_graphics2^0^0^0^0 #MIG MORE...    - For more image-graphics applications.
             #
             THIS_FILE="mod_apps-graphics.lib"
-            MENU_TITLE="Image-Graphics Applications Menu"
+            MENU_TITLE="Image-Graphics Tools Applications Menu"
             DELIMITER="#MIG" #MIG This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -91,10 +91,11 @@ f_menu_app_image_graphics2 () {
 #0^0^0^0^0 #MIH scanimage - Controls flatbed scanners, cameras. -L list of devices.
 #0^0^0^0^0 #MIH sl        - Steam locomotive (when you mis-type 'ls' command).
 #f_starwars^0^0^0^0 #MIH star wars - Star Wars movie in ASCII.
+#1^0^0^0^0 #MIH textdraw  - Draw lines, rectangles, elipses, etc. to create ASCII-art.
 #0^0^0^0^1 #MIH welcome21 - ANSI logo on login screen.
             #
             THIS_FILE="mod_apps-graphics.lib"
-            MENU_TITLE="Image-Graphics2 Applications Menu"
+            MENU_TITLE="Image-Graphics Tools2 Applications Menu"
             DELIMITER="#MIH" #MIH This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
@@ -177,3 +178,19 @@ f_starwars () {
       f_run_and_exit "Star Wars ASCII Movie" "telnet towel.blinkenlights.nl"
 }  # End of function f_starwars
 #
+# +----------------------------------------+
+# |           Function f_textdraw          |
+# +----------------------------------------+
+#
+f_textdraw () {
+      clear # Blank the screen.
+      echo "textdraw - Draw rectangles, lines, elipses, ASCII-art on screen."
+      echo
+      echo "For help, press \"h\" key."
+      echo
+      echo "Use arrow keys to position cursor for drawing an object."
+      echo
+      echo "To save, press \"s\" key."
+      echo "To quit, press \"q\" key."
+      f_press_enter_key_to_continue
+}  # End of function f_textdraw

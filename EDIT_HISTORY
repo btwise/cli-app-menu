@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="November-12-2014 01:45"
+PROJECT_REVDATE="November-17-2014 21:31"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,7 +79,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2014-11-12 *Testing version 2.0
+## 2014-11-17 *Testing version 2.0
 ##            *New functionality, Main Menu added "Favorites" to display a
 ##             "Favorite Application Menu" and ability to add applications
 ##             to that menu by using any application menu.
@@ -98,7 +98,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##             connection, files would be deleted (to make room for new ones).
 ##             Now if updating program/modules without an Internet connection,
 ##             user is notified and files are unaffected and not deleted. 
-##            *Added 22 new applications. Deleted 1 application (not a CLI app).
+##            *Added 27 new applications. Deleted 1 application (not a CLI app).
 ##
 ## 2014-10-03 *Release version 1.2.1
 ##            *Bug fix.

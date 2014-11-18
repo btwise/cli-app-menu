@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2014 19:52"
+# REVDATE="November-17-2014 21:31"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -144,7 +144,7 @@ f_menu_app_sys_disks2 () {
 # |     Function f_menu_app_sys_health     |
 # +----------------------------------------+
 #
-#  Inputs: None. 
+#  Inputs: None.
 #    Uses: MSH, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
@@ -165,21 +165,48 @@ f_menu_app_sys_health () {
 #0^0^0^0^1 #MSH labrea     - Sticky honeypot entraps intruder tying up his CPU.
 #0^0^0^0^1 #MSH lynis      - security auditing tool that tests for security holes in a PC.
 #0^0^0^0^1 #MSH rkhunter   - Root Kit detector.
+#0^0^0^0^1 #MSH siege      - Web site http regression and stress test, benchmarking.
 #1^0^0^0^1 #MSH smb-nat    - Netbios audit servers running NetBIOS file sharing services.
-#1^0^0^0^1 #MSH stress     - Stress test can simulate a heavy load on CPU.
-#1^0^0^0^1 #MSH tripwire   - Detects/Reports changes in system files.
+#f_menu_app_sys_health2^0^0^0^1 #MSH MORE...    - More applications.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Health Applications Menu"
-            DELIMITER="#MSH" #MSH This 3rd field prevents awk from printing this line into menu options. 
+            DELIMITER="#MSH" #MSH This 3rd field prevents awk from printing this line into menu options.
             #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
             read MSH
             f_menu_item_process $MSH  # Outputs $MENU_ITEM.
       done  # End of System Health Applications until loop.
             #
       unset MSH MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_sys_health
+#
+# +----------------------------------------+
+# |     Function f_menu_app_sys_health2    |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MSJ, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_sys_health2 () {
+      f_initvars_menu_app "MSJ"
+      until [ "$MSJ" = "0" ]
+      do    # Start of System Health Applications until loop.
+#1^0^0^0^1 #MSJ stress   - Stress test can simulate a heavy load on CPU.
+#1^0^0^0^1 #MSJ tripwire - Detects/Reports changes in system files.
+            #
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="System Health2 Applications Menu"
+            DELIMITER="#MSJ" #MSJ This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MSJ
+            f_menu_item_process $MSJ  # Outputs $MENU_ITEM.
+      done  # End of System Health Applications until loop.
+            #
+      unset MSJ MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_sys_health2
 #
 # +----------------------------------------+
 # |      Function f_menu_app_sys_logs      |

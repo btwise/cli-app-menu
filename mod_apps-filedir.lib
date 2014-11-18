@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2014 19:52"
+# REVDATE="November-17-2014 21:31"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -700,6 +700,8 @@ f_menu_app_file_operations () {
 #0^0^0^0^1 #MFO gawk       - awk-like, the GNU Project's implementation of awk.
 #0^0^0^0^1 #MFO igawk      - gawk with includes.
 #f_menu_app_file_move-copy^0^0^0^1 #MFO Move-Copy - Rename/Move and copy utilities for files.
+#1^0^0^0^1 #MFO pipebench - Shows progress of data through pipeline with progress bar.
+#1^0^0^0^1 #MFO pv        - Shows progress of data through pipeline with progress bar.
 #0^0^0^0^1 #MFO sed       - String substitution within a file without using an editor.
 #0^0^0^0^1 #MFO sort      - Sort file by lines in alphabetical order.
             #
@@ -1342,6 +1344,42 @@ f_photorec () {
          f_press_enter_key_to_continue
       fi
 } # End of function f_photorec
+#
+# +----------------------------------------+
+# |          Function f_pipebench          |
+# +----------------------------------------+
+#
+f_pipebench () {
+      clear # Blank the screen.
+      echo "pipebench - Displays a progress bar of a process."
+      echo "Pipebench shows the current throughput and amount of data going through a pipe."
+      echo "It can be used to show the progress of a large md5sum process:"
+      echo "                   cat bigfile | pipebench | md5sum."
+      echo
+      echo "Example:"
+      echo "dd if=/dev/hdd | pipebench | dd of=/dev/hdc"
+      f_press_enter_key_to_continue
+} # End of function f_pipebench
+#
+# +----------------------------------------+
+# |             Function f_pv              |
+# +----------------------------------------+
+#
+f_pv () {
+      clear # Blank the screen.
+      echo "pv [FILENAME]"
+      echo "pv [FILENAME] > /path/to/output"
+      echo "pv [OPTIONS] [FILENAME] | command1"
+      echo "pv [OPTIONS] [FILENAME] | command1 > output.file"
+      echo "pv [FILENAME] | command1"
+      echo "command1 | pv | command2"
+      echo "pv [OPTIONS] input.file | command1 | pv -options > output.file"
+      echo
+      echo "Example:"
+      echo "pv virus-scan.log | gzip > virus-scan.log.gz"
+      echo "611MB 0:00:11 [58.3MB/s] [=>      ] 15% ETA 0:00:59"
+      f_press_enter_key_to_continue
+} # End of function f_pv
 #
 # +----------------------------------------+
 # |          Function f_safecopy           |

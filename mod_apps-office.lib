@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2014 19:52"
+# REVDATE="November-17-2014 21:31"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -626,7 +626,7 @@ f_menu_app_text_editors3 () {
 #0^0^0^14^0 #MTG vim-scripts     - plugins for vim, adding bells and whistles.
 #0^0^0^14^0 #MTG vim-tiny        - Vi IMproved compact version.
 #0^0^0^14^0 #MTG vim-latexsuite  - LaTeX plugin for vim.
-#f_menu_app_text_editors4^0^0^0^0 #MTF MORE...         - For more text editor applications.
+#f_menu_app_text_editors4^0^0^0^0 #MTG MORE...         - For more text editor applications.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Editor3 Applications Menu"

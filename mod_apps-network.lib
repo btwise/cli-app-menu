@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2014 19:52"
+# REVDATE="November-17-2014 21:31"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -337,6 +337,7 @@ f_menu_app_nic_tools () {
       f_initvars_menu_app "MNN"
       until [ "$MNN" = "0" ]
       do    # Start of NIC Tools Applications until loop.
+#0^0^0^0^0    #MNN ethstatus    - NIC packet statistics, xmit, rcvd, totals, speed, w/graph.
 #1^0^0^0^1    #MNN ethtool      - NIC configuration.
 #0^0^0^0^1    #MNN ifconfig     - NIC configuration.
 #0^0^0^0^1    #MNN ifplugstatus - Wireless USB NIC status.
@@ -351,8 +352,7 @@ f_menu_app_nic_tools () {
 #0^0^0^0^1    #MNN mii-diag     - NIC configuration of network cards.
 #1^0^0^0^0    #MNN netload      - NIC network load; ncurses based.
 #0^0^0^0^1    #MNN nictools-pci - NIC configuration of specific oem network cards.
-#0^0^0^0^0    #MNN warcarrier   - Wireless network detector ncurses-based.
-#0^0^0^0^0    #MNN wicd-curses  - Scan and connect to wired/wireless networks.
+f_menu_app_nic_tools2^0^0^0^1    #MNN MORE...      - More NIC Tools Applications.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="NIC Tools Applications Menu"
@@ -365,6 +365,33 @@ f_menu_app_nic_tools () {
             #
       unset MNN MENU_ITEM  # Throw out this variable.
 } # End of function f_menu_app_nic_tools
+#
+# +----------------------------------------+
+# |      Function f_menu_app_nic_tools2    |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: MNQ, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_nic_tools2 () {
+      f_initvars_menu_app "MNQ"
+      until [ "$MNQ" = "0" ]
+      do    # Start of NIC Tools Applications until loop.
+#0^0^0^0^0    #MNQ warcarrier   - Wireless network detector ncurses-based.
+#0^0^0^0^0    #MNQ wicd-curses  - Scan and connect to wired/wireless networks.
+            #
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="NIC Tools2 Applications Menu"
+            DELIMITER="#MNQ" #MNQ This 3rd field prevents awk from printing this line into menu options.
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
+            read MNQ
+            f_menu_item_process $MNQ  # Outputs $MENU_ITEM.
+      done  # End of NIC Tools Applications until loop.
+            #
+      unset MNQ MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_nic_tools2
 #
 # +----------------------------------------+
 # |    Function f_menu_app_packet_tools    |
