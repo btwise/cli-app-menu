@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="November-04-2014 23:18"
+REVDATE="November-17-2014 21:31"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -75,7 +75,9 @@ REVDATE="November-04-2014 23:18"
 #@ |            Menu Features               |
 #@ +----------------------------------------+
 #@
+#@ ----------------------------------------------------
 #@ At the menu prompt, you can enter OPTIONS and FILES.
+#@ ----------------------------------------------------
 #@
 #@ <application name> [OPTIONS]
 #@
@@ -90,6 +92,29 @@ REVDATE="November-04-2014 23:18"
 #@ colordiff --side-by-side --suppress-common-lines <file name 1> <file name 2>
 #@
 #@
+#@ --------------------------------------------------------------------------
+#@ How to add your favorite applications to the "Favorite Applications Menu".
+#@ --------------------------------------------------------------------------
+#@
+#@ For example, suppose you are in the Arcade Games Menu:
+#@ 
+#@ --- Arcade Games Menu ---
+#@
+#@ 0 - Return to previous menu.
+#@ 1 - ascii-invaders - Space Invader clone.
+#@ 2 - asciijump      - Ski jump game.
+#@ ...
+#@ 8 - ninvaders      - Space invaders-like game ncurses-based.
+#@
+#@ Enter 0 to 15 or letters: 8f
+#@
+#@ The response, "8f" indicates that you want to add "ninvaders"
+#@ to your favorites menu.
+#@
+#@ The file "cli-app-menu-favorites.txt"
+#@ can also be edited to delete menu entries.
+#@
+#@ 
 #@ +----------------------------------------+
 #@ |      General help on an application    |
 #@ +----------------------------------------+
@@ -349,7 +374,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/some_directory/cli-app-menu"
+      THIS_DIR="/Some_directory/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -2670,12 +2695,13 @@ f_initvars_menu_app "AAA"
       #
 until [ "$AAA" = "0" ]
 do    # Start of CLI Menu util loop.
-#f_menu_cat_applications #AAA Applications        - Run an application.
-#f_main_search_apps      #AAA Find and Run        - Find & run an application in active menus.
-#f_main_list_find_menus  #AAA List or Find Menus  - List all menus or find a menu containing an app.
-#f_main_configure        #AAA Configure           - Update software, manage modules, change colors, etc.
-#f_main_help             #AAA Help and Features   - Basic usage and what can it do.
-#f_main_information      #AAA Information         - About, version, documentation, code history, license.
+#f_menu_cat_applications #AAA Applications       - Run an application.
+#f_menu_app_favorites    #AAA Favorites          - Menu of favorite applications.
+#f_main_search_apps      #AAA Find and Run       - Find & run an application in active menus.
+#f_main_list_find_menus  #AAA List or Find Menus - List all menus or find a menu containing an app.
+#f_main_configure        #AAA Configure          - Update software, manage modules, change colors, etc.
+#f_main_help             #AAA Help and Features  - Basic usage and what can it do.
+#f_main_information      #AAA Information        - About, version, documentation, code history, license.
       #
       THIS_FILE="cliappmenu.sh"
       MENU_TITLE="Main Menu"
