@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="October-31-2014 22:17"
+# REVDATE="November-21-2014 11:38"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_packages      |
@@ -58,8 +58,8 @@ f_menu_app_packages2 () {
       f_initvars_menu_app "MPQ"
       until [ "$MPQ" = "0" ]
       do    # Start of Package Management Applications until loop.
-#1^0^0^0^1 #MPQ yum       - "Yellow Dog Updated" package manager.
-#1^0^0^0^1 #MPQ zypper    - OpenSUSE package manager on which is based YaST GUI.
+#1^0^0^0^1 #MPQ yum    - "Yellow Dog Updated" package manager.
+#1^0^0^0^1 #MPQ zypper - OpenSUSE package manager on which is based YaST GUI.
  #
             THIS_FILE="mod_apps-packages.lib"
             MENU_TITLE="Package Management2 Applications Menu"

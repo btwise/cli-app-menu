@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-17-2014 21:31"
+# REVDATE="November-21-2014 11:38"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -28,7 +28,7 @@ f_menu_cat_file_management () {
 #f_menu_app_file_find         #BFM Find        - File search.
 #f_menu_app_file_transfer     #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
 #f_menu_app_file_managers     #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
-#f_menu_app_file_operations   #BFM Operations  - Directory and file copy, move, delete, undelete, and backup.
+#f_menu_app_file_operations   #BFM Operations  - Directory/file copy, move, secure delete, recovery, backup.
 #f_menu_app_file_splitters    #BFM Splitters   - File splitters.
 #f_menu_app_file_viewers      #BFM Viewers     - View files a page at a time.
             #
@@ -380,45 +380,69 @@ f_menu_app_file_conversion2 () {
 } # End of f_menu_app_file_conversion2
 #
 # +----------------------------------------+
-# |    Function f_menu_app_file_delundel   |
+# |     Function f_menu_app_file_delete    |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MFD, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_app_file_delundel () {
+f_menu_app_file_delete () {
       f_initvars_menu_app "MFD"
       until [ "$MFD" = "0" ]
-      do    # Start of File Deletion/Undeletion Applications until loop.
-#0^0^0^0^1 #MFD gitwipe     - Overwrites file contents with a random sequence of numbers.
-#0^0^0^0^1 #MFD shred       - Delete files securely without recovery.
-#0^0^0^0^1 #MFD scrub       - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
-#0^0^0^0^1 #MFD wipe        - Secure file deletion.
-#0^0^0^0^0 #MFD ----------- - -------------------------------------------------------------
-#0^0^0^0^1 #MFD dares       - Rescue data from damaged CDs/DVDs, ncurses-based.
-#0^0^0^0^1 #MFD ddrescue    - Rescue readable data from failing hard disk drives.
-#0^0^0^0^1 #MFD extundelete - Recover deleted files from ext3, ext4, and newer partitions.
-#1^0^0^0^1 #MFD foremost    - File recovery from within a *.img disk image file.
-#0^0^0^0^1 #MFD magicrescue - Scans a block device, rescues files, partitions, disks.
-#0^0^0^0^1 #MFD myrescue    - Rescue data from failing drives; read good sectors first.
-#1^0^0^0^1 #MFD photorec    - File recovery.
-#1^0^0^0^1 #MFD safecopy    - File recovery.
-#0^0^0^0^1 #MFD safe-rm     - Protect files from rm deletion.
-#0^0^0^0^1 #MFD scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
-#0^0^0^0^1 #MFD trash-cli   - Remembers name, path, date, permissions of each trashed file.
+      do    # Start of File Deletion Applications until loop.
+#0^0^0^0^1 #MFD gitwipe - Overwrites file contents with a random sequence of numbers.
+#0^0^0^0^1 #MFD shred   - Delete files securely without recovery.
+#0^0^0^0^1 #MFD scrub   - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
+#0^0^0^0^1 #MFD wipe    - Secure file deletion.
             #
             THIS_FILE="mod_apps-filedir.lib"
-            MENU_TITLE="File Deletion/Undeletion Applications Menu"
+            MENU_TITLE="File Secure Deletion Menu"
             DELIMITER="#MFD" #MFD This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MFD
             f_menu_item_process $MFD  # Outputs $MENU_ITEM.
-      done  # End of File Deletion/Undeletion Applications until loop.
+      done  # End of File Deletion Applications until loop.
             #
       unset MFD MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_file_delundel
+} # End of function f_menu_app_file_delete
+#
+# +----------------------------------------+
+# |    Function f_menu_app_file_recovery   |
+# +----------------------------------------+
+#
+#  Inputs: None. 
+#    Uses: MFP, MENU_ITEM, MAX.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_app_file_recovery () {
+      f_initvars_menu_app "MFP"
+      until [ "$MFP" = "0" ]
+      do    # Start of File Recovery Applications until loop.
+#0^0^0^0^1 #MFP dares       - Rescue data from damaged CDs/DVDs, ncurses-based.
+#0^0^0^0^1 #MFP ddrescue    - Rescue readable data from failing hard disk drives.
+#0^0^0^0^1 #MFP extundelete - Recover deleted files from ext3, ext4, and newer partitions.
+#1^0^0^0^1 #MFP foremost    - File recovery from within a *.img disk image file.
+#0^0^0^0^1 #MFP magicrescue - Scans a block device, rescues files, partitions, disks.
+#0^0^0^0^1 #MFP myrescue    - Rescue data from failing drives; read good sectors first.
+#1^0^0^0^1 #MFP photorec    - File recovery.
+#1^0^0^0^1 #MFP safecopy    - File recovery.
+#0^0^0^0^1 #MFP safe-rm     - Protect files from rm deletion.
+#0^0^0^0^1 #MFP scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
+#0^0^0^0^1 #MFP trash-cli   - Remembers name, path, date, permissions of each trashed file.
+            #
+            THIS_FILE="mod_apps-filedir.lib"
+            MENU_TITLE="File Recovery Applications Menu"
+            DELIMITER="#MFP" #MFP This 3rd field prevents awk from printing this line into menu options. 
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER" 
+            read MFP
+            f_menu_item_process $MFP  # Outputs $MENU_ITEM.
+      done  # End of File Recovery Applications until loop.
+            #
+      unset MFP MENU_ITEM  # Throw out this variable.
+} # End of function f_menu_app_file_recovery
 #
 # +----------------------------------------+
 # |   Function f_menu_app_file_encryption  |
@@ -695,13 +719,14 @@ f_menu_app_file_operations () {
 #0^0^0^0^1 #MFO awk       - Manipulate strings within a file parsed with delimiters.
 #f_menu_app_file_backup^0^0^0^1 #MFO Backup    - Backup utilities for files.
 #0^0^0^0^1 #MFO cwp       - "Catenate with Progress" like "cat" with progress indication.
-#f_menu_app_file_delundel^0^0^0^1 #MFO Del/Undel - Delete/Undelete utilities for disks and files.
+#f_menu_app_file_delete^0^0^0^1 #MFO Delete    - Secure Deletion utilities for disks and files.
 #0^0^0^0^1 #MFO deurlname - Removes URL encoded characters from file names.
-#0^0^0^0^1 #MFO gawk       - awk-like, the GNU Project's implementation of awk.
-#0^0^0^0^1 #MFO igawk      - gawk with includes.
+#0^0^0^0^1 #MFO gawk      - awk-like, the GNU Project's implementation of awk.
+#0^0^0^0^1 #MFO igawk     - gawk with includes.
 #f_menu_app_file_move-copy^0^0^0^1 #MFO Move-Copy - Rename/Move and copy utilities for files.
 #1^0^0^0^1 #MFO pipebench - Shows progress of data through pipeline with progress bar.
 #1^0^0^0^1 #MFO pv        - Shows progress of data through pipeline with progress bar.
+#f_menu_app_file_recovery^0^0^0^1 #MFO Recovery  - Recovery utilities for disks and files.
 #0^0^0^0^1 #MFO sed       - String substitution within a file without using an editor.
 #0^0^0^0^1 #MFO sort      - Sort file by lines in alphabetical order.
             #

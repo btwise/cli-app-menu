@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2014 01:45"
+# REVDATE="November-21-2014 11:38"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -68,6 +68,7 @@ f_menu_app_games_arcade () {
 #0^0^0^18^0 #MGA snake          - Be chased by a snake while collecting money.
 #0^0^0^0^0  #MGA spacezero      - Space combat in real-time, 2-player network game.
 #f_menu_app_games_tetris^0^0^0^0 #MGA Tetris         - "Tetris" clones.
+#0^0^0^9^0  #MGA worm           - Be a growing worm, don't crash into yourself.
 #f_menu_app_games_arcade2^0^0^0^0 #MGA MORE...        - For more arcade game applications.
             #
             THIS_FILE="mod_apps-games.lib"
@@ -94,7 +95,6 @@ f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
       until [ "$MGB" = "0" ]
       do    # Start of Arcade2 Games until loop.
-#0^0^0^9^0  #MGB worm      - Be a growing worm, don't crash into yourself.
 #0^1^0^1^0  #MGB xorcurses - based on Xor released in 1987 by Astral Software.
 #0^0^0^18^0 #MGB zsnake    - Variation of BSD's snake game.
 #0^1^0^0^0  #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.

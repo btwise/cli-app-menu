@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-17-2014 21:31"
+# REVDATE="November-21-2014 11:38"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -201,7 +201,7 @@ f_menu_scat_network_monitors () {
       until [ "$BNM" = "0" ]
       do    # Start of Network Monitor Application Category until loop.
 #f_menu_app_network_bandwidth #BNM Bandwidth - Bandwidth monitors.
-#f_menu_app_network_monitors  #BNM Structure - Management, status, connections, devices, hosts.
+#f_menu_app_network_structure  #BNM Structure - Management, status, connections, devices, hosts.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="Network Monitor Application Categories Menu"
@@ -255,17 +255,17 @@ f_menu_app_network_bandwidth () {
 } # End of function f_menu_app_network_bandwidth
 #
 # +----------------------------------------+
-# |   Function f_menu_app_network_monitors |
+# |  Function f_menu_app_network_structure |
 # +----------------------------------------+
 #
 #  Inputs: None. 
 #    Uses: MNM, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_app_network_monitors () {
+f_menu_app_network_structure () {
       f_initvars_menu_app "MNM"
       until [ "$MNM" = "0" ]
-      do    # Start of Network Monitor Applications until loop.
+      do    # Start of Network Structure Applications until loop.
 #0^0^0^0^1    #MNM httpry    - Light-weight network traffic logging tool.
 #0^0^0^0^0    #MNM iptraf    - IP LAN monitor, ncurses based display.
 #0^0^0^0^0    #MNM iptraf-ng - Fork of iptraf.
@@ -281,16 +281,16 @@ f_menu_app_network_monitors () {
 #0^0^0^0^1    #MNM vnstat    - Traffic information monitor.
             #
             THIS_FILE="mod_apps-network.lib"
-            MENU_TITLE="Network Monitor Applications Menu"
+            MENU_TITLE="Network Structure Monitor Applications Menu"
             DELIMITER="#MNM" #MNM This 3rd field prevents awk from printing this line into menu options. 
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read MNM
             f_menu_item_process $MNM  # Outputs $MENU_ITEM.
-      done  # End of Network Monitor Applications until loop.
+      done  # End of Network Structure Applications until loop.
             #
       unset MNM MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_app_network_monitors
+} # End of function f_menu_app_network_structure
 #
 # +----------------------------------------+
 # |   Function f_menu_app_network_sharing  |

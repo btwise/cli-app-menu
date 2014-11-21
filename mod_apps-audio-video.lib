@@ -3,7 +3,7 @@ q# ©2014 Copyright 2014 Robert D. Chin
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2014 19:52"
+# REVDATE="November-21-2014 11:38"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio_video    |
@@ -411,12 +411,12 @@ f_menu_app_video_players () {
 #0^0^0^0^1 #MVI bongo        - Front-end to Emacs editor for vlc.
 #0^0^0^0^1 #MVI cacaxine     - Xine video player.
 #0^0^0^0^1 #MVI cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
-#0^0^0^0^0 #MVI ems          - Emacs extension plays video MPEG, WMV, MOV, AVI, OGM, MKV, etc.
+#0^0^0^0^0 #MVI ems          - Emacs extension plays MPEG, WMV, MOV, AVI, OGM, MKV, etc.
 #0^0^0^0^1 #MVI episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
 #0^0^0^0^1 #MVI fbxine       - Xine video player.
 #0^0^0^0^1 #MVI mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
 #0^0^0^0^1 #MVI mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
-#0^0^0^0^1 #MVI mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+#0^0^0^0^1 #MVI mplayer2     - Multimedia player similar to "mplayer".
 #0^0^0^0^1 #MVI quvi         - Downloads Adobe Flash video links, Youtube etc.
 #0^0^0^0^1 #MVI vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
 #0^0^0^0^1 #MVI xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.

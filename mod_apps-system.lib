@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-17-2014 21:31"
+# REVDATE="November-21-2014 11:38"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -94,7 +94,7 @@ f_menu_app_sys_disks () {
 #0^0^0^0^1 #MSD eject     - Ejects media, CD, DVD, floppy disks, SCSI drives, tape drives.
 #0^0^0^1^0 #MSD gt5       - A diff-capable du-browser.
 #0^0^0^0^1 #MSD hdparm    - Show/set disk parameters, settings. 
-#f_menu_app_sys_disks2^0^0^0^1 #MSD MORE... - For more system disk information applications.
+#f_menu_app_sys_disks2^0^0^0^1 #MSD MORE...   - For more system disk information applications.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Disks Information Menu"

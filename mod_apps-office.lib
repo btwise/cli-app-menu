@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-17-2014 21:31"
+# REVDATE="November-21-2014 11:38"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -585,7 +585,7 @@ f_menu_app_text_editors2 () {
 #0^0^0^0^0  #MTF levi         - Very small vi-clone. From the 1980's.
 #0^0^0^12^0 #MTF mg           - Microscopic GNU Emacs-style editor.
 #0^0^0^0^0  #MTF mped         - Text editor, ncurses based.
-#f_menu_app_text_editors3^0^0^0^0 #MTF MORE...   - For more text editor applications.
+#f_menu_app_text_editors3^0^0^0^0 #MTF MORE...      - For more text editor applications.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Editor2 Applications Menu"
@@ -611,22 +611,22 @@ f_menu_app_text_editors3 () {
       f_initvars_menu_app "MTG"
       until [ "$MTG" = "0" ]
       do    # Start of Text Editor Applications until loop.
-#0^0^0^0^0  #MTG nano            - Simple full-screen text editor more powerful than pico.
-#0^0^0^0^0  #MTG nano-tiny       - Tiny build of nano.
-#0^0^0^0^0  #MTG ne              - Nice Editor. Drop-down menus, ncurses-based. 
-#1^0^0^0^0  #MTG NERD_tree       - vim plug-in directory tree, highlighting, bookmarks, etc.
-#0^0^0^14^0 #MTG nvi             - vi-clone as close to vi as possible.
-#0^0^0^0^0  #MTG pico            - Simple full-screen text editor.
-#f_joe^0^0^11:NC^0 #MTG rjoe            - Joe Editor, only edit file(s) specified rjoe <filenames>.
-#0^0^0^0^0  #MTG the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
-#0^0^0^14^0 #MTG vi              - Classic full-screen text editor.
-#0^0^0^14^0 #MTG vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
-#0^0^0^14^0 #MTG vim             - vi "Improved" text editor with more features than "vi".
-#0^0^0^14^0 #MTG vim-nox         - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
-#0^0^0^14^0 #MTG vim-scripts     - plugins for vim, adding bells and whistles.
-#0^0^0^14^0 #MTG vim-tiny        - Vi IMproved compact version.
-#0^0^0^14^0 #MTG vim-latexsuite  - LaTeX plugin for vim.
-#f_menu_app_text_editors4^0^0^0^0 #MTG MORE...         - For more text editor applications.
+#0^0^0^0^0  #MTG nano           - Simple full-screen text editor more powerful than pico.
+#0^0^0^0^0  #MTG nano-tiny      - Tiny build of nano.
+#0^0^0^0^0  #MTG ne             - Nice Editor. Drop-down menus, ncurses-based. 
+#1^0^0^0^0  #MTG NERD_tree      - vim plug-in directory tree, highlighting, bookmarks, etc.
+#0^0^0^14^0 #MTG nvi            - vi-clone as close to vi as possible.
+#0^0^0^0^0  #MTG pico           - Simple full-screen text editor.
+#f_joe^0^0^11:NC^0 #MTG rjoe           - Joe Editor, only edit file(s) specified rjoe <filenames>.
+#0^0^0^0^0  #MTG the            - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
+#0^0^0^14^0 #MTG vi             - Classic full-screen text editor.
+#0^0^0^14^0 #MTG vile           - "VI Like Emacs" vi "finger feel" but with emacs features.
+#0^0^0^14^0 #MTG vim            - vi "Improved" text editor with more features than "vi".
+#0^0^0^14^0 #MTG vim-nox        - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
+#0^0^0^14^0 #MTG vim-scripts    - plugins for vim, adding bells and whistles.
+#0^0^0^14^0 #MTG vim-tiny       - Vi IMproved compact version.
+#0^0^0^14^0 #MTG vim-latexsuite - LaTeX plugin for vim.
+#f_menu_app_text_editors4^0^0^0^0 #MTG MORE...        - For more text editor applications.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="Text Editor3 Applications Menu"
@@ -788,8 +788,8 @@ f_menu_app_todo2 () {
       f_initvars_menu_app "MTB"
       until [ "$MTB" = "0" ]
       do    # Start of ToDo2 Applications until loop.
-#0^0^0^0^1  #MTB yaGTD    - To-Do List based on "Getting Things Done" methodology.
-#0^0^0^0^0  #MTB yokadi   - Project/task manager which uses SQLite.
+#0^0^0^0^1  #MTB yaGTD  - To-Do List based on "Getting Things Done" methodology.
+#0^0^0^0^0  #MTB yokadi - Project/task manager which uses SQLite.
             #
             THIS_FILE="mod_apps-office.lib"
             MENU_TITLE="To-Do2 Applications Menu"
