@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-07-2014 19:52"
+# REVDATE="November-24-2014 23:59"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -427,7 +427,7 @@ f_menu_app_podcatchers () {
       f_initvars_menu_app "MPO"
       until [ "$MPO" = "0" ]
       do    # Start of Podcatcher Applications until loop.
-#0^0^0^0^1 #MPO bashpodder - Podcatcher.
+#1^1^0^0^1 #MPO bashpodder - Podcatcher.
 #0^0^0^0^1 #MPO goldenpod  - Podcatcher.
 #0^0^0^0^1 #MPO hpodder    - Podcatcher.
 #0^0^0^0^1 #MPO podget     - Podcatcher.
@@ -527,6 +527,80 @@ f_barnowl () {
       echo
       f_how_to_quit_application ":q (colon q)" "no-clear"
 } # End of function f_barnowl
+#
+# +----------------------------------------+
+# |          Function f_bashpodder         |
+# +----------------------------------------+
+#
+f_bashpodder () {
+      clear # Blank the screen.
+      echo "BashPodder - Internet Podcatcher."
+      echo
+      echo "Usage:"
+      echo "1. cd ~/podcasts"
+      echo
+      echo "2. Edit configuration file: \"bp.conf\" to include your favorite podcasts."
+      echo
+      echo "3. Download podcasts by running \"./bashpodder.shell\"."
+      echo
+      echo "This will store the audio files in sub-directories by date"
+      echo "in the format: ~/podcasts/<YYYY-MM-DD>"
+      echo
+      echo "4. To play downloaded podcasts:"
+      echo "You can play the podcasts by using an audio player such as xmms."
+      echo "xmms ~/podcasts/2014-11-24/*"
+      f_press_enter_key_to_continue
+} # End of function f_bashpodder
+#
+
+# +----------------------------------------+
+# |      Function f_install_bashpodder     |
+# +----------------------------------------+
+#
+f_install_bashpodder () {
+      clear # Blank the screen.
+      echo "BashPodder - Internet Podcatcher."
+      echo
+      echo "This script will automatically download and install \"bashpodder\"."
+      echo
+      echo "This script will do the following:"
+      echo "1. Create a sub-directory in your home directory: ~/podcasts."
+      echo "2. Download 3 files into that sub-directory."
+      echo "3. Make the file executable, bashpodder.shell."
+      echo
+      echo -n "Press \"Enter\" key to continue."
+      read X
+      unset X  # Throw out this variable.
+      #
+      # 1. create a sub-directory in your home directory: ~/podcasts.
+      cd ~
+      mkdir podcasts
+      cd podcasts
+      #
+      # 2. Download 3 files into that sub-directory.
+      f_test_internet_connection
+      if [ $ERROR -eq 0 ] ; then
+         # OK to download files.
+         wget http://lincgeek.org/bashpodder/bashpodder.shell
+         wget http://lincgeek.org/bashpodder/parse_enclosure.xsl
+         wget http://lincgeek.org/bashpodder/bp.conf
+         # 3. Make the file executable, bashpodder.shell.
+         chmod 755 bashpodder.shell
+         echo "Usage:"
+         echo "cd ~/podcasts"
+         echo "./bashpodder.shell"
+         echo
+         echo "This will store the audio files in sub-directories by date"
+         echo "in the format: ~/podcasts/<YYYY-MM-DD>"
+         echo
+         echo "To play downloaded podcasts:"
+         echo "You can play the podcasts by using an audio player such as xmms."
+         echo "xmms ~/podcasts/2014-11-24/*"
+      else
+         # Allow viewing of error message no internet connection.
+         f_press_enter_key_to_continue
+      fi
+} # End of function f_install_bashpodder
 #
 # +----------------------------------------+
 # |           Function f_md5pass           |

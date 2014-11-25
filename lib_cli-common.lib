@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-17-2014 21:31"
+# REVDATE="November-24-2014 23:59"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -2564,8 +2564,8 @@ f_app_install_mssg () {
 # |   Function f_test_internet_connection  |
 # +----------------------------------------+
 #
-#  Inputs: None.
-#    Uses: ERROR, ECOLOR, BCOLOR.
+#  Inputs: MOD_FILE, ECOLOR, FCOLOR, BCOLOR.
+#    Uses: ERROR, ECOLOR, FCOLOR, BCOLOR.
 # Outputs: ERROR.
 #
 f_test_internet_connection () {

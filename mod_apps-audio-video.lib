@@ -3,7 +3,7 @@ q# ©2014 Copyright 2014 Robert D. Chin
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-21-2014 11:38"
+# REVDATE="November-24-2014 23:59"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio_video    |
@@ -52,14 +52,14 @@ f_menu_app_audio_editors () {
 #0^0^0^0^1 #MAU abc2abc   - An abc prettyprinter/transposer.
 #0^0^0^0^1 #MAU abc2midi  - Convert ABC music source files to standard MIDI format.
 #0^0^0^0^0 #MAU abcm2ps   - Converts ABC music source files to PS sheet music format.
-#0^0^0^0^0 #MAU avconv    - Audio/Video converter.
+#0^0^0^0^0 #MAU avconv    - Audio/Video converter grab from live A/V source, resizes video.
 #0^0^0^0^1 #MAU avinfo    - Audio/Video information automatic extractor/file list generator.
 #0^0^0^0^1 #MAU cutmp3    - MP3 file editor dependent on mpg123. Save selections to a file.
 #0^0^0^0^1 #MAU exiftool  - Display audio/video/image file properties (ls-like format).
 #0^0^0^0^1 #MAU ecasound  - Multitrack audio processing, record, convert, playback, mixing.
 #0^0^0^0^1 #MAU ffmpeg    - Multimedia Record, convert, stream and playback.
 #0^0^0^0^1 #MAU mediainfo - Display audio/video file properties and metadata. 
-#0^0^0^0^1 #MAU mftext    - Dump MIDI file as text.
+#0^0^0^0^1 #MAU mftext    - Dump MIDI file as text, describes what is in the MIDI file.
 #0^0^0^0^1 #MAU midi2abc  - Convert standard MIDI files to ABC music source format.
 #0^0^0^0^1 #MAU midicopy  - Extract/copy specific MIDI file tracks/channels/time intervals.
 #0^0^0^0^1 #MAU normalize - Adjusts volume of multiple audio files to a standard level.
@@ -89,19 +89,19 @@ f_menu_app_cdrippers () {
       f_initvars_menu_app "MAC"
       until [ "$MAC" = "0" ]
       do    # Start of CD Rippers Applications until loop.
-#0^0^0^0^1 #MAC abcde      - Audio CD ripper.
-#0^0^0^0^1 #MAC acripper   - Audio CD ripper.
+#0^0^0^0^1 #MAC abcde      - Audio CD ripper Ogg/Vorbis, MP3, FLAC, Ogg/Speex, MPP/MP+, M4A.
+#0^0^0^0^1 #MAC acripper   - Audio CD ripper ogg encoder with freedb.org client, FLAC, MP3.
 #0^0^0^0^1 #MAC cdda2wav   - CD-audio extraction program with paranoia support. 
-#0^0^0^0^1 #MAC cdparanoia - Audio CD ripper.
+#0^0^0^0^1 #MAC cdparanoia - Audio CD ripper to WAV, AIFC, AIFC or raw 16 bit linear PCM.
 #0^0^0^0^1 #MAC cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
-#0^0^0^0^1 #MAC cdrskin    - CD/DVD/BD writing tool.
+#0^0^0^0^1 #MAC cdrskin    - Limited cdrecord compatibility wrapper for libburn. CD/DVD/BD.
 #0^0^0^0^0 #MAC cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
 #0^0^0^0^1 #MAC crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
 #0^0^0^0^1 #MAC jack       - Audio CD ripper.
 #0^0^0^0^1 #MAC gramophone - play/rip/record/process CDs, sound files. Ncurses-based.
-#0^0^0^0^1 #MAC lxdvdrip   - Audio CD ripper.
-#0^0^0^0^1 #MAC ripit      - Audio CD ripper.
-#0^0^0^0^1 #MAC rubyripper - Audio CD ripper.
+#0^0^0^0^1 #MAC lxdvdrip   - Data and Video DVD ripper, authoring, previewing, burning.
+#0^0^0^0^1 #MAC ripit      - RipIT audio CD for MP3, Ogg Vorbis, FLAC, M4A, MPC, WV, WAV.
+#0^0^0^0^1 #MAC rubyripper - Secure audio CD ripper rips multiple times to compare/correct.
             #
             THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="CD Rippers Applications Menu"
@@ -137,7 +137,7 @@ f_menu_app_music_players () {
 #0^0^0^0^0 #MAN consolecandy - MP3 player with spectrum analyzer and other eye-candy.
 #0^0^0^0^0 #MAN cplay        - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
 #0^0^0^0^0 #MAN cvlc         - Music player, ncurses-based, depends on vlc.
-#0^0^0^0^0 #MAN dcd          - CD player.
+#0^0^0^0^0 #MAN dcd          - Simple CD player with track/playlist information.
 #0^0^0^0^1 #MAN draai        - A wrapper for mpc. Single-line command.
 #0^0^0^0^0 #MAN emms         - Emacs extension plays MP3, Ogg Vorbis, FLAC, etc.
 #0^0^0^0^0 #MAN herrie       - Music playlist and file browser on split screen.
