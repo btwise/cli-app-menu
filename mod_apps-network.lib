@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-21-2014 11:38"
+# REVDATE="December-08-2014 22:37"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -352,7 +352,7 @@ f_menu_app_nic_tools () {
 #0^0^0^0^1    #MNN mii-diag     - NIC configuration of network cards.
 #1^0^0^0^0    #MNN netload      - NIC network load; ncurses based.
 #0^0^0^0^1    #MNN nictools-pci - NIC configuration of specific oem network cards.
-f_menu_app_nic_tools2^0^0^0^1    #MNN MORE...      - More NIC Tools Applications.
+#f_menu_app_nic_tools2^0^0^0^1    #MNN MORE...      - More NIC Tools Applications.
             #
             THIS_FILE="mod_apps-network.lib"
             MENU_TITLE="NIC Tools Applications Menu"
