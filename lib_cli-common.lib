@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-24-2014 23:59"
+# REVDATE="December-16-2014 00:10"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -644,9 +644,10 @@ f_menu_item_valid () {
                  # Valid choice so force exit from While-loop.
                  let XNUM=$MAX+1
                  ;;
-                 $MENU_ITEM_NAME*)
+                 $MENU_ITEM_NAME" "*)
                  # Does MENU_ITEM contain MENU_ITEM_NAME? 
-                 # i.e. "nslookup www.distrowatch.com" contains "nslookup".
+                 # i.e. "nslookup www.distrowatch.com" contains "nslookup "
+                 #                                         ("nslookup"<space>).
                  # i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
                  # elif [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]] ; then 
                  # Valid choice, extract APP_NAME.

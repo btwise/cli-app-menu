@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="December-08-2014 22:37"
+PROJECT_REVDATE="December-16-2014 00:10"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,10 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2014-12-08 *Testing version 2.0
-##            *f_menu_app_nic_tools fixed typo in menu item option for "MORE...".
+## 2014-12-16 *Testing version 2.0
+##            *f_menu_item_valid Fix bug where selecting "dfc" would run "df".
+##
+## 2014-12-08 *f_menu_app_nic_tools fixed typo in menu item option for "MORE...".
 ##
 ## 2014-11-24 *f_install_bashpodder added.
 ##            *f_bashpodder added.
