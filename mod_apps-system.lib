@@ -378,8 +378,9 @@ f_menu_app_sys_monitors2 () {
 #0^0^0^0^0 #MSN ntsysd       - RedHat view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN rrdtool      - Round Robin Database Tool stores/displays time-series data.
 #0^0^0^1^0 #MSN saidar       - Monitor system processes, network I/O, disks I/O, free space.
-#0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
+#0^0^0^0^1 #MSN smem         - Show memory usage for current user, per user, all users.
+#0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
 #f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
 #f_run_and_exit "ttyload" "ttyload"^0^0^8^1 #MSN ttyload      - Color-coded graphs of CPU load average.
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.

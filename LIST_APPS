@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2014-11-07 20:49 Friday
+Last updated: 2015-01-07 13:58 Wednesday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -15,19 +15,19 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** CD Rippers Applications Menu ***
- abcde      - Audio CD ripper.
- acripper   - Audio CD ripper.
+ abcde      - Audio CD ripper Ogg/Vorbis, MP3, FLAC, Ogg/Speex, MPP/MP+, M4A.
+ acripper   - Audio CD ripper ogg encoder with freedb.org client, FLAC, MP3.
  cdda2wav   - CD-audio extraction program with paranoia support. 
- cdparanoia - Audio CD ripper.
+ cdparanoia - Audio CD ripper to WAV, AIFC, AIFC or raw 16 bit linear PCM.
  cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
- cdrskin    - CD/DVD/BD writing tool.
+ cdrskin    - Limited cdrecord compatibility wrapper for libburn. CD/DVD/BD.
  cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
  crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
  jack       - Audio CD ripper.
  gramophone - play/rip/record/process CDs, sound files. Ncurses-based.
- lxdvdrip   - Audio CD ripper.
- ripit      - Audio CD ripper.
- rubyripper - Audio CD ripper.
+ lxdvdrip   - Data and Video DVD ripper, authoring, previewing, burning.
+ ripit      - RipIT audio CD for MP3, Ogg Vorbis, FLAC, M4A, MPC, WV, WAV.
+ rubyripper - Secure audio CD ripper rips multiple times to compare/correct.
 
 _______________________________________________________________________________
 *** Music Player Applications Menu ***
@@ -41,7 +41,7 @@ _______________________________________________________________________________
  consolecandy - MP3 player with spectrum analyzer and other eye-candy.
  cplay        - Music MP3, Ogg Vorbis, MOD, wav, Speex, ncurses-based.
  cvlc         - Music player, ncurses-based, depends on vlc.
- dcd          - CD player.
+ dcd          - Simple CD player with track/playlist information.
  draai        - A wrapper for mpc. Single-line command.
  emms         - Emacs extension plays MP3, Ogg Vorbis, FLAC, etc.
  herrie       - Music playlist and file browser on split screen.
@@ -122,14 +122,14 @@ _______________________________________________________________________________
  abc2abc   - An abc prettyprinter/transposer.
  abc2midi  - Convert ABC music source files to standard MIDI format.
  abcm2ps   - Converts ABC music source files to PS sheet music format.
- avconv    - Audio/Video converter.
+ avconv    - Audio/Video converter grab from live A/V source, resizes video.
  avinfo    - Audio/Video information automatic extractor/file list generator.
  cutmp3    - MP3 file editor dependent on mpg123. Save selections to a file.
  exiftool  - Display audio/video/image file properties (ls-like format).
  ecasound  - Multitrack audio processing, record, convert, playback, mixing.
  ffmpeg    - Multimedia Record, convert, stream and playback.
  mediainfo - Display audio/video file properties and metadata. 
- mftext    - Dump MIDI file as text.
+ mftext    - Dump MIDI file as text, describes what is in the MIDI file.
  midi2abc  - Convert standard MIDI files to ABC music source format.
  midicopy  - Extract/copy specific MIDI file tracks/channels/time intervals.
  normalize - Adjusts volume of multiple audio files to a standard level.
@@ -441,22 +441,10 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** File Deletion/Undeletion Applications Menu ***
- gitwipe     - Overwrites file contents with a random sequence of numbers.
- shred       - Delete files securely without recovery.
- scrub       - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
- wipe        - Secure file deletion.
- ----------- - -------------------------------------------------------------
- dares       - Rescue data from damaged CDs/DVDs, ncurses-based.
- ddrescue    - Rescue readable data from failing hard disk drives.
- extundelete - Recover deleted files from ext3, ext4, and newer partitions.
- foremost    - File recovery from within a *.img disk image file.
- magicrescue - Scans a block device, rescues files, partitions, disks.
- myrescue    - Rescue data from failing drives; read good sectors first.
- photorec    - File recovery.
- safecopy    - File recovery.
- safe-rm     - Protect files from rm deletion.
- scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
- trash-cli   - Remembers name, path, date, permissions of each trashed file.
+ gitwipe - Overwrites file contents with a random sequence of numbers.
+ shred   - Delete files securely without recovery.
+ scrub   - Erase disks; NNSA NAP-14, DoD 5220.22-M, BSI, 35-pass Gutmann.
+ wipe    - Secure file deletion.
 
 _______________________________________________________________________________
 *** File Encryption Applications Menu ***
@@ -611,13 +599,30 @@ _______________________________________________________________________________
  awk       - Manipulate strings within a file parsed with delimiters.
  Backup    - Backup utilities for files.
  cwp       - "Catenate with Progress" like "cat" with progress indication.
- Del/Undel - Delete/Undelete utilities for disks and files.
+ Delete    - Secure Deletion utilities for disks and files.
  deurlname - Removes URL encoded characters from file names.
- gawk       - awk-like, the GNU Project's implementation of awk.
- igawk      - gawk with includes.
+ gawk      - awk-like, the GNU Project's implementation of awk.
+ igawk     - gawk with includes.
  Move-Copy - Rename/Move and copy utilities for files.
+ pipebench - Shows progress of data through pipeline with progress bar.
+ pv        - Shows progress of data through pipeline with progress bar.
+ Recovery  - Recovery utilities for disks and files.
  sed       - String substitution within a file without using an editor.
  sort      - Sort file by lines in alphabetical order.
+
+_______________________________________________________________________________
+*** File Recovery Applications Menu ***
+ dares       - Rescue data from damaged CDs/DVDs, ncurses-based.
+ ddrescue    - Rescue readable data from failing hard disk drives.
+ extundelete - Recover deleted files from ext3, ext4, and newer partitions.
+ foremost    - File recovery from within a *.img disk image file.
+ magicrescue - Scans a block device, rescues files, partitions, disks.
+ myrescue    - Rescue data from failing drives; read good sectors first.
+ photorec    - File recovery.
+ safecopy    - File recovery.
+ safe-rm     - Protect files from rm deletion.
+ scalpel     - File carver (recovery) FATx, NTFS, ext2/3, or raw partitions.
+ trash-cli   - Remembers name, path, date, permissions of each trashed file.
 
 _______________________________________________________________________________
 *** File Splitter Applications Menu ***
@@ -684,11 +689,11 @@ _______________________________________________________________________________
  snake          - Be chased by a snake while collecting money.
  spacezero      - Space combat in real-time, 2-player network game.
  Tetris         - "Tetris" clones.
+ worm           - Be a growing worm, don't crash into yourself.
  MORE...        - For more arcade game applications.
 
 _______________________________________________________________________________
 *** Arcade2 Games Menu ***
- worm      - Be a growing worm, don't crash into yourself.
  xorcurses - based on Xor released in 1987 by Astral Software.
  zsnake    - Variation of BSD's snake game.
  ztrack    - First-person car racing game in amazing 3-D ASCII.
@@ -818,9 +823,9 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Image-Graphics Applications Menu ***
- aafigure   - ASCII art to image converter.
+ aafigure   - ASCII-art to image converter.
  asciitopgm - Convert ASCII graphics into a portable graymap.
- aview      - Image and ASCII art image viewer.
+ aview      - Image and ASCII-art image viewer.
  bb         - ASCII-art movie demo based on AAlib.
  caca-utils - Image viewer and converter jpg to ascii images.
  duhdraw    - ncurses-based ASCII-art editor.
@@ -828,7 +833,7 @@ _______________________________________________________________________________
  fbgrab     - Framebuffer screenshot tool.
  fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
  fbv        - Image viewer framebuffer console.
- fim        - Image and ASCII art image viewer.
+ fim        - Image and ASCII-art image viewer.
  hasciicam  - ASCII web camera images.
  jfbview    - Image viewer and framebuffer PDF viewer based on Imlib2.
  jhead      - Display jpeg file properties.
@@ -842,6 +847,7 @@ _______________________________________________________________________________
  scanimage - Controls flatbed scanners, cameras. -L list of devices.
  sl        - Steam locomotive (when you mis-type 'ls' command).
  star wars - Star Wars movie in ASCII.
+ textdraw  - Draw lines, rectangles, elipses, etc. to create ASCII-art.
  welcome21 - ANSI logo on login screen.
 
 _______________________________________________________________________________
@@ -978,7 +984,7 @@ _______________________________________________________________________________
  wuzzah      - LAN user login/out tracker.
 
 _______________________________________________________________________________
-*** Network Monitor Applications Menu ***
+*** Network Structure Applications Menu ***
  httpry    - Light-weight network traffic logging tool.
  iptraf    - IP LAN monitor, ncurses based display.
  iptraf-ng - Fork of iptraf.
@@ -995,6 +1001,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** NIC Tools Applications Menu ***
+ ethstatus    - NIC packet statistics, xmit, rcvd, totals, speed, w/graph.
  ethtool      - NIC configuration.
  ifconfig     - NIC configuration.
  ifplugstatus - Wireless USB NIC status.
@@ -1009,8 +1016,7 @@ _______________________________________________________________________________
  mii-diag     - NIC configuration of network cards.
  netload      - NIC network load; ncurses based.
  nictools-pci - NIC configuration of specific oem network cards.
- warcarrier   - Wireless network detector ncurses-based.
- wicd-curses  - Scan and connect to wired/wireless networks.
+ MORE...      - More NIC Tools Applications.
 
 _______________________________________________________________________________
 *** Note Applications Menu ***
@@ -1035,6 +1041,11 @@ _______________________________________________________________________________
  snort     - Packet sniffer/logger, Network Intrusion Detection System.
  tcpdump   - Packet sniffer/logger.
  wireshark - Packet sniffer/logger.
+
+_______________________________________________________________________________
+*** NIC Tools2 Applications Menu ***
+ warcarrier   - Wireless network detector ncurses-based.
+ wicd-curses  - Scan and connect to wired/wireless networks.
 
 _______________________________________________________________________________
 *** Network Sharing Applications Menu ***
@@ -1107,8 +1118,8 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Package Management2 Applications Menu ***
- yum       - "Yellow Dog Updated" package manager.
- zypper    - OpenSUSE package manager on which is based YaST GUI.
+ yum    - "Yellow Dog Updated" package manager.
+ zypper - OpenSUSE package manager on which is based YaST GUI.
 
 _______________________________________________________________________________
 *** Presentation Applications Menu ***
@@ -1210,7 +1221,7 @@ _______________________________________________________________________________
  eject     - Ejects media, CD, DVD, floppy disks, SCSI drives, tape drives.
  gt5       - A diff-capable du-browser.
  hdparm    - Show/set disk parameters, settings. 
- MORE... - For more system disk information applications.
+ MORE...   - For more system disk information applications.
 
 _______________________________________________________________________________
 *** System Disks Information2 Menu ***
@@ -1237,9 +1248,9 @@ _______________________________________________________________________________
  labrea     - Sticky honeypot entraps intruder tying up his CPU.
  lynis      - security auditing tool that tests for security holes in a PC.
  rkhunter   - Root Kit detector.
+ siege      - Web site http regression and stress test, benchmarking.
  smb-nat    - Netbios audit servers running NetBIOS file sharing services.
- stress     - Stress test can simulate a heavy load on CPU.
- tripwire   - Detects/Reports changes in system files.
+ MORE...    - More applications.
 
 _______________________________________________________________________________
 *** Mainboard Information Menu ***
@@ -1258,6 +1269,11 @@ _______________________________________________________________________________
  slabtop       - Kernel slab cache information in real time.
  vmstat        - Memory usage RAM and swap, CPU information.
  ypdomainname  - Show or set the system's NIS/YP domain name
+
+_______________________________________________________________________________
+*** System Health2 Applications Menu ***
+ stress   - Stress test can simulate a heavy load on CPU.
+ tripwire - Detects/Reports changes in system files.
 
 _______________________________________________________________________________
 *** Linux Kernel Application Menu ***
@@ -1296,8 +1312,9 @@ _______________________________________________________________________________
  ntsysd       - RedHat view/enable/disable startup scripts/services.
  rrdtool      - Round Robin Database Tool stores/displays time-series data.
  saidar       - Monitor system processes, network I/O, disks I/O, free space.
- sysv-rc-conf - Debian view/enable/disable startup scripts/services.
  sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
+ smem         - Show memory usage for current user, per user, all users.
+ sysv-rc-conf - Debian view/enable/disable startup scripts/services.
  tload        - System load average graphical monitor.
  ttyload      - Color-coded graphs of CPU load average.
  yacpi        - ACPI monitor, ncurses-based.
@@ -1416,8 +1433,8 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** To-Do2 Applications Menu ***
- yaGTD    - To-Do List based on "Getting Things Done" methodology.
- yokadi   - Project/task manager which uses SQLite.
+ yaGTD  - To-Do List based on "Getting Things Done" methodology.
+ yokadi - Project/task manager which uses SQLite.
 
 _______________________________________________________________________________
 *** Text Compare Applications Menu ***
@@ -1489,26 +1506,26 @@ _______________________________________________________________________________
  levi         - Very small vi-clone. From the 1980's.
  mg           - Microscopic GNU Emacs-style editor.
  mped         - Text editor, ncurses based.
- MORE...   - For more text editor applications.
- MORE...         - For more text editor applications.
+ MORE...      - For more text editor applications.
 
 _______________________________________________________________________________
 *** Text Editor3 Applications Menu ***
- nano            - Simple full-screen text editor more powerful than pico.
- nano-tiny       - Tiny build of nano.
- ne              - Nice Editor. Drop-down menus, ncurses-based. 
- NERD_tree       - vim plug-in directory tree, highlighting, bookmarks, etc.
- nvi             - vi-clone as close to vi as possible.
- pico            - Simple full-screen text editor.
- rjoe            - Joe Editor, only edit file(s) specified rjoe <filenames>.
- the             - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
- vi              - Classic full-screen text editor.
- vile            - "VI Like Emacs" vi "finger feel" but with emacs features.
- vim             - vi "Improved" text editor with more features than "vi".
- vim-nox         - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
- vim-scripts     - plugins for vim, adding bells and whistles.
- vim-tiny        - Vi IMproved compact version.
- vim-latexsuite  - LaTeX plugin for vim.
+ nano           - Simple full-screen text editor more powerful than pico.
+ nano-tiny      - Tiny build of nano.
+ ne             - Nice Editor. Drop-down menus, ncurses-based. 
+ NERD_tree      - vim plug-in directory tree, highlighting, bookmarks, etc.
+ nvi            - vi-clone as close to vi as possible.
+ pico           - Simple full-screen text editor.
+ rjoe           - Joe Editor, only edit file(s) specified rjoe <filenames>.
+ the            - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
+ vi             - Classic full-screen text editor.
+ vile           - "VI Like Emacs" vi "finger feel" but with emacs features.
+ vim            - vi "Improved" text editor with more features than "vi".
+ vim-nox        - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
+ vim-scripts    - plugins for vim, adding bells and whistles.
+ vim-tiny       - Vi IMproved compact version.
+ vim-latexsuite - LaTeX plugin for vim.
+ MORE...        - For more text editor applications.
 
 _______________________________________________________________________________
 *** Text Editor4 Applications Menu ***
@@ -1621,12 +1638,12 @@ _______________________________________________________________________________
  bongo        - Front-end to Emacs editor for vlc.
  cacaxine     - Xine video player.
  cclive       - Download/Play Youtube videos. Rewrite of 'clive'.
- ems          - Emacs extension plays video MPEG, WMV, MOV, AVI, OGM, MKV, etc.
+ ems          - Emacs extension plays MPEG, WMV, MOV, AVI, OGM, MKV, etc.
  episoder     - Reads "tv.com" and "epguides.com" for new TV episodes.
  fbxine       - Xine video player.
  mencoder     - Mplayer's encoder AVI/ASF/OGG/DVD/VCD/VOB/MPG/MOV etc.
  mplayer      - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
- mplayer2     - Multimedia player MPEG,AVI, Ogg/OGM, QT/MOV/MP4, ASF/WMA/WMV.
+ mplayer2     - Multimedia player similar to "mplayer".
  quvi         - Downloads Adobe Flash video links, Youtube etc.
  vlc          - VideoLAN media player MPEG, MOV, WMV, QT, WebM, MP3, etc.
  xine-console - Xine video player AVI, DVD, SVCD, VCD, MPEG, QuickTime.
