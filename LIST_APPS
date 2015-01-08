@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2015-01-07 13:58 Wednesday
+Last updated: 2015-01-08 17:14 Thursday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -878,6 +878,7 @@ _______________________________________________________________________________
  freetalk     - Jabber client.
  mcabber      - Jabber client.          	
  naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+ turses       - Twitter client, multiple accounts, timelines, and columns.
  twidge       - Twitter and identi.ca client.
 
 _______________________________________________________________________________
@@ -888,6 +889,7 @@ _______________________________________________________________________________
  ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.
  ircii   - Termcap based interface. Supports "/encrypt -cast".
  irssi   - Supports SILC and ICB protocols via plugins.
+ pcw     - Pop-up chat windows, front-end for ii IRC-client.
  pork    - Ncurses-based AOL Instant Messenger and IRC client.
  scrollz - An advanced, faster IRC client based on ircII code.
  sic     - Fast small IRC client.

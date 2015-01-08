@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-24-2014 23:59"
+# REVDATE="January-08-2015 16:40"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -236,6 +236,7 @@ f_menu_app_instant_messaging () {
 #0^0^0^0^1 #MIM freetalk     - Jabber client.
 #0^0^0^0^1 #MIM mcabber      - Jabber client.          	
 #0^0^0^0^1 #MIM naim         - Supports AIM, IRC, ICQ, Lily, CMC.
+#0^0^0^0^1 #MIM turses       - Twitter client, multiple accounts, timelines, and columns.
 #0^0^0^0^1 #MIM twidge       - Twitter and identi.ca client.
             #
             THIS_FILE="mod_apps-internet.lib"
@@ -268,6 +269,7 @@ f_menu_app_irc_clients () {
 #0^0^0^0^1 #MIR ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.
 #0^0^0^0^1 #MIR ircii   - Termcap based interface. Supports "/encrypt -cast".
 #0^0^0^0^1 #MIR irssi   - Supports SILC and ICB protocols via plugins.
+#0^0^0^0^1 #MIR pcw     - Pop-up chat windows, front-end for ii IRC-client.
 #0^0^0^0^0 #MIR pork    - Ncurses-based AOL Instant Messenger and IRC client.
 #0^0^0^0^1 #MIR scrollz - An advanced, faster IRC client based on ircII code.
 #0^0^0^0^1 #MIR sic     - Fast small IRC client.

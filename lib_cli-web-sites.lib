@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-24-2014 23:59"
+# REVDATE="January-08-2015 16:40"
 #
 # +----------------------------------------+
 # | Function f_application_web_install     |
@@ -343,6 +343,9 @@ f_application_web_install () {
            orpheus)
            WEB_SITE_INSTALL="http://thekonst.net/orpheus"
            ;;
+           pcw)
+           WEB_SITE_INSTALL="https://bitbucket.org/emg/pcw"
+           ;;
            peyote)
            WEB_SITE_INSTALL="http://peyote.sourceforge.net/download.html"
            ;;
@@ -435,6 +438,9 @@ f_application_web_install () {
            ;;
            ttyplay | ttyrec)
            WEB_SITE_INSTALL="http://0xcc.net/ttyrec/index.html.en"
+           ;;
+           turses)
+           WEB_SITE_INSTALL="http://turses.readthedocs.org/en/latest/index.html"
            ;;
            vim)
            WEB_SITE_INSTALL="http://www.vim.org/"
