@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-21-2014 11:38"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
@@ -23,7 +23,7 @@ f_menu_cat_office () {
 #f_menu_app_clocks       #BOF Clocks       - Alarm clocks, specialized clocks.
 #f_menu_app_contacts     #BOF Contacts     - Contact/Address book lists.
 #f_menu_app_note         #BOF Notes        - Notebooks, diaries, PIM (personal information manager).
-#f_menu_app_pdfps        #BOF PDF-PS docs  - view, edit, compare, merge pdf and ps documents.
+#f_menu_app_pdfps        #BOF PDF-PS docs  - View, edit, compare, merge pdf and ps documents.
 #f_menu_app_presentation #BOF Presenters   - Text slideshow presentation.
 #f_menu_app_spreadsheets #BOF Spreadsheets - Basic spreadsheet.
 #f_menu_cat_text         #BOF Text         - Create/Edit text files, text format converters, etc.        
@@ -270,7 +270,7 @@ f_menu_app_note () {
 #0^0^0^0^1 #MNO hnb      - Hierarchical notebook.
 #0^0^0^0^1 #MNO nodau    - Note-taking with search by name or date.
 #0^0^0^0^1 #MNO note     - Manage notes with a DBI-based mysql-module.
-#0^0^0^0^1 #MNO org-mode - Emacs plugin for notes, ToDo lists, and project planning.
+#0^0^0^0^1 #MNO org-mode - Emacs plug-in for notes, ToDo lists, and project planning.
 #0^0^0^0^0 #MNO tina     - PIM (personal information manager), ncurses-based.
 #0^0^0^0^1 #MNO worklog  - Time-tracking for projects/tasks, running clock, ncurses-based.
             #
@@ -541,7 +541,7 @@ f_menu_app_text_editors () {
 #0^0^0^0^0  #MTE ed            - Classic CLI text editor.
 #0^0^0^0^0  #MTE efte          - Configurable editor, drop-down menus, ncurses-based.
 #0^0^0^0^0  #MTE elvis-console - vi-clone. Multiple files/windows, spell-check, highlight.
-#0^0^0^12^0 #MTE emacs         - Full screen text editor with plugins.
+#0^0^0^12^0 #MTE emacs         - Full screen text editor with plug-ins.
 #0^0^0^0^0  #MTE enpi          - Bash script allows formatted text in text editors.
 #0^0^0^0^0  #MTE fte-console   - fte for consoles, no internationalization I18N support.
 #f_menu_app_text_editors2^0^0^0^0 #MTE MORE...       - For more text editor applications.
@@ -570,7 +570,7 @@ f_menu_app_text_editors2 () {
       f_initvars_menu_app "MTF"
       until [ "$MTF" = "0" ]
       do    # Start of Text Editor Applications2 until loop.
-#0^0^0^0^0  #MTF fte-terminal - fte for xterm, vt100 terminals.
+#0^0^0^0^0  #MTF fte-terminal - "fte" for xterm, vt100 terminals.
 #1^0^0^0^0  #MTF groff        - Format text via macros, create man pages to PS printers.
 #1^0^0^0^0  #MTF jed          - JED ncurses-based. Also consider package: jed-extra.
 #0^0^0^12^0 #MTF jmacs        - Joe Editor, GNU-EMACS emulation mode.
@@ -581,10 +581,10 @@ f_menu_app_text_editors2 () {
 #0^0^0^0^0  #MTF jupp         - Fork of joe editor with enhancements.
 #0^0^0^0^0  #MTF le           - LE editor text/hex mode, drop-down menus, ncurses-based.
 #0^0^0^0^0  #MTF ledit        - Line editor used with interactive commands.
-#0^0^0^0^0  #MTF levee        - editor based on vi.
+#0^0^0^0^0  #MTF levee        - Editor based on vi.
 #0^0^0^0^0  #MTF levi         - Very small vi-clone. From the 1980's.
 #0^0^0^12^0 #MTF mg           - Microscopic GNU Emacs-style editor.
-#0^0^0^0^0  #MTF mped         - Text editor, ncurses based.
+#0^0^0^0^0  #MTF mped         - Text editor, ncurses-based.
 #f_menu_app_text_editors3^0^0^0^0 #MTF MORE...      - For more text editor applications.
             #
             THIS_FILE="mod_apps-office.lib"
@@ -620,12 +620,12 @@ f_menu_app_text_editors3 () {
 #f_joe^0^0^11:NC^0 #MTG rjoe           - Joe Editor, only edit file(s) specified rjoe <filenames>.
 #0^0^0^0^0  #MTG the            - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
 #0^0^0^14^0 #MTG vi             - Classic full-screen text editor.
-#0^0^0^14^0 #MTG vile           - "VI Like Emacs" vi "finger feel" but with emacs features.
+#0^0^0^14^0 #MTG vile           - "vi Like Emacs" vi "finger feel" but with emacs features.
 #0^0^0^14^0 #MTG vim            - vi "Improved" text editor with more features than "vi".
 #0^0^0^14^0 #MTG vim-nox        - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
-#0^0^0^14^0 #MTG vim-scripts    - plugins for vim, adding bells and whistles.
-#0^0^0^14^0 #MTG vim-tiny       - Vi IMproved compact version.
-#0^0^0^14^0 #MTG vim-latexsuite - LaTeX plugin for vim.
+#0^0^0^14^0 #MTG vim-scripts    - Plug-ins for vim, adding bells and whistles.
+#0^0^0^14^0 #MTG vim-tiny       - vi "Improved compact version.
+#0^0^0^14^0 #MTG vim-latexsuite - LaTeX plug-in for vim.
 #f_menu_app_text_editors4^0^0^0^0 #MTG MORE...        - For more text editor applications.
             #
             THIS_FILE="mod_apps-office.lib"
@@ -755,7 +755,7 @@ f_menu_app_todo () {
 #0^0^0^0^1  #MTA etm      - Event and task manager.
 #0^0^0^0^0  #MTA hnb      - To-Do List and note taker, ncurses-based application.
 #0^0^0^0^1  #MTA ikog     - To-Do List
-#0^0^0^0^1  #MTA org-mode - Emacs plugin for notes, To-Do lists, and project planning.
+#0^0^0^0^1  #MTA org-mode - Emacs plug-in for notes, To-Do lists, and project planning.
 #0^0^0^0^1  #MTA task     - Taskwarrior To-Do lists synchronize multiple PCs.
 #0^0^0^21^0 #MTA tdl      - To-Do List manager.
 #1^0^0^0^0  #MTA todo     - To-Do List hierarchical. Install package "devtodo".
@@ -1315,7 +1315,7 @@ f_NERD_tree () {
       echo "Most NERD tree navigation can also be done with the mouse."
       echo "Filtering of tree content (can be toggled at runtime)."
       echo "You can have a separate NERD tree for each tab, share trees across tabs, or a mix of both."
-      echo "Many (customisable) mappings are provided to manipulate the tree."
+      echo "Many (customizable) mappings are provided to manipulate the tree."
       echo
       echo "*** For more help type: 'man $APP_NAME'"
       echo "                        '$APP_NAME --help'"

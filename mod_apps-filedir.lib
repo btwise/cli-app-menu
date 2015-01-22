@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-21-2014 11:38"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |  Function f_menu_cat_file_management   |
@@ -57,7 +57,7 @@ f_menu_app_file_backup () {
       until [ "$MFI" = "0" ]
       do    # Start of File Backup Applications until loop.
 #0^0^0^0^1 #MFI dtrx  - Use tar without remembering which flags for each file to use.
-#0^0^0^0^1 #MFI pax   - multiple file tar archiver and copier, preserves file metadata.
+#0^0^0^0^1 #MFI pax   - Multiple file tar archiver and copier, preserves file metadata.
 #0^0^0^0^1 #MFI rsync - File backup, mirror, directories and files.
 #0^0^0^0^1 #MFI tar   - File backup, compress files.
             #
@@ -130,7 +130,7 @@ f_menu_app_file_burn () {
 #0^0^0^0^0 #MFA cdck         - Check the quality of a written CD.
 #1^0^0^0^0 #MFA cdrecord     - CD burning. Obsoleted by wodim. May be hard-linked to wodim.
 #0^0^0^0^0 #MFA isodebug     - Print mkisofs debug information from media.
-#0^0^0^0^0 #MFA isoinfo      - Analyse/verify ISO/9660/Joliet/Rock-Ridge filesystems.
+#0^0^0^0^0 #MFA isoinfo      - Analyze/verify ISO/9660/Joliet/Rock-Ridge filesystems.
 #0^0^0^0^0 #MFA isovfy       - Verify the ISO-9660 structures.
 #0^0^0^0^0 #MFA lsdvd        - Reads contents of DVDs.
 #0^0^0^0^0 #MFA mkcd         - CD burning.
@@ -204,7 +204,7 @@ f_menu_app_file_compression () {
 #0^0^0^0^1 #MFB bzcat        - File decompress to stdout.
 #0^0^0^0^1 #MFB bzip2        - File compress to bzip (Burrows-Wheeler algorithm).
 #0^0^0^0^1 #MFB bzip2recover - Recovers data from damaged bzip2 files.
-#0^0^0^0^1 #MFB compress     - file compression creates *.Z compressed files.
+#0^0^0^0^1 #MFB compress     - File compression creates *.Z compressed files.
 #0^0^0^0^1 #MFB cpio         - Archive files and extract files from archives.
 #0^0^0^0^1 #MFB dtrx         - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z etc.
 #0^0^0^0^1 #MFB gitunpack    - Unpacks archives using other appropriate apps/utilities.
@@ -241,13 +241,13 @@ f_menu_app_file_compression2 () {
 #0^0^0^0^1 #MFC lzma       - Compress/Decompress files in the LZMA format.
 #0^0^0^0^1 #MFC lzip       - Compress files based on the LZMA algorithm.
 #0^0^0^0^1 #MFC lzop       - Compress files gzip-like but faster.
-#0^0^0^0^1 #MFC macunpack  - Exctracts files from Macintosh MacBinary archive.
+#0^0^0^0^1 #MFC macunpack  - Extracts files from Macintosh MacBinary archive.
 #0^0^0^0^1 #MFC p7zip      - File compress, to 7z files, 7z better than zip compression.
 #0^0^0^0^1 #MFC pdlzip     - Simpler,compress files based on the LZMA algorithm.
 #0^0^0^0^1 #MFC rzip       - Compresses large files, history buffer up to 900MB.
 #0^0^0^0^1 #MFC unace      - File decompress ACE 1.x archives. (ACE proprietary format).
 #0^0^0^0^1 #MFC unarj      - Decompress or list ARJ archives.
-#0^0^0^0^1 #MFC uncompress - decompress *.Z compressed files.
+#0^0^0^0^1 #MFC uncompress - Decompress *.Z compressed files.
 #0^0^0^0^1 #MFC unp        - Extract many kinds of archive files with one command.
 #0^0^0^0^1 #MFC unxc       - File decompress xz files.
 #f_menu_app_file_compression3^0^0^0^0 #MFC MORE...    - For more file compression applications.
@@ -289,7 +289,7 @@ f_menu_app_file_compression3 () {
 #0^0^0^0^1 #MFJ zmore    - Display file contents in a gzip archive, one screen at a time.
 #0^0^0^0^1 #MFJ zip      - File compress files to zip files.
 #0^0^0^0^1 #MFJ zipinfo  - List detailed information about a zip archive.
-#0^0^0^0^1 #MFJ zipnote  - edit/display comments in a zip file, rename zipped files.
+#0^0^0^0^1 #MFJ zipnote  - Edit/display comments in a zip file, rename zipped files.
 #0^0^0^0^1 #MFJ zipsplit - File compress files to zip files.
             #
             THIS_FILE="mod_apps-filedir.lib"
@@ -319,7 +319,7 @@ f_menu_app_file_conversion () {
 #0^0^0^0^0 #MTW abcm2ps    - Converts ABC music source files to PS sheet music format.
 #0^0^0^0^0 #MTW catdoc     - Microsoft Word to text converter.
 #0^0^0^0^0 #MTW csvkit     - Suite of utilities for converting to and working with CSV.
-#0^0^0^0^1 #MTW ctodo      - intuitive, simple interface; saves data in plain text files.
+#0^0^0^0^1 #MTW ctodo      - Intuitive, simple interface; saves data in plain text files.
 #0^0^0^0^1 #MTW dehtml     - Strips HTML code from text.
 #0^0^0^0^1 #MTW ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
 #0^0^0^0^1 #MTW enscript   - Convert text file to Post-Script file.
@@ -755,10 +755,10 @@ f_menu_app_file_splitters () {
       until [ "$MFS" = "0" ]
       do    # Start of File Splitter Applications until loop.
 #1^0^0^0^1 #MFS csplit   - Splits/Joins files.
-#0^0^0^0^1 #MFS cut      - carve files by character count, byte count, delimited fields.
+#0^0^0^0^1 #MFS cut      - Carve files by character count, byte count, delimited fields.
 #0^0^0^0^1 #MFS dirsplit - split directory files into fixed-sized chunks, save to CD, DVD.
 #0^0^0^0^1 #MFS hoz      - File splitter using hacha file format.
-#0^0^0^0^1 #MFS lxsplit  - Splits/Joins files even greater than 2GB.
+#0^0^0^0^1 #MFS lxsplit  - Splits/Joins files even greater than 2 GB.
 #0^0^0^0^1 #MFS slice    - Splits ASCII file w/delimiters into possibly overlapping slices.
 #1^0^0^0^1 #MFS split    - Splits/Joins files.
             #
@@ -893,7 +893,7 @@ f_menu_app_text_file_editors () {
 #0^0^0^0^1  #MTI aee   - Advanced Easy Editor.
 #0^0^0^15^0 #MTI dav   - Text editor.
 #0^0^0^0^1  #MTI ed    - Classic CLI text editor.
-#0^0^0^0^0  #MTI emacs - Full screen text editor with plugins.
+#0^0^0^0^0  #MTI emacs - Full screen text editor with plug-ins.
 #1^0^0^0^0  #MTI jed   - JED text editor.
 #1^0^0^11^0 #MTI joe   - Text editor. <Ctrl>-K H for help.
 #0^0^0^0^0  #MTI jupp  - Fork of joe editor with enhancements.
@@ -1307,7 +1307,7 @@ f_more () {
          echo "  -d        display help instead of ring bell"
          echo "  -f        count logical, rather than screen lines"
          echo "  -l        suppress pause after form feed"
-         echo "  -p        suppress scroll, clean screen and disblay text"
+         echo "  -p        suppress scroll, clean screen and display text"
          echo "  -c        suppress scroll, display text and clean line ends"
          echo "  -u        suppress underlining"
          echo "  -s        squeeze multiple blank lines into one"

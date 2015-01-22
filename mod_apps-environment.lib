@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-19-2014 06:30"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |    Function f_menu_app_environment     |
@@ -84,7 +84,7 @@ f_menu_app_msdos () {
       do    # Start of MSDOS/NTFS Applications until loop.
 #0^0^0^0^1 #MEO getswap    - Use as tempspace MS Windows pagefiles and swap partitions.
 #0^0^0^0^1 #MEO mattrib    - Change MS DOS file attribute flags.
-#0^0^0^0^1 #MEO mbadblocks - tests a floppy disk, and marks the bad blocks in the FAT.
+#0^0^0^0^1 #MEO mbadblocks - Tests a floppy disk, and marks the bad blocks in the FAT.
 #0^0^0^0^1 #MEO mcd        - Change MSDOS directory.
 #0^0^0^0^1 #MEO mcopy      - Copy MSDOS files to/from Unix, Linux.
 #0^0^0^0^1 #MEO mcat       - Copy an entire disk image to a floppy disk.
@@ -131,10 +131,10 @@ f_menu_app_msdos2 () {
 #0^0^0^0^1 #MEP mtoolstest      - Tests and displays the mtools configuration.
 #0^0^0^0^1 #MEP mtype           - Display contents of an MSDOS file.
 #0^0^0^0^1 #MEP ntfscp          - Copy file to an NTFS volume.
-#0^0^0^0^1 #MEP ntfslabel       - Display/change the label on an ntfs file system.
+#0^0^0^0^1 #MEP ntfslabel       - Display/change the label on an NTFS file system.
 #0^0^0^0^1 #MEP ntfsresize      - Resize an NTFS filesystem without data loss.
 #0^0^0^0^1 #MEP ntfsundelete    - Recover a deleted file from an NTFS volume.
-#0^0^0^0^1 #MEP ntfsundeleteall - recover deleted files from ntfs volumes
+#0^0^0^0^1 #MEP ntfsundeleteall - Recover deleted files from NTFS volumes
 #0^0^0^0^1 #MEP winclean        - Clean up junk files from a Windows installation.
             #
             THIS_FILE="mod_apps-environment.lib"

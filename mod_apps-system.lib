@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-21-2014 11:38"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -87,8 +87,8 @@ f_menu_app_sys_disks () {
 #0^0^0^0^1 #MSD ddir      - Tree-view of disk space utilization.
 #1^0^0^0^1 #MSD df        - Disk usage and mount points, usage: 'df -hT'.
 #0^0^0^0^1 #MSD dfc       - Disk usage and mount points, graphical display.
-#0^0^0^0^1 #MSD di        - 'df'-like disk usage utility.
-#0^0^0^0^1 #MSD discus    - 'df'-like disk usage utility with color, graphs, formatting.
+#0^0^0^0^1 #MSD di        - df-like disk usage utility.
+#0^0^0^0^1 #MSD discus    - df-like disk usage utility with color, graphs, formatting.
 #1^0^0^0^1 #MSD du        - Disk usage monitor by directory.
 #0^0^0^0^1 #MSD dumpe2fs  - Displays superblock and block information of a device.
 #0^0^0^0^1 #MSD eject     - Ejects media, CD, DVD, floppy disks, SCSI drives, tape drives.
@@ -220,8 +220,8 @@ f_menu_app_sys_logs () {
       f_initvars_menu_app "MLO"
       until [ "$MLO" = "0" ]
       do    # Start of System Logs until loop.
-#0^0^0^0^1 #MLO ccze       - A robust and modular log colorizer, with plugins.
-#0^0^0^0^1 #MLO colortail  - log colorizer.
+#0^0^0^0^1 #MLO ccze       - A robust and modular log colorizer, with plug-ins.
+#0^0^0^0^1 #MLO colortail  - Log colorizer.
 #0^0^0^0^1 #MLO hash       - Show frequency of commands entered at the prompt.
 #0^0^0^0^1 #MLO history    - Show history of commands entered at the prompt.
 #0^0^0^0^1 #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
@@ -229,7 +229,7 @@ f_menu_app_sys_logs () {
 #0^0^0^0^1 #MLO lastlog    - Users' login/logout times from /var/log/wtmp.
 #0^0^0^0^1 #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
 #0^0^0^0^1 #MLO logtailer  - Monitor logs for updates and display them.
-#0^0^0^0^1 #MLO monkeytail - tail variant designed for web developers monitoring logfiles.
+#0^0^0^0^1 #MLO monkeytail - tail variant designed for web developers monitoring log files.
 #0^0^0^0^1 #MLO multitail  - View multiple log files using multiple panes.
 #0^0^0^0^1 #MLO since      - Shows new changes in log files since last run. Tail-like.
 #0^0^0^0^1 #MLO swatch     - Log file viewer with regexp matching, highlighting & hooks.
@@ -337,7 +337,7 @@ f_menu_app_sys_monitors () {
 #0^0^0^0^1 #MSM acpi      - Show acpi information.
 #0^0^0^0^0 #MSM acpitail  - Show acpi information in growing tail list.
 #0^0^0^0^1 #MSM atsar     - CPU, network, memory & disk I/O, record data for analysis.
-#1^0^0^0^1 #MSM cacti     - Frontend to rrdtool for monitoring systems and services.
+#1^0^0^0^1 #MSM cacti     - Front-end to rrdtool for monitoring systems and services.
 #1^0^0^0^1 #MSM chkconfig - System update/query run-level processes at boot time.
 #0^0^0^1^0 #MSM conky-cli - Versatile, configurable system monitor.
 #1^0^0^0^1 #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
@@ -417,7 +417,7 @@ f_menu_app_sys_peripherals () {
 #0^0^0^0^1 #MSV gitkeys   - Displays the key sequence sent by the pressed key.
 #0^0^0^0^1 #MSV inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
 #0^0^0^0^1 #MSV kbd       - Control keyboard LEDs, repeat/delay rates, keymaps, etc.
-#0^0^0^0^1 #MSV loadkeys  - load keyboard translation tables
+#0^0^0^0^1 #MSV loadkeys  - Load keyboard translation tables
 #0^0^0^0^1 #MSV lsblk     - List block devices (disks).
 #0^0^0^0^1 #MSV lsof      - Display information about open files.
 #1^0^0^0^1 #MSV lspci     - PCI buses and connected devices.
@@ -632,9 +632,9 @@ f_cacti () {
       clear # Blank the screen.
       echo "cacti - Frontend to rrdtool for monitoring systems and services."
       echo
-      echo "Cacti is a complete frontend to rrdtool, it stores all of the necessary"
+      echo "Cacti is a complete front-end to rrdtool, it stores all of the necessary"
       echo "information to create graphs and populates them with data in a MySQL"
-      echo "database.  The frontend is completely PHP driven.  Along with being able"
+      echo "database.  The front-end is completely PHP driven.  Along with being able"
       echo "to maintain Graphs, Data Sources, and Round Robin Archives in a"
       echo "database, cacti handles the data gathering also.  There is also SNMP"
       echo "support for those used to creating traffic graphs with MRTG."
@@ -994,7 +994,7 @@ f_pccardctl () {
       echo "socket; otherwise, all sockets will be affected."
       echo
       echo "If pccardctl is executed by root, all commands are available."
-      echo "If it is executed by an unpriviledged user, only the informational commands"
+      echo "If it is executed by an unprivileged user, only the informational commands"
       echo "are accessible."
       echo
       echo "Usage:"

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-18-2014 22:45"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio_video    |
@@ -93,12 +93,12 @@ f_menu_app_cdrippers () {
 #0^0^0^0^1 #MAC acripper   - Audio CD ripper ogg encoder with freedb.org client, FLAC, MP3.
 #0^0^0^0^1 #MAC cdda2wav   - CD-audio extraction program with paranoia support. 
 #0^0^0^0^1 #MAC cdparanoia - Audio CD ripper to WAV, AIFC, AIFC or raw 16 bit linear PCM.
-#0^0^0^0^1 #MAC cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
+#0^0^0^0^1 #MAC cdrdao     - Records audio or data CD-Rs in disk-at-once (DAO) mode.
 #0^0^0^0^1 #MAC cdrskin    - Limited cdrecord compatibility wrapper for libburn. CD/DVD/BD.
-#0^0^0^0^0 #MAC cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
-#0^0^0^0^1 #MAC crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
+#0^0^0^0^0 #MAC cdw        - Front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
+#0^0^0^0^1 #MAC crip       - Ogg-vorbis front-end to cdparanoia w/on-line database access.
 #0^0^0^0^1 #MAC jack       - Audio CD ripper.
-#0^0^0^0^1 #MAC gramophone - play/rip/record/process CDs, sound files. Ncurses-based.
+#0^0^0^0^1 #MAC gramophone - Play/rip/record/process CDs, sound files. Ncurses-based.
 #0^0^0^0^1 #MAC lxdvdrip   - Data and Video DVD ripper, authoring, previewing, burning.
 #0^0^0^0^1 #MAC ripit      - RipIT audio CD for MP3, Ogg Vorbis, FLAC, M4A, MPC, WV, WAV.
 #0^0^0^0^1 #MAC rubyripper - Secure audio CD ripper rips multiple times to compare/correct.
@@ -169,7 +169,7 @@ f_menu_app_music_players2 () {
       until [ "$MAO" = "0" ]
       do    # Start of Music Player Applications2 until loop.
 #0^0^0^0^0 #MAO juke           - Music Jukebox, ncurses-based.
-#0^0^0^0^1 #MAO kuechenstation - front-end to XMMS2 music player.
+#0^0^0^0^1 #MAO kuechenstation - Front-end to XMMS2 music player.
 #0^0^0^0^0 #MAO mcdp           - CD player, adjust volume, repeat track/cd, ncurses-based.
 #0^0^0^0^0 #MAO mcplay         - Playlist ncurses-based.
 #0^0^0^0^0 #MAO mikmod         - MOD, XM, IT or S3M player.
@@ -252,7 +252,7 @@ f_menu_app_music_players4 () {
       f_initvars_menu_app "MAQ"
       until [ "$MAQ" = "0" ]
       do    # Start of Music Players4 Applications until loop.
-#0^0^0^0^1 #MAQ vux - ogg and mp3 player.
+#0^0^0^0^1 #MAQ vux - Ogg and mp3 player.
             #
             THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Music Players4 Applications Menu"

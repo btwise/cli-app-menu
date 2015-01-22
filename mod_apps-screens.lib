@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-02-2014 21:21"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_screens       |
@@ -23,7 +23,7 @@ f_menu_app_screens () {
 #0^0^0^0^0 #MSC dvtm     - dwm-style (tiling) window manager.
 #0^0^0^0^0 #MSC fbterm   - Fast terminal emulator, multiple fonts, multiple windows.
 #1^0^0^0^0 #MSC screen   - Multiple sessions via split or pager screens.
-#f_screen^0^0^0^0 #MSC screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
+#f_screen^0^0^0^0 #MSC screenie - "Screen" wrapper featuring a menu to manage detached jobs.
 #1^0^0^0^0 #MSC splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
 #0^0^0^0^0 #MSC termit   - Terminal emulator with multiple tabs, sessions, keybindings.
 #0^0^0^0^0 #MSC tmux     - Multiple sessions with multiplexing.

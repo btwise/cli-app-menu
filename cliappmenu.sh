@@ -6,7 +6,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="November-17-2014 21:31"
+REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -511,7 +511,7 @@ f_missing_config_txt () {
 #
 f_missing_config_gui () {
       clear # Clear screen.
-      $1 --title ">>> Warning: Configuration file missing <<<" --msgbox "\n      Configuation file is missing from user's home directory.\n\nCreating configuration file: /home/<username_goes_here>/.cliappmenu.cfg\n\n                     Press 'Enter' key to continue." 12 78
+      $1 --title ">>> Warning: Configuration file missing <<<" --msgbox "\n      Configuration file is missing from user's home directory.\n\nCreating configuration file: /home/<username_goes_here>/.cliappmenu.cfg\n\n                     Press 'Enter' key to continue." 12 78
       echo "f_main_config () {" > ~/.cliappmenu.cfg
       echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
       echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
@@ -544,9 +544,9 @@ f_change_mainmenu_dir_txt () {
       echo "This directory should contain the script \"$THIS_FILE\"."
       echo "Automatically re-configuring \"$THIS_FILE\" to use new directory."
       echo
-      # Is directory writeable?
+      # Is directory writable?
       if [ -w $SCRIPT_PATH ] ; then
-         # Yes, directory is writeable.
+         # Yes, directory is writable.
          sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
          ERROR=$?
          if [ $ERROR -ne 0 ] ; then
@@ -556,7 +556,7 @@ f_change_mainmenu_dir_txt () {
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          fi   
       else
-         # No, directory is not writeable so use sudo permissions.
+         # No, directory is not writable so use sudo permissions.
          echo "Must now use sudo permissions to re-configure \"$THIS_FILE\"."
          sudo sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
          ERROR=$?
@@ -583,7 +583,7 @@ f_change_mainmenu_dir_txt () {
 } # End of function f_change_mainmenu_dir_txt.
 #
 # +----------------------------------------+
-# |     Function f_change_mainmenu_gui     |
+# |   Function f_change_mainmenu_dir_gui   |
 # +----------------------------------------+
 #
 #  Inputs: $1=GUI ("dialog", "whiptail").
@@ -593,16 +593,16 @@ f_change_mainmenu_dir_txt () {
 f_change_mainmenu_dir_gui () {
       clear # Clear screen.
       $1 --title "Changing Directory" --msgbox "\n              Detected different directory reference for script:\n\nChanging from:\n    $MAINMENU_DIR\n\nChanging to:\n   $SCRIPT_PATH\n\nThis directory should contain the script \"$THIS_FILE\".\nAutomatically re-configuring \"$THIS_FILE\" to use new directory." 15 75
-      # Is directory writeable?
+      # Is directory writable?
       if [ -w $SCRIPT_PATH ] ; then
-         # Yes, directory is writeable.
+         # Yes, directory is writable.
          sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE
          ERROR=$?
          if [ $ERROR -ne 0 ] ; then
             $1 --title ">>> Error <<<" --msgbox "\nError re-configuring \"$THIS_FILE\" to use new directory." 8 60
          fi
       else
-         # No, directory is not writeable so use sudo permissions.
+         # No, directory is not writable so use sudo permissions.
          # Redirect dialog/whiptail --passwordbox output to $XSTR.
          # Exit status: Yes/OK=0 No/Cancel=1 Error=-1 ESC=255.
          ERROR=-1
@@ -1159,9 +1159,9 @@ f_file_dload_txt () {
               # Download from GitHub web site, project's MASTER branch.
               WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
               #
-              # Is directory writeable?
+              # Is directory writable?
               if [ -w $NEW_DIR ] ; then
-                 # Yes, directory is writeable.
+                 # Yes, directory is writable.
                  wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
                  ERROR=$?
                  if [ $ERROR -ne 0 ] ; then
@@ -1171,7 +1171,7 @@ f_file_dload_txt () {
                     echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
                  fi
               else
-                 # No, directory is not writeable so use sudo to download.
+                 # No, directory is not writable so use sudo to download.
                  echo "Must use sudo permissions to download $MOD_FILE."
                  sudo wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
                  ERROR=$?
@@ -1232,16 +1232,16 @@ f_file_dload_gui () {
               # Download from GitHub web site, project's MASTER branch.
               WEB_SITE="https://raw.github.com/rdchin/CLI-app-menu/master/"
               #
-              # Is directory writeable?
+              # Is directory writable?
               if [ -w $NEW_DIR ] ; then
-                 # Yes, directory is writeable.
+                 # Yes, directory is writable.
                  wget --directory-prefix=$NEW_DIR $WEB_SITE$MOD_FILE
                  ERROR=$?
                  if [ $ERROR -ne 0 ] ; then
                     $1 --title ">>> Error <<<" --msgbox "\n     Error downloading \"$MOD_FILE\" to $NEW_DIR." 8 75
                  fi
               else
-                 # No, directory is not writeable so use sudo to download.
+                 # No, directory is not writable so use sudo to download.
                  $1 --msgbox "Must use sudo permissions to download \"$MOD_FILE\"." 8 50
                  f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>,
                                         # $ERROR code.
@@ -1599,7 +1599,7 @@ f_setup_dir_txt () {
       echo "Automatically re-configuring \"cliappmenu.sh\" to use the directory."
       echo
       if [ -w $SCRIPT_PATH ] ; then
-         # Yes, directory is writeable.
+         # Yes, directory is writable.
          # sed has \" back-slashes before the quotation marks to include the
          # literal quotation marks in the search/replace strings.
          #         Find string: THIS_DIR="$1
@@ -1612,11 +1612,11 @@ f_setup_dir_txt () {
             echo -n "Error re-configuring, \"cliappmenu.sh\" to use the directory."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             # Set NEW_DIR back to the old directory
-            # since re-configurating failed.
+            # since re-configuring failed.
             NEW_DIR=$1
          fi 
       else
-         # No, directory is not writeable so use sudo permissions.
+         # No, directory is not writable so use sudo permissions.
          sudo sed -i "s|THIS_DIR=\"$1|THIS_DIR=\"$2|" $SCRIPT_PATH/cliappmenu.sh
          ERROR=$?
          if [ $ERROR -ne 0 ] ; then
@@ -1627,7 +1627,7 @@ f_setup_dir_txt () {
             echo "even when using sudo permissions."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             # Set NEW_DIR back to the old directory
-            # since re-configurating failed.
+            # since re-configuring failed.
             NEW_DIR=$1
          fi
       fi
@@ -1648,7 +1648,7 @@ f_setup_dir_txt () {
 f_setup_dir_gui () {
       $1 --msgbox "Automatically re-configuring \"cliappmenu.sh\" to use the directory." 8 70
       if [ -w $SCRIPT_PATH ] ; then
-         # Yes, directory is writeable.
+         # Yes, directory is writable.
          # sed has \" back-slashes before the quotation marks to include the
          # literal quotation marks in the search/replace strings.
          #         Find string: THIS_DIR="$2
@@ -1658,11 +1658,11 @@ f_setup_dir_gui () {
          if [ $ERROR -ne 0 ] ; then
             $1 --msgbox --title ">>> Error <<<" "Error re-configuring, \"cliappmenu.sh\" to use the directory." 8 70
             # Set NEW_DIR back to the old directory
-            # since re-configurating failed.
+            # since re-configuring failed.
             NEW_DIR=$2
          fi 
       else
-         # No, directory is not writeable so use sudo permissions.
+         # No, directory is not writable so use sudo permissions.
          f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, $ERROR code.
          ERROR=$?
          if [ $ERROR -eq 0 ] ; then
@@ -1677,7 +1677,7 @@ f_setup_dir_gui () {
          else
             # Cancel button pressed.
             # Set NEW_DIR back to the old directory
-            # since re-configurating failed.
+            # since re-configuring failed.
             NEW_DIR=$2
          fi
       fi
@@ -1944,11 +1944,11 @@ f_ask_download_file () {
                case $X in # Start of git download case statement.
                     "" | [Yy] | [Yy][Ee] | [Yy][Ee][Ss])
                     MOD_FILE=$2
-                    # Check if there is an internet connection
+                    # Check if there is an Internet connection
                     # before doing a download.
                     f_test_internet_connection
                     #
-                    # If internet connection OK, then download.
+                    # If Internet connection OK, then download.
                     if [ $ERROR -eq 0 ] ; then
                        f_download_file
                     fi
@@ -2035,7 +2035,7 @@ f_main_license () {
                                      esac # End of gnu.org case statement.
                                done
                                X="NO"
-                                               ;;
+                               ;;
                           esac # End of git download case statement.
                     done
                  fi
@@ -2048,7 +2048,7 @@ f_main_license () {
                  [Nn] | [Nn][Oo])
                  X="NO"
                  ;;
-            esac # End of license case statment.
+            esac # End of license case statement.
       done
       #
       unset X
@@ -2485,10 +2485,10 @@ f_update_software () {
       MOD_FILE=""  # Null so an older file name is not displayed by function,
                    # f_test_internet_connection if the test fails.
       #
-      # Check if there is an internet connection before doing a download.
+      # Check if there is an Internet connection before doing a download.
       f_test_internet_connection
       #
-      # If internet connection OK, then download.
+      # If Internet connection OK, then download.
       if [ $ERROR -eq 0 ] ; then
          #
          # Are either of the directories read-only?

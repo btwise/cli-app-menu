@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2015-01-08 17:14 Thursday
+Last updated: 2015-01-22 00:29 Thursday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -19,12 +19,12 @@ _______________________________________________________________________________
  acripper   - Audio CD ripper ogg encoder with freedb.org client, FLAC, MP3.
  cdda2wav   - CD-audio extraction program with paranoia support. 
  cdparanoia - Audio CD ripper to WAV, AIFC, AIFC or raw 16 bit linear PCM.
- cdrdao     - records audio or data CD-Rs in disk-at-once (DAO) mode.
+ cdrdao     - Records audio or data CD-Rs in disk-at-once (DAO) mode.
  cdrskin    - Limited cdrecord compatibility wrapper for libburn. CD/DVD/BD.
- cdw        - front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
- crip       - ogg-vorbis front-end to cdparanoia w/on-line database access.
+ cdw        - Front-end wodim, mkisofs/genisoimage, xorriso, ncurses-based.
+ crip       - Ogg-vorbis front-end to cdparanoia w/on-line database access.
  jack       - Audio CD ripper.
- gramophone - play/rip/record/process CDs, sound files. Ncurses-based.
+ gramophone - Play/rip/record/process CDs, sound files. Ncurses-based.
  lxdvdrip   - Data and Video DVD ripper, authoring, previewing, burning.
  ripit      - RipIT audio CD for MP3, Ogg Vorbis, FLAC, M4A, MPC, WV, WAV.
  rubyripper - Secure audio CD ripper rips multiple times to compare/correct.
@@ -51,7 +51,7 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Music Player2 Applications Menu ***
  juke           - Music Jukebox, ncurses-based.
- kuechenstation - front-end to XMMS2 music player.
+ kuechenstation - Front-end to XMMS2 music player.
  mcdp           - CD player, adjust volume, repeat track/cd, ncurses-based.
  mcplay         - Playlist ncurses-based.
  mikmod         - MOD, XM, IT or S3M player.
@@ -88,7 +88,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Music Player4 Applications Menu ***
- vux - ogg and mp3 player.
+ vux - Ogg and mp3 player.
 
 _______________________________________________________________________________
 *** Streaming Radio-Music sites Applications Menu ***
@@ -164,7 +164,7 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Bittorrent Applications Menu ***
  aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
- bitflu       - Daemon includes web GUI interface, telnet, plugins.
+ bitflu       - Daemon includes web GUI interface, telnet, plug-ins.
  bittornado   - Torrent file transfer.
  bittorrent   - Torrent file transfer.
  ctorrent     - Torrent file transfer.
@@ -244,7 +244,7 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Database Applications Menu ***
  ara               - Search Debian package databases.
- couchdb           - Apache CouchDB document-oriented databsae.
+ couchdb           - Apache CouchDB document-oriented database.
  edb               - Database program for GNU Emacs.
  freecdb           - Create and read constant databases (up to 4 GB).
  lbdb              - Little Brother's Database for mutt mail reader.
@@ -262,9 +262,9 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Development Applications Menu ***
  aphex            - Tiny hex editor. edits are written immediately, no undo.
- apropos          - Search linux man(ual) files for a forgotten command.
+ apropos          - Search Linux man(ual) files for a forgotten command.
  bugz             - Interface to Bugzilla bug tracking tool.
- checkbashisms    - Check /bin/sh scripts for bash-specific contructs.
+ checkbashisms    - Check /bin/sh scripts for bash-specific constructs.
  cil              - Issue tracker and add/edit, list issues.
  cmdtest          - Test command-line programs/scripts to check the output.
  codemetre        - Count lines of code w/o comments in source code.
@@ -294,7 +294,7 @@ _______________________________________________________________________________
 *** Downloader-Checksum Applications Menu ***
  axel       - Downloader accelerator using multiple connections/mirrors.
  aria2c     - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
- cfv        - create/verify many types of checksum files.
+ cfv        - Create/verify many types of checksum files.
  cclive     - Download/Play Youtube videos. Rewrite of 'clive'.
  md5pass    - Create a password hash. Usage: md5pass [PASSWORD][SALT]
  md5sum     - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
@@ -311,13 +311,13 @@ _______________________________________________________________________________
  gtypist     - Typing tutor displays a sentence for practice.
  Ham radio   - Morse code and Ham Radio applications.
  kon2        - Japanese Kanji characters on Linux Console.
- lifelines   - Geneology.
+ lifelines   - Genealogy.
  Mathematics - Mathematics, problems.
  metar       - Download METAR weather reports from NOAA HTTP servers.
  seesat5     - Compute the location of a satellite.
  tide        - CLI XTide gives tide/current forecasts. May need xtide-data.
  typespeed   - Typing tutor shows flying words arcade-style across screen.
- weather     - current weather conditions and forecasts.
+ weather     - Current weather conditions and forecasts.
 
 _______________________________________________________________________________
 *** E-mail Applications Menu ***
@@ -325,9 +325,9 @@ _______________________________________________________________________________
  cone           - E-mail client.
  elmo           - E-mail client.
  fetchyahoo     - E-mail client.
- gnus           - Email, NNTP, RSS client for Emacs.
+ gnus           - E-mail, NNTP, RSS client for Emacs.
  heirloom-mailx - E-mail client.
- mu4e           - Email client for Emacs.
+ mu4e           - E-mail client for Emacs.
  mutt           - E-mail client.
  abook          - Address book with or w/o mutt, features tabbed fields.
  lbdb           - Little Brother's Database for mutt mail reader.
@@ -352,7 +352,7 @@ _______________________________________________________________________________
 *** MSDOS/NTFS Utilities Applications Menu ***
  getswap    - Use as tempspace MS Windows pagefiles and swap partitions.
  mattrib    - Change MS DOS file attribute flags.
- mbadblocks - tests a floppy disk, and marks the bad blocks in the FAT.
+ mbadblocks - Tests a floppy disk, and marks the bad blocks in the FAT.
  mcd        - Change MSDOS directory.
  mcopy      - Copy MSDOS files to/from Unix, Linux.
  mcat       - Copy an entire disk image to a floppy disk.
@@ -378,10 +378,10 @@ _______________________________________________________________________________
  mtoolstest      - Tests and displays the mtools configuration.
  mtype           - Display contents of an MSDOS file.
  ntfscp          - Copy file to an NTFS volume.
- ntfslabel       - Display/change the label on an ntfs file system.
+ ntfslabel       - Display/change the label on an NTFS file system.
  ntfsresize      - Resize an NTFS filesystem without data loss.
  ntfsundelete    - Recover a deleted file from an NTFS volume.
- ntfsundeleteall - recover deleted files from ntfs volumes
+ ntfsundeleteall - Recover deleted files from NTFS volumes
  winclean        - Clean up junk files from a Windows installation.
 
 _______________________________________________________________________________
@@ -391,7 +391,7 @@ _______________________________________________________________________________
  cdck         - Check the quality of a written CD.
  cdrecord     - CD burning. Obsoleted by wodim. May be hard-linked to wodim.
  isodebug     - Print mkisofs debug information from media.
- isoinfo      - Analyse/verify ISO/9660/Joliet/Rock-Ridge filesystems.
+ isoinfo      - Analyze/verify ISO/9660/Joliet/Rock-Ridge filesystems.
  isovfy       - Verify the ISO-9660 structures.
  lsdvd        - Reads contents of DVDs.
  mkcd         - CD burning.
@@ -413,7 +413,7 @@ _______________________________________________________________________________
  bzcat        - File decompress to stdout.
  bzip2        - File compress to bzip (Burrows-Wheeler algorithm).
  bzip2recover - Recovers data from damaged bzip2 files.
- compress     - file compression creates *.Z compressed files.
+ compress     - File compression creates *.Z compressed files.
  cpio         - Archive files and extract files from archives.
  dtrx         - Smart extract tar, zip, deb, rpm, gz, bz2, cab, 7z etc.
  gitunpack    - Unpacks archives using other appropriate apps/utilities.
@@ -428,13 +428,13 @@ _______________________________________________________________________________
  lzma       - Compress/Decompress files in the LZMA format.
  lzip       - Compress files based on the LZMA algorithm.
  lzop       - Compress files gzip-like but faster.
- macunpack  - Exctracts files from Macintosh MacBinary archive.
+ macunpack  - Extracts files from Macintosh MacBinary archive.
  p7zip      - File compress, to 7z files, 7z better than zip compression.
  pdlzip     - Simpler,compress files based on the LZMA algorithm.
  rzip       - Compresses large files, history buffer up to 900MB.
  unace      - File decompress ACE 1.x archives. (ACE proprietary format).
  unarj      - Decompress or list ARJ archives.
- uncompress - decompress *.Z compressed files.
+ uncompress - Decompress *.Z compressed files.
  unp        - Extract many kinds of archive files with one command.
  unxc       - File decompress xz files.
  MORE...    - For more file compression applications.
@@ -508,7 +508,7 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** File Backup Applications Menu ***
  dtrx  - Use tar without remembering which flags for each file to use.
- pax   - multiple file tar archiver and copier, preserves file metadata.
+ pax   - Multiple file tar archiver and copier, preserves file metadata.
  rsync - File backup, mirror, directories and files.
  tar   - File backup, compress files.
 
@@ -526,7 +526,7 @@ _______________________________________________________________________________
  zmore    - Display file contents in a gzip archive, one screen at a time.
  zip      - File compress files to zip files.
  zipinfo  - List detailed information about a zip archive.
- zipnote  - edit/display comments in a zip file, rename zipped files.
+ zipnote  - Edit/display comments in a zip file, rename zipped files.
  zipsplit - File compress files to zip files.
 
 _______________________________________________________________________________
@@ -627,10 +627,10 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** File Splitter Applications Menu ***
  csplit   - Splits/Joins files.
- cut      - carve files by character count, byte count, delimited fields.
+ cut      - Carve files by character count, byte count, delimited fields.
  dirsplit - split directory files into fixed-sized chunks, save to CD, DVD.
  hoz      - File splitter using hacha file format.
- lxsplit  - Splits/Joins files even greater than 2GB.
+ lxsplit  - Splits/Joins files even greater than 2 GB.
  slice    - Splits ASCII file w/delimiters into possibly overlapping slices.
  split    - Splits/Joins files.
 
@@ -694,7 +694,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Arcade2 Games Menu ***
- xorcurses - based on Xor released in 1987 by Astral Software.
+ xorcurses - Based on Xor released in 1987 by Astral Software.
  zsnake    - Variation of BSD's snake game.
  ztrack    - First-person car racing game in amazing 3-D ASCII.
 
@@ -735,7 +735,7 @@ _______________________________________________________________________________
  pente         - 5 in a row game.
  ppt           - Reformat input as a paper tape.
  textmaze      - Find the exit to the maze.
- xorcurses     - based on Xor released in 1987 by Astral Software.
+ xorcurses     - Based on Xor released in 1987 by Astral Software.
 
 _______________________________________________________________________________
 *** Quiz Games Menu ***
@@ -751,7 +751,7 @@ _______________________________________________________________________________
  GearHead   - Post-nuclear apocalyptic game with 150 machines of destruction.
  hack       - Explore the Dungeons of Doom.
  nethack    - Retrieve the Amulet of Yendor in the  20th dungeon level.
- overkill   - 2D ASCII shooter game.
+ overkill   - 2-D ASCII shooter game.
  phantasia  - Fight monsters and other players.
  slashem    - Enter the Dungeons of Doom.
  wump       - Hunt the Wumpus, watch out for bats, pits.
@@ -770,7 +770,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Strategy Games Menu ***
- empire     - war game build armies, planes, ships, capture cities.
+ empire     - War game build armies, planes, ships, capture cities.
  gomoku     - 2-player game of 5-in-a-row.
  hunt       - Multi-user game. Kill everyone else.
  mille      - Travel 700 miles card game.
@@ -786,7 +786,7 @@ _______________________________________________________________________________
  hangman   - Classic hangman word game.
  hodie     - Date and time in Latin.
  letterize - Creates strings from numbers on a touch-tone telephone keypad.
- lexter    - Create words in a tetris-like game.
+ lexter    - Create words in a Tetris-like game.
  pig       - Converts text into pig-latin.
  rev       - Reverse typing (not Boston Red Sox "Reverse the Curse").
  rl        - Randomize Lines scrambles words of a text file.
@@ -798,7 +798,7 @@ _______________________________________________________________________________
 *** Tetris-like Games Menu ***
  bastet   - Tetris-like game.
  ctris    - Tetris-like game.
- lexter   - Create words in a tetris-like game.
+ lexter   - Create words in a Tetris-like game.
  netris   - Tetris-like game.
  petris   - Tetris-like game.
  tetrix   - Tetris-like game.
@@ -828,7 +828,7 @@ _______________________________________________________________________________
  aview      - Image and ASCII-art image viewer.
  bb         - ASCII-art movie demo based on AAlib.
  caca-utils - Image viewer and converter jpg to ascii images.
- duhdraw    - ncurses-based ASCII-art editor.
+ duhdraw    - Ncurses-based ASCII-art editor.
  exiftool   - Display audio/video/image file properties (ls-like format).
  fbgrab     - Framebuffer screenshot tool.
  fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
@@ -847,7 +847,7 @@ _______________________________________________________________________________
  scanimage - Controls flatbed scanners, cameras. -L list of devices.
  sl        - Steam locomotive (when you mis-type 'ls' command).
  star wars - Star Wars movie in ASCII.
- textdraw  - Draw lines, rectangles, elipses, etc. to create ASCII-art.
+ textdraw  - Draw lines, rectangles, ellipses, etc. to create ASCII-art.
  welcome21 - ANSI logo on login screen.
 
 _______________________________________________________________________________
@@ -872,7 +872,7 @@ _______________________________________________________________________________
  centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
  centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
  climm        - Supports ICQ, Jabber, XMPP, GoogleTalk.
- ekg2         - IM client supports plugins GG, Jabber, IRCs; nCurses, GTK2.
+ ekg2         - IM client supports plug-ins GG, Jabber, IRCs; ncurses, GTK2.
  emacs-jabber - Jabber client for Emacs.
  finch        - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster.
  freetalk     - Jabber client.
@@ -888,7 +888,7 @@ _______________________________________________________________________________
  erc     - IRC client for Emacs, powerful, modular, and extensible.
  ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.
  ircii   - Termcap based interface. Supports "/encrypt -cast".
- irssi   - Supports SILC and ICB protocols via plugins.
+ irssi   - Supports SILC and ICB protocols via plug-ins.
  pcw     - Pop-up chat windows, front-end for ii IRC-client.
  pork    - Ncurses-based AOL Instant Messenger and IRC client.
  scrollz - An advanced, faster IRC client based on ircII code.
@@ -896,8 +896,8 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** System Log Applications Menu ***
- ccze       - A robust and modular log colorizer, with plugins.
- colortail  - log colorizer.
+ ccze       - A robust and modular log colorizer, with plug-ins.
+ colortail  - Log colorizer.
  hash       - Show frequency of commands entered at the prompt.
  history    - Show history of commands entered at the prompt.
  inotail    - Tail command replacement uses the inotify API to re-read files.
@@ -905,7 +905,7 @@ _______________________________________________________________________________
  lastlog    - Users' login/logout times from /var/log/wtmp.
  lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
  logtailer  - Monitor logs for updates and display them.
- monkeytail - tail variant designed for web developers monitoring logfiles.
+ monkeytail - tail variant designed for web developers monitoring log files.
  multitail  - View multiple log files using multiple panes.
  since      - Shows new changes in log files since last run. Tail-like.
  swatch     - Log file viewer with regexp matching, highlighting & hooks.
@@ -917,7 +917,7 @@ _______________________________________________________________________________
  arithmetic     - Basic arithmetic quiz.
  axiom          - General purpose computer algebra system.
  datamash       - Calculate statistics mean, avg, stdev, min, max, sum.
- dicelab        - evaluate the statistical distribution of dice rolls.
+ dicelab        - Evaluate the statistical distribution of dice rolls.
  mathomatic     - Portable CAS (Computer Algebra System)
  ministat       - Fundamental statistical comparison of 1 or 2 data sets.
  num-utils      - Collection of programs; avg, normal, random, range, etc.
@@ -944,7 +944,7 @@ _______________________________________________________________________________
  nload     - Bandwidth graphical monitor in real-time; ncurses-based.
  pktstat   - Display active connections and bandwidth in real-time.
  statnet   - Bandwidth statistics.
- trafshow  - Bandwidth statistics; ncurses based.
+ trafshow  - Bandwidth statistics; ncurses-based.
  wavemon   - Wireless bandwidth, signal strength histogram.
 
 _______________________________________________________________________________
@@ -956,9 +956,9 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Firewall Applications Menu ***
  arptables - Firewall configuration rules for an ARP chain.
- doscan    - lists PCs listening for a TCP connection.
+ doscan    - Lists PCs listening for a TCP connection.
  iptables  - Firewall configuration rules for an IP chain.
- iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
+ iptstate  - Monitor traffic in IP Tables state table; ncurses-based display.
  knockd    - Port-knocking server.
  knocker   - TCP security port scanner written in C, using threads.
  labrea    - Sticky honeypot entraps intruder tying up his CPU.
@@ -988,16 +988,16 @@ _______________________________________________________________________________
 _______________________________________________________________________________
 *** Network Structure Applications Menu ***
  httpry    - Light-weight network traffic logging tool.
- iptraf    - IP LAN monitor, ncurses based display.
+ iptraf    - IP LAN monitor, ncurses-based display.
  iptraf-ng - Fork of iptraf.
  nagios3   - IP LAN monitor. Display network hosts, devices, connections.
  nc        - Netcat reads/writes data across network.
  netstat   - Print network connections, routing tables, interface stats, etc.
- netwatch  - Protocol monitor; ncurses based.
+ netwatch  - Protocol monitor; ncurses-based.
  ntop      - Display network usage and status information in a web browser.
  opennms   - Network management application. Discovery, reports, statistics.
  pmacct    - Traffic information monitor.
- slurm     - Simple Linux Utility for Resource Managment. I/O load monitor.
+ slurm     - Simple Linux Utility for Resource Management. I/O load monitor.
  sntop     - IP LAN monitor. Display network hosts and connections.
  vnstat    - Traffic information monitor.
 
@@ -1016,7 +1016,7 @@ _______________________________________________________________________________
  macchanger   - Change the hardware MAC address on wired/wireless NICs.
  mii-tool     - NIC configuration of Media Independent Interface Unit.
  mii-diag     - NIC configuration of network cards.
- netload      - NIC network load; ncurses based.
+ netload      - NIC network load; ncurses-based.
  nictools-pci - NIC configuration of specific oem network cards.
  MORE...      - More NIC Tools Applications.
 
@@ -1028,7 +1028,7 @@ _______________________________________________________________________________
  hnb      - Hierarchical notebook.
  nodau    - Note-taking with search by name or date.
  note     - Manage notes with a DBI-based mysql-module.
- org-mode - Emacs plugin for notes, ToDo lists, and project planning.
+ org-mode - Emacs plug-in for notes, ToDo lists, and project planning.
  tina     - PIM (personal information manager), ncurses-based.
  worklog  - Time-tracking for projects/tasks, running clock, ncurses-based.
 
@@ -1199,7 +1199,7 @@ _______________________________________________________________________________
  dvtm     - dwm-style (tiling) window manager.
  fbterm   - Fast terminal emulator, multiple fonts, multiple windows.
  screen   - Multiple sessions via split or pager screens.
- screenie - 'Screen' wrapper featuring a menu to manage detached jobs.
+ screenie - "Screen" wrapper featuring a menu to manage detached jobs.
  splitvt  - Multiple sessions on horizontal split screen (vt100 compatible).
  termit   - Terminal emulator with multiple tabs, sessions, keybindings.
  tmux     - Multiple sessions with multiplexing.
@@ -1216,8 +1216,8 @@ _______________________________________________________________________________
  ddir      - Tree-view of disk space utilization.
  df        - Disk usage and mount points, usage: 'df -hT'.
  dfc       - Disk usage and mount points, graphical display.
- di        - 'df'-like disk usage utility.
- discus    - 'df'-like disk usage utility with color, graphs, formatting.
+ di        - df-like disk usage utility.
+ discus    - df-like disk usage utility with color, graphs, formatting.
  du        - Disk usage monitor by directory.
  dumpe2fs  - Displays superblock and block information of a device.
  eject     - Ejects media, CD, DVD, floppy disks, SCSI drives, tape drives.
@@ -1295,7 +1295,7 @@ _______________________________________________________________________________
  acpi      - Show acpi information.
  acpitail  - Show acpi information in growing tail list.
  atsar     - CPU, network, memory & disk I/O, record data for analysis.
- cacti     - Frontend to rrdtool for monitoring systems and services.
+ cacti     - Front-end to rrdtool for monitoring systems and services.
  chkconfig - System update/query run-level processes at boot time.
  conky-cli - Versatile, configurable system monitor.
  dstat     - View system resources, replaces vmstat, iostat, ifstat.
@@ -1384,7 +1384,7 @@ _______________________________________________________________________________
  TermRecord  - Records terminal session output to an HTML file.
  ttyplay     - Playback "ttyrec" recording of terminal actions.
  ttyrec      - Records terminal input/output and also timing-information.
- welcome21   - Distro logo (ANSI) with PC and linux kernel information.
+ welcome21   - Distro logo (ANSI) with PC and Linux kernel information.
 
 _______________________________________________________________________________
 *** System Peripherals Information Menu ***
@@ -1396,7 +1396,7 @@ _______________________________________________________________________________
  gitkeys   - Displays the key sequence sent by the pressed key.
  inxi      - Show model/make, CPU, graphics, audio, network, HDD, etc.
  kbd       - Control keyboard LEDs, repeat/delay rates, keymaps, etc.
- loadkeys  - load keyboard translation tables
+ loadkeys  - Load keyboard translation tables
  lsblk     - List block devices (disks).
  lsof      - Display information about open files.
  lspci     - PCI buses and connected devices.
@@ -1424,7 +1424,7 @@ _______________________________________________________________________________
  etm      - Event and task manager.
  hnb      - To-Do List and note taker, ncurses-based application.
  ikog     - To-Do List
- org-mode - Emacs plugin for notes, To-Do lists, and project planning.
+ org-mode - Emacs plug-in for notes, To-Do lists, and project planning.
  task     - Taskwarrior To-Do lists synchronize multiple PCs.
  tdl      - To-Do List manager.
  todo     - To-Do List hierarchical. Install package "devtodo".
@@ -1486,14 +1486,14 @@ _______________________________________________________________________________
  ed            - Classic CLI text editor.
  efte          - Configurable editor, drop-down menus, ncurses-based.
  elvis-console - vi-clone. Multiple files/windows, spell-check, highlight.
- emacs         - Full screen text editor with plugins.
+ emacs         - Full screen text editor with plug-ins.
  enpi          - Bash script allows formatted text in text editors.
  fte-console   - fte for consoles, no internationalization I18N support.
  MORE...       - For more text editor applications.
 
 _______________________________________________________________________________
 *** Text Editor2 Applications Menu ***
- fte-terminal - fte for xterm, vt100 terminals.
+ fte-terminal - "fte" for xterm, vt100 terminals.
  groff        - Format text via macros, create man pages to PS printers.
  jed          - JED ncurses-based. Also consider package: jed-extra.
  jmacs        - Joe Editor, GNU-EMACS emulation mode.
@@ -1504,10 +1504,10 @@ _______________________________________________________________________________
  jupp         - Fork of joe editor with enhancements.
  le           - LE editor text/hex mode, drop-down menus, ncurses-based.
  ledit        - Line editor used with interactive commands.
- levee        - editor based on vi.
+ levee        - Editor based on vi.
  levi         - Very small vi-clone. From the 1980's.
  mg           - Microscopic GNU Emacs-style editor.
- mped         - Text editor, ncurses based.
+ mped         - Text editor, ncurses-based.
  MORE...      - For more text editor applications.
 
 _______________________________________________________________________________
@@ -1521,12 +1521,12 @@ _______________________________________________________________________________
  rjoe           - Joe Editor, only edit file(s) specified rjoe <filenames>.
  the            - The Hessling Editor modeled on VM/CMS text editor, XEDIT.
  vi             - Classic full-screen text editor.
- vile           - "VI Like Emacs" vi "finger feel" but with emacs features.
+ vile           - "vi Like Emacs" vi "finger feel" but with emacs features.
  vim            - vi "Improved" text editor with more features than "vi".
  vim-nox        - vim with scripting support: Lua, Perl, Python, Ruby, TCL.
- vim-scripts    - plugins for vim, adding bells and whistles.
- vim-tiny       - Vi IMproved compact version.
- vim-latexsuite - LaTeX plugin for vim.
+ vim-scripts    - Plug-ins for vim, adding bells and whistles.
+ vim-tiny       - vi "Improved compact version.
+ vim-latexsuite - LaTeX plug-in for vim.
  MORE...        - For more text editor applications.
 
 _______________________________________________________________________________
@@ -1539,7 +1539,7 @@ _______________________________________________________________________________
  aee   - Advanced Easy Editor.
  dav   - Text editor.
  ed    - Classic CLI text editor.
- emacs - Full screen text editor with plugins.
+ emacs - Full screen text editor with plug-ins.
  jed   - JED text editor.
  joe   - Text editor. <Ctrl>-K H for help.
  jupp  - Fork of joe editor with enhancements.
@@ -1594,7 +1594,7 @@ _______________________________________________________________________________
  abcm2ps    - Converts ABC music source files to PS sheet music format.
  catdoc     - Microsoft Word to text converter.
  csvkit     - Suite of utilities for converting to and working with CSV.
- ctodo      - intuitive, simple interface; saves data in plain text files.
+ ctodo      - Intuitive, simple interface; saves data in plain text files.
  dehtml     - Strips HTML code from text.
  ebook2cw   - Converts plain text ebooks to  morse code mp3/ogg audio files.
  enscript   - Convert text file to Post-Script file.

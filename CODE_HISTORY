@@ -37,9 +37,9 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_CHANGES=$(grep ^"## 2014" -c $SCRIPT_PATH/"CODE_HISTORY")
+PROJECT_CHANGES=$(grep ^"## 2015" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="January-08-2015 16:40"
+PROJECT_REVDATE="January-21-2015 11:52"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,81 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2015-01-08 *Testing version 2.0
-##            *Added 2 new applications.
+## 2015-01-21 *Testing version 2.0
+##            *f_change_mainmenu_dir_gui corrected function title comment.
+##            *f_menu_app_music_players2 corrected kuechenstation description.
+##            *f_menu_app_education corrected lifelines, weather description.
+##            *f_weather corrected help text.
+##            *f_menu_app_cdrippers corrected cdrdao, cdw, crip, gramophone
+##             descriptions.
+##            *f_menu_app_music_players4 corrected vux description.
+##            *f_menu_app_databases corrected couchdb description.
+##            *f_menu_app_development corrected apropos, checkbashisms
+##             descriptions.
+##            *f_menu_app_math corrected dicelab description.
+##            *f_menu_app_msdos corrected mbadblocks description.
+##            *f_menu_app_msdos2 corrected ntfslabel, ntfsundeleteall
+##             descriptions.
+##            *f_menu_app_file_backup corrected pax description.
+##            *f_menu_app_file_burn corrected isoinfo description.
+##            *f_menu_app_file_compression corrected compress description.
+##            *f_menu_app_file_compression2 corrected uncompress, macunpack
+##             descriptions.
+##            *f_menu_app_file_compression3 corrected  zipnote description.
+##            *f_menu_app_file_conversion corrected ctodo description.
+##            *f_menu_app_file_splitters corrected cut, lxsplit descriptions.
+##            *f_menu_app_text_file_editors corrected emacs description.
+##            *f_more corrected help text.
+##            *f_menu_app_games_arcade2 corrected xorcurses description.
+##            *f_menu_app_games_puzzle corrected xorcurses description.
+##            *f_menu_app_games_rpg corrected overkill description.
+##            *f_menu_app_games_strategy corrected empire description.
+##            *f_menu_app_games_tetris corrected lexter description.
+##            *f_menu_app_games_word corrected lexter description.
+##            *f_menu_app_image_graphics2 corrected textdraw description.
+##            *f_textdraw corrected help text.
+##            *f_menu_app_bittorrent corrected bitflu description.
+##            *f_menu_app_downloaders corrected cfy description.
+##            *f_menu_app_email corrected gnus, mu4e description.
+##            *f_menu_app_irc_clients corrected irssi description.
+##            *f_menu_app_instant_messaging corrected ekg2 description.
+##            *f_menu_app_firewalls corrected doscan, iptstate description.
+##            *f_menu_app_network_bandwidth corrected trafshow description.
+##            *f_menu_app_network_structure corrected iptraf, netwatch, slurm
+##             descriptions.
+##            *f_menu_app_nic_tools corrected netload description.
+##            *f_ip corrected help text.
+##            *f_web_site corrected help text.
+##            *f_menu_cat_office corrected PDF-PS docs description.
+##            *f_menu_app_note corrected org-mode description.
+##            *f_menu_app_text_editors corrected emacs description.
+##            *f_menu_app_text_editors2 corrected fte-terminal, levee, mped
+##             description.
+##            *f_menu_app_text_editors3 corrected vile vim-scripts, vim-tiny,
+##             vim-latexsuite descriptions.
+##            *f_NERD_tree corrected help text.
+##            *f_apt corrected help text.
+##            *f_apt_file corrected help text.
+##            *f_aptitude corrected help text.
+##            *f_dpkg corrected help text.
+##            *f_pip corrected help text.
+##            *f_rpm corrected help text.
+##            *f_zypper corrected help text.
+##            *f_menu_app_screens corrected screenie description.
+##            *f_menu_app_screen_tools corrected welcome21 description.
+##            *f_menu_app_sys_disks corrected di, discus descriptions.
+##            *f_menu_app_sys_logs corrected ccze, colortail, monkeytail
+##             descriptions.
+##            *f_menu_app_sys_monitors corrected cacti description.
+##            *f_menu_app_sys_peripherals corrected loadkeys description.
+##            *f_cacti corrected help text.
+##            *f_pccardctl corrected help text.
+##            *f_test_internet_connection corrected spelling errors.
+##            *cliappmenu.sh corrected spelling errors.
+##            *lib_cli-common.lib corrected spelling errors.
+##            *lib_cli-menu-cat.lib corrected spelling errors.
+##
+## 2015-01-08 *Added 2 new applications.
 ##            *f_menu_app_instant_messaging added turses.
 ##            *f_menu_app_irc_clients added pcw.
 ##            *lib_cli_web-sites.lib updated.
@@ -1362,7 +1435,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_menu_app_games_puzzle fixed bastet displaying twice in menu.
 ##             This is due to a comment referring to bastet not having the
 ##             third field #MGF to prevent awk from printing it in a menu.
-##            *f_menu_app_acconting added ledger, hledger, hledger plugins.
+##            *f_menu_app_acconting added ledger, hledger, hledger plug-ins.
 ##            *f_menu_app_file_deletion added.
 ##
 ## 2013-05-13 *f_menu_app_sys_backup added bashburn, burn, cdrecord, xorriso,

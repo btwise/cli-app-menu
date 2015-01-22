@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2014 01:45"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |      Function f_menu_app_databases     |
@@ -18,7 +18,7 @@ f_menu_app_databases () {
       until [ "$MDB" = "0" ]
       do    # Start of Database Applications until loop.
 #0^0^0^0^1 #MDB ara               - Search Debian package databases.
-#0^0^0^0^1 #MDB couchdb           - Apache CouchDB document-oriented databsae.
+#0^0^0^0^1 #MDB couchdb           - Apache CouchDB document-oriented database.
 #0^0^0^0^1 #MDB edb               - Database program for GNU Emacs.
 #0^0^0^0^1 #MDB freecdb           - Create and read constant databases (up to 4 GB).
 #0^0^0^0^1 #MDB lbdb              - Little Brother's Database for mutt mail reader.

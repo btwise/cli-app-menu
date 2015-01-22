@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-08-2015 16:40"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |      Function f_menu_cat_internet      |
@@ -56,7 +56,7 @@ f_menu_app_bittorrent () {
       until [ "$MBT" = "0" ]
       do    # Start of Bittorrent Applications until loop.
 #0^0^0^0^1 #MBT aria2c       - Downloader supports BitTorrent/HTTP/HTTPS/FTP/Metalink.
-#0^0^0^0^1 #MBT bitflu       - Daemon includes web GUI interface, telnet, plugins.
+#0^0^0^0^1 #MBT bitflu       - Daemon includes web GUI interface, telnet, plug-ins.
 #0^0^0^0^1 #MBT bittornado   - Torrent file transfer.
 #0^0^0^0^1 #MBT bittorrent   - Torrent file transfer.
 #0^0^0^0^1 #MBT ctorrent     - Torrent file transfer.
@@ -122,7 +122,7 @@ f_menu_app_downloaders () {
       do    # Start of Downloaders Applications until loop.
 #0^0^0^0^1 #MDL axel       - Downloader accelerator using multiple connections/mirrors.
 #0^0^0^0^1 #MDL aria2c     - Downloader supports HTTP/HTTPS/FTP/BitTorrent/Metalink.
-#0^0^0^0^1 #MDL cfv        - create/verify many types of checksum files.
+#0^0^0^0^1 #MDL cfv        - Create/verify many types of checksum files.
 #0^0^0^0^1 #MDL cclive     - Download/Play Youtube videos. Rewrite of 'clive'.
 #1^0^0^0^1 #MDL md5pass    - Create a password hash. Usage: md5pass [PASSWORD][SALT]
 #1^0^0^0^1 #MDL md5sum     - Display md5 checksum. Usage: md5sum [OPTION] [FILE]
@@ -161,9 +161,9 @@ f_menu_app_email () {
 #0^0^0^0^1 #MEM cone           - E-mail client.
 #0^0^0^0^1 #MEM elmo           - E-mail client.
 #0^0^0^0^1 #MEM fetchyahoo     - E-mail client.
-#0^0^0^0^1 #MEM gnus           - Email, NNTP, RSS client for Emacs.
+#0^0^0^0^1 #MEM gnus           - E-mail, NNTP, RSS client for Emacs.
 #0^0^0^0^1 #MEM heirloom-mailx - E-mail client.
-#0^0^0^0^1 #MEM mu4e           - Email client for Emacs.
+#0^0^0^0^1 #MEM mu4e           - E-mail client for Emacs.
 #0^0^0^0^1 #MEM mutt           - E-mail client.
 #0^0^0^0^1 #MEM abook          - Address book with or w/o mutt, features tabbed fields.
 #0^0^0^0^1 #MEM lbdb           - Little Brother's Database for mutt mail reader.
@@ -230,7 +230,7 @@ f_menu_app_instant_messaging () {
 #0^0^0^0^1 #MIM centericq    - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
 #0^0^0^0^1 #MIM centerim     - Supports the ICQ2000, Yahoo, AIM, MSN, IRC and Jabber.
 #0^0^0^0^1 #MIM climm        - Supports ICQ, Jabber, XMPP, GoogleTalk.
-#0^0^0^0^1 #MIM ekg2         - IM client supports plugins GG, Jabber, IRCs; nCurses, GTK2.
+#0^0^0^0^1 #MIM ekg2         - IM client supports plug-ins GG, Jabber, IRCs; ncurses, GTK2.
 #0^0^0^0^1 #MIM emacs-jabber - Jabber client for Emacs.
 #0^0^0^0^0 #MIM finch        - AIM/ICQ, Yahoo, MSN, IRC, Jabber/XMPP/Google Talk, Napster.
 #0^0^0^0^1 #MIM freetalk     - Jabber client.
@@ -268,7 +268,7 @@ f_menu_app_irc_clients () {
 #0^0^0^0^1 #MIR erc     - IRC client for Emacs, powerful, modular, and extensible.
 #0^0^0^0^1 #MIR ii      - Minimalist FIFO and filesystem-based IRC client. Based on sic.
 #0^0^0^0^1 #MIR ircii   - Termcap based interface. Supports "/encrypt -cast".
-#0^0^0^0^1 #MIR irssi   - Supports SILC and ICB protocols via plugins.
+#0^0^0^0^1 #MIR irssi   - Supports SILC and ICB protocols via plug-ins.
 #0^0^0^0^1 #MIR pcw     - Pop-up chat windows, front-end for ii IRC-client.
 #0^0^0^0^0 #MIR pork    - Ncurses-based AOL Instant Messenger and IRC client.
 #0^0^0^0^1 #MIR scrollz - An advanced, faster IRC client based on ircII code.

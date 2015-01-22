@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-12-2014 01:45"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -308,14 +308,14 @@ f_mod_apps_submenu () {
          # or "Software Module Manager Menu".
          MENU_TITLE="Application Categories Menu"
       else
-         # Check if there is an internet connection before doing a download.
+         # Check if there is an Internet connection before doing a download.
          f_test_internet_connection
          #
          if [ $ERROR -eq 0 ] ; then
             # Function f_download_file can use sudo permissions if needed.
             f_download_file
          else
-            # Allow viewing of error message no internet connection.
+            # Allow viewing of error message no Internet connection.
             f_press_enter_key_to_continue
          fi
          #
@@ -435,20 +435,20 @@ f_mod_add () {
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          f_press_enter_key_to_continue
       else
-         # Check if there is an internet connection before doing a download.
+         # Check if there is an Internet connection before doing a download.
          f_test_internet_connection
          #
          if [ $ERROR -eq 0 ] ; then
             # Function f_download_file can use sudo permissions if needed.
             f_download_file
          else
-            # Allow viewing of error message no internet connection.
+            # Allow viewing of error message no Internet connection.
             f_press_enter_key_to_continue
          fi
          #
       fi
       #
-      # If file exists and back-up file exists, then remove back-up flie.
+      # If file exists and back-up file exists, then remove back-up file.
       if [ -e $1/$2 ] && [ -e $1/$2.tar.gz ] ; then
          # Delete any $2.tar.gz since it is no longer needed. 
          f_module_remove $1 $2.tar.gz
@@ -550,7 +550,7 @@ f_mod_restore () {
               . $1/$2 # Invoke module library.
            fi
            #
-           # If file exists and back-up file exists, then remove back-up flie.
+           # If file exists and back-up file exists, then remove back-up file.
            if [ -e $1/$2 ] && [ -e $1/$2.tar.gz ] ; then
               # Delete any $2.tar.gz since it is no longer needed. 
               f_module_remove $1 $2.tar.gz
@@ -587,7 +587,7 @@ f_mod_update () {
            # Update and invoke an existing module.
            if [ -e $1/$2 ] ; then 
               # <module file name> <Followed by whitespace>
-              # Check if there is an internet connection before
+              # Check if there is an Internet connection before
               # doing a download.
               f_test_internet_connection
               #
@@ -595,7 +595,7 @@ f_mod_update () {
                  # Function f_download_file can use sudo permissions if needed.
                  f_download_file
               else
-                 # Allow viewing of error message no internet connection.
+                 # Allow viewing of error message no Internet connection.
                  f_press_enter_key_to_continue
               fi
               #
@@ -698,7 +698,7 @@ f_module_restore () {
          # 1=standard messages, 2=error messages, &=both.
          ERROR=$?
       else
-         # File $2.tar.gz either does not exist or is not writeable without sudo.
+         # File $2.tar.gz either does not exist or is not writable without sudo.
          #
          # Does $2.tar.gz file exist?
          if [ -e $1/$2.tar.gz ] ; then
@@ -734,11 +734,11 @@ f_update_all_modules () {
       MOD_FILE=""  # Null so an older file name is not displayed by function,
                    # f_test_internet_connection if the test fails.
       #
-      # Check if there is an internet connection before doing a download.
+      # Check if there is an Internet connection before doing a download.
       f_test_internet_connection
       #
       if [ $ERROR -ne 0 ] ; then
-         # Allow viewing of error message no internet connection.
+         # Allow viewing of error message no Internet connection.
          f_press_enter_key_to_continue
          #
       else

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-08-2014 22:37"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_network      |
@@ -50,9 +50,9 @@ f_menu_app_firewalls () {
       until [ "$MNF" = "0" ]
       do    # Start of Firewall Applications until loop.
 #1^0^0^0^1 #MNF arptables - Firewall configuration rules for an ARP chain.
-#0^0^0^0^1 #MNF doscan    - lists PCs listening for a TCP connection.
+#0^0^0^0^1 #MNF doscan    - Lists PCs listening for a TCP connection.
 #1^0^0^0^1 #MNF iptables  - Firewall configuration rules for an IP chain.
-#0^0^0^1^0 #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses based display.
+#0^0^0^1^0 #MNF iptstate  - Monitor traffic in IP Tables state table; ncurses-based display.
 #0^0^0^0^1 #MNF knockd    - Port-knocking server.
 #0^0^0^0^0 #MNF knocker   - TCP security port scanner written in C, using threads.
 #0^0^0^0^1 #MNF labrea    - Sticky honeypot entraps intruder tying up his CPU.
@@ -239,7 +239,7 @@ f_menu_app_network_bandwidth () {
 #0^0^0^1^0    #MNB nload     - Bandwidth graphical monitor in real-time; ncurses-based.
 #0^0^0^1:NC^0 #MNB pktstat   - Display active connections and bandwidth in real-time.
 #0^0^0^0^1    #MNB statnet   - Bandwidth statistics.
-#0^0^0^1^0    #MNB trafshow  - Bandwidth statistics; ncurses based.
+#0^0^0^1^0    #MNB trafshow  - Bandwidth statistics; ncurses-based.
 #0^0^0^1^0    #MNB wavemon   - Wireless bandwidth, signal strength histogram.
             #
             THIS_FILE="mod_apps-network.lib"
@@ -267,16 +267,16 @@ f_menu_app_network_structure () {
       until [ "$MNM" = "0" ]
       do    # Start of Network Structure Applications until loop.
 #0^0^0^0^1    #MNM httpry    - Light-weight network traffic logging tool.
-#0^0^0^0^0    #MNM iptraf    - IP LAN monitor, ncurses based display.
+#0^0^0^0^0    #MNM iptraf    - IP LAN monitor, ncurses-based display.
 #0^0^0^0^0    #MNM iptraf-ng - Fork of iptraf.
 #1^0^0^0^1    #MNM nagios3   - IP LAN monitor. Display network hosts, devices, connections.
 #0^0^0^0^0    #MNM nc        - Netcat reads/writes data across network.
 #1^0^0^1:NC^0 #MNM netstat   - Print network connections, routing tables, interface stats, etc.
-#1^0^0^1^1    #MNM netwatch  - Protocol monitor; ncurses based.
+#1^0^0^1^1    #MNM netwatch  - Protocol monitor; ncurses-based.
 #1^0^0^0^0    #MNM ntop      - Display network usage and status information in a web browser.
 #1^0^0^0^0    #MNM opennms   - Network management application. Discovery, reports, statistics.
 #0^0^0^0^1    #MNM pmacct    - Traffic information monitor.
-#1^0^0^1:NC^0 #MNM slurm     - Simple Linux Utility for Resource Managment. I/O load monitor.
+#1^0^0^1:NC^0 #MNM slurm     - Simple Linux Utility for Resource Management. I/O load monitor.
 #1^0^0^1:NC^0 #MNM sntop     - IP LAN monitor. Display network hosts and connections.
 #0^0^0^0^1    #MNM vnstat    - Traffic information monitor.
             #
@@ -350,7 +350,7 @@ f_menu_app_nic_tools () {
 #1^0^0^0^1    #MNN macchanger   - Change the hardware MAC address on wired/wireless NICs.
 #0^0^0^0^1    #MNN mii-tool     - NIC configuration of Media Independent Interface Unit.
 #0^0^0^0^1    #MNN mii-diag     - NIC configuration of network cards.
-#1^0^0^0^0    #MNN netload      - NIC network load; ncurses based.
+#1^0^0^0^0    #MNN netload      - NIC network load; ncurses-based.
 #0^0^0^0^1    #MNN nictools-pci - NIC configuration of specific oem network cards.
 #f_menu_app_nic_tools2^0^0^0^1    #MNN MORE...      - More NIC Tools Applications.
             #
@@ -685,7 +685,7 @@ f_ip () {
       echo "link      - network device."
       echo "address   - protocol (IP or IPv6) address on a device."
       echo "addrlabel - label configuration for protocol address selection."
-      echo "neighbour - ARP or NDISC cache entry."
+      echo "neighbor  - ARP or NDISC cache entry."
       echo "route     - routing table entry."
       echo "rule      - rule in routing policy database."
       echo "maddress  - multicast address."
@@ -1272,12 +1272,12 @@ case $APP_NAME in # Start of case statement.
       'sudo '*' '* | *' '*) # Command has at least one space.
       # It is assumed that users who do "sudo <application name> <options>"
       # know what they are doing and do not need to be prompted to provide
-      # a web site and do not call f_web_site in the application case statments.
+      # a web site and do not call f_web_site in the app's case statements.
       # i.e. "sudo nslookup www.lxer.com"
       #
       # This case pattern matching statement will allow any other sudo formats
-      # i.e. For links browser, "sudo -width 80 links -driver atheos -html-images 0".
-      #
+      # i.e. For links web browser:
+      #      "sudo -width 80 links -driver atheos -html-images 0".
       ;;
       *[!' ']*) # It has no spaces in name. No spaces means no web site specified.
       echo
@@ -1295,6 +1295,6 @@ case $APP_NAME in # Start of case statement.
       #
       APP_NAME="$APP_NAME $WEB_SITE"
       ;;
-esac # End of case statement.
+esac  # End of case statement.
 } # End of function f_web_site
 #

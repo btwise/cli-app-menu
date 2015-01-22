@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-17-2014 21:31"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_image        |
@@ -49,7 +49,7 @@ f_menu_app_image_graphics () {
 #0^0^0^0^1 #MIG aview      - Image and ASCII-art image viewer.
 #0^0^0^1^0 #MIG bb         - ASCII-art movie demo based on AAlib.
 #0^0^0^0^1 #MIG caca-utils - Image viewer and converter jpg to ascii images.
-#0^0^0^0^1 #MIG duhdraw    - ncurses-based ASCII-art editor.
+#0^0^0^0^1 #MIG duhdraw    - Ncurses-based ASCII-art editor.
 #0^0^0^0^1 #MIG exiftool   - Display audio/video/image file properties (ls-like format).
 #0^0^0^0^1 #MIG fbgrab     - Framebuffer screenshot tool.
 #0^0^0^0^1 #MIG fbi        - Image viewer PhotoCD, jpeg, ppm, gif, tiff, xwd, bmp, png...
@@ -91,7 +91,7 @@ f_menu_app_image_graphics2 () {
 #0^0^0^0^0 #MIH scanimage - Controls flatbed scanners, cameras. -L list of devices.
 #0^0^0^0^0 #MIH sl        - Steam locomotive (when you mis-type 'ls' command).
 #f_starwars^0^0^0^0 #MIH star wars - Star Wars movie in ASCII.
-#1^0^0^0^0 #MIH textdraw  - Draw lines, rectangles, elipses, etc. to create ASCII-art.
+#1^0^0^0^0 #MIH textdraw  - Draw lines, rectangles, ellipses, etc. to create ASCII-art.
 #0^0^0^0^1 #MIH welcome21 - ANSI logo on login screen.
             #
             THIS_FILE="mod_apps-graphics.lib"
@@ -184,7 +184,7 @@ f_starwars () {
 #
 f_textdraw () {
       clear # Blank the screen.
-      echo "textdraw - Draw rectangles, lines, elipses, ASCII-art on screen."
+      echo "textdraw - Draw rectangles, lines, ellipses, ASCII-art on screen."
       echo
       echo "For help, press \"h\" key."
       echo

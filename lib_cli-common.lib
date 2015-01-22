@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="December-16-2014 00:10"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -140,7 +140,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MAX=$(awk -F "$DELIMITER" '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -c "$DELIMITER")
       #
       echo
-      echo -n "Enter 0 to $MAX or letters: " # echo -n supresses line-feed.
+      echo -n "Enter 0 to $MAX or letters: " # echo -n suppresses line-feed.
       #
       case $DELIMITER in
            "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
@@ -445,7 +445,7 @@ f_menu_item_process () {
       #            This custom installation function is called only after the
       #            distro's software package manager has failed to install the
       #            application usually because the application is not
-      #            pre-packaged for the linux distro (distribution).
+      #            pre-packaged for the Linux distro (distribution).
       #            See f_application_install for more details.
       #
       #            If install fails, then this custom install function will be
@@ -903,7 +903,7 @@ f_quit_app_clause () {
          #
          XSTR=$(grep "#%%" $THIS_DIR/lib_cli-common.lib)
          # Get list of Quit Fields in a single big string.
-         # Match integer of QUIT_FIELD to grepped XSTR containg that value.
+         # Match integer of QUIT_FIELD to grepped XSTR containing that value.
          #
          # Extract keystroke sequence from matching grepped string and set
          # QUIT_FIELD to that string.
@@ -1310,7 +1310,7 @@ f_application_help_mssg () {
       echo
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR
       #
-      # Note the $APP_NAME is not neccessarily the package name
+      # Note the $APP_NAME is not necessarily the package name
       # i.e. "trek" is in the "bsdgames" package.
       #
       echo "To install under Debian-based Linux use command:"
@@ -1425,7 +1425,7 @@ f_run_app () {
             echo "Search results of \"$1\"".
             echo
             # Search LIST_APPS - The application names are at the
-            # begining of each line and are preceded by a <space>.
+            # beginning of each line and are preceded by a <space>.
             # To find these names, the basic command is:
             # grep ^" "$XSTR
             #
@@ -1971,7 +1971,7 @@ f_application_install () {
       # 3. Try installing application using distro's software package manager.
       #    Determine which application installation manager is used 
       #    by checking if the requisite directory exists.
-      # 4. Install sucessful? Yes, DONE AND EXIT.
+      # 4. Install successful? Yes, DONE AND EXIT.
       # 5. No, install failed, display error message and then check for a
       #    custom install function.
       # 6. Is there a custom install function specified in the menu?
@@ -2022,7 +2022,7 @@ f_application_install () {
       if [ -d /etc/apt ] ; then 
          f_install_using_apt
          #
-         # If <slackware linux installation directory> exists,
+         # If <slackware Linux installation directory> exists,
          # then use slackpkg or installpkg for slackware packages.
       elif [ -d /var/lib/slackpkg ] ; then
          # f_install_using_slackpkg 
@@ -2030,7 +2030,7 @@ f_application_install () {
          # This if statement is commented out because slackpkg has
          # error code $?=0 even if the install fails.
          #
-         # If <slackware linux installation directory> exists,
+         # If <slackware Linux installation directory> exists,
          # then use slackpkg or installpkg for slackware packages.
       elif [ -d /var/lib/installpkg ] ; then
          # f_install_using_installpkg 
@@ -2038,8 +2038,8 @@ f_application_install () {
          # This if statement is commented out because slackpkg has
          # error code $?=0 even if the install fails.
          #
-         # if <arch linux installation directory> exists, then use pacman
-         # for arch linux packages.
+         # if <arch Linux installation directory> exists, then use pacman
+         # for arch Linux packages.
       elif [ -d /var/lib/pacman ] ; then
          f_install_using_pacman
          #
@@ -2305,7 +2305,7 @@ f_install_using_apt () {
          echo "Command \"sudo apt-get install $APP_NAME_INSTALL\" failed."
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo "is not pre-packaged in the software repositories for this Linux distribution."
          echo
          f_app_install_mssg
          #
@@ -2337,7 +2337,7 @@ f_install_using_slackpkg () {
          echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo "is not pre-packaged in the software repositories for this Linux distribution."
          echo
          f_app_install_mssg
          # If install via package manager failed then see if there is a
@@ -2389,7 +2389,7 @@ f_install_using_installpkg () {
          echo "Command \"sudo slackpkg $APP_NAME_INSTALL\" failed."
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo "is not pre-packaged in the software repositories for this Linux distribution."
          echo
          f_app_install_mssg
          #
@@ -2434,7 +2434,7 @@ f_install_using_pacman () {
          echo "Command \"sudo pacman -S $APP_NAME_INSTALL\" failed."
          echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
          echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-         echo "is not pre-packaged in the software repositories for this linux distribution."
+         echo "is not pre-packaged in the software repositories for this Linux distribution."
          echo 
          f_app_install_mssg
          #
@@ -2480,7 +2480,7 @@ f_install_using_rpm () {
             echo "Command \"sudo rpm -ivh $APP_NAME_INSTALL\" failed."
             echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
             echo "Perhaps the software package \"$APP_NAME_INSTALL\""
-            echo "is not pre-packaged in the software repositories for this linux distribution."
+            echo "is not pre-packaged in the software repositories for this Linux distribution."
             echo
             f_app_install_mssg
             #
@@ -2570,9 +2570,9 @@ f_app_install_mssg () {
 # Outputs: ERROR.
 #
 f_test_internet_connection () {
-      # Check if there is an internet connection before doing a download.
+      # Check if there is an Internet connection before doing a download.
       echo
-      echo "Test internet connection:"
+      echo "Test Internet connection:"
       ping -c 1 -q 8.8.4.4  # Ping Google.com DNS address.
       ERROR=$?
       #
@@ -2708,7 +2708,7 @@ f_wget_file_2 () {
             fi
             #
             if [ "$MOD_FILE" = "cliappmenu.sh" ] ; then
-               THIS_DIR=$XXSTR  # Restore origanal THIS_DIR.
+               THIS_DIR=$XXSTR  # Restore original THIS_DIR.
             fi
          fi
       fi
@@ -2772,7 +2772,7 @@ f_restore_file () {
 # +----------------------------------------+
 #
 #  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
-#    Note: $2 is the full file name inncluding any extentions.
+#    Note: $2 is the full file name including any extensions.
 #    Uses: None.
 # Outputs: ERROR.
 #
@@ -3096,7 +3096,7 @@ f_create_LIST_APPS () {
                  grep $XSTR $THIS_DIR/$MOD_FILE | awk -F $XSTR '{if ($2&&!$3){print $2}}' >> ~/LIST_APPS
               fi
               #
-              echo -n "." # Elipse to indicate function is running displayed
+              echo -n "." # Ellipses to indicate function is running displayed
                           # on screen display. Displays rows of "...".
           done
       done

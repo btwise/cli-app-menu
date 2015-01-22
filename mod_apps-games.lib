@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="November-21-2014 11:38"
+# REVDATE="January-21-2015 11:52"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -95,7 +95,7 @@ f_menu_app_games_arcade2 () {
       f_initvars_menu_app "MGB"
       until [ "$MGB" = "0" ]
       do    # Start of Arcade2 Games until loop.
-#0^1^0^1^0  #MGB xorcurses - based on Xor released in 1987 by Astral Software.
+#0^1^0^1^0  #MGB xorcurses - Based on Xor released in 1987 by Astral Software.
 #0^0^0^18^0 #MGB zsnake    - Variation of BSD's snake game.
 #0^1^0^0^0  #MGB ztrack    - First-person car racing game in amazing 3-D ASCII.
             #
@@ -252,7 +252,7 @@ f_menu_app_games_puzzle () {
 #0^0^0^0^0    #MGF pente         - 5 in a row game.
 #f_run_and_exit "ppt" "ppt"^0^0^0^0 #MGF ppt           - Reformat input as a paper tape.
 #0^1^0^1:NC^1 #MGF textmaze      - Find the exit to the maze.
-#0^1^0^1^0    #MGF xorcurses     - based on Xor released in 1987 by Astral Software.
+#0^1^0^1^0    #MGF xorcurses     - Based on Xor released in 1987 by Astral Software.
             #
             THIS_FILE="mod_apps-games.lib"
             MENU_TITLE="Puzzle Games Menu"
@@ -312,7 +312,7 @@ f_menu_app_games_rpg () {
 #0^0^0^0^1 #MGH GearHead   - Post-nuclear apocalyptic game with 150 machines of destruction.
 #0^0^0^0^1 #MGH hack       - Explore the Dungeons of Doom.
 #0^0^0^0^1 #MGH nethack    - Retrieve the Amulet of Yendor in the  20th dungeon level.
-#0^0^0^0^1 #MGH overkill   - 2D ASCII shooter game.
+#0^0^0^0^1 #MGH overkill   - 2-D ASCII shooter game.
 #0^0^0^0^1 #MGH phantasia  - Fight monsters and other players.
 #0^0^0^0^1 #MGH slashem    - Enter the Dungeons of Doom.
 #0^0^0^0^1 #MGH wump       - Hunt the Wumpus, watch out for bats, pits.
@@ -419,7 +419,7 @@ f_menu_app_games_strategy () {
       f_initvars_menu_app "MGJ"
       until [ "$MGJ" = "0" ]
       do    # Start of Strategy Games until loop.
-#0^0^0^1^0 #MGJ empire     - war game build armies, planes, ships, capture cities.
+#0^0^0^1^0 #MGJ empire     - War game build armies, planes, ships, capture cities.
 #0^0^0^0^0 #MGJ gomoku     - 2-player game of 5-in-a-row.
 #0^0^0^0^0 #MGJ hunt       - Multi-user game. Kill everyone else.
 #0^0^0^0^0 #MGJ mille      - Travel 700 miles card game.
@@ -452,7 +452,7 @@ f_menu_app_games_tetris () {
       do    # Start of Tetris Games until loop.
 #0^0^0^0^0 #MGL bastet   - Tetris-like game.
 #0^0^0^0^0 #MGL ctris    - Tetris-like game.
-#0^0^0^0^0 #MGL lexter   - Create words in a tetris-like game.
+#0^0^0^0^0 #MGL lexter   - Create words in a Tetris-like game.
 #1^0^0^0^0 #MGL netris   - Tetris-like game.
 #0^0^0^5^0 #MGL petris   - Tetris-like game.
 #0^0^0^0^0 #MGL tetrix   - Tetris-like game.
@@ -489,7 +489,7 @@ f_menu_app_games_word () {
 #0^0^0^0^1  #MGK hangman   - Classic hangman word game.
 #0^0^0^10^1 #MGK hodie     - Date and time in Latin.
 #0^0^0^0^0  #MGK letterize - Creates strings from numbers on a touch-tone telephone keypad.
-#0^0^0^0^1  #MGK lexter    - Create words in a tetris-like game.
+#0^0^0^0^1  #MGK lexter    - Create words in a Tetris-like game.
 #0^0^0^10^0 #MGK pig       - Converts text into pig-latin.
 #1^0^0^0^1  #MGK rev       - Reverse typing (not Boston Red Sox "Reverse the Curse").
 #0^0^0^0^1  #MGK rl        - Randomize Lines scrambles words of a text file.
