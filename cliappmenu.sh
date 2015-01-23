@@ -1,12 +1,11 @@
 #!/bin/bash
-# ©2014 Copyright 2014 Robert D. Chin
 #
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-21-2015 11:52"
+REVDATE="January-23-2015 17:46"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -136,16 +135,12 @@ REVDATE="January-21-2015 11:52"
 # |          Function f_test_dash          |
 # +----------------------------------------+
 #
-#  Inputs: $BASH_VERSION (System variable).
+#  Inputs: $BASH_VERSION (System variable), GUI.
 #    Uses: None.
-# Outputs: None.
+# Outputs: exit 1.
 #
 f_test_dash () {
-      # Set default colors in case configuration file is not readable
-      # or does not exist.
-      FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
-      #
-      if [ "$BASH_VERSION" = '' ]; then
+      if [ -z "$BASH_VERSION" ]; then
          f_detect_ui # Automatically detect UI environment.
          case $GUI in
               text)
@@ -164,11 +159,15 @@ f_test_dash () {
 # |        Function f_test_dash_txt        |
 # +----------------------------------------+
 #
-#  Inputs: None.
+#  Inputs: FCOLOR, BCOLOR, UCOLOR, ECOLOR.
 #    Uses: None.
 # Outputs: None.
 #
 f_test_dash_txt () {
+      # Set default colors in case configuration file is not readable
+      # or does not exist.
+      FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+      #
       clear # Clear screen.
       echo $(tput bold)
       echo "You are using the DASH environment."
@@ -246,7 +245,7 @@ f_detect_ui () {
       # Is Dialog GUI installed?
       if [ $ERROR -eq 0 ] ; then
          # Yes, Dialog installed.
-         GUI="dialog" # test diagnostic line.
+         GUI="dialog"
       else
          # Is Whiptail GUI installed?
          command -v whiptail >/dev/null
@@ -261,15 +260,20 @@ f_detect_ui () {
             GUI="text"
          fi
       fi
+      #
+      # Force $GUI to a specific environment for testing.  # Diagnostic line.
+      # GUI="text"      # Diagnostic line.
+      # GUI="dialog"    # Diagnostic line.
+      # GUI="whiptail"  # Diagnostic line.
 } # End of function f_detect_ui
 #
 # +----------------------------------------+
 # |        Function f_main_init_once       |
 # +----------------------------------------+
 #
-#  Inputs: BASH_VERSION (System variable), THIS_DIR, THIS_FILE.
+#  Inputs: BASH_VERSION (System variable), THIS_FILE, GUI.
 #    Uses: None.
-# Outputs: None.
+# Outputs: MAIN_MENU_DIR, THIS_DIR, FCOLOR, BCOLOR, UCOLOR, ECOLOR, TERM.
 #
 f_main_init_once () {
       # Initialize variables.
@@ -333,7 +337,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/home/robert"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -374,7 +378,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/Some_directory/cli-app-menu"
+      THIS_DIR="/home/robert/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -399,9 +403,9 @@ f_main_init_once () {
 # |        Function f_main_init_txt        |
 # +----------------------------------------+
 #
-#  Inputs: BASH_VERSION (System variable), THIS_DIR, THIS_FILE.
+#  Inputs: THIS_DIR, MAINMENU_DIR, SCRIPT_PATH.
 #    Uses: None.
-# Outputs: None.
+# Outputs: FCOLOR, BCOLOR, UCOLOR, ECOLOR. 
 #
 f_main_init_txt () {
       # Does configuration file exist and is readable?
@@ -430,16 +434,15 @@ f_main_init_txt () {
       f_valid_files_txt "$THIS_DIR" "lib_cli-common.lib"
       f_valid_files_txt "$THIS_DIR" "lib_cli-web-sites.lib"
       f_valid_files_txt "$THIS_DIR" "lib_cli-menu-cat.lib"
-      #
 } # End of function f_main_init_txt
 #
 # +----------------------------------------+
 # |        Function f_main_init_gui        |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI (dialog, whiptail) , THIS_DIR, THIS_FILE.
+#  Inputs: $1=GUI (dialog, whiptail), THIS_DIR, MAIN_MENU_DIR, SCRIPT_PATH.
 #    Uses: None.
-# Outputs: None.
+# Outputs: FCOLOR, BCOLOR, UCOLOR, ECOLOR. 
 #
 f_main_init_gui () {
       # Does configuration file exist and is readable?
@@ -469,14 +472,13 @@ f_main_init_gui () {
       f_valid_files_gui $1 "$THIS_DIR" "lib_cli-common.lib"
       f_valid_files_gui $1 "$THIS_DIR" "lib_cli-web-sites.lib"
       f_valid_files_gui $1 "$THIS_DIR" "lib_cli-menu-cat.lib"
-      #
 } # End of function f_main_init_gui
 #
 # +----------------------------------------+
 # |      Function f_missing_config_txt     |
 # +----------------------------------------+
 #
-#  Inputs: None.
+#  Inputs: FCOLOR, BCOLOR, ECOLOR. 
 #    Uses: X.
 # Outputs: Create the "~/.cliappmenu.cfg" file.
 #
@@ -506,8 +508,8 @@ f_missing_config_txt () {
 # +----------------------------------------+
 #
 #  Inputs: $1=GUI ("dialog", "whiptail").
-#    Uses:.
-# Outputs:.
+#    Uses: None.
+# Outputs: Create the "~/.cliappmenu.cfg" file.
 #
 f_missing_config_gui () {
       clear # Clear screen.
@@ -522,9 +524,9 @@ f_missing_config_gui () {
 # |   Function f_change_mainmenu_dir_txt   |
 # +----------------------------------------+
 #
-#  Inputs: None.
+#  Inputs: BCOLOR, ECOLOR, SCRIPT_PATH, THIS_FILE, MAIN_MENU_DIR.
 #    Uses: ERROR.
-# Outputs: None.
+# Outputs: exit 1.
 #
 f_change_mainmenu_dir_txt () {
       clear # Clear screen.
@@ -586,9 +588,9 @@ f_change_mainmenu_dir_txt () {
 # |   Function f_change_mainmenu_dir_gui   |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail").
+#  Inputs: $1=GUI ("dialog", "whiptail"), SCRIPT_PATH, THIS_FILE, MAIN_MENU_DIR.
 #    Uses: XSTR, ERROR.
-# Outputs: None.
+# Outputs: exit 1.
 #
 f_change_mainmenu_dir_gui () {
       clear # Clear screen.
@@ -639,7 +641,7 @@ f_change_mainmenu_dir_gui () {
 # |      Function f_initvars_menu_app      |
 # +----------------------------------------+
 #
-#  Inputs: $1=Until-Loop variable.
+#  Inputs: $1=For-Loop variable.
 #    Uses: X, INITVAR.
 # Outputs: MAINMENU_DIR, THIS_DIR, APP_NAME, WEB_BROWSER, TEXT_EDITOR,
 #          MENU_ITEM, ERROR.
@@ -667,8 +669,8 @@ f_initvars_menu_app () {
 # |        Function f_valid_files_txt      |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File.
-#    Uses: X.
+#  Inputs: $1=Directory, $2=File, FCOLOR, BCOLOR, ECOLOR, GUI, PATH.
+#    Uses: X, NEW_DIR
 # Outputs: None.
 #
 f_valid_files_txt () {
@@ -701,7 +703,7 @@ f_valid_files_txt () {
             read X
          fi
          #
-         if [ "$NEW_DIR" != "" ] ; then
+         if [ -n "$NEW_DIR" ] ; then
             f_valid_menu_txt $NEW_DIR $2
          else
             f_valid_menu_txt $1 $2
@@ -728,8 +730,8 @@ f_valid_files_txt () {
 # |        Function f_valid_files_gui      |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File.
-#    Uses: None.
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File, PATH.
+#    Uses: NEW_DIR.
 # Outputs: None.
 #
 f_valid_files_gui () {
@@ -745,7 +747,7 @@ f_valid_files_gui () {
             echo
          fi
          #
-         if [ "$NEW_DIR" != "" ] ; then
+         if [ -n "$NEW_DIR" ] ; then
             f_valid_menu_gui $1 $NEW_DIR $3
          else
             f_valid_menu_gui $1 $2 $3
@@ -764,8 +766,8 @@ f_valid_files_gui () {
 # |        Function f_valid_menu_txt       |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File.
-#    Uses: None.
+#  Inputs: $1=Directory, $2=File, NEW_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: AAD, MENU_TITLE.
 # Outputs: NEW_DIR.
 #
 f_valid_menu_txt () {
@@ -828,7 +830,7 @@ f_valid_menu_txt () {
             esac
       done  # End of Validate Menu until loop.
             #
-      unset AAD MENU_ITEM  # Throw out this variable.
+      unset AAD, MENU_TITLE  # Throw out this variable.
 } # End of function f_valid_menu_txt
 #
 # +----------------------------------------+
@@ -836,7 +838,7 @@ f_valid_menu_txt () {
 # +----------------------------------------+
 #
 #  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File.
-#    Uses: None.
+#    Uses: AAD
 # Outputs: NEW_DIR.
 #
 f_valid_menu_gui () {
@@ -878,7 +880,7 @@ f_valid_menu_gui () {
                  ;;
             esac
       done
-      unset AAD MENU_ITEM  # Throw out this variable.
+      unset AAD  # Throw out this variable.
 } # End of function f_valid_menu_gui
 #
 # +----------------------------------------+
@@ -889,16 +891,95 @@ f_valid_menu_gui () {
 #    Uses: $PATH.
 # Outputs: Error code 1 if path is bad.
 #
+# The session-wide (pertaining to a specific user only, not system-wide)
+# setting of the PATH variable can be done in several ways.
+#
+# 
+# 1. Within a GUI environment using a terminal in a window:
+#    reads ~/.bashrc.
+#
+# 2. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#    reads ~/.bash_profile, ~/.bash_login
+#    Note: If you invoke a GUI environment using "startx" from the CLI,
+#          then you must edit
+#          both    ~/.bashrc and ~/.bash_profile files
+#          or both ~/.bashrc and ~/.bash_login   files.
+#
+# 3. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#    reads ~/.profile.
+#    Note: If you invoke a GUI environment using "startx" from the CLI,
+#          then you must edit
+#          both    ~/.bashrc and ~/.profile files.
+#
+# 4. Non-interactive, non-login shell environment:
+#    reads the file contained in the variable BASH_ENV, if exists.
+#
+#
+# 1. Within a GUI environment using a terminal in a window:
+#    Only for Bash shells in a graphical environment in a desktop session.
+#    (i.e. Xterm window session already logged in through the GUI Gnome, KDE).
+#    WILL NOT WORK in a pure CLI environment login shell.
+#    (i.e. ~/.bashrc will not work in a pure CLI environment login shell).
+#
+#    /home/<username_goes_here>/.bashrc
+#                             ~/.bashrc
+#
+#    Edit the ~/.bashrc file
+#    and add the following line to the end of the file.
+#                             PATH=$PATH:$HOME/cli-app-menu
+#
+#
+# 2. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#    Only one of these files needs the new PATH statement.
+#
+#    Will work in most shells in either
+#    a graphical environment in a desktop session (i.e. Xterm window session).
+#    or a pure CLI environment login shell.
+#
+#                             ~/.bash_login
+#                             ~/.bash_profile
+#
+#    Edit either the ~/.bash_login or ~/.bash_profile file
+#    and add the following line to the end of the file.
+#                             PATH=$PATH:$HOME/cli-app-menu
+#
+#
+# 3. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#    The ~/.profile is read last after the ~/.bash_login and ~/.bash_profile.
+#
+#    WARNING: Ubuntu ignores ~/.profile
+#    if ~/.bash_login or ~/.bash_profile exists.
+#    So edit ~/.profile only if you do not have either of the above files.
+# 
+#    Will work in most shells in either
+#    a graphical environment in a desktop session (i.e. Xterm window session).
+#    or a pure CLI environment login shell.
+#
+#    /home/<username_goes_here>/.profile
+#                             ~/.profile
+#
+#    Edit the ~/.profile file and add the following line to the end of the file.
+#                             export PATH="$PATH:$HOME/cli-app-menu"
+#
+#
+# 4. Non-interactive, non-login shell environment:
+#    reads the file contained in the variable BASH_ENV, if exists.
+#
+#    (Not pertinent or relevant since this script is interactive).
+#    Included here to document another way to set the PATH variable.
+#
 f_valid_path_txt () {
       #
       # Check the $PATH
       if [[ ! "$PATH" == *":$1"* ]] ; then
-         echo
-         echo $(tput bold)
-         echo "
-Append the directory name to your PATH:"
+         clear  # Blank the screen.
+         echo -n $(tput bold)
+         echo "Append the directory name to your PATH:"
          echo $(tput sgr0)
-         echo "Edit your /home/<username_goes_here>/.bashrc file"
+         echo "For more information:"
+         echo "See comments in script, cliappmenu.sh under function, f_valid_path_txt."
+         echo
+         echo "Edit your /home/<username_goes_here>/.profile or .bash_profile file"
          echo "and append the directory name to the end of the PATH statement."
          echo "               (don't forget the colon)."
          echo
@@ -909,8 +990,12 @@ Append the directory name to your PATH:"
          echo
          echo "export PATH"
          echo
-         echo "       >>> IMPORTANT <<<"
-         echo "After editing the file, .bashrc:"
+         echo -n "Press \"Enter\" key to continue."
+         read X
+         clear  # Blank the screen.
+         echo "                     >>> IMPORTANT <<<"
+         echo "After editing the file, ~/.profile,  ~/.bash_profile, or ~/.bashrc:"
+         echo
          echo "Close Terminal for changes to take effect."
          echo "Either logout or exit from Terminal and re-launch Terminal."
          echo
@@ -929,9 +1014,9 @@ f_valid_path_gui () {
       #
       # Check the $PATH
       if [[ ! "$PATH" == *":$2"* ]] ; then
-         $1 --title "*** Important ***" --msgbox "\nAppend the directory name to your PATH.\n\nEdit your /home/<username_goes_here>/.bashrc file\nand append the directory name to the end of the PATH statement.\n               (don't forget the colon).\n\n:$2\n\nChange to:\nPATH=$PATH:$2\n\nexport PATH" 22 70
+         $1 --title "*** Important ***" --msgbox "\nAppend the directory name to your PATH.\n  (For more information: See comments in script, cliappmenu.sh\n  under function, f_valid_path_txt.)\n\nEdit the file(s)\n/home/<username_goes_here>/.profile, .bash_profile, or .bashrc\nand append the directory name to the end of the PATH statement.\n               (don't forget the colon).\n\n:$2\n\nChange to:\nPATH=$PATH:$2\n\nexport PATH" 23 70
          #
-         $1 --title "*** Important ***" --msgbox "\nAfter editing the file, .bashrc:\n\n        Close Terminal for changes to take effect.\nEither logout or exit from Terminal and re-launch Terminal." 15 70
+         $1 --title "*** Important ***" --msgbox "\nAfter editing the file, ~/.profile,  ~/.bash_profile, or ~/.bashrc:\n\n        Close Terminal for changes to take effect.\nEither logout or exit from Terminal and re-launch Terminal.\n\n(For more information: See comments in script, cliappmenu.sh\nunder function, f_valid_path_txt.)\n" 15 70
       fi
 } # End of function f_valid_path_gui
 #
@@ -939,9 +1024,9 @@ f_valid_path_gui () {
 # |        Function f_valid_exit_txt       |
 # +----------------------------------------+
 #
-#  Inputs: $1=Original Directory, $2=New Directory.
-#    Uses: None.
-# Outputs: None.
+#  Inputs: $1=Original Directory, $2=New Directory, ECOLOR, BCOLOR.
+#    Uses: NEW_DIR.
+# Outputs: exit 1.
 #
 f_valid_exit_txt () {
       # Was directory changed?
@@ -979,8 +1064,8 @@ f_valid_exit_txt () {
 #
 #  Inputs: $1=GUI ("dialog", "whiptail"), $2=Original Directory,
 #          $3=New Directory.
-#    Uses: None.
-# Outputs: None.
+#    Uses: NEW_DIR.
+# Outputs: exit 1.
 #
 f_valid_exit_gui () {
       # Was directory changed?
@@ -1001,7 +1086,7 @@ f_valid_exit_gui () {
 # |      Function f_sudo_password_gui      |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail").
+#  Inputs: $1=GUI ("dialog", "whiptail"), THIS_FILE.
 #    Uses: None.
 # Outputs: ERROR, XSTR.
 #
@@ -1019,7 +1104,7 @@ f_sudo_password_gui () {
 # |       Function f_file_download_txt     |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File.
+#  Inputs: $1=Directory, $2=File, FCOLOR, BCOLOR, ECOLOR.
 #    Uses: MOD_FILE.
 # Outputs: None.
 #
@@ -1035,7 +1120,7 @@ f_file_download_txt () {
       # Does directory exist?
       if [ -d $1 ] ; then
          # Yes, so continue to download files.
-         if [ "$2" = "lib_cli-common.lib" -o "$2" = "lib_cli-menu-cat.lib" -o "$2" = "lib_cli-web-sites.lib" ] ; then
+         if [ "$2" = "lib_cli-common.lib" ] || [ "$2" = "lib_cli-menu-cat.lib" ] || [ "$2" = "lib_cli-web-sites.lib" ] ; then
             echo
             echo "If needed, these files will now be downloaded:"
             echo "lib_cli-common.lib, lib_cli-menu-cat.lib, and lib_cli-web-sites.lib."
@@ -1128,9 +1213,9 @@ f_file_download_gui () {
 # |         Function f_file_dload_txt      |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File.
-#    Uses: X, ERROR.
-# Outputs: None.
+#  Inputs: $1=Directory, $2=File, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: X.
+# Outputs: ERROR, NEW_DIR, MOD_FILE, WEB_SITE.
 #
 f_file_dload_txt () {
       clear  # Blank the screen.
@@ -1138,15 +1223,14 @@ f_file_dload_txt () {
       if [ -d "$1" ] ; then
          # Directory exists so download file into the directory.
          echo "Download the file from the project's repository at the GitHub web site."
-         echo "Use the Master branch of the project repository."
+         echo "Use the MASTER branch of the project repository."
          echo "Download file:"
          echo "   $2"
          echo
          echo "into the directory:"
          echo "   $1"
          echo
-         # Ask download from which branch and wget.
-         echo -n "Download the file now? (Y/n): "
+         echo -n "Download the file from the MASTER branch? (Y/n): "
          read X
          case $X in
               [Nn]*)
@@ -1211,15 +1295,15 @@ f_file_dload_txt () {
 # +----------------------------------------+
 #
 #  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, $3=File.
-#    Uses: ERROR.
-# Outputs: None.
+#    Uses: None.
+# Outputs: ERROR, NEW_DIR, MOD_FILE, WEB_SITE.
 #
 f_file_dload_gui () {
       clear  # Blank the screen.
       #
       if [ -d "$2" ] ; then
          # Directory exists, so download file into the directory.
-         $1 --yesno "Download the file from the GitHub web site.\n\nDownload file:\n   $3\n\ninto the directory:\n   $2\n\nDownload the file now?" 15 70
+         $1 --yesno "Download the file from the project's repository at the GitHub web site.\nUse the MASTER branch of the project repository.\nDownload file:\n   $3\n\ninto the directory:\n   $2\n\nDownload the file from the MASTER branch?" 20 75
          ERROR=$?
          case $ERROR in
               1)
@@ -1302,7 +1386,7 @@ f_change_dir () {
 # |    Function f_ask_new_directory_txt    |
 # +----------------------------------------+
 #
-#  Inputs: $1=Old Directory, SCRIPT_PATH, THIS_FILE.
+#  Inputs: $1=Old Directory, MAINMENU_DIR, FCOLOR, BCOLOR, ECOLOR.
 #    Uses: X.
 # Outputs: NEW_DIR.
 #
@@ -1400,10 +1484,9 @@ f_ask_new_directory_txt () {
 # |    Function f_ask_new_directory_gui    |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory, SCRIPT_PATH,
-#          THIS_FILE.
-#    Uses: ERROR
-# Outputs: NEW_DIR.
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory, MAINMENU_DIR.
+#    Uses: None.
+# Outputs: NEW_DIR, ERROR.
 #
 f_ask_new_directory_gui () {
       if [ "$2" != "$MAINMENU_DIR/cli-app-menu" ] ; then
@@ -1497,8 +1580,8 @@ f_ask_create_directory_txt () {
 # +----------------------------------------+
 #
 #  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory $3=New Directory.
-#    Uses: ERROR.
-# Outputs: None.
+#    Uses: None.
+# Outputs: ERROR.
 #
 f_ask_create_directory_gui () {
       $1 --yesno "Create new directory:\n   $3\n\nCreate it now?" 12 75
@@ -1518,7 +1601,7 @@ f_ask_create_directory_gui () {
 # |    Function f_create_directory_txt     |
 # +----------------------------------------+
 #
-#  Inputs: $1=Old Directory, $2=New Directory.
+#  Inputs: $1=Old Directory, $2=New Directory, FCOLOR, BCOLOR, ECOLOR.
 #    Uses: None.
 # Outputs: None.
 #
@@ -1591,7 +1674,8 @@ f_create_directory_gui () {
 # |       Function f_setup_dir_txt         |
 # +----------------------------------------+
 #
-#  Inputs: $1=Old Directory, $2=New Directory, SCRIPT_PATH.
+#  Inputs: $1=Old Directory, $2=New Directory, SCRIPT_PATH, FCOLOR, BCOLOR,
+#          ECOLOR.
 #    Uses: X, ERROR.
 # Outputs: NEW_DIR.
 #
@@ -1642,8 +1726,8 @@ f_setup_dir_txt () {
 #
 #  Inputs: $1=GUI ("dialog", "whiptail"), $2=Old Directory $3=New Directory,
 #          SCRIPT_PATH.
-#    Uses: ERROR.
-# Outputs: None.
+#    Uses: None.
+# Outputs: ERROR, NEW_DIR.
 #
 f_setup_dir_gui () {
       $1 --msgbox "Automatically re-configuring \"cliappmenu.sh\" to use the directory." 8 70
@@ -1705,9 +1789,9 @@ f_main_help () {
 # |           Function f_main_about        |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR. 
-#    Uses: X, REVDATE, PROJECT_REVDATE, PROJECT_REVISION.
-# Outputs: None.
+#  Inputs: MAINMENU_DIR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: X.
+# Outputs: None.MOD_FILE, PROJECT_REVDATE, PROJECT_REVISION, PRESS_KEY.
 #
 f_main_about () {
       # Calculate project revision number
@@ -1774,8 +1858,8 @@ f_main_about () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: AAC , MENU_ITEM.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#    Uses: AAC , MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
 #
 f_main_configure () {
       f_initvars_menu_app "AAC"
@@ -1804,7 +1888,7 @@ f_main_configure () {
             f_menu_item_process $AAC  # Outputs $MENU_ITEM.
       done  # End of Configuration Menu until loop.
             #
-      unset AAC MENU_ITEM  # Throw out this variable.
+      unset AAC MENU_ITEM MENU_TITLE DELIMITER  # Throw out this variable.
 } # End of function f_main_configure
 #
 # +----------------------------------------+
@@ -1812,8 +1896,8 @@ f_main_configure () {
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: AAG, MENU_ITEM.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#    Uses: AAG, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
 #
 f_main_information () {
       f_initvars_menu_app "AAG"
@@ -1839,7 +1923,7 @@ f_main_information () {
             f_menu_item_process $AAG  # Outputs $MENU_ITEM.
       done  # End of Configuration Menu until loop.
             #
-      unset AAG MENU_ITEM  # Throw out this variable.
+      unset AAG MENU_ITEM MENU_TITLE DELIMITER # Throw out this variable.
 } # End of function f_main_information
 #
 # +----------------------------------------+
@@ -1847,7 +1931,7 @@ f_main_information () {
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
-#    Uses: X.
+#    Uses: None.
 # Outputs: None.
 #
 f_main_documentation () {
@@ -1862,8 +1946,6 @@ f_main_documentation () {
          # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
          sed -n 's/^#://'p $THIS_DIR"/README" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
       fi
-      #
-      unset X
 } # End of function f_main_documentation
 #
 # +----------------------------------------+
@@ -1871,7 +1953,7 @@ f_main_documentation () {
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
-#    Uses: X.
+#    Uses: None.
 # Outputs: None.
 #
 f_main_edit_history () {
@@ -1887,8 +1969,6 @@ f_main_edit_history () {
          sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
-      #
-      unset X
 } # End of function f_menu_edit_history
 #
 # +----------------------------------------+
@@ -1896,7 +1976,7 @@ f_main_edit_history () {
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
-#    Uses: X.
+#    Uses: None.
 # Outputs: None.
 #
 f_main_code_history () {
@@ -1912,17 +1992,15 @@ f_main_code_history () {
          sed -n 's/^##//'p $THIS_DIR"/CODE_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
-      #
-      unset X
 } # End of function f_menu_code_history
 #
 # +----------------------------------------+
 # |      Function f_ask_download_file      |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR, MOD_FILE.
+#  Inputs: #  Inputs: $1=Directory, $2=File, FCOLOR, BCOLOR, ECOLOR, MOD_FILE.
 #    Uses: X.
-# Outputs: None.
+# Outputs: ERROR.
 #
 f_ask_download_file () {
       X="" # Initialize scratch variable.
@@ -1969,9 +2047,9 @@ f_ask_download_file () {
 # |         Function f_main_license        |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR. 
+#  Inputs: MAINMENU_DIR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
 #    Uses: X.
-# Outputs: None.
+# Outputs: APP_NAME, WEB_SITE.
 #
 f_main_license () {
       clear # Blank the screen.
@@ -2058,9 +2136,9 @@ f_main_license () {
 # |     Function f_main_list_find_menus    |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR. 
-#    Uses: X.
-# Outputs: None.
+#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: X, AAH, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
 #
 f_main_list_find_menus () {
       if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
@@ -2101,7 +2179,7 @@ f_main_list_find_menus () {
                f_menu_item_process $AAH  # Outputs $MENU_ITEM.
          done  # End of List/Find Menu until loop.
          #
-         unset AAH MENU_ITEM  # Throw out this variable.
+         unset AAH MENU_ITEM, MENU_TITLE, DELIMITER  # Throw out this variable.
       fi
 } # End of function f_main_list_find_menus
 #
@@ -2140,8 +2218,8 @@ unset X
 # |       Function f_main_search_apps      |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR. 
-#    Uses: XSTR, BCOLOR, ECOLOR, FCOLOR,
+#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR. 
+#    Uses: XSTR.
 # Outputs: None.
 #
 f_main_search_apps () {
@@ -2199,8 +2277,8 @@ f_main_search_apps () {
 # +----------------------------------------+
 #
 #  Inputs: $1=$FCOLOR. $2=$BCOLOR
-#    Uses: CNT, TPUTX.
-# Outputs: None.
+#    Uses: CNT, TPUTX, COLOR.
+# Outputs: None. 
 #
 f_term_color () {  # Set terminal display properties.
       #
@@ -2272,15 +2350,16 @@ f_term_color () {  # Set terminal display properties.
                ;;
           esac
       done
+      unset CNT TPUTX COLOR
 } # End of function f_term_color
 #
 # +----------------------------------------+
 # |        Function f_menu_term_color      |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: AAE, MENU_ITEM, MAX, COLOR.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#  Inputs: FCOLOR, BCOLOR.
+#    Uses: AAE, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
 #
 f_menu_term_color () {
       f_initvars_menu_app "AAE"
@@ -2317,8 +2396,18 @@ f_menu_term_color () {
             #
       done  # End of Terminal Colors Menu until loop.
             #
-      unset AAE MENU_ITEM  # Throw out this variable.
+      unset AAE MENU_ITEM MENU_TITLE DELIMITER  # Throw out this variable.
 } # End of function f_menu_term_color
+#
+# +----------------------------------------+
+# |         Function f_color_<color>       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: FCOLOR, BCOLOR, ECOLOR
+#
+# The series of functions below set the terminal's color.
 #
 f_color_red () {
       FCOLOR="Red" ; BCOLOR="Black"  ; ECOLOR="Yellow"
@@ -2379,9 +2468,9 @@ f_color_yb () {
 # |          Function f_menu_uncolor       |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: AAF, MENU_ITEM, MAX, COLOR.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#  Inputs: FCOLOR, BCOLOR.
+#    Uses: AAF, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
 #
 f_menu_uncolor () {
       f_initvars_menu_app "AAF"
@@ -2414,8 +2503,18 @@ f_menu_uncolor () {
             #
       done  # End of Unavailable Colors until loop.
       #
-      unset AAF MENU_ITEM  # Throw out this variable.
+      unset AAF MENU_ITEM MENU_TITLE DELIMITER  # Throw out this variable.
 } # End of function f_menu_uncolor
+#
+# +----------------------------------------+
+# |         Function f_ucolor_<color>      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: UCOLOR
+#
+# The series of functions below set the terminal's color.
 #
 f_ucolor_red () {
       UCOLOR="Red"
@@ -2477,9 +2576,9 @@ f_update_config_file () {
 # |       Function f_update_software       |
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: MENU_MOD_FILE, X.
-# Outputs: ERROR, MENU_TITLE, DELIMITER, PRESS_KEY.
+#  Inputs: MAINMENU_DIR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: X, ERROR, MOD_FILE.
+# Outputs: PRESS_KEY.
 #
 f_update_software () {
       MOD_FILE=""  # Null so an older file name is not displayed by function,
@@ -2546,20 +2645,19 @@ f_update_software () {
          #
          # Exit function and exit script to system prompt.
          exit 1
-      else
+      else  # Internet connection failed so skip download of updates/upgrades.
          f_press_enter_key_to_continue
       fi
-      unset X
-      unset ERROR
+      unset X ERROR MOD_FILE
 } # End of function f_update_software
 #
 # +----------------------------------------+
 # |       Function f_update_list_apps      |  
 # +----------------------------------------+
 #
-#  Inputs: None. 
-#    Uses: AAC, MENU_ITEM, Y.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: Y.
+# Outputs: None.
 #
 f_update_list_apps () {
       Y="" # Initialize scratch variable.
@@ -2592,7 +2690,6 @@ f_update_list_apps () {
                      . lib_cli-common.lib
                      f_create_LIST_APPS
                      echo ; echo "File \"LIST_APPS\" is updated."
-                     f_press_enter_key_to_continue
                   else
                      # Use different color font for error messages.
                      f_term_color $ECOLOR $BCOLOR
@@ -2603,10 +2700,9 @@ f_update_list_apps () {
                      #
                      f_term_color $FCOLOR $BCOLOR
                      echo $(tput bold)
-                     f_press_enter_key_to_continue
                   fi
-                  # f_press_enter_key_to_continue
                   Y="YES"
+                  f_press_enter_key_to_continue
                   ;;
                   "" | [Nn] | [Nn][Oo])
                   echo ; echo "File \"LIST_APPS\" is not updated."
@@ -2615,6 +2711,7 @@ f_update_list_apps () {
                   ;;
              esac
       done
+      unset Y
 } # End of function f_update_list_apps
 #
 # +----------------------------------------+
@@ -2664,6 +2761,10 @@ f_reinstall_readme () {
 # ***     Start of Main Program      ***
 # **************************************
 #
+#  Inputs: 
+#    Uses: AAA, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: exit 0
+#
 # Since the DASH environment does not recognize the ". <library> command,
 # the function f_test_dash must be included in this cliappmenu.sh script file
 # rather than in the library file lib_cli-common.lib, but once in BASH, then
@@ -2677,13 +2778,13 @@ f_script_path
 #
 f_main_init_once
 #
+# If you want to force a particular environment, text, whiptail, or dialog,
+# see the tail of function f_detect_ui and uncomment the GUI variable.
+# Those lines are marked "# Diagnostic line." for easy reference.
+#
 # **************************************
 # ***           Main Menu            ***
 # **************************************
-#
-#  Inputs: THIS_FILE, REVISION, REVDATE.
-#    Uses: AAA, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
 f_initvars_menu_app "AAA"
       # When $DELIMITER is set as above,
@@ -2713,7 +2814,7 @@ do    # Start of CLI Menu util loop.
                                 # Sets AAA=0 for item option Quit.
 done  # End of Main Menu until loop.
       #
-unset AAA MENU_ITEM SCRIPT_PATH # Throw out this variable.
+unset AAA MENU_ITEM MENU_TITLE DELIMITER APP_NAME APP_NAME WEB_BROWSER TEXT_EDITOR ERROR GUI FCOLOR BCOLOR UCOLOR ECOLOR SCRIPT_PATH MAINMENU_DIR THIS_DIR # Throw out this variable.
 exit 0  # This cleanly closes the process generated by #!bin/bash. 
         # Otherwise every time this script is run, another instance of
         # process /bin/bash is created using up resources.
