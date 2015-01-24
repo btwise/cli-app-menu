@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2015" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="2.0"
-PROJECT_REVDATE="January-21-2015 11:52"
+PROJECT_REVDATE="January-23-2015 18:40"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,8 +79,14 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2015-01-21 *Testing version 2.0
-##            *f_change_mainmenu_dir_gui corrected function title comment.
+## 2015-01-23 *Testing version 2.0
+##            *Added 4 new applications.
+##            *cliappmenu.sh improved comments and error/informational messages.
+##            *f_menu_app_sys_disks2 added sfdisk.
+##            *f_menu_app_sys_monitors added colecti, systat.
+##            *f_menu_app_sys_process added acct.
+##
+## 2015-01-21 *f_change_mainmenu_dir_gui corrected function title comment.
 ##            *f_menu_app_music_players2 corrected kuechenstation description.
 ##            *f_menu_app_education corrected lifelines, weather description.
 ##            *f_weather corrected help text.

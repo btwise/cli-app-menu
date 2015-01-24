@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-21-2015 11:52"
+# REVDATE="January-23-2015 18:40"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -124,6 +124,7 @@ f_menu_app_sys_disks2 () {
 #0^0^0^1^0 #MSE ncdu   - Disk usage monitor, ncurses-based.
 #0^0^0^1^0 #MSE parted - Disk partition tool.
 #1^0^0^0^1 #MSE pydf   - Disk usage df clone written in python.
+#0^0^0^1^0 #MSE sfdisk - Partition table manipulator for Linux.
 #0^0^0^0^1 #MSE tdu    - Tree-view of disk space utilization; ncurses-based.
 #0^0^0^0^1 #MSE tree   - Tree-view of disk space utilization.
 #1^0^0^0^1 #MSE uuid   - Use ls -l to show disk uuid number.
@@ -339,6 +340,7 @@ f_menu_app_sys_monitors () {
 #0^0^0^0^1 #MSM atsar     - CPU, network, memory & disk I/O, record data for analysis.
 #1^0^0^0^1 #MSM cacti     - Front-end to rrdtool for monitoring systems and services.
 #1^0^0^0^1 #MSM chkconfig - System update/query run-level processes at boot time.
+#0^0^0^1^0 #MSM collectl  - All-in-One Performance Monitoring Tool.
 #0^0^0^1^0 #MSM conky-cli - Versatile, configurable system monitor.
 #1^0^0^0^1 #MSM dstat     - View system resources, replaces vmstat, iostat, ifstat.
 #0^0^0^1^0 #MSM glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
@@ -348,7 +350,6 @@ f_menu_app_sys_monitors () {
 #0^0^0^1^0 #MSM locale    - Get locale specific information.
 #1^0^0^0^1 #MSM mpstat    - CPU microprocessor usage monitor.
 #0^0^0^0^0 #MSM nmon      - CPU usage, memory, network, disk usage, processes, resources.
-#0^0^0^0^0 #MSM rcconf    - Debian enable/disable startup scripts/services; ncurses-based.
 #f_menu_app_sys_monitors2^0^0^0^1 #MSM MORE...   - For more system monitor applications.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -375,11 +376,13 @@ f_menu_app_sys_monitors2 () {
       f_initvars_menu_app "MSN"
       until [ "$MSN" = "0" ]
       do    # Start of System Monitors until loop.
+#0^0^0^0^0 #MSN rcconf       - Debian enable/disable startup scripts/services; ncurses-based.
 #0^0^0^0^0 #MSN ntsysd       - RedHat view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN rrdtool      - Round Robin Database Tool stores/displays time-series data.
 #0^0^0^1^0 #MSN saidar       - Monitor system processes, network I/O, disks I/O, free space.
 #0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
 #0^0^0^0^1 #MSN smem         - Show memory usage for current user, per user, all users.
+#0^0^0^0^1 #MSN sysstat      - All-in-one performance monitoring tool.
 #0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
 #f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
 #f_run_and_exit "ttyload" "ttyload"^0^0^8^1 #MSN ttyload      - Color-coded graphs of CPU load average.
@@ -481,6 +484,7 @@ f_menu_app_sys_process () {
       f_initvars_menu_app "MSQ"
       until [ "$MSQ" = "0" ]
       do    # Start of System Process Applications until loop.
+#0^0^0^1^0 #MSQ acct      - Switch process accounting on/off.
 #0^0^0^1^0 #MSQ atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
 #0^0^0^0^1 #MSQ fuser     - Identify processes using files or sockets.
 #0^0^0^0^1 #MSQ gitps     - Interactive process viewer/killer.
@@ -495,7 +499,6 @@ f_menu_app_sys_process () {
 #0^0^0^0^1 #MSQ ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
 #0^0^0^0^1 #MSQ pstree    - Tree view system processes/resources, like "ps" command.
 #0^0^0^0^1 #MSQ pswatcher - Execute commands when certain processes are run.
-#0^0^0^0^1 #MSQ pwdx      - Report current working directory of a process.
 #f_menu_app_sys_process2^0^0^0^1 #MSQ MORE...   - For more system process applications.
             #
             THIS_FILE="mod_apps-system.lib"
@@ -522,9 +525,10 @@ f_menu_app_sys_process2 () {
       f_initvars_menu_app "MSR"
       until [ "$MSR" = "0" ]
       do    # Start of System Process Applications until loop.
-#0^0^0^0^1 #MSR strace    - Trace process system calls and signals.
-#0^0^0^0^1 #MSR sysctl    - Configure kernel parameters at runtime.
-#0^0^0^1^0 #MSR top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
+#0^0^0^0^1 #MSR pwdx   - Report current working directory of a process.
+#0^0^0^0^1 #MSR strace - Trace process system calls and signals.
+#0^0^0^0^1 #MSR sysctl - Configure kernel parameters at runtime.
+#0^0^0^1^0 #MSR top    - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
             #
             THIS_FILE="mod_apps-system.lib"
             MENU_TITLE="System Process2 Applications Menu"
