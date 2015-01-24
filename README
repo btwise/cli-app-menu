@@ -50,6 +50,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 #:   Brief Description
 #:   HOW-TO Install this script
 #:   FILE LOCATIONS of cliappmenu project
+#:   HOW-TO Set the PATH with file locations
 #:   Why did I write this script?
 #:   Why is this menu so complex?
 #:   Script features
@@ -65,12 +66,12 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 #: |    Revision number and Revision Date   |
 #: +----------------------------------------+
 #:
-# Calculate revision number by counting all lines starting with "## 2014".
-# grep ^ (carot sign) means grep any lines beginning with "##2014".
+# Calculate revision number by counting all lines starting with "## 2015".
+# grep ^ (carot sign) means grep any lines beginning with "##2015".
 # grep -c means count the lines that match the pattern.
 #
-REVISION=$(grep ^"## 2014" -c EDIT_HISTORY) ; REVISION="2014.$REVISION"
-REVDATE="November-21-2014 11:38"
+REVISION=$(grep ^"## 2015" -c EDIT_HISTORY) ; REVISION="2015.$REVISION"
+REVDATE="January-24-2015 13:23"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -118,7 +119,7 @@ REVDATE="November-21-2014 11:38"
 #: decide which library module files you wish to discard.
 #:
 #: +----------------------------------------+
-#: | FILE LOCATIONS of cliappmenu project |
+#: |  FILE LOCATIONS of cliappmenu project  |
 #: +----------------------------------------+
 #:
 #: The main script, cliappmenu.sh may be located in a different directory
@@ -153,8 +154,8 @@ REVDATE="November-21-2014 11:38"
 #:
 #:
 #: Append the directory name to your environment $PATH:
-#: Edit your /home/<username goes here>/.bashrc file and add the directory by
-#: adding the lines to the end of the .bashrc file,
+#: Edit your /home/<username goes here>/.bashrc or .bash_profile or .profile
+#: file and add the directory by adding the lines to the end of the file,
 #:                   PATH=$PATH:<User-chosen directory path>/cli-app-menu
 #:                   export PATH
 #:
@@ -168,6 +169,90 @@ REVDATE="November-21-2014 11:38"
 #:
 #:
 #: +----------------------------------------+
+#: | HOW-TO Set the PATH with file locations|
+#: +----------------------------------------+
+#:
+#: The session-wide (pertaining to a specific user only, not system-wide)
+#: setting of the PATH variable can be done in several ways.
+#:
+#:
+#: 1. Within a GUI environment using a terminal in a window:
+#:    reads ~/.bashrc.
+#:
+#: 2. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#:    reads ~/.bash_profile, ~/.bash_login
+#:    Note: If you invoke a GUI environment using "startx" from the CLI,
+#:          then you must edit
+#:          both    ~/.bashrc and ~/.bash_profile files
+#:          or both ~/.bashrc and ~/.bash_login   files.
+#:
+#: 3. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#:    reads ~/.profile.
+#:    Note: If you invoke a GUI environment using "startx" from the CLI,
+#:          then you must edit
+#:          both    ~/.bashrc and ~/.profile files.
+#:
+#: 4. Non-interactive, non-login shell environment:
+#:    reads the file contained in the variable BASH_ENV, if exists.
+#:__________________________________________
+#:
+#: Detailed information about options 1-4.
+#:
+#: 1. Within a GUI environment using a terminal in a window:
+#:    Only for Bash shells in a graphical environment in a desktop session.
+#:    (i.e. Xterm window session already logged in through the GUI Gnome, KDE).
+#:    WILL NOT WORK in a pure CLI environment login shell.
+#:    (i.e. ~/.bashrc will not work in a pure CLI environment login shell).
+#:
+#:    /home/<username_goes_here>/.bashrc
+#:                             ~/.bashrc
+#:
+#:    Edit the ~/.bashrc file
+#:    and add the following line to the end of the file.
+#:                             PATH=$PATH:$HOME/cli-app-menu
+#:
+#:
+#: 2. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#:    Only one of these files needs the new PATH statement.
+#:
+#:    Will work in most shells in either
+#:    a graphical environment in a desktop session (i.e. Xterm window session).
+#:    or a pure CLI environment login shell.
+#:
+#:                             ~/.bash_login
+#:                             ~/.bash_profile
+#:
+#:    Edit either the ~/.bash_login or ~/.bash_profile file
+#:    and add the following line to the end of the file.
+#:                             PATH=$PATH:$HOME/cli-app-menu
+#:
+#:
+#: 3. Within a pure CLI environment without a GUI (Gnome, KDE, XFCE, etc):
+#:    The ~/.profile is read last after the ~/.bash_login and ~/.bash_profile.
+#:
+#:    WARNING: Ubuntu ignores ~/.profile
+#:    if ~/.bash_login or ~/.bash_profile exists.
+#:    So edit ~/.profile only if you do not have either of the above files.
+#:
+#:    Will work in most shells in either
+#:    a graphical environment in a desktop session (i.e. Xterm window session).
+#:    or a pure CLI environment login shell.
+#:
+#:    /home/<username_goes_here>/.profile
+#:                             ~/.profile
+#:
+#:    Edit the ~/.profile file and add the line below to the end of the file.
+#:                             export PATH="$PATH:$HOME/cli-app-menu"
+#:
+#:
+#: 4. Non-interactive, non-login shell environment:
+#:    reads the file contained in the variable BASH_ENV, if exists.
+#:
+#:    (Not pertinent or relevant since this script is interactive).
+#:    Included here to document another way to set the PATH variable.
+#:
+#:
+#: +----------------------------------------+
 #: |      Why did I write this script?      |
 #: +----------------------------------------+
 #:
@@ -175,10 +260,10 @@ REVDATE="November-21-2014 11:38"
 #: 1. I wanted a categorized list of command line applications.
 #: 2. I wanted to learn bash scripting, i.e. functions, looping, tests.
 #: 3. I couldn't find a cli menu to launch cli apps on the web so I thought I'd
-#:   give back to the community and perhaps others could build on and improve on
-#:   what I've started.
+#:   give back to the community and perhaps others could build on and improve
+#:   on what I've started.
 #:
-#: Please enjoy . . . bob chin (2014).
+#: Please enjoy . . . bob chin (2015).
 #:                    rdchin at yahoo.com.
 #:
 #:
@@ -196,17 +281,7 @@ REVDATE="November-21-2014 11:38"
 #:
 #: *I used to create menus in this style in MUMPS and being a QA person, my job
 #:  was to try to break programs. So that's why I tried to make pattern matching
-#:  so robust rather than use wild-cards.
-#:
-#:       Update: Now instead of case statements, I am using wild-cards with this
-#:               expression that I found when searching the internet.
-#:
-#:       i.e. "nslookup" contains "nsl"*.
-#:       [[ "$MENU_ITEM_NAME" == "$MENU_ITEM"* ]]
-#:
-#:       i.e. "nslookup www.distrowatch.com" contains "nslookup".
-#:       i.e. "apt-file" does not contain "apt " ( "apt"<SPACE> ).
-#:       [[ "$MENU_ITEM" == "$MENU_ITEM_NAME "* ]]
+#:  reasonably robust.
 #:
 #:       Please see function "f_menu_item_valid"
 #:       in library module "lib_cli-common.lib."
@@ -223,6 +298,10 @@ REVDATE="November-21-2014 11:38"
 #:  Run-time displayed text is no wider than 80-columns across.
 #:  Run-time menus are no longer than 16 items for 24 row displays.
 #:  Although the game, "Pacman for Console" needs 32 rows minimum to play.
+#:
+#: *You can change it to display more rows (lines) by changing MENU_ITEM_MAX
+#:  within function, f_show_max_menu_items in file, lib_cli-common.lib.
+#:  Default MENU_ITEM_MAX=16, can change to MENU_ITEM_MAX=<Max. number of lines>.
 #:
 #: *You can get application help by 'man' or '--help' from the menu prompt.
 #:
@@ -266,7 +345,7 @@ REVDATE="November-21-2014 11:38"
 #:    Note: Please see bottom of this document
 #:          for a list of Special Menu Item Markers.
 #:
-#:    e) Create a menu item and possibly any custom functions to go along with it.
+#:    e) Create a menu item and possibly any custom functions needed.
 #:       Example:
 #:    f_menu_cat_sample_template () {
 #:          f_initvars_menu_app "BXX"
@@ -409,7 +488,7 @@ REVDATE="November-21-2014 11:38"
 #:    until [ "$MXX" = "0" ]
 #:          #MXX appname  - Description Application1 name.
 #:          #MAA app2name - Description Application2 name.
-#:    DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line 
+#:    DELIMITER="#MXX" #MXX This 3rd field prevents awk from printing this line
 #:                          into menu options.
 #:    read MXX
 #:    f_menu_item_process $AEE  # Outputs $MENU_ITEM.
@@ -471,8 +550,8 @@ REVDATE="November-21-2014 11:38"
 #:
 #: *Programming help and notes are under "Documentation" 
 #:
-#: *There are also example templates to create additional category and app menus
-#:  within the script.
+#: *There are also example templates to create additional category and
+#:  app menus within the script.
 #:
 #:
 #: +----------------------------------------+
@@ -482,51 +561,65 @@ REVDATE="November-21-2014 11:38"
 #: ANS           - String; Answer to question.
 #: APP_NAME      - String; application name also command to run.
 #: APP_NAME_INSTALL - String; used when APP_NAME does not match actual package
-#:                 name to be installed. i.e. APP_NAME="trek" but package name is
-#:                 actually "bsdgames". So to install "trek" game, you must
+#:                 name to be installed. i.e. APP_NAME="trek" but package name
+#:                 is actually "bsdgames". So to install "trek" game, you must
 #:                 instead install package "bsdgames", a collection of games.
 #: APP_NAME_SUDO - String; just app name when APP_NAME starts with sudo.
 #: APP_NAME_TMP  - String; just app name when APP_NAME has options-params.
-#: APP_RUN       - String; Command to run when application is a web browser,
-#:                 actually also includes name of web site to browse.
-#: BCOLOR        - String; Background color of display terminal.
-#: CHOICE[XNUM]  - Array of string elements. User choice in Applications and
 #:                 Category Menus where XNUM is a number.
-#: M[A-Z][A-Z]   - String; User choice in Applications Menu (alpha-numeric).
-#:                 First few letters of user choice from menu.
-#:                 ' 0' means quit menu.
-#:                 '-1' stay in menu loop, display "Press enter key to continue."
 #: B[A-Z][A-Z]   - String; User choice in Applications Category Menu (alpha-
 #:                 numeric).
 #:                 ' 0' means quit menu.
 #:                 '-1' stay in menu loop, legitimate choice.
+#: BASH_SOURCE   - String; System variable, gives filename of script.
+#: BASH_VERSION  - String; System variable.
+#: BCOLOR        - String; font color of background of text (highlight).
+#: BRANCH        - String; Main, Testing, Develop. Branch of GitHub project.
+#: CHOICE[XNUM]  - Array of string elements. User choice in Applications and
 #: CNT           - Number; Scratch variable.
+#: COLOR         - String; Font color to be set as FCOLOR, BCOLOR, ECOLOR, etc.
 #: DELIM         - String; Delimiter prefix without the hash "#" mark.
 #: DELIMITER     - String; Delimiter prefix of menu option string.
 #: ERROR         - Number; Save error code number from $? function.
 #: ECOLOR        - String; Font color of error messages.
-#: FCOLOR        - String; Font color of display terminal.
+#: FCOLOR        - String; Font color of foreground of text.
+#: GUI           - String; GUI-type available to user (text, whiptail, dialog).
+#: INIT_VAR      - String; Variable to initialize to a value.
 #: INSTALL_ANS   - String; YES/NO Does user want to install app?
 #:                 Passed from f_application_error to f_application_run.
+#: M[A-Z][A-Z]   - String; User choice in Applications Menu (alpha-numeric).
+#:                 First few letters of user choice from menu.
+#:                 ' 0' means quit menu.
+#:                 '-1' stay in menu loop, display "Press enter key to continue."
 #: MAINMENU_DIR  - Directory containing cliappmenu.sh.
 #: MAX           - Number; Maximum option choice number in menu.
 #: MENU_ITEM     - String; User choice, f_menu_item_process (alpha-numeric).
 #:                 ' 0' means quit menu.
 #:                 '-1' stay in menu loop, legitimate choice.
+#: MENU_ITEM_MAX - Number; Maximum number of menu items displayed on a screen.
+#: MENU_ITEM_OPT - String; Menu item options each field parsed by "^".
 #: MENU_TITLE    - String; Title of menu.
 #: MOD_FILE      - Module file name.
 #: MOD_FUNC      - Module function name.
 #: NEW_DIR       - String; New directory to be created.
+#: NO_CLEAR      - String; Derived from 4th field of MENU_ITEM_OPT.
+#:               - Do not blank screen when quitting application.
+#: PATH          - String; System variable.
 #: PRESSKEY      - Number: Ask "Press Enter key to continue".
 #:                 '0' Do not ask "Press Enter key to continue".
 #:                 '1' Ask "Press Enter key to continue".
+#: PROJECT_REVDATE - String; Revision date of entire project from EDIT_HISTORY.
+#: PROJECT_REVISION - String; Revision of entire project from EDIT_HISTORY.
+#: QUIT_FIELD    - String; Derived from 4th field of MENU_ITEM_OPT.
 #: REVDATE       - String; Revision date of shell script.
 #: REVISION      - String; Revision number of shell script.
 #: SAVE_DIR      - String; Saves $THIS_DIR when needed.
+#: SCRIPT_PATH   - String; Pathname of this script.
+#: TERM          - String; Console Terminal-type.
 #: THIS_DIR      - Directory containg library modules and support files.
 #: THIS_FILE     - String; name of shell script.
+#: TPUTX         - String; setaf/setab to set font color. i.e. "tput setaf 3".
 #: UCOLOR        - Font color for unavailable library modules in Application
-#:                 while "0" (zero) will still exit the menu.
 #: WEB_SITE      - String; name of web site used when using a web browser.
 #: WEB_SITE_INSTALL - String; name of web site used to install software.
 #: X             - String; Scratch variable.

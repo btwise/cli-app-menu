@@ -1,11 +1,16 @@
 #!/bin/bash
 #
+# ©2015 Copyright 2015 Robert D. Chin
+#
+# Usage: bash cliappmenu.sh
+#        (not sh cliappmenu.sh)
+#
 # +----------------------------------------+
 # |    Revision number and Revision Date   |
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-24-2015 00:40"
+REVDATE="January-24-2015 13:23"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -37,7 +42,7 @@ REVDATE="January-24-2015 00:40"
 # +----------------------------------------+
 #
 #LIC This program, cliappmenu.sh is under copyright.
-#LIC ©2014 Copyright 2014 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
 #LIC
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -271,7 +276,7 @@ f_detect_ui () {
 # |        Function f_main_init_once       |
 # +----------------------------------------+
 #
-#  Inputs: BASH_VERSION (System variable), THIS_FILE, GUI.
+#  Inputs: THIS_FILE, GUI.
 #    Uses: None.
 # Outputs: MAIN_MENU_DIR, THIS_DIR, FCOLOR, BCOLOR, UCOLOR, ECOLOR, TERM.
 #
@@ -371,8 +376,10 @@ f_main_init_once () {
       #
       # Tip: When logging into the console, the user's home directory is the
       # working directory by default. You can automatically run cliappmenu.sh
-      # every time you log in by including the script command into your .bashrc
-      # file.
+      # every time you log in by including the script command into your .profile,
+      # .bash_profile, or .bashrc file depending on your Linux configuration.
+      # See function f_valid_path_txt in this file for a more complete
+      # explanation of which file you should use for the PATH statement.
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -588,7 +595,8 @@ f_change_mainmenu_dir_txt () {
 # |   Function f_change_mainmenu_dir_gui   |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail"), SCRIPT_PATH, THIS_FILE, MAIN_MENU_DIR.
+#  Inputs: $1=GUI ("dialog", "whiptail"), SCRIPT_PATH, THIS_FILE,
+#          MAIN_MENU_DIR.
 #    Uses: XSTR, ERROR.
 # Outputs: exit 1.
 #
@@ -610,7 +618,7 @@ f_change_mainmenu_dir_gui () {
          ERROR=-1
          while [ $ERROR -ne 0 ]
          do
-            f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, $ERROR code.
+            f_sudo_password_gui $1 # Outputs $XSTR=<sudo password>, ERROR=$?.
             case $ERROR in
                  0) # OK button pressed.
                  echo $XSTR | sudo -S sed -i "s|$MAINMENU_DIR|$SCRIPT_PATH|" $SCRIPT_PATH/$THIS_FILE &>/dev/null
@@ -643,7 +651,7 @@ f_change_mainmenu_dir_gui () {
 #
 #  Inputs: $1=For-Loop variable.
 #    Uses: X, INITVAR.
-# Outputs: MAINMENU_DIR, THIS_DIR, APP_NAME, WEB_BROWSER, TEXT_EDITOR,
+# Outputs: MAINMENU_DIR, THIS_DIR, APP_NAME.
 #          MENU_ITEM, ERROR.
 #
 f_initvars_menu_app () {
@@ -652,7 +660,7 @@ f_initvars_menu_app () {
                      # command.
       #
       # Initialize variables to "" or null.
-      for INIT_VAR in APP_NAME WEB_BROWSER TEXT_EDITOR
+      for INIT_VAR in APP_NAME
       do
           eval $INIT_VAR="" # eval sets the variables to "" or null.
       done
@@ -887,8 +895,8 @@ f_valid_menu_gui () {
 # |         Function f_valid_path_txt      |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory.
-#    Uses: $PATH.
+#  Inputs: $1=Directory, PATH.
+#    Uses: None.
 # Outputs: Error code 1 if path is bad.
 #
 # The session-wide (pertaining to a specific user only, not system-wide)
@@ -914,6 +922,9 @@ f_valid_menu_gui () {
 # 4. Non-interactive, non-login shell environment:
 #    reads the file contained in the variable BASH_ENV, if exists.
 #
+#-----------------------------------------
+# Detailed information about options 1-4.
+#-----------------------------------------
 #
 # 1. Within a GUI environment using a terminal in a window:
 #    Only for Bash shells in a graphical environment in a desktop session.
@@ -958,7 +969,7 @@ f_valid_menu_gui () {
 #    /home/<username_goes_here>/.profile
 #                             ~/.profile
 #
-#    Edit the ~/.profile file and add the following line to the end of the file.
+#    Edit the ~/.profile file and add the line below to the end of the file.
 #                             export PATH="$PATH:$HOME/cli-app-menu"
 #
 #
@@ -979,7 +990,7 @@ f_valid_path_txt () {
          echo "For more information:"
          echo "See comments in script, cliappmenu.sh under function, f_valid_path_txt."
          echo
-         echo "Edit your /home/<username_goes_here>/.profile or .bash_profile file"
+         echo "Edit your /home/<username_goes_here>/.profile, .bash_profile, or .bashrc file"
          echo "and append the directory name to the end of the PATH statement."
          echo "               (don't forget the colon)."
          echo
@@ -1006,8 +1017,8 @@ f_valid_path_txt () {
 # |         Function f_valid_path_gui      |
 # +----------------------------------------+
 #
-#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory.
-#    Uses: $PATH.
+#  Inputs: $1=GUI ("dialog", "whiptail"), $2=Directory, PATH.
+#    Uses: None.
 # Outputs: Error code 1 if path is bad.
 #
 f_valid_path_gui () {
@@ -1071,7 +1082,8 @@ f_valid_exit_gui () {
          $1 --title "*** Important ***" --msgbox "\nRe-run script to use new directory.\n      >>> Exiting script <<<" 10 40
          exit 1
       else
-         # No, directory not changed, but THIS_DIR variable may have been changed so exit.
+         # No, directory not changed, but THIS_DIR variable
+         # may have been changed so exit.
          $1 --title "*** Important ***" --msgbox "\nRe-run script to use changes.\n   >>> Exiting script <<<" 10 40
          exit 1
          fi
@@ -2161,8 +2173,8 @@ f_main_list_find_menus () {
       # display LIST_APPS
       if [ -r $THIS_DIR"/LIST_APPS" ] ; then
          f_initvars_menu_app "AAH"
-         # When $DELIMITER is set as above, then f_menu_item_process does not call
-         # f_application_run and try to run the menu item's name.
+         # When $DELIMITER is set as above, then f_menu_item_process
+         # does not call f_application_run and try to run the menu item's name.
          # i.e. "Colors", "Un-colors" or "Update", etc.
          # since those are not the names of executable (run-able) applications.
          #
@@ -2616,7 +2628,6 @@ f_update_software () {
             # Ask download from which branch and wget.
             f_wget_file
             #
-            # Pause to read any error messages for the last MOD_FILE, "LIST_APPS".
             if [ "$MOD_FILE" = "LIST_APPS" ] ; then
                echo
                echo "If upgrading from version 1 to version 2, please update all modules also."
@@ -2821,8 +2832,23 @@ do    # Start of CLI Menu util loop.
                                 # Sets AAA=0 for item option Quit.
 done  # End of Main Menu until loop.
       #
-unset AAA MENU_ITEM MENU_TITLE DELIMITER APP_NAME APP_NAME WEB_BROWSER TEXT_EDITOR ERROR GUI FCOLOR BCOLOR UCOLOR ECOLOR SCRIPT_PATH MAINMENU_DIR THIS_DIR # Throw out this variable.
-exit 0  # This cleanly closes the process generated by #!bin/bash. 
-        # Otherwise every time this script is run, another instance of
-        # process /bin/bash is created using up resources.
+      # Unset all variables because the following libraries and all modules are
+      # "sourced" which means that any variables set by these sourced
+      # module/library files will remain behind in the shell unless unset
+      # explicitly.
+      #
+      # List of "Sourced" module/library files.
+      # . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      # . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
+      # . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
+      # . $THIS_DIR/mod_apps_*.lib        # invoke module/library.
+
+unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
+      #
+clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
+      #
+exit 0 # Exit with exit code 0.
+      # This cleanly closes the process generated by #!bin/bash. 
+      # Otherwise every time this script is run, another instance of
+      # process /bin/bash is created using up resources.
 # all dun dun noodles.

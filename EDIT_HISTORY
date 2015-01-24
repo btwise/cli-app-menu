@@ -37,8 +37,8 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION="2.0"
-PROJECT_REVDATE="January-24-2015 00:40"
+PROJECT_REVISION="2.0 'Dorothy'"
+PROJECT_REVDATE="January-24-2015 13:23"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,11 +79,11 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
 ##
-## 2015-01-24 *Testing version 2.0
+## 2015-01-24 *Release version 2.0 "Dorothy".
+##            *Added 34 new applications since 1.2.1 "Carol".
 ##            *New functionality, Main Menu added "Favorites" to display a
 ##             "Favorite Application Menu" and ability to add applications
 ##             to that menu by using any application menu.
-##            *Main Menu re-ordered menu item options.
 ##            *New functionality, "Find and Run" an application from the
 ##             Main Menu rather than just from the application menus.
 ##            *New functionality, "List or Find Menus" from the Main Menu.
@@ -94,40 +94,40 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##             forcing user to use the updated program.
 ##            *Changed functionality, web install runs only if automatic install
 ##             fails and custom install either fails or does not exist.
+##            *Main Menu re-ordered menu item options.
 ##            *Bug fixed if updating program/modules without an Internet
 ##             connection, files would be deleted (to make room for new ones).
 ##             Now if updating program/modules without an Internet connection,
 ##             user is notified and files are unaffected and not deleted. 
-##            *Added 34 new applications as of 2015-01-23.
 ##            *Deleted 1 application (not a CLI app).
 ##            *Assorted cosmetic improvements in menu displays.
 ##
-## 2014-10-03 *Release version 1.2.1
+## 2014-10-03 *Release version 1.2.1 "Carol".
 ##            *Bug fix.
 ##
-## 2014-10-02 *Release version 1.2
+## 2014-10-02 *Release version 1.2 "Carol".
 ##            *Improved Configuration Menu and Information Menu.
 ##            *Added 17 new applications.
 ##
-## 2014-09-24 *Testing version 1.1.2
+## 2014-09-24 *Testing version 1.1.2 "Barbara".
 ##            *Added 9 new applications.
 ##
-## 2014-09-19 *Testing version 1.1.2
+## 2014-09-19 *Testing version 1.1.2 "Barbara".
 ##            *Added 8 new applications.
 ##
-## 2014-05-28 *Release version 1.1.1
+## 2014-05-28 *Release version 1.1.1 "Barbara".
 ##            *Cosmetic improvements.
 ##            *Fixed descriptions that were too long and menu that scrolled 
 ##             off screen.
 ##
-## 2014-05-28 *Release version 1.1
+## 2014-05-28 *Release version 1.1 "Barbara".
 ##            *Enhancements 142 new applications.
 ##            *Some cosmetic fixes.
 ##            *Added references to more web sites.
 ##
-## 2014-01-02 *Release version 1.0.1
+## 2014-01-02 *Release version 1.0.1 "Amy".
 ##            *Mini-installer text display of path message
 ##             followed by exit message cleaned up to prevent scroll off.
 ##
-## 2014-01-02 *Release version 1.0
+## 2014-01-02 *Release version 1.0 "Amy".
 ##

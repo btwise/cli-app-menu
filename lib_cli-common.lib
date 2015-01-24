@@ -3,22 +3,22 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-21-2015 11:52"
+# REVDATE="January-24-2015 13:23"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
 # +----------------------------------------+
 #
-#  Inputs: $1=MENU_TITLE, $2=DELIMITER, THIS_DIR, THIS_FILE.
+#  Inputs: $1=MENU_TITLE, $2=DELIMITER, MAINMENU_DIR, THIS_DIR, THIS_FILE, FCOLOR, BCOLOR, UCOLOR.
 #    Uses: MOD_FUNC, MOD_FILE, XXSTR.
 # Outputs: MAX.
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
       #
-      clear  # Blank the screen.
       echo -n $(tput sgr0)  # Reset colors to default normal font.
       f_term_color $FCOLOR $BCOLOR  # Set terminal color.
+      clear  # Blank the screen.
       echo -n $(tput bold)
       echo "--- $MENU_TITLE ---"
       echo
@@ -155,9 +155,9 @@ unset MOD_FUNC MOD_FILE XXSTR   # Throw out this variable.
 # |         Function f_show_menu_aab       |
 # +----------------------------------------+
 #
-#  Inputs: DELIMITER, THIS_FILE, THIS_DIR.
-#    Uses: XNUM, MOD_FUNC, MOD_FILE, BCOLOR, FCOLOR, UCOLOR.
-# Outputs: None.
+#  Inputs: DELIMITER, THIS_FILE, THIS_DIR, FCOLOR, BCOLOR, UCOLOR.
+#    Uses: XNUM.
+# Outputs: MOD_FUNC, MOD_FILE.
 #
 f_show_menu_aab () {
       # Either display the "Application Category Menu" or
@@ -280,9 +280,9 @@ f_show_menu_aab () {
 # |         Function f_choice_array        |
 # +----------------------------------------+
 #
-#  Inputs: DELIMITER, THIS_FILE.
-#    Uses: XNUM, XSTR.
-# Outputs: CHOICE[$XNUM].
+#  Inputs: DELIMITER, THIS_DIR, THIS_FILE.
+#    Uses: XSTR.
+# Outputs: CHOICE[$XNUM], XNUM.
 #
 f_choice_array () {
       # Create array to handle numeric answer to menu choices.
@@ -350,11 +350,11 @@ f_choice_array () {
 # |      Function f_menu_item_process      |
 # +----------------------------------------+
 #
-#  Inputs: $*, CHOICE[$MENU_ITEM], MAX, SAVE_DIR.
+#  Inputs: $*, CHOICE[$MENU_ITEM], MAX, SAVE_DIR, THIS_DIR, APP_NAME, MENU_ITEM_OPT.
 #          Where "$*" is the complete user-entered string 
 #          passed as a set of arguments.
-#    Uses: XSTR, MENU_ITEM, PRESS_KEY, THIS_DIR, APP_NAME, DELIM, DELIMITER, ERROR.
-# Outputs: None.
+#    Uses: X, DELIM, MENU_ITEM.
+# Outputs: PRESS_KEY, XSTR, MENU_ITEM_NAME, DELIMITER, ERROR, SAVE_DIR.
 #
 f_menu_item_process () {
       #
@@ -579,7 +579,7 @@ f_menu_item_process () {
          THIS_DIR=~
       fi
       #
-      unset X DELIM RUN MENU_ITEM
+      unset X DELIM MENU_ITEM
       #
 } # End of function f_menu_item_process
 #
@@ -588,7 +588,7 @@ f_menu_item_process () {
 # +----------------------------------------+
 #
 #  Inputs: DELIMITER, MAX, THIS_FILE, MENU_ITEM.
-#    Uses: XNUM, MENU_ITEM, MENU_ITEM_NAME.
+#    Uses: XNUM.
 # Outputs: MENU_ITEM, MENU_ITEM_NAME, APP_NAME.
 #          (If invalid, then APP_NAME is null).
 #
@@ -735,6 +735,7 @@ f_menu_item_info () {
                             # module libraries etc.
            ;;
       esac
+      unset XXSTR
 } # End of function f_menu_item_info
 #
 # +----------------------------------------+
@@ -930,7 +931,7 @@ f_quit_app_clause () {
 # +----------------------------------------+
 #
 #  Inputs: MENU_ITEM_OPT.
-#    Uses: None.
+#    Uses: X, XSTR.
 # Outputs: PRESS_KEY.
 #
 f_press_key () {
@@ -961,7 +962,7 @@ f_press_key () {
 #          $1=application name
 #          $2=$APP_NAME 
 #    Uses: X.
-# Outputs: APP_NAME.
+# Outputs: APP_NAME, PRESS_KEY.
 #
 f_run_and_exit () {
       echo "To quit $1, type <Ctrl>-Z or <Ctrl>-C."
@@ -1126,7 +1127,7 @@ f_press_enter_key_to_continue () { # Display message and wait for user input.
 #
 #  Inputs: PRESS_KEY.
 #    Uses: None.
-# Outputs: MENU_ITEM=-1 (If "--version" or "--help" or "man").
+# Outputs: None.
 #
 f_option_press_enter_key () { # Display message and wait for user input.
       # $PRESS_KEY = 0 means Do not display "Press 'Enter' key to continue."
@@ -1141,10 +1142,10 @@ f_option_press_enter_key () { # Display message and wait for user input.
 # |       Function f_application_help      |
 # +----------------------------------------+
 #
-#  Inputs: MENU_ITEM, ERROR.
+#  Inputs: MENU_ITEM, ERROR, FCOLOR, BCOLOR, ECOLOR.
 #          MENU_ITEM="<Application name> --help"
 #          MENU_ITEM="man <Application name>"
-#    Uses: ANS.
+#    Uses: None.
 # Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
 #
 f_application_help () {
@@ -1298,11 +1299,9 @@ f_application_help () {
 # |   Function f_application_help_mssg     |
 # +----------------------------------------+
 #
-#  Inputs: MENU_ITEM, ERROR.
-#          MENU_ITEM="<Application name> --help"
-#          MENU_ITEM="man <Application name>"
-#    Uses: ANS.
-# Outputs: APP_NAME, ERROR, PRESS_KEY, MENU_ITEM=-1.
+#  Inputs: APP_NAME, FCOLOR, BCOLOR.
+#    Uses: None.
+# Outputs: None.
 #
 f_application_help_mssg () {
       echo
@@ -1335,8 +1334,8 @@ f_application_help_mssg () {
 # +----------------------------------------+
 #
 #  Inputs: APP_NAME.
-#    Uses: ERROR, INSTALL_ANS.
-# Outputs: MENU_ITEM=-1.
+#    Uses: None.
+# Outputs: ERROR, MENU_ITEM=-1.
 #
 f_application_run () {
       #
@@ -1411,9 +1410,9 @@ f_application_run () {
 # |          Function f_run_app            |
 # +----------------------------------------+
 #
-#  Inputs: $1=Search string, THIS_DIR.
-#    Uses: THIS_DIR/LIST_APPS, APP_NAME, ERROR, BCOLOR, ECOLOR, FCOLOR.
-# Outputs: None.
+#  Inputs: $1=Search string, THIS_DIR, FCOLOR BCOLOR, ECOLOR.
+#    Uses: APP_NAME, MENU_ITEM_OPT, MOD_FILE.
+# Outputs: ERROR.
 #
 # Search LIST_APPS file for application names and display the list to allow
 # user to run an application.
@@ -1459,9 +1458,9 @@ f_run_app () {
 # |         Function f_ask_run_app         |
 # +----------------------------------------+
 #
-#  Inputs: $1=Search string, THIS_DIR.
-#    Uses: APP_NAME, ERROR.
-# Outputs: None.
+#  Inputs: $1=Name of application found previously, THIS_DIR.
+#    Uses: None.
+# Outputs: APP_NAME, ERROR.
 #
 f_ask_run_app () {
       echo
@@ -1519,8 +1518,8 @@ f_ask_run_app () {
 # |         Function f_run_app_bad         |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME, ERROR.
-#    Uses: APP_NAME, BCOLOR, ECOLOR, FCOLOR.
+#  Inputs: APP_NAME, ERROR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: None.
 # Outputs: APP_NAME.
 #
 f_run_app_bad () {
@@ -1570,9 +1569,9 @@ f_run_app_bad () {
 # |         Function f_run_app_good        |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME, ERROR, THIS_DIR.
-#    Uses: MOD_FILE, BCOLOR, ECOLOR, FCOLOR.
-# Outputs: MENU_ITEM, MENU_ITEM_NAME, MENU_ITEM_OPT.
+#  Inputs: APP_NAME, ERROR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: None.
+# Outputs: MENU_ITEM, MENU_ITEM_NAME, MENU_ITEM_OPT, MOD_FILE.
 #
 f_run_app_good () {
       # 1. Search all files mod_apps-* listing which ones contain the
@@ -1647,8 +1646,9 @@ f_run_app_good () {
 # +----------------------------------------+
 #
 #  Inputs: DELIMITER, THIS_FILE, , THIS_DIR, MENU_ITEM.
-#    Uses: XNUM, XXSTR, XSTR, YSTR, MENU_ITEM_NAME, CHOICE[$XNUM].
+#    Uses: None.
 # Outputs: File: "cli-app-menu-favorites.txt" in home directory.
+#          XNUM, XXSTR, XSTR, YSTR, MENU_ITEM_NAME, CHOICE[$XNUM].
 #
 f_favorite_app_add () {
        XNUM=$(echo $MENU_ITEM | awk -F "f" '{print $1}')
@@ -1676,11 +1676,10 @@ f_favorite_app_add () {
 # |       Function f_application_error     |
 # +----------------------------------------+
 #
-#  Inputs: ERROR, APP_NAME. 
-#    Uses: APP_NAME_TMP.
-# Outputs: CHOICE_MAIN, INSTALL_ANS, MENU_ITEM
-#          PRESS_KEY, APP_NAME_SUDO, APP_NAME_INSTALL.
-#
+#  Inputs: ERROR, APP_NAME, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: ANS, APP_NAME_TMP.
+# Outputs: MENU_ITEM, PRESS_KEY, APP_NAME_SUDO.
+#          
 f_application_error () {
       if [ $ERROR -ne 0 ] ; then
          case $APP_NAME in # Start of APP_NAME case statement.
@@ -1690,7 +1689,7 @@ f_application_error () {
               APP_NAME_TMP=$(echo $APP_NAME | awk '{print $2;}')
               ;;
               *)
-              # If string APP_NAME/APP_NAME_INSTALL includes spaces for
+              # If string APP_NAME includes spaces for
               # run-time parameters, then just extract package name.
               # i.e. "dstat 1 10", then extract "dstat" as package name.
               # i.e. "dstat --version", then extract "dstat" as package name.
@@ -1699,8 +1698,6 @@ f_application_error () {
          esac # End of APP_NAME case statement.
          #
          # Be sure variable is set to redisplay current menu afterwards.
-         CHOICE_MAIN=-1 # Initialize to -1 to force until loop
-                        # without exiting Main Menu.
          MENU_ITEM=-1   # Initialize to -1 to force until loop 
                         # without exiting Sub-Category Menu.
          PRESS_KEY=1    # Display "Press 'Enter' key to continue."
@@ -1958,9 +1955,9 @@ f_application_install_question () {
 # |     Function f_application_install     |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME.
-#    Uses: ERROR.
-# Outputs: APP_NAME_INSTALL.
+#  Inputs: APP_NAME, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: None.
+# Outputs: ERROR, APP_NAME_INSTALL, XSTR.
 #
 f_application_install () {
       #
@@ -2104,9 +2101,9 @@ f_application_install () {
 # |         Function f_web_install         |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
-#    Uses: None.
-# Outputs: ERROR.
+#  Inputs: WEB_SITE_INSTALL, APP_NAME, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: ANS.
+# Outputs: ERROR, PRESS_KEY, APP_NAME_TMP.
 #
 f_web_install () {
       # Does a web install function exist?
@@ -2164,9 +2161,9 @@ f_web_install () {
 # | Function f_match_pkg_name_to_app_name  |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#  Inputs: APP_NAME_INSTALL, FCOLOR, BCOLOR, ECOLOR.
 #    Uses: None.
-# Outputs: ERROR.
+# Outputs: APP_NAME_INSTALL.
 #
 # Below are cases where the APP_NAME is not the same as the
 # package name used to install the application.
@@ -2289,7 +2286,7 @@ f_match_pkg_name_to_app_name () {
 # |      Function f_install_using_apt      |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#  Inputs: APP_NAME_INSTALL, FCOLOR, BCOLOR, ECOLOR.
 #    Uses: None.
 # Outputs: ERROR.
 #
@@ -2317,7 +2314,7 @@ f_install_using_apt () {
 # |   Function f_install_using_slackpkg    |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#  Inputs: APP_NAME_INSTALL, FCOLOR, BCOLOR, ECOLOR, MENU_ITEM_OPT.
 #    Uses: None.
 # Outputs: ERROR.
 #
@@ -2365,7 +2362,7 @@ f_install_using_slackpkg () {
 # |  Function f_install_using_installkpkg  |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#  Inputs: APP_NAME_INSTALL, FCOLOR, BCOLOR, ECOLOR, MENU_ITEM_OPT.
 #    Uses: None.
 # Outputs: ERROR.
 #
@@ -2418,7 +2415,7 @@ f_install_using_installpkg () {
 # |     Function f_install_using_pacman    |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#  Inputs: APP_NAME_INSTALL, FCOLOR, BCOLOR, ECOLOR, MENU_ITEM_OPT.
 #    Uses: None.
 # Outputs: ERROR.
 #
@@ -2464,7 +2461,7 @@ f_install_using_pacman () {
 # |       Function f_install_using_rpm     |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#  Inputs: APP_NAME_INSTALL, FCOLOR, BCOLOR, ECOLOR, MENU_ITEM_OPT.
 #    Uses: None.
 # Outputs: ERROR.
 #
@@ -2509,7 +2506,7 @@ f_install_using_rpm () {
 # |    Function f_install_using_no_auto    |
 # +----------------------------------------+
 #
-#  Inputs: APP_NAME_INSTALL, ECOLOR, BCOLOR, FCOLOR, MENU_ITEM_OPT.
+#  Inputs: APP_NAME_INSTALL, FCOLOR, BCOLOR, ECOLOR, MENU_ITEM_OPT.
 #    Uses: None.
 # Outputs: ERROR.
 #
@@ -2566,8 +2563,8 @@ f_app_install_mssg () {
 # |   Function f_test_internet_connection  |
 # +----------------------------------------+
 #
-#  Inputs: MOD_FILE, ECOLOR, FCOLOR, BCOLOR.
-#    Uses: ERROR, ECOLOR, FCOLOR, BCOLOR.
+#  Inputs: MOD_FILE, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: None.
 # Outputs: ERROR.
 #
 f_test_internet_connection () {
@@ -2596,9 +2593,9 @@ f_test_internet_connection () {
 # |       Function f_download_file         |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE.
-#    Uses: BRANCH, WEB_SITE.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY.
+#  Inputs: BRANCH, THIS_DIR, MOD_FILE.
+#    Uses: None.
+# Outputs: PRESS_KEY.
 #
 # Download a single file $MOD_FILE from $WEB_SITE.
 #
@@ -2628,9 +2625,9 @@ f_download_file () {
 # |       Function f_wget_file             |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE.
-#    Uses: BRANCH, WEB_SITE.
-# Outputs: BRANCH, WEB_SITE, PRESS_KEY=1.
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
 #
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
@@ -2653,9 +2650,9 @@ f_wget_file () {
 # |      Function f_wget_file_2            |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE, MAINMENU_DIR, THIS_DIR, WEB_SITE.
-#    Uses: BRANCH, WEB_SITE, ERROR.
-# Outputs: BRANCH, WEB_SITE, ERROR.
+#  Inputs: BRANCH, MOD_FILE, MAINMENU_DIR, THIS_DIR.
+#    Uses: XXSTR.
+# Outputs: ERROR.
 #
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
@@ -2720,10 +2717,10 @@ f_wget_file_2 () {
 # |      Function f_backup_file            |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
+#  Inputs: $1=Directory, $2=File, ERROR, FCOLOR, BCOLOR, ECOLOR.
 #    Note: $2 is file name (without suffix tar.gz).
 #    Uses: None.
-# Outputs: ERROR, $1/$2.tar.gz  (Directory/File.tar.gz)
+# Outputs: None.
 #
 # Back-up a single file $2 to a compressed file $2.tar.gz.
 #
@@ -2746,10 +2743,10 @@ f_backup_file () {
 # |      Function f_restore_file           |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
+#  Inputs: $1=Directory, $2=File, ERROR, FCOLOR, BCOLOR, ECOLOR.
 #    Note: $2 is file name (without suffix tar.gz).
 #    Uses: None.
-# Outputs: ERROR, $1/$2 (Directory/File).
+# Outputs: None.
 #
 # Restore a single compressed file $2.tar.gz to an uncompressed file $2.
 #
@@ -2772,10 +2769,10 @@ f_restore_file () {
 # |      Function f_remove_file            |
 # +----------------------------------------+
 #
-#  Inputs: $1=Directory, $2=File, ECOLOR, FCOLOR, BCOLOR.
+#  Inputs: $1=Directory, $2=File.
 #    Note: $2 is the full file name including any extensions.
 #    Uses: None.
-# Outputs: ERROR.
+# Outputs: None.
 #
 # Remove a single file $MOD_FILE.
 #
@@ -2790,9 +2787,9 @@ f_remove_file () {
 # |      Function f_wget_file_3            |
 # +----------------------------------------+
 #
-#  Inputs: BRANCH, MOD_FILE, MAINMENU_DIR, THIS_DIR, WEB_SITE.
-#    Uses: BRANCH, WEB_SITE. ERROR
-# Outputs: BRANCH, WEB_SITE, ERROR.
+#  Inputs: BRANCH, MOD_FILE, THIS_DIR, WEB_SITE.
+#    Uses: None.
+# Outputs: ERROR.
 #
 # wget a single file $MOD_FILE from $WEB_SITE.
 #
@@ -2867,7 +2864,7 @@ f_ask_which_branch_download () {
       ANS=""
       while [  "$ANS" != "MASTER" ] && [ "$ANS" != "TESTING" ] && [ "$ANS" != "DEVELOP" ] && [ "$ANS" != "SKIP" ]
       do
-            echo "Download from which GitHub branch?"
+            echo "Download from which cli-app-menu project branch hosted on GitHub.com?"
             echo -n "$XSTR: "
             read ANS
             case $ANS in
@@ -2924,8 +2921,8 @@ f_ask_which_branch_download () {
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR.
-#    Uses: MOD_FILE, XSTR.
-# Outputs: File LIST_APPS.
+#    Uses: XSTR.
+# Outputs: File LIST_APPS, MOD_FILE, MOD_FUNC, ERROR.
 #
 # File LIST_APPS may be recreated at any time from the command line.
 # Prerequisite: README file and ALL module files, mod_apps-*.lib
@@ -3118,9 +3115,9 @@ f_create_LIST_APPS () {
 # |      Function f_show_max_menu_items    |
 # +----------------------------------------+
 #
-#  Inputs: $1=THIS_DIR.
-#    Uses: DELIMITER, MOD_FILE, MENU_ITEM_MAX
-# Outputs: MAX.
+#  Inputs: $1=THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: DELIMITER.
+# Outputs: MAX, MOD_FILE, MENU_ITEM_MAX, MOD_FUNC.
 #
 # This function will scan all module files
 # for all menus and count the number of items in each menu.
@@ -3144,6 +3141,8 @@ f_show_max_menu_items () {
       # Count number of lines containing special comment marker string to get
       # maximum item number.
       #
+      # MENU_ITEM_MAX=16 is best for a standard 80x24 CLI screen.
+      # MENU_ITEM_MAX may be changed for higher resolution screens beyond VGA 800x640.
       MENU_ITEM_MAX=16
       #
       # Set $DELIMITER to the Special Menu Item Marker.

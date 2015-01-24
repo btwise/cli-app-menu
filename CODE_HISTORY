@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2015 Copyright 2015 ROBERT D. CHIN
+# ©2015 Copyright 2015 Robert D. Chin
 #
 # Usage: sh CODE_HISTORY
 #
@@ -38,8 +38,8 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2015" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="2.0"
-PROJECT_REVDATE="January-24-2015 00:40"
+PROJECT_REVISION="2.0 'Dorothy'"
+PROJECT_REVDATE="January-24-2015 13:23"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -57,7 +57,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, CODE_HISTORY is under copyright.
-#LIC ©2013 Copyright 2013 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -79,9 +79,12 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2015-01-24 *Testing version 2.0
+## 2015-01-24 *Release version 2.0 "Dorothy".
 ##            *cliappmenu.sh fixed bug unset DELIMITER caused unintended
-##             running of MENU_ITEM (not an application).
+##             running of MENU_ITEM (not an application). Unset all variables at
+##             end of script.
+##            *lib_cli-common.lib corrected comments.
+##            *README corrected documentation.
 ##
 ## 2015-01-23 *Added 4 new applications.
 ##            *cliappmenu.sh improved comments and error/informational messages.
@@ -388,12 +391,12 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *README added "#:MNX - WAN Applications2 Menu" as Main Menu option
 ##             "Find an Application" was not detecting any apps in this menu.
 ##
-## 2014-10-03 *Release version 1.2.1 "Carol"
+## 2014-10-03 *Release version 1.2.1 "Carol".
 ##            *f-sub_menu removed extraneous spaces.
 ##            *f_menu_app_sys_monitors2 "ttyload" fixed missing quote in
 ##             menu item option field 1 to pass a parameter to a function.
 ##
-## 2014-10-02 *Release version 1.2 "Carol"
+## 2014-10-02 *Release version 1.2 "Carol".
 ##            *Main Menu clarified menu item descriptions.
 ##            *f_main_information clarified menu item descriptions.
 ##            *f_main_configure added "Update all modules" to menu and
@@ -413,7 +416,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##            *f_update_edit_hist deleted, do not allow edits of EDIT_HISTORY
 ##             from menu.
 ##
-## 2014-09-24 *Testing version 1.1.2.
+## 2014-09-24 *Testing version 1.1.2 "Barbara".
 ##            *f_menu_app_clocks added tty-clock (also in f_menu_app_games).
 ##            *f_menu_app_databases added mange.
 ##            *f_menu_app_development added aphex, linkchecker.
