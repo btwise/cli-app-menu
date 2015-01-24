@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2015-01-22 00:29 Thursday
+Last updated: 2015-01-23 21:53 Friday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -1231,6 +1231,7 @@ _______________________________________________________________________________
  ncdu   - Disk usage monitor, ncurses-based.
  parted - Disk partition tool.
  pydf   - Disk usage df clone written in python.
+ sfdisk - Partition table manipulator for Linux.
  tdu    - Tree-view of disk space utilization; ncurses-based.
  tree   - Tree-view of disk space utilization.
  uuid   - Use ls -l to show disk uuid number.
@@ -1297,6 +1298,7 @@ _______________________________________________________________________________
  atsar     - CPU, network, memory & disk I/O, record data for analysis.
  cacti     - Front-end to rrdtool for monitoring systems and services.
  chkconfig - System update/query run-level processes at boot time.
+ collectl  - All-in-One Performance Monitoring Tool.
  conky-cli - Versatile, configurable system monitor.
  dstat     - View system resources, replaces vmstat, iostat, ifstat.
  glances   - View system processes/resources, CPU/Load/Mem/Swap/Disk/BW.
@@ -1306,16 +1308,17 @@ _______________________________________________________________________________
  locale    - Get locale specific information.
  mpstat    - CPU microprocessor usage monitor.
  nmon      - CPU usage, memory, network, disk usage, processes, resources.
- rcconf    - Debian enable/disable startup scripts/services; ncurses-based.
  MORE...   - For more system monitor applications.
 
 _______________________________________________________________________________
 *** System Monitor2 Applications Menu ***
+ rcconf       - Debian enable/disable startup scripts/services; ncurses-based.
  ntsysd       - RedHat view/enable/disable startup scripts/services.
  rrdtool      - Round Robin Database Tool stores/displays time-series data.
  saidar       - Monitor system processes, network I/O, disks I/O, free space.
  sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
  smem         - Show memory usage for current user, per user, all users.
+ sysstat      - All-in-one performance monitoring tool.
  sysv-rc-conf - Debian view/enable/disable startup scripts/services.
  tload        - System load average graphical monitor.
  ttyload      - Color-coded graphs of CPU load average.
@@ -1332,6 +1335,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** System Process Applications Menu ***
+ acct      - Switch process accounting on/off.
  atop      - View system processes/resources, CPU/Mem/Swap/Page/Disk/Net.
  fuser     - Identify processes using files or sockets.
  gitps     - Interactive process viewer/killer.
@@ -1346,14 +1350,14 @@ _______________________________________________________________________________
  ps        - View system processes/resources, PID/PGID/SID/TTY/Time/Cmd.
  pstree    - Tree view system processes/resources, like "ps" command.
  pswatcher - Execute commands when certain processes are run.
- pwdx      - Report current working directory of a process.
  MORE...   - For more system process applications.
 
 _______________________________________________________________________________
 *** System Process2 Applications Menu ***
- strace    - Trace process system calls and signals.
- sysctl    - Configure kernel parameters at runtime.
- top       - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
+ pwdx   - Report current working directory of a process.
+ strace - Trace process system calls and signals.
+ sysctl - Configure kernel parameters at runtime.
+ top    - View system PID/User/PR/NI/VERT/RES/SHR/CPU/MEM/Time/Cmd.
 
 _______________________________________________________________________________
 *** Screen-saver Games Menu ***

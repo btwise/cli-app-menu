@@ -1,4 +1,4 @@
-# ©2014 Copyright 2014 Robert D. Chin
+# ©2015 Copyright 2015 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
@@ -530,6 +530,7 @@ f_menu_item_process () {
                case $DELIMITER in
                "#AA"*)
                # Menu is not an application menu so do not run applications.
+               :  # No-op(eration) command.
                ;;
                *)
                f_application_run
