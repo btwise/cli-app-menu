@@ -5,7 +5,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-23-2015 18:02"
+REVDATE="January-24-2015 00:40"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -830,7 +830,7 @@ f_valid_menu_txt () {
             esac
       done  # End of Validate Menu until loop.
             #
-      unset AAD, MENU_TITLE  # Throw out this variable.
+      unset AAD MENU_TITLE   # Throw out this variable.
 } # End of function f_valid_menu_txt
 #
 # +----------------------------------------+
@@ -1025,7 +1025,7 @@ f_valid_path_gui () {
 # +----------------------------------------+
 #
 #  Inputs: $1=Original Directory, $2=New Directory, ECOLOR, BCOLOR.
-#    Uses: NEW_DIR.
+#    Uses: None.
 # Outputs: exit 1.
 #
 f_valid_exit_txt () {
@@ -1040,7 +1040,6 @@ f_valid_exit_txt () {
          echo "       >>> Exiting script <<<"
          echo "____________________________________"
          echo $(tput sgr0)
-         unset
          exit 1
       else
          # No, directory not changed, but THIS_DIR variable may have been
@@ -1053,7 +1052,6 @@ f_valid_exit_txt () {
          echo "    >>> Exiting script <<<"
          echo "______________________________"
          echo $(tput sgr0)
-         unset NEW_DIR
          exit 1
          fi
 } # End of function f_valid_exit_txt
@@ -1064,19 +1062,17 @@ f_valid_exit_txt () {
 #
 #  Inputs: $1=GUI ("dialog", "whiptail"), $2=Original Directory,
 #          $3=New Directory.
-#    Uses: NEW_DIR.
+#    Uses: None.
 # Outputs: exit 1.
 #
 f_valid_exit_gui () {
       # Was directory changed?
       if [ "$2" != "$3" ] ; then
          $1 --title "*** Important ***" --msgbox "\nRe-run script to use new directory.\n      >>> Exiting script <<<" 10 40
-         unset
          exit 1
       else
          # No, directory not changed, but THIS_DIR variable may have been changed so exit.
          $1 --title "*** Important ***" --msgbox "\nRe-run script to use changes.\n   >>> Exiting script <<<" 10 40
-         unset NEW_DIR
          exit 1
          fi
 } # End of function f_valid_exit_gui
@@ -1887,8 +1883,10 @@ f_main_configure () {
             read AAC
             f_menu_item_process $AAC  # Outputs $MENU_ITEM.
       done  # End of Configuration Menu until loop.
-            #
-      unset AAC MENU_ITEM MENU_TITLE DELIMITER  # Throw out this variable.
+      #
+      unset AAC MENU_ITEM MENU_TITLE  # Throw out this variable.
+      # Do not unset DELIMITER because it is needed when this function ends and
+      # program flow returns to the Main Menu to prevent running of MENU_ITEM.
 } # End of function f_main_configure
 #
 # +----------------------------------------+
@@ -1922,8 +1920,11 @@ f_main_information () {
             read AAG
             f_menu_item_process $AAG  # Outputs $MENU_ITEM.
       done  # End of Configuration Menu until loop.
-            #
-      unset AAG MENU_ITEM MENU_TITLE DELIMITER # Throw out this variable.
+      #
+      unset AAG MENU_ITEM MENU_TITLE # Throw out this variable.
+      # Do not unset DELIMITER because it is needed when this function ends and
+      # program flow returns to the Main Menu to prevent running of MENU_ITEM.
+
 } # End of function f_main_information
 #
 # +----------------------------------------+
@@ -2179,7 +2180,9 @@ f_main_list_find_menus () {
                f_menu_item_process $AAH  # Outputs $MENU_ITEM.
          done  # End of List/Find Menu until loop.
          #
-         unset AAH MENU_ITEM, MENU_TITLE, DELIMITER  # Throw out this variable.
+         unset AAH MENU_ITEM, MENU_TITLE  # Throw out this variable.
+         # Do not unset DELIMITER because it is needed when this function ends and
+         # program flow returns to the Main Menu to prevent running of MENU_ITEM.
       fi
 } # End of function f_main_list_find_menus
 #
@@ -2395,8 +2398,10 @@ f_menu_term_color () {
             echo $(tput bold) # set bold font.
             #
       done  # End of Terminal Colors Menu until loop.
-            #
-      unset AAE MENU_ITEM MENU_TITLE DELIMITER  # Throw out this variable.
+      #
+      unset AAE MENU_ITEM MENU_TITLE  # Throw out this variable.
+      # Do not unset DELIMITER because it is needed when this function ends and
+      # program flow returns to the Main Menu to prevent running of MENU_ITEM.
 } # End of function f_menu_term_color
 #
 # +----------------------------------------+
@@ -2503,7 +2508,9 @@ f_menu_uncolor () {
             #
       done  # End of Unavailable Colors until loop.
       #
-      unset AAF MENU_ITEM MENU_TITLE DELIMITER  # Throw out this variable.
+      unset AAF MENU_ITEM MENU_TITLE  # Throw out this variable.
+      # Do not unset DELIMITER because it is needed when this function ends and
+      # program flow returns to the Main Menu to prevent running of MENU_ITEM.
 } # End of function f_menu_uncolor
 #
 # +----------------------------------------+
