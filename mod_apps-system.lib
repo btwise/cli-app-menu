@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-23-2015 18:40"
+# REVDATE="January-25-2015 01:21"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -376,14 +376,14 @@ f_menu_app_sys_monitors2 () {
       f_initvars_menu_app "MSN"
       until [ "$MSN" = "0" ]
       do    # Start of System Monitors until loop.
-#0^0^0^0^0 #MSN rcconf       - Debian enable/disable startup scripts/services; ncurses-based.
+#0^0^0^0^0 #MSN rcconf       - Enable/disable startup scripts/services; ncurses-based.
 #0^0^0^0^0 #MSN ntsysd       - RedHat view/enable/disable startup scripts/services.
 #0^0^0^0^1 #MSN rrdtool      - Round Robin Database Tool stores/displays time-series data.
 #0^0^0^1^0 #MSN saidar       - Monitor system processes, network I/O, disks I/O, free space.
 #0^0^0^0^1 #MSN sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
 #0^0^0^0^1 #MSN smem         - Show memory usage for current user, per user, all users.
 #0^0^0^0^1 #MSN sysstat      - All-in-one performance monitoring tool.
-#0^0^0^1^0 #MSN sysv-rc-conf - Debian view/enable/disable startup scripts/services.
+#0^0^0^1^0 #MSN sysv-rc-conf - Enable/disable startup scripts/services; ncurses-based.
 #f_run_and_exit "tload" "tload"^0^0^0^1 #MSN tload        - System load average graphical monitor.
 #f_run_and_exit "ttyload" "ttyload"^0^0^8^1 #MSN ttyload      - Color-coded graphs of CPU load average.
 #0^0^0^1^0 #MSN yacpi        - ACPI monitor, ncurses-based.

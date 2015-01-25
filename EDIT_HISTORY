@@ -37,8 +37,8 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION="2.0 'Dorothy'"
-PROJECT_REVDATE="January-24-2015 13:23"
+PROJECT_REVISION="2.0.1 'Dorothy'"
+PROJECT_REVDATE="January-25-2015 01:21"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,9 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update Edit History and version (date stamp string) of
 ## script.
+##
+## 2015-01-25 *Development version 2.0.1 "Dorothy".
+##            *Assorted cosmetic improvements in application menus.
 ##
 ## 2015-01-24 *Release version 2.0 "Dorothy".
 ##            *Added 34 new applications since 1.2.1 "Carol".
