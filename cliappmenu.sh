@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-24-2015 13:23"
+REVDATE="January-29-2015 22:26"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -2192,7 +2192,7 @@ f_main_list_find_menus () {
                f_menu_item_process $AAH  # Outputs $MENU_ITEM.
          done  # End of List/Find Menu until loop.
          #
-         unset AAH MENU_ITEM, MENU_TITLE  # Throw out this variable.
+         unset AAH MENU_ITEM MENU_TITLE  # Throw out this variable.
          # Do not unset DELIMITER because it is needed when this function ends and
          # program flow returns to the Main Menu to prevent running of MENU_ITEM.
       fi
