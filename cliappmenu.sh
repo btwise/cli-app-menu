@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-29-2015 22:26"
+REVDATE="June-05-2015 13:04"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -148,11 +148,11 @@ f_test_dash () {
       if [ -z "$BASH_VERSION" ]; then
          f_detect_ui # Automatically detect UI environment.
          case $GUI in
-              text)
-              f_test_dash_txt
-              ;;
               dialog | whiptail)
               f_test_dash_gui $GUI
+              ;;
+              text)
+              f_test_dash_txt
               ;;
          esac
          exit 1 # Exit with value $?=1 indicating an error condition
@@ -391,12 +391,13 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       f_detect_ui # Automatically detect UI environment.
+      #echo "GUI=$GUI" ; read X  # Diagnostic line.
       case $GUI in
-           text)
-           f_main_init_txt
-           ;;
            dialog | whiptail)
            f_main_init_gui $GUI
+           ;;
+           text)
+           f_main_init_txt
            ;;
       esac
       #
@@ -1865,11 +1866,30 @@ f_main_about () {
 # |        Function f_main_configure       |
 # +----------------------------------------+
 #
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_configure () {
+case $GUI in
+     dialog | whiptail)
+     f_main_configure_gui
+     ;;
+     text)
+     f_main_configure_txt
+     ;;
+esac
+} # End of f_main_configure
+#
+# +----------------------------------------+
+# |      Function f_main_configure_txt     |
+# +----------------------------------------+
+#
 #  Inputs: None.
 #    Uses: AAC , MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: THIS_FILE.
 #
-f_main_configure () {
+f_main_configure_txt () {
       f_initvars_menu_app "AAC"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -1899,17 +1919,78 @@ f_main_configure () {
       unset AAC MENU_ITEM MENU_TITLE  # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-} # End of function f_main_configure
+} # End of function f_main_configure_txt
 #
 # +----------------------------------------+
-# |        Function f_main_information     |
+# |      Function f_main_configure_gui     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAC, MENU_TITLE.
+# Outputs: None.
+#
+f_main_configure_gui () {
+      f_initvars_menu_app "AAC"
+      MENU_TITLE="Configuration Menu"
+      until [ "$AAC" = "0" ]
+      do    # Start of Main Configure Menu until loop.
+            AAC=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 9) or (letters):" 20 80 11 \
+            "Quit" "Quit to command line prompt." \
+            "Update Program" "Update menu scripts from the GitHub repository." \
+            "Update All Modules" "Update all installed modules from GitHub repository." \
+            "Manage Modules" "Add/Delete/Remove/Restore/Update selected modules." \
+            "Update App List" "Update list of applications in ACTIVATED modules." \
+            "List Files" "List all support and library program files." \
+            "Colors" "Set default font/background colors." \
+            "Un-colors" "Set font color for unavailable library modules." \
+            "Install to New Dir" "HOW-TO re-install script into another directory." \
+            2>&1 >/dev/tty)
+            #
+            case $AAC in
+                 "Quit") AAC=0 ;;
+                 "Update Program") f_update_software ;;
+                 "Update All Modules") f_update_all_modules ;;
+                 "Manage Modules") f_menu_module_manager ;;
+                 "Update App List") f_update_list_apps ;;
+                 "List Files") f_ls_this_dir $THIS_DIR ;;
+                 "Colors") f_menu_term_color ;;
+                 "Un-colors") f_menu_term_uncolor ;;
+                 "Install to New Dir") f_reinstall_readme ; f_press_enter_key_to_continue ;;
+            esac
+      done  # End of Main Configure Menu until loop.
+      #
+      unset AAC MENU_TITLE
+} # End of f_main_configure_gui
+#
+#
+# +----------------------------------------+
+# |      Function f_main_information       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_information () {
+case $GUI in
+     dialog | whiptail)
+     f_main_information_gui
+     ;;
+     text)
+     f_main_information_txt
+     ;;
+esac
+} # End of f_main_information
+#
+# +----------------------------------------+
+# |      Function f_main_information_txt   |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: AAG, MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: THIS_FILE.
 #
-f_main_information () {
+f_main_information_txt () {
       f_initvars_menu_app "AAG"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -1936,8 +2017,42 @@ f_main_information () {
       unset AAG MENU_ITEM MENU_TITLE # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-
-} # End of function f_main_information
+} # End of function f_main_information_txt
+#
+# +----------------------------------------+
+# |      Function f_main_information_gui   |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAG, MENU_TITLE.
+# Outputs: None.
+#
+f_main_information_gui () {
+      f_initvars_menu_app "AAG"
+      MENU_TITLE="Information Menu"
+      until [ "$AAG" = "0" ]
+      do    # Start of Main Information Menu until loop.
+            AAG=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 6) or (letters):" 20 80 11 \
+            "Quit" "Quit to command line prompt." \
+            "About CLI Menu" "What version am I using." \
+            "Version" "Version/Release History." \
+            "Documentation" "Script documentation, programmer notes, HOW-TOs." \
+            "Code History" "All the craziness behind the scenes." \
+            "License" "Licensing, GPL." \
+            2>&1 >/dev/tty)
+            #
+            case $AAG in
+                 "Quit") AAG=0 ;;
+                 "About CLI Menu") f_main_about ;;
+                 "Version") f_main_edit_history ;;
+                 "Documentation") f_main_documentation ;;
+                 "Code History") f_main_code_history ;;
+                 "License") f_main_license ;;
+           esac
+      done  # End of Main Information Menu until loop.
+      #
+      unset AAC MENU_TITLE
+} # End of function f_main_information_gui
 #
 # +----------------------------------------+
 # |      Function f_main_documentation     |
@@ -2149,11 +2264,30 @@ f_main_license () {
 # |     Function f_main_list_find_menus    |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
-#    Uses: X, AAH, MENU_ITEM, MENU_TITLE, DELIMITER.
-# Outputs: THIS_FILE.
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
 #
 f_main_list_find_menus () {
+case $GUI in
+     dialog | whiptail)
+     f_main_list_find_menus_gui
+     ;;
+     text)
+     f_main_list_find_menus_txt
+     ;;
+esac
+} # End of function f_main_list_find_menus
+#
+# +----------------------------------------+
+# |   Function f_main_list_find_menus_txt  |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: AAH, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
+#
+f_main_list_find_menus_txt () {
       if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
          clear # Blank the screen.
          #
@@ -2196,7 +2330,64 @@ f_main_list_find_menus () {
          # Do not unset DELIMITER because it is needed when this function ends and
          # program flow returns to the Main Menu to prevent running of MENU_ITEM.
       fi
-} # End of function f_main_list_find_menus
+} # End of function f_main_list_find_menus_txt
+#
+# +----------------------------------------+
+# |   Function f_main_list_find_menus_gui  |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: AAH, MENU_TITLE.
+# Outputs: None.
+#
+f_main_list_find_menus_gui () {
+      if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
+         clear # Blank the screen.
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+         echo "The file LIST_APPS will now be automatically created/updated:"
+         echo
+         f_press_enter_key_to_continue
+         # Download/Update file LIST_APPS.
+         f_update_list_apps
+      fi
+      # display LIST_APPS
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         f_initvars_menu_app "AAH"
+         # When $DELIMITER is set as above, then f_menu_item_process
+         # does not call f_application_run and try to run the menu item's name.
+         # i.e. "Colors", "Un-colors" or "Update", etc.
+         # since those are not the names of executable (run-able) applications.
+         #
+         THIS_FILE="cliappmenu.sh"
+         MENU_TITLE="List or Find Menus Menu"
+         until [ "$AAH" = "0" ]
+         do    # Start of List/Find Menu until loop.
+            AAH=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Quit" "Quit to command line prompt." \
+            "List All Menus" "List all menus and applications." \
+            "Find All Menus" "Find menus containing an application." \
+            2>&1 >/dev/tty)
+            #
+            case $AAH in
+                 "Quit") AAH=0 ;;
+                 "List All Menus") f_main_list_menus ;;
+                 "Find All Menus") f_main_find_menus ;;
+            esac
+               #
+         done  # End of List/Find Menu until loop.
+         #
+         unset AAH MENU_TITLE  # Throw out this variable.
+         # Do not unset DELIMITER because it is needed when this function ends and
+         # program flow returns to the Main Menu to prevent running of MENU_ITEM.
+      fi
+} # End of function f_main_list_find_menus_gui
 #
 # +----------------------------------------+
 # |        Function f_main_list_menus      |
@@ -2377,6 +2568,25 @@ f_term_color () {  # Set terminal display properties.
 # Outputs: THIS_FILE.
 #
 f_menu_term_color () {
+case $GUI in
+     dialog | whiptail)
+     f_menu_term_color_gui
+     ;;
+     text)
+     f__menu_term_color_txt
+     ;;
+esac
+} # End of f_menu_term_color
+#
+# +----------------------------------------+
+# |      Function f_menu_term_color_txt    |
+# +----------------------------------------+
+#
+#  Inputs: FCOLOR, BCOLOR.
+#    Uses: AAE, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
+#
+f_menu_term_color_txt () {
       f_initvars_menu_app "AAE"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -2414,7 +2624,51 @@ f_menu_term_color () {
       unset AAE MENU_ITEM MENU_TITLE  # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-} # End of function f_menu_term_color
+} # End of function f_menu_term_color_txt
+#
+# +----------------------------------------+
+# |      Function f_menu_term_color_gui    |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAE, MENU_TITLE.
+# Outputs: None.
+#
+f_menu_term_color_gui () {
+      f_initvars_menu_app "AAE"
+      MENU_TITLE="Terminal Colors Menu"
+      until [ "$AAE" = "0" ]
+      do    # Start of Main Information Menu until loop.
+            AAE=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Quit"    "Quit to command line prompt." \
+            "Red"     "Red     on black." \
+            "Yellow"  "Yellow  on black." \
+            "Blue"    "Blue    on black." \
+            "Magenta" "Magenta on black." \
+            "Cyan"    "Cyan    on black." \
+            "White"   "White   on black." \
+            "BW"      "Black   on white." \
+            "RW"      "Red     on white." \
+            "WB"      "White   on blue (Classic "Blueprint")." \
+            "YB"      "Yellow  on blue." \
+            2>&1 >/dev/tty)
+            #
+            case $AAE in
+                 "Quit") AAE=0 ;;
+                 "Red") f_color_red ;;
+                 "Green") f_color_green ;;
+                 "Yellow") f_color_yellow ;;
+                 "Blue") f_color_blue ;;
+                 "Magenta") f_color_magenta ;;
+                 "Cyan") f_color_cyan ;;
+                 "White") f_color_white ;;
+                 "BW") f_color_bw ;;
+                 "RW") f_color_rw ;;
+                 "WB") f_color_wb ;;
+                 "YB") f_color_yb ;;
+            esac
+      done
+} # End of function f_menu_term_color_gui
 #
 # +----------------------------------------+
 # |         Function f_color_<color>       |
@@ -2482,14 +2736,33 @@ f_color_yb () {
 }
 #
 # +----------------------------------------+
-# |          Function f_menu_uncolor       |
+# |        Function f_menu_term_uncolor      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_menu_term_uncolor () {
+case $GUI in
+     dialog | whiptail)
+     f_menu_term_uncolor_gui
+     ;;
+     text)
+     f_menu_term_uncolor_txt
+     ;;
+esac
+} # End of f_menu_term_uncolor
+#
+# +----------------------------------------+
+# |     Function f_menu_term_uncolor_txt   |
 # +----------------------------------------+
 #
 #  Inputs: FCOLOR, BCOLOR.
 #    Uses: AAF, MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: THIS_FILE.
 #
-f_menu_uncolor () {
+f_menu_term_uncolor_txt () {
       f_initvars_menu_app "AAF"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -2523,7 +2796,55 @@ f_menu_uncolor () {
       unset AAF MENU_ITEM MENU_TITLE  # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-} # End of function f_menu_uncolor
+} # End of function f_menu_term_uncolor_txt
+#
+# +----------------------------------------+
+# |     Function f_menu_term_uncolor_gui   |
+# +----------------------------------------+
+#
+#  Inputs: FCOLOR, BCOLOR.
+#    Uses: AAF, MENU_TITLE.
+# Outputs: None.
+#
+f_menu_term_uncolor_gui () {
+      f_initvars_menu_app "AAF"
+      THIS_FILE="cliappmenu.sh"
+      MENU_TITLE="Colors for Unavailable Menu Items"
+      until [ "$AAF" = "0" ]
+      do    # Start of Unavailable Colors until loop.
+            AAF=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Quit"    "Quit to command line prompt." \
+            "Red"     "Red." \
+            "Green"   "Green." \
+            "Yellow"  "Yellow."\
+            "Blue"    "Blue." \
+            "Magenta" "Magenta." \
+            "Cyan"    "Cyan." \
+            "White"   "White." \
+            "Gray"    "Gray (not available in 8-color terminals)." \
+            2>&1 >/dev/tty)
+            #
+            case $AAF in
+                 "Quit") AAF=0 ;;
+                 "Red") f_ucolor_red ;;
+                 "Green") f_ucolor_green ;;
+                 "Yellow") f_ucolor_yellow ;;
+                 "Blue") f_ucolor_blue ;;
+                 "Magenta") f_ucolor_magenta ;;
+                 "Cyan") f_ucolor_cyan ;;
+                 "White") f_ucolor_white ;;
+                 "Gray") f_ucolor_gray ;;
+           esac
+           #
+           f_term_color $FCOLOR $BCOLOR # Set terminal color.
+           echo $(tput bold) # set bold font.
+           #
+      done  # End of Unavailable Colors until loop.
+      #
+      unset AAF MENU_TITLE  # Throw out this variable.
+      # Do not unset DELIMITER because it is needed when this function ends and
+      # program flow returns to the Main Menu to prevent running of MENU_ITEM.
+} # End of function f_menu_term_uncolor_gui
 #
 # +----------------------------------------+
 # |         Function f_ucolor_<color>      |
@@ -2776,6 +3097,128 @@ f_reinstall_readme () {
 } # End of function f_reinstall_readme
 #
 # **************************************
+# ***         Main Menu Text         ***
+# **************************************
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_menu_txt () {
+      f_initvars_menu_app "AAA"
+      # When $DELIMITER is set as above,
+      # then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Applications", "Help and Features" or "About CLI Menu",
+      #      "Configure", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
+      until [ "$AAA" = "0" ]
+      do    # Start of Main Menu until loop.
+            #f_menu_cat_applications #AAA Applications       - Run an application.
+            #f_menu_app_favorites    #AAA Favorites          - Menu of favorite applications.
+            #f_main_search_apps      #AAA Find and Run       - Find & run an application in active menus.
+            #f_main_list_find_menus  #AAA List or Find Menus - List all menus or find a menu containing an app.
+            #f_main_configure        #AAA Configure          - Update software, manage modules, change colors, etc.
+            #f_main_help             #AAA Help and Features  - Basic usage and what can it do.
+            #f_main_information      #AAA Information        - About, version, documentation, code history, license.
+            #
+            THIS_FILE="cliappmenu.sh"
+            MENU_TITLE="Main Menu"
+            DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu items.
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
+            read AAA
+            f_menu_item_process $AAA  # Outputs $MENU_ITEM.
+                                      # Sets AAA=0 for item option Quit.
+      done  # End of Main Menu until loop.
+      #
+      # Unset all variables because the following libraries and all modules are
+      # "sourced" which means that any variables set by these sourced
+      # module/library files will remain behind in the shell unless unset
+      # explicitly.
+      #
+      # List of "Sourced" module/library files.
+      # . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      # . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
+      # . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
+      # . $THIS_DIR/mod_apps_*.lib        # invoke module/library.
+
+      unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
+      #
+      clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
+      #
+      exit 0 # Exit with exit code 0.
+      # This cleanly closes the process generated by #!bin/bash. 
+      # Otherwise every time this script is run, another instance of
+      # process /bin/bash is created using up resources.
+} # End of function f_main_menu_txt
+#
+# **************************************
+# ***         Main Menu GUI          ***
+# **************************************
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_menu_gui () {
+      f_initvars_menu_app "AAA"
+      # When $DELIMITER is set as above,
+      # then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Applications", "Help and Features" or "About CLI Menu",
+      #      "Configure", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
+      MENU_TITLE="Main Menu"
+      until [ "$AAA" = "0" ]
+      do    # Start of Main Menu until loop.
+            AAA=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 8) or (letters):" 20 80 11 \
+            "Quit" "Quit to command line prompt." \
+            "Applications" "Run an application." \
+            "Favorites" "Menu of favorite applications." \
+            "Find and Run" "Find & run an application in active menus." \
+            "List or Find Menus" "List all menus or find a menu containing an app." \
+            "Configure" "Update software, manage modules, change colors, etc." \
+            "Help and Features" "Basic usage and what can it do." \
+            "Information" "About, version, documentation, code history, license." \
+            2>&1 >/dev/tty)
+            #
+            case $AAA in
+                 "Quit") AAA=0 ;;
+                 "Applications") f_menu_cat_applications ;;
+                 "Favorites") f_menu_app_favorites ;;
+                 "Find and Run") f_main_search_apps ;;
+                 "List or Find Menus") f_main_list_find_menus ;;
+                 "Configure") f_main_configure ;;
+                 "Help and Features") f_main_help ;;
+                 "Information") f_main_information ;;
+            esac
+      done  # End of Main Menu until loop.
+      #
+      # Unset all variables because the following libraries and all modules are
+      # "sourced" which means that any variables set by these sourced
+      # module/library files will remain behind in the shell unless unset
+      # explicitly.
+      #
+      # List of "Sourced" module/library files.
+      # . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      # . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
+      # . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
+      # . $THIS_DIR/mod_apps_*.lib        # invoke module/library.
+
+      unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
+      #
+      clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
+      #
+      exit 0 # Exit with exit code 0.
+      # This cleanly closes the process generated by #!bin/bash. 
+      # Otherwise every time this script is run, another instance of
+      # process /bin/bash is created using up resources.
+} # End of function f_main_menu_gui
+#
+# **************************************
 # ***     Start of Main Program      ***
 # **************************************
 #
@@ -2800,55 +3243,13 @@ f_main_init_once
 # see the tail of function f_detect_ui and uncomment the GUI variable.
 # Those lines are marked "# Diagnostic line." for easy reference.
 #
-# **************************************
-# ***           Main Menu            ***
-# **************************************
-#
-f_initvars_menu_app "AAA"
-      # When $DELIMITER is set as above,
-      # then f_menu_item_process does not call f_application_run and
-      # try to run the menu item's name.
-      # i.e. "Applications", "Help and Features" or "About CLI Menu",
-      #      "Configure", etc.
-      # since those are not the names of executable (run-able) applications.
-      #
-until [ "$AAA" = "0" ]
-do    # Start of CLI Menu util loop.
-#f_menu_cat_applications #AAA Applications       - Run an application.
-#f_menu_app_favorites    #AAA Favorites          - Menu of favorite applications.
-#f_main_search_apps      #AAA Find and Run       - Find & run an application in active menus.
-#f_main_list_find_menus  #AAA List or Find Menus - List all menus or find a menu containing an app.
-#f_main_configure        #AAA Configure          - Update software, manage modules, change colors, etc.
-#f_main_help             #AAA Help and Features  - Basic usage and what can it do.
-#f_main_information      #AAA Information        - About, version, documentation, code history, license.
-      #
-      THIS_FILE="cliappmenu.sh"
-      MENU_TITLE="Main Menu"
-      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu items.
-      #
-      f_show_menu "$MENU_TITLE" "$DELIMITER"
-      read AAA
-      f_menu_item_process $AAA  # Outputs $MENU_ITEM.
-                                # Sets AAA=0 for item option Quit.
-done  # End of Main Menu until loop.
-      #
-      # Unset all variables because the following libraries and all modules are
-      # "sourced" which means that any variables set by these sourced
-      # module/library files will remain behind in the shell unless unset
-      # explicitly.
-      #
-      # List of "Sourced" module/library files.
-      # . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
-      # . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
-      # . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
-      # . $THIS_DIR/mod_apps_*.lib        # invoke module/library.
-
-unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
-      #
-clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
-      #
-exit 0 # Exit with exit code 0.
-      # This cleanly closes the process generated by #!bin/bash. 
-      # Otherwise every time this script is run, another instance of
-      # process /bin/bash is created using up resources.
+case $GUI in
+     dialog | whiptail)
+     f_main_menu_gui
+     ;;
+     text)
+     f_main_menu_txt
+     ;;
+esac
+} # End of Main Program
 # all dun dun noodles.
