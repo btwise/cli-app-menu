@@ -44,6 +44,55 @@ f_menu_cat_internet () {
 } # End of function f_menu_cat_internet
 #
 # +----------------------------------------+
+# |    Function f_menu_cat_internet_gui    |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BIN, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_internet_gui () {
+      f_initvars_menu_app "BIN"
+      until [ "$BIN" = "0" ]
+      do    # Start of Internet Application Category until loop.
+            THIS_FILE="mod_apps-internet.lib"
+            MENU_TITLE="Internet Categories Menu"
+            BIN=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Quit"           "Quit to command line prompt." \
+            "Arcade Games"   "Action controlled by keyboard and player's reflexes." \
+            "Board Games"    "Classic board games." \
+            "Card Games"     "Played with a deck of playing cards." \
+            "MUD Games"      "Multi-user dungeon adventure games." \
+            "Puzzles"        "Mastermind clones, suduku, mazes, create punch card/tapes." \
+            "Quiz Games"     "Challenge your mind." \
+            "RPG Games"      "Single-player role-playing games." \
+            "Screen-savers"  "For when you're away." \
+            "Sims/Anims"     "Simulations and animations. ASCII movies." \
+            "Strategy Games" "1-2 Players." \
+            "Word Games"     "boggle, hangman, pig-latin, create banners." \
+            2>&1 >/dev/tty)
+            #
+            case $BIN in
+                 "Quit") BGA=0 ;;
+                 "Arcade Games") f_menu_app_games_arcade ;;
+                 "Board Games") f_menu_app_games_board ;;
+                 "Card Games") f_menu_app_games_card ;;
+                 "MUD Games") f_menu_app_games_mud ;;
+                 "Puzzles") f_menu_app_games_puzzle ;;
+                 "Quiz Games") f_menu_app_games_quiz ;;
+                 "RPG Games") f_menu_app_games_rpg ;;
+                 "Screen-savers") f_menu_app_games_screensaver ;;
+                 "Sims/Anims") f_menu_app_games_simulation ;;
+                 "Strategy Games") f_menu_app_games_strategy ;;
+                 "Word Games") f_menu_app_games_word ;;
+            esac
+            #
+      done  # End of Internet Application Category until loop.
+            #
+      unset BGA THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_internet_gui
+#
+# +----------------------------------------+
 # |      Function f_menu_app_bittorrent    |
 # +----------------------------------------+
 #

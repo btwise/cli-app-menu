@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-29-2015 00:34"
+# REVDATE="September-04-2015 12:00"
 #
 # +----------------------------------------+
 # |        Function f_menu_cat_system      |
@@ -224,9 +224,10 @@ f_menu_app_sys_logs () {
 #0^0^0^0^1 #MLO ccze       - A robust and modular log colorizer, with plug-ins.
 #0^0^0^0^1 #MLO colortail  - Log colorizer.
 #0^0^0^0^1 #MLO hash       - Show frequency of commands entered at the prompt.
-#0^0^0^0^1 #MLO history    - Show history of commands entered at the prompt.
+#1^0^0^0^1 #MLO history    - Show history of commands entered at the prompt.
 #0^0^0^0^1 #MLO inotail    - Tail command replacement uses the inotify API to re-read files.
-#0^0^0^0^1 #MLO last       - Users' login/logout times from /var/log/wtmp.
+#1^0^0^0^1 #MLO last       - Users' login/logout times from /var/log/wtmp.
+#0^0^0^0^1 #MLO lastb      - Lists bad login attempts.
 #0^0^0^0^1 #MLO lastlog    - Users' login/logout times from /var/log/wtmp.
 #0^0^0^0^1 #MLO lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
 #0^0^0^0^1 #MLO logtailer  - Monitor logs for updates and display them.
@@ -827,7 +828,7 @@ f_hdparm () {
          echo "hdparm [OPTIONS..] [DEVICE ...]"
          echo
          echo "*** For more help type: 'man hdparm'"
-         echo "                'hdparm --help'"
+         echo "                        'hdparm --help'"
          echo
          echo "Find information about the first hard disk drive: /dev/sda on this PC (localhost)."
          echo
@@ -838,10 +839,54 @@ f_hdparm () {
 } # End of f_hdparm
 #
 # +----------------------------------------+
+# |            Function f_history          |
+# +----------------------------------------+
+#
+f_history () {
+      if [[ ! "$APP_NAME" == *" "* ]] ; then
+         clear # Blank the screen.
+         echo "history - List of previous user-input usually commands typed in from keyboard."
+         echo 
+         echo "Event Designators"
+         echo "An event designator is a reference to a command line entry in the  his‐"
+         echo "tory  list.   Unless  the reference is absolute, events are relative to"
+         echo "the current position in the history list."
+         echo
+         echo "!      Start a history substitution, except when followed by  a  blank,"
+         echo "     newline, = or (."
+         echo "!n     Refer to command line n."
+         echo "!-n    Refer to the current command minus n."
+         echo "!!     Refer to the previous command.  This is a synonym for \`!-1\'."
+         echo "!string"
+         echo "       Refer  to the most recent command preceding the current position"
+         echo "       in the history list starting with string."
+         echo "!?string[?]"
+         echo "       Refer to the most recent command preceding the current  position"
+         echo "       in  the  history  list containing string.  The trailing ? may be"
+         echo "       omitted if string is followed immediately by a newline."
+         f_press_enter_key_to_continue
+         clear # Blank the screen.
+         echo "^string1^string2^"
+         echo "       Quick substitution.  Repeat the last command, replacing  string1"
+         echo "       with string2.  Equivalent to ``!!:s/string1/string2/'' (see Mod‐"
+         echo "       ifiers below)."
+         echo "!#     The entire command line typed so far."
+         echo 
+         echo "*** For more help type: 'man history'"
+         echo "                'history --help'"
+         echo
+         echo "Now run history. Usage: 'history"
+         APP_NAME="history"
+         f_press_enter_key_to_continue
+      fi
+} # End of f_history
+#
+# +----------------------------------------+
 # |             Function f_hpcc            |
 # +----------------------------------------+
 #
 f_hpcc () {
+      clear # Blank the screen.
       echo "hpcc -  HPC Challenge benchmark"
       echo
       echo "The High Performance Computing (HPC) Challenge benchmark runs a suite"
@@ -851,6 +896,31 @@ f_hpcc () {
       echo
       f_press_enter_key_to_continue
 } # End of function f_hpcc
+#
+# +----------------------------------------+
+# |             Function f_last            |
+# +----------------------------------------+
+#
+f_last () {
+      clear # Blank the screen.
+      echo "last - Lists all users logged in/out with timestamps"
+      echo
+      echo "It searches the file /var/log/wtmp (or the file designated"
+      echo "by the -f flag) and displays a list of all users logged in/out"
+      echo "with the user name, device, ip address, date stamp, duration."
+      echo
+      echo "Examples:"
+      echo "Show last times PC was rebooted."
+      echo "last reboot -F"
+      echo
+      echo "Show login/out times for user 'guest'."
+      echo "last guest"
+      echo "last guest -i"
+      echo
+      echo "Related command: lastb"
+      echo "Show failed login attempts."
+      f_press_enter_key_to_continue
+} # End of function f_last
 #
 # +----------------------------------------+
 # |          Function f_lsb_release        |

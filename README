@@ -71,7 +71,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2015" -c EDIT_HISTORY) ; REVISION="2015.$REVISION"
-REVDATE="January-24-2015 13:23"
+REVDATE="September-04-2015 12:00"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -699,11 +699,12 @@ REVDATE="January-24-2015 13:23"
 #:MFN - File Manager2 Applications Menu
 #:MFO - File Operations Applications Menu
 #:MFP - File Recovery Applications Menu
+#:MFQ - Find File2 Applications Menu
 #:MFS - File Splitter Applications Menu
 #:MFT - File Transfer Applications Menu
+#:MFU - Network File Transfer Applications Menu
 #:MFV - File Viewer Applications Menu
 #:MFX - FAX Applications Menu
-#:MFU - Network File Transfer Applications Menu
 #:MGA - Arcade Games Menu
 #:MGB - Arcade2 Games Menu
 #:MGC - Board Games Menu

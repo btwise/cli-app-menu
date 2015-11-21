@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="June-05-2015 13:04"
+REVDATE="June-24-2015 19:38"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1776,6 +1776,31 @@ f_setup_dir_gui () {
       fi
 } # End of function f_setup_dir_gui
 #
+#
+# +----------------------------------------+
+# |      Function f_main_applications      |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_applications () {
+      f_menu_cat_applications
+} # End of function f_main_applications
+#
+# +----------------------------------------+
+# |       Function f_main_favorites        |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_favorites () {
+      f_menu_app_favorites
+} # End of function f_main_favorites
+#
 # +----------------------------------------+
 # |          Function f_main_help          |
 # +----------------------------------------+
@@ -2337,7 +2362,7 @@ f_main_list_find_menus_txt () {
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
-#    Uses: AAH, MENU_TITLE.
+#    Uses: AAH, THIS_FILE, MENU_TITLE.
 # Outputs: None.
 #
 f_main_list_find_menus_gui () {
@@ -2736,7 +2761,7 @@ f_color_yb () {
 }
 #
 # +----------------------------------------+
-# |        Function f_menu_term_uncolor      |
+# |       Function f_menu_term_uncolor     |
 # +----------------------------------------+
 #
 #  Inputs: GUI.
@@ -3163,6 +3188,7 @@ f_main_menu_txt () {
 # Outputs: None.
 #
 f_main_menu_gui () {
+      f_main_init_once
       f_initvars_menu_app "AAA"
       # When $DELIMITER is set as above,
       # then f_menu_item_process does not call f_application_run and
@@ -3187,8 +3213,8 @@ f_main_menu_gui () {
             #
             case $AAA in
                  "Quit") AAA=0 ;;
-                 "Applications") f_menu_cat_applications ;;
-                 "Favorites") f_menu_app_favorites ;;
+                 "Applications") f_main_applications ;;
+                 "Favorites") f_main_favorites ;;
                  "Find and Run") f_main_search_apps ;;
                  "List or Find Menus") f_main_list_find_menus ;;
                  "Configure") f_main_configure ;;
@@ -3202,12 +3228,6 @@ f_main_menu_gui () {
       # module/library files will remain behind in the shell unless unset
       # explicitly.
       #
-      # List of "Sourced" module/library files.
-      # . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
-      # . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
-      # . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
-      # . $THIS_DIR/mod_apps_*.lib        # invoke module/library.
-
       unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
       #
       clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.

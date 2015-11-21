@@ -3,17 +3,37 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-21-2015 11:52"
+# REVDATE="June-30-2015 12:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
+# +----------------------------------------+
+#
+#  Inputs: $GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_menu_cat_games () {
+      case $GUI in
+           dialog | whiptail)
+           f_menu_cat_games_gui
+           ;;
+           text)
+           f_menu_cat_games_txt
+           ;;
+      esac
+
+} # End of function f_menu_cat_games
+#
+# +----------------------------------------+
+# |     Function f_menu_cat_games_txt      |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: BGA, MENU_ITEM, MAX
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_games () {
+f_menu_cat_games_txt () {
       f_initvars_menu_app "BGA"
       until [ "$BGA" = "0" ]
       do    # Start of Application Category until loop.
@@ -39,8 +59,56 @@ f_menu_cat_games () {
             done  # End of Game Category until loop.
             #
       unset BGA MENU_ITEM  # Throw out this variable.
-
-} # End of function f_menu_cat_games
+} # End of function f_menu_cat_games_txt
+#
+# +----------------------------------------+
+# |     Function f_menu_cat_games_gui      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BGA, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_games_gui () {
+      f_initvars_menu_app "BGA"
+      until [ "$BGA" = "0" ]
+      do    # Start of Games Category until loop.
+            THIS_FILE="mod_apps-games.lib"
+            MENU_TITLE="Game Categories Menu"
+            BGA=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Quit"           "Quit to command line prompt." \
+            "Arcade Games"   "Action controlled by keyboard and player's reflexes." \
+            "Board Games"    "Classic board games." \
+            "Card Games"     "Played with a deck of playing cards." \
+            "MUD Games"      "Multi-user dungeon adventure games." \
+            "Puzzles"        "Mastermind clones, suduku, mazes, create punch card/tapes." \
+            "Quiz Games"     "Challenge your mind." \
+            "RPG Games"      "Single-player role-playing games." \
+            "Screen-savers"  "For when you're away." \
+            "Sims/Anims"     "Simulations and animations. ASCII movies." \
+            "Strategy Games" "1-2 Players." \
+            "Word Games"     "boggle, hangman, pig-latin, create banners." \
+            2>&1 >/dev/tty)
+            #
+            case $BGA in
+                 "Quit") BGA=0 ;;
+                 "Arcade Games") f_menu_app_games_arcade ;;
+                 "Board Games") f_menu_app_games_board ;;
+                 "Card Games") f_menu_app_games_card ;;
+                 "MUD Games") f_menu_app_games_mud ;;
+                 "Puzzles") f_menu_app_games_puzzle ;;
+                 "Quiz Games") f_menu_app_games_quiz ;;
+                 "RPG Games") f_menu_app_games_rpg ;;
+                 "Screen-savers") f_menu_app_games_screensaver ;;
+                 "Sims/Anims") f_menu_app_games_simulation ;;
+                 "Strategy Games") f_menu_app_games_strategy ;;
+                 "Word Games") f_menu_app_games_word ;;
+            esac
+            #
+      done  # End of Games Category until loop.
+            #
+      unset BGA THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_games_gui
 #
 # +----------------------------------------+
 # |    Function f_menu_app_games_arcade    |

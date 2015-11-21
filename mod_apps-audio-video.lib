@@ -3,17 +3,36 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-21-2015 11:52"
+# REVDATE="June-30-2015 12:00"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio_video    |
+# +----------------------------------------+
+#
+#  Inputs: $GUI.
+#    Uses: None.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_cat_audio_video () {
+      case $GUI in
+           dialog | whiptail)
+           f_menu_cat_audio_video_gui
+           ;;
+           text)
+           f_menu_cat_audio_video_txt
+           ;;
+      esac
+} # End of function f_menu_cat_audio_video
+#
+# +----------------------------------------+
+# |   Function f_menu_cat_audio_video_txt  |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: BAU, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_audio_video () {
+f_menu_cat_audio_video_txt () {
       f_initvars_menu_app "BAU"
       until [ "$BAU" = "0" ]
       do    # Start of Audio-Video Application Category until loop.
@@ -35,7 +54,48 @@ f_menu_cat_audio_video () {
       done  # End of Audio-Video Application Category until loop.
             #
       unset BAU MENU_ITEM # Throw out this variable.
-} # End of function f_menu_cat_audio_video
+} # End of function f_menu_cat_audio_video_txt
+#
+# +----------------------------------------+
+# |   Function f_menu_cat_audio_video_gui  |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BAU, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_audio_video_gui () {
+      f_initvars_menu_app "BAU"
+      until [ "$BAU" = "0" ]
+      do    # Start of Audio-Video Application Category until loop.
+            THIS_FILE="mod_apps-audio-video.lib"
+            MENU_TITLE="Audio-Video Application Categories Menu"
+            BAU=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Quit"             "Quit to command line prompt." \
+            "CD Rippers"       "Copy music off CD-ROM to files." \
+            "Audio Editors"    "Audio editors/converters of file formats." \
+            "Music Players"    "Play music CD-ROM or music files. Jukebox, playlists." \
+            "Radio-Music"      "Listen to Internet radio stations and music sites." \
+            "Speech Synthesis" "Text-to-speech. Have text files read back to you." \
+            "Video Editors"    "Video editors, transcoders, converters." \
+            "Video Players"    "Video players/downloaders." \
+            2>&1 >/dev/tty)
+            #
+            case $BAU in
+                 "Quit") BAU=0 ;;
+                 "CD Rippers") f_menu_app_cdrippers ;;
+                 "Audio Editors") f_menu_app_cdrippers ;;
+                 "Music Players") f_menu_app_music_players ;;
+                 "Radio-Music") f_menu_app_radio ;;
+                 "Speech Synthesis") f_menu_app_speech_synthesis ;;
+                 "Video Editors") f_menu_app_video_editors ;;
+                 "Video Players") f_menu_app_video_players ;;
+            esac
+            #
+      done  # End of Audio-Video Application Category until loop.
+            #
+      unset BAU THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_audio_video_gui
 #
 # +----------------------------------------+
 # |    Function f_menu_app_audio_editors   |
