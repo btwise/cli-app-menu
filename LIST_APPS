@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2015-09-04 12:23 Friday
+Last updated: 2016-02-10 23:19 Wednesday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -907,6 +907,7 @@ _______________________________________________________________________________
  history    - Show history of commands entered at the prompt.
  inotail    - Tail command replacement uses the inotify API to re-read files.
  last       - Users' login/logout times from /var/log/wtmp.
+ lastb      - Lists bad login attempts.
  lastlog    - Users' login/logout times from /var/log/wtmp.
  lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
  logtailer  - Monitor logs for updates and display them.

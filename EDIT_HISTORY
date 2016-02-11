@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2015 Copyright 2015 ROBERT D. CHIN
+# ©2016 Copyright 2016 ROBERT D. CHIN
 #
 # Usage: sh EDIT_HISTORY
 #
@@ -37,8 +37,8 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION="2.1.0 'Dorothy'"
-PROJECT_REVDATE="June-05-2015 13:04"
+PROJECT_REVISION="3.0 'Ellen'"
+PROJECT_REVDATE="February-10-2016 23:59"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -56,7 +56,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, EDIT_HISTORY is under copyright.
-#LIC ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2016 Copyright 2016 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -74,12 +74,19 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # The double # at the beginning of lines below
 # are used to delineate the Edit History.
 #
-## Edit History
+## Version History
 ##
-## After each edit made, update Edit History and version (date stamp string) of
-## script.
+## After each edit made, update Version History and version (date stamp string)
+## of script.
 ##
-## 2015-06-05 *Development version 2.1.0 "Dorothy".
+## 2016-02-10 *Testing version 3.0 "Ellen".
+##            *All category sub-menus now use GUIs if available.
+##            *The menu choices "About CLI Menu", "Version History",
+##             "Code History", "Documentation", and "Help and Features",
+##             and "Install to a New Dir" now use Whiptail or Dialog GUIs
+##             if available.
+##
+## 2015-06-05 *Development version 3.0 "Ellen".
 ##            *New look, Main Menu, Configuration Menu, Application Menu
 ##             now use "Dialog" GUI if available.
 ##

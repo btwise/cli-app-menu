@@ -1,9 +1,9 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="June 06-06-2015 01:22"
+# REVDATE="February-10-2016 23:59"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -133,7 +133,7 @@ f_menu_module_display_gui () {
       do    # Start of Applications until loop.
             THIS_FILE="lib_cli-menu-cat.lib"
             AAB=$($1 --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Quit"         "Quit to command line prompt." \
+            "Return"       "Return to previous menu." \
             "Audio-Video"  "Music/Video players, editors, utilities." \
             "Databases"    "General and specialized databases." \
             "Development"  "Tools to test code and track/report bugs." \
@@ -152,7 +152,7 @@ f_menu_module_display_gui () {
             2>&1 >/dev/tty)
             #
             case $AAB in
-                 "Quit") AAB=0 ;;
+                 "Return") AAB=0 ;;
                  "Audio-Video") f_mod_apps_audio_video ;;
                  "Databases") f_mod_apps_databases ;;
                  "Development") f_mod_apps_development ;;

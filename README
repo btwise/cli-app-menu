@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # This program, README is under copyright.
-# ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
+# ©2016 Copyright 2016 Robert D. Chin (rdchin at yahoo.com).
 #
 # Usage: sh README
 #
@@ -71,7 +71,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep -c means count the lines that match the pattern.
 #
 REVISION=$(grep ^"## 2015" -c EDIT_HISTORY) ; REVISION="2015.$REVISION"
-REVDATE="September-04-2015 12:00"
+REVDATE="September-04-2015 88:88"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:

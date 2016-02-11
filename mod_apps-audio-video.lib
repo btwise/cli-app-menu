@@ -1,4 +1,4 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
@@ -36,8 +36,8 @@ f_menu_cat_audio_video_txt () {
       f_initvars_menu_app "BAU"
       until [ "$BAU" = "0" ]
       do    # Start of Audio-Video Application Category until loop.
-#f_menu_app_cdrippers        #BAU CD Rippers       - Copy music off CD-ROM to files.
 #f_menu_app_audio_editors    #BAU Audio Editors    - Audio editors/converters of file formats.
+#f_menu_app_cdrippers        #BAU CD Rippers       - Copy music off CD-ROM to files.
 #f_menu_app_music_players    #BAU Music Players    - Play music CD-ROM or music files. Jukebox, playlists.
 #f_menu_app_radio            #BAU Radio-Music      - Listen to Internet radio stations and music sites.
 #f_menu_app_speech_synthesis #BAU Speech Synthesis - Text-to-speech. Have text files read back to you.
@@ -71,9 +71,9 @@ f_menu_cat_audio_video_gui () {
             THIS_FILE="mod_apps-audio-video.lib"
             MENU_TITLE="Audio-Video Application Categories Menu"
             BAU=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Quit"             "Quit to command line prompt." \
-            "CD Rippers"       "Copy music off CD-ROM to files." \
+            "Return"           "Return to previous menu." \
             "Audio Editors"    "Audio editors/converters of file formats." \
+            "CD Rippers"       "Copy music off CD-ROM to files." \
             "Music Players"    "Play music CD-ROM or music files. Jukebox, playlists." \
             "Radio-Music"      "Listen to Internet radio stations and music sites." \
             "Speech Synthesis" "Text-to-speech. Have text files read back to you." \
@@ -82,7 +82,7 @@ f_menu_cat_audio_video_gui () {
             2>&1 >/dev/tty)
             #
             case $BAU in
-                 "Quit") BAU=0 ;;
+                 "Return") BAU=0 ;;
                  "CD Rippers") f_menu_app_cdrippers ;;
                  "Audio Editors") f_menu_app_cdrippers ;;
                  "Music Players") f_menu_app_music_players ;;

@@ -1,29 +1,48 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-04-2015 12:00"
+# REVDATE="February-10-2016 23:59"
 #
 # +----------------------------------------+
-# |        Function f_menu_cat_system      |
+# |       Function f_menu_cat_system       |
+# +----------------------------------------+
+#
+#  Inputs: $GUI.
+#    Uses: None.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_cat_system () {
+      case $GUI in
+           dialog | whiptail)
+           f_menu_cat_system_gui
+           ;;
+           text)
+           f_menu_cat_system_txt
+           ;;
+      esac
+} # End of function f_menu_cat_system
+#
+# +----------------------------------------+
+# |      Function f_menu_cat_system_txt    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: BSY, MENU_ITEM, MAX
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_system () {
+f_menu_cat_system_txt () {
       f_initvars_menu_app "BSY"
       until [ "$BSY" = "0" ]
       do    # Start of System Application Category until loop.
 #f_menu_app_sys_backup      #BSY Backup      - File Backup.
 #f_menu_app_sys_disks       #BSY Disks       - Disk information.
 #f_menu_app_sys_health      #BSY Health      - Anti-virus scanners, root-kit detectors, stress tests etc.
+#f_menu_app_sys_linux       #BSY Linux       - Linux information and configuration; kernel configuration.
 #f_menu_app_sys_logs        #BSY Logs        - Log file viewers, command line history, send mssg. to users.
 #f_menu_app_sys_mainboard   #BSY Mainboard   - Information on PC mainboard, memory, etc.
 #f_menu_app_sys_monitors    #BSY Monitors    - Resources, and disk I/O monitors.
-#f_menu_app_sys_linux       #BSY Linux       - Linux information and configuration; kernel configuration.
 #f_menu_app_sys_peripherals #BSY Peripherals - Information on PC peripherals, PCI devices, hard drives, etc.
 #f_menu_app_sys_process     #BSY Process     - System process monitoring, killing.
             #
@@ -37,7 +56,52 @@ f_menu_cat_system () {
       done  # End of System Application Category until loop.
             #
       unset BSY MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_cat_system
+} # End of function f_menu_cat_system_txt
+#
+# +----------------------------------------+
+# |     Function f_menu_cat_system_gui     |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BSY, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_system_gui () {
+      f_initvars_menu_app "BSY"
+      until [ "$BSY" = "0" ]
+      do    # Start of System Application Category until loop.
+            THIS_FILE="mod_apps-system.lib"
+            MENU_TITLE="System Categories Menu"
+            BSY=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"        "Return to previous menu." \
+              "Backup"      "File Backup." \
+              "Disks"       "Disk information." \
+              "Health"      "Anti-virus scanners, root-kit detectors, stress tests etc." \
+              "Linux"       "Linux information and configuration; kernel configuration." \
+              "Logs"        "Log file viewers, command line history, send mssg. to users." \
+              "Mainboard"   "Information on PC mainboard, memory, etc." \
+              "Monitors"    "Resources, and disk I/O monitors." \
+              "Peripherals" "Information on PC peripherals, PCI devices, hard drives, etc." \
+              "Process"     "System process monitoring, killing." \
+            2>&1 >/dev/tty)
+             #
+            case $BSY in
+                 "Return") BSY=0 ;;
+                 "Backup") f_menu_app_sys_backup ;;
+                 "Disks") f_menu_app_sys_disks ;;
+                 "Health") f_menu_app_sys_health ;;
+                 "Logs") f_menu_app_sys_logs ;;
+                 "Mainboard") f_menu_app_sys_mainboard ;;
+                 "Monitors") f_menu_app_sys_monitors ;;
+                 "Linux") f_menu_app_sys_linux ;;
+                 "Peripherals") f_menu_app_sys_peripherals ;;
+                 "Process") f_menu_app_sys_process ;;
+            esac
+            #
+      done  # End of System Application Category until loop.
+            #
+      unset BSY THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_system_gui
 #
 # +----------------------------------------+
 # |     Function f_menu_app_sys_backup     |

@@ -1,9 +1,9 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-04-2015 12:00"
+# REVDATE="February-10-2016 23:59"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -26,12 +26,12 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       case $DELIMITER in
            "#AAA")
            # Option for Main Menu only.
-           echo "0 - Quit to command line prompt."
+           echo "0 - Quit to the command line prompt."
            ;;
            "#AAB")
            # Display option for Application Category Menu
            # and Software Module Manager Menu.
-           echo "0 - Return to Main Menu."
+           echo "0 - Return to the previous menu."
            # Now display the rest of the menu with any missing or inactive
            # modules in a different color and not bold font.
            f_show_menu_aab
@@ -39,11 +39,11 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            "#AAC" | "#AAG" |  "#AAH")
            # Display option for Configuration Menu,
            # Information Menu, and List/Find
-           echo "0 - Return to Main Menu."
+           echo "0 - Return to the Main Menu."
            ;;
            *)
            # Option for all other sub-menus.
-           echo "0 - Return to previous menu."
+           echo "0 - Return to the previous menu."
            ;;
       esac
       #
@@ -829,7 +829,7 @@ f_quit_app_clause () {
       # This will display the custom "How to quit" the application message.
       #
       # Format of menu item options: 
-     # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
       #   field-1  field-2  field-3  field-4   field-5   Marker 
       # 
       # Example 1:
@@ -3031,8 +3031,8 @@ f_create_LIST_APPS () {
           #    variable from being printed as a menu item, because they
           #    purposely have 2 markers.
           #
-          #    For menu item "#mod_apps-aud   io.lib #AAB Audio - Music players, editors, utilities."
-          #    This will result in: "#mod_a   pps-audio.lib"
+          #    For menu item "#mod_apps-audio.lib #AAB Audio - Music players, editors, utilities."
+          #    This will result in: "#mod_apps-audio.lib"
           #
           # 2. | awk -F "#" '{print $2}'
           #    The previous result is piped into this awk statement which

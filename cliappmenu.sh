@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="June-24-2015 19:38"
+REVDATE="February-10-2016 23:59"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -145,7 +145,8 @@ REVDATE="June-24-2015 19:38"
 # Outputs: exit 1.
 #
 f_test_dash () {
-      if [ -z "$BASH_VERSION" ]; then
+      if [ -z "$BASH_VERSION" ]; then 
+         # DASH Environment detected, display error message to invoke the BASH environment.
          f_detect_ui # Automatically detect UI environment.
          case $GUI in
               dialog | whiptail)
@@ -342,7 +343,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/home/robert"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -385,7 +386,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/Some_directory/cli-app-menu"
+      THIS_DIR="/home/robert/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -813,7 +814,7 @@ f_valid_menu_txt () {
             fi
             echo "--- $MENU_TITLE ---"
             echo
-            echo "0 - Quit to command line prompt."
+            echo "0 - Quit to the command line prompt."
             echo "1 - Download file    - Download the missing file from the GitHub web site."
             echo "2 - Change directory - Change the directory to the correct one."
             echo "3 - List files       - List files in directory."
@@ -867,7 +868,7 @@ f_valid_menu_gui () {
       # Capture result of stdout to $NEW_DIR variable.
       until [ "$AAD" = "0" ]
       do    # Start of Validate Menu until loop.
-            AAD=$($1 --clear --title "Validate Files and Directories Menu" --menu "\n\nUse (up/down arrow keys) or (0 to 3) or (letters):" 15 70 4 \Quit "Quit to command line prompt." \Download "Download the missing file from the GitHub web site." \Change "Change the directory to the correct one." \List "List files in directory." 2>&1 >/dev/tty)
+            AAD=$($1 --clear --title "Validate Files and Directories Menu" --menu "\n\nUse (up/down arrow keys) or (0 to 3) or (letters):" 15 70 4 \Quit "Quit to the command line prompt." \Download "Download the missing file from the GitHub web site." \Change "Change the directory to the correct one." \List "List files in directory." 2>&1 >/dev/tty)
             #
             case $AAD in
                  0 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
@@ -1802,14 +1803,33 @@ f_main_favorites () {
 } # End of function f_main_favorites
 #
 # +----------------------------------------+
-# |          Function f_main_help          |
+# |           Function f_main_help         |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_help () {
+case $GUI in
+     dialog | whiptail)
+     f_main_help_gui
+     ;;
+     text)
+     f_main_help_txt
+     ;;
+esac
+} # End of f_main_help
+#
+# +----------------------------------------+
+# |        Function f_main_help_txt        |
 # +----------------------------------------+
 #
 #  Inputs: MAINMENU_DIR, THIS_FILE. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_help () {
+f_main_help_txt () {
       clear # Blank the screen.
       # Display Help (all lines beginning with "#@" but do not print "#@").
       # sed substitutes null for "#@" at the beginning of each line
@@ -1817,7 +1837,37 @@ f_main_help () {
       # less -P customizes prompt for
       # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
       sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
-} # End of function f_main_help
+} # End of function f_main_help_txt
+#
+# +----------------------------------------+
+# |        Function f_main_help_gui        |
+# +----------------------------------------+
+#
+#  Inputs: MAINMENU_DIR, THIS_FILE. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_help_gui () {
+      clear # Blank the screen.
+      # Display Help (all lines beginning with "#@" but do not print "#@").
+      # sed substitutes null for "#@" at the beginning of each line
+      # so it is not printed.
+      # less -P customizes prompt for
+      # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+      sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE >cliappmenu.tmp
+      # Get the screen resolution or X-window size.
+      # Get rows (height).
+      Y=$(stty size | awk '{ print $1 }')
+      let Y=$Y-3  # Make room at top of window for a backtitle.
+      # Get columns (width).
+      X=$(stty size | awk '{ print $2 }')
+      #
+      $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "General User Instructions" --textbox cliappmenu.tmp $Y $X
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+} # End of function f_main_help_gui
 #
 # +----------------------------------------+
 # |           Function f_main_about        |
@@ -1872,6 +1922,27 @@ f_main_about () {
       # The first awk results in the date in quotes as a string.
       # The second awk strips the quotation marks from the date string.
       #
+      case $GUI in
+           dialog | whiptail)
+           f_main_about_gui
+           ;;
+           text)
+           f_main_about_txt
+           ;;
+      esac
+      #
+      unset X
+} # End of function f_main_about
+#
+# +----------------------------------------+
+# |        Function f_main_about_txt       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_about_txt () {
       clear # Blank the screen.
       echo "Project version: $PROJECT_REVISION"
       echo " Last edited on: $PROJECT_REVDATE"
@@ -1883,9 +1954,38 @@ f_main_about () {
       echo "$THIS_DIR"
       f_press_enter_key_to_continue
       PRESS_KEY=0
+} # End of function f_main_about_txt
+#
+# +----------------------------------------+
+# |        Function f_main_about_gui       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_about_gui () {
+      echo "Project version: $PROJECT_REVISION" >cliappmenu.tmp
+      echo " Last edited on: $PROJECT_REVDATE" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Main Menu script cliappmenu.sh is located in:" >>cliappmenu.tmp
+      echo "$MAINMENU_DIR" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Module library files and documentation is located in:" >>cliappmenu.tmp
+      echo "$THIS_DIR" >>cliappmenu.tmp
+      # Get the screen resolution or X-window size.
+      # Get rows (height).
+      Y=$(stty size | awk '{ print $1 }')
+      let Y=$Y-3  # Make room at top of window for a backtitle.
+      # Get columns (width).
+      X=$(stty size | awk '{ print $2 }')
       #
-      unset X
-} # End of function f_main_about
+      $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "About CLI-APP-MENU Project" --textbox cliappmenu.tmp $Y $X
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+} # End of function f_main_about_gui
 #
 # +----------------------------------------+
 # |        Function f_main_configure       |
@@ -1960,7 +2060,7 @@ f_main_configure_gui () {
       until [ "$AAC" = "0" ]
       do    # Start of Main Configure Menu until loop.
             AAC=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 9) or (letters):" 20 80 11 \
-            "Quit" "Quit to command line prompt." \
+            "Return" "Return to the previous menu." \
             "Update Program" "Update menu scripts from the GitHub repository." \
             "Update All Modules" "Update all installed modules from GitHub repository." \
             "Manage Modules" "Add/Delete/Remove/Restore/Update selected modules." \
@@ -1972,7 +2072,7 @@ f_main_configure_gui () {
             2>&1 >/dev/tty)
             #
             case $AAC in
-                 "Quit") AAC=0 ;;
+                 "Return") AAC=0 ;;
                  "Update Program") f_update_software ;;
                  "Update All Modules") f_update_all_modules ;;
                  "Manage Modules") f_menu_module_manager ;;
@@ -1980,7 +2080,7 @@ f_main_configure_gui () {
                  "List Files") f_ls_this_dir $THIS_DIR ;;
                  "Colors") f_menu_term_color ;;
                  "Un-colors") f_menu_term_uncolor ;;
-                 "Install to New Dir") f_reinstall_readme ; f_press_enter_key_to_continue ;;
+                 "Install to New Dir") f_reinstall_readme ;;
             esac
       done  # End of Main Configure Menu until loop.
       #
@@ -2024,11 +2124,11 @@ f_main_information_txt () {
       #
       until [ "$AAG" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_main_about^0^0^0^0         #AAG About CLI Menu - What version am I using.
-#f_main_edit_history^0^0^0^0  #AAG Version        - Version/Release History.
-#f_main_documentation^0^0^0^0 #AAG Documentation  - Script documentation, programmer notes, HOW-TOs.
-#f_main_code_history^0^0^0^0  #AAG Code History   - All the craziness behind the scenes.
-#f_main_license^0^0^0^0       #AAG License        - Licensing, GPL.
+#f_main_about^0^0^0^0            #AAG About CLI Menu  - What version am I using.
+#f_main_version_history^0^0^0^0  #AAG Version History - Version/Release history with general summaries.
+#f_main_documentation^0^0^0^0    #AAG Documentation   - Script documentation, programmer notes, HOW-TOs.
+#f_main_code_history^0^0^0^0     #AAG Code History    - All the craziness behind the scenes.
+#f_main_license^0^0^0^0          #AAG License         - Licensing, GPL.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Information Menu"
@@ -2058,18 +2158,18 @@ f_main_information_gui () {
       until [ "$AAG" = "0" ]
       do    # Start of Main Information Menu until loop.
             AAG=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 6) or (letters):" 20 80 11 \
-            "Quit" "Quit to command line prompt." \
+            "Return" "Return to the previous menu." \
             "About CLI Menu" "What version am I using." \
-            "Version" "Version/Release History." \
+            "Version History" "Version/Release history with general summaries." \
             "Documentation" "Script documentation, programmer notes, HOW-TOs." \
             "Code History" "All the craziness behind the scenes." \
             "License" "Licensing, GPL." \
             2>&1 >/dev/tty)
             #
             case $AAG in
-                 "Quit") AAG=0 ;;
+                 "Return") AAG=0 ;;
                  "About CLI Menu") f_main_about ;;
-                 "Version") f_main_edit_history ;;
+                 "Version History") f_main_version_history ;;
                  "Documentation") f_main_documentation ;;
                  "Code History") f_main_code_history ;;
                  "License") f_main_license ;;
@@ -2080,14 +2180,33 @@ f_main_information_gui () {
 } # End of function f_main_information_gui
 #
 # +----------------------------------------+
-# |      Function f_main_documentation     |
+# |     Function f_main_documentation      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_documentation () {
+case $GUI in
+     dialog | whiptail)
+     f_main_documentation_gui
+     ;;
+     text)
+     f_main_documentation_txt
+     ;;
+esac
+} # End of f_main_documentation
+#
+# +----------------------------------------+
+# |    Function f_main_documentation_txt   |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_documentation () {
+f_main_documentation_txt () {
       f_ask_download_file $THIS_DIR "README"
       #
       if [ -r $THIS_DIR"/README" ] ; then
@@ -2099,20 +2218,73 @@ f_main_documentation () {
          # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
          sed -n 's/^#://'p $THIS_DIR"/README" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
       fi
-} # End of function f_main_documentation
+} # End of function f_main_documentation_txt
 #
 # +----------------------------------------+
-# |      Function f_main_edit_history      |
+# |    Function f_main_documentation_gui   |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_edit_history () {
+f_main_documentation_gui () {
+      f_ask_download_file $THIS_DIR "README"
+      #
+      if [ -r $THIS_DIR"/README" ] ; then
+         # Display README Documentation
+         # (all lines beginning with "#:" but do not print "#:").
+         # sed substitutes null for "#:" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         sed -n 's/^#://'p $THIS_DIR"/README"'' >cliappmenu.tmp
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "README - Programming Documentation" --textbox cliappmenu.tmp $Y $X
+         #
+         if [ -r cliappmenu.tmp ] ; then
+            rm cliappmenu.tmp
+         fi
+      fi
+} # End of function f_main_documentation_gui
+#
+# +----------------------------------------+
+# |    Function f_main_version_history     |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_version_history () {
+case $GUI in
+     dialog | whiptail)
+     f_main_version_history_gui
+     ;;
+     text)
+     f_main_version_history_txt
+     ;;
+esac
+} # End of f_main_version_history
+#
+# +----------------------------------------+
+# |  Function f_main_version_history_txt   |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_version_history_txt () {
       f_ask_download_file $THIS_DIR "EDIT_HISTORY"
       #
-      if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+      if [ -r  $THIS_DIR"/EDIT_HISTORY" ] ; then
          # Display Edit History
          # (all lines beginning with "##" but do not print "##").
          # sed substitutes null for "##" at the beginning of each line
@@ -2122,17 +2294,70 @@ f_main_edit_history () {
          sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
-} # End of function f_menu_edit_history
+} # End of function f_menu_edit_history_txt
 #
 # +----------------------------------------+
-# |      Function f_main_code_history      |
+# |    Function f_main_edit_history_gui    |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
+f_main_version_history_gui () {
+      f_ask_download_file $THIS_DIR "EDIT_HISTORY"
+      #
+      if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+         # Display Edit History
+         # (all lines beginning with "##" but do not print "##").
+         # sed substitutes null for "##" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY"'' >cliappmenu.tmp
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Version History" --textbox cliappmenu.tmp $Y $X
+         #
+         if [ -r cliappmenu.tmp ] ; then
+            rm cliappmenu.tmp
+         fi
+      fi
+} # End of function f_menu_version_history_gui
+#
+# +----------------------------------------+
+# |     Function f_main_code_history       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
 f_main_code_history () {
+case $GUI in
+     dialog | whiptail)
+     f_main_code_history_gui
+     ;;
+     text)
+     f_main_code_history_txt
+     ;;
+esac
+} # End of f_main_code_history
+#
+# +----------------------------------------+
+# |    Function f_main_code_history_txt    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_code_history_txt () {
       f_ask_download_file $THIS_DIR "CODE_HISTORY"
       #
       if [ -r $THIS_DIR"/CODE_HISTORY" ] ; then
@@ -2145,7 +2370,41 @@ f_main_code_history () {
          sed -n 's/^##//'p $THIS_DIR"/CODE_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
-} # End of function f_menu_code_history
+} # End of function f_menu_code_history_txt
+#
+# +----------------------------------------+
+# |    Function f_main_code_history_gui    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_code_history_gui () {
+      f_ask_download_file $THIS_DIR "CODE_HISTORY"
+      #
+      if [ -r $THIS_DIR"/CODE_HISTORY" ] ; then
+         # Display Edit History
+         # (all lines beginning with "##" but do not print "##").
+         # sed substitutes null for "##" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         sed -n 's/^##//'p $THIS_DIR"/CODE_HISTORY"  >cliappmenu.tmp
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Code History" --textbox cliappmenu.tmp $Y $X
+         #
+         if [ -r cliappmenu.tmp ] ; then
+            rm cliappmenu.tmp
+         fi
+      fi
+} # End of function f_menu_code_history_gui
 #
 # +----------------------------------------+
 # |      Function f_ask_download_file      |
@@ -2201,7 +2460,7 @@ f_ask_download_file () {
 # +----------------------------------------+
 #
 #  Inputs: MAINMENU_DIR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
-#    Uses: X.
+#    Uses: X, Y.
 # Outputs: APP_NAME, WEB_SITE.
 #
 f_main_license () {
@@ -2212,7 +2471,27 @@ f_main_license () {
       # so it is not printed.
       # less -P customizes prompt for
       # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-      sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+      case $GUI in
+           dialog | whiptail)
+           # Get the screen resolution or X-window size.
+           # Get rows (height).
+           Y=$(stty size | awk '{ print $1 }')
+           let Y=$Y-3  # Make room at top of window for a backtitle.
+           # Get columns (width).
+           X=$(stty size | awk '{ print $2 }')
+           #
+           sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE >cliappmenu.tmp
+           $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "License Agreement" --textbox cliappmenu.tmp $Y $X
+           #
+           if [ -r cliappmenu.tmp ] ; then
+              rm cliappmenu.tmp
+           fi
+           ;;
+           text)
+           sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           ;;
+      esac
+      #
       X="" # Initialize scratch variable.
       while [  "$X" != "YES" -a "$X" != "NO" ]
       do
@@ -2224,6 +2503,46 @@ f_main_license () {
                  X="YES"
                  echo
                  if [ ! -r $THIS_DIR"/COPYING" ] ; then
+                    f_main_license_missing
+                 fi
+                 #
+                 if [ -r $THIS_DIR"/COPYING" ] ; then
+                    case $GUI in
+                         dialog | whiptail)
+                         # Get the screen resolution or X-window size.
+                         # Get rows (height).
+                         Y=$(stty size | awk '{ print $1 }')
+                         let Y=$Y-3  # Make room at top of window for a backtitle.
+                         # Get columns (width).
+                         X=$(stty size | awk '{ print $2 }')
+                         #
+                         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Full License Agreement" --textbox $THIS_DIR"/COPYING" $Y $X
+                         ;;
+                         text)
+                         less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/COPYING"
+                         ;;
+                    esac
+                 fi
+                 X="YES"
+                 ;;
+                 [Nn] | [Nn][Oo])
+                 X="NO"
+                 ;;
+            esac # End of license case statement.
+      done
+      #
+      unset X Y
+} # End of function f_main_license
+#
+# +----------------------------------------+
+# |     Function f_main_license_missing    |
+# +----------------------------------------+
+#
+#  Inputs: MAINMENU_DIR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: X.
+# Outputs: APP_NAME, WEB_SITE.
+#
+f_main_license_missing () {
                     X="" # Initialize scratch variable.
                     while [  "$X" != "YES" -a "$X" != "NO" ]
                     do
@@ -2269,21 +2588,7 @@ f_main_license () {
                                ;;
                           esac # End of git download case statement.
                     done
-                 fi
-                 #
-                 if [ -r $THIS_DIR"/COPYING" ] ; then
-                    less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/COPYING"
-                 fi
-                 X="YES"
-                 ;;
-                 [Nn] | [Nn][Oo])
-                 X="NO"
-                 ;;
-            esac # End of license case statement.
-      done
-      #
-      unset X
-} # End of function f_main_license
+} # End of function f_main_license_missing.
 #
 # +----------------------------------------+
 # |     Function f_main_list_find_menus    |
@@ -2395,13 +2700,13 @@ f_main_list_find_menus_gui () {
          until [ "$AAH" = "0" ]
          do    # Start of List/Find Menu until loop.
             AAH=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Quit" "Quit to command line prompt." \
+            "Return" "Return to the previous menu." \
             "List All Menus" "List all menus and applications." \
             "Find All Menus" "Find menus containing an application." \
             2>&1 >/dev/tty)
             #
             case $AAH in
-                 "Quit") AAH=0 ;;
+                 "Return") AAH=0 ;;
                  "List All Menus") f_main_list_menus ;;
                  "Find All Menus") f_main_find_menus ;;
             esac
@@ -2665,7 +2970,7 @@ f_menu_term_color_gui () {
       until [ "$AAE" = "0" ]
       do    # Start of Main Information Menu until loop.
             AAE=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Quit"    "Quit to command line prompt." \
+            "Return"  "Return to the previous menu." \
             "Red"     "Red     on black." \
             "Yellow"  "Yellow  on black." \
             "Blue"    "Blue    on black." \
@@ -2679,7 +2984,7 @@ f_menu_term_color_gui () {
             2>&1 >/dev/tty)
             #
             case $AAE in
-                 "Quit") AAE=0 ;;
+                 "Return") AAE=0 ;;
                  "Red") f_color_red ;;
                  "Green") f_color_green ;;
                  "Yellow") f_color_yellow ;;
@@ -2838,7 +3143,7 @@ f_menu_term_uncolor_gui () {
       until [ "$AAF" = "0" ]
       do    # Start of Unavailable Colors until loop.
             AAF=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Quit"    "Quit to command line prompt." \
+            "Return"  "Return to the previous menu." \
             "Red"     "Red." \
             "Green"   "Green." \
             "Yellow"  "Yellow."\
@@ -2850,7 +3155,7 @@ f_menu_term_uncolor_gui () {
             2>&1 >/dev/tty)
             #
             case $AAF in
-                 "Quit") AAF=0 ;;
+                 "Return") AAF=0 ;;
                  "Red") f_ucolor_red ;;
                  "Green") f_ucolor_green ;;
                  "Yellow") f_ucolor_yellow ;;
@@ -3092,14 +3397,33 @@ f_ls_this_dir () {
 } # End of function f_ls_this_dir
 #
 # +----------------------------------------+
-# |      Function f_reinstall_readme       |
+# |     Function f_reinstall_readme        |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_readme () {
+case $GUI in
+     dialog | whiptail)
+     f_reinstall_readme_gui
+     ;;
+     text)
+     f_reinstall_readme_txt
+     ;;
+esac
+} # End of f_main_code_history
+#
+# +----------------------------------------+
+# |    Function f_reinstall_readme_txt     |
 # +----------------------------------------+
 #
 #  Inputs: $1 - Directory. 
 #    Uses: None.
 # Outputs: None.
 #
-f_reinstall_readme () {
+f_reinstall_readme_txt () {
       clear # Blank the screen.
       echo "To re-install this software into another location/directory,"
       echo "simply copy the file, "cliappmenu.sh" to the other directory."
@@ -3119,7 +3443,48 @@ f_reinstall_readme () {
       echo
       echo "Then the mini-installer will automatically run and give you more instructions."
       echo
-} # End of function f_reinstall_readme
+} # End of function f_reinstall_readme_txt
+#
+# +----------------------------------------+
+# |    Function f_reinstall_readme_gui     |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_readme_gui () {
+      echo "To re-install this software into another location/directory," >cliappmenu.tmp
+      echo "simply copy the file, "cliappmenu.sh" to the other directory." >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        cp <old directory>/cliappmenu.sh <new directory>" >>cliappmenu.tmp
+      echo "             or" >>cliappmenu.tmp
+      echo  "       sudo cp <old directory>/cliappmenu.sh <new directory>" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Then change to the new directory and run the script." >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        cd <new directory>" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        bash cliappmenu.sh" >>cliappmenu.tmp
+      echo "             or" >>cliappmenu.tmp
+      echo "        sudo bash cliappmenu.sh" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Then the mini-installer will automatically run" >>cliappmenu.tmp
+      echo "and give you more instructions." >>cliappmenu.tmp
+      # Get the screen resolution or X-window size.
+      # Get rows (height).
+      Y=$(stty size | awk '{ print $1 }')
+      let Y=$Y-3  # Make room at top of window for a backtitle.
+      # Get columns (width).
+      X=$(stty size | awk '{ print $2 }')
+      #
+      $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "HOW-TO Reinstall" --textbox cliappmenu.tmp $Y $X
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+} # End of function f_reinstall_readme_gui
 #
 # **************************************
 # ***         Main Menu Text         ***
@@ -3197,11 +3562,11 @@ f_main_menu_gui () {
       #      "Configure", etc.
       # since those are not the names of executable (run-able) applications.
       #
-      MENU_TITLE="Main Menu"
       until [ "$AAA" = "0" ]
       do    # Start of Main Menu until loop.
+            MENU_TITLE="Main Menu"
             AAA=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 8) or (letters):" 20 80 11 \
-            "Quit" "Quit to command line prompt." \
+            "Quit" "Quit to the command line prompt." \
             "Applications" "Run an application." \
             "Favorites" "Menu of favorite applications." \
             "Find and Run" "Find & run an application in active menus." \
