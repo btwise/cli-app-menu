@@ -70,8 +70,8 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # grep ^ (carot sign) means grep any lines beginning with "##2015".
 # grep -c means count the lines that match the pattern.
 #
-REVISION=$(grep ^"## 2015" -c EDIT_HISTORY) ; REVISION="2015.$REVISION"
-REVDATE="September-04-2015 88:88"
+REVISION=$(grep ^"## 2016" -c EDIT_HISTORY) ; REVISION="2016.$REVISION"
+REVDATE="February-10-2016 23:59"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
