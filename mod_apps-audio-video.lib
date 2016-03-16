@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="June-30-2015 12:00"
+# REVDATE="March-06-2016 21:38"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio_video    |
@@ -84,7 +84,7 @@ f_menu_cat_audio_video_gui () {
             case $BAU in
                  "Return") BAU=0 ;;
                  "CD Rippers") f_menu_app_cdrippers ;;
-                 "Audio Editors") f_menu_app_cdrippers ;;
+                 "Audio Editors") f_menu_app_audio_editors ;;
                  "Music Players") f_menu_app_music_players ;;
                  "Radio-Music") f_menu_app_radio ;;
                  "Speech Synthesis") f_menu_app_speech_synthesis ;;

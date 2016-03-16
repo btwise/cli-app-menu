@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # Usage: bash cliappmenu.sh
 #        (not sh cliappmenu.sh)
@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="February-10-2016 23:59"
+REVDATE="March-15-2016 23:00"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -266,11 +266,6 @@ f_detect_ui () {
             GUI="text"
          fi
       fi
-      #
-      # Force $GUI to a specific environment for testing.  # Diagnostic line.
-      # GUI="text"      # Diagnostic line.
-      # GUI="dialog"    # Diagnostic line.
-      # GUI="whiptail"  # Diagnostic line.
 } # End of function f_detect_ui
 #
 # +----------------------------------------+
@@ -343,7 +338,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/home/robert"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -386,7 +381,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/Some_directory/cli-app-menu"
+      THIS_DIR="/home/robert/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -828,7 +823,7 @@ f_valid_menu_txt () {
                  0 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
                  AAD=0
                  ;;
-                 1 |[Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
+                 1 | [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
                  f_file_download_txt $1 $2
                  ;;
                  2 | [Cc] | [Cc][Hh] | [Cc][Hh][Aa]*)
@@ -2644,8 +2639,8 @@ f_main_list_find_menus_txt () {
          #
          until [ "$AAH" = "0" ]
          do    # Start of List/Find Menu until loop.
-#f_main_list_menus^0^0^0^0  #AAH List All Menus - List all menus and applications.
-#f_main_find_menus^0^0^0^0  #AAH Find All Menus - Find menus containing an application.
+#f_main_list_menus_txt^0^0^0^0  #AAH List All Menus - List all menus and applications.
+#f_main_find_menus_txt^0^0^0^0  #AAH Find All Menus - Find menus containing an application.
                #
                THIS_FILE="cliappmenu.sh"
                MENU_TITLE="List or Find Menus Menu"
@@ -2707,8 +2702,8 @@ f_main_list_find_menus_gui () {
             #
             case $AAH in
                  "Return") AAH=0 ;;
-                 "List All Menus") f_main_list_menus ;;
-                 "Find All Menus") f_main_find_menus ;;
+                 "List All Menus") f_main_list_menus_gui ;;
+                 "Find All Menus") f_main_find_menus_gui ;;
             esac
                #
          done  # End of List/Find Menu until loop.
@@ -2720,26 +2715,53 @@ f_main_list_find_menus_gui () {
 } # End of function f_main_list_find_menus_gui
 #
 # +----------------------------------------+
-# |        Function f_main_list_menus      |
+# |     Function f_main_list_menus_txt     |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_list_menus () {
+f_main_list_menus_txt () {
       less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
-} # End of function f_main_list_menus
+} # End of function f_main_list_menus_txt
 #
 # +----------------------------------------+
-# |        Function f_main_find_menus      |
+# |     Function f_main_list_menus_gui     |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: X, Y.
+# Outputs: None.
+#
+f_main_list_menus_gui () {
+      f_ask_download_file $THIS_DIR "LIST_APPS"
+      #
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         # Display LIST_APPS list of applications.
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "List of Applications" --textbox $THIS_DIR/LIST_APPS $Y $X
+      else
+         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
+      fi
+      unset X Y
+} # End of function f_main_list_menus_gui
+#
+# +----------------------------------------+
+# |      Function f_main_find_menus_txt    |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: X.
 # Outputs: None.
 #
-f_main_find_menus () {
+f_main_find_menus_txt () {
       echo
       echo
       echo "Enter the name of the application to show the menu where it is listed."
@@ -2748,7 +2770,40 @@ f_main_find_menus () {
       read X
       grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 unset X
-} # End of function f_main_find_menus
+} # End of function f_main_find_menus_txt
+#
+# +----------------------------------------+
+# |      Function f_main_find_menus_gui    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, GUI.
+#    Uses: X, XX, Y.
+# Outputs: None.
+#
+f_main_find_menus_gui () {
+      f_ask_download_file $THIS_DIR "LIST_APPS"
+      #
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         # Display LIST_APPS list of applications.
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         XX=$($GUI --inputbox "Enter the name of the application to show the menu where it is listed." 10 70 2>&1 >/dev/tty)
+         grep --ignore-case -B 20 ^" "$XX $THIS_DIR"/LIST_APPS" >cliappmenu.tmp
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Search Results" --textbox cliappmenu.tmp $Y $X
+      else
+         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
+      fi
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+unset X XX Y
+} # End of function f_main_find_menus_gui
 #
 # +----------------------------------------+
 # |       Function f_main_search_apps      |
@@ -2903,7 +2958,7 @@ case $GUI in
      f_menu_term_color_gui
      ;;
      text)
-     f__menu_term_color_txt
+     f_menu_term_color_txt
      ;;
 esac
 } # End of f_menu_term_color
@@ -3627,6 +3682,11 @@ f_main_init_once
 # If you want to force a particular environment, text, whiptail, or dialog,
 # see the tail of function f_detect_ui and uncomment the GUI variable.
 # Those lines are marked "# Diagnostic line." for easy reference.
+#
+# Force $GUI to a specific environment for testing.  # Diagnostic line.
+# GUI="text"      # Diagnostic line.
+# GUI="dialog"    # Diagnostic line.
+# GUI="whiptail"  # Diagnostic line.
 #
 case $GUI in
      dialog | whiptail)

@@ -37,9 +37,9 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_CHANGES=$(grep ^"## 2015" -c $SCRIPT_PATH/"CODE_HISTORY")
+PROJECT_CHANGES=$(grep ^"## 2016" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="3.0 'Ellen'"
-PROJECT_REVDATE="February-10-2016 23:59"
+PROJECT_REVDATE="March-15-2016 23:00"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,12 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2016-03-15 *f_main_list_menus_gui added for GUI.
+##            *f_main_find_menus_gui added for GUI.
+##            *f_menu_term_color fixed typo in call to f_menu_term_color_txt.
+##            *f_menu_cat_audio_video_gui fixed "Audio Editors" menu item.
+##            *f_menu_app_games_screensaver fixed typo in tty-clock description.
 ##
 ## 2016-02-10 *Testing version 3.0 "Ellen".
 ##            *All category sub-menus now use GUIs if available.

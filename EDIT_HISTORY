@@ -38,7 +38,7 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_REVISION="3.0 'Ellen'"
-PROJECT_REVDATE="February-10-2016 23:59"
+PROJECT_REVDATE="March-15-2016 23:00"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,10 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update Version History and version (date stamp string)
 ## of script.
+##
+## 2016-03-15 *Testing version 3.0 "Ellen".
+##            *Added GUI for "List or Find Menus".
+##            *Bug fixes.
 ##
 ## 2016-02-10 *Testing version 3.0 "Ellen".
 ##            *All category sub-menus now use GUIs if available.

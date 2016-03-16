@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="June-30-2015 12:00"
+# REVDATE="March-15-2015 23:00"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_games        |
@@ -420,7 +420,7 @@ f_menu_app_games_screensaver () {
             #f_hint^0^0^8:NC^0  #MSS termsaver    - Screensaver for text terminals.
             #f_hint^1^0^1:NC^1  #MSS textmaze     - Playable Maze on screen
             #f_hint^0^0^8:NC^0  #MSS ticker       - Scrolls text across the screen.
-            #f_hint^0^0^8:NC^0  #MSS tty-clock    - Display a digital clack full-screen.
+            #f_hint^0^0^8:NC^0  #MSS tty-clock    - Display a digital clock full-screen.
             #f_hint^0^0^8:NC^0  #MSS weatherspect - Displays weather information with wallpaper.
             #f_hint^0^0^8:NC^0  #MSS worms        - Worms wiggle on the screen.
             #
