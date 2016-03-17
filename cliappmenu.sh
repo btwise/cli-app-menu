@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="March-15-2016 23:00"
+REVDATE="March-16-2016 23:00"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -1831,6 +1831,7 @@ f_main_help_txt () {
       # so it is not printed.
       # less -P customizes prompt for
       # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+      THIS_FILE="cliappmenu.sh"
       sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 } # End of function f_main_help_txt
 #
@@ -1849,6 +1850,7 @@ f_main_help_gui () {
       # so it is not printed.
       # less -P customizes prompt for
       # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+      THIS_FILE="cliappmenu.sh"
       sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE >cliappmenu.tmp
       # Get the screen resolution or X-window size.
       # Get rows (height).
@@ -2475,6 +2477,7 @@ f_main_license () {
            # Get columns (width).
            X=$(stty size | awk '{ print $2 }')
            #
+           THIS_FILE="cliappmenu.sh"
            sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE >cliappmenu.tmp
            $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "License Agreement" --textbox cliappmenu.tmp $Y $X
            #
@@ -2483,6 +2486,7 @@ f_main_license () {
            fi
            ;;
            text)
+           THIS_FILE="cliappmenu.sh"
            sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
            ;;
       esac
@@ -3027,6 +3031,7 @@ f_menu_term_color_gui () {
             AAE=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
             "Return"  "Return to the previous menu." \
             "Red"     "Red     on black." \
+            "Green"   "Green   on black." \
             "Yellow"  "Yellow  on black." \
             "Blue"    "Blue    on black." \
             "Magenta" "Magenta on black." \
@@ -3040,17 +3045,17 @@ f_menu_term_color_gui () {
             #
             case $AAE in
                  "Return") AAE=0 ;;
-                 "Red") f_color_red ;;
-                 "Green") f_color_green ;;
-                 "Yellow") f_color_yellow ;;
-                 "Blue") f_color_blue ;;
-                 "Magenta") f_color_magenta ;;
-                 "Cyan") f_color_cyan ;;
-                 "White") f_color_white ;;
-                 "BW") f_color_bw ;;
-                 "RW") f_color_rw ;;
-                 "WB") f_color_wb ;;
-                 "YB") f_color_yb ;;
+                 "Red") f_color_red ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Green") f_color_green ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Yellow") f_color_yellow ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Blue") f_color_blue ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Magenta") f_color_magenta ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Cyan") f_color_cyan ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "White") f_color_white ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "BW") f_color_bw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "RW") f_color_rw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "WB") f_color_wb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "YB") f_color_yb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
             esac
       done
 } # End of function f_menu_term_color_gui
@@ -3211,14 +3216,14 @@ f_menu_term_uncolor_gui () {
             #
             case $AAF in
                  "Return") AAF=0 ;;
-                 "Red") f_ucolor_red ;;
-                 "Green") f_ucolor_green ;;
-                 "Yellow") f_ucolor_yellow ;;
-                 "Blue") f_ucolor_blue ;;
-                 "Magenta") f_ucolor_magenta ;;
-                 "Cyan") f_ucolor_cyan ;;
-                 "White") f_ucolor_white ;;
-                 "Gray") f_ucolor_gray ;;
+                 "Red") f_ucolor_red ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Green") f_ucolor_green ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Yellow") f_ucolor_yellow ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Blue") f_ucolor_blue ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Magenta") f_ucolor_magenta ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Cyan") f_ucolor_cyan ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "White") f_ucolor_white ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Gray") f_ucolor_gray ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
            esac
            #
            f_term_color $FCOLOR $BCOLOR # Set terminal color.
