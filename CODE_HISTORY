@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # Usage: sh CODE_HISTORY
 #
@@ -37,9 +37,9 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_CHANGES=$(grep ^"## 2015" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="2.0.1 'Dorothy'"
-PROJECT_REVDATE="January-29-2015 22:26"
+PROJECT_CHANGES=$(grep ^"## 2016" -c $SCRIPT_PATH/"CODE_HISTORY")
+PROJECT_REVISION="3.0 'Ellen'"
+PROJECT_REVDATE="March-15-2016 23:00"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -57,7 +57,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, CODE_HISTORY is under copyright.
-#LIC ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2016 Copyright 2016 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -78,6 +78,31 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2016-03-15 *f_main_list_menus_gui added for GUI.
+##            *f_main_find_menus_gui added for GUI.
+##            *f_menu_term_color fixed typo in call to f_menu_term_color_txt.
+##            *f_menu_cat_audio_video_gui fixed "Audio Editors" menu item.
+##            *f_menu_app_games_screensaver fixed typo in tty-clock description.
+##
+## 2016-02-10 *Testing version 3.0 "Ellen".
+##            *All category sub-menus now use GUIs if available.
+##            *The menu choices "About CLI Menu", "Version History",
+##             "Code History", "Documentation", and "Help and Features",
+##             and "Install to a New Dir" now use Whiptail or Dialog GUIs
+##             if available.
+##
+## 2015-09-04 *Development version 3.0 "Ellen".
+##            *Added  new applications
+##            *f_menu_app_file_find added ag.
+##            *f_menu_app_sys_logs added last, lastb.
+##            *f_history added help for history application.
+##
+## 2015-06-05 *Development version 3.0 "Ellen".
+##            *New look, Main Menu, Configuration Menu, Application Menu
+##             now use "Dialog" GUI if available.
+##            *Sub-menus of application categories now use "Dialog" GUI
+##             if available.
 ##
 ## 2015-01-29 *Release version 2.0.2 "Dorothy".
 ##            *f_main_list_find_menus fixed bug in syntax of unset command.

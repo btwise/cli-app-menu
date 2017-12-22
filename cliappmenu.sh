@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # Usage: bash cliappmenu.sh
 #        (not sh cliappmenu.sh)
@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-29-2015 22:26"
+REVDATE="December-22-2017 17:47"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -145,14 +145,15 @@ REVDATE="January-29-2015 22:26"
 # Outputs: exit 1.
 #
 f_test_dash () {
-      if [ -z "$BASH_VERSION" ]; then
+      if [ -z "$BASH_VERSION" ]; then 
+         # DASH Environment detected, display error message to invoke the BASH environment.
          f_detect_ui # Automatically detect UI environment.
          case $GUI in
-              text)
-              f_test_dash_txt
-              ;;
               dialog | whiptail)
               f_test_dash_gui $GUI
+              ;;
+              text)
+              f_test_dash_txt
               ;;
          esac
          exit 1 # Exit with value $?=1 indicating an error condition
@@ -265,11 +266,6 @@ f_detect_ui () {
             GUI="text"
          fi
       fi
-      #
-      # Force $GUI to a specific environment for testing.  # Diagnostic line.
-      # GUI="text"      # Diagnostic line.
-      # GUI="dialog"    # Diagnostic line.
-      # GUI="whiptail"  # Diagnostic line.
 } # End of function f_detect_ui
 #
 # +----------------------------------------+
@@ -342,7 +338,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/home/robert"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -385,18 +381,19 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/Some_directory/cli-app-menu"
+      THIS_DIR="/home/robert/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       f_detect_ui # Automatically detect UI environment.
+      #echo "GUI=$GUI" ; read X  # Diagnostic line.
       case $GUI in
-           text)
-           f_main_init_txt
-           ;;
            dialog | whiptail)
            f_main_init_gui $GUI
+           ;;
+           text)
+           f_main_init_txt
            ;;
       esac
       #
@@ -812,7 +809,7 @@ f_valid_menu_txt () {
             fi
             echo "--- $MENU_TITLE ---"
             echo
-            echo "0 - Quit to command line prompt."
+            echo "0 - Quit to the command line prompt."
             echo "1 - Download file    - Download the missing file from the GitHub web site."
             echo "2 - Change directory - Change the directory to the correct one."
             echo "3 - List files       - List files in directory."
@@ -826,7 +823,7 @@ f_valid_menu_txt () {
                  0 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
                  AAD=0
                  ;;
-                 1 |[Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
+                 1 | [Dd] | [Dd][Oo] | [Dd][Oo][Ww]*)
                  f_file_download_txt $1 $2
                  ;;
                  2 | [Cc] | [Cc][Hh] | [Cc][Hh][Aa]*)
@@ -866,7 +863,7 @@ f_valid_menu_gui () {
       # Capture result of stdout to $NEW_DIR variable.
       until [ "$AAD" = "0" ]
       do    # Start of Validate Menu until loop.
-            AAD=$($1 --clear --title "Validate Files and Directories Menu" --menu "\n\nUse (up/down arrow keys) or (0 to 3) or (letters):" 15 70 4 \Quit "Quit to command line prompt." \Download "Download the missing file from the GitHub web site." \Change "Change the directory to the correct one." \List "List files in directory." 2>&1 >/dev/tty)
+            AAD=$($1 --clear --title "Validate Files and Directories Menu" --menu "\n\nUse (up/down arrow keys) or (0 to 3) or (letters):" 15 70 4 \Quit "Quit to the command line prompt." \Download "Download the missing file from the GitHub web site." \Change "Change the directory to the correct one." \List "List files in directory." 2>&1 >/dev/tty)
             #
             case $AAD in
                  0 | [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
@@ -1775,23 +1772,99 @@ f_setup_dir_gui () {
       fi
 } # End of function f_setup_dir_gui
 #
+#
 # +----------------------------------------+
-# |          Function f_main_help          |
+# |      Function f_main_applications      |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_applications () {
+      f_menu_cat_applications
+} # End of function f_main_applications
+#
+# +----------------------------------------+
+# |       Function f_main_favorites        |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_favorites () {
+      f_menu_app_favorites
+} # End of function f_main_favorites
+#
+# +----------------------------------------+
+# |           Function f_main_help         |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_help () {
+case $GUI in
+     dialog | whiptail)
+     f_main_help_gui
+     ;;
+     text)
+     f_main_help_txt
+     ;;
+esac
+} # End of f_main_help
+#
+# +----------------------------------------+
+# |        Function f_main_help_txt        |
 # +----------------------------------------+
 #
 #  Inputs: MAINMENU_DIR, THIS_FILE. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_help () {
+f_main_help_txt () {
       clear # Blank the screen.
       # Display Help (all lines beginning with "#@" but do not print "#@").
       # sed substitutes null for "#@" at the beginning of each line
       # so it is not printed.
       # less -P customizes prompt for
       # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+      THIS_FILE="cliappmenu.sh"
       sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE | less -P '(Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
-} # End of function f_main_help
+} # End of function f_main_help_txt
+#
+# +----------------------------------------+
+# |        Function f_main_help_gui        |
+# +----------------------------------------+
+#
+#  Inputs: MAINMENU_DIR, THIS_FILE. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_help_gui () {
+      clear # Blank the screen.
+      # Display Help (all lines beginning with "#@" but do not print "#@").
+      # sed substitutes null for "#@" at the beginning of each line
+      # so it is not printed.
+      # less -P customizes prompt for
+      # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+      THIS_FILE="cliappmenu.sh"
+      sed -n 's/^#@//'p $MAINMENU_DIR/$THIS_FILE >cliappmenu.tmp
+      # Get the screen resolution or X-window size.
+      # Get rows (height).
+      Y=$(stty size | awk '{ print $1 }')
+      let Y=$Y-3  # Make room at top of window for a backtitle.
+      # Get columns (width).
+      X=$(stty size | awk '{ print $2 }')
+      #
+      $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "General User Instructions" --textbox cliappmenu.tmp $Y $X
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+} # End of function f_main_help_gui
 #
 # +----------------------------------------+
 # |           Function f_main_about        |
@@ -1846,6 +1919,27 @@ f_main_about () {
       # The first awk results in the date in quotes as a string.
       # The second awk strips the quotation marks from the date string.
       #
+      case $GUI in
+           dialog | whiptail)
+           f_main_about_gui
+           ;;
+           text)
+           f_main_about_txt
+           ;;
+      esac
+      #
+      unset X
+} # End of function f_main_about
+#
+# +----------------------------------------+
+# |        Function f_main_about_txt       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_about_txt () {
       clear # Blank the screen.
       echo "Project version: $PROJECT_REVISION"
       echo " Last edited on: $PROJECT_REVDATE"
@@ -1857,19 +1951,67 @@ f_main_about () {
       echo "$THIS_DIR"
       f_press_enter_key_to_continue
       PRESS_KEY=0
+} # End of function f_main_about_txt
+#
+# +----------------------------------------+
+# |        Function f_main_about_gui       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_about_gui () {
+      echo "Project version: $PROJECT_REVISION" >cliappmenu.tmp
+      echo " Last edited on: $PROJECT_REVDATE" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Main Menu script cliappmenu.sh is located in:" >>cliappmenu.tmp
+      echo "$MAINMENU_DIR" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Module library files and documentation is located in:" >>cliappmenu.tmp
+      echo "$THIS_DIR" >>cliappmenu.tmp
+      # Get the screen resolution or X-window size.
+      # Get rows (height).
+      Y=$(stty size | awk '{ print $1 }')
+      let Y=$Y-3  # Make room at top of window for a backtitle.
+      # Get columns (width).
+      X=$(stty size | awk '{ print $2 }')
       #
-      unset X
-} # End of function f_main_about
+      $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "About CLI-APP-MENU Project" --textbox cliappmenu.tmp $Y $X
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+} # End of function f_main_about_gui
 #
 # +----------------------------------------+
 # |        Function f_main_configure       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_configure () {
+case $GUI in
+     dialog | whiptail)
+     f_main_configure_gui
+     ;;
+     text)
+     f_main_configure_txt
+     ;;
+esac
+} # End of f_main_configure
+#
+# +----------------------------------------+
+# |      Function f_main_configure_txt     |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: AAC , MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: THIS_FILE.
 #
-f_main_configure () {
+f_main_configure_txt () {
       f_initvars_menu_app "AAC"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -1884,7 +2026,7 @@ f_main_configure () {
 #f_update_list_apps^0^0^0^0      #AAC Update App List    - Update list of applications in ACTIVATED modules.
 #f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List Files         - List all support and library program files.
 #f_menu_term_color^0^0^0^0       #AAC Colors             - Set default font/background colors.
-#f_menu_uncolor^0^0^0^0          #AAC Un-colors          - Set font color for unavailable library modules.
+#f_menu_term_uncolor^0^0^0^0     #AAC Un-colors          - Set font color for unavailable library modules.
 #f_reinstall_readme^0^0^0^1      #AAC Install to New Dir - HOW-TO re-install script into another directory.
             #
             THIS_FILE="cliappmenu.sh"
@@ -1899,17 +2041,78 @@ f_main_configure () {
       unset AAC MENU_ITEM MENU_TITLE  # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-} # End of function f_main_configure
+} # End of function f_main_configure_txt
 #
 # +----------------------------------------+
-# |        Function f_main_information     |
+# |      Function f_main_configure_gui     |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAC, MENU_TITLE.
+# Outputs: None.
+#
+f_main_configure_gui () {
+      f_initvars_menu_app "AAC"
+      MENU_TITLE="Configuration Menu"
+      until [ "$AAC" = "0" ]
+      do    # Start of Main Configure Menu until loop.
+            AAC=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 9) or (letters):" 20 80 11 \
+            "Return" "Return to the previous menu." \
+            "Update Program" "Update menu scripts from the GitHub repository." \
+            "Update All Modules" "Update all installed modules from GitHub repository." \
+            "Manage Modules" "Add/Delete/Remove/Restore/Update selected modules." \
+            "Update App List" "Update list of applications in ACTIVATED modules." \
+            "List Files" "List all support and library program files." \
+            "Colors" "Set default font/background colors." \
+            "Un-colors" "Set font color for unavailable library modules." \
+            "Install to New Dir" "HOW-TO re-install script into another directory." \
+            2>&1 >/dev/tty)
+            #
+            case $AAC in
+                 "Return") AAC=0 ;;
+                 "Update Program") f_update_software ;;
+                 "Update All Modules") f_update_all_modules ;;
+                 "Manage Modules") f_menu_module_manager ;;
+                 "Update App List") f_update_list_apps ;;
+                 "List Files") f_ls_this_dir $THIS_DIR ;;
+                 "Colors") f_menu_term_color ;;
+                 "Un-colors") f_menu_term_uncolor ;;
+                 "Install to New Dir") f_reinstall_readme ;;
+            esac
+      done  # End of Main Configure Menu until loop.
+      #
+      unset AAC MENU_TITLE
+} # End of f_main_configure_gui
+#
+#
+# +----------------------------------------+
+# |      Function f_main_information       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_information () {
+case $GUI in
+     dialog | whiptail)
+     f_main_information_gui
+     ;;
+     text)
+     f_main_information_txt
+     ;;
+esac
+} # End of f_main_information
+#
+# +----------------------------------------+
+# |      Function f_main_information_txt   |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: AAG, MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: THIS_FILE.
 #
-f_main_information () {
+f_main_information_txt () {
       f_initvars_menu_app "AAG"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -1918,11 +2121,11 @@ f_main_information () {
       #
       until [ "$AAG" = "0" ]
       do    # Start of Configuration Menu until loop.
-#f_main_about^0^0^0^0         #AAG About CLI Menu - What version am I using.
-#f_main_edit_history^0^0^0^0  #AAG Version        - Version/Release History.
-#f_main_documentation^0^0^0^0 #AAG Documentation  - Script documentation, programmer notes, HOW-TOs.
-#f_main_code_history^0^0^0^0  #AAG Code History   - All the craziness behind the scenes.
-#f_main_license^0^0^0^0       #AAG License        - Licensing, GPL.
+#f_main_about^0^0^0^0            #AAG About CLI Menu  - What version am I using.
+#f_main_version_history^0^0^0^0  #AAG Version History - Version/Release history with general summaries.
+#f_main_documentation^0^0^0^0    #AAG Documentation   - Script documentation, programmer notes, HOW-TOs.
+#f_main_code_history^0^0^0^0     #AAG Code History    - All the craziness behind the scenes.
+#f_main_license^0^0^0^0          #AAG License         - Licensing, GPL.
             #
             THIS_FILE="cliappmenu.sh"
             MENU_TITLE="Information Menu"
@@ -1936,18 +2139,71 @@ f_main_information () {
       unset AAG MENU_ITEM MENU_TITLE # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-
-} # End of function f_main_information
+} # End of function f_main_information_txt
 #
 # +----------------------------------------+
-# |      Function f_main_documentation     |
+# |      Function f_main_information_gui   |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAG, MENU_TITLE.
+# Outputs: None.
+#
+f_main_information_gui () {
+      f_initvars_menu_app "AAG"
+      MENU_TITLE="Information Menu"
+      until [ "$AAG" = "0" ]
+      do    # Start of Main Information Menu until loop.
+            AAG=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 6) or (letters):" 20 80 11 \
+            "Return" "Return to the previous menu." \
+            "About CLI Menu" "What version am I using." \
+            "Version History" "Version/Release history with general summaries." \
+            "Documentation" "Script documentation, programmer notes, HOW-TOs." \
+            "Code History" "All the craziness behind the scenes." \
+            "License" "Licensing, GPL." \
+            2>&1 >/dev/tty)
+            #
+            case $AAG in
+                 "Return") AAG=0 ;;
+                 "About CLI Menu") f_main_about ;;
+                 "Version History") f_main_version_history ;;
+                 "Documentation") f_main_documentation ;;
+                 "Code History") f_main_code_history ;;
+                 "License") f_main_license ;;
+           esac
+      done  # End of Main Information Menu until loop.
+      #
+      unset AAC MENU_TITLE
+} # End of function f_main_information_gui
+#
+# +----------------------------------------+
+# |     Function f_main_documentation      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_documentation () {
+case $GUI in
+     dialog | whiptail)
+     f_main_documentation_gui
+     ;;
+     text)
+     f_main_documentation_txt
+     ;;
+esac
+} # End of f_main_documentation
+#
+# +----------------------------------------+
+# |    Function f_main_documentation_txt   |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_documentation () {
+f_main_documentation_txt () {
       f_ask_download_file $THIS_DIR "README"
       #
       if [ -r $THIS_DIR"/README" ] ; then
@@ -1959,20 +2215,73 @@ f_main_documentation () {
          # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
          sed -n 's/^#://'p $THIS_DIR"/README" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
       fi
-} # End of function f_main_documentation
+} # End of function f_main_documentation_txt
 #
 # +----------------------------------------+
-# |      Function f_main_edit_history      |
+# |    Function f_main_documentation_gui   |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_edit_history () {
+f_main_documentation_gui () {
+      f_ask_download_file $THIS_DIR "README"
+      #
+      if [ -r $THIS_DIR"/README" ] ; then
+         # Display README Documentation
+         # (all lines beginning with "#:" but do not print "#:").
+         # sed substitutes null for "#:" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         sed -n 's/^#://'p $THIS_DIR"/README"'' >cliappmenu.tmp
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "README - Programming Documentation" --textbox cliappmenu.tmp $Y $X
+         #
+         if [ -r cliappmenu.tmp ] ; then
+            rm cliappmenu.tmp
+         fi
+      fi
+} # End of function f_main_documentation_gui
+#
+# +----------------------------------------+
+# |    Function f_main_version_history     |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_version_history () {
+case $GUI in
+     dialog | whiptail)
+     f_main_version_history_gui
+     ;;
+     text)
+     f_main_version_history_txt
+     ;;
+esac
+} # End of f_main_version_history
+#
+# +----------------------------------------+
+# |  Function f_main_version_history_txt   |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_version_history_txt () {
       f_ask_download_file $THIS_DIR "EDIT_HISTORY"
       #
-      if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+      if [ -r  $THIS_DIR"/EDIT_HISTORY" ] ; then
          # Display Edit History
          # (all lines beginning with "##" but do not print "##").
          # sed substitutes null for "##" at the beginning of each line
@@ -1982,17 +2291,70 @@ f_main_edit_history () {
          sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
-} # End of function f_menu_edit_history
+} # End of function f_menu_edit_history_txt
 #
 # +----------------------------------------+
-# |      Function f_main_code_history      |
+# |    Function f_main_edit_history_gui    |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
+f_main_version_history_gui () {
+      f_ask_download_file $THIS_DIR "EDIT_HISTORY"
+      #
+      if [ -r $THIS_DIR"/EDIT_HISTORY" ] ; then
+         # Display Edit History
+         # (all lines beginning with "##" but do not print "##").
+         # sed substitutes null for "##" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         sed -n 's/^##//'p $THIS_DIR"/EDIT_HISTORY"'' >cliappmenu.tmp
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Version History" --textbox cliappmenu.tmp $Y $X
+         #
+         if [ -r cliappmenu.tmp ] ; then
+            rm cliappmenu.tmp
+         fi
+      fi
+} # End of function f_menu_version_history_gui
+#
+# +----------------------------------------+
+# |     Function f_main_code_history       |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
 f_main_code_history () {
+case $GUI in
+     dialog | whiptail)
+     f_main_code_history_gui
+     ;;
+     text)
+     f_main_code_history_txt
+     ;;
+esac
+} # End of f_main_code_history
+#
+# +----------------------------------------+
+# |    Function f_main_code_history_txt    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_code_history_txt () {
       f_ask_download_file $THIS_DIR "CODE_HISTORY"
       #
       if [ -r $THIS_DIR"/CODE_HISTORY" ] ; then
@@ -2005,7 +2367,41 @@ f_main_code_history () {
          sed -n 's/^##//'p $THIS_DIR"/CODE_HISTORY" | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
          PRESS_KEY=0
       fi
-} # End of function f_menu_code_history
+} # End of function f_menu_code_history_txt
+#
+# +----------------------------------------+
+# |    Function f_main_code_history_gui    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_code_history_gui () {
+      f_ask_download_file $THIS_DIR "CODE_HISTORY"
+      #
+      if [ -r $THIS_DIR"/CODE_HISTORY" ] ; then
+         # Display Edit History
+         # (all lines beginning with "##" but do not print "##").
+         # sed substitutes null for "##" at the beginning of each line
+         # so it is not printed.
+         # less -P customizes prompt for
+         # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
+         sed -n 's/^##//'p $THIS_DIR"/CODE_HISTORY"  >cliappmenu.tmp
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Code History" --textbox cliappmenu.tmp $Y $X
+         #
+         if [ -r cliappmenu.tmp ] ; then
+            rm cliappmenu.tmp
+         fi
+      fi
+} # End of function f_menu_code_history_gui
 #
 # +----------------------------------------+
 # |      Function f_ask_download_file      |
@@ -2061,7 +2457,7 @@ f_ask_download_file () {
 # +----------------------------------------+
 #
 #  Inputs: MAINMENU_DIR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
-#    Uses: X.
+#    Uses: X, Y.
 # Outputs: APP_NAME, WEB_SITE.
 #
 f_main_license () {
@@ -2072,7 +2468,29 @@ f_main_license () {
       # so it is not printed.
       # less -P customizes prompt for
       # %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
-      sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+      case $GUI in
+           dialog | whiptail)
+           # Get the screen resolution or X-window size.
+           # Get rows (height).
+           Y=$(stty size | awk '{ print $1 }')
+           let Y=$Y-3  # Make room at top of window for a backtitle.
+           # Get columns (width).
+           X=$(stty size | awk '{ print $2 }')
+           #
+           THIS_FILE="cliappmenu.sh"
+           sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE >cliappmenu.tmp
+           $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "License Agreement" --textbox cliappmenu.tmp $Y $X
+           #
+           if [ -r cliappmenu.tmp ] ; then
+              rm cliappmenu.tmp
+           fi
+           ;;
+           text)
+           THIS_FILE="cliappmenu.sh"
+           sed -n 's/^#LIC//'p $MAINMENU_DIR/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+           ;;
+      esac
+      #
       X="" # Initialize scratch variable.
       while [  "$X" != "YES" -a "$X" != "NO" ]
       do
@@ -2084,6 +2502,46 @@ f_main_license () {
                  X="YES"
                  echo
                  if [ ! -r $THIS_DIR"/COPYING" ] ; then
+                    f_main_license_missing
+                 fi
+                 #
+                 if [ -r $THIS_DIR"/COPYING" ] ; then
+                    case $GUI in
+                         dialog | whiptail)
+                         # Get the screen resolution or X-window size.
+                         # Get rows (height).
+                         Y=$(stty size | awk '{ print $1 }')
+                         let Y=$Y-3  # Make room at top of window for a backtitle.
+                         # Get columns (width).
+                         X=$(stty size | awk '{ print $2 }')
+                         #
+                         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Full License Agreement" --textbox $THIS_DIR"/COPYING" $Y $X
+                         ;;
+                         text)
+                         less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/COPYING"
+                         ;;
+                    esac
+                 fi
+                 X="YES"
+                 ;;
+                 [Nn] | [Nn][Oo])
+                 X="NO"
+                 ;;
+            esac # End of license case statement.
+      done
+      #
+      unset X Y
+} # End of function f_main_license
+#
+# +----------------------------------------+
+# |     Function f_main_license_missing    |
+# +----------------------------------------+
+#
+#  Inputs: MAINMENU_DIR, THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: X.
+# Outputs: APP_NAME, WEB_SITE.
+#
+f_main_license_missing () {
                     X="" # Initialize scratch variable.
                     while [  "$X" != "YES" -a "$X" != "NO" ]
                     do
@@ -2129,31 +2587,36 @@ f_main_license () {
                                ;;
                           esac # End of git download case statement.
                     done
-                 fi
-                 #
-                 if [ -r $THIS_DIR"/COPYING" ] ; then
-                    less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/COPYING"
-                 fi
-                 X="YES"
-                 ;;
-                 [Nn] | [Nn][Oo])
-                 X="NO"
-                 ;;
-            esac # End of license case statement.
-      done
-      #
-      unset X
-} # End of function f_main_license
+} # End of function f_main_license_missing.
 #
 # +----------------------------------------+
 # |     Function f_main_list_find_menus    |
 # +----------------------------------------+
 #
-#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
-#    Uses: X, AAH, MENU_ITEM, MENU_TITLE, DELIMITER.
-# Outputs: THIS_FILE.
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
 #
 f_main_list_find_menus () {
+case $GUI in
+     dialog | whiptail)
+     f_main_list_find_menus_gui
+     ;;
+     text)
+     f_main_list_find_menus_txt
+     ;;
+esac
+} # End of function f_main_list_find_menus
+#
+# +----------------------------------------+
+# |   Function f_main_list_find_menus_txt  |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: AAH, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
+#
+f_main_list_find_menus_txt () {
       if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
          clear # Blank the screen.
          #
@@ -2180,8 +2643,8 @@ f_main_list_find_menus () {
          #
          until [ "$AAH" = "0" ]
          do    # Start of List/Find Menu until loop.
-#f_main_list_menus^0^0^0^0  #AAH List All Menus - List all menus and applications.
-#f_main_find_menus^0^0^0^0  #AAH Find All Menus - Find menus containing an application.
+#f_main_list_menus_txt^0^0^0^0  #AAH List All Menus - List all menus and applications.
+#f_main_find_menus_txt^0^0^0^0  #AAH Find All Menus - Find menus containing an application.
                #
                THIS_FILE="cliappmenu.sh"
                MENU_TITLE="List or Find Menus Menu"
@@ -2196,29 +2659,113 @@ f_main_list_find_menus () {
          # Do not unset DELIMITER because it is needed when this function ends and
          # program flow returns to the Main Menu to prevent running of MENU_ITEM.
       fi
-} # End of function f_main_list_find_menus
+} # End of function f_main_list_find_menus_txt
 #
 # +----------------------------------------+
-# |        Function f_main_list_menus      |
+# |   Function f_main_list_find_menus_gui  |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
+#    Uses: AAH, THIS_FILE, MENU_TITLE.
+# Outputs: None.
+#
+f_main_list_find_menus_gui () {
+      if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
+         clear # Blank the screen.
+         #
+         # Use different color font for error messages.
+         f_term_color $ECOLOR $BCOLOR
+         echo $(tput bold)
+         #
+         echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
+         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
+         echo
+         echo "The file LIST_APPS will now be automatically created/updated:"
+         echo
+         f_press_enter_key_to_continue
+         # Download/Update file LIST_APPS.
+         f_update_list_apps
+      fi
+      # display LIST_APPS
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         f_initvars_menu_app "AAH"
+         # When $DELIMITER is set as above, then f_menu_item_process
+         # does not call f_application_run and try to run the menu item's name.
+         # i.e. "Colors", "Un-colors" or "Update", etc.
+         # since those are not the names of executable (run-able) applications.
+         #
+         THIS_FILE="cliappmenu.sh"
+         MENU_TITLE="List or Find Menus Menu"
+         until [ "$AAH" = "0" ]
+         do    # Start of List/Find Menu until loop.
+            AAH=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return" "Return to the previous menu." \
+            "List All Menus" "List all menus and applications." \
+            "Find All Menus" "Find menus containing an application." \
+            2>&1 >/dev/tty)
+            #
+            case $AAH in
+                 "Return") AAH=0 ;;
+                 "List All Menus") f_main_list_menus_gui ;;
+                 "Find All Menus") f_main_find_menus_gui ;;
+            esac
+               #
+         done  # End of List/Find Menu until loop.
+         #
+         unset AAH MENU_TITLE  # Throw out this variable.
+         # Do not unset DELIMITER because it is needed when this function ends and
+         # program flow returns to the Main Menu to prevent running of MENU_ITEM.
+      fi
+} # End of function f_main_list_find_menus_gui
+#
+# +----------------------------------------+
+# |     Function f_main_list_menus_txt     |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: None.
 # Outputs: None.
 #
-f_main_list_menus () {
+f_main_list_menus_txt () {
       less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
-} # End of function f_main_list_menus
+} # End of function f_main_list_menus_txt
 #
 # +----------------------------------------+
-# |        Function f_main_find_menus      |
+# |     Function f_main_list_menus_gui     |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: X, Y.
+# Outputs: None.
+#
+f_main_list_menus_gui () {
+      f_ask_download_file $THIS_DIR "LIST_APPS"
+      #
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         # Display LIST_APPS list of applications.
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "List of Applications" --textbox $THIS_DIR/LIST_APPS $Y $X
+      else
+         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
+      fi
+      unset X Y
+} # End of function f_main_list_menus_gui
+#
+# +----------------------------------------+
+# |      Function f_main_find_menus_txt    |
 # +----------------------------------------+
 #
 #  Inputs: THIS_DIR. 
 #    Uses: X.
 # Outputs: None.
 #
-f_main_find_menus () {
+f_main_find_menus_txt () {
       echo
       echo
       echo "Enter the name of the application to show the menu where it is listed."
@@ -2227,7 +2774,40 @@ f_main_find_menus () {
       read X
       grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 unset X
-} # End of function f_main_find_menus
+} # End of function f_main_find_menus_txt
+#
+# +----------------------------------------+
+# |      Function f_main_find_menus_gui    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, GUI.
+#    Uses: X, XX, Y.
+# Outputs: None.
+#
+f_main_find_menus_gui () {
+      f_ask_download_file $THIS_DIR "LIST_APPS"
+      #
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         # Display LIST_APPS list of applications.
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         XX=$($GUI --inputbox "Enter the name of the application to show the menu where it is listed." 10 70 2>&1 >/dev/tty)
+         grep --ignore-case -B 20 ^" "$XX $THIS_DIR"/LIST_APPS" >cliappmenu.tmp
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Search Results" --textbox cliappmenu.tmp $Y $X
+      else
+         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
+      fi
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+unset X XX Y
+} # End of function f_main_find_menus_gui
 #
 # +----------------------------------------+
 # |       Function f_main_search_apps      |
@@ -2377,6 +2957,25 @@ f_term_color () {  # Set terminal display properties.
 # Outputs: THIS_FILE.
 #
 f_menu_term_color () {
+case $GUI in
+     dialog | whiptail)
+     f_menu_term_color_gui
+     ;;
+     text)
+     f_menu_term_color_txt
+     ;;
+esac
+} # End of f_menu_term_color
+#
+# +----------------------------------------+
+# |      Function f_menu_term_color_txt    |
+# +----------------------------------------+
+#
+#  Inputs: FCOLOR, BCOLOR.
+#    Uses: AAE, MENU_ITEM, MENU_TITLE, DELIMITER.
+# Outputs: THIS_FILE.
+#
+f_menu_term_color_txt () {
       f_initvars_menu_app "AAE"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -2414,7 +3013,52 @@ f_menu_term_color () {
       unset AAE MENU_ITEM MENU_TITLE  # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-} # End of function f_menu_term_color
+} # End of function f_menu_term_color_txt
+#
+# +----------------------------------------+
+# |      Function f_menu_term_color_gui    |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAE, MENU_TITLE.
+# Outputs: None.
+#
+f_menu_term_color_gui () {
+      f_initvars_menu_app "AAE"
+      MENU_TITLE="Terminal Colors Menu"
+      until [ "$AAE" = "0" ]
+      do    # Start of Main Information Menu until loop.
+            AAE=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"  "Return to the previous menu." \
+            "Red"     "Red     on black." \
+            "Green"   "Green   on black." \
+            "Yellow"  "Yellow  on black." \
+            "Blue"    "Blue    on black." \
+            "Magenta" "Magenta on black." \
+            "Cyan"    "Cyan    on black." \
+            "White"   "White   on black." \
+            "BW"      "Black   on white." \
+            "RW"      "Red     on white." \
+            "WB"      "White   on blue (Classic "Blueprint")." \
+            "YB"      "Yellow  on blue." \
+            2>&1 >/dev/tty)
+            #
+            case $AAE in
+                 "Return") AAE=0 ;;
+                 "Red") f_color_red ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Green") f_color_green ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Yellow") f_color_yellow ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Blue") f_color_blue ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Magenta") f_color_magenta ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Cyan") f_color_cyan ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "White") f_color_white ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "BW") f_color_bw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "RW") f_color_rw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "WB") f_color_wb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "YB") f_color_yb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+            esac
+      done
+} # End of function f_menu_term_color_gui
 #
 # +----------------------------------------+
 # |         Function f_color_<color>       |
@@ -2482,14 +3126,33 @@ f_color_yb () {
 }
 #
 # +----------------------------------------+
-# |          Function f_menu_uncolor       |
+# |       Function f_menu_term_uncolor     |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_menu_term_uncolor () {
+case $GUI in
+     dialog | whiptail)
+     f_menu_term_uncolor_gui
+     ;;
+     text)
+     f_menu_term_uncolor_txt
+     ;;
+esac
+} # End of f_menu_term_uncolor
+#
+# +----------------------------------------+
+# |     Function f_menu_term_uncolor_txt   |
 # +----------------------------------------+
 #
 #  Inputs: FCOLOR, BCOLOR.
 #    Uses: AAF, MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: THIS_FILE.
 #
-f_menu_uncolor () {
+f_menu_term_uncolor_txt () {
       f_initvars_menu_app "AAF"
       # When $DELIMITER is set as above, then f_menu_item_process does not call
       # f_application_run and try to run the menu item's name.
@@ -2523,7 +3186,55 @@ f_menu_uncolor () {
       unset AAF MENU_ITEM MENU_TITLE  # Throw out this variable.
       # Do not unset DELIMITER because it is needed when this function ends and
       # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-} # End of function f_menu_uncolor
+} # End of function f_menu_term_uncolor_txt
+#
+# +----------------------------------------+
+# |     Function f_menu_term_uncolor_gui   |
+# +----------------------------------------+
+#
+#  Inputs: FCOLOR, BCOLOR.
+#    Uses: AAF, MENU_TITLE.
+# Outputs: None.
+#
+f_menu_term_uncolor_gui () {
+      f_initvars_menu_app "AAF"
+      THIS_FILE="cliappmenu.sh"
+      MENU_TITLE="Colors for Unavailable Menu Items"
+      until [ "$AAF" = "0" ]
+      do    # Start of Unavailable Colors until loop.
+            AAF=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"  "Return to the previous menu." \
+            "Red"     "Red." \
+            "Green"   "Green." \
+            "Yellow"  "Yellow."\
+            "Blue"    "Blue." \
+            "Magenta" "Magenta." \
+            "Cyan"    "Cyan." \
+            "White"   "White." \
+            "Gray"    "Gray (not available in 8-color terminals)." \
+            2>&1 >/dev/tty)
+            #
+            case $AAF in
+                 "Return") AAF=0 ;;
+                 "Red") f_ucolor_red ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Green") f_ucolor_green ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Yellow") f_ucolor_yellow ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Blue") f_ucolor_blue ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Magenta") f_ucolor_magenta ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Cyan") f_ucolor_cyan ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "White") f_ucolor_white ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+                 "Gray") f_ucolor_gray ; f_term_color $UCOLOR $BCOLOR ; echo -n "Unavailable menu items." ; f_term_color $FCOLOR $BCOLOR ; echo -n " Available menu items.   " ; echo -n "Press <Enter> key to continue." ; read X ;;
+           esac
+           #
+           f_term_color $FCOLOR $BCOLOR # Set terminal color.
+           echo $(tput bold) # set bold font.
+           #
+      done  # End of Unavailable Colors until loop.
+      #
+      unset AAF MENU_TITLE  # Throw out this variable.
+      # Do not unset DELIMITER because it is needed when this function ends and
+      # program flow returns to the Main Menu to prevent running of MENU_ITEM.
+} # End of function f_menu_term_uncolor_gui
 #
 # +----------------------------------------+
 # |         Function f_ucolor_<color>      |
@@ -2746,14 +3457,33 @@ f_ls_this_dir () {
 } # End of function f_ls_this_dir
 #
 # +----------------------------------------+
-# |      Function f_reinstall_readme       |
+# |     Function f_reinstall_readme        |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_readme () {
+case $GUI in
+     dialog | whiptail)
+     f_reinstall_readme_gui
+     ;;
+     text)
+     f_reinstall_readme_txt
+     ;;
+esac
+} # End of f_main_code_history
+#
+# +----------------------------------------+
+# |    Function f_reinstall_readme_txt     |
 # +----------------------------------------+
 #
 #  Inputs: $1 - Directory. 
 #    Uses: None.
 # Outputs: None.
 #
-f_reinstall_readme () {
+f_reinstall_readme_txt () {
       clear # Blank the screen.
       echo "To re-install this software into another location/directory,"
       echo "simply copy the file, "cliappmenu.sh" to the other directory."
@@ -2773,7 +3503,165 @@ f_reinstall_readme () {
       echo
       echo "Then the mini-installer will automatically run and give you more instructions."
       echo
-} # End of function f_reinstall_readme
+} # End of function f_reinstall_readme_txt
+#
+# +----------------------------------------+
+# |    Function f_reinstall_readme_gui     |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_readme_gui () {
+      echo "To re-install this software into another location/directory," >cliappmenu.tmp
+      echo "simply copy the file, "cliappmenu.sh" to the other directory." >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        cp <old directory>/cliappmenu.sh <new directory>" >>cliappmenu.tmp
+      echo "             or" >>cliappmenu.tmp
+      echo  "       sudo cp <old directory>/cliappmenu.sh <new directory>" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Then change to the new directory and run the script." >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        cd <new directory>" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        bash cliappmenu.sh" >>cliappmenu.tmp
+      echo "             or" >>cliappmenu.tmp
+      echo "        sudo bash cliappmenu.sh" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Then the mini-installer will automatically run" >>cliappmenu.tmp
+      echo "and give you more instructions." >>cliappmenu.tmp
+      # Get the screen resolution or X-window size.
+      # Get rows (height).
+      Y=$(stty size | awk '{ print $1 }')
+      let Y=$Y-3  # Make room at top of window for a backtitle.
+      # Get columns (width).
+      X=$(stty size | awk '{ print $2 }')
+      #
+      $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "HOW-TO Reinstall" --textbox cliappmenu.tmp $Y $X
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+} # End of function f_reinstall_readme_gui
+#
+# **************************************
+# ***         Main Menu Text         ***
+# **************************************
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_menu_txt () {
+      f_initvars_menu_app "AAA"
+      # When $DELIMITER is set as above,
+      # then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Applications", "Help and Features" or "About CLI Menu",
+      #      "Configure", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
+      until [ "$AAA" = "0" ]
+      do    # Start of Main Menu until loop.
+            #f_menu_cat_applications #AAA Applications       - Run an application.
+            #f_menu_app_favorites    #AAA Favorites          - Menu of favorite applications.
+            #f_main_search_apps      #AAA Find and Run       - Find & run an application in active menus.
+            #f_main_list_find_menus  #AAA List or Find Menus - List all menus or find a menu containing an app.
+            #f_main_configure        #AAA Configure          - Update software, manage modules, change colors, etc.
+            #f_main_help             #AAA Help and Features  - Basic usage and what can it do.
+            #f_main_information      #AAA Information        - About, version, documentation, code history, license.
+            #
+            THIS_FILE="cliappmenu.sh"
+            MENU_TITLE="Main Menu"
+            DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu items.
+            #
+            f_show_menu "$MENU_TITLE" "$DELIMITER"
+            read AAA
+            f_menu_item_process $AAA  # Outputs $MENU_ITEM.
+                                      # Sets AAA=0 for item option Quit.
+      done  # End of Main Menu until loop.
+      #
+      # Unset all variables because the following libraries and all modules are
+      # "sourced" which means that any variables set by these sourced
+      # module/library files will remain behind in the shell unless unset
+      # explicitly.
+      #
+      # List of "Sourced" module/library files.
+      # . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      # . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
+      # . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
+      # . $THIS_DIR/mod_apps_*.lib        # invoke module/library.
+
+      unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
+      #
+      clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
+      #
+      exit 0 # Exit with exit code 0.
+      # This cleanly closes the process generated by #!bin/bash. 
+      # Otherwise every time this script is run, another instance of
+      # process /bin/bash is created using up resources.
+} # End of function f_main_menu_txt
+#
+# **************************************
+# ***         Main Menu GUI          ***
+# **************************************
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_menu_gui () {
+      f_main_init_once
+      f_initvars_menu_app "AAA"
+      # When $DELIMITER is set as above,
+      # then f_menu_item_process does not call f_application_run and
+      # try to run the menu item's name.
+      # i.e. "Applications", "Help and Features" or "About CLI Menu",
+      #      "Configure", etc.
+      # since those are not the names of executable (run-able) applications.
+      #
+      until [ "$AAA" = "0" ]
+      do    # Start of Main Menu until loop.
+            MENU_TITLE="Main Menu"
+            AAA=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (1 to 8) or (letters):" 20 80 11 \
+            "Quit" "Quit to the command line prompt." \
+            "Applications" "Run an application." \
+            "Favorites" "Menu of favorite applications." \
+            "Find and Run" "Find & run an application in active menus." \
+            "List or Find Menus" "List all menus or find a menu containing an app." \
+            "Configure" "Update software, manage modules, change colors, etc." \
+            "Help and Features" "Basic usage and what can it do." \
+            "Information" "About, version, documentation, code history, license." \
+            2>&1 >/dev/tty)
+            #
+            case $AAA in
+                 "Quit") AAA=0 ;;
+                 "Applications") f_main_applications ;;
+                 "Favorites") f_main_favorites ;;
+                 "Find and Run") f_main_search_apps ;;
+                 "List or Find Menus") f_main_list_find_menus ;;
+                 "Configure") f_main_configure ;;
+                 "Help and Features") f_main_help ;;
+                 "Information") f_main_information ;;
+            esac
+      done  # End of Main Menu until loop.
+      #
+      # Unset all variables because the following libraries and all modules are
+      # "sourced" which means that any variables set by these sourced
+      # module/library files will remain behind in the shell unless unset
+      # explicitly.
+      #
+      unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
+      #
+      clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
+      #
+      exit 0 # Exit with exit code 0.
+      # This cleanly closes the process generated by #!bin/bash. 
+      # Otherwise every time this script is run, another instance of
+      # process /bin/bash is created using up resources.
+} # End of function f_main_menu_gui
 #
 # **************************************
 # ***     Start of Main Program      ***
@@ -2800,55 +3688,18 @@ f_main_init_once
 # see the tail of function f_detect_ui and uncomment the GUI variable.
 # Those lines are marked "# Diagnostic line." for easy reference.
 #
-# **************************************
-# ***           Main Menu            ***
-# **************************************
+# Force $GUI to a specific environment for testing.  # Diagnostic line.
+GUI="text"      # Diagnostic line.
+# GUI="dialog"    # Diagnostic line.
+# GUI="whiptail"  # Diagnostic line.
 #
-f_initvars_menu_app "AAA"
-      # When $DELIMITER is set as above,
-      # then f_menu_item_process does not call f_application_run and
-      # try to run the menu item's name.
-      # i.e. "Applications", "Help and Features" or "About CLI Menu",
-      #      "Configure", etc.
-      # since those are not the names of executable (run-able) applications.
-      #
-until [ "$AAA" = "0" ]
-do    # Start of CLI Menu util loop.
-#f_menu_cat_applications #AAA Applications       - Run an application.
-#f_menu_app_favorites    #AAA Favorites          - Menu of favorite applications.
-#f_main_search_apps      #AAA Find and Run       - Find & run an application in active menus.
-#f_main_list_find_menus  #AAA List or Find Menus - List all menus or find a menu containing an app.
-#f_main_configure        #AAA Configure          - Update software, manage modules, change colors, etc.
-#f_main_help             #AAA Help and Features  - Basic usage and what can it do.
-#f_main_information      #AAA Information        - About, version, documentation, code history, license.
-      #
-      THIS_FILE="cliappmenu.sh"
-      MENU_TITLE="Main Menu"
-      DELIMITER="#AAA" #AAA This 3rd field prevents awk from printing this line into menu items.
-      #
-      f_show_menu "$MENU_TITLE" "$DELIMITER"
-      read AAA
-      f_menu_item_process $AAA  # Outputs $MENU_ITEM.
-                                # Sets AAA=0 for item option Quit.
-done  # End of Main Menu until loop.
-      #
-      # Unset all variables because the following libraries and all modules are
-      # "sourced" which means that any variables set by these sourced
-      # module/library files will remain behind in the shell unless unset
-      # explicitly.
-      #
-      # List of "Sourced" module/library files.
-      # . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
-      # . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
-      # . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
-      # . $THIS_DIR/mod_apps_*.lib        # invoke module/library.
-
-unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
-      #
-clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
-      #
-exit 0 # Exit with exit code 0.
-      # This cleanly closes the process generated by #!bin/bash. 
-      # Otherwise every time this script is run, another instance of
-      # process /bin/bash is created using up resources.
+case $GUI in
+     dialog | whiptail)
+     f_main_menu_gui
+     ;;
+     text)
+     f_main_menu_txt
+     ;;
+esac
+} # End of Main Program
 # all dun dun noodles.
