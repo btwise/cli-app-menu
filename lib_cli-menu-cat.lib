@@ -1,9 +1,9 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2017 Copyright 2017 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-21-2015 11:52"
+# REVDATE="December-23-2017 11:15"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_applications   |
@@ -40,6 +40,30 @@ f_menu_module_manager () {
 # Outputs: None.
 #
 f_menu_module_display () {
+case $GUI in
+     dialog | whiptail)
+     if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then
+        f_menu_module_display_gui $GUI
+     else
+        f_menu_module_display_txt  # The "Software Module Manager Menu"
+                                   # only uses a text menu.
+     fi
+     ;;
+     text)
+     f_menu_module_display_txt
+     ;;
+esac
+} # End of function f_menu_module_display
+#
+# +----------------------------------------+
+# |   Function f_menu_module_display_txt   |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: AAB, MENU_TITLE, THIS_FILE, DELIMETER.
+# Outputs: None.
+#
+f_menu_module_display_txt () {
       f_initvars_menu_app "AAB"
       until [ "$AAB" = "0" ]
       do    # Start of Application Modules until loop.
@@ -80,22 +104,76 @@ f_menu_module_display () {
       done  # End of Application Modules until loop.
             #
       unset AAB MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_module_display
+} # End of function f_menu_module_display_txt
 #
 #
 # Note: Cannot use $DELIMITER in if-statement because $MAX is calculated by
-#       grep for $DELIMITER. So must use $MENU_TITLE instead.
+#       using grep to count the occurrences of $DELIMITER. So must use
+#       $MENU_TITLE instead.
 #
 # Note: Function "f_download_file" calls "f_wget_file" which backs up the
-#        software module (file) before downloading a new copy from the
-#        GitHub repository branch.
+#       software module (file) before downloading a new copy from the
+#       GitHub repository branch.
 #
 # Example: If the displayed menu is the "Applications Categories Menu" then
 #          the function "f_mod_apps_audio_video" (below) actually runs another
 #          function, "f_menu_cat_audio_video" which is found in the file:
 #          "mod_apps_audio-video.lib".
 #
-
+# +----------------------------------------+
+# |    Function f_menu_module_display_gui  |
+# +----------------------------------------+
+#
+#  Inputs: $1=$GUI
+#    Uses: AAB, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_module_display_gui () {
+      until [ "$AAB" = "0" ]
+      do    # Start of Applications until loop.
+            THIS_FILE="lib_cli-menu-cat.lib"
+            AAB=$($1 --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"       "Return to previous menu." \
+            "Audio-Video"  "Music/Video players, editors, utilities." \
+            "Databases"    "General and specialized databases." \
+            "Development"  "Tools to test code and track/report bugs." \
+            "Education"    "Learn something." \
+            "Environment"  "Command Line shell and GUI, DOS and Nintendo emulators." \
+            "File/Dir"     "Manage, backup, compare, edit, encrypt, find, files/dirs." \
+            "Games"        "Fun time! Games, movies, and screen-savers." \
+            "Graphics"     "View images and graphics files." \
+            "Internet"     "Web, e-mail, chat, IM, RSS, ftp, torrents, etc." \
+            "Network"      "Wireless connection, network monitoring, tools." \
+            "Office"       "Editors, spreadsheets, presenter, organize, calcs, acctg." \
+            "Packages"     "(Un)Install and manage software packages (applications)." \
+            "Screens"      "Multiple screen sessions and terminal emulators." \
+            "Screen-Tools" "Screen capture, record/play-back of screen activity etc." \
+            "System"        "Monitor system processes, resources, utilities, etc." \
+            2>&1 >/dev/tty)
+            #
+            case $AAB in
+                 "Return") AAB=0 ;;
+                 "Audio-Video") f_mod_apps_audio_video ;;
+                 "Databases") f_mod_apps_databases ;;
+                 "Development") f_mod_apps_development ;;
+                 "Education") f_mod_apps_education ;;
+                 "Environment") f_mod_apps_environment ;;
+                 "File/Dir") f_mod_apps_filedir ;;
+                 "Games") f_mod_apps_games  ;;
+                 "Graphics") f_mod_apps_graphics ;;
+                 "Internet") f_mod_apps_internet ;;
+                 "Network") f_mod_apps_network ;;
+                 "Office") f_mod_apps_office ;;
+                 "Packages") f_mod_apps_packages ;;
+                 "Screens") f_mod_apps_screens ;;
+                 "Screen-Tools") f_mod_apps_screen_tools ;;
+                 "System") f_mod_apps_system ;;
+            esac
+      done  # End of Application Modules until loop.
+            #
+      unset AAB   # Throw out this variable.
+} # End of function f_menu_module_display_gui
+#
 f_mod_apps_audio_video () {
       MOD_FILE="mod_apps-audio-video.lib"
       if [ "$MENU_TITLE" = "Application Categories Menu" ] ; then

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2015 Copyright 2015 ROBERT D. CHIN
+# ©2017 Copyright 2017 ROBERT D. CHIN
 #
 # Usage: sh EDIT_HISTORY
 #
@@ -37,8 +37,8 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION="2.0.2 'Dorothy'"
-PROJECT_REVDATE="January-29-2015 22:26"
+PROJECT_REVISION="3.0 'Ellen'"
+PROJECT_REVDATE="December-23-2017 11:15"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -56,7 +56,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, EDIT_HISTORY is under copyright.
-#LIC ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2017 Copyright 2017 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -74,10 +74,31 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # The double # at the beginning of lines below
 # are used to delineate the Edit History.
 #
-## Edit History
+## Version History
 ##
-## After each edit made, update Edit History and version (date stamp string) of
-## script.
+## After each edit made, update Version History and version (date stamp string)
+## of script.
+##
+## 2017-12-23 *Release version 3.0 "Ellen"
+##            *New look, Main Menu, Configuration Menu, Application Menu
+##             now use Whiptail or Dialog UI (user-interfaces) if available.
+##            *Ability to switch between User-interfaces via "Configure" Menu.
+##            *Bug fix for "Un-colors" menu choice in "Configure" Menu.
+##
+## 2016-03-15 *Testing version 3.0 "Ellen".
+##            *Added UI for "List or Find Menus".
+##            *Bug fixes.
+##
+## 2016-02-10 *Testing version 3.0 "Ellen".
+##            *All category sub-menus now use GUIs if available.
+##            *The menu choices "About CLI Menu", "Version History",
+##             "Code History", "Documentation", and "Help and Features",
+##             and "Install to a New Dir" now use Whiptail or Dialog UIs
+##             if available.
+##
+## 2015-06-05 *Development version 3.0 "Ellen".
+##            *New look, Main Menu, Configuration Menu, Application Menu
+##             now use "Dialog" UI if available.
 ##
 ## 2015-01-29 *Release version 2.0.2 "Dorothy".
 ##            *Fixed bug in "List or Find Menus Menu".

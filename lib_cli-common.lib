@@ -1,9 +1,9 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2017 Copyright 2017 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-24-2015 13:23"
+# REVDATE="December-23-2017 11:15"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -26,12 +26,12 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       case $DELIMITER in
            "#AAA")
            # Option for Main Menu only.
-           echo "0 - Quit to command line prompt."
+           echo "0 - Quit to the command line prompt."
            ;;
            "#AAB")
            # Display option for Application Category Menu
            # and Software Module Manager Menu.
-           echo "0 - Return to Main Menu."
+           echo "0 - Return to the previous menu."
            # Now display the rest of the menu with any missing or inactive
            # modules in a different color and not bold font.
            f_show_menu_aab
@@ -39,11 +39,11 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
            "#AAC" | "#AAG" |  "#AAH")
            # Display option for Configuration Menu,
            # Information Menu, and List/Find
-           echo "0 - Return to Main Menu."
+           echo "0 - Return to the Main Menu."
            ;;
            *)
            # Option for all other sub-menus.
-           echo "0 - Return to previous menu."
+           echo "0 - Return to the previous menu."
            ;;
       esac
       #
@@ -140,7 +140,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MAX=$(awk -F "$DELIMITER" '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -c "$DELIMITER")
       #
       echo
-      echo -n "Enter 0 to $MAX or letters: " # echo -n suppresses line-feed.
+      echo -n "Enter 0 to $MAX or letters (0): " # echo -n suppresses line-feed.
       #
       case $DELIMITER in
            "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
@@ -390,7 +390,7 @@ f_menu_item_process () {
       #
       case $MENU_ITEM in
            # Quit?
-           0)
+           "" | 0)
            MENU_ITEM=0
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
@@ -829,7 +829,7 @@ f_quit_app_clause () {
       # This will display the custom "How to quit" the application message.
       #
       # Format of menu item options: 
-     # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
+      # "#f_funct1^f_funct2^f_funct3^Quit-Code^PRESS_KEY #MXX App Name - Description of application."
       #   field-1  field-2  field-3  field-4   field-5   Marker 
       # 
       # Example 1:
@@ -2186,6 +2186,12 @@ f_match_pkg_name_to_app_name () {
            adventure | arithmetic | atc | backgammon | battlestar | bcd | boggle | caesar | canfield | countmail | cribbage | dab | go-fish | gomoku | hack | hangman | hunt | mille | monop | morse | number | pig | phantasia | pom | ppt | primes | quiz | random | rain | robots | rot13 | sail | snake | tetris | trek | wargames | worm | worms | wump | wtf)
            APP_NAME_INSTALL="bsdgames"
            ;;
+           ag)
+           # If /etc/apt directory exists, then use Debian package name.
+           if [ -d /etc/apt ] ; then 
+              APP_NAME_INSTALL="silversearcher-ag"
+           fi
+           ;;
            animate | composite | compare | conjure | convert | display | identify | import | mogrify | montage | stream)
            APP_NAME_INSTALL="imagemagick"
            ;;
@@ -2233,6 +2239,9 @@ f_match_pkg_name_to_app_name () {
            ;;
            jstar | jmacs | jpico | rjoe)
            APP_NAME_INSTALL="joe"
+           ;;
+           lastb)
+           APP_NAME_INSTALL="last"
            ;;
            lynx)
            APP_NAME_INSTALL="lynx-cur"
@@ -3022,8 +3031,8 @@ f_create_LIST_APPS () {
           #    variable from being printed as a menu item, because they
           #    purposely have 2 markers.
           #
-          #    For menu item "#mod_apps-aud   io.lib #AAB Audio - Music players, editors, utilities."
-          #    This will result in: "#mod_a   pps-audio.lib"
+          #    For menu item "#mod_apps-audio.lib #AAB Audio - Music players, editors, utilities."
+          #    This will result in: "#mod_apps-audio.lib"
           #
           # 2. | awk -F "#" '{print $2}'
           #    The previous result is piped into this awk statement which
