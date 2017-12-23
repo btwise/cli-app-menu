@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2016 Copyright 2016 Robert D. Chin
+# ©2017 Copyright 2017 Robert D. Chin
 #
 # Usage: bash cliappmenu.sh
 #        (not sh cliappmenu.sh)
@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="March-16-2016 23:00"
+REVDATE="December-22-2017 11:15"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -71,7 +71,7 @@ REVDATE="March-16-2016 23:00"
 #:    give back to the community and perhaps others could build on and improve
 #:    on what I've started.
 #:
-#: Please enjoy . . . bob chin (2014).
+#: Please enjoy . . . bob chin (2017).
 #:                    rdchin at yahoo.com.
 #:
 #:
@@ -338,7 +338,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/home/robert"
+      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -381,7 +381,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/home/robert/cli-app-menu"
+      THIS_DIR="/Some_directory/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -424,7 +424,7 @@ f_main_init_txt () {
          f_main_config
       else      
          # No. Use default settings.
-         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red" ; GUI="text"
       fi
       #
       # Validate file names and directories.
@@ -461,7 +461,7 @@ f_main_init_gui () {
          f_main_config
       else      
          # No. Use default settings.
-         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+         FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red" ; GUI="text"
       fi
       #
       # Validate file names and directories.
@@ -495,10 +495,13 @@ f_missing_config_txt () {
       echo $(tput bold)
       echo
       echo "Configuration file is missing from user's home directory."
+      echo
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
       echo
       echo "Creating configuration file: /home/<username_goes_here>/.cliappmenu.cfg"
+      echo "If you want to use \"Dialog\" or \"Whiptail\" GUI, select \"Configure\" menu option to change."
       echo "f_main_config () {" > ~/.cliappmenu.cfg
+      echo "      GUI=\"text\"" >> ~/.cliappmenu.cfg
       echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
       echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
       echo
@@ -517,8 +520,9 @@ f_missing_config_txt () {
 #
 f_missing_config_gui () {
       clear # Clear screen.
-      $1 --title ">>> Warning: Configuration file missing <<<" --msgbox "\n      Configuration file is missing from user's home directory.\n\nCreating configuration file: /home/<username_goes_here>/.cliappmenu.cfg\n\n                     Press 'Enter' key to continue." 12 78
+      $1 --title ">>> Warning: Configuration file missing <<<" --msgbox "\n      Configuration file is missing from user's home directory.\n\nCreating configuration file: /home/<username_goes_here>/.cliappmenu.cfg\n\n If you want to use \"$1\" GUI, select \"Configure\" menu option to change.\n\n                     Press 'Enter' key to continue." 12 78
       echo "f_main_config () {" > ~/.cliappmenu.cfg
+      echo "      GUI=\"text\"" >> ~/.cliappmenu.cfg
       echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
       echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
       echo
@@ -2025,8 +2029,9 @@ f_main_configure_txt () {
 #f_menu_module_manager^0^0^0^0   #AAC Manage Modules     - Add/Delete/Remove/Restore/Update selected modules.
 #f_update_list_apps^0^0^0^0      #AAC Update App List    - Update list of applications in ACTIVATED modules.
 #f_ls_this_dir $THIS_DIR^0^0^0^0 #AAC List Files         - List all support and library program files.
+#f_menu_term_ui^0^0^0^0          #AAC User-interface     - Set default user-interface: text, Dialog, Whiptail.
 #f_menu_term_color^0^0^0^0       #AAC Colors             - Set default font/background colors.
-#f_menu_uncolor^0^0^0^0          #AAC Un-colors          - Set font color for unavailable library modules.
+#f_menu_term_uncolor^0^0^0^0     #AAC Un-colors          - Set font color for unavailable library modules.
 #f_reinstall_readme^0^0^0^1      #AAC Install to New Dir - HOW-TO re-install script into another directory.
             #
             THIS_FILE="cliappmenu.sh"
@@ -2063,6 +2068,7 @@ f_main_configure_gui () {
             "Manage Modules" "Add/Delete/Remove/Restore/Update selected modules." \
             "Update App List" "Update list of applications in ACTIVATED modules." \
             "List Files" "List all support and library program files." \
+            "User-interface" "Set default user-interface: text, Dialog, Whiptail."\
             "Colors" "Set default font/background colors." \
             "Un-colors" "Set font color for unavailable library modules." \
             "Install to New Dir" "HOW-TO re-install script into another directory." \
@@ -2075,6 +2081,7 @@ f_main_configure_gui () {
                  "Manage Modules") f_menu_module_manager ;;
                  "Update App List") f_update_list_apps ;;
                  "List Files") f_ls_this_dir $THIS_DIR ;;
+                 "User-interface") f_menu_term_ui ;;
                  "Colors") f_menu_term_color ;;
                  "Un-colors") f_menu_term_uncolor ;;
                  "Install to New Dir") f_reinstall_readme ;;
@@ -2866,6 +2873,134 @@ f_main_search_apps () {
          unset XSTR  # Throw out this variable.
       fi
 } # End of function f_main_search_apps
+
+# +----------------------------------------+
+# |         Function f_menu_term_ui        |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: X, OLDGUI.
+# Outputs: GUI. 
+#
+f_menu_term_ui () {  # Set terminal display properties.
+      # Detect current user-interface in use.
+      clear
+      echo
+      echo "     User-interface \"$GUI\" is currently in-use."
+      echo
+      OLDGUI="$GUI"
+      # Detect other installed user-interfaces.
+      if [ $GUI != "dialog" ] ; then
+         f_test_gui dialog
+      fi
+      #
+      if [ $GUI != "whiptail" ] ; then
+         f_test_gui whiptail
+      fi
+      #
+      if [ $GUI != "text" ] ; then
+         echo "     User-interface \"text\" is available."
+      fi
+      #
+      echo
+      echo -n "Choose user-interface (d)ialog / (w)hiptail / (t)ext / (q)uit: "; read X
+      case $X in
+           d*)
+           # Test if valid choice.
+           f_test_gui dialog
+           if [ $ERROR = 0 ] ; then
+              # Write to cliapp.cfg configuration file to save preference.
+              if [ $OLDGUI = "text" ] ; then  # If switching from "text" to "dialog" then require a restart.
+                 echo
+                 echo "*********************************************************"
+                 echo " Please exit this application to re-start with \"Dialog\"."
+                 echo "*********************************************************"
+                 echo
+                 sleep 3
+                 #
+                 GUI="dialog"
+                 f_update_config_file
+                 GUI="text"  # Set $GUI back to "text" to prevent GUI problems with menus until restart.
+              else
+                 GUI="dialog"
+                 f_update_config_file
+              fi
+           else
+              echo
+              echo "     User interface is unchanged"
+           fi
+           ;;
+           w*)
+           # Test if valid choice.
+           f_test_gui whiptail
+           if [ $ERROR = 0 ] ; then
+              # Write to cliapp.cfg configuration file to save preference.
+              if [ $OLDGUI = "text" ] ; then  # If switching from "text" to "whiptail" then require a restart.
+                 echo
+                 echo "*********************************************************"
+                 echo " Please exit this application to re-start with \"Whiptail\"."
+                 echo "*********************************************************"
+                 echo
+                 sleep 3
+                 #
+                 GUI="whiptail"
+                 f_update_config_file
+                 GUI="text"  # Set $GUI back to "text" to prevent GUI problems with menus until restart.
+              else
+                 GUI="whiptail"
+                 f_update_config_file
+              fi
+           else
+              echo
+              echo "     User interface is unchanged"
+           fi
+           ;;
+           t*)
+           # Write to cliapp.cfg configuration file to save preference.
+           if [ $GUI != "text" ]  ; then  # If switching from "dialog" or "whiptail" to text then require a restart.
+              echo
+                 echo "*********************************************************"
+              echo " Please exit this application to re-start with \"text or CLI\"."
+                 echo "*********************************************************"
+              echo
+              sleep 3
+           fi
+           GUI="text"
+           f_update_config_file
+           GUI="$OLDGUI"  # Set $GUI back to "Whiptail" or "Dialog" to prevent GUI problems with menus until restart.
+           ;;
+           *)
+           echo
+           echo "     User interface is unchanged"
+           ;;
+      esac
+      unset X OLDGUI
+      #
+} # End of function f_menu_term_ui
+#
+# +----------------------------------------+
+# |           Function f_test_gui          |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI.
+#    Uses: None.
+# Outputs: ERROR. 
+#
+f_test_gui () {  # Set terminal display properties.
+      # If UI is different from the one in-use.  
+      # Test if GUI is installed.
+      command -v $1 >/dev/null
+      # "&>/dev/null" does not work in Debian distro.
+      # 1=standard messages, 2=error messages, &=both.
+      ERROR=$?
+      # Is GUI installed?
+      if [ $ERROR -eq 0 ] ; then
+         # Yes, GUI is installed.
+         echo "     User-interface \"$1\" is available."
+      else
+         echo "     User-interface \"$1\" is not installed."
+      fi
+} # End of function f_test_gui
 #
 # +----------------------------------------+
 # |          Function f_term_color         |
@@ -3290,7 +3425,7 @@ f_ucolor_gray () {
 # |      Function f_update_config_file     |
 # +----------------------------------------+
 #
-#  Inputs: FCOLOR, BCOLOR, UCOLOR, ECOLOR.
+#  Inputs: GUI, FCOLOR, BCOLOR, UCOLOR, ECOLOR.
 #    Uses: None.
 # Outputs: File ~/.cliappmenu.cfg over-written.
 #
@@ -3298,6 +3433,7 @@ f_update_config_file () {
       # Update Configuration File: ~/.cliappmenu.conf
       # to save user chosen colors.
       echo "f_main_config () {" > ~/.cliappmenu.cfg
+      echo "      GUI=\"$GUI\"" >> ~/.cliappmenu.cfg
       echo "      FCOLOR=\"$FCOLOR\" ; BCOLOR=\"$BCOLOR\" ; UCOLOR=\"$UCOLOR\" ; ECOLOR=\"$ECOLOR\"" >> ~/.cliappmenu.cfg
       echo "} # End of function f_main_config" >> ~/.cliappmenu.cfg
 } # End of function f_update_config_file
@@ -3653,7 +3789,7 @@ f_main_menu_gui () {
       # module/library files will remain behind in the shell unless unset
       # explicitly.
       #
-      unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH  CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
+      unset AAA ANS APP_NAME APP_NAME_INSTALL APP_NAME_SUDO APP_NAME_TMP BCOLOR BRANCH CHOICE CNT COLOR DELIM ERROR ECOLOR FCOLOR GUI INIT_VAR INSTALL_ANS MAINMENU_DIR MAX MENU_ITEM MENU_ITEM_MAX MENU_ITEM_OPT MENU_TITLE MOD_FILE MOD_FUNC NEW_DIR NO_CLEAR PRESSKEY PROJECT_REVDATE PROJECT_REVISION QUIT_FIELD REVDATE REVISION SAVE_DIR SCRIPT_PATH THIS_DIR THIS_FILE TPUTX UCOLOR WEB_SITE WEB_SITE_INSTALL X XNUM XSTR XXSTR YSTR
       #
       clear # Blank the screen. Nicer ending especially if you chose custom colors for this script.
       #

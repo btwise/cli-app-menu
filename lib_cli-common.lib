@@ -1,9 +1,9 @@
-# ©2016 Copyright 2016 Robert D. Chin
+# ©2017 Copyright 2017 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="February-10-2016 23:59"
+# REVDATE="December-23-2017 11:15"
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -140,7 +140,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MAX=$(awk -F "$DELIMITER" '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -c "$DELIMITER")
       #
       echo
-      echo -n "Enter 0 to $MAX or letters: " # echo -n suppresses line-feed.
+      echo -n "Enter 0 to $MAX or letters (0): " # echo -n suppresses line-feed.
       #
       case $DELIMITER in
            "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
@@ -390,7 +390,7 @@ f_menu_item_process () {
       #
       case $MENU_ITEM in
            # Quit?
-           0)
+           "" | 0)
            MENU_ITEM=0
            PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
            ;;
