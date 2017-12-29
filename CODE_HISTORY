@@ -38,8 +38,8 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2017" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="3.0 'Ellen'"
-PROJECT_REVDATE="December-23-2017 11:15"
+PROJECT_REVISION="3.1 'Ellen'"
+PROJECT_REVDATE="December-29-2017 13:40"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,10 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2017-12-29 *f_menu_term_color, f_menu_term_color_gui, f_color_wb,
+##             f_menu_term_uncolor, f_menu_term_uncolor_gui adjusted menu
+##             color/uncolor choices to be suitable for "dialog"/"whiptail".
 ##
 ## 2017-12-22 *f_main_configure_txt fixed bug wrong sub-menu name in menu
 ##             and corrected "f_menu_uncolor" to "f_menu_term_uncolor".
