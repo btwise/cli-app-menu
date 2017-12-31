@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-29-2017 13:40"
+REVDATE="December-31-2017 08:01"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -3129,6 +3129,7 @@ f_menu_term_color_txt () {
                  #AAE ------- - -----------------
 #f_color_bw      #AAE BW      - Black   on white.
 #f_color_rw      #AAE RW      - Red     on white.
+#f_color_lw      #AAE LW      - Blue    on white.
 #f_color_wb      #AAE WB      - White   on blue (Classic "Blueprint").
 #f_color_yb      #AAE YB      - Yellow  on blue.
             #
@@ -3167,23 +3168,32 @@ f_menu_term_color_gui () {
             "Return"  "Return to the previous menu." \
             "BW"      "Black   on white." \
             "RW"      "Red     on white." \
-            "MW"      "Magenta on white." \
-            2>&1 >/dev/tty)
+            "LW"      "Blue    on white." \
+            "WB"      "White   on blue (Classic 'Blueprint')." \
+	        "YB"      "Yellow  on blue." \
+            "Red"     "Red     on black." \
+            "Green"   "Green   on black." \
+            "Yellow"  "Yellow  on black." \
+            "Blue"    "Blue    on black." \
+            "Magenta" "Magenta on black." \
+            "Cyan"    "Cyan    on black." \
+            "White"   "White   on black." \
+             2>&1 >/dev/tty)
             #
             case $AAE in
                  "Return") AAE=0 ;;
-                 #"Red") f_color_red ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Green") f_color_green ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Yellow") f_color_yellow ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Blue") f_color_blue ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Magenta") f_color_magenta ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Cyan") f_color_cyan ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"White") f_color_white ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Red") f_color_red ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Green") f_color_green ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Yellow") f_color_yellow ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Blue") f_color_blue ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Magenta") f_color_magenta ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "Cyan") f_color_cyan ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "White") f_color_white ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
                  "BW") f_color_bw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
                  "RW") f_color_rw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 "MW") f_color_mw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "LW") f_color_lw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
                  "WB") f_color_wb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"YB") f_color_yb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "YB") f_color_yb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
             esac
       done
 } # End of function f_menu_term_color_gui
@@ -3243,8 +3253,8 @@ f_color_rw () {
       f_update_config_file
 }
 #
-f_color_mw () {
-      FCOLOR="Magenta" ; BCOLOR="White" ; ECOLOR="Red"
+f_color_lw () {
+      FCOLOR="Blue" ; BCOLOR="White" ; ECOLOR="Red"
       f_update_config_file
 }
 #
@@ -3839,5 +3849,6 @@ case $GUI in
      f_main_menu_txt
      ;;
 esac
+fterm_color GREEN BLACK  # Reset terminal colors to Green on Black.
 } # End of Main Program
 # all dun dun noodles.

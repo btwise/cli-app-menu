@@ -39,7 +39,7 @@ f_script_path
 #
 PROJECT_CHANGES=$(grep ^"## 2017" -c $SCRIPT_PATH/"CODE_HISTORY")
 PROJECT_REVISION="3.1 'Ellen'"
-PROJECT_REVDATE="December-29-2017 13:40"
+PROJECT_REVDATE="December-31-2017 08:01"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,7 +79,11 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2017-12-29 *f_menu_term_color, f_menu_term_color_gui, f_color_wb,
+## 2017-12-31 *f_menu_term_color_gui added color schemes.
+##            *Main added code near end of script to reset terminal colors
+##             needed if background color was non-black.
+##
+## 2017-12-29 *f_menu_term_color, f_menu_term_color_gui, f_color_lw,
 ##             f_menu_term_uncolor, f_menu_term_uncolor_gui adjusted menu
 ##             color/uncolor choices to be suitable for "dialog"/"whiptail".
 ##
