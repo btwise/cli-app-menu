@@ -3170,7 +3170,7 @@ f_menu_term_color_gui () {
             "RW"      "Red     on white." \
             "LW"      "Blue    on white." \
             "WB"      "White   on blue (Classic 'Blueprint')." \
-	        "YB"      "Yellow  on blue." \
+            "YB"      "Yellow  on blue." \
             "Red"     "Red     on black." \
             "Green"   "Green   on black." \
             "Yellow"  "Yellow  on black." \
