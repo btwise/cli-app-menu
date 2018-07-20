@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2017 Copyright 2017 ROBERT D. CHIN
+# ©2018 Copyright 2018 ROBERT D. CHIN
 #
 # Usage: sh EDIT_HISTORY
 #
@@ -33,12 +33,8 @@ THIS_FILE="EDIT_HISTORY"
 # Set SCRIPT_PATH to directory path of script.
 f_script_path
 #
-# Calculate revision number by counting all lines starting with "## 2014".
-# grep ^ (carot sign) means grep any lines beginning with "##2014".
-# grep -c means count the lines that match the pattern.
-#
-PROJECT_REVISION="3.1 'Ellen'"
-PROJECT_REVDATE="December-31-2017 08:01"
+PROJECT_REVISION="4.0 'Farrah'"
+PROJECT_REVDATE="July-19-2018 88:88"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -56,7 +52,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, EDIT_HISTORY is under copyright.
-#LIC ©2017 Copyright 2017 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2018 Copyright 2018 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -79,6 +75,9 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Version History and version (date stamp string)
 ## of script.
 ##
+## 2018-07-19 *Development version 4.0 "Farrah".
+##            *git merge from Testing branch to Development branch,
+
 ## 2017-12-31 *Testing version 3.1 "Ellen".
 ##            *Changed color scheme choices in "Configuration Menu" for
 ##             "Dialog" and "Whiptail" UIs.

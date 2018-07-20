@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2017 Copyright 2017 Robert D. Chin
+# ©2018 Copyright 2018 Robert D. Chin
 #
 # Usage: sh CODE_HISTORY
 #
@@ -36,10 +36,20 @@ f_script_path
 # Calculate revision number by counting all lines starting with "## 2013".
 # grep ^ (carot sign) means grep any lines beginning with "##2013".
 # grep -c means count the lines that match the pattern.
+
+if [ ! -r "EDIT_HISTORY" ] ; then
+   PROJECT_REVISION="Unknown, edit history is unavailable."
+   PROJECT_REVDATE="Unknown, edit history is unavailable."
+else
+   PROJECT_REVISION=$(grep ^PROJECT_REVISION "EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+   PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= "EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+fi
+# Find the Project Revision designation:
+# grep finds line beginning with "PROJECT_REVDATE=" in file EDIT_HISTORY
+# The first awk results in the date in quotes as a string.
+# The second awk strips the quotation marks from the date string.
 #
-PROJECT_CHANGES=$(grep ^"## 2017" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="3.1 'Ellen'"
-PROJECT_REVDATE="December-31-2017 08:01"
+# PROJECT_CHANGES=$(grep ^"## 2017" -c $SCRIPT_PATH/"CODE_HISTORY")
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -57,7 +67,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, CODE_HISTORY is under copyright.
-#LIC ©2017 Copyright 2017 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2018 Copyright 2018 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -78,6 +88,9 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2018-07-19 *Development version 4.0 "Farrah".
+##            *git merge from Testing branch to Development branch,
 ##
 ## 2017-12-31 *f_menu_term_color_gui added color schemes.
 ##            *Main added code near end of script to reset terminal colors

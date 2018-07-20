@@ -42,7 +42,7 @@ REVDATE="January-25-2018 23:01"
 # +----------------------------------------+
 #
 #LIC This program, cliappmenu.sh is under copyright.
-#LIC ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2018 Copyright 2018 Robert D. Chin (rdchin at yahoo.com).
 #LIC
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ REVDATE="January-25-2018 23:01"
 #:    give back to the community and perhaps others could build on and improve
 #:    on what I've started.
 #:
-#: Please enjoy . . . bob chin (2017).
+#: Please enjoy . . . bob chin (2018).
 #:                    rdchin at yahoo.com.
 #:
 #:
@@ -1882,11 +1882,6 @@ f_main_help_gui () {
 # Outputs: None.MOD_FILE, PROJECT_REVDATE, PROJECT_REVISION, PRESS_KEY.
 #
 f_main_about () {
-      # Calculate project revision number
-      # by counting all lines starting with "## 2014".
-      # grep ^ (carot sign) means grep any lines beginning with "##2014".
-      # grep -c means count the lines that match the pattern.
-      #
       if [ ! -r $THIS_DIR"/EDIT_HISTORY" ] ; then
          while [  "$X" != "YES" -a "$X" != "NO" ]
          do
@@ -1921,7 +1916,7 @@ f_main_about () {
          PROJECT_REVISION=$(grep ^PROJECT_REVISION $THIS_DIR"/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
          PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= $THIS_DIR"/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
       fi
-      #
+      # Find the Project Revision designation:
       # grep finds line beginning with "PROJECT_REVDATE=" in file EDIT_HISTORY
       # The first awk results in the date in quotes as a string.
       # The second awk strips the quotation marks from the date string.
