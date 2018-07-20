@@ -1,25 +1,44 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-21-2015 11:52"
+# REVDATE="February-10-2016 23:59"
 #
 # +----------------------------------------+
-# |       Function f_menu_cat_network      |
+# |      Function f_menu_cat_network       |
+# +----------------------------------------+
+#
+#  Inputs: $GUI.
+#    Uses: None.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_cat_network () {
+      case $GUI in
+           dialog | whiptail)
+           f_menu_cat_network_gui
+           ;;
+           text)
+           f_menu_cat_network_txt
+           ;;
+      esac
+} # End of function f_menu_cat_network
+#
+# +----------------------------------------+
+# |     Function f_menu_cat_network_txt    |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: BNE, MENU_ITEM, MAX
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_network () {
+f_menu_cat_network_txt () {
       f_initvars_menu_app "BNE"
       until [ "$BNE" = "0" ]
       do    # Start of Network Application Category until loop.
 #f_menu_app_firewalls         #BNE Firewalls    - Configure firewalls.
 #f_menu_app_lan               #BNE LAN          - Test local area network connectivity, display settings.
-#f_menu_scat_network_monitors #BNE Monitors     - LAN monitors, network mappers.
+#f_menu_cat_network_monitors  #BNE Monitors     - LAN monitors, network mappers.
 #f_menu_app_nic_tools         #BNE NIC Tools    - Configure wired/wireless cards, scan for wireless networks.
 #f_menu_app_packet_tools      #BNE Packet Tools - Packet sniffers, packet analyzers.
 #f_menu_app_network_sharing   #BNE Sharing      - Share files on NetWare & Microsoft Windows PCs/networks.
@@ -35,7 +54,48 @@ f_menu_cat_network () {
       done  # End of Network Application Category until loop.
             #
       unset BNE MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_cat_network
+} # End of function f_menu_cat_network_txt
+#
+# +----------------------------------------+
+# |    Function f_menu_cat_network_gui     |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BIN, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_network_gui () {
+      f_initvars_menu_app "BNE"
+      until [ "$BNE" = "0" ]
+      do    # Start of Network Application Category until loop.
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Network Categories Menu"
+            BNE=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"       "Return to previous menu." \
+            "Firewalls"    "Configure firewalls." \
+            "LAN"          "Test local area network connectivity, display settings." \
+            "Monitors"     "LAN monitors, network mappers." \
+            "NIC Tools"    "Configure wired/wireless cards, scan for wireless networks." \
+            "Packet Tools" "Packet sniffers, packet analyzers." \
+            "Sharing"      "Share files on NetWare & Microsoft Windows PCs/networks." \
+            "WAN"          "Test wide-area network connectivity, speed, routing, DNS." \
+            2>&1 >/dev/tty)
+            #
+            case $BNE in
+                 "Return") BNE=0 ;;
+                 "Firewalls") f_menu_app_firewalls ;;
+                 "LAN") f_menu_app_lan ;;
+                 "Monitors") f_menu_cat_network_monitors ;;
+                 "NIC Tools") f_menu_app_nic_tools ;;
+                 "Packet Tools") f_menu_app_packet_tools ;;
+                 "Sharing") f_menu_app_network_sharing ;;
+                 "WAN") f_menu_app_wan ;;
+            esac
+            #
+      done  # End of Network Application Category until loop.
+            #
+      unset BNE THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_network_gui
 #
 # +----------------------------------------+
 # |      Function f_menu_app_firewalls     |
@@ -189,14 +249,33 @@ f_menu_app_wan2 () {
 } # End of function f_menu_app_wan2
 #
 # +----------------------------------------+
-# |  Function f_menu_scat_network_monitors |
+# |  Function f_menu_cat_network_monitors  |
+# +----------------------------------------+
+#
+#  Inputs: $GUI.
+#    Uses: None.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_cat_network_monitors () {
+      case $GUI in
+           dialog | whiptail)
+           f_menu_cat_network_monitors_gui
+           ;;
+           text)
+           f_menu_cat_network_monitors_txt
+           ;;
+      esac
+} # End of function f_menu_cat_network_monitors
+#
+# +----------------------------------------+
+# |Function f_menu_cat_network_monitors_txt|
 # +----------------------------------------+
 #
 #  Inputs: None
 #    Uses: BNM, MENU_ITEM, MAX
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_scat_network_monitors () {
+f_menu_cat_network_monitors_txt () {
       f_initvars_menu_app "BNM"
       until [ "$BNM" = "0" ]
       do    # Start of Network Monitor Application Category until loop.
@@ -213,7 +292,38 @@ f_menu_scat_network_monitors () {
       done  # End of Network Monitors Application Category until loop.
             #
       unset BNM MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_scat_network_monitors
+} # End of function f_menu_cat_network_monitors_txt
+#
+# +----------------------------------------+
+# |Function f_menu_cat_network_monitors_gui|
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BNM, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_network_monitors_gui () {
+      f_initvars_menu_app "BNM"
+      until [ "$BNM" = "0" ]
+      do    # Start of Network Monitor Application Category until loop.
+            THIS_FILE="mod_apps-network.lib"
+            MENU_TITLE="Network Monitor Application Categories Menu"
+            BNM=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"    "Return to previous menu." \
+            "Bandwidth" "Bandwidth monitors." \
+            "Structure" "Management, status, connections, devices, hosts." \
+            2>&1 >/dev/tty)
+            #
+            case $BNM in
+                 "Return") BNM=0 ;;
+                 "Bandwidth") f_menu_app_network_bandwidth ;;
+                 "Structure") f_menu_app_network_structure ;;
+            esac
+            #
+      done  # End of Network Monitor Application Category until loop.
+            #
+      unset BNM THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_network_monitors_gui
 #
 # +----------------------------------------+
 # |Function f_menu_app_network_bandwidth   |

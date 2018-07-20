@@ -1,0 +1,46 @@
+# ©2018 Copyright 2018 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="January-25-2018 23:01"
+#
+# +--------------------------------------------------------------------------+
+# |                                                                          |
+# |                 Customize Menu choice options below.                     |
+# |                                                                          |
+# +--------------------------------------------------------------------------+
+#
+# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
+#
+#@@Quit#@@Quit to the command line prompt.#@@break
+#@@Applications#@@Run an application.#@@f_menu_cat_applications
+#@@Favorites#@@Menu of favorite applications.#@@f_menu_app_favorites
+#@@Find and Run#@@Find and run an application in active menus.#@@f_main_search_apps
+#@@List or Find Menus#@@List all menus or find a menu containing an app.#@@f_main_list_find_menus
+#@@Configure#@@Update software, manage modules, change colors, etc.#@@f_main_configure
+#@@Help and Features#@@Basic usage and what can it do.#@@f_main_help
+#@@Information#@@About, version, documentation, code history, license.#@@f_main_information
+#
+# +----------------------------------------+
+# |          Function f_main_menu          |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
+# Outputs: None.
+#
+f_main_menu () { # Create and display the Main Menu.
+      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+
+      # Create arrays from data.
+      ARRAY_FILE="$THIS_DIR/menu_module_main.lib"
+      f_menu_arrays $ARRAY_FILE
+      #
+      # Create generated menu script from array data.
+      GENERATED_FILE="cliappmenu_generated.lib"
+      MENU_TITLE="Main_Menu"  # Menu title must substitute underscores for spaces
+      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+} # End of function f_main_menu.
+#
+

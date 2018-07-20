@@ -1,0 +1,44 @@
+# ©2018 Copyright 2018 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="January-25-2018 23:01"
+#
+# +--------------------------------------------------------------------------+
+# |                                                                          |
+# |                 Customize Menu choice options below.                     |
+# |                                                                          |
+# +--------------------------------------------------------------------------+
+#
+# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
+#
+#@@ Exit#@@Go back to the previous menu.#@@break
+#@@About CLI Menu#@@What version am I using.#@@f_main_about
+#@@Version History#@@Version/Release history with general summaries.#@@f_main_version_history
+#@@Documentation#@@Script documentation, programmer notes, HOW-TOs.#@@f_main_documentation
+#@@Code History#@@All the craziness behind the scenes.#@@f_main_code_history
+#@@License#@@Licensing, GPL.#@@f_main_license
+#
+# +----------------------------------------+
+# |       Function f_main_information      |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
+# Outputs: None.
+#
+f_main_information () { # Create and display the Main Menu.
+      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+
+      # Create arrays from data.
+      ARRAY_FILE="$THIS_DIR/menu_module_information.lib"
+      f_menu_arrays $ARRAY_FILE
+      #
+      # Create generated menu script from array data.
+      GENERATED_FILE="cliappmenu_generated.lib"
+      MENU_TITLE="Information_Menu"  # Menu title must substitute underscores for spaces
+      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+} # End of function f_main_information.
+#
+
