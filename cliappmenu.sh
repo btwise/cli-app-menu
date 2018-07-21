@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="January-25-2018 23:01"
+REVDATE="July-20-2018 22:49"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -3513,6 +3513,7 @@ f_main_init_once
 # Those lines are marked "# Diagnostic line." for easy reference.
 #
 # Force $GUI to a specific environment for testing.  # Diagnostic line.
+# Can also change $GUI in the "Configuration Menu" under option "User-interface".
 # GUI="text"      # Diagnostic line.
 # GUI="dialog"    # Diagnostic line.
 # GUI="whiptail"  # Diagnostic line.
