@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-25-2018 23:01"
+# REVDATE="July-20-2018 88:88"
 #
 # +----------------------------------------+
 # |        Function f_menu_arrays          |
@@ -113,7 +113,8 @@ f_update_menu_txt () {
       echo "# Usage: bash menu.sh" >>$2
       echo "#        (not sh menu.sh)" >>$2
       echo "#" >>$2
-      echo "VERSION=\"$VERSION\"" >>$2
+      echo "# Project Version: $PROJECT_REVISION" >>$2
+      echo "#  Last Edited on: $PROJECT_REVDATE" >>$2
       echo "#" >>$2
       echo "#***********************************CAUTION***********************************" >>$2
       echo "# Any edits made to this code will be lost since this code is" >>$2
@@ -254,7 +255,8 @@ f_update_menu_gui () {
       echo "# Usage: bash menu.sh" >>$2
       echo "#        (not sh menu.sh)" >>$2
       echo "#" >>$2
-      echo "VERSION=\"$VERSION\"" >>$2
+      echo "# Project Version: $PROJECT_REVISION" >>$2
+      echo "#  Last Edited on: $PROJECT_REVDATE" >>$2
       echo "#" >>$2
       echo "#***********************************CAUTION***********************************" >>$2
       echo "# Any edits made to this code will be lost since this code is" >>$2
@@ -354,8 +356,13 @@ f_update_menu_gui () {
 # Outputs: None.
 #
 f_create_show_menu () {
-
-
+      if [ ! -r "/$THIS_DIR/EDIT_HISTORY" ] ; then
+         PROJECT_REVISION="Unknown, edit history is unavailable."
+         PROJECT_REVDATE="Unknown, edit history is unavailable."
+      else
+         PROJECT_REVISION=$(grep ^PROJECT_REVISION "/$THIS_DIR/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+         PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= "/$THIS_DIR/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+      fi
      case $1 in
            "dialog" | "whiptail")
            f_update_menu_gui $1 $2 $3 $4 $5
@@ -381,7 +388,6 @@ f_create_show_menu () {
          rm $2
       fi
 } # End of function f_create_show_menu.
->>>>>>> origin/testing
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |
@@ -402,10 +408,6 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       echo
       # Display first menu item option to exit the menu.
       case $DELIMITER in
-           "#AAA")
-           # Option for Main Menu only.
-           echo "0 - Quit to the command line prompt."
-           ;;
            "#AAB")
            # Display option for Application Category Menu
            # and Software Module Manager Menu.
@@ -433,7 +435,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # i.e. /home/<username>/cliappmenu.sh
       #      /home/<username>/bin/$THIS_DIR/<All other module library files>.
       case $DELIMITER in
-           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
            XXSTR=$THIS_DIR         # Save $THIS_DIR. Location of all other files,
                                    # module libraries etc.
            THIS_DIR=$MAINMENU_DIR  # Set $THIS_DIR to location of Main Menu.
@@ -468,11 +470,6 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
                       #          in the for-loop above.
       #
       case $DELIMITER in
-           # Main Menu.
-           "#AAA")
-           echo
-           echo "'0', (Q)uit, to quit this script."
-           ;;
            # Sub-menus called from Main Menu.
            "#AAB" | "#AAC" | "#AAG" | "#AAH")
            echo -n $(tput bold)  # Needed if last module in list is in normal
@@ -521,7 +518,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       echo -n "Enter 0 to $MAX or letters (0): " # echo -n suppresses line-feed.
       #
       case $DELIMITER in
-           "#AAA" | "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
+           "#AAC" | "#AAD" | "#AAE" | "#AAF" | "#AAG" | "#AAH")
            THIS_DIR=$XXSTR  # Restore $THIS_DIR. Location of all other files,
                             # module libraries etc.
            ;;
@@ -780,23 +777,14 @@ f_menu_item_process () {
            fi
            ;;
       esac
-      # Main Menu item option "Quit" to exit.
-      if [ "$DELIMITER" = "#AAA" ] ;then
-         case $MENU_ITEM in
-              [Qq] | [Qq][Uu] | [Qq][Uu][Ii] | [Qq][Uu][Ii][Tt])
-              MENU_ITEM=0
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-              ;;
-	 esac
-      else
-         # All other menus item option "Return" to exit.
-         case $MENU_ITEM in
-              [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
-              MENU_ITEM=0
-              PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
-              ;;
+      #
+      # All other menus item option "Return" to exit.
+      case $MENU_ITEM in
+           [Rr] | [Rr][Ee] | [Rr][Ee][Tt] | [Rr][Ee][Tt][Uu]*)
+           MENU_ITEM=0
+           PRESS_KEY=0 # Do not display "Press 'Enter' key to continue."
+           ;;
          esac
-      fi 
       #
       # Check if MENU_ITEM includes "--help" or "man "
       # requests for help or man pages.

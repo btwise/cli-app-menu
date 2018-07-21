@@ -636,8 +636,8 @@ REVDATE="February-10-2016 23:59"
 #:
 #:AAA - Main Menu
 #:AAB - Application Categories Menu
-#:AAB - Library Module Management Menu
-#:AAC - Configuration Menu
+##:AAB - Library Module Management Menu
+##:AAC - Configuration Menu
 #:AAD - Validate Files and Directories Menu
 #:AAE - Terminal Colors Menu
 #:AAF - Colors for Unavailable Menu Items
