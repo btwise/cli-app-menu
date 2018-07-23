@@ -285,8 +285,10 @@ f_main_init_once () {
       # Set default colors in case configuration file is not readable
       # or does not exist.
       FCOLOR="Green" ; BCOLOR="Black" ; UCOLOR="" ; ECOLOR="Red"
+      echo -n $(tput sgr0)  # Black background selected.
+                            # Reset colors to get true black.
+      echo -n $(tput setaf 2)  # Green font/background selected.
       #
-      f_term_color $FCOLOR $BCOLOR # Set terminal color.
       echo -n $(tput bold) # set bold font.
       #
       # Enable 256 colors for terminal, if possible.
@@ -404,6 +406,7 @@ f_main_init_once () {
       . $THIS_DIR/menu_module_main.lib  # invoke module/library.
       . $THIS_DIR/menu_module_configuration.lib  # invoke module/library.
       . $THIS_DIR/menu_module_information.lib  # invoke module/library.
+      . $THIS_DIR/menu_module_term_color.lib  # invoke module/library.
 } # End of function f_main_init_once
 #
 # +----------------------------------------+
@@ -855,7 +858,8 @@ f_valid_menu_txt () {
 #
 f_valid_menu_gui () {
       f_initvars_menu_app "AAD"
-      # Please note: The function "f_show_menu" in library module file,
+      # Please note: This menu is a primitive, hard-coded menu because
+      #              the function "f_show_menu" in library module file,
       #              "lib-cli-common.lib" cannot be used at this time,
       #              since that file may not yet exist or
       #              may need to be downloaded from the GitHub web site.
@@ -2804,262 +2808,6 @@ f_test_gui () {  # Set terminal display properties.
          echo "     User-interface \"$1\" is not installed."
       fi
 } # End of function f_test_gui
-#
-# +----------------------------------------+
-# |          Function f_term_color         |
-# +----------------------------------------+
-#
-#  Inputs: $1=$FCOLOR. $2=$BCOLOR
-#    Uses: CNT, TPUTX, COLOR.
-# Outputs: None. 
-#
-f_term_color () {  # Set terminal display properties.
-      #
-      # BASH commands to change the color of characters in a terminal.
-      # bold    "$(tput bold)"
-      # black   "$(tput setaf 0)"
-      # red     "$(tput setaf 1)"
-      # green   "$(tput setaf 2)"
-      # yellow  "$(tput setaf 3)"
-      # blue    "$(tput setaf 4)"
-      # magenta "$(tput setaf 5)"
-      # cyan    "$(tput setaf 6)"
-      # white   "$(tput setaf 7)"
-      # reset   "$(tput sgr0)"
-      #
-      # setterm does not work in X-window virtual terminals.
-      # setterm -foreground white -background black -bold on -store
-      #
-      # Set background first because you must reset colors first to get
-      # true black background in some virtual X-terminals.
-      # Since "tput setab 0" appears light gray,
-      # use "tput sgr0" to reset colors.
-      # Set CNT=1 background color then set CNT=2 font color.
-      for CNT in 1 2
-      do
-          if [ $CNT -eq 1 ] ; then
-             
-             TPUTX="setab"  # Background color.
-             COLOR=$2
-          else
-             TPUTX="setaf"  #  Font color (Fore-ground color).
-             COLOR=$1
-          fi
-          case $COLOR in
-               [Bb] | [Bb][Ll] | [Bb][Ll][Aa]*)
-               if [ $CNT -eq 1 ] ; then
-                  echo -n $(tput sgr0)  # Black background selected.
-                                        # Reset colors to get true black.
-               else
-                  echo -n $(tput $TPUTX 0)  # Black font selected.
-               fi
-               ;;
-               [Bb] | [Bb][Ll] | [Bb][Ll][Uu]*)
-               echo -n $(tput $TPUTX 4)  # Blue font/background selected.
-               ;;
-               [Cc] | [Cc][Yy]*)
-               echo -n $(tput $TPUTX 6)  # Cyan font/background selected.
-               ;;
-               [Gg] | [Gg][Rr] | [Gg][Rr][Ee]*)
-               echo -n $(tput $TPUTX 2)  # Green font/background selected.
-               ;;
-               [Gg] | [Gg][Rr] | [Gg][Rr][Aa]*)
-               echo -n $(tput $TPUTX 237)  # Gray font/background selected.
-               ;;
-               [Mm] | [Mm][Aa]*)
-               echo -n $(tput $TPUTX 5)  # Magenta font/background selected.
-               ;;
-               [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
-               echo -n $(tput $TPUTX 1)  # Red font/background selected.
-               ;;
-               [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
-               echo -n $(tput sgr0)  # Reset selected.
-               ;;
-               [Ww] | [Ww][Hh]*)
-               echo -n $(tput $TPUTX 7)  # White font/background selected.
-               ;;
-               [Yy] | [Yy][Ee]*)
-               echo -n $(tput $TPUTX 3)  # Yellow font/background selected.
-               ;;
-          esac
-      done
-      unset CNT TPUTX COLOR
-} # End of function f_term_color
-#
-# +----------------------------------------+
-# |        Function f_menu_term_color      |
-# +----------------------------------------+
-#
-#  Inputs: GUI, FCOLOR, BCOLOR.
-#    Uses: AAE, MENU_ITEM, MENU_TITLE, DELIMITER.
-# Outputs: THIS_FILE.
-#
-f_menu_term_color () {
-case $GUI in
-     dialog | whiptail)
-     f_menu_term_color_gui $GUI
-     ;;
-     text)
-     f_menu_term_color_txt
-     ;;
-esac
-} # End of f_menu_term_color
-#
-# +----------------------------------------+
-# |      Function f_menu_term_color_txt    |
-# +----------------------------------------+
-#
-#  Inputs: FCOLOR, BCOLOR.
-#    Uses: AAE, MENU_ITEM, MENU_TITLE, DELIMITER.
-# Outputs: THIS_FILE.
-#
-f_menu_term_color_txt () {
-      f_initvars_menu_app "AAE"
-      # When $DELIMITER is set as above, then f_menu_item_process does not call
-      # f_application_run and try to run the menu item's name.
-      # i.e. "Red", "Green" or "Yellow", etc.
-      # since those are not the names of executable (run-able) applications.
-      #
-      until [ "$AAE" = "0" ]
-      do    # Start of Terminal Colors Menu until loop.
-#f_color_red     #AAE Red     - Red     on black.
-#f_color_green   #AAE Green   - Green   on black.
-#f_color_yellow  #AAE Yellow  - Yellow  on black.
-#f_color_blue    #AAE Blue    - Blue    on black.
-#f_color_magenta #AAE Magenta - Magenta on black.
-#f_color_cyan    #AAE Cyan    - Cyan    on black.
-#f_color_white   #AAE White   - White   on black.
-                 #AAE ------- - -----------------
-#f_color_bw      #AAE BW      - Black   on white.
-#f_color_rw      #AAE RW      - Red     on white.
-#f_color_wb      #AAE WB      - White   on blue (Classic "Blueprint").
-#f_color_yb      #AAE YB      - Yellow  on blue.
-            #
-            THIS_FILE="cliappmenu.sh"
-            MENU_TITLE="Terminal Colors Menu"
-            DELIMITER="#AAE" #AAE This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read AEE
-            f_menu_item_process $AEE  # Outputs $MENU_ITEM.
-            #
-            f_term_color $FCOLOR $BCOLOR # Set terminal color.
-            echo $(tput bold) # set bold font.
-            #
-      done  # End of Terminal Colors Menu until loop.
-      #
-      unset AAE MENU_ITEM MENU_TITLE  # Throw out this variable.
-      # Do not unset DELIMITER because it is needed when this function ends and
-      # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-} # End of function f_menu_term_color_txt
-#
-# +----------------------------------------+
-# |      Function f_menu_term_color_gui    |
-# +----------------------------------------+
-#
-#  Inputs: $1=GUI
-#    Uses: AAE, MENU_TITLE.
-# Outputs: None.
-#
-f_menu_term_color_gui () {
-      f_initvars_menu_app "AAE"
-      MENU_TITLE="Terminal Colors Menu"
-      until [ "$AAE" = "0" ]
-      do    # Start of Main Information Menu until loop.
-            AAE=$($1 --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Return"  "Return to the previous menu." \
-            "BW"      "Black   on white." \
-            "RW"      "Red     on white." \
-            "MW"      "Magenta on white." \
-            2>&1 >/dev/tty)
-            #
-            case $AAE in
-                 "Return") AAE=0 ;;
-                 #"Red") f_color_red ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Green") f_color_green ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Yellow") f_color_yellow ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Blue") f_color_blue ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Magenta") f_color_magenta ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"Cyan") f_color_cyan ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"White") f_color_white ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 "BW") f_color_bw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 "RW") f_color_rw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 "MW") f_color_mw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 "WB") f_color_wb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-                 #"YB") f_color_yb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
-            esac
-      done
-} # End of function f_menu_term_color_gui
-#
-# +----------------------------------------+
-# |         Function f_color_<color>       |
-# +----------------------------------------+
-#
-#  Inputs: None.
-#    Uses: None.
-# Outputs: FCOLOR, BCOLOR, ECOLOR
-#
-# The series of functions below set the terminal's color.
-#
-f_color_red () {
-      FCOLOR="Red" ; BCOLOR="Black"  ; ECOLOR="Yellow"
-      f_update_config_file
-}
-#
-f_color_green () {
-      FCOLOR="Green" ; BCOLOR="Black" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_yellow () {
-      FCOLOR="Yellow" ; BCOLOR="Black" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_blue () {
-      FCOLOR="Blue" ; BCOLOR="Black" ;  ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_magenta () {
-      FCOLOR="Magenta" ; BCOLOR="Black" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_cyan () {
-      FCOLOR="Cyan" ; BCOLOR="Black" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_white () {
-      FCOLOR="White" ; BCOLOR="Black" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_bw () {
-      FCOLOR="Black" ; BCOLOR="White" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_rw () {
-      FCOLOR="Red" ; BCOLOR="White" ; ECOLOR="Blue"
-      f_update_config_file
-}
-#
-f_color_mw () {
-      FCOLOR="Magenta" ; BCOLOR="White" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_wb () {
-      FCOLOR="White" ; BCOLOR="Blue" ; ECOLOR="Red"
-      f_update_config_file
-}
-#
-f_color_yb () {
-      FCOLOR="Yellow" ; BCOLOR="Blue" ; ECOLOR="Red"
-      f_update_config_file
-}
 #
 # +----------------------------------------+
 # |       Function f_menu_term_uncolor     |

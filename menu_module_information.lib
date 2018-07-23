@@ -28,9 +28,9 @@
 #    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
 # Outputs: None.
 #
-f_main_information () { # Create and display the Main Menu.
+f_main_information () { # Create and display the Menu.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
-
+      #
       # Create arrays from data.
       ARRAY_FILE="$THIS_DIR/menu_module_information.lib"
       f_menu_arrays $ARRAY_FILE

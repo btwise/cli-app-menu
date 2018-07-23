@@ -13,7 +13,7 @@
 #
 # Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
 #
-#@@ Exit#@@Go back to the previous menu.#@@break
+#@@Exit#@@Go back to the previous menu.#@@break
 #@@Update Program#@@Update menu scripts from the GitHub repository.#@@f_update_software
 #@@Update All Modules#@@Update all installed modules from GitHub repository.#@@f_update_all_modules
 #@@Manage Modules#@@Add-Delete-Remove-Restore-Update selected modules.#@@f_menu_module_manager
@@ -32,9 +32,9 @@
 #    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
 # Outputs: None.
 #
-f_main_configure () { # Create and display the Main Menu.
+f_main_configure () { # Create and display the Menu.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
-
+      #
       # Create arrays from data.
       ARRAY_FILE="$THIS_DIR/menu_module_configuration.lib"
       f_menu_arrays $ARRAY_FILE
@@ -53,6 +53,6 @@ f_main_configure () { # Create and display the Main Menu.
 #    Uses: $THIS_DIR.
 # Outputs: None.
 #
-f_list_this_dir () { # Pass parameters to f_ls_this_dir.
-f_ls_this_dir $THIS_DIR
+f_list_this_dir () { # Pass parameters to f_ls_this_dir using this function because that cannot be done in the Customize Menu choice option line above.
+      f_ls_this_dir $THIS_DIR
 } # End of function f_list_this_dir.
