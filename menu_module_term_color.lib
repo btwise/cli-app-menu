@@ -1,0 +1,224 @@
+# ©2018 Copyright 2018 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="July-23-2018 88:88"
+#
+# +--------------------------------------------------------------------------+
+# |                                                                          |
+# |                 Customize Menu choice options below.                     |
+# |                                                                          |
+# +--------------------------------------------------------------------------+
+#
+# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
+#
+#@@Exit#@@Go back to the previous menu.#@@break
+#@@Red      #@@Red     on black.#@@f_color_red
+#@@Green    #@@Green   on black.#@@f_color_green
+#@@Yellow   #@@Yellow  on black.#@@f_color_yellow
+##@@Blue    #@@Blue    on black.#@@f_color_blue
+#@@Magenta  #@@Magenta on black.#@@f_color_magenta
+#@@Cyan     #@@Cyan    on black.#@@f_color_cyan
+#@@White    #@@White   on black.#@@f_color_white
+#@@BW       #@@Black   on white.#@@f_color_bw
+#@@RW       #@@Red     on white.#@@f_color_rw
+#@@WB       #@@White   on blue Classic Blueprint.#@@f_color_wb
+#@@YB       #@@Yellow  on blue.#@@f_color_yb
+#
+# +----------------------------------------+
+# |       Function f_menu_term_color       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
+# Outputs: None.
+#
+f_menu_term_color () { # Create and display the Menu.
+      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      #
+      # Create arrays from data.
+      ARRAY_FILE="$THIS_DIR/menu_module_term_color.lib"
+      f_menu_arrays $ARRAY_FILE
+      #
+      # Create generated menu script from array data.
+      GENERATED_FILE="cliappmenu_generated.lib"
+      MENU_TITLE="Terminal_Colo_Menu"  # Menu title must substitute underscores for spaces
+      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+} # End of function f_menu_term_color
+#
+# +----------------------------------------+
+# |          Function f_term_color         |
+# +----------------------------------------+
+#
+#  Inputs: $1=$FCOLOR. $2=$BCOLOR
+#    Uses: CNT, TPUTX, COLOR.
+# Outputs: None. 
+#
+f_term_color () {  # Set terminal display properties.
+      #
+      # BASH commands to change the color of characters in a terminal.
+      # bold    "$(tput bold)"
+      # black   "$(tput setaf 0)"
+      # red     "$(tput setaf 1)"
+      # green   "$(tput setaf 2)"
+      # yellow  "$(tput setaf 3)"
+      # blue    "$(tput setaf 4)"
+      # magenta "$(tput setaf 5)"
+      # cyan    "$(tput setaf 6)"
+      # white   "$(tput setaf 7)"
+      # reset   "$(tput sgr0)"
+      #
+      # setterm does not work in X-window virtual terminals.
+      # setterm -foreground white -background black -bold on -store
+      #
+      # Set background first because you must reset colors first to get
+      # true black background in some virtual X-terminals.
+      # Since "tput setab 0" appears light gray,
+      # use "tput sgr0" to reset colors.
+      # Set CNT=1 background color then set CNT=2 font color.
+      for CNT in 1 2
+      do
+          if [ $CNT -eq 1 ] ; then
+             
+             TPUTX="setab"  # Background color.
+             COLOR=$2
+          else
+             TPUTX="setaf"  #  Font color (Fore-ground color).
+             COLOR=$1
+          fi
+          case $COLOR in
+               [Bb] | [Bb][Ll] | [Bb][Ll][Aa]*)
+               if [ $CNT -eq 1 ] ; then
+                  echo -n $(tput sgr0)  # Black background selected.
+                                        # Reset colors to get true black.
+               else
+                  echo -n $(tput $TPUTX 0)  # Black font selected.
+               fi
+               ;;
+               [Bb] | [Bb][Ll] | [Bb][Ll][Uu]*)
+               echo -n $(tput $TPUTX 4)  # Blue font/background selected.
+               ;;
+               [Cc] | [Cc][Yy]*)
+               echo -n $(tput $TPUTX 6)  # Cyan font/background selected.
+               ;;
+               [Gg] | [Gg][Rr] | [Gg][Rr][Ee]*)
+               echo -n $(tput $TPUTX 2)  # Green font/background selected.
+               ;;
+               [Gg] | [Gg][Rr] | [Gg][Rr][Aa]*)
+               echo -n $(tput $TPUTX 237)  # Gray font/background selected.
+               ;;
+               [Mm] | [Mm][Aa]*)
+               echo -n $(tput $TPUTX 5)  # Magenta font/background selected.
+               ;;
+               [Rr] | [Rr][Ee] | [Rr][Ee][Dd])
+               echo -n $(tput $TPUTX 1)  # Red font/background selected.
+               ;;
+               [Rr] | [Rr][Ee] | [Rr][Ee][Ss]*)
+               echo -n $(tput sgr0)  # Reset selected.
+               ;;
+               [Ww] | [Ww][Hh]*)
+               echo -n $(tput $TPUTX 7)  # White font/background selected.
+               ;;
+               [Yy] | [Yy][Ee]*)
+               echo -n $(tput $TPUTX 3)  # Yellow font/background selected.
+               ;;
+          esac
+      done
+      unset CNT TPUTX COLOR
+} # End of function f_term_color
+#
+# +----------------------------------------+
+# |         Function f_color_<color>       |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: None.
+# Outputs: FCOLOR, BCOLOR, ECOLOR
+#
+# The series of functions below set the terminal's color.
+#
+f_color_red () {
+      FCOLOR="Red" ; BCOLOR="Black"  ; ECOLOR="Yellow"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_green () {
+      FCOLOR="Green" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_yellow () {
+      FCOLOR="Yellow" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_blue () {
+      FCOLOR="Blue" ; BCOLOR="Black" ;  ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_magenta () {
+      FCOLOR="Magenta" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_cyan () {
+      FCOLOR="Cyan" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_white () {
+      FCOLOR="White" ; BCOLOR="Black" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_bw () {
+      FCOLOR="Black" ; BCOLOR="White" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_rw () {
+      FCOLOR="Red" ; BCOLOR="White" ; ECOLOR="Blue"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_mw () {
+      FCOLOR="Magenta" ; BCOLOR="White" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_wb () {
+      FCOLOR="White" ; BCOLOR="Blue" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
+f_color_yb () {
+      FCOLOR="Yellow" ; BCOLOR="Blue" ; ECOLOR="Red"
+      f_update_config_file
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
+      echo $(tput bold) # set bold font.
+}
+#
