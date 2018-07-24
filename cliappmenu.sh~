@@ -407,8 +407,7 @@ f_main_init_once () {
       . $THIS_DIR/menu_module_configuration.lib  # invoke module/library.
       . $THIS_DIR/menu_module_information.lib  # invoke module/library.
       . $THIS_DIR/menu_module_term_color.lib  # invoke module/library.
-      . $THIS_DIR/menu_module_app_categories.lib  # invoke module/library.
-      . $THIS_DIR/menu_module_mod_management.lib  # invoke module/library.
+      . $THIS_DIR/menu_module_term_uncolor.lib  # invoke module/library.
 } # End of function f_main_init_once
 #
 # +----------------------------------------+

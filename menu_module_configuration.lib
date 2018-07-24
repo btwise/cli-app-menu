@@ -21,7 +21,6 @@
 #@@List Files#@@List all support and library program files.#@@f_list_this_dir
 #@@User-interface#@@Set default user-interface-text, Dialog, Whiptail.#@@f_menu_term_ui
 #@@Colors#@@Set default font background colors.#@@f_menu_term_color
-#@@Un-colors#@@Set font color for unavailable library modules.#@@f_menu_term_uncolor
 #@@Install to New Dir#@@HOW-TO re-install script into another directory.#@@f_reinstall_readme
 #
 # +----------------------------------------+

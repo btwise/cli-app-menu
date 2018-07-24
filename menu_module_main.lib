@@ -14,7 +14,7 @@
 # Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
 #
 #@@Quit#@@Quit to the command line prompt.#@@break
-#@@Applications#@@Run an application.#@@f_menu_cat_applications
+#@@Applications#@@Run an application.#@@f_main_applications
 #@@Favorites#@@Menu of favorite applications.#@@f_menu_app_favorites
 #@@Find and Run#@@Find and run an application in active menus.#@@f_main_search_apps
 #@@List or Find Menus#@@List all menus or find a menu containing an app.#@@f_main_list_find_menus
@@ -43,4 +43,3 @@ f_main_menu () { # Create and display the Main Menu.
       f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
 } # End of function f_main_menu.
 #
-

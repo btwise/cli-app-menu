@@ -634,14 +634,14 @@ REVDATE="February-10-2016 23:59"
 #: |   List of Special Menu Item Markers    |
 #: +----------------------------------------+
 #:
-##:AAA - Main Menu
-##:AAB - Application Categories Menu
+#:AAA - Main Menu
+#:AAB - Application Categories Menu
 ##:AAB - Library Module Management Menu
 ##:AAC - Configuration Menu
 #:AAD - Validate Files and Directories Menu
-##:AAE - Terminal Colors Menu
-##:AAF - Colors for Unavailable Menu Items
-##:AAG - Information Menu
+#:AAE - Terminal Colors Menu
+#:AAF - Colors for Unavailable Menu Items
+#:AAG - Information Menu
 #:AAH - List or Find Menus Menu
 #:
 #:BAU - Audio-Video Applications Categories Menu

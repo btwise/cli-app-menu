@@ -133,6 +133,10 @@ f_update_menu_txt () {
       echo "f_menu_txt () {" >>$2
       echo "      . $ARRAY_FILE   # invoke the necessary files". >>$2
       echo "      #" >>$2
+      echo "      f_main_config" >>$2
+      echo "      f_term_color $FCOLOR $BCOLOR # Set terminal color." >>$2
+      echo "      echo \"\$(tput bold)\" # set bold font." >>$2
+      echo "      #" >>$2
       echo "      CHOICE=\"\"  # Initialize variable." >>$2
       echo "      until [ \"\$CHOICE\" = \"QUIT\" ]" >>$2
       echo "            do    # Start of menu until loop." >>$2
@@ -399,10 +403,10 @@ f_create_show_menu () {
 #
 f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MENU_TITLE=$1 ; DELIMITER=$2
+      f_term_color $FCOLOR $BCOLOR # Set terminal color.
       #
-      echo -n $(tput sgr0)  # Reset colors to default normal font.
-      f_term_color $FCOLOR $BCOLOR  # Set terminal color.
       clear  # Blank the screen.
+
       echo -n $(tput bold)
       echo "--- $MENU_TITLE ---"
       echo
