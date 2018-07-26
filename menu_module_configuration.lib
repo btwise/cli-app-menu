@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-25-2018 23:01"
+# REVDATE="July-26-2018 88:88
 #
 # +--------------------------------------------------------------------------+
 # |                                                                          |
@@ -17,7 +17,10 @@
 #@@Update Program#@@Update menu scripts from the GitHub repository.#@@f_update_software
 #@@Update All Modules#@@Update all installed modules from GitHub repository.#@@f_update_all_modules
 #@@Manage Modules#@@Add-Delete-Remove-Restore-Update selected modules.#@@f_menu_module_manager
-##@@Update App List#@@Update list of applications in ACTIVATED modules.#@@f_update_list_apps
+#
+# Comment out Update App List until I get it working with new code.
+# #@@Update App List#@@Update list of applications in ACTIVATED modules.#@@f_update_list_apps
+#
 #@@List Files#@@List all support and library program files.#@@f_list_this_dir
 #@@User-interface#@@Set default user-interface-text, Dialog, Whiptail.#@@f_menu_term_ui
 #@@Colors#@@Set default font background colors.#@@f_menu_term_color
@@ -34,14 +37,11 @@
 f_main_configure () { # Create and display the Menu.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       #
-      # Create arrays from data.
+      # Create the arrays for the menu options and display the Menu.
       ARRAY_FILE="$THIS_DIR/menu_module_configuration.lib"
-      f_menu_arrays $ARRAY_FILE
-      #
-      # Create generated menu script from array data.
       GENERATED_FILE="cliappmenu_generated.tmp"
       MENU_TITLE="Configuration_Menu"  # Menu title must substitute underscores for spaces
-      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+      f_menu_setup $ARRAY_FILE $GENERATED_FILE $MENU_TITLE
 } # End of function f_main_configure.
 #
 # +----------------------------------------+

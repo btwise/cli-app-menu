@@ -5,6 +5,23 @@
 # +----------------------------------------+
 # REVDATE="July-25-2018 88:88"
 #
+
+# +----------------------------------------+
+# |        Function f_menu_setup           |
+# +----------------------------------------+
+#
+#  Inputs: $1=File containing menu options to build the menu options array.
+#          $2=Temporary file that is generated which displays the Menu.
+#          $3=Title of Menu.
+#          $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+#    Uses: None.
+# Outputs: MAX_CHOICE_LENGTH. arrays CHOICE(n), SUMMARY(n), FUNC(n). 
+#
+f_menu_setup () { # Create the arrays for the menu options and display the Menu.
+      f_menu_arrays $1
+      f_create_show_menu $GUI $2 $3 $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+} # End of function f_menu_setup.
+#
 # +----------------------------------------+
 # |        Function f_menu_arrays          |
 # +----------------------------------------+
@@ -93,6 +110,53 @@ f_menu_arrays () {
       fi
       unset TEMP_FILE XSTR  # Throw out this variable.
 } # End of f_menu_arrays.
+#
+# +----------------------------------------+
+# |       Function f_create_show_menu      |
+# +----------------------------------------+
+#
+#  Inputs: $1=GUI - "dialog" or "whiptail" The CLI GUI application in use.
+#          $2=GENERATED_FILE.
+#          $3=Menu Title.
+#          $4=MAX_LENGTH.
+#          $5=MAX_LINES.
+#          $6=MAX_CHOICE_LENGTH
+#    Uses: GENERATED_FILE, ARRAY_NAME, ARRAY_LEN, XNUM.
+# Outputs: None.
+#
+f_create_show_menu () {
+      if [ ! -r "/$THIS_DIR/EDIT_HISTORY" ] ; then
+         PROJECT_REVISION="Unknown, edit history is unavailable."
+         PROJECT_REVDATE="Unknown, edit history is unavailable."
+      else
+         PROJECT_REVISION=$(grep ^PROJECT_REVISION "/$THIS_DIR/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+         PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= "/$THIS_DIR/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+      fi
+     case $1 in
+           "dialog" | "whiptail")
+           f_update_menu_gui $1 $2 $3 $4 $5
+           ;;
+           "text")
+           f_update_menu_txt $1 $2 $3 $6
+           ;;
+      esac
+      #
+      . $2  # Invoke Generated file.
+      #
+      # Use generated menu script to display menu.
+      case $1 in
+           "dialog" | "whiptail") 
+           f_menu_gui $1 $3  # function resides in generated file $GENERATED_FILE created by f_update_menu_gui.
+           ;;
+           "text")
+           f_menu_txt  # function resides in generated file $GENERATED_FILE created by f_update_menu_txt.
+           ;;
+       esac
+      #
+      if [ -r $2 ] ; then
+         rm $2
+      fi
+} # End of function f_create_show_menu.
 #
 # +----------------------------------------+
 # |        Function f_update_menu_txt      |
@@ -345,53 +409,6 @@ f_update_menu_gui () {
       fi
       unset X Y XNUM TEMP_FILE ARRAY_NAME ARRAY_LEN CHOICE SUMMARY FUNC 
 } # End of function f_update_menu_gui.
-#
-# +----------------------------------------+
-# |       Function f_create_show_menu      |
-# +----------------------------------------+
-#
-#  Inputs: $1=GUI - "dialog" or "whiptail" The CLI GUI application in use.
-#          $2=GENERATED_FILE.
-#          $3=Menu Title.
-#          $4=MAX_LENGTH.
-#          $5=MAX_LINES.
-#          $6=MAX_CHOICE_LENGTH
-#    Uses: GENERATED_FILE, ARRAY_NAME, ARRAY_LEN, XNUM.
-# Outputs: None.
-#
-f_create_show_menu () {
-      if [ ! -r "/$THIS_DIR/EDIT_HISTORY" ] ; then
-         PROJECT_REVISION="Unknown, edit history is unavailable."
-         PROJECT_REVDATE="Unknown, edit history is unavailable."
-      else
-         PROJECT_REVISION=$(grep ^PROJECT_REVISION "/$THIS_DIR/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
-         PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= "/$THIS_DIR/EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
-      fi
-     case $1 in
-           "dialog" | "whiptail")
-           f_update_menu_gui $1 $2 $3 $4 $5
-           ;;
-           "text")
-           f_update_menu_txt $1 $2 $3 $6
-           ;;
-      esac
-      #
-      . $2  # Invoke Generated file.
-      #
-      # Use generated menu script to display menu.
-      case $1 in
-           "dialog" | "whiptail") 
-           f_menu_gui $1 $3  # function resides in generated file $GENERATED_FILE created by f_update_menu_gui.
-           ;;
-           "text")
-           f_menu_txt  # function resides in generated file $GENERATED_FILE created by f_update_menu_txt.
-           ;;
-       esac
-      #
-      if [ -r $2 ] ; then
-         rm $2
-      fi
-} # End of function f_create_show_menu.
 #
 # +----------------------------------------+
 # |          Function f_show_menu          |

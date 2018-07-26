@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="July-20-2018 22:49"
+REVDATE="July-26-2018 16:45"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -403,12 +403,13 @@ f_main_init_once () {
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       . $THIS_DIR/lib_cli-menu-cat.lib  # invoke module/library.
       . $THIS_DIR/lib_cli-web-sites.lib # invoke module/library.
-      . $THIS_DIR/menu_module_main.lib  # invoke module/library.
+      . $THIS_DIR/menu_module_app_categories.lib  # invoke module/library.
       . $THIS_DIR/menu_module_configuration.lib  # invoke module/library.
       . $THIS_DIR/menu_module_information.lib  # invoke module/library.
-      . $THIS_DIR/menu_module_term_color.lib  # invoke module/library.
-      . $THIS_DIR/menu_module_app_categories.lib  # invoke module/library.
+      . $THIS_DIR/menu_module_list_find_menus.lib  # invoke module/library.
+      . $THIS_DIR/menu_module_main.lib  # invoke module/library.
       . $THIS_DIR/menu_module_mod_management.lib  # invoke module/library.
+      . $THIS_DIR/menu_module_term_color.lib  # invoke module/library.
 } # End of function f_main_init_once
 #
 # +----------------------------------------+
@@ -2406,226 +2407,6 @@ f_main_license_missing () {
 } # End of function f_main_license_missing.
 #
 # +----------------------------------------+
-# |     Function f_main_list_find_menus    |
-# +----------------------------------------+
-#
-#  Inputs: GUI.
-#    Uses: None.
-# Outputs: None.
-#
-f_main_list_find_menus () {
-case $GUI in
-     dialog | whiptail)
-     f_main_list_find_menus_gui
-     ;;
-     text)
-     f_main_list_find_menus_txt
-     ;;
-esac
-} # End of function f_main_list_find_menus
-#
-# +----------------------------------------+
-# |   Function f_main_list_find_menus_txt  |
-# +----------------------------------------+
-#
-#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
-#    Uses: AAH, MENU_ITEM, MENU_TITLE, DELIMITER.
-# Outputs: THIS_FILE.
-#
-f_main_list_find_menus_txt () {
-      if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
-         clear # Blank the screen.
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo
-         echo "The file LIST_APPS will now be automatically created/updated:"
-         echo
-         f_press_enter_key_to_continue
-         # Download/Update file LIST_APPS.
-         f_update_list_apps
-      fi
-      # display LIST_APPS
-      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
-         f_initvars_menu_app "AAH"
-         # When $DELIMITER is set as above, then f_menu_item_process
-         # does not call f_application_run and try to run the menu item's name.
-         # i.e. "Colors", "Un-colors" or "Update", etc.
-         # since those are not the names of executable (run-able) applications.
-         #
-         until [ "$AAH" = "0" ]
-         do    # Start of List/Find Menu until loop.
-#f_main_list_menus_txt^0^0^0^0  #AAH List All Menus - List all menus and applications.
-#f_main_find_menus_txt^0^0^0^0  #AAH Find All Menus - Find menus containing an application.
-               #
-               THIS_FILE="cliappmenu.sh"
-               MENU_TITLE="List or Find Menus Menu"
-               DELIMITER="#AAH" #AAH This 3rd field prevents awk from printing this line into menu options. 
-               #
-               f_show_menu "$MENU_TITLE" "$DELIMITER" 
-               read AAH
-               f_menu_item_process $AAH  # Outputs $MENU_ITEM.
-         done  # End of List/Find Menu until loop.
-         #
-         unset AAH MENU_ITEM MENU_TITLE  # Throw out this variable.
-         # Do not unset DELIMITER because it is needed when this function ends and
-         # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-      fi
-} # End of function f_main_list_find_menus_txt
-#
-# +----------------------------------------+
-# |   Function f_main_list_find_menus_gui  |
-# +----------------------------------------+
-#
-#  Inputs: THIS_DIR, FCOLOR, BCOLOR, ECOLOR.
-#    Uses: AAH, THIS_FILE, MENU_TITLE.
-# Outputs: None.
-#
-f_main_list_find_menus_gui () {
-      if [ ! -r $THIS_DIR"/LIST_APPS" ] ; then
-         clear # Blank the screen.
-         #
-         # Use different color font for error messages.
-         f_term_color $ECOLOR $BCOLOR
-         echo $(tput bold)
-         #
-         echo ">>>The file LIST_APPS is either missing or cannot be read.<<<"
-         echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
-         echo
-         echo "The file LIST_APPS will now be automatically created/updated:"
-         echo
-         f_press_enter_key_to_continue
-         # Download/Update file LIST_APPS.
-         f_update_list_apps
-      fi
-      # display LIST_APPS
-      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
-         f_initvars_menu_app "AAH"
-         # When $DELIMITER is set as above, then f_menu_item_process
-         # does not call f_application_run and try to run the menu item's name.
-         # i.e. "Colors", "Un-colors" or "Update", etc.
-         # since those are not the names of executable (run-able) applications.
-         #
-         THIS_FILE="cliappmenu.sh"
-         MENU_TITLE="List or Find Menus Menu"
-         until [ "$AAH" = "0" ]
-         do    # Start of List/Find Menu until loop.
-            AAH=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Return" "Return to the previous menu." \
-            "List All Menus" "List all menus and applications." \
-            "Find All Menus" "Find menus containing an application." \
-            2>&1 >/dev/tty)
-            #
-            case $AAH in
-                 "Return") AAH=0 ;;
-                 "List All Menus") f_main_list_menus_gui ;;
-                 "Find All Menus") f_main_find_menus_gui ;;
-            esac
-               #
-         done  # End of List/Find Menu until loop.
-         #
-         unset AAH MENU_TITLE  # Throw out this variable.
-         # Do not unset DELIMITER because it is needed when this function ends and
-         # program flow returns to the Main Menu to prevent running of MENU_ITEM.
-      fi
-} # End of function f_main_list_find_menus_gui
-#
-# +----------------------------------------+
-# |     Function f_main_list_menus_txt     |
-# +----------------------------------------+
-#
-#  Inputs: THIS_DIR. 
-#    Uses: None.
-# Outputs: None.
-#
-f_main_list_menus_txt () {
-      less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
-} # End of function f_main_list_menus_txt
-#
-# +----------------------------------------+
-# |     Function f_main_list_menus_gui     |
-# +----------------------------------------+
-#
-#  Inputs: THIS_DIR. 
-#    Uses: X, Y.
-# Outputs: None.
-#
-f_main_list_menus_gui () {
-      f_ask_download_file $THIS_DIR "LIST_APPS"
-      #
-      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
-         # Display LIST_APPS list of applications.
-         # Get the screen resolution or X-window size.
-         # Get rows (height).
-         Y=$(stty size | awk '{ print $1 }')
-         let Y=$Y-3  # Make room at top of window for a backtitle.
-         # Get columns (width).
-         X=$(stty size | awk '{ print $2 }')
-         #
-         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "List of Applications" --textbox $THIS_DIR/LIST_APPS $Y $X
-      else
-         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
-      fi
-      unset X Y
-} # End of function f_main_list_menus_gui
-#
-# +----------------------------------------+
-# |      Function f_main_find_menus_txt    |
-# +----------------------------------------+
-#
-#  Inputs: THIS_DIR. 
-#    Uses: X.
-# Outputs: None.
-#
-f_main_find_menus_txt () {
-      echo
-      echo
-      echo "Enter the name of the application to show the menu where it is listed."
-      echo
-      echo -n "Enter application name: "
-      read X
-      grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
-unset X
-} # End of function f_main_find_menus_txt
-#
-# +----------------------------------------+
-# |      Function f_main_find_menus_gui    |
-# +----------------------------------------+
-#
-#  Inputs: THIS_DIR, GUI.
-#    Uses: X, XX, Y.
-# Outputs: None.
-#
-f_main_find_menus_gui () {
-      f_ask_download_file $THIS_DIR "LIST_APPS"
-      #
-      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
-         # Display LIST_APPS list of applications.
-         # Get the screen resolution or X-window size.
-         # Get rows (height).
-         Y=$(stty size | awk '{ print $1 }')
-         let Y=$Y-3  # Make room at top of window for a backtitle.
-         # Get columns (width).
-         X=$(stty size | awk '{ print $2 }')
-         #
-         XX=$($GUI --inputbox "Enter the name of the application to show the menu where it is listed." 10 70 2>&1 >/dev/tty)
-         grep --ignore-case -B 20 ^" "$XX $THIS_DIR"/LIST_APPS" >cliappmenu.tmp
-         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Search Results" --textbox cliappmenu.tmp $Y $X
-      else
-         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
-      fi
-      #
-      if [ -r cliappmenu.tmp ] ; then
-         rm cliappmenu.tmp
-      fi
-unset X XX Y
-} # End of function f_main_find_menus_gui
-#
-# +----------------------------------------+
 # |       Function f_main_search_apps      |
 # +----------------------------------------+
 #
@@ -3077,7 +2858,7 @@ f_reinstall_readme_gui () {
 # **************************************
 #
 #  Inputs: 
-#    Uses: AAA, MENU_ITEM, MENU_TITLE, DELIMITER.
+#    Uses: MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: exit 0
 #
 # Since the DASH environment does not recognize the ". <library> command,

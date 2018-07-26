@@ -37,14 +37,13 @@
 f_menu_term_color () { # Create and display the Menu.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       #
-      # Create arrays from data.
+      # Create the arrays for the menu options and display the Menu.
       ARRAY_FILE="$THIS_DIR/menu_module_term_color.lib"
-      f_menu_arrays $ARRAY_FILE
-      #
-      # Create generated menu script from array data.
       GENERATED_FILE="cliappmenu_generated.tmp"
       MENU_TITLE="Terminal_Color_Menu"  # Menu title must substitute underscores for spaces
-      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+      f_menu_setup $ARRAY_FILE $GENERATED_FILE $MENU_TITLE
+
+
 } # End of function f_menu_term_color
 #
 # +----------------------------------------+
@@ -221,4 +220,3 @@ f_color_yb () {
       f_term_color $FCOLOR $BCOLOR # Set terminal color.
       echo $(tput bold) # set bold font.
 }
-#

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="July-24-2018 88:88"
+# REVDATE="July-26-2018 88:88"
 #
 # +--------------------------------------------------------------------------+
 # |                                                                          |
@@ -14,11 +14,11 @@
 # Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
 #
 #@@Exit#@@Go back to the previous menu.#@@break
-#@@List All Menus - List all menus and applications.#@@f_main_list_menus
-#@@Find All Menus - Find menus containing an application.#@@f_main_find_menus
+#@@List All Menus#@@List all menus and applications.#@@f_main_list_menus
+#@@Find All Menus#@@Find menus containing an application.#@@f_main_find_menus
 
 # +----------------------------------------+
-# |          Function f_main_list_find_menus          |
+# |     Function f_main_list_find_menus    |
 # +----------------------------------------+
 #
 #  Inputs: None.
@@ -28,14 +28,11 @@
 f_main_list_find_menus () { # Create and display the Menu.
       . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
       #
-      # Create arrays from data.
+      # Create the arrays for the menu options and display the Menu.
       ARRAY_FILE="$THIS_DIR/menu_module_list_find_menus.lib"
-      f_menu_arrays $ARRAY_FILE
-      #
-      # Create generated menu script from array data.
       GENERATED_FILE="cliappmenu_generated.tmp"
       MENU_TITLE="List_or_Find_Menus_Menu"  # Menu title must substitute underscores for spaces
-      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+      f_menu_setup $ARRAY_FILE $GENERATED_FILE $MENU_TITLE
 } # End of function f_main_list_find_menus.
 #
 # +----------------------------------------+
@@ -55,7 +52,7 @@ case $GUI in
      f_main_list_menus_txt
      ;;
 esac
-} # End of function f_main_list_menus
+} # End of function f_main_list_menus.
 #
 # +----------------------------------------+
 # |     Function f_main_list_menus_txt     |
@@ -67,7 +64,7 @@ esac
 #
 f_main_list_menus_txt () {
       less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
-} # End of function f_main_list_menus_txt
+} # End of function f_main_list_menus_txt.
 #
 # +----------------------------------------+
 # |     Function f_main_list_menus_gui     |
@@ -94,7 +91,7 @@ f_main_list_menus_gui () {
          $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
       fi
       unset X Y
-} # End of function f_main_list_menus_gui
+} # End of function f_main_list_menus_gui.
 #
 # +----------------------------------------+
 # |        Function f_main_find_menus      |
@@ -113,9 +110,8 @@ case $GUI in
      f_main_find_menus_txt
      ;;
 esac
-} # End of function f_main_find_menus
+} # End of function f_main_find_menus.
 #
-
 # +----------------------------------------+
 # |      Function f_main_find_menus_txt    |
 # +----------------------------------------+
@@ -133,7 +129,7 @@ f_main_find_menus_txt () {
       read X
       grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
 unset X
-} # End of function f_main_find_menus_txt
+} # End of function f_main_find_menus_txt.
 #
 # +----------------------------------------+
 # |      Function f_main_find_menus_gui    |
@@ -166,6 +162,4 @@ f_main_find_menus_gui () {
          rm cliappmenu.tmp
       fi
 unset X XX Y
-} # End of function f_main_find_menus_gui
-#
-
+} # End of function f_main_find_menus_gui.
