@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-25-2018 23:01"
+# REVDATE="July-24-2018 88:88"
 #
 # +--------------------------------------------------------------------------+
 # |                                                                          |
@@ -14,7 +14,8 @@
 # Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
 #
 #@@Quit#@@Quit to the command line prompt.#@@break
-#@@Applications#@@Run an application.#@@f_main_applications
+#@@Applications#@@Run an application.#@@f_main_make_app_menu
+#  Applications#@@Run an application.#@@f_main_applications
 #@@Favorites#@@Menu of favorite applications.#@@f_menu_app_favorites
 #@@Find and Run#@@Find and run an application in active menus.#@@f_main_search_apps
 #@@List or Find Menus#@@List all menus or find a menu containing an app.#@@f_main_list_find_menus
@@ -38,7 +39,7 @@ f_main_menu () { # Create and display the Main Menu.
       f_menu_arrays $ARRAY_FILE
       #
       # Create generated menu script from array data.
-      GENERATED_FILE="cliappmenu_generated.lib"
+      GENERATED_FILE="cliappmenu_generated.tmp"
       MENU_TITLE="Main_Menu"  # Menu title must substitute underscores for spaces
       f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
 } # End of function f_main_menu.

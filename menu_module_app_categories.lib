@@ -3,51 +3,123 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-25-2018 23:01"
-#
-# +--------------------------------------------------------------------------+
-# |                                                                          |
-# |                 Customize Menu choice options below.                     |
-# |                                                                          |
-# +--------------------------------------------------------------------------+
-#
-# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
-#
-#@@Exit#@@Go back to the previous menu.#@@break
-#@@Audio-Video#@@Music/Video players, editors, utilities.#@@f_mod_apps_audio_video
-#@@Databases#@@General and specialized databases.#@@f_mod_apps_databases
-#@@Development#@@Tools to test code and track/report bugs.#@@f_mod_apps_development
-#@@Education#@@Learn something.#@@f_mod_apps_education
-#@@Environment#@@Command Line shell and GUI, DOS and Nintendo emulators.#@@f_mod_apps_environment
-#@@File/Dir#@@Manage, backup, compare, edit, encrypt, find, files/dirs.#@@f_mod_apps_filedir
-#@@Games#@@Fun time! Games, movies, and screen-savers.#@@f_mod_apps_games
-#@@Graphics#@@View images and graphics files.#@@f_mod_apps_graphics
-#@@Internet#@@Web, e-mail, chat, IM, RSS, ftp, torrents, etc.#@@f_mod_apps_internet
-#@@Network#@@Wireless connection, network monitoring, tools.#@@f_mod_apps_network
-#@@Office#@@Editors, spreadsheets, presenter, organize, calcs, acctg.#@@f_mod_apps_office
-#@@Packages#@@(Un)Install and manage software packages or applications.#@@f_mod_apps_packages
-#@@Screens#@@Multiple screen sessions and terminal emulators.#@@f_mod_apps_screens
-#@@Screen-Tools#@@Screen capture, record/play-back of screen activity etc.#@@f_mod_apps_screen_tools
-#@@System#@@Monitor system processes, resources, utilities, etc.#@@f_mod_apps_system
+# REVDATE="July-24-2018 88:88"
 #
 # +----------------------------------------+
-# |      Function f_main_applications      |
+# |      Function f_main_make_app_menu     |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
+#    Uses: MOD_FILE
 # Outputs: None.
 #
-f_main_applications () { # Create and display the Menu.
-      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+f_main_make_app_menu () { # Create the Menu.
+GENERATED_FILE="cliappmenu_generator.tmp"
+      echo "# ©2018 Copyright 2018 Robert D. Chin">$GENERATED_FILE
+      echo "#">>$GENERATED_FILE
+      echo "# +----------------------------------------+">>$GENERATED_FILE
+      echo "# |             Revision Date              |">>$GENERATED_FILE
+      echo "# +----------------------------------------+">>$GENERATED_FILE
+      echo "# REVDATE=\"July-24-2018 88:88\"">>$GENERATED_FILE
+      echo "#">>$GENERATED_FILE
+      echo "# +--------------------------------------------------------------------------+">>$GENERATED_FILE
+      echo "# |                                                                          |">>$GENERATED_FILE
+      echo "# |                 Customize Menu choice options below.                     |">>$GENERATED_FILE
+      echo "# |                                                                          |">>$GENERATED_FILE
+      echo "# +--------------------------------------------------------------------------+">>$GENERATED_FILE
+      echo "#">>$GENERATED_FILE
+      echo "# Format: <\#@@> <Menu Option> \<#@@> <Description of Menu Option> <\#@@> <Corresponding function or action or cammand>">>$GENERATED_FILE
+      echo "#">>$GENERATED_FILE
       #
-      # Create arrays from data.
-      ARRAY_FILE="$THIS_DIR/menu_module_app_categories.lib"
-      f_menu_arrays $ARRAY_FILE
+      echo "#@@Exit#@@Go back to the previous menu.#@@break">>$GENERATED_FILE
+
+      # Test existence of each file mod_apps-*.lib in directory $THIS_DIR.
+      # If file does not exist in $THIS_DIR then do not include the corresponding comment in the generated code.
+
+      for MOD_FILE in mod_apps-audio-video.lib mod_apps-databases.lib mod_apps-development.lib mod_apps-education.lib mod_apps-environment.lib mod_apps-filedir.lib mod_apps-games.lib mod_apps-graphics.lib mod_apps-internet.lib mod_apps-network.lib mod_apps-office.lib mod_apps-packages.lib mod_apps-sample-template.lib mod_apps-screens.lib mod_apps-screen-tools.lib mod_apps-system.lib
+      do
+         if [ -r $THIS_DIR/$MOD_FILE ] ; then
+            case $MOD_FILE in
+            mod_apps-audio-video.lib)
+            echo "#@@Audio-Video#@@Music/Video players, editors, utilities.#@@f_mod_apps_audio_video">>$GENERATED_FILE
+            ;;
+            mod_apps-databases.lib)
+            echo "#@@Databases#@@General and specialized databases.#@@f_mod_apps_databases">>$GENERATED_FILE
+            ;;
+            mod_apps-development.lib)
+            echo "#@@Development#@@Tools to test code and track/report bugs.#@@f_mod_apps_development">>$GENERATED_FILE
+            ;;
+            mod_apps-education.lib)
+            echo "#@@Education#@@Learn something.#@@f_mod_apps_education">>$GENERATED_FILE
+            ;;
+            mod_apps-environment.lib)
+            echo "#@@Environment#@@Command Line shell and GUI, DOS and Nintendo emulators.#@@f_mod_apps_environment">>$GENERATED_FILE
+            ;;
+            mod_apps-filedir.lib)
+            echo "#@@File/Dir#@@Manage, backup, compare, edit, encrypt, find, files/dirs.#@@f_mod_apps_filedir">>$GENERATED_FILE
+            ;;
+            mod_apps-games.lib)
+            echo "#@@Games#@@Fun time! Games, movies, and screen-savers.#@@f_mod_apps_games">>$GENERATED_FILE
+            ;;
+            mod_apps-graphics.lib)
+            echo "#@@Graphics#@@View images and graphics files.#@@f_mod_apps_graphics">>$GENERATED_FILE
+            ;;
+            mod_apps-internet.lib)
+            echo "#@@Internet#@@Web, e-mail, chat, IM, RSS, ftp, torrents, etc.#@@f_mod_apps_internet">>$GENERATED_FILE
+            ;;
+            mod_apps-network.lib)
+            echo "#@@Network#@@Wireless connection, network monitoring, tools.#@@f_mod_apps_network">>$GENERATED_FILE
+            ;;
+            mod_apps-office.lib)
+            echo "#@@Office#@@Editors, spreadsheets, presenter, organize, calcs, acctg.#@@f_mod_apps_office">>$GENERATED_FILE
+            ;;
+            mod_apps-packages.lib)
+            echo "#@@Packages#@@(Un)Install and manage software packages or applications.#@@f_mod_apps_packages">>$GENERATED_FILE
+            ;;
+            mod_apps-screens.lib)
+            echo "#@@Screens#@@Multiple screen sessions and terminal emulators.#@@f_mod_apps_screens">>$GENERATED_FILE
+            ;;
+            mod_apps-screen-tools.lib)
+            echo "#@@Screen-Tools#@@Screen capture, record/play-back of screen activity etc.#@@f_mod_apps_screen_tools">>$GENERATED_FILE
+            ;;
+            mod_apps-system.lib)
+            echo "#@@System#@@Monitor system processes, resources, utilities, etc.#@@f_mod_apps_system">>$GENERATED_FILE
+            ;;
+            esac
+         fi
+      done
       #
-      # Create generated menu script from array data.
-      GENERATED_FILE="cliappmenu_generated.lib"
-      MENU_TITLE="Application_Categories_Menu"  # Menu title must substitute underscores for spaces
-      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
-} # End of function f_main_applications.
-#
+      echo "#">>$GENERATED_FILE
+      echo "# +----------------------------------------+">>$GENERATED_FILE
+      echo "# |      Function f_main_applications      |">>$GENERATED_FILE
+      echo "# +----------------------------------------+">>$GENERATED_FILE
+      echo "#">>$GENERATED_FILE
+      echo "#  Inputs: None.">>$GENERATED_FILE
+      echo "#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.">>$GENERATED_FILE
+      echo "# Outputs: None.">>$GENERATED_FILE
+      echo "#">>$GENERATED_FILE
+      echo "f_main_applications () { # Create and display the Menu.">>$GENERATED_FILE
+      echo "      . \$THIS_DIR/lib_cli-common.lib    # invoke module/library.">>$GENERATED_FILE
+      echo "      #">>$GENERATED_FILE
+      echo "      # Create arrays from data.">>$GENERATED_FILE
+      echo "      ARRAY_FILE=\"$GENERATED_FILE\"">>$GENERATED_FILE
+      echo "      f_menu_arrays \$ARRAY_FILE">>$GENERATED_FILE
+      echo "      #">>$GENERATED_FILE
+      echo "      # Create generated menu script from array data.">>$GENERATED_FILE
+      echo "      GENERATED_FILE=\"cliappmenu_generated.tmp\"">>$GENERATED_FILE
+      echo "      MENU_TITLE=\"Application_Categories_Menu\"  # Menu title must substitute underscores for spaces">>$GENERATED_FILE
+      echo "      f_create_show_menu \$GUI \$GENERATED_FILE \$MENU_TITLE \$MAX_LENGTH \$MAX_LINES \$MAX_CHOICE_LENGTH">>$GENERATED_FILE
+      echo "      unset GENERATED_FILE  # Throw away this variable for reuse in f_main_make_app_menu.">>$GENERATED_FILE
+      echo "} # End of function f_main_applications.">>$GENERATED_FILE
+      #
+      . $GENERATED_FILE
+      f_main_applications
+      #
+      # Redefine GENERATED_FILE because it was unset in f_main_applications.
+      GENERATED_FILE="cliappmenu_generator.tmp"
+      #
+      # Delete the temp file from the home directory or the same directory where cliappmenu.sh script is located.
+      if [ -r ~/$GENERATED_FILE ] ; then
+         rm ~/$GENERATED_FILE
+      fi
+} # End of function f_main_make_app_menu

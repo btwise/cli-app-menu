@@ -836,4 +836,3 @@ f_install_ncurses () {
          APP_NAME=""       # Also prevents checking for Quit Clause.
       unset ANS
 } # End of function f_install_ncurses
-#

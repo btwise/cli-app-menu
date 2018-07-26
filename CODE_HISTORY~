@@ -86,21 +86,8 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
 ##
-## 2018-07-26 *Development version 4.0 "Farrah".
-##            *git merge from Testing branch to Development branch.
-##            *Total rewrite of code to display Main and Sub-menus.
-##            *Application Menus will not be rewritten for Dialog or
-##             Whiptail menu display capability to allow usage of
-##             command-line. (I may change my mind later).
-##            *New files added to display menus.
-##             menu_module_app_categories.lib
-##             menu_module_app_mod_management.lib
-##             menu_module_configuration.lib
-##             menu_module_information.lib
-##             menu_module_list_find_menus.lib
-##             menu_module_main.lib
-##             menu_module_mod_management.lib
-##             menu_module_term_color.lib
+## 2018-07-19 *Development version 4.0 "Farrah".
+##            *git merge from Testing branch to Development branch,
 ##
 ## 2017-12-31 *f_menu_term_color_gui added color schemes.
 ##            *Main added code near end of script to reset terminal colors

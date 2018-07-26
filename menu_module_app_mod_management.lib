@@ -11,20 +11,6 @@
 # |                                                                          |
 # +--------------------------------------------------------------------------+
 #
-# Below is the full list of application modules which come with this software.
-# This list is also used for two funcitons:
-#
-# f_menu_module_manager (as found below).
-#
-# f_main_make_app_menu which creates the "Application Categories Menu".
-# 
-# Note: The "Application Categories Menu" contains only the modules which
-#       are in the $THIS_DIR. 
-#       If the module is missing, it does not appear in the "Application
-#       Categories Menu".
-#
-#       So the full list below is needed to see if a module is missing.
-#
 # Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
 #
 #@@Exit#@@Go back to the previous menu.#@@break

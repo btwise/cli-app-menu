@@ -42,7 +42,7 @@ f_menu_term_color () { # Create and display the Menu.
       f_menu_arrays $ARRAY_FILE
       #
       # Create generated menu script from array data.
-      GENERATED_FILE="cliappmenu_generated.lib"
+      GENERATED_FILE="cliappmenu_generated.tmp"
       MENU_TITLE="Terminal_Color_Menu"  # Menu title must substitute underscores for spaces
       f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
 } # End of function f_menu_term_color

@@ -1,9 +1,10 @@
 #!/bin/bash
 #
 # This program, README is under copyright.
-# ©2016 Copyright 2016 Robert D. Chin (rdchin at yahoo.com).
+# ©2018 Copyright 2018 Robert D. Chin (rdchin at yahoo.com).
 #
-# Usage: sh README
+# Usage: bash README
+#        sh README
 #
 # +----------------------------------------+
 # |         Function f_script_path         |
@@ -35,6 +36,27 @@ THIS_FILE="README"
 f_script_path
 #
 clear
+# Find the Project Revision designation:
+# grep finds line beginning with "PROJECT_REVDATE=" in file EDIT_HISTORY
+# The first awk results in the date in quotes as a string.
+# The second awk strips the quotation marks from the date string.
+#
+if [ ! -r "EDIT_HISTORY" ] ; then
+   PROJECT_REVISION="Unknown, edit history is unavailable."
+   PROJECT_REVDATE="Unknown, edit history is unavailable."
+else
+   PROJECT_REVISION=$(grep ^PROJECT_REVISION "EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+   PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= "EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+fi
+#
+echo "Project version: $PROJECT_REVISION"
+echo " Last Edited on: $PROJECT_REVDATE"
+echo
+echo "Bash script name: $THIS_FILE"
+echo
+echo -n "Press \"Enter\" key to continue."
+read ANS
+#
 # sed substitutes null for #: at beginning of each line so it is not printed.
 # less -P customizes prompt for %f <FILENAME> page <num> of <pages> (Spacebar, PgUp/PgDn . . .)
 sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
@@ -66,17 +88,11 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 #: |    Revision number and Revision Date   |
 #: +----------------------------------------+
 #:
-# Calculate revision number by counting all lines starting with "## 2015".
-# grep ^ (carot sign) means grep any lines beginning with "##2015".
-# grep -c means count the lines that match the pattern.
-#
-REVISION=$(grep ^"## 2016" -c EDIT_HISTORY) ; REVISION="2016.$REVISION"
-REVDATE="February-10-2016 23:59"
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
-#: If you are releasing a new release version of the project, then the files
-#: CODE_HISTORY and EDIT_HISTORY must have the project revision date and
+#: If you are releasing a new release version of the project, then the file
+#: EDIT_HISTORY must have the project revision date and
 #: project version number updated also.
 #: 
 #:
@@ -263,7 +279,7 @@ REVDATE="February-10-2016 23:59"
 #:   give back to the community and perhaps others could build on and improve
 #:   on what I've started.
 #:
-#: Please enjoy . . . bob chin (2015).
+#: Please enjoy . . . bob chin (2018).
 #:                    rdchin at yahoo.com.
 #:
 #:
@@ -634,15 +650,7 @@ REVDATE="February-10-2016 23:59"
 #: |   List of Special Menu Item Markers    |
 #: +----------------------------------------+
 #:
-##:AAA - Main Menu
-##:AAB - Application Categories Menu
-##:AAB - Library Module Management Menu
-##:AAC - Configuration Menu
 #:AAD - Validate Files and Directories Menu
-##:AAE - Terminal Colors Menu
-##:AAF - Colors for Unavailable Menu Items
-##:AAG - Information Menu
-#:AAH - List or Find Menus Menu
 #:
 #:BAU - Audio-Video Applications Categories Menu
 #:BFM - File Management Application Categories Menu
@@ -782,3 +790,4 @@ REVDATE="February-10-2016 23:59"
 #:MVI - Video Player/Downloader Applications Menu
 #:MWB - Web Browser Applications Menu
 #:MXX - Sample Template Applications Menu
+#:MZZ - Favorite Applications Menu

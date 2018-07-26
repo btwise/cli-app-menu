@@ -1,0 +1,171 @@
+# ©2018 Copyright 2018 Robert D. Chin
+#
+# +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="July-24-2018 88:88"
+#
+# +--------------------------------------------------------------------------+
+# |                                                                          |
+# |                 Customize Menu choice options below.                     |
+# |                                                                          |
+# +--------------------------------------------------------------------------+
+#
+# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
+#
+#@@Exit#@@Go back to the previous menu.#@@break
+#@@List All Menus - List all menus and applications.#@@f_main_list_menus
+#@@Find All Menus - Find menus containing an application.#@@f_main_find_menus
+
+# +----------------------------------------+
+# |          Function f_main_list_find_menus          |
+# +----------------------------------------+
+#
+#  Inputs: None.
+#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
+# Outputs: None.
+#
+f_main_list_find_menus () { # Create and display the Menu.
+      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      #
+      # Create arrays from data.
+      ARRAY_FILE="$THIS_DIR/menu_module_list_find_menus.lib"
+      f_menu_arrays $ARRAY_FILE
+      #
+      # Create generated menu script from array data.
+      GENERATED_FILE="cliappmenu_generated.tmp"
+      MENU_TITLE="List_or_Find_Menus_Menu"  # Menu title must substitute underscores for spaces
+      f_create_show_menu $GUI $GENERATED_FILE $MENU_TITLE $MAX_LENGTH $MAX_LINES $MAX_CHOICE_LENGTH
+} # End of function f_main_list_find_menus.
+#
+# +----------------------------------------+
+# |        Function f_main_list_menus      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_list_menus () {
+case $GUI in
+     dialog | whiptail)
+     f_main_list_menus_gui
+     ;;
+     text)
+     f_main_list_menus_txt
+     ;;
+esac
+} # End of function f_main_list_menus
+#
+# +----------------------------------------+
+# |     Function f_main_list_menus_txt     |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: None.
+# Outputs: None.
+#
+f_main_list_menus_txt () {
+      less -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)' $THIS_DIR"/LIST_APPS"
+} # End of function f_main_list_menus_txt
+#
+# +----------------------------------------+
+# |     Function f_main_list_menus_gui     |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: X, Y.
+# Outputs: None.
+#
+f_main_list_menus_gui () {
+      f_ask_download_file $THIS_DIR "LIST_APPS"
+      #
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         # Display LIST_APPS list of applications.
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "List of Applications" --textbox $THIS_DIR/LIST_APPS $Y $X
+      else
+         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
+      fi
+      unset X Y
+} # End of function f_main_list_menus_gui
+#
+# +----------------------------------------+
+# |        Function f_main_find_menus      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_main_find_menus () {
+case $GUI in
+     dialog | whiptail)
+     f_main_find_menus_gui
+     ;;
+     text)
+     f_main_find_menus_txt
+     ;;
+esac
+} # End of function f_main_find_menus
+#
+
+# +----------------------------------------+
+# |      Function f_main_find_menus_txt    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR. 
+#    Uses: X.
+# Outputs: None.
+#
+f_main_find_menus_txt () {
+      echo
+      echo
+      echo "Enter the name of the application to show the menu where it is listed."
+      echo
+      echo -n "Enter application name: "
+      read X
+      grep --ignore-case -B 20 --color=always ^" "$X $THIS_DIR"/LIST_APPS" | less -r -P 'Page '%dm' (Spacebar, PgUp/PgDn, Up/Dn arrows, press q to quit)'
+unset X
+} # End of function f_main_find_menus_txt
+#
+# +----------------------------------------+
+# |      Function f_main_find_menus_gui    |
+# +----------------------------------------+
+#
+#  Inputs: THIS_DIR, GUI.
+#    Uses: X, XX, Y.
+# Outputs: None.
+#
+f_main_find_menus_gui () {
+      f_ask_download_file $THIS_DIR "LIST_APPS"
+      #
+      if [ -r $THIS_DIR"/LIST_APPS" ] ; then
+         # Display LIST_APPS list of applications.
+         # Get the screen resolution or X-window size.
+         # Get rows (height).
+         Y=$(stty size | awk '{ print $1 }')
+         let Y=$Y-3  # Make room at top of window for a backtitle.
+         # Get columns (width).
+         X=$(stty size | awk '{ print $2 }')
+         #
+         XX=$($GUI --inputbox "Enter the name of the application to show the menu where it is listed." 10 70 2>&1 >/dev/tty)
+         grep --ignore-case -B 20 ^" "$XX $THIS_DIR"/LIST_APPS" >cliappmenu.tmp
+         $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "Search Results" --textbox cliappmenu.tmp $Y $X
+      else
+         $GUI --title "Read Error" --msgbox "Cannot read $THIS_DIR/LIST_APPS"
+      fi
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+unset X XX Y
+} # End of function f_main_find_menus_gui
+#
+
