@@ -1,101 +1,38 @@
-# ©2016 Copyright 2016 Robert D. Chin
+# ©2018 Copyright 2018 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="March-06-2016 21:38"
+# REVDATE="July-27-2018 88:88"
 #
 # +----------------------------------------+
 # |     Function f_menu_cat_audio_video    |
 # +----------------------------------------+
 #
-#  Inputs: $GUI.
-#    Uses: None.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_cat_audio_video () {
-      case $GUI in
-           dialog | whiptail)
-           f_menu_cat_audio_video_gui
-           ;;
-           text)
-           f_menu_cat_audio_video_txt
-           ;;
-      esac
-} # End of function f_menu_cat_audio_video
-#
-# +----------------------------------------+
-# |   Function f_menu_cat_audio_video_txt  |
-# +----------------------------------------+
-#
 #  Inputs: None.
-#    Uses: BAU, MAX.
-# Outputs: ERROR, MENU_TITLE, DELIMITER.
-#
-f_menu_cat_audio_video_txt () {
-      f_initvars_menu_app "BAU"
-      until [ "$BAU" = "0" ]
-      do    # Start of Audio-Video Application Category until loop.
-#f_menu_app_audio_editors    #BAU Audio Editors    - Audio editors/converters of file formats.
-#f_menu_app_cdrippers        #BAU CD Rippers       - Copy music off CD-ROM to files.
-#f_menu_app_music_players    #BAU Music Players    - Play music CD-ROM or music files. Jukebox, playlists.
-#f_menu_app_radio            #BAU Radio-Music      - Listen to Internet radio stations and music sites.
-#f_menu_app_speech_synthesis #BAU Speech Synthesis - Text-to-speech. Have text files read back to you.
-#f_menu_app_video_editors    #BAU Video Editors    - Video editors, transcoders, converters.
-#f_menu_app_video_players    #BAU Video Players    - Video players/downloaders.
-            #
-            THIS_FILE="mod_apps-audio-video.lib"
-            MENU_TITLE="Audio-Video Application Categories Menu"
-            DELIMITER="#BAU" #BAU This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read BAU
-            f_menu_item_process $BAU  # Outputs $MENU_ITEM.
-      done  # End of Audio-Video Application Category until loop.
-            #
-      unset BAU MENU_ITEM # Throw out this variable.
-} # End of function f_menu_cat_audio_video_txt
-#
-# +----------------------------------------+
-# |   Function f_menu_cat_audio_video_gui  |
-# +----------------------------------------+
-#
-#  Inputs: GUI.
-#    Uses: BAU, MENU_TITLE, THIS_FILE.
+#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
 # Outputs: None.
 #
-f_menu_cat_audio_video_gui () {
-      f_initvars_menu_app "BAU"
-      until [ "$BAU" = "0" ]
-      do    # Start of Audio-Video Application Category until loop.
-            THIS_FILE="mod_apps-audio-video.lib"
-            MENU_TITLE="Audio-Video Application Categories Menu"
-            BAU=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Return"           "Return to previous menu." \
-            "Audio Editors"    "Audio editors/converters of file formats." \
-            "CD Rippers"       "Copy music off CD-ROM to files." \
-            "Music Players"    "Play music CD-ROM or music files. Jukebox, playlists." \
-            "Radio-Music"      "Listen to Internet radio stations and music sites." \
-            "Speech Synthesis" "Text-to-speech. Have text files read back to you." \
-            "Video Editors"    "Video editors, transcoders, converters." \
-            "Video Players"    "Video players/downloaders." \
-            2>&1 >/dev/tty)
-            #
-            case $BAU in
-                 "Return") BAU=0 ;;
-                 "CD Rippers") f_menu_app_cdrippers ;;
-                 "Audio Editors") f_menu_app_audio_editors ;;
-                 "Music Players") f_menu_app_music_players ;;
-                 "Radio-Music") f_menu_app_radio ;;
-                 "Speech Synthesis") f_menu_app_speech_synthesis ;;
-                 "Video Editors") f_menu_app_video_editors ;;
-                 "Video Players") f_menu_app_video_players ;;
-            esac
-            #
-      done  # End of Audio-Video Application Category until loop.
-            #
-      unset BAU THIS_FILE MENU_TITLE  # Throw out this variable.
-} # End of function f_menu_cat_audio_video_gui
+# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
+#
+#@@Exit#@@Go back to the previous menu.#@@break
+#@@Audio Editors#@@Audio editors/converters of file formats.#@@f_menu_app_audio_editors
+#@@CD Rippers#@@Copy music off CD-ROM to files.#@@f_menu_app_cdrippers
+#@@Music Players#@@Play music CD-ROM or music files. Jukebox, playlists.#@@f_menu_app_music_players
+#@@Radio-Music#@@Listen to Internet radio stations and music sites.#@@f_menu_app_radio
+#@@Speech Synthesis#@@Text-to-speech. Have text files read back to you.#@@f_menu_app_speech_synthesis
+#@@Video Editors#@@Video editors, transcoders, converters.#@@f_menu_app_video_editors
+#@@Video Players#@@Video players/downloaders.#@@f_menu_app_video_players
+#
+f_menu_cat_audio_video () { # Create and display the Menu.
+      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      #
+      # Create the arrays for the menu options and display the Menu.
+      ARRAY_FILE="$THIS_DIR/mod_apps-audio-video.lib"
+      GENERATED_FILE="cliappmenu_generated.tmp"
+      MENU_TITLE="Audio-Video_Application_Categories_Menu"  # Menu title must substitute underscores for spaces
+      f_menu_setup $ARRAY_FILE $GENERATED_FILE $MENU_TITLE
+} # End of function f_menu_cat_audio_video
 #
 # +----------------------------------------+
 # |    Function f_menu_app_audio_editors   |

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="July-26-2018 88:88"
+# REVDATE="July-27-2018 88:88"
 #
 
 # +----------------------------------------+
@@ -428,6 +428,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       echo -n $(tput bold)
       echo "--- $MENU_TITLE ---"
       echo
+      echo "0 - Exit (Go back to the previous menu.)"
       #
       # If displaying "Validate Files and Directories Menu" existing in cliappmenu.sh
       # then this if statement allows for cliappmenu.sh to be in a different
@@ -461,6 +462,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       # description of the application.
       #
       echo -n $(tput bold)
+
       awk -F $DELIMITER '{if ($2&&!$3){print 1+XNUM++" -"$2;}}' $THIS_DIR/$THIS_FILE
       #
       f_choice_array  # Create array to handle numeric answer to menu choices.
@@ -483,7 +485,7 @@ f_show_menu () { # $1=$MENU_TITLE $2=$DELIMITER
       MAX=$(awk -F "$DELIMITER" '{if ($2&&!$3){print $0}}' $THIS_DIR/$THIS_FILE | grep -c "$DELIMITER")
       #
       echo
-      echo -n "Enter 0 to $MAX or letters (0): " # echo -n suppresses line-feed.
+      echo -n "Enter 0-$MAX or letters (0): " # echo -n suppresses line-feed.
       #
       case $DELIMITER in
            "#AAD")

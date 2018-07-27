@@ -3,120 +3,43 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="September-04-2015 12:00"
+# REVDATE="July-27-2018 88:88"
 #
 # +----------------------------------------+
-# |     Function f_menu_cat_audio_video    |
-# +----------------------------------------+
-#
-#  Inputs: $GUI.
-#    Uses: None.
-# Outputs: None.
-#
-f_menu_cat_file_management () {
-      case $GUI in
-           dialog | whiptail)
-           f_menu_cat_file_management_gui
-           ;;
-           text)
-           f_menu_cat_file_management_txt
-           ;;
-      esac
-} # End of function f_menu_cat_file_management
-#
-# +----------------------------------------+
-# |Function f_menu_cat_file_management_txt |
+# |   Function f_menu_cat_file_management  |
 # +----------------------------------------+
 #
 #  Inputs: None.
-#    Uses: BFM, MAX, MENU_ITEM
-# Outputs: ERROR, MENU_TITLE, DELIMITER
-#
-f_menu_cat_file_management_txt () {
-      f_initvars_menu_app "BFM"
-      until [ "$BFM" = "0" ]
-      do    # Start of File Management Application Category until loop.
-#f_menu_app_binhex_editors    #BFM Bin/Hex     - View/Edit/Compare binary, hexadecimal files.
-#f_menu_app_file_burn         #BFM CD/DVD Burn - Write files to CD/DVD.
-#f_menu_app_file_checksum     #BFM Checksum    - Display/Create file checksums to verify file integrity.
-#f_menu_app_text_compare      #BFM Compare     - Show differences between text files.
-#f_menu_app_file_compression  #BFM Compress    - Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.
-#f_menu_app_file_conversion   #BFM Convert     - Convert between different file formats.
-#f_menu_app_text_file_editors #BFM Edit        - Create/Edit text files.
-#f_menu_app_file_encryption   #BFM Encryption  - Encrypt/Decrypt files for privacy and security.
-#f_menu_app_file_find         #BFM Find        - File search.
-#f_menu_app_file_transfer     #BFM FTP/HTTP    - File transfer via FTP, HTTP clients.
-#f_menu_app_file_managers     #BFM Managers    - Directory tree views, rename, add/delete, files, folders.
-#f_menu_app_file_operations   #BFM Operations  - Directory/file copy, move, secure delete, recovery, backup.
-#f_menu_app_file_splitters    #BFM Splitters   - File splitters.
-#f_menu_app_file_viewers      #BFM Viewers     - View files a page at a time.
-            #
-            THIS_FILE="mod_apps-filedir.lib"
-            MENU_TITLE="File Management Application Categories Menu"
-            DELIMITER="#BFM" #BFM This 3rd field prevents awk from printing this line into menu options. 
-            #
-            f_show_menu "$MENU_TITLE" "$DELIMITER" 
-            read BFM
-            f_menu_item_process $BFM  # Outputs $MENU_ITEM.
-      done  # End of File Management Applications until loop.
-            #
-      unset BFM MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_cat_file_management_txt
-#
-# +----------------------------------------+
-# |Function f_menu_cat_file_management_gui |
-# +----------------------------------------+
-#
-#  Inputs: GUI.
-#    Uses: BFM, MENU_TITLE, THIS_FILE.
+#    Uses: ARRAY_FILE, GENERATED_FILE, MENU_TITLE.
 # Outputs: None.
 #
-f_menu_cat_file_management_gui () {
-      f_initvars_menu_app "BFM"
-      until [ "$BFM" = "0" ]
-      do    # Start of File Management Application Category until loop.
-            THIS_FILE="mod_apps-filedir.lib"
-            MENU_TITLE="File Management Application Categories Menu"
-            BFM=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
-            "Return"     "Return to previous menu." \
-            "Bin/Hex"    "View/Edit/Compare binary, hexadecimal files." \
-            "CD/DVD Burn" "Write files to CD/DVD." \
-            "Checksum"   "Display/Create file checksums to verify file integrity." \
-            "Compare"    "Show differences between text files." \
-            "Compress"   "Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc." \
-            "Convert"    "Convert between different file formats." \
-            "Edit"       "Create/Edit text files." \
-            "Encryption" "Encrypt/Decrypt files for privacy and security." \
-            "Find"       "File search." \
-            "FTP/HTTP"   "File transfer via FTP, HTTP clients." \
-            "Managers"   "Directory tree views, rename, add/delete, files, folders." \
-            "Operations" "Directory/file copy, move, secure delete, recovery, backup." \
-            "Splitters"  "File splitters." \
-            "Viewers"    "View files a page at a time." \
-            2>&1 >/dev/tty)
-            #
-            case $BFM in
-                 "Return") BFM=0 ;;
-                 "Bin/Hex") f_menu_app_binhex_editors ;;
-                 "CD/DVD Burn") f_menu_app_file_burn ;;
-                 "Checksum") f_menu_app_file_checksum ;;
-                 "Compare") f_menu_app_text_compare ;;
-                 "Compress") f_menu_app_file_compression ;;
-                 "Convert") f_menu_app_file_conversion ;;
-                 "Edit") f_menu_app_text_file_editors ;;
-                 "Encryption") f_menu_app_file_encryption ;;
-                 "Find") f_menu_app_file_find ;;
-                 "FTP/HTTP") f_menu_app_file_transfer ;;
-                 "Managers") f_menu_app_file_managers ;;
-                 "Operations") f_menu_app_file_operations ;;
-                 "Splitters") f_menu_app_file_splitters ;;
-                 "Viewers") f_menu_app_file_viewers ;;
-            esac
-            #
-      done  # End of Audio-Video Application Category until loop.
-            #
-      unset BFM THIS_FILE MENU_TITLE  # Throw out this variable.
-} # End of function f_menu_cat_file_management_gui
+# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
+#
+#@@Exit#@@Go back to the previous menu.#@@break
+#@@Bin/Hex#@@View/Edit/Compare binary, hexadecimal files.#@@f_menu_app_binhex_editors
+#@@CD/DVD Burn#@@Write files to CD/DVD.#@@f_menu_app_file_burn
+#@@Checksum#@@Display/Create file checksums to verify file integrity.#@@f_menu_app_file_checksum
+#@@Compare#@@Show differences between text files.#@@f_menu_app_text_compare
+#@@Compress#@@Compress/uncompress files tar, zip, gz, bz, rar, xz, 7z, etc.#@@f_menu_app_file_compression
+#@@Convert#@@Convert between different file formats.#@@f_menu_app_file_conversion
+#@@Edit#@@Create/Edit text files.#@@f_menu_app_text_file_editors
+#@@Encryption#@@Encrypt/Decrypt files for privacy and security.#@@f_menu_app_file_encryption
+#@@Find#@@File search.#@@f_menu_app_file_find
+#@@FTP/HTTP#@@File transfer via FTP, HTTP clients.#@@f_menu_app_file_transfer
+#@@Managers#@@Directory tree views, rename, add/delete, files, folders.#@@f_menu_app_file_managers
+#@@Operations#@@Directory/file copy, move, secure delete, recovery, backup.#@@f_menu_app_file_operations
+#@@Splitters#@@File splitters.#@@f_menu_app_file_splitters
+#@@Viewers#@@View files a page at a time.#@@f_menu_app_file_viewers
+#
+f_menu_cat_file_management () { # Create and display the Menu.
+      . $THIS_DIR/lib_cli-common.lib    # invoke module/library.
+      #
+      # Create the arrays for the menu options and display the Menu.
+      ARRAY_FILE="$THIS_DIR/mod_apps-filedir.lib"
+      GENERATED_FILE="cliappmenu_generated.tmp"
+      MENU_TITLE="File_Management_Application_Categories_Menu"  # Menu title must substitute underscores for spaces
+      f_menu_setup $ARRAY_FILE $GENERATED_FILE $MENU_TITLE
+} # End of function f_menu_cat_file_management
 #
 # +----------------------------------------+
 # |     Function f_menu_app_file_backup    |
