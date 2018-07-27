@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2016-02-10 23:19 Wednesday
+Last updated: 2018-07-26 23:29 Thursday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -1379,7 +1379,7 @@ _______________________________________________________________________________
  termsaver    - Screensaver for text terminals.
  textmaze     - Playable Maze on screen
  ticker       - Scrolls text across the screen.
- tty-clock    - Display a digital clack full-screen.
+ tty-clock    - Display a digital clock full-screen.
  weatherspect - Displays weather information with wallpaper.
  worms        - Worms wiggle on the screen.
 
@@ -1676,4 +1676,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Sample Template Applications Menu ***
+
+_______________________________________________________________________________
+*** Favorite Applications Menu ***
 _________________________________End of List___________________________________

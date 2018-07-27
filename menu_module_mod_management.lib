@@ -25,24 +25,24 @@
 #
 #       So the full list below is needed to see if a module is missing.
 #
-# Format: <#@@> <Menu Option> <#@@> <Description of Menu Option> <#@@> <Corresponding function or action or cammand>
+# Format: <DELIMITER> <Menu Option> <DELIMITER> <Description of Menu Option> <DELIMITER> <Corresponding function or action or cammand> <DELIMITER> <file name of module>
 #
 #@@Exit#@@Go back to the previous menu.#@@break
-#@@Audio-Video#@@Music/Video players, editors, utilities.#@@f_mod_apps_audio_video
-#@@Databases#@@General and specialized databases.#@@f_mod_apps_databases
-#@@Development#@@Tools to test code and track/report bugs.#@@f_mod_apps_development
-#@@Education#@@Learn something.#@@f_mod_apps_education
-#@@Environment#@@Command Line shell and GUI, DOS and Nintendo emulators.#@@f_mod_apps_environment
-#@@File/Dir#@@Manage, backup, compare, edit, encrypt, find, files/dirs.#@@f_mod_apps_filedir
-#@@Games#@@Fun time! Games, movies, and screen-savers.#@@f_mod_apps_games
-#@@Graphics#@@View images and graphics files.#@@f_mod_apps_graphics
-#@@Internet#@@Web, e-mail, chat, IM, RSS, ftp, torrents, etc.#@@f_mod_apps_internet
-#@@Network#@@Wireless connection, network monitoring, tools.#@@f_mod_apps_network
-#@@Office#@@Editors, spreadsheets, presenter, organize, calcs, acctg.#@@f_mod_apps_office
-#@@Packages#@@(Un)Install and manage software packages or applications.#@@f_mod_apps_packages
-#@@Screens#@@Multiple screen sessions and terminal emulators.#@@f_mod_apps_screens
-#@@Screen-Tools#@@Screen capture, record/play-back of screen activity etc.#@@f_mod_apps_screen_tools
-#@@System#@@Monitor system processes, resources, utilities, etc.#@@f_mod_apps_system
+#@@Audio-Video#@@Music/Video players, editors, utilities.#@@f_mod_apps_audio_video#@@mod_apps_audio_video
+#@@Databases#@@General and specialized databases.#@@f_mod_apps_databases#@@mod_apps_databases
+#@@Development#@@Tools to test code and track/report bugs.#@@f_mod_apps_development#@@mod_apps_development
+#@@Education#@@Learn something.#@@f_mod_apps_education#@@mod_apps_education
+#@@Environment#@@Command Line shell and GUI, DOS and Nintendo emulators.#@@f_mod_apps_environment#@@mod_apps_environment
+#@@File/Dir#@@Manage, backup, compare, edit, encrypt, find, files/dirs.#@@f_mod_apps_filedir#@@mod_apps_filedir
+#@@Games#@@Fun time! Games, movies, and screen-savers.#@@f_mod_apps_games#@@mod_apps_games
+#@@Graphics#@@View images and graphics files.#@@f_mod_apps_graphics#@@mod_apps_graphics
+#@@Internet#@@Web, e-mail, chat, IM, RSS, ftp, torrents, etc.#@@f_mod_apps_internet#@@mod_apps_internet
+#@@Network#@@Wireless connection, network monitoring, tools.#@@f_mod_apps_network#@@mod_apps_network
+#@@Office#@@Editors, spreadsheets, presenter, organize, calcs, acctg.#@@f_mod_apps_office#@@mod_apps_office
+#@@Packages#@@(Un)Install and manage software packages or applications.#@@f_mod_apps_packages#@@mod_apps_packages
+#@@Screens#@@Multiple screen sessions and terminal emulators.#@@f_mod_apps_screens#@@mod_apps_screens
+#@@Screen-Tools#@@Screen capture, record/play-back of screen activity etc.#@@f_mod_apps_screen_tools#@@mod_apps_screen_tools
+#@@System#@@Monitor system processes, resources, utilities, etc.#@@f_mod_apps_system#@@mod_apps_system
 #
 # +----------------------------------------+
 # |      Function f_menu_module_manager    |

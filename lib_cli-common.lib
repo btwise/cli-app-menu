@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="July-25-2018 88:88"
+# REVDATE="July-26-2018 88:88"
 #
 
 # +----------------------------------------+
@@ -196,6 +196,7 @@ f_update_menu_txt () {
       echo "#" >>$2
       echo "f_menu_txt () {" >>$2
       echo "      . $ARRAY_FILE   # invoke the necessary files. This comes from ARRAY_FILE." >>$2
+      echo "      . $THIS_DIR/lib_cli-common.lib" >>$2
       echo "      #" >>$2
       echo "      f_main_config" >>$2
       echo "      f_term_color $FCOLOR $BCOLOR # Set terminal color." >>$2
@@ -343,6 +344,7 @@ f_update_menu_gui () {
       echo "#" >>$2
       echo "f_menu_gui () {" >>$2
       echo "      . $ARRAY_FILE   # invoke the necessary files". >>$2
+      echo "      . $THIS_DIR/lib_cli-common.lib" >>$2
       echo "      #" >>$2
       echo "      # CHOICE=\"\"  # Initialize variable." >>$2
       #
@@ -3264,8 +3266,13 @@ f_create_LIST_APPS () {
           # function name which is then converted into a file name of the
           # module, mod_apps-*.lib.
           #
-          for MOD_FUNC in `awk -F "#AAB" '{if ($2&&!$3){print $1}}' $THIS_DIR/lib_cli-menu-cat.lib | awk -F "#f_" '{print $2}'`
+          for MOD_FUNC in `awk -F "#@@" '{print $5}' $THIS_DIR/menu_module_mod_management.lib`
           do
+              #
+              # The first menu option is usually "Exit" with a "function name" of "break".
+              # Do not use function name, "break" as the file name at all.
+              # This is taken care of by the test if file exists
+              # "[ -e $THIS_DIR/$MOD_FILE ]" since there is no file name of "break".
               #
               # Convert the function name in the "Application Category Menu"
               # to a file name.
@@ -3326,6 +3333,97 @@ f_create_LIST_APPS () {
       fi
       unset XSTR  # Throw out this variable.
 } # End of function f_create_LIST_APPS
+#
+# +----------------------------------------+
+# |     Function f_reinstall_readme        |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_readme () {
+case $GUI in
+     dialog | whiptail)
+     f_reinstall_readme_gui
+     ;;
+     text)
+     f_reinstall_readme_txt
+     ;;
+esac
+} # End of f_main_code_history
+#
+# +----------------------------------------+
+# |    Function f_reinstall_readme_txt     |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: X.
+# Outputs: None.
+#
+f_reinstall_readme_txt () {
+      clear # Blank the screen.
+      echo "To re-install this software into another location/directory,"
+      echo "simply copy the file, "cliappmenu.sh" to the other directory."
+      echo
+      echo "        cp <old directory>/cliappmenu.sh <new directory>"
+      echo "             or"
+      echo  "       sudo cp <old directory>/cliappmenu.sh <new directory>"
+      echo
+      echo "Then change to the new directory and run the script."
+      echo
+      echo "        cd <new directory>"
+      echo
+      echo "        bash cliappmenu.sh"
+      echo "             or"
+      echo "        sudo bash cliappmenu.sh"
+      echo
+      echo "Then the mini-installer will automatically run and give you more instructions."
+      echo
+      echo -n "Press \"Enter\" key to continue." ; read X
+      unset X
+
+} # End of function f_reinstall_readme_txt
+#
+# +----------------------------------------+
+# |    Function f_reinstall_readme_gui     |
+# +----------------------------------------+
+#
+#  Inputs: $1 - Directory. 
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_readme_gui () {
+      echo "To re-install this software into another location/directory," >cliappmenu.tmp
+      echo "simply copy the file, "cliappmenu.sh" to the other directory." >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        cp <old directory>/cliappmenu.sh <new directory>" >>cliappmenu.tmp
+      echo "             or" >>cliappmenu.tmp
+      echo  "       sudo cp <old directory>/cliappmenu.sh <new directory>" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Then change to the new directory and run the script." >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        cd <new directory>" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "        bash cliappmenu.sh" >>cliappmenu.tmp
+      echo "             or" >>cliappmenu.tmp
+      echo "        sudo bash cliappmenu.sh" >>cliappmenu.tmp
+      echo >>cliappmenu.tmp
+      echo "Then the mini-installer will automatically run" >>cliappmenu.tmp
+      echo "and give you more instructions." >>cliappmenu.tmp
+      # Get the screen resolution or X-window size.
+      # Get rows (height).
+      Y=$(stty size | awk '{ print $1 }')
+      let Y=$Y-3  # Make room at top of window for a backtitle.
+      # Get columns (width).
+      X=$(stty size | awk '{ print $2 }')
+      #
+      $GUI --backtitle "(use arrow keys and spacebar to scroll up/down/side-ways)" --title "HOW-TO Reinstall" --textbox cliappmenu.tmp $Y $X
+      #
+      if [ -r cliappmenu.tmp ] ; then
+         rm cliappmenu.tmp
+      fi
+} # End of function f_reinstall_readme_gui
 #
 # +----------------------------------------+
 # |      Function f_show_max_menu_items    |

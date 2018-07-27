@@ -17,14 +17,12 @@
 #@@Update Program#@@Update menu scripts from the GitHub repository.#@@f_update_software
 #@@Update All Modules#@@Update all installed modules from GitHub repository.#@@f_update_all_modules
 #@@Manage Modules#@@Add-Delete-Remove-Restore-Update selected modules.#@@f_menu_module_manager
-#
-# Comment out Update App List until I get it working with new code.
-# #@@Update App List#@@Update list of applications in ACTIVATED modules.#@@f_update_list_apps
-#
+#@@Update App List#@@Update list of applications in ACTIVATED modules.#@@f_update_list_apps
+#@@View App List#@@View list of applications in ACTIVATED modules.#@@f_main_list_menus
 #@@List Files#@@List all support and library program files.#@@f_list_this_dir
 #@@User-interface#@@Set default user-interface-text, Dialog, Whiptail.#@@f_menu_term_ui
 #@@Colors#@@Set default font background colors.#@@f_menu_term_color
-#@@Install to New Dir#@@HOW-TO re-install script into another directory.#@@f_reinstall_readme
+#@@Install to New Dir#@@HOW-TO re-install script into another directory.#@@f_reinstall_read_me
 #
 # +----------------------------------------+
 # |        Function f_main_configure       |
@@ -55,3 +53,16 @@ f_main_configure () { # Create and display the Menu.
 f_list_this_dir () { # Pass parameters to f_ls_this_dir using this function because that cannot be done in the Customize Menu choice option line above.
       f_ls_this_dir $THIS_DIR
 } # End of function f_list_this_dir.
+#
+# +----------------------------------------+
+# |      Function f_reinstall_read_me      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: None.
+# Outputs: None.
+#
+f_reinstall_read_me () { # Pass parameters to f_ls_this_dir using this function because that cannot be done in the Customize Menu choice option line above.
+      f_reinstall_readme $GUI
+} # End of function f_reinstall_read_me.
+
