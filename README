@@ -7,6 +7,11 @@
 #        sh README
 #
 # +----------------------------------------+
+# |             Revision Date              |
+# +----------------------------------------+
+# REVDATE="July-27-2018 88:88"
+#
+# +----------------------------------------+
 # |         Function f_script_path         |
 # +----------------------------------------+
 #
@@ -41,12 +46,12 @@ clear
 # The first awk results in the date in quotes as a string.
 # The second awk strips the quotation marks from the date string.
 #
-if [ ! -r "EDIT_HISTORY" ] ; then
+if [ ! -r $SCRIPT_PATH/EDIT_HISTORY ] ; then
    PROJECT_REVISION="Unknown, edit history is unavailable."
    PROJECT_REVDATE="Unknown, edit history is unavailable."
 else
-   PROJECT_REVISION=$(grep ^PROJECT_REVISION "EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
-   PROJECT_REVDATE=$(grep ^PROJECT_REVDATE= "EDIT_HISTORY" | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+   PROJECT_REVISION=$(grep ^PROJECT_REVISION $SCRIPT_PATH/EDIT_HISTORY | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
+   PROJECT_REVDATE=$(grep ^PROJECT_REVDATE=  $SCRIPT_PATH/EDIT_HISTORY | awk -F "=" '{ print $2 }' | awk -F '"' '{print $2}')
 fi
 #
 echo "Project version: $PROJECT_REVISION"
