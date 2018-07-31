@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="July-27-2018 88:88"
+# REVDATE="July-31-2018 88:88"
 #
 # +----------------------------------------+
 # |        Function  f_menu_cat_image      |
@@ -25,7 +25,8 @@ f_menu_cat_image () { # Create and display the Menu.
       # Create the arrays for the menu options and display the Menu.
       ARRAY_FILE="$THIS_DIR/mod_apps-graphics.lib"
       GENERATED_FILE="cliappmenu_generated.tmp"
-      MENU_TITLE="Image Application Categories Menu"  # Menu title must substitute underscores for spaces
+      MENU_TITLE="Image Application Categories Menu"
+      MENU_TITLE=$(echo $MENU_TITLE | tr ' ' '_')  # Menu title must substitute underscores for spaces to pass as an argument.
       f_menu_setup $ARRAY_FILE $GENERATED_FILE $MENU_TITLE
 } # End of function f_menu_cat_image
 #
