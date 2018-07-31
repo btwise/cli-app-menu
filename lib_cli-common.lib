@@ -915,7 +915,7 @@ f_menu_item_process () {
                ;;
                esac
             fi
-         else
+#         else    # Diagnostic Line.
 #echo "invalid application name."  # Diagnostic Line.
 #echo "MENU_ITEM=$MENU_ITEM"  # Diagnostic Line.
 #echo "CHOICE Array" # Diagnostic Line.
