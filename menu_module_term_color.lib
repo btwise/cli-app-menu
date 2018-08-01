@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="July-23-2018 88:88"
+# REVDATE="July-31-2018 88:88"
 #
 # +--------------------------------------------------------------------------+
 # |                                                                          |
@@ -42,8 +42,6 @@ f_menu_term_color () { # Create and display the Menu.
       GENERATED_FILE="cliappmenu_generated.tmp"
       MENU_TITLE="Terminal_Color_Menu"  # Menu title must substitute underscores for spaces
       f_menu_setup $ARRAY_FILE $GENERATED_FILE $MENU_TITLE
-
-
 } # End of function f_menu_term_color
 #
 # +----------------------------------------+

@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="July-30-2018 88:88"
+# REVDATE="July-31-2018 23:59"
 #
 # +----------------------------------------+
 # |        Function f_menu_setup           |
@@ -243,15 +243,14 @@ f_app_menu_arrays () {
 # Outputs: None.
 #
 f_app_process () {
-      # This function is in the case statment in f_menu_txt, f_menu_gui of
-      # file "cliappmenu_generated.tmp" and is used for all application menus.
+      # This function is in the case statment in f_menu_txt and in f_menu_gui 
+      # of file "cliappmenu_generated.tmp" and is used for all application menus.
       # This function is needed because the case statement does not allow
       # the passing of function parameters.
       #
       case $CHOICE in
            [0-9] | [0-9][0-9]) # If CHOICE is a number, then add 1 to increment by 1.
            let CHOICE=$CHOICE+1  # In the App Menu, CHOICE=0 to exit, but CHOICE Array CHOICE[1]=Exit Menu so if CHOICE=0, make it CHOICE=1.
-#echo -n "Before f_menu_item_process CHOICE=$CHOICE"; read X ; unset X  # Diagnostic Line.
            ;;
       esac
       f_menu_item_process $CHOICE  # Outputs $MENU_ITEM.
@@ -766,6 +765,12 @@ f_menu_item_process () {
          THIS_DIR=$SAVE_DIR
       fi
       #
+      let MAX=$MAX+1  # Needed to compensate for offset between displayed menu options
+                      # and CHOICE Array index range created in f_app_menu_arrays.
+                      # User-entered range is [1 to $MAX] in an application menu.
+                      # But array index range is CHOICE[1]...CHOICE[$MAX+1].
+                      # Because application menu has "0. Exit" whereas CHOICE[1]=Exit.
+                      # So in the Application Menu, if "10. Last App" then $XNUM=11
       case $MENU_ITEM in
            # Quit?
            "" | 0)
@@ -777,11 +782,6 @@ f_menu_item_process () {
            if [  "$MENU_ITEM" -ge 1 ] && [ "$MENU_ITEM" -le $MAX ] ; then
               # MENU_ITEM now is an alpha string.
               MENU_ITEM=${CHOICE[$MENU_ITEM]} 
-#echo "MENU_ITEM=$MENU_ITEM passed to f_menu_item_process"  # Diagnostic Line.
-#echo "Choice Array inside f_menu_item_process." # Diagnostic Line.
-#echo "CHOICE Array" # Diagnostic Line.
-#echo ${CHOICE[*]}  # Diagnostic Line.
-#echo -n "Press Enter key to continue." ; read BOBCHIN  # Diagnostic Line.
            fi
            ;;
       esac
@@ -861,7 +861,6 @@ f_menu_item_process () {
                            # APP_NAME=$MENU_ITEM_NAME for valid name.
          #
          if [ -n "$APP_NAME" ] ; then # if $MENU_ITEM is a valid choice (null if invalid).
-            #
             # If running "Favorite Applications Menu", then invoke the
             # corresponding module file mod_apps-<name>.lib.
             if [ "$DELIMITER" = "#MZZ" ] ; then
@@ -915,12 +914,6 @@ f_menu_item_process () {
                ;;
                esac
             fi
-#         else    # Diagnostic Line.
-#echo "invalid application name."  # Diagnostic Line.
-#echo "MENU_ITEM=$MENU_ITEM"  # Diagnostic Line.
-#echo "CHOICE Array" # Diagnostic Line.
-#echo ${CHOICE[*]}  # Diagnostic Line.
-#echo -n "Press Enter key to continue." ; read BOBCHIN  # Diagnostic Line.
          fi
       fi
       #
@@ -979,11 +972,6 @@ f_menu_item_valid () {
       #
       # Cycle through entire CHOICE[$XNUM] array
       # to find matching $MENU_ITEM_NAME.
-#echo # Diagnostic Line.
-#echo "Choice Array inside f_menu_item_valid." # Diagnostic Line.
-#echo "CHOICE Array" # Diagnostic Line.
-#echo ${CHOICE[*]}  # Diagnostic Line.
-#echo -n "Press Enter key to continue." ; read BOBCHIN  # Diagnostic Line.
       while [ $XNUM -ge 1 ] && [ $XNUM -le $MAX ]
       do
             # If no "sudo" or any [OPTIONS] in command then convert MENU_ITEM

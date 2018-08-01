@@ -3,7 +3,7 @@
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="July-24-2018 88:88"
+# REVDATE="July-27-2018 88:88"
 #
 # +--------------------------------------------------------------------------+
 # |                                                                          |
@@ -15,7 +15,6 @@
 #
 #@@Quit#@@Quit to the command line prompt.#@@break
 #@@Applications#@@Run an application.#@@f_main_make_app_menu
-#  Applications#@@Run an application.#@@f_main_applications
 #@@Favorites#@@Menu of favorite applications.#@@f_menu_app_favorites
 #@@Find and Run#@@Find and run an application in active menus.#@@f_main_search_apps
 #@@List or Find Menus#@@List all menus or find a menu containing an app.#@@f_main_list_find_menus

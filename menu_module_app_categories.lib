@@ -14,7 +14,7 @@
 # Outputs: None.
 #
 f_main_make_app_menu () { # Create the Menu.
-GENERATED_FILE="cliappmenu_generator.tmp"
+GENERATED_FILE="cliappmenu_app_categories.tmp"
       echo "# ©2018 Copyright 2018 Robert D. Chin">$GENERATED_FILE
       echo "#">>$GENERATED_FILE
       echo "# +----------------------------------------+">>$GENERATED_FILE
