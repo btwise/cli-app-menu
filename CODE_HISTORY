@@ -33,13 +33,9 @@ THIS_FILE="CODE_HISTORY"
 # Set SCRIPT_PATH to directory path of script.
 f_script_path
 #
-# Calculate revision number by counting all lines starting with "## 2013".
-# grep ^ (carot sign) means grep any lines beginning with "##2013".
-# grep -c means count the lines that match the pattern.
-#
 PROJECT_CHANGES=$(grep ^"## 2017" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="3.1 'Ellen'"
-PROJECT_REVDATE="December-31-2017 08:01"
+PROJECT_REVISION="4.0 'Farrah'"
+PROJECT_REVDATE="December-31-2019 23:59"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"

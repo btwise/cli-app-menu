@@ -65,13 +65,7 @@ sed -n 's/^#://'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 #: +----------------------------------------+
 #: |    Revision number and Revision Date   |
 #: +----------------------------------------+
-#:
-# Calculate revision number by counting all lines starting with "## 2015".
-# grep ^ (carot sign) means grep any lines beginning with "##2015".
-# grep -c means count the lines that match the pattern.
-#
-REVISION=$(grep ^"## 2016" -c EDIT_HISTORY) ; REVISION="2016.$REVISION"
-REVDATE="February-10-2016 23:59"
+#: See file EDIT_HISTORY and CODE_HISTORY for Rev. dates.
 #:
 #: After each edit made, update the CODE_HISTORY of code changes/edits.
 #:
@@ -348,8 +342,8 @@ REVDATE="February-10-2016 23:59"
 #:    e) Create a menu item and possibly any custom functions needed.
 #:       Example:
 #:    f_menu_cat_sample_template () {
-#:          f_initvars_menu_app "BXX"
-#:          until [ "$BXX" = "0" ]
+#:          f_initvars_menu_app "MXX"
+#:          until [ "$MXX" = "0" ]
 #:          do    # Start of <Sample Template> Application Category until loop.
 #:    #0^0^0^0^0 #MXX appname1  - Description Application1 name.
 #:    #1^0^0^0^1 #MXX appname2  - Description Application2 name.
