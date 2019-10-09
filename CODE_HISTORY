@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2017 Copyright 2017 Robert D. Chin
+# ©2019 Copyright 2019 Robert D. Chin
 #
 # Usage: sh CODE_HISTORY
 #
@@ -57,7 +57,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, CODE_HISTORY is under copyright.
-#LIC ©2017 Copyright 2017 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2019 Copyright 2019 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -78,6 +78,10 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2019-10-08 Release version 4.0 "Farrah"
+##            *Updated copyright to current year.
+##            *All major menus can now use Dialog/Whiptail UI.
 ##
 ## 2017-12-31 *f_menu_term_color_gui added color schemes.
 ##            *Main added code near end of script to reset terminal colors

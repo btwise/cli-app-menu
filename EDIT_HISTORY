@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2017 Copyright 2017 ROBERT D. CHIN
+# ©2019 Copyright 2019 ROBERT D. CHIN
 #
 # Usage: sh EDIT_HISTORY
 #
@@ -56,7 +56,7 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 # are used to delineate the license and copyright.
 #
 #LIC This program, EDIT_HISTORY is under copyright.
-#LIC ©2017 Copyright 2017 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2019 Copyright 2019 Robert D. Chin (rdchin at yahoo.com).
 #LIC 
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -78,6 +78,9 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ##
 ## After each edit made, update Version History and version (date stamp string)
 ## of script.
+##
+## 2019-10-08 *Release version 4.0 "Farrah".
+##            *New look Dialog/Whiptail available for major menus.
 ##
 ## 2017-12-31 *Testing version 3.1 "Ellen".
 ##            *Changed color scheme choices in "Configuration Menu" for

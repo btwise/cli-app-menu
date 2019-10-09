@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# ©2018 Copyright 2018 Robert D. Chin
+# ©2019 Copyright 2019 Robert D. Chin
 #
 # Usage: bash cliappmenu.sh
 #        (not sh cliappmenu.sh)
@@ -42,7 +42,7 @@ REVDATE="January-25-2018 23:01"
 # +----------------------------------------+
 #
 #LIC This program, cliappmenu.sh is under copyright.
-#LIC ©2015 Copyright 2015 Robert D. Chin (rdchin at yahoo.com).
+#LIC ©2019 Copyright 2019 Robert D. Chin (rdchin at yahoo.com).
 #LIC
 #LIC This program is free software: you can redistribute it and/or modify
 #LIC it under the terms of the GNU General Public License as published by
@@ -307,11 +307,11 @@ f_main_init_once () {
       # the script in a /usr or an /opt folder with permissions set so 
       # other users may run the script, (rwx-rx-rx) or (755) permissions.
       #
-      # i.e. /home/<username_goes_here>/<script-goes-here>
+      # i.e. /home/robert/Downloads/cli-app-menu-testing/<script-goes-here>
       #      Just put script cliappmenu.sh in your personal home directory.
       #      Other users will have to do the same with their own separate copy.
       #
-      #      /home/<username_goes_here>/<cliappmenu sub-directory>
+      #      /home/robert/Downloads/cli-app-menu-testing/<cliappmenu sub-directory>
       #      Library module and support files go in the sub-directory.
       #      Other users will have to do the same with their own separate copy.
       #
@@ -501,7 +501,7 @@ f_missing_config_txt () {
       echo
       echo -n $(tput sgr0) ; f_term_color $FCOLOR $BCOLOR ; echo -n $(tput bold)
       echo
-      echo "Creating configuration file: /home/<username_goes_here>/.cliappmenu.cfg"
+      echo "Creating configuration file: /home/robert/Downloads/cli-app-menu-testing/.cliappmenu.cfg"
       echo "If you want to use \"Dialog\" or \"Whiptail\" GUI, select \"Configure\" menu option to change."
       echo "f_main_config () {" > ~/.cliappmenu.cfg
       echo "      GUI=\"text\"" >> ~/.cliappmenu.cfg
@@ -523,7 +523,7 @@ f_missing_config_txt () {
 #
 f_missing_config_gui () {
       clear # Clear screen.
-      $1 --title ">>> Warning: Configuration file missing <<<" --msgbox "\n      Configuration file is missing from user's home directory.\n\nCreating configuration file: /home/<username_goes_here>/.cliappmenu.cfg\n\n If you want to use \"$1\" GUI, select \"Configure\" menu option to change.\n\n                     Press 'Enter' key to continue." 12 78
+      $1 --title ">>> Warning: Configuration file missing <<<" --msgbox "\n      Configuration file is missing from user's home directory.\n\nCreating configuration file: /home/robert/Downloads/cli-app-menu-testing/.cliappmenu.cfg\n\n If you want to use \"$1\" GUI, select \"Configure\" menu option to change.\n\n                     Press 'Enter' key to continue." 12 78
       echo "f_main_config () {" > ~/.cliappmenu.cfg
       echo "      GUI=\"text\"" >> ~/.cliappmenu.cfg
       echo "      FCOLOR=\"Green\" ; BCOLOR=\"Black\" ; UCOLOR=\"\" ; ECOLOR=\"Red\"" >> ~/.cliappmenu.cfg
@@ -936,7 +936,7 @@ f_valid_menu_gui () {
 #    WILL NOT WORK in a pure CLI environment login shell.
 #    (i.e. ~/.bashrc will not work in a pure CLI environment login shell).
 #
-#    /home/<username_goes_here>/.bashrc
+#    /home/robert/Downloads/cli-app-menu-testing/.bashrc
 #                             ~/.bashrc
 #
 #    Edit the ~/.bashrc file
@@ -970,7 +970,7 @@ f_valid_menu_gui () {
 #    a graphical environment in a desktop session (i.e. Xterm window session).
 #    or a pure CLI environment login shell.
 #
-#    /home/<username_goes_here>/.profile
+#    /home/robert/Downloads/cli-app-menu-testing/.profile
 #                             ~/.profile
 #
 #    Edit the ~/.profile file and add the line below to the end of the file.
@@ -994,7 +994,7 @@ f_valid_path_txt () {
          echo "For more information:"
          echo "See comments in script, cliappmenu.sh under function, f_valid_path_txt."
          echo
-         echo "Edit your /home/<username_goes_here>/.profile, .bash_profile, or .bashrc file"
+         echo "Edit your /home/robert/Downloads/cli-app-menu-testing/.profile, .bash_profile, or .bashrc file"
          echo "and append the directory name to the end of the PATH statement."
          echo "               (don't forget the colon)."
          echo
@@ -1029,7 +1029,7 @@ f_valid_path_gui () {
       #
       # Check the $PATH
       if [[ ! "$PATH" == *":$2"* ]] ; then
-         $1 --title "*** Important ***" --msgbox "\nAppend the directory name to your PATH.\n  (For more information: See comments in script, cliappmenu.sh\n  under function, f_valid_path_txt.)\n\nEdit the file(s)\n/home/<username_goes_here>/.profile, .bash_profile, or .bashrc\nand append the directory name to the end of the PATH statement.\n               (don't forget the colon).\n\n:$2\n\nChange to:\nPATH=$PATH:$2\n\nexport PATH" 23 70
+         $1 --title "*** Important ***" --msgbox "\nAppend the directory name to your PATH.\n  (For more information: See comments in script, cliappmenu.sh\n  under function, f_valid_path_txt.)\n\nEdit the file(s)\n/home/robert/Downloads/cli-app-menu-testing/.profile, .bash_profile, or .bashrc\nand append the directory name to the end of the PATH statement.\n               (don't forget the colon).\n\n:$2\n\nChange to:\nPATH=$PATH:$2\n\nexport PATH" 23 70
          #
          $1 --title "*** Important ***" --msgbox "\nAfter editing the file, ~/.profile,  ~/.bash_profile, or ~/.bashrc:\n\n        Close Terminal for changes to take effect.\nEither logout or exit from Terminal and re-launch Terminal.\n\n(For more information: See comments in script, cliappmenu.sh\nunder function, f_valid_path_txt.)\n" 15 70
       fi
