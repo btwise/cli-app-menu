@@ -1,19 +1,38 @@
-# ©2015 Copyright 2015 Robert D. Chin
+# ©2016 Copyright 2016 Robert D. Chin
 #
 # +----------------------------------------+
 # |             Revision Date              |
 # +----------------------------------------+
-# REVDATE="January-21-2015 11:52"
+# REVDATE="February-10-2016 23:59"
 #
 # +----------------------------------------+
 # |       Function f_menu_cat_office       |
+# +----------------------------------------+
+#
+#  Inputs: $GUI.
+#    Uses: None.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_cat_office () {
+      case $GUI in
+           dialog | whiptail)
+           f_menu_cat_office_gui
+           ;;
+           text)
+           f_menu_cat_office_txt
+           ;;
+      esac
+} # End of function f_menu_cat_office
+#
+# +----------------------------------------+
+# |     Function f_menu_cat_office_txt     |
 # +----------------------------------------+
 #
 #  Inputs: None.
 #    Uses: BOF, MENU_ITEM, MAX.
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_office () {
+f_menu_cat_office_txt () {
       f_initvars_menu_app "BOF"
       until [ "$BOF" = "0" ]
       do    # Start of Office Application Category until loop.
@@ -26,7 +45,7 @@ f_menu_cat_office () {
 #f_menu_app_pdfps        #BOF PDF-PS docs  - View, edit, compare, merge pdf and ps documents.
 #f_menu_app_presentation #BOF Presenters   - Text slideshow presentation.
 #f_menu_app_spreadsheets #BOF Spreadsheets - Basic spreadsheet.
-#f_menu_cat_text         #BOF Text         - Create/Edit text files, text format converters, etc.        
+#f_menu_cat_text         #BOF Text         - Create/Edit text files, text format converters, etc.
 #f_menu_app_todo         #BOF To Do        - To-Do lists.
             #
             THIS_FILE="mod_apps-office.lib"
@@ -35,11 +54,60 @@ f_menu_cat_office () {
             #
             f_show_menu "$MENU_TITLE" "$DELIMITER" 
             read BOF
-            f_menu_item_process $BOF  # Outputs $MENU_ITEM. $BOF
+            f_menu_item_process $BOF  # Outputs $MENU_ITEM.
       done  # End of Office Application Category until loop.
             #
       unset BOF MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_cat_office
+} # End of function f_menu_cat_office_txt
+#
+# +----------------------------------------+
+# |     Function f_menu_cat_office_gui     |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BOF, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_office_gui () {
+      f_initvars_menu_app "BOF"
+      until [ "$BOF" = "0" ]
+      do    # Start of Office Application Category until loop.
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Office Categories Menu"
+            BOF=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"       "Return to previous menu." \
+            "Accounting"   "Accounting (with double-entry)." \
+            "Calculators"  "Simple 'pocket' calculators." \
+            "Calendar"     "Calendars." \
+            "Clocks"       "Alarm clocks, specialized clocks." \
+            "Contacts"     "Contact/Address book lists." \
+            "Notes"        "Notebooks, diaries, PIM (personal information manager)." \
+            "PDF-PS docs"  "View, edit, compare, merge pdf and ps documents." \
+            "Presenters"   "Text slideshow presentation." \
+            "Spreadsheets" "Basic spreadsheet." \
+            "Text"         "Create/Edit text files, text format converters, etc." \
+            "To Do"        "To-Do lists." \
+            2>&1 >/dev/tty)
+             #
+            case $BOF in
+                 "Return") BOF=0 ;;
+                 "Accounting") f_menu_app_accounting ;;
+                 "Calculators") f_menu_app_calculators ;;
+                 "Calendar") f_menu_app_calendar ;;
+                 "Clocks") f_menu_app_clocks ;;
+                 "Contacts") f_menu_app_contacts ;;
+                 "Notes") f_menu_app_note ;;
+                 "PDF-PS docs") f_menu_app_pdfps ;;
+                 "Presenters") f_menu_app_presentation ;;
+                 "Spreadsheets") f_menu_app_spreadsheets ;;
+                 "Text") f_menu_cat_text ;;
+                 "To Do") f_menu_app_todo ;;
+            esac
+            #
+      done  # End of Office Application Category until loop.
+            #
+      unset BOF THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_office_gui
 #
 # +----------------------------------------+
 # |     Function f_menu_app_accounting     |
@@ -416,14 +484,33 @@ f_menu_app_spreadsheets () {
 } # End of f_menu_app_spreadsheets
 #
 # +----------------------------------------+
-# |         Function f_menu_cat_text       |
+# |        Function f_menu_cat_text        |
+# +----------------------------------------+
+#
+#  Inputs: $GUI.
+#    Uses: None.
+# Outputs: ERROR, MENU_TITLE, DELIMITER.
+#
+f_menu_cat_text () {
+      case $GUI in
+           dialog | whiptail)
+           f_menu_cat_text_gui
+           ;;
+           text)
+           f_menu_cat_text_txt
+           ;;
+      esac
+} # End of function f_menu_cat_text
+#
+# +----------------------------------------+
+# |       Function f_menu_cat_text_txt     |
 # +----------------------------------------+
 #
 #  Inputs: None
 #    Uses: BTX, MENU_ITEM, MAX
 # Outputs: ERROR, MENU_TITLE, DELIMITER.
 #
-f_menu_cat_text () {
+f_menu_cat_text_txt () {
       f_initvars_menu_app "BTX"
       until [ "$BTX" = "0" ]
       do    # Start of Text Application Category until loop.
@@ -444,7 +531,46 @@ f_menu_cat_text () {
       done  # End of Text Application Category until loop.
             #
       unset BTX MENU_ITEM  # Throw out this variable.
-} # End of function f_menu_cat_text
+} # End of function f_menu_cat_text_txt
+#
+# +----------------------------------------+
+# |      Function f_menu_cat_text_gui      |
+# +----------------------------------------+
+#
+#  Inputs: GUI.
+#    Uses: BTX, MENU_TITLE, THIS_FILE.
+# Outputs: None.
+#
+f_menu_cat_text_gui () {
+      f_initvars_menu_app "BTX"
+      until [ "$BTX" = "0" ]
+      do    # Start of Office Application Category until loop.
+            THIS_FILE="mod_apps-office.lib"
+            MENU_TITLE="Office Categories Menu"
+            BTX=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            "Return"          "Return to previous menu." \
+            "Compare"         "Show differences between text files." \
+            "Converters"      "Convert between text document/file formats." \
+            "Editors"         "Create/Edit text documents/files." \
+            "Markup Docs"     "Create a single source document, publish in many formats." \
+            "Tools"           "Viewers, spell-check, dictionaries." \
+            "Word Processors" "Word processors, word processor file format converters." \
+            2>&1 >/dev/tty)
+             #
+            case $BTX in
+                 "Return") BTX=0 ;;
+                 "Compare") f_menu_app_text_compare ;;
+                 "Converters") f_menu_app_text_converters ;;
+                 "Editors") f_menu_app_text_editors ;;
+                 "Markup Docs") f_menu_app_text_markup_language ;;
+                 "Tools") f_menu_app_text_tools ;;
+                 "Word Processors") f_menu_app_text_word_processors ;;
+            esac
+            #
+      done  # End of Office Application Category until loop.
+            #
+      unset BTX THIS_FILE MENU_TITLE  # Throw out this variable.
+} # End of function f_menu_cat_text_gui
 #
 # +----------------------------------------+
 # |    Function f_menu_app_text_compare    |

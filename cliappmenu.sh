@@ -10,7 +10,7 @@
 # +----------------------------------------+
 #
 THIS_FILE="cliappmenu.sh"
-REVDATE="December-22-2017 11:15"
+REVDATE="December-31-2017 08:01"
 #
 # +----------------------------------------+
 # |            Brief Description           |
@@ -338,7 +338,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # MAINMENU_DIR does not need a trailing forward slash "/".
-      MAINMENU_DIR="/Directory_containing_the_script_cliappmenu.sh"
+      MAINMENU_DIR="/home/robert/Dropbox/geek/cli-app-menu_git-project"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize MAINMENU_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -381,7 +381,7 @@ f_main_init_once () {
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       #
       # THIS_DIR does not need a trailing forward slash "/".
-      THIS_DIR="/Some_directory/cli-app-menu"
+      THIS_DIR="/home/robert/Dropbox/geek/cli-app-menu_git-project/cli-app-menu"
       #
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
       # >>>>>>>>>>>>>>>>>>>>> Customize THIS_DIR <<<<<<<<<<<<<<<<<<<<<
@@ -2152,7 +2152,7 @@ f_main_information_txt () {
 # |      Function f_main_information_gui   |
 # +----------------------------------------+
 #
-#  Inputs: None.
+#  Inputs: GUI.
 #    Uses: AAG, MENU_TITLE.
 # Outputs: None.
 #
@@ -3087,14 +3087,14 @@ f_term_color () {  # Set terminal display properties.
 # |        Function f_menu_term_color      |
 # +----------------------------------------+
 #
-#  Inputs: FCOLOR, BCOLOR.
+#  Inputs: GUI, FCOLOR, BCOLOR.
 #    Uses: AAE, MENU_ITEM, MENU_TITLE, DELIMITER.
 # Outputs: THIS_FILE.
 #
 f_menu_term_color () {
 case $GUI in
      dialog | whiptail)
-     f_menu_term_color_gui
+     f_menu_term_color_gui $GUI
      ;;
      text)
      f_menu_term_color_txt
@@ -3129,6 +3129,7 @@ f_menu_term_color_txt () {
                  #AAE ------- - -----------------
 #f_color_bw      #AAE BW      - Black   on white.
 #f_color_rw      #AAE RW      - Red     on white.
+#f_color_lw      #AAE LW      - Blue    on white.
 #f_color_wb      #AAE WB      - White   on blue (Classic "Blueprint").
 #f_color_yb      #AAE YB      - Yellow  on blue.
             #
@@ -3154,7 +3155,7 @@ f_menu_term_color_txt () {
 # |      Function f_menu_term_color_gui    |
 # +----------------------------------------+
 #
-#  Inputs: None.
+#  Inputs: $1=GUI
 #    Uses: AAE, MENU_TITLE.
 # Outputs: None.
 #
@@ -3163,8 +3164,13 @@ f_menu_term_color_gui () {
       MENU_TITLE="Terminal Colors Menu"
       until [ "$AAE" = "0" ]
       do    # Start of Main Information Menu until loop.
-            AAE=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            AAE=$($1 --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
             "Return"  "Return to the previous menu." \
+            "BW"      "Black   on white." \
+            "RW"      "Red     on white." \
+            "LW"      "Blue    on white." \
+            "WB"      "White   on blue (Classic 'Blueprint')." \
+            "YB"      "Yellow  on blue." \
             "Red"     "Red     on black." \
             "Green"   "Green   on black." \
             "Yellow"  "Yellow  on black." \
@@ -3172,11 +3178,7 @@ f_menu_term_color_gui () {
             "Magenta" "Magenta on black." \
             "Cyan"    "Cyan    on black." \
             "White"   "White   on black." \
-            "BW"      "Black   on white." \
-            "RW"      "Red     on white." \
-            "WB"      "White   on blue (Classic "Blueprint")." \
-            "YB"      "Yellow  on blue." \
-            2>&1 >/dev/tty)
+             2>&1 >/dev/tty)
             #
             case $AAE in
                  "Return") AAE=0 ;;
@@ -3189,6 +3191,7 @@ f_menu_term_color_gui () {
                  "White") f_color_white ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
                  "BW") f_color_bw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
                  "RW") f_color_rw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
+                 "LW") f_color_lw ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
                  "WB") f_color_wb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
                  "YB") f_color_yb ; f_term_color $FCOLOR $BCOLOR ; echo -n "This is the color of the text.  Press <Enter> key to continue." ; read X ;;
             esac
@@ -3250,6 +3253,11 @@ f_color_rw () {
       f_update_config_file
 }
 #
+f_color_lw () {
+      FCOLOR="Blue" ; BCOLOR="White" ; ECOLOR="Red"
+      f_update_config_file
+}
+#
 f_color_wb () {
       FCOLOR="White" ; BCOLOR="Blue" ; ECOLOR="Red"
       f_update_config_file
@@ -3271,7 +3279,11 @@ f_color_yb () {
 f_menu_term_uncolor () {
 case $GUI in
      dialog | whiptail)
-     f_menu_term_uncolor_gui
+      clear # Clear screen.
+      $GUI --title "Not applicable for \"Dialog\" or \"Whiptail\"" --msgbox "\n       You are using the \"Dialog\" or \"Whiptail\" User-Interface.\n\n   *** This option does not apply to the current user-interface. ***\n\n              It only applies to the \"Text\" user-interface." 12 78
+      #
+      $GUI --title "HOW-TO" --msgbox "\nYou may still set the terminal colors but it will only affect the \"Text\" user-interface.\n\nThis script needs to be restarted with the user-interface set to \"Text\" mode to see any color changes." 12 65
+     f_menu_term_uncolor_gui $GUI		
      ;;
      text)
      f_menu_term_uncolor_txt
@@ -3327,7 +3339,7 @@ f_menu_term_uncolor_txt () {
 # |     Function f_menu_term_uncolor_gui   |
 # +----------------------------------------+
 #
-#  Inputs: FCOLOR, BCOLOR.
+#  Inputs: $1=GUI, FCOLOR, BCOLOR.
 #    Uses: AAF, MENU_TITLE.
 # Outputs: None.
 #
@@ -3337,7 +3349,7 @@ f_menu_term_uncolor_gui () {
       MENU_TITLE="Colors for Unavailable Menu Items"
       until [ "$AAF" = "0" ]
       do    # Start of Unavailable Colors until loop.
-            AAF=$($GUI --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
+            AAF=$($1 --title "$MENU_TITLE" --menu "\n\nUse (up/down arrow keys) or (letters):" 20 80 11 \
             "Return"  "Return to the previous menu." \
             "Red"     "Red." \
             "Green"   "Green." \
@@ -3837,5 +3849,6 @@ case $GUI in
      f_main_menu_txt
      ;;
 esac
+fterm_color GREEN BLACK  # Reset terminal colors to Green on Black.
 } # End of Main Program
 # all dun dun noodles.

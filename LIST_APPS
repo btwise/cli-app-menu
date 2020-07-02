@@ -1,5 +1,5 @@
 _______________________________________________________________________________
-Last updated: 2015-01-23 21:53 Friday
+Last updated: 2016-02-10 23:19 Wednesday
 
 _______________________________________________________________________________
 *** Accounting Applications Menu ***
@@ -467,6 +467,7 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** Find File Applications Menu ***
+ ag           - "Silver searcher" Search files for string, faster than grep.
  duff         - Duplicate file finder.
  egrep        - Search files for string1 or string2. Same as "grep -E".
  fdupes       - Finds duplicate files uses md5sum and byte comparisons.
@@ -481,8 +482,7 @@ _______________________________________________________________________________
  missidentify - Finds win32 applications.
  rdfind       - Find duplicate files.
  rrep         - Replace text in files.
- tre-agrep    - Find files by approximate (similar) pattern matches.
- updatedb     - Update the internal database, mlocate, used by locate.
+ MORE...   - More file find applications.
 
 _______________________________________________________________________________
 *** File Checksum Applications Menu ***
@@ -625,6 +625,11 @@ _______________________________________________________________________________
  trash-cli   - Remembers name, path, date, permissions of each trashed file.
 
 _______________________________________________________________________________
+*** Find File2 Applications Menu ***
+ tre-agrep    - Find files by approximate (similar) pattern matches.
+ updatedb     - Update the internal database, mlocate, used by locate.
+
+_______________________________________________________________________________
 *** File Splitter Applications Menu ***
  csplit   - Splits/Joins files.
  cut      - Carve files by character count, byte count, delimited fields.
@@ -649,6 +654,18 @@ _______________________________________________________________________________
  wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
 
 _______________________________________________________________________________
+*** Network File Transfer Applications Menu ***
+ cmdftp - File transfer client.
+ curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
+ ftp    - File transfer via Internet standard File Transfer Protocol.
+ ftpfs  - File transfer client.
+ lftp   - Sophisticated sftp/ftp/http download/upload client program.
+ ncftp  - Powerful file transfer client, download directory trees etc.
+ scp    - Secure Copy file transfer via ssh, asks for password if needed.
+ woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
+ wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
+
+_______________________________________________________________________________
 *** File Viewer Applications Menu ***
  head - Views the first few lines of a file.
  less - File viewer and bi-directional pager.
@@ -660,18 +677,6 @@ _______________________________________________________________________________
 *** FAX Applications Menu ***
  efax           - FAX over modem.
  hylafax-client - Works with HylaFAX server software.
-
-_______________________________________________________________________________
-*** Network File Transfer Applications Menu ***
- cmdftp - File transfer client.
- curl   - File transfer, FILE, FTP, FTPS, GOPHER, HTTPS, IMAPS, LDAP, etc.
- ftp    - File transfer via Internet standard File Transfer Protocol.
- ftpfs  - File transfer client.
- lftp   - Sophisticated sftp/ftp/http download/upload client program.
- ncftp  - Powerful file transfer client, download directory trees etc.
- scp    - Secure Copy file transfer via ssh, asks for password if needed.
- woof   - Woof (Web Offer One File) copies files via the HTTP protocol.
- wget   - File downloader, HTTP, HTTPS, FTP with auto-retrying on fail.
 
 _______________________________________________________________________________
 *** Arcade Games Menu ***
@@ -902,6 +907,7 @@ _______________________________________________________________________________
  history    - Show history of commands entered at the prompt.
  inotail    - Tail command replacement uses the inotify API to re-read files.
  last       - Users' login/logout times from /var/log/wtmp.
+ lastb      - Lists bad login attempts.
  lastlog    - Users' login/logout times from /var/log/wtmp.
  lnav       - View, analyze log files, histogram, hotkeys, ncurses-based.
  logtailer  - Monitor logs for updates and display them.
@@ -1312,14 +1318,14 @@ _______________________________________________________________________________
 
 _______________________________________________________________________________
 *** System Monitor2 Applications Menu ***
- rcconf       - Debian enable/disable startup scripts/services; ncurses-based.
+ rcconf       - Enable/disable startup scripts/services; ncurses-based.
  ntsysd       - RedHat view/enable/disable startup scripts/services.
  rrdtool      - Round Robin Database Tool stores/displays time-series data.
  saidar       - Monitor system processes, network I/O, disks I/O, free space.
  sar          - CPU usage statistics, user/nice/system/iowait/steal/idle.
  smem         - Show memory usage for current user, per user, all users.
  sysstat      - All-in-one performance monitoring tool.
- sysv-rc-conf - Debian view/enable/disable startup scripts/services.
+ sysv-rc-conf - Enable/disable startup scripts/services; ncurses-based.
  tload        - System load average graphical monitor.
  ttyload      - Color-coded graphs of CPU load average.
  yacpi        - ACPI monitor, ncurses-based.

@@ -38,8 +38,8 @@ f_script_path
 # grep -c means count the lines that match the pattern.
 #
 PROJECT_CHANGES=$(grep ^"## 2017" -c $SCRIPT_PATH/"CODE_HISTORY")
-PROJECT_REVISION="3.0 'Ellen'"
-PROJECT_REVDATE="December-23-2017 11:15"
+PROJECT_REVISION="3.1 'Ellen'"
+PROJECT_REVDATE="July-02-2020 16:45"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -78,6 +78,26 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## Code History
 ##
 ## After each edit made, update PROJECT_REVDATE (date stamp string) of script.
+##
+## 2020-07-02 *Release version 3.1 "Ellen".
+##
+## 2017-12-31 *Testing version 3.1 "Ellen".
+##            *Changed color scheme choices in "Configuration Menu" for
+##             "Dialog" and "Whiptail" UIs.
+##
+## 2017-12-31 *f_menu_term_color_gui added color schemes.
+##            *Main added code near end of script to reset terminal colors
+##             needed if background color was non-black.
+##
+## 2017-12-29 *f_menu_term_color, f_menu_term_color_gui, f_color_lw,
+##             f_menu_term_uncolor, f_menu_term_uncolor_gui adjusted menu
+##             color/uncolor choices to be suitable for "dialog"/"whiptail".
+##
+## 2017-12-23 *Release version 3.0 "Ellen".
+##            *New look, Main Menu, Configuration Menu, Application Menu
+##             now use Whiptail or Dialog UI (user-interfaces) if available.
+##            *Ability to switch between User-interfaces via "Configure" Menu.
+##            *Bug fix for "Un-colors" menu choice in "Configure" Menu.
 ##
 ## 2017-12-22 *f_main_configure_txt fixed bug wrong sub-menu name in menu
 ##             and corrected "f_menu_uncolor" to "f_menu_term_uncolor".

@@ -37,8 +37,8 @@ f_script_path
 # grep ^ (carot sign) means grep any lines beginning with "##2014".
 # grep -c means count the lines that match the pattern.
 #
-PROJECT_REVISION="3.0 'Ellen'"
-PROJECT_REVDATE="December-23-2017 11:15"
+PROJECT_REVISION="3.1 'Ellen'"
+PROJECT_REVDATE="July-02-2020 16:45"
 clear
 echo "Project version: $PROJECT_REVISION"
 echo " Last Edited on: $PROJECT_REVDATE"
@@ -79,7 +79,13 @@ sed -n 's/^##//'p $SCRIPT_PATH/$THIS_FILE | less -P 'Page '%dm' (Spacebar, PgUp/
 ## After each edit made, update Version History and version (date stamp string)
 ## of script.
 ##
-## 2017-12-23 *Release version 3.0 "Ellen"
+## 2020-07-02 *Release version 3.1 "Ellen".
+##
+## 2017-12-31 *Testing version 3.1 "Ellen".
+##            *Changed color scheme choices in "Configuration Menu" for
+##             "Dialog" and "Whiptail" UIs.
+##
+## 2017-12-23 *Release version 3.0 "Ellen".
 ##            *New look, Main Menu, Configuration Menu, Application Menu
 ##             now use Whiptail or Dialog UI (user-interfaces) if available.
 ##            *Ability to switch between User-interfaces via "Configure" Menu.
